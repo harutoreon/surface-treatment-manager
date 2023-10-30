@@ -1,24 +1,16 @@
-# README
+# Surface Treatment Manager　(表面処理管理ツール)
+金属表面に処理される「めっき」や「コーティング」などの色調やスペック、処理業者を一括で管理するツール。<br>
+表面処理１件あたりを「サンプル」と定義しています。
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 使用技術
 
-Things you may want to cover:
+## 機能要件
+  - サンプル
+    - 一覧表示機能
+    - 新規登録機能
+    - 更新機能
+    - 削除機能
+    - 検索機能
+    - ファイルアップロード機能
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## 非機能要件
