@@ -11,6 +11,8 @@
 - CircleCI
 
 ## gem
+- better_errors
+- binding_of_caller
 - rspec-rails
 - factory_bot_rails
 - rubocop
