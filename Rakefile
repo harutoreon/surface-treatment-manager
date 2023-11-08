@@ -8,12 +8,10 @@
 task(:default).clear
 task default: [:rubocop, :spec]
 
-desc 'rubocopコマンド実行用のタスク'
 task :rubocop do
   sh 'bundle exec rubocop'
 end
 
-desc 'rspecコマンド実行用のタスク'
 task :spec do
   sh 'bundle exec rspec'
 end
