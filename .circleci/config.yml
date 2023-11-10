@@ -6,8 +6,18 @@ jobs:
       - image: cimg/ruby:3.2.0
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-dependencies-
       - run:
-          command: bundle install
+          command: |
+            bundle config set path 'vender/bundle' && \
+            bundle install
+      - save_cache:
+          paths:
+            - ./vender/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
       - run:
           command: bundle exec rubocop
       - run:
