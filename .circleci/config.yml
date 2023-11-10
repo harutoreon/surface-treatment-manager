@@ -1,0 +1,20 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: cimg/ruby:3.2.0
+    steps:
+      - checkout
+      - run:
+          command: bundle install
+      - run:
+          command: bundle exec rubocop
+      - run:
+          command: bundle exec rspec
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - test
