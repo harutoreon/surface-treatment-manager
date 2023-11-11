@@ -6,9 +6,14 @@ require_relative "config/application"
 Rails.application.load_tasks
 
 if Rails.env.development?
-  require 'rubocop/rake_task'
-  RuboCop::RakeTask.new
-
   task(:default).clear
-  task default: [:rubocop, :spec]
+  task default: [:rubocop, :rspec]
+
+  task :rubocop do
+    sh 'bundle exec rubocop'
+  end
+
+  task :rspec do
+    sh 'bundle exec rspec'
+  end
 end
