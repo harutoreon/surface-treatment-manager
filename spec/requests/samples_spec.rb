@@ -1,7 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe "Samples", type: :request do
-  describe "GET /index" do
-    pending "add some examples (or delete) #{__FILE__}"
+  describe "#show" do
+    let(:sample) { FactoryBot.create(:sample) }
+
+    it 'レスポンスが正常であること' do
+      get sample_path(sample)
+      expect(response).to have_http_status :ok
+    end
+
+    it '見出しが表示されること' do
+      get sample_path(sample)
+      expect(response.body).to include "Sample Show"
+    end
   end
 end
