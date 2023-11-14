@@ -89,10 +89,14 @@ Style/Documentation:
     - 'spec/**/*'
     - 'test/**/*'
     - 'app/controllers/application_controller.rb'
+    - 'app/controllers/*'
     - 'app/helpers/application_helper.rb'
+    - 'app/helpers/*'
     - 'app/mailers/application_mailer.rb'
     - 'app/models/application_record.rb'
+    - 'app/models/*'
     - 'config/application.rb'
+    - 'db/**/*'
 
 # Offense count: 35
 # This cop supports unsafe autocorrection (--autocorrect-all).
@@ -161,3 +165,7 @@ Style/SymbolArray:
 # URISchemes: http, https
 Layout/LineLength:
   Max: 198
+
+Style/NumericLiterals:
+  Exclude:
+    - 'db/**/*'
