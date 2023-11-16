@@ -26,4 +26,22 @@ RSpec.describe "Samples", type: :request do
       expect(response.body).to include "Sample New"
     end
   end
+
+  describe '#create' do
+    let(:sample_params) { { sample: { name: "sample", category: "sample", color: "sample", maker: "sample" } } }
+
+    it '登録が成功すること' do
+      expect { post samples_path, params: sample_params }.to change(Sample, :count).by 1
+    end
+
+    it 'samples/showにリダイレクトされること' do
+      post samples_path, params: sample_params
+      sample = Sample.last
+      expect(response).to redirect_to sample
+    end
+
+    it '登録が失敗すること' do
+      expect { post samples_path, params: { sample: { name: '', category: 'sample', color: 'sampel', maker: 'sample' } } }.to_not change(Sample, :count)
+    end
+  end
 end
