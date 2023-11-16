@@ -39,5 +39,9 @@ RSpec.describe "Samples", type: :request do
       sample = Sample.last
       expect(response).to redirect_to sample
     end
+
+    it '登録が失敗すること' do
+      expect { post samples_path, params: { sample: { name: '', category: 'sample', color: 'sampel', maker: 'sample' } } }.to_not change(Sample, :count)
+    end
   end
 end
