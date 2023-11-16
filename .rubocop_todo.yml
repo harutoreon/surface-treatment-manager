@@ -59,6 +59,7 @@ Layout/TrailingEmptyLines:
 Metrics/BlockLength:
   Exclude:
     - 'config/environments/development.rb'
+    - 'spec/requests/samples_spec.rb'
   Max: 26
 
 # Offense count: 1
@@ -169,3 +170,12 @@ Layout/LineLength:
 Style/NumericLiterals:
   Exclude:
     - 'db/**/*'
+
+Layout/IndentationWidth:
+  Exclude:
+    - 'app/controllers/**/*'
+
+Layout/IndentationConsistency:
+  Exclude:
+    - 'app/controllers/**/*'
+

@@ -6,4 +6,20 @@ class SamplesController < ApplicationController
   def new
     @sample = Sample.new
   end
+
+  def create
+    @sample = Sample.new(sample_params)
+
+    if @sample.save
+      redirect_to @sample
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+    def sample_params
+      params.require(:sample).permit(:name, :category, :color, :maker)
+    end
 end
