@@ -58,4 +58,26 @@ RSpec.describe "Samples", type: :request do
       expect(response.body).to include "Sample Edit"
     end
   end
+
+  describe '#update' do
+    let(:sample) { FactoryBot.create(:sample) }
+
+    it '更新が成功すること' do
+      patch sample_path(sample), params: { sample: { name: "ハードクロムめっき" } }
+      sample.reload
+      expect(sample.name).to eq "ハードクロムめっき"
+    end
+
+    it 'samples/showにリダイレクトされること' do
+      patch sample_path(sample), params: { sample: { name: "ハードクロムめっき" } }
+      sample.reload
+      expect(response).to redirect_to sample
+    end
+
+    it '更新が失敗すること' do
+      patch sample_path(sample), params: { sample: { name: "" } }
+      sample.reload
+      expect(sample.name).to eq "無電解ニッケルめっき"
+    end
+  end
 end
