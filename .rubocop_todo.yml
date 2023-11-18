@@ -179,3 +179,7 @@ Layout/IndentationConsistency:
   Exclude:
     - 'app/controllers/**/*'
 
+Layout/EmptyLinesAroundBlockBody:
+  Exclude:
+    - 'app/controllers/**/*'
+    - 'db/**/*'
