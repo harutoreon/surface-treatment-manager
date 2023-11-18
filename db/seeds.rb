@@ -7,3 +7,11 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+99.times do
+  name = ["無電解ニッケルめっき", "ハードクロムめっき", "アルマイト"].sample
+  category = ["めっき", "コーティング", "陽極酸化"].sample
+  color = Faker::Color.color_name
+  maker = Faker::Company.name
+  Sample.create!(name: name, category: category, color: color, maker: maker)
+end

@@ -192,3 +192,11 @@ Style/EmptyMethod:
 Style/BlockDelimiters:
   Exclude:
     - 'spec/**/*'
+
+Style/WordArray:
+  Exclude:
+    - 'db/**/*'
+
+Style/HashSyntax:
+  Exclude:
+    - 'db/**/*'
