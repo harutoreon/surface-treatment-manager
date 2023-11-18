@@ -1,4 +1,8 @@
 class SamplesController < ApplicationController
+  def index
+    @samples = Sample.paginate(page: params[:page])
+  end
+
   def show
     @sample = Sample.find(params[:id])
   end
