@@ -1,0 +1,9 @@
+<h1>Sample Index</h1>
+
+<ul>
+  <% @samples.each do |sample| %>
+    <li>
+      <%= link_to sample.name, sample %>
+    </li>
+  <% end %>
+</ul>
