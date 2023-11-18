@@ -44,4 +44,40 @@ RSpec.describe "Samples", type: :request do
       expect { post samples_path, params: { sample: { name: '', category: 'sample', color: 'sampel', maker: 'sample' } } }.to_not change(Sample, :count)
     end
   end
+
+  describe '#edit' do
+    let(:sample) { FactoryBot.create(:sample) }
+
+    it 'レスポンスが正常であること' do
+      get edit_sample_path(sample)
+      expect(response).to have_http_status :ok
+    end
+
+    it '見出しが表示されること' do
+      get edit_sample_path(sample)
+      expect(response.body).to include "Sample Edit"
+    end
+  end
+
+  describe '#update' do
+    let(:sample) { FactoryBot.create(:sample) }
+
+    it '更新が成功すること' do
+      patch sample_path(sample), params: { sample: { name: "ハードクロムめっき" } }
+      sample.reload
+      expect(sample.name).to eq "ハードクロムめっき"
+    end
+
+    it 'samples/showにリダイレクトされること' do
+      patch sample_path(sample), params: { sample: { name: "ハードクロムめっき" } }
+      sample.reload
+      expect(response).to redirect_to sample
+    end
+
+    it '更新が失敗すること' do
+      patch sample_path(sample), params: { sample: { name: "" } }
+      sample.reload
+      expect(sample.name).to eq "無電解ニッケルめっき"
+    end
+  end
 end
