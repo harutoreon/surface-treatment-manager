@@ -183,3 +183,12 @@ Layout/EmptyLinesAroundBlockBody:
   Exclude:
     - 'app/controllers/**/*'
     - 'db/**/*'
+    - 'spec/**/*'
+
+Style/EmptyMethod:
+  Exclude:
+    - 'app/controllers/**/*'
+
+Style/BlockDelimiters:
+  Exclude:
+    - 'spec/**/*'
