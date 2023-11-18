@@ -1,6 +1,36 @@
 require 'rails_helper'
 
 RSpec.describe "Samples", type: :request do
+  describe '#index' do
+    before do
+      31.times do
+        FactoryBot.create(:sample_list)
+      end
+    end
+
+    it 'レスポンスが正常であること' do
+      get samples_path
+      expect(response).to have_http_status :ok
+    end
+
+    it '見出しが表示されること' do
+      get samples_path
+      expect(response.body).to include "Sample Index"
+    end
+
+    it 'div.pagenationが存在すること' do
+      get samples_path
+      expect(response.body).to include '<div role="navigation" aria-label="Pagination" class="pagination">'
+    end
+
+    it 'サンプルごとのリンクが存在すること' do
+      get samples_path
+      Sample.paginate(page: 1).each do |sample|
+        expect(response.body).to include "<a href=\"#{sample_path(sample)}\">"
+      end
+    end
+  end
+
   describe "#show" do
     let(:sample) { FactoryBot.create(:sample) }
 
