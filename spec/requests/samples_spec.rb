@@ -44,4 +44,18 @@ RSpec.describe "Samples", type: :request do
       expect { post samples_path, params: { sample: { name: '', category: 'sample', color: 'sampel', maker: 'sample' } } }.to_not change(Sample, :count)
     end
   end
+
+  describe '#edit' do
+    let(:sample) { FactoryBot.create(:sample) }
+
+    it 'レスポンスが正常であること' do
+      get edit_sample_path(sample)
+      expect(response).to have_http_status :ok
+    end
+
+    it '見出しが表示されること' do
+      get edit_sample_path(sample)
+      expect(response.body).to include "Sample Edit"
+    end
+  end
 end

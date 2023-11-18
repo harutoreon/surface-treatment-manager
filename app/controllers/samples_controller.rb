@@ -17,6 +17,10 @@ class SamplesController < ApplicationController
     end
   end
 
+  def edit
+    @sample = Sample.find(params[:id])
+  end
+
   private
 
     def sample_params
