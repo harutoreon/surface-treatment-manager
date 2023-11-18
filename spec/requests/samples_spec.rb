@@ -80,4 +80,19 @@ RSpec.describe "Samples", type: :request do
       expect(sample.name).to eq "無電解ニッケルめっき"
     end
   end
+
+  describe '#destroy' do
+    let(:sample) { FactoryBot.create(:sample) }
+
+    it '削除できること' do
+      expect {
+        delete sample_path(sample)
+      }.to change(Sample, :count).by 0
+    end
+
+    it 'static_pages#homeにリダイレクトされること' do
+      delete sample_path(sample)
+      expect(response).to redirect_to root_path
+    end
+  end
 end

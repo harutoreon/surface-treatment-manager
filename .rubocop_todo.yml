@@ -188,3 +188,7 @@ Layout/EmptyLinesAroundBlockBody:
 Style/EmptyMethod:
   Exclude:
     - 'app/controllers/**/*'
+
+Style/BlockDelimiters:
+  Exclude:
+    - 'spec/**/*'
