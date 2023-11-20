@@ -29,6 +29,11 @@ RSpec.describe "Samples", type: :request do
         expect(response.body).to include "<a href=\"#{sample_path(sample)}\">"
       end
     end
+
+    it 'samples/newのリンクが存在すること' do
+      get samples_path
+      expect(response.body).to include "<a href=\"#{new_sample_path}\">"
+    end
   end
 
   describe "#show" do
