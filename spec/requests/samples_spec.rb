@@ -60,6 +60,11 @@ RSpec.describe "Samples", type: :request do
       get new_sample_path
       expect(response.body).to include "Sample New"
     end
+
+    it 'samples/indexのリンクが存在すること' do
+      get new_sample_path
+      expect(response.body).to include "<a href=\"#{samples_path}\">"
+    end
   end
 
   describe '#create' do
