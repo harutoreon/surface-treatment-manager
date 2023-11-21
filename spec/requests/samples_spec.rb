@@ -97,6 +97,11 @@ RSpec.describe "Samples", type: :request do
       get edit_sample_path(sample)
       expect(response.body).to include "Sample Edit"
     end
+
+    it 'samples/showのリンクが存在するか' do
+      get edit_sample_path(sample)
+      expect(response.body).to include "<a href=\"#{sample_path(sample)}\">"
+    end
   end
 
   describe '#update' do
