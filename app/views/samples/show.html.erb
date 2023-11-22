@@ -13,4 +13,7 @@
   maker : <%= @sample.maker %>
 </p>
 
-<%= link_to "Sample Edit", edit_sample_path(@sample) %>
+<p>
+  <%= link_to "Sample Edit", edit_sample_path(@sample) %> |
+  <%= link_to "Sample Destroy", sample_path(@sample), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+</p>
