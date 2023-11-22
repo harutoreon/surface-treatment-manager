@@ -57,7 +57,11 @@ RSpec.describe "Samples", type: :request do
     it 'samples/destroyのリンクが存在すること' do
       get sample_path(sample)
       expect(response.body).to include "<a data-turbo-method=\"delete\" data-turbo-confirm=\"Are you sure?\" href=\"/samples/1\">"
-      # expect(response.body).to include "Sample Destroy"
+    end
+
+    it 'samples/indexのリンクが存在すること' do
+      get sample_path(sample)
+      expect(response.body).to include "<a href=\"#{samples_path}\">"
     end
   end
 
