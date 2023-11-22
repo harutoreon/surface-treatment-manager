@@ -1,14 +1,23 @@
 <h1>Sample Show</h1>
 
 <p>
-  処理名：<%= @sample.name %>
+  name : <%= @sample.name %>
 </p>
 <p>
-  種類：<%= @sample.category %>
+  category : <%= @sample.category %>
 </p>
 <p>
-  色調：<%= @sample.color %>
+  color : <%= @sample.color %>
 </p>
 <p>
-  製造元：<%= @sample.maker %>
+  maker : <%= @sample.maker %>
+</p>
+
+<p>
+  <%= link_to "Sample Edit", edit_sample_path(@sample) %> |
+  <%= link_to "Sample Destroy", sample_path(@sample), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+</p>
+
+<p>
+  <%= link_to "Sample Index", samples_path %>
 </p>

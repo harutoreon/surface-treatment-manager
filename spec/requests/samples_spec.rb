@@ -29,6 +29,11 @@ RSpec.describe "Samples", type: :request do
         expect(response.body).to include "<a href=\"#{sample_path(sample)}\">"
       end
     end
+
+    it 'samples/newのリンクが存在すること' do
+      get samples_path
+      expect(response.body).to include "<a href=\"#{new_sample_path}\">"
+    end
   end
 
   describe "#show" do
@@ -43,6 +48,21 @@ RSpec.describe "Samples", type: :request do
       get sample_path(sample)
       expect(response.body).to include "Sample Show"
     end
+
+    it 'samples/editのリンクが存在すること' do
+      get sample_path(sample)
+      expect(response.body).to include "<a href=\"#{edit_sample_path(sample)}\">"
+    end
+
+    it 'samples/destroyのリンクが存在すること' do
+      get sample_path(sample)
+      expect(response.body).to include "<a data-turbo-method=\"delete\" data-turbo-confirm=\"Are you sure?\" href=\"/samples/1\">"
+    end
+
+    it 'samples/indexのリンクが存在すること' do
+      get sample_path(sample)
+      expect(response.body).to include "<a href=\"#{samples_path}\">"
+    end
   end
 
   describe '#new' do
@@ -54,6 +74,11 @@ RSpec.describe "Samples", type: :request do
     it '見出しが表示されること' do
       get new_sample_path
       expect(response.body).to include "Sample New"
+    end
+
+    it 'samples/indexのリンクが存在すること' do
+      get new_sample_path
+      expect(response.body).to include "<a href=\"#{samples_path}\">"
     end
   end
 
@@ -86,6 +111,11 @@ RSpec.describe "Samples", type: :request do
     it '見出しが表示されること' do
       get edit_sample_path(sample)
       expect(response.body).to include "Sample Edit"
+    end
+
+    it 'samples/showのリンクが存在するか' do
+      get edit_sample_path(sample)
+      expect(response.body).to include "<a href=\"#{sample_path(sample)}\">"
     end
   end
 
@@ -122,7 +152,7 @@ RSpec.describe "Samples", type: :request do
 
     it 'static_pages#homeにリダイレクトされること' do
       delete sample_path(sample)
-      expect(response).to redirect_to root_path
+      expect(response).to redirect_to samples_path
     end
   end
 end

@@ -11,5 +11,10 @@ RSpec.describe "StaticPages", type: :request do
       get root_path
       expect(response.body).to include "Welcome to Surface Treatment Manager!!"
     end
+
+    it 'The link to the index page must exist' do
+      get root_path
+      expect(response.body).to include "<a href=\"#{samples_path}\">"
+    end
   end
 end
