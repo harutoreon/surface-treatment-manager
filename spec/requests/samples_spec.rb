@@ -152,7 +152,7 @@ RSpec.describe "Samples", type: :request do
 
     it 'static_pages#homeにリダイレクトされること' do
       delete sample_path(sample)
-      expect(response).to redirect_to root_path
+      expect(response).to redirect_to samples_path
     end
   end
 end
