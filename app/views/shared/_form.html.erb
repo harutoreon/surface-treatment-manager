@@ -1,0 +1,25 @@
+<%= form_with model: sample do |form| %>
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :category %>
+    <%= form.text_field :category %>
+  </div>
+
+  <div>
+    <%= form.label :color %>
+    <%= form.text_field :color %>
+  </div>
+
+  <div>
+    <%= form.label :maker %>
+    <%= form.text_field :maker %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
