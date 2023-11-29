@@ -7,6 +7,9 @@ FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 # Rails app lives here
 WORKDIR /rails
 
+# PostgreSQLインターフェースライブラリlibpgのインストール
+RUN apt-get install libpq-dev
+
 # Set production environment
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
