@@ -107,10 +107,6 @@ GEM
       reline (>= 0.3.1)
     debug_inspector (1.1.0)
     diff-lcs (1.5.0)
-    dotenv (2.8.1)
-    dotenv-rails (2.8.1)
-      dotenv (= 2.8.1)
-      railties (>= 3.2)
     drb (2.1.1)
       ruby2_keywords
     erubi (1.12.0)
@@ -170,7 +166,6 @@ GEM
     parser (3.2.2.4)
       ast (~> 2.4.1)
       racc
-    pg (1.5.4)
     psych (5.1.1.1)
       stringio
     public_suffix (5.0.3)
@@ -267,6 +262,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    sqlite3 (1.6.7-x86_64-darwin)
     stimulus-rails (1.3.0)
       railties (>= 6.0.0)
     stringio (3.0.8)
@@ -304,18 +300,17 @@ DEPENDENCIES
   bootsnap
   capybara
   debug
-  dotenv-rails
   factory_bot_rails
   faker
   importmap-rails
   jbuilder
-  pg
   puma (>= 5.0)
   rails (~> 7.1.1)
   rspec-rails
   rubocop
   selenium-webdriver
   sprockets-rails
+  sqlite3
   stimulus-rails
   turbo-rails
   tzinfo-data
