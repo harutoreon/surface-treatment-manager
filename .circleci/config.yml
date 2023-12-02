@@ -19,16 +19,16 @@ jobs:
     steps:
       - checkout
       - run:
-          name: dependency installation
+          name: Dependency installation
           command: bundle install
       - run:
-          name: database initialization
+          name: Database initialization
           command: bin/rails db:create
       - run:
-          name: running rubocop
+          name: Running rubocop
           command: bundle exec rubocop
       - run:
-          name: running rspec
+          name: Running rspec
           command: bundle exec rspec
 
 workflows:
