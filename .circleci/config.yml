@@ -4,13 +4,34 @@ jobs:
   test:
     docker:
       - image: cimg/ruby:3.2.0
+      - image: cimg/postgres:13.2
+        environment:
+            POSTGRES_USER: example
+            POSTGRES_DB: example_production
+            POSTGRES_HOST_AUTH_METHOD: trust
+    environment:
+      BUNDLE_JOBS: "3"
+      BUNDLE_RETRY: "3"
+      PGHOST: 127.0.0.1
+      PGUSER: example
+      PGPASSWORD: ""
+      TZ: "/usr/share/zoneinfo/Asia/Tokyo"
+
     steps:
       - checkout
       - run:
+          name: dependency installation
           command: bundle install
       - run:
+          name: database initialization
+          command: |
+            dockerize -wait tcp://localhost:5432 -timeout 1m
+            bundle exec rake db:schema:load
+      - run:
+          name: running rubocop
           command: bundle exec rubocop
       - run:
+          name: running rspec
           command: bundle exec rspec
 
 workflows:
