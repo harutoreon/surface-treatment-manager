@@ -4,7 +4,7 @@ jobs:
   test:
     docker:
       - image: cimg/ruby:3.2.0
-      - image: cimg/postgres:13.2
+      - image: cimg/postgres:14.10
         environment:
             POSTGRES_USER: example
             POSTGRES_DB: example_production
