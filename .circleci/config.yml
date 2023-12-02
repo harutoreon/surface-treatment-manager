@@ -5,16 +5,16 @@ jobs:
     docker:
       - image: cimg/ruby:3.2.0
       - image: cimg/postgres:14.10
-        environment:
-            POSTGRES_USER: example
-            POSTGRES_DB: example_dev
+        # environment:
+        #     POSTGRES_USER: example
+        #     POSTGRES_DB: example_dev
     environment:
       BUNDLE_JOBS: "3"
       BUNDLE_RETRY: "3"
-      # PGHOST: 127.0.0.1
-      # PGUSER: example
-      # PGPASSWORD: ""
-      # TZ: "/usr/share/zoneinfo/Asia/Tokyo"
+      PGHOST: 127.0.0.1
+      PGUSER: example
+      PGPASSWORD: ""
+      TZ: "/usr/share/zoneinfo/Asia/Tokyo"
 
     steps:
       - checkout
