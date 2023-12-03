@@ -44,6 +44,7 @@ Layout/SpaceInsideArrayLiteralBrackets:
 Layout/SpaceInsidePercentLiteralDelimiters:
   Exclude:
     - 'Gemfile'
+    - 'config/initializers/assets.rb'
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
@@ -124,6 +125,7 @@ Style/IfUnlessModifier:
 Style/PercentLiteralDelimiters:
   Exclude:
     - 'config/application.rb'
+    - 'config/initializers/assets.rb'
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
