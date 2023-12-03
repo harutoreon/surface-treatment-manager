@@ -1,2 +1,18 @@
 // Custom bootstrap variables must be set or imported *before* bootstrap.
 @import "bootstrap";
+
+$font-color: white;
+
+.col-first {
+  background-color: blue;
+  color: $font-color;
+}
+
+.col-second {
+  background-color: yellow;
+}
+
+.col-third {
+  background-color: red;
+  color: $font-color;
+}
