@@ -4,13 +4,31 @@ jobs:
   test:
     docker:
       - image: cimg/ruby:3.2.0
+      - image: cimg/postgres:16.1
+        environment:
+            POSTGRES_USER: example
+            POSTGRES_DB: example_dev
+    environment:
+      BUNDLE_JOBS: "3"
+      BUNDLE_RETRY: "3"
+      PGHOST: 127.0.0.1
+      PGUSER: example
+      PGPASSWORD: ""
+      TZ: "/usr/share/zoneinfo/Asia/Tokyo"
+
     steps:
       - checkout
       - run:
+          name: Dependency installation
           command: bundle install
       - run:
+          name: Database initialization
+          command: bin/rails db:create
+      - run:
+          name: Running rubocop
           command: bundle exec rubocop
       - run:
+          name: Running rspec
           command: bundle exec rspec
 
 workflows:
