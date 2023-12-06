@@ -9,7 +9,7 @@ RSpec.describe "StaticPages", type: :request do
 
     it 'Welcomeメッセージが表示されること' do
       get root_path
-      expect(response.body).to include "Welcome to Surface Treatment Manager!!"
+      expect(response.body).to include "Welcome to Surface Treatment Manager"
     end
 
     it 'samples/indexのリンクが存在すること' do
