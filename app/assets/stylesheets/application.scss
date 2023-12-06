@@ -1,18 +1,11 @@
 // Custom bootstrap variables must be set or imported *before* bootstrap.
 @import "bootstrap";
 
-$font-color: white;
-
-.col-first {
-  background-color: blue;
-  color: $font-color;
+body {
+  font-family: 'Inter', sans-serif;
 }
 
-.col-second {
-  background-color: yellow;
-}
-
-.col-third {
-  background-color: red;
-  color: $font-color;
+.welcome-message {
+  font-size: 3rem;
+  padding-top: 3rem;
 }
