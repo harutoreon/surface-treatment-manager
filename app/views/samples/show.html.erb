@@ -1,45 +1,54 @@
-<div class="container text-center">
+<div class="container">
   <div class="row">
-    <div>
+    <div class="col text-center fs-1">
       Sample Show
     </div>
   </div>
 
   <div class="row">
-    <div>
-      name : <%= @sample.name %>
+    <div class="col text-end">
+      name :
+    </div>
+    <div class="col text-start">
+      <%= @sample.name %>
     </div>
   </div>
 
   <div class="row">
-    <div>
-      category : <%= @sample.category %>
+    <div class="col text-end">
+      category :
+    </div>
+    <div class="col text-start">
+      <%= @sample.category %>
     </div>
   </div>
 
   <div class="row">
-    <div>
-      color : <%= @sample.color %>
+    <div class="col text-end">
+      color :
+    </div>
+    <div class="col text-start">
+      <%= @sample.color %>
     </div>
   </div>
 
   <div class="row">
-    <div>
-      maker : <%= @sample.maker %>
+    <div class="col text-end">
+      maker :
+    </div>
+    <div class="col text-start">
+      <%= @sample.maker %>
     </div>
   </div>
 
   <div class="row">
-    <div class="col">
+    <div class="col text-end">
       <%= link_to "Sample Edit", edit_sample_path(@sample) %>
     </div>
-    <div class="col">
+    <div class="col-2 text-center">
       <%= link_to "Sample Destroy", sample_path(@sample), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
     </div>
-  </div>
-
-  <div class="row">
-    <div>
+        <div class="col text-start">
       <%= link_to "Sample Index", samples_path %>
     </div>
   </div>
