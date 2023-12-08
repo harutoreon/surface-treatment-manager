@@ -35,4 +35,7 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - test
+      - test:
+          filters:
+            branches:
+              only: main
