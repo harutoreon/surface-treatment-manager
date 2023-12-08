@@ -1,23 +1,55 @@
-<h1>Sample Show</h1>
+<div class="container">
+  <div class="row">
+    <div class="col text-center fs-1">
+      Sample Show
+    </div>
+  </div>
 
-<p>
-  name : <%= @sample.name %>
-</p>
-<p>
-  category : <%= @sample.category %>
-</p>
-<p>
-  color : <%= @sample.color %>
-</p>
-<p>
-  maker : <%= @sample.maker %>
-</p>
+  <div class="row">
+    <div class="col text-end">
+      name :
+    </div>
+    <div class="col text-start">
+      <%= @sample.name %>
+    </div>
+  </div>
 
-<p>
-  <%= link_to "Sample Edit", edit_sample_path(@sample) %> |
-  <%= link_to "Sample Destroy", sample_path(@sample), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
-</p>
+  <div class="row">
+    <div class="col text-end">
+      category :
+    </div>
+    <div class="col text-start">
+      <%= @sample.category %>
+    </div>
+  </div>
 
-<p>
-  <%= link_to "Sample Index", samples_path %>
-</p>
+  <div class="row">
+    <div class="col text-end">
+      color :
+    </div>
+    <div class="col text-start">
+      <%= @sample.color %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col text-end">
+      maker :
+    </div>
+    <div class="col text-start">
+      <%= @sample.maker %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col text-end">
+      <%= link_to "Sample Edit", edit_sample_path(@sample) %>
+    </div>
+    <div class="col-2 text-center">
+      <%= link_to "Sample Destroy", sample_path(@sample), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+    </div>
+        <div class="col text-start">
+      <%= link_to "Sample Index", samples_path %>
+    </div>
+  </div>
+</div>
