@@ -20,7 +20,7 @@ RSpec.describe "Samples", type: :request do
 
     it 'div.pagenationが存在すること' do
       get samples_path
-      expect(response.body).to include '<div role="navigation" aria-label="Pagination" class="pagination">'
+      expect(response.body).to include '<div role="navigation" aria-label="Pagination" class="justify-content-center">'
     end
 
     it 'サンプルごとのリンクが存在すること' do
