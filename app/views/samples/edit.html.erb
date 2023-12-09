@@ -1,5 +1,11 @@
-<h1>Sample Edit</h1>
+<div class="container">
+  <div class="mb-3 text-center fs-1">
+    Sample Edit
+  </div>
 
-<%= render "shared/form", sample: @sample %>
+  <%= render "shared/form", sample: @sample %>
 
-<%= link_to "Sample Show", sample_path(@sample) %>
+  <div class="text-center">
+    <%= link_to "Sample Show", sample_path(@sample) %>
+  </div>
+</div>
