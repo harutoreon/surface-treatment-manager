@@ -1,25 +1,27 @@
-<%= form_with model: sample do |form| %>
-  <div>
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
+<div class="container w-50">
+  <%= form_with model: sample do |form| %>
+    <div class="mb-3">
+      <%= form.label :name, for: "exampleFormControlInput1", class: "form-label" %>
+      <%= form.text_field :name, class: "form-control", id: "exampleFormControlInput1", placeholder: "アルマイト" %>
+    </div>
 
-  <div>
-    <%= form.label :category %>
-    <%= form.text_field :category %>
-  </div>
+    <div class="mb-3">
+      <%= form.label :category, for: "exampleFormControlInput1", class: "form-label" %>
+      <%= form.text_field :category, class: "form-control", id: "exampleFormControlInput1", placeholder: "めっき" %>
+    </div>
 
-  <div>
-    <%= form.label :color %>
-    <%= form.text_field :color %>
-  </div>
+    <div class="mb-3">
+      <%= form.label :color, for: "exampleFormControlInput1", class: "form-label" %>
+      <%= form.text_field :color, class: "form-control", id: "exampleFormControlInput1", placeholder: "jade" %>
+    </div>
 
-  <div>
-    <%= form.label :maker %>
-    <%= form.text_field :maker %>
-  </div>
+    <div class="mb-3">
+      <%= form.label :maker, for: "exampleFormControlInput1", class: "form-label" %>
+      <%= form.text_field :maker, class: "form-control", id: "exampleFormControlInput1", placeholder: "Kub, Skiles and Abshire" %>
+    </div>
 
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+    <div class="mb-3">
+      <%= form.submit class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

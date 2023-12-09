@@ -1,15 +1,11 @@
 <div class="container">
-  <div class="row">
-    <div class="col text-center fs-1">
-      Sample New
-    </div>
+  <div class="mb-3 text-center fs-1">
+    Sample New
   </div>
 
-  <%#= render "shared/form", sample: @sample %>
+  <%= render "shared/form", sample: @sample %>
 
-  <div class="row">
-    <div class="col text-center">
-      <%= link_to "Sample Index", samples_path %>
-    </div>
+  <div class="text-center">
+    <%= link_to "Sample Index", samples_path %>
   </div>
 </div>
