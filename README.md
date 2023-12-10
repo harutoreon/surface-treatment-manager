@@ -10,26 +10,14 @@
 ## 使用技術
 - Ruby
 - Ruby on Rails
+- Bootstrap
+- Sass
 - RSpec
 - Rubocop
 - Rake
+- PostgreSQL
 - CircleCI
 - Render
-
-## gem
-- better_errors
-- binding_of_caller
-- rspec-rails
-- factory_bot_rails
-- rubocop
-- faker
-- will_paginate
-<!-- - will_paginate-bootstrap
-- bootstrap
-- sass-rails
-- mini_racer
-- carrierwave
-- mini_magick -->
 
 ## 機能一覧
 - サンプル
