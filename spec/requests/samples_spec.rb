@@ -34,6 +34,11 @@ RSpec.describe "Samples", type: :request do
       get samples_path
       expect(response.body).to include "<a href=\"#{new_sample_path}\">"
     end
+
+    it 'headerが表示されること' do
+      get samples_path
+      expect(response.body).to include "<a class=\"navbar-brand fs-3\" href=\"#{samples_path}\">Surface Treatment Manager</a>"
+    end
   end
 
   describe "#show" do
@@ -64,6 +69,11 @@ RSpec.describe "Samples", type: :request do
       get sample_path(sample)
       expect(response.body).to include "<a href=\"#{samples_path}\">"
     end
+
+    it 'headerが表示されること' do
+      get sample_path(sample)
+      expect(response.body).to include "<a class=\"navbar-brand fs-3\" href=\"#{samples_path}\">Surface Treatment Manager</a>"
+    end
   end
 
   describe '#new' do
@@ -80,6 +90,11 @@ RSpec.describe "Samples", type: :request do
     it 'samples/indexのリンクが存在すること' do
       get new_sample_path
       expect(response.body).to include "<a href=\"#{samples_path}\">"
+    end
+
+    it 'headerが表示されること' do
+      get new_sample_path
+      expect(response.body).to include "<a class=\"navbar-brand fs-3\" href=\"#{samples_path}\">Surface Treatment Manager</a>"
     end
   end
 
@@ -117,6 +132,11 @@ RSpec.describe "Samples", type: :request do
     it 'samples/showのリンクが存在するか' do
       get edit_sample_path(sample)
       expect(response.body).to include "<a href=\"#{sample_path(sample)}\">"
+    end
+
+    it 'headerが表示されること' do
+      get edit_sample_path(sample)
+      expect(response.body).to include "<a class=\"navbar-brand fs-3\" href=\"#{samples_path}\">Surface Treatment Manager</a>"
     end
   end
 
