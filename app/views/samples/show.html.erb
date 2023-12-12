@@ -44,6 +44,10 @@
   </div>
 
   <div class="row">
+    <%= image_tag @sample.picture.url if @sample.picture? %>
+  </div>
+
+  <div class="row">
     <div class="col text-end">
       <%= link_to "Sample Edit", edit_sample_path(@sample) %>
     </div>

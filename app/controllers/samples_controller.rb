@@ -45,6 +45,6 @@ class SamplesController < ApplicationController
   private
 
     def sample_params
-      params.require(:sample).permit(:name, :category, :color, :maker)
+      params.require(:sample).permit(:name, :category, :color, :maker, :picture)
     end
 end

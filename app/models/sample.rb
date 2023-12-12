@@ -3,4 +3,5 @@ class Sample < ApplicationRecord
   validates :category, presence: true
   validates :color,    presence: true
   validates :maker,    presence: true
+  mount_uploader :picture, PictureUploader
 end
