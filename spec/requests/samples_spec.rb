@@ -96,6 +96,11 @@ RSpec.describe "Samples", type: :request do
       get new_sample_path
       expect(response.body).to include "<a class=\"navbar-brand fs-3\" href=\"#{samples_path}\">Surface Treatment Manager</a>"
     end
+
+    it 'ファイル選択用のinput要素が存在すること' do
+      get new_sample_path
+      expect(response.body).to include "type=\"file\""
+    end
   end
 
   describe '#create' do
