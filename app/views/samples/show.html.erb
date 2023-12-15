@@ -1,13 +1,11 @@
 <%= render 'shared/header' %>
 
 <div class="container">
-  <div class="row">
-    <div class="col text-center fs-1">
-      Sample Show
-    </div>
+  <div class="mb-3 fs-1 text-center">
+    Sample Show
   </div>
 
-  <div class="row">
+  <div class="row fs-4 mb-3">
     <div class="col text-end">
       name :
     </div>
@@ -16,7 +14,7 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row fs-4 mb-3">
     <div class="col text-end">
       category :
     </div>
@@ -25,7 +23,7 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row fs-4 mb-3">
     <div class="col text-end">
       color :
     </div>
@@ -34,13 +32,17 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row fs-4 mb-3">
     <div class="col text-end">
       maker :
     </div>
     <div class="col text-start">
       <%= @sample.maker %>
     </div>
+  </div>
+
+  <div class="col mb-3 text-center">
+    <%= image_tag @sample.picture.url if @sample.picture? %>
   </div>
 
   <div class="row">
@@ -55,3 +57,4 @@
     </div>
   </div>
 </div>
+

@@ -74,6 +74,11 @@ RSpec.describe "Samples", type: :request do
       get sample_path(sample)
       expect(response.body).to include "<a class=\"navbar-brand fs-3\" href=\"#{samples_path}\">Surface Treatment Manager</a>"
     end
+
+    it 'img要素が存在すること' do
+      get sample_path(sample)
+      expect(response.body).to include "<img"
+    end
   end
 
   describe '#new' do
@@ -95,6 +100,11 @@ RSpec.describe "Samples", type: :request do
     it 'headerが表示されること' do
       get new_sample_path
       expect(response.body).to include "<a class=\"navbar-brand fs-3\" href=\"#{samples_path}\">Surface Treatment Manager</a>"
+    end
+
+    it 'ファイル選択用のinput要素が存在すること' do
+      get new_sample_path
+      expect(response.body).to include "type=\"file\""
     end
   end
 
