@@ -4,6 +4,7 @@ FactoryBot.define do
     category { "めっき" }
     color { "コールド" }
     maker { "ヘッティンガー株式会社" }
+    picture { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')) }
   end
 
   factory :sample_list, class: Sample do
