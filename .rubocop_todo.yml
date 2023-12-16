@@ -219,3 +219,7 @@ Layout/IndentationStyle:
 Metrics/AbcSize:
   Exclude:
     - 'app/uploaders/**/*'
+
+Style/MutableConstant:
+  Exclude:
+    - 'db/**/*'
