@@ -1,13 +1,3 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
-
 Faker::Config.locale = 'ja'
 
 99.times do
@@ -15,5 +5,6 @@ Faker::Config.locale = 'ja'
   category = ["めっき", "コーティング", "陽極酸化"].sample
   color = Faker::Color.color_name
   maker = Faker::Company.name
-  Sample.create!(name: name, category: category, color: color, maker: maker)
+  picture = File.open('app/assets/images/kitten.jpg')
+  Sample.create!(name: name, category: category, color: color, maker: maker, picture: picture)
 end
