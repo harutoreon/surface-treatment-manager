@@ -1,17 +1,39 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+NAMES = [
+  "金めっき",
+  "銀めっき",
+  "銅めっき",
+  "亜鉛めっき",
+  "光沢ニッケルめっき",
+  "無光沢ニッケルめっき",
+  "黒色ニッケルめっき",
+  "ハードクロムめっき",
+  "無電解銀めっき",
+  "無電解銅めっき",
+  "無電解ニッケルめっき",
+  "無電解スズめっき",
+  "無電解金めっき",
+  "アルマイト",
+  "クロメート",
+  "パーカー",
+  "黒染め",
+  "高周波焼入れ"
+]
+
+CATEGORYS = [
+  "めっき",
+  "コーティング",
+  "陽極酸化",
+  "化成",
+  "表面硬化"
+]
+
+Faker::Config.locale = 'ja'
 
 99.times do
-  name = ["無電解ニッケルめっき", "ハードクロムめっき", "アルマイト"].sample
-  category = ["めっき", "コーティング", "陽極酸化"].sample
-  color = Faker::Color.color_name
-  maker = Faker::Company.name
-  Sample.create!(name: name, category: category, color: color, maker: maker)
+  name     = NAMES.sample
+  category = CATEGORYS.sample
+  color    = Faker::Color.color_name
+  maker    = Faker::Company.name
+  picture  = File.open("app/assets/images/kitten.jpg")
+  Sample.create!(name: name, category: category, color: color, maker: maker, picture: picture)
 end
