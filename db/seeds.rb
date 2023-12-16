@@ -8,6 +8,8 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+Faker::Config.locale = 'ja'
+
 99.times do
   name = ["無電解ニッケルめっき", "ハードクロムめっき", "アルマイト"].sample
   category = ["めっき", "コーティング", "陽極酸化"].sample
