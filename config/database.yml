@@ -15,4 +15,4 @@ production:
   <<: *default
   database: example_production
   username: example
-  password: request.env['DB_PASSWORD']
+  password: <%= ENV["SURFACE_TREATMENT_MANAGER_DATABASE_PASSWORD"] %>
