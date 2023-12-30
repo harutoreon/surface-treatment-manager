@@ -127,9 +127,9 @@ RSpec.describe "Samples", type: :request do
 
     it '登録が失敗すること' do
       expect { post samples_path, params: { sample: { name: '',
-                                                      category: 'sample',
-                                                      color: 'sampel',
-                                                      maker: 'sample',
+                                                      category: '表面硬化',
+                                                      color: 'マゼンタ',
+                                                      maker: '有限会社松本農林',
                                                       picture: Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')) } } }.to_not change(Sample, :count)
     end
   end
