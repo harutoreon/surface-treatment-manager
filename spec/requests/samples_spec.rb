@@ -77,7 +77,7 @@ RSpec.describe "Samples", type: :request do
 
     it 'img要素が存在すること' do
       get sample_path(sample)
-      expect(response.body).to include "<img"
+      expect(response.body).to include "<img src=\"/uploads_test/sample/picture/#{sample.id}/test.jpg\" />"
     end
   end
 
