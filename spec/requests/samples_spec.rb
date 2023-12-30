@@ -77,7 +77,7 @@ RSpec.describe "Samples", type: :request do
 
     it 'img要素が存在すること' do
       get sample_path(sample)
-      expect(response.body).to include "<img"
+      expect(response.body).to include "<img src=\"/uploads_test/sample/picture/#{sample.id}/test.jpg\" />"
     end
   end
 
@@ -109,7 +109,11 @@ RSpec.describe "Samples", type: :request do
   end
 
   describe '#create' do
-    let(:sample_params) { { sample: { name: "sample", category: "sample", color: "sample", maker: "sample" } } }
+    let(:sample_params) { { sample: { name: "銅めっき",
+                                      category: "表面硬化",
+                                      color: "マゼンタ",
+                                      maker: "有限会社松本農林",
+                                      picture: Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')) } } }
 
     it '登録が成功すること' do
       expect { post samples_path, params: sample_params }.to change(Sample, :count).by 1
@@ -122,7 +126,11 @@ RSpec.describe "Samples", type: :request do
     end
 
     it '登録が失敗すること' do
-      expect { post samples_path, params: { sample: { name: '', category: 'sample', color: 'sampel', maker: 'sample' } } }.to_not change(Sample, :count)
+      expect { post samples_path, params: { sample: { name: '',
+                                                      category: '表面硬化',
+                                                      color: 'マゼンタ',
+                                                      maker: '有限会社松本農林',
+                                                      picture: Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')) } } }.to_not change(Sample, :count)
     end
   end
 

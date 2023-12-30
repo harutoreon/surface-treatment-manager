@@ -223,3 +223,19 @@ Metrics/AbcSize:
 Style/MutableConstant:
   Exclude:
     - 'db/**/*'
+
+Layout/LeadingCommentSpace:
+  Exclude:
+    - 'spec/**/*'
+
+Layout/SpaceBeforeComment:
+  Exclude:
+    - 'spec/**/*'
+
+Layout/MultilineBlockLayout:
+  Exclude:
+    - 'spec/**/*'
+
+Layout/BlockEndNewline:
+  Exclude:
+    - 'spec/**/*'
