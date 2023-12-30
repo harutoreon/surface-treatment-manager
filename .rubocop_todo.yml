@@ -231,3 +231,11 @@ Layout/LeadingCommentSpace:
 Layout/SpaceBeforeComment:
   Exclude:
     - 'spec/**/*'
+
+Layout/MultilineBlockLayout:
+  Exclude:
+    - 'spec/**/*'
+
+Layout/BlockEndNewline:
+  Exclude:
+    - 'spec/**/*'

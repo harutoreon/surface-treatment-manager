@@ -109,7 +109,11 @@ RSpec.describe "Samples", type: :request do
   end
 
   describe '#create' do
-    let(:sample_params) { { sample: { name: "sample", category: "sample", color: "sample", maker: "sample" } } }
+    let(:sample_params) { { sample: { name: "銅めっき",
+                                      category: "表面硬化",
+                                      color: "マゼンタ",
+                                      maker: "有限会社松本農林",
+                                      picture: Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')) } } }
 
     it '登録が成功すること' do
       expect { post samples_path, params: sample_params }.to change(Sample, :count).by 1
