@@ -156,6 +156,11 @@ RSpec.describe "Samples", type: :request do
       get edit_sample_path(sample)
       expect(response.body).to include "<a class=\"navbar-brand fs-3\" href=\"#{samples_path}\">Surface Treatment Manager</a>"
     end
+
+    it 'img要素が存在すること' do
+      get edit_sample_path(sample)
+      expect(response.body).to include "<img src=\"/uploads_test/sample/picture/#{sample.id}/test.jpg\" />"
+    end
   end
 
   describe '#update' do

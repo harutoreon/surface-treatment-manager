@@ -20,8 +20,9 @@
       <%= form.text_field :maker, class: "form-control", id: "exampleFormControlInput1", placeholder: "Kub, Skiles and Abshire" %>
     </div>
 
-    <div class="mb-3">
+    <div class="row mb-3">
       <%= form.label :picture %>
+      <%= image_tag @sample.picture.url if @sample.picture? %>
       <%= form.file_field :picture, accept: 'image/jpeg,image/gif,image/png,image/jpg' %>
     </div>
 
