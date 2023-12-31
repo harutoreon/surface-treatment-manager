@@ -2,7 +2,7 @@
   <%= form_with model: sample do |form| %>
     <div class="mb-3">
       <%= form.label :name, for: "exampleFormControlInput1", class: "form-label" %>
-      <%= form.text_field :name, class: "form-control", id: "exampleFormControlInput1", placeholder: "アルマイト" %>
+      <%= form.text_field :name, class: "form-control", id: "exampleFormControlInput1", placeholder: "例）アルマイト" %>
       <% sample.errors.full_messages_for(:name).each do |message| %>
         <div class="text-danger">
           <%= message %>
@@ -12,7 +12,7 @@
 
     <div class="mb-3">
       <%= form.label :category, for: "exampleFormControlInput1", class: "form-label" %>
-      <%= form.text_field :category, class: "form-control", id: "exampleFormControlInput1", placeholder: "めっき" %>
+      <%= form.text_field :category, class: "form-control", id: "exampleFormControlInput1", placeholder: "例）めっき" %>
       <% sample.errors.full_messages_for(:category).each do |message| %>
         <div class="text-danger">
           <%= message %>
@@ -22,7 +22,7 @@
 
     <div class="mb-3">
       <%= form.label :color, for: "exampleFormControlInput1", class: "form-label" %>
-      <%= form.text_field :color, class: "form-control", id: "exampleFormControlInput1", placeholder: "jade" %>
+      <%= form.text_field :color, class: "form-control", id: "exampleFormControlInput1", placeholder: "例）シルバー" %>
       <% sample.errors.full_messages_for(:color).each do |message| %>
         <div class="text-danger">
           <%= message %>
@@ -32,7 +32,7 @@
 
     <div class="mb-3">
       <%= form.label :maker, for: "exampleFormControlInput1", class: "form-label" %>
-      <%= form.text_field :maker, class: "form-control", id: "exampleFormControlInput1", placeholder: "Kub, Skiles and Abshire" %>
+      <%= form.text_field :maker, class: "form-control", id: "exampleFormControlInput1", placeholder: "例）株式会社松本農林" %>
       <% sample.errors.full_messages_for(:maker).each do |message| %>
         <div class="text-danger">
           <%= message %>
