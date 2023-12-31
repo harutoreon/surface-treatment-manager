@@ -4,7 +4,9 @@
       <%= form.label :name, for: "exampleFormControlInput1", class: "form-label" %>
       <%= form.text_field :name, class: "form-control", id: "exampleFormControlInput1", placeholder: "アルマイト" %>
       <% sample.errors.full_messages_for(:name).each do |message| %>
-        <div><%= message %></div>
+        <div class="text-danger">
+          <%= message %>
+        </div>
       <% end %>
     </div>
 
@@ -12,7 +14,9 @@
       <%= form.label :category, for: "exampleFormControlInput1", class: "form-label" %>
       <%= form.text_field :category, class: "form-control", id: "exampleFormControlInput1", placeholder: "めっき" %>
       <% sample.errors.full_messages_for(:category).each do |message| %>
-        <div><%= message %></div>
+        <div class="text-danger">
+          <%= message %>
+        </div>
       <% end %>
     </div>
 
@@ -20,7 +24,9 @@
       <%= form.label :color, for: "exampleFormControlInput1", class: "form-label" %>
       <%= form.text_field :color, class: "form-control", id: "exampleFormControlInput1", placeholder: "jade" %>
       <% sample.errors.full_messages_for(:color).each do |message| %>
-        <div><%= message %></div>
+        <div class="text-danger">
+          <%= message %>
+        </div>
       <% end %>
     </div>
 
@@ -28,7 +34,9 @@
       <%= form.label :maker, for: "exampleFormControlInput1", class: "form-label" %>
       <%= form.text_field :maker, class: "form-control", id: "exampleFormControlInput1", placeholder: "Kub, Skiles and Abshire" %>
       <% sample.errors.full_messages_for(:maker).each do |message| %>
-        <div><%= message %></div>
+        <div class="text-danger">
+          <%= message %>
+        </div>
       <% end %>
     </div>
 
