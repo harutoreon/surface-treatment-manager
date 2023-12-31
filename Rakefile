@@ -7,7 +7,7 @@ Rails.application.load_tasks
 
 if Rails.env.development?
   task(:default).clear
-  task default: [:rubocop, :rspec]
+  task default: [:rubocop, :rspec, :rm]
 
   task :rubocop do
     sh 'bundle exec rubocop'
@@ -15,5 +15,9 @@ if Rails.env.development?
 
   task :rspec do
     sh 'bundle exec rspec'
+  end
+
+  task :rm do
+    sh 'rm -rf public/uploads/tmp'
   end
 end
