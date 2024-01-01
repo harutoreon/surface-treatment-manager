@@ -239,3 +239,6 @@ Layout/MultilineBlockLayout:
 Layout/BlockEndNewline:
   Exclude:
     - 'spec/**/*'
+Style/RedundantInterpolation:
+  Exclude:
+    - 'app/models/**/*'

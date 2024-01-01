@@ -6,6 +6,19 @@ class Sample < ApplicationRecord
   mount_uploader :picture, PictureUploader
   validate :picture_size
 
+  def self.search(search, word)
+    case search
+    when 'perfect'
+      Sample.where('name LIKE?', "#{word}")
+    when 'forward'
+      Sample.where('name LIKE?', "#{word}%")
+    when 'backward'
+      Sample.where('name LIKE?', "%#{word}")
+    when 'partial'
+      Sample.where('name LIKE?', "%#{word}%")
+    end
+  end
+
   private
 
     def picture_size
