@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Sample, type: :model do
+RSpec.describe Sample, type: :model do # rubocop:disable Metrics/BlockLength
   let(:sample) { FactoryBot.create(:sample) }
 
   it 'sampleが有効であること' do
@@ -25,5 +25,36 @@ RSpec.describe Sample, type: :model do
   it 'makerが存在すること' do
     sample.maker = ''
     expect(sample).to_not be_valid
+  end
+
+  describe 'scope' do # rubocop:disable Metrics/BlockLength
+    describe '#search' do
+      before do
+        5.times do
+          FactoryBot.create(:sample_list)
+        end
+      end
+
+      context '完全一致検索したとき' do
+        it '対象のレコードが存在しないこと' do
+          expect(Sample.search('perfect', 'めっき').count).to eq 0
+        end
+      end
+      context '前方一致検索したとき' do
+        it '対象のレコードが存在しないこと' do
+          expect(Sample.search('forward', 'めっき').count).to eq 0
+        end
+      end
+      context '後方一致検索したとき' do
+        it '対象のレコードが5件存在すること' do
+          expect(Sample.search('backward', 'めっき').count).to eq 5
+        end
+      end
+      context '曖昧検索したとき' do
+        it '対象のレコードが5件存在すること' do
+          expect(Sample.search('partial', 'めっき').count).to eq 5
+        end
+      end
+    end
   end
 end
