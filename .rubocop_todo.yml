@@ -242,3 +242,11 @@ Layout/BlockEndNewline:
 Style/RedundantInterpolation:
   Exclude:
     - 'app/models/**/*'
+
+Style/Lambda:
+  Exclude:
+    - 'app/models/**/*'
+
+Layout/SpaceInLambdaLiteral:
+  Exclude:
+    - 'app/models/**/*'
