@@ -23,3 +23,9 @@
     <%= link_to "Sample New", new_sample_path %>
   </div>
 </div>
+
+<%= form_with url: search_path, method: :get do |f| %>
+  <%= f.text_field :word %>
+  <%= f.select :search, ["perfect", "forward", "backward", "partial"] %>
+  <%= f.submit "Search"%>
+<% end %>

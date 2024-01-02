@@ -1,0 +1,15 @@
+<h2>Search Result</h2>
+
+<% if @samples.any? %>
+  <% @samples.each do |sample| %>
+  <p>
+    <%= link_to sample.name, sample_path(sample) %>
+  </p>
+  <% end %>
+<% else %>
+  <p>no matching sample</p>
+<% end %>
+
+<p>
+  <%= link_to 'Sample Index', samples_path %>
+</p>
