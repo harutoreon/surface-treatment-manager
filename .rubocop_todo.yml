@@ -60,8 +60,7 @@ Layout/TrailingEmptyLines:
 Metrics/BlockLength:
   Exclude:
     - 'config/environments/development.rb'
-    - 'spec/requests/samples_spec.rb'
-  Max: 26
+    - 'spec/**/*'
 
 # Offense count: 1
 # Configuration parameters: AllowedMethods, AllowedPatterns.
@@ -237,5 +236,21 @@ Layout/MultilineBlockLayout:
     - 'spec/**/*'
 
 Layout/BlockEndNewline:
+  Exclude:
+    - 'spec/**/*'
+
+Style/RedundantInterpolation:
+  Exclude:
+    - 'app/models/**/*'
+
+Style/Lambda:
+  Exclude:
+    - 'app/models/**/*'
+
+Layout/SpaceInLambdaLiteral:
+  Exclude:
+    - 'app/models/**/*'
+
+Lint/RedundantCopDisableDirective:
   Exclude:
     - 'spec/**/*'
