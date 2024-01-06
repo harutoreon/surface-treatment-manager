@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   resources :samples
 
   get "/search", to: "searches#search"
+  get '/signup', to: 'users#new'
 end
