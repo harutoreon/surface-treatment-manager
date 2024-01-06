@@ -17,5 +17,15 @@ RSpec.describe User, type: :model do
       user.name = 's' * 51
       expect(user).to_not be_valid
     end
+
+    it 'パスワードが空白でないこと' do
+      user.password = user.password_confirmation = ' ' * 6
+      expect(user).to_not be_valid
+    end
+
+    it 'パスワードが6文字以上であること' do
+      user.password = user.password_confirmation = 's' * 5
+      expect(user).to_not be_valid
+    end
   end
 end
