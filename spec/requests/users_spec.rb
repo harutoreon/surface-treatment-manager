@@ -17,9 +17,11 @@ RSpec.describe "Users", type: :request do
       end
     end
 
-    xcontext '有効なユーザー情報のとき' do
-      it '登録が成功すること' do
+    context '有効なユーザー情報のとき' do
+      let(:user_params) { { user: { name: "foobar", password: "foobar", password_confirmation: "foobar" } } }
 
+      it '登録が成功すること' do
+        expect{ post users_path, params: user_params }.to change{ User.count }.from(0).to(1)
       end
     end
   end
