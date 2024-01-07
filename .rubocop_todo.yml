@@ -254,3 +254,7 @@ Layout/SpaceInLambdaLiteral:
 Lint/RedundantCopDisableDirective:
   Exclude:
     - 'spec/**/*'
+
+Layout/SpaceBeforeBlockBraces:
+  Exclude:
+    - 'spec/**/*'
