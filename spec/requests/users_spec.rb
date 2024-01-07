@@ -8,4 +8,19 @@ RSpec.describe "Users", type: :request do
     end
   end
 
+  describe '#create' do
+    context '無効なユーザー情報のとき' do
+      let(:user_params) { { user: { name: "", password: "foobar", password_confirmation: "foobar" } } }
+
+      it '登録が失敗すること' do
+        expect{ post users_path, params: user_params }.to_not change{ User.count }.from(0)
+      end
+    end
+
+    xcontext '有効なユーザー情報のとき' do
+      it '登録が成功すること' do
+
+      end
+    end
+  end
 end
