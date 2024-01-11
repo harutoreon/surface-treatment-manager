@@ -10,7 +10,7 @@ RSpec.describe "Samples", type: :request do
 
     it 'レスポンスが正常であること' do
       get samples_path
-      expect(response).to have_http_status :ok
+      expect(response).to have_http_status(:success)
     end
 
     it '見出しが表示されること' do
@@ -46,7 +46,7 @@ RSpec.describe "Samples", type: :request do
 
     it 'レスポンスが正常であること' do
       get sample_path(sample)
-      expect(response).to have_http_status :ok
+      expect(response).to have_http_status(:success)
     end
 
     it '見出しが表示されること' do
@@ -84,7 +84,7 @@ RSpec.describe "Samples", type: :request do
   describe '#new' do
     it 'レスポンスが正常であること' do
       get new_sample_path
-      expect(response).to have_http_status :ok
+      expect(response).to have_http_status(:success)
     end
 
     it '見出しが表示されること' do
@@ -139,7 +139,7 @@ RSpec.describe "Samples", type: :request do
 
     it 'レスポンスが正常であること' do
       get edit_sample_path(sample)
-      expect(response).to have_http_status :ok
+      expect(response).to have_http_status(:success)
     end
 
     it '見出しが表示されること' do
