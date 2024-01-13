@@ -15,29 +15,29 @@ RSpec.describe "Samples", type: :request do
 
     it '見出しが表示されること' do
       get samples_path
-      expect(response.body).to include "Sample Index"
+      expect(response.body).to include("Sample Index")
     end
 
     it 'div.pagenationが存在すること' do
       get samples_path
-      expect(response.body).to include '<div role="navigation" aria-label="Pagination" class="justify-content-center">'
+      expect(response.body).to include("<div role=\"navigation\" aria-label=\"Pagination\" class=\"justify-content-center\">")
     end
 
     it 'サンプルごとのリンクが存在すること' do
       get samples_path
       Sample.paginate(page: 1).each do |sample|
-        expect(response.body).to include "<a href=\"#{sample_path(sample)}\">"
+        expect(response.body).to include("<a href=\"#{sample_path(sample)}\">")
       end
     end
 
     it 'samples/newのリンクが存在すること' do
       get samples_path
-      expect(response.body).to include "<a href=\"#{new_sample_path}\">"
+      expect(response.body).to include("<a href=\"#{new_sample_path}\">")
     end
 
     it 'headerが表示されること' do
       get samples_path
-      expect(response.body).to include "<a class=\"navbar-brand fs-3\" href=\"#{samples_path}\">Surface Treatment Manager</a>"
+      expect(response.body).to include("<a class=\"navbar-brand fs-3\" href=\"#{samples_path}\">Surface Treatment Manager</a>")
     end
   end
 
@@ -51,33 +51,33 @@ RSpec.describe "Samples", type: :request do
 
     it '見出しが表示されること' do
       get sample_path(sample)
-      expect(response.body).to include "Sample Show"
+      expect(response.body).to include("Sample Show")
     end
 
     it 'samples/editのリンクが存在すること' do
       get sample_path(sample)
-      expect(response.body).to include "<a href=\"#{edit_sample_path(sample)}\">"
+      expect(response.body).to include("<a href=\"#{edit_sample_path(sample)}\">")
     end
 
     it 'samples/destroyのリンクが存在すること' do
       get sample_path(sample)
       sample_id = sample.id
-      expect(response.body).to include "<a data-turbo-method=\"delete\" data-turbo-confirm=\"Are you sure?\" href=\"/samples/#{sample_id}\">"
+      expect(response.body).to include("<a data-turbo-method=\"delete\" data-turbo-confirm=\"Are you sure?\" href=\"/samples/#{sample_id}\">")
     end
 
     it 'samples/indexのリンクが存在すること' do
       get sample_path(sample)
-      expect(response.body).to include "<a href=\"#{samples_path}\">"
+      expect(response.body).to include("<a href=\"#{samples_path}\">")
     end
 
     it 'headerが表示されること' do
       get sample_path(sample)
-      expect(response.body).to include "<a class=\"navbar-brand fs-3\" href=\"#{samples_path}\">Surface Treatment Manager</a>"
+      expect(response.body).to include("<a class=\"navbar-brand fs-3\" href=\"#{samples_path}\">Surface Treatment Manager</a>")
     end
 
     it 'img要素が存在すること' do
       get sample_path(sample)
-      expect(response.body).to include "<img src=\"/uploads_test/sample/picture/#{sample.id}/test.jpg\" />"
+      expect(response.body).to include("<img src=\"/uploads_test/sample/picture/#{sample.id}/test.jpg\" />")
     end
   end
 
@@ -89,22 +89,22 @@ RSpec.describe "Samples", type: :request do
 
     it '見出しが表示されること' do
       get new_sample_path
-      expect(response.body).to include "Sample New"
+      expect(response.body).to include("Sample New")
     end
 
     it 'samples/indexのリンクが存在すること' do
       get new_sample_path
-      expect(response.body).to include "<a href=\"#{samples_path}\">"
+      expect(response.body).to include("<a href=\"#{samples_path}\">")
     end
 
     it 'headerが表示されること' do
       get new_sample_path
-      expect(response.body).to include "<a class=\"navbar-brand fs-3\" href=\"#{samples_path}\">Surface Treatment Manager</a>"
+      expect(response.body).to include("<a class=\"navbar-brand fs-3\" href=\"#{samples_path}\">Surface Treatment Manager</a>")
     end
 
     it 'ファイル選択用のinput要素が存在すること' do
       get new_sample_path
-      expect(response.body).to include "type=\"file\""
+      expect(response.body).to include("type=\"file\"")
     end
   end
 
@@ -144,22 +144,22 @@ RSpec.describe "Samples", type: :request do
 
     it '見出しが表示されること' do
       get edit_sample_path(sample)
-      expect(response.body).to include "Sample Edit"
+      expect(response.body).to include("Sample Edit")
     end
 
     it 'samples/showのリンクが存在するか' do
       get edit_sample_path(sample)
-      expect(response.body).to include "<a href=\"#{sample_path(sample)}\">"
+      expect(response.body).to include("<a href=\"#{sample_path(sample)}\">")
     end
 
     it 'headerが表示されること' do
       get edit_sample_path(sample)
-      expect(response.body).to include "<a class=\"navbar-brand fs-3\" href=\"#{samples_path}\">Surface Treatment Manager</a>"
+      expect(response.body).to include("<a class=\"navbar-brand fs-3\" href=\"#{samples_path}\">Surface Treatment Manager</a>")
     end
 
     it 'img要素が存在すること' do
       get edit_sample_path(sample)
-      expect(response.body).to include "<img src=\"/uploads_test/sample/picture/#{sample.id}/test.jpg\" />"
+      expect(response.body).to include("<img src=\"/uploads_test/sample/picture/#{sample.id}/test.jpg\" />")
     end
   end
 
