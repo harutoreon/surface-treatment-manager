@@ -122,7 +122,7 @@ RSpec.describe "Samples", type: :request do
     it 'samples/showにリダイレクトされること' do
       post samples_path, params: sample_params
       sample = Sample.last
-      expect(response).to redirect_to sample
+      expect(response).to redirect_to(sample)
     end
 
     it '登録が失敗すること' do
@@ -175,7 +175,7 @@ RSpec.describe "Samples", type: :request do
     it 'samples/showにリダイレクトされること' do
       patch sample_path(sample), params: { sample: { name: "ハードクロムめっき" } }
       sample.reload
-      expect(response).to redirect_to sample
+      expect(response).to redirect_to(sample)
     end
 
     it '更新が失敗すること' do
@@ -196,7 +196,7 @@ RSpec.describe "Samples", type: :request do
 
     it 'static_pages#homeにリダイレクトされること' do
       delete sample_path(sample)
-      expect(response).to redirect_to samples_path
+      expect(response).to redirect_to(samples_path)
     end
   end
 end
