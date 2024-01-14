@@ -207,6 +207,7 @@ Style/WordArray:
 Style/HashSyntax:
   Exclude:
     - 'db/**/*'
+    - 'app/models/**/*'
 
 Style/GuardClause:
   Exclude:
