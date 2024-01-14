@@ -258,3 +258,7 @@ Lint/RedundantCopDisableDirective:
 Layout/SpaceBeforeBlockBraces:
   Exclude:
     - 'spec/**/*'
+
+Style/SafeNavigation:
+  Exclude:
+    - 'app/controllers/*'
