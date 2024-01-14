@@ -117,6 +117,7 @@ Style/IfUnlessModifier:
     - 'bin/bundle'
     - 'app/models/**/*'
     - 'spec/**/*'
+    - 'app/helpers/**/*'
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
@@ -210,6 +211,7 @@ Style/HashSyntax:
 Style/GuardClause:
   Exclude:
     - 'app/models/**/*'
+    - 'app/helpers/**/*'
 
 Layout/IndentationStyle:
   Exclude:
