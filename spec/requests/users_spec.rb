@@ -23,6 +23,11 @@ RSpec.describe "Users", type: :request do
       it '登録が成功すること' do
         expect{ post users_path, params: user_params }.to change{ User.count }.from(0).to(1)
       end
+
+      it 'ログイン状態であること' do
+        post users_path, params: user_params
+        expect(logged_in?).to be_truthy
+      end
     end
   end
 end
