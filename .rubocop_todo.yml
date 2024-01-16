@@ -117,6 +117,7 @@ Style/IfUnlessModifier:
     - 'bin/bundle'
     - 'app/models/**/*'
     - 'spec/**/*'
+    - 'app/helpers/**/*'
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
@@ -206,10 +207,12 @@ Style/WordArray:
 Style/HashSyntax:
   Exclude:
     - 'db/**/*'
+    - 'app/models/**/*'
 
 Style/GuardClause:
   Exclude:
     - 'app/models/**/*'
+    - 'app/helpers/**/*'
 
 Layout/IndentationStyle:
   Exclude:
@@ -258,3 +261,7 @@ Lint/RedundantCopDisableDirective:
 Layout/SpaceBeforeBlockBraces:
   Exclude:
     - 'spec/**/*'
+
+Style/SafeNavigation:
+  Exclude:
+    - 'app/controllers/*'
