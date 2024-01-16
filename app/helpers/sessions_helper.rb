@@ -9,8 +9,6 @@ module SessionsHelper
     end
   end
 
-  # ログインしないとメイン画面（samples_path）に飛ばない仕様にするため、
-  # このメソッドはコメントアウトする
   # def logged_in?
   #   !current_user.nil?
   # end
