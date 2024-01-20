@@ -57,6 +57,35 @@ RSpec.describe "Users", type: :request do
         expect(user.password).to_not eq('foo')
         expect(user.password_confirmation).to_not eq('bar')
       end
+
+      it 'editページが表示されること' do
+        patch user_path(user), params: { user: { name: '', password: 'foo', password_confirmation: 'bar' } }
+
+        expect(response.body).to include("User Edit")
+      end
+    end
+
+    context '有効な値の場合' do
+      it '更新できること' do
+        patch user_path(user), params: { user: { name: 'Example User', password: 'foobar', password_confirmation: 'foobar' } }
+
+        user.reload
+        expect(user.name).to eq('Example User')
+        expect(user.password).to eq('foobar')
+        expect(user.password_confirmation).to eq('foobar')
+      end
+
+      it 'showページにリダイレクトされること' do
+        patch user_path(user), params: { user: { name: 'Example User', password: 'foobar', password_confirmation: 'foobar' } }
+
+        expect(response).to redirect_to user
+      end
+
+      it 'フラッシュメッセージが表示されていること' do
+        patch user_path(user), params: { user: { name: 'Example User', password: 'foobar', password_confirmation: 'foobar' } }
+
+        expect(flash).to be_any
+      end
     end
   end
 end
