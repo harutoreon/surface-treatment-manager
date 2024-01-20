@@ -30,4 +30,33 @@ RSpec.describe "Users", type: :request do
       end
     end
   end
+
+  describe '#edit' do
+    let!(:user) { FactoryBot.create(:user) }
+
+    it 'レスポンスが正常であること' do
+      get edit_user_path(user)
+      expect(response).to have_http_status(:success)
+    end
+
+    it '見出しが表示されること' do
+      get edit_user_path(user)
+      expect(response.body).to include("User Edit")
+    end
+  end
+
+  describe '#update' do
+    let!(:user) { FactoryBot.create(:user) }
+
+    context '無効な値の場合' do
+      it '更新できないこと' do
+        patch user_path(user), params: { user: { name: '', password: 'foo', password_confirmation: 'bar' } }
+
+        user.reload
+        expect(user.name).to_not eq('')
+        expect(user.password).to_not eq('foo')
+        expect(user.password_confirmation).to_not eq('bar')
+      end
+    end
+  end
 end
