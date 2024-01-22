@@ -37,3 +37,5 @@ Faker::Config.locale = 'ja'
   picture  = File.open("app/assets/images/kitten.jpg")
   Sample.create!(name: name, category: category, color: color, maker: maker, picture: picture)
 end
+
+User.create!(name: "Example User", password: "foobar", password_confirmation: "foobar", admin: true)
