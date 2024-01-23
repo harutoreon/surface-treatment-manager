@@ -39,3 +39,4 @@ Faker::Config.locale = 'ja'
 end
 
 User.create!(name: "Example User", password: "foobar", password_confirmation: "foobar", admin: true)
+User.create!(name: "Sample User", password: "foobaz", password_confirmation: "foobaz")

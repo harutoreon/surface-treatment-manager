@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :admin_user, only: :destroy
+
   def show
     @user = User.find(params[:id])
   end
@@ -34,9 +36,19 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    User.find(params[:id]).destroy
+    flash[:success] = "User deleted"
+    redirect_to samples_url, status: :see_other
+  end
+
   private
 
     def user_params
       params.require(:user).permit(:name, :password, :password_confirmation)
+    end
+
+    def admin_user
+      redirect_to(login_url) unless current_user.admin?
     end
 end
