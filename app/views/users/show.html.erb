@@ -17,5 +17,10 @@
     <div class="mb-3 fs-5">
       This user is logging in.
     </div>
+    <div class="mb-3">
+      <% if current_user.admin? && !current_user?(@user)%>
+        <%= link_to "User destroy", @user, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+      <% end %>
+    </div>
   </div>
 <% end %>
