@@ -93,7 +93,7 @@ RSpec.describe "Users", type: :request do
     let!(:user)       { FactoryBot.create(:user) }
     let!(:other_user) { FactoryBot.create(:archer) }
 
-    context 'ログインしてない時は' do
+    context 'ログインしてないユーザーであれば' do
       it '削除できないこと' do
         expect { delete user_path(user) }.to_not change{ User.count }.from(2)
       end
@@ -121,6 +121,12 @@ RSpec.describe "Users", type: :request do
       it '削除できること' do
         log_in(user)
         expect { delete user_path(other_user) }.to change{ User.count }.from(2).to(1)
+      end
+
+      it 'サンプル一覧画面にリダイレクトされること' do
+        log_in(user)
+        delete user_path(other_user)
+        expect(response).to redirect_to samples_url
       end
     end
   end
