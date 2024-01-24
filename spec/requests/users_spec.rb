@@ -88,4 +88,40 @@ RSpec.describe "Users", type: :request do
       end
     end
   end
+
+  describe '#destroy' do
+    let!(:user)       { FactoryBot.create(:user) }
+    let!(:other_user) { FactoryBot.create(:archer) }
+
+    context 'ログインしてない時は' do
+      it '削除できないこと' do
+        expect { delete user_path(user) }.to_not change{ User.count }.from(2)
+      end
+
+      it 'ログイン画面にリダイレクトされること' do
+        delete user_path(user)
+        expect(response).to redirect_to login_url
+      end
+    end
+
+    context 'ログイン済みユーザーでも管理者ユーザーでなければ' do
+      it '削除できないこと' do
+        log_in(other_user)
+        expect { delete user_path(user) }.to_not change{ User.count }.from(2)
+      end
+
+      it 'ログイン画面にリダイレクトされること' do
+        log_in(other_user)
+        delete user_path(user)
+        expect(response).to redirect_to login_url
+      end
+    end
+
+    context '管理者ユーザーでログインすれば' do
+      it '削除できること' do
+        log_in(user)
+        expect { delete user_path(other_user) }.to change{ User.count }.from(2).to(1)
+      end
+    end
+  end
 end

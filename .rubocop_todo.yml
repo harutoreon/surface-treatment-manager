@@ -213,6 +213,7 @@ Style/GuardClause:
   Exclude:
     - 'app/models/**/*'
     - 'app/helpers/**/*'
+    - 'app/controllers/**/*'
 
 Layout/IndentationStyle:
   Exclude:
