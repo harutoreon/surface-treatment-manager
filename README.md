@@ -14,7 +14,6 @@
 - Sass
 - RSpec
 - Rubocop
-- Rake
 - PostgreSQL
 - CircleCI
 - Render
@@ -34,9 +33,7 @@
 - 画像アップロード機能
 - 検索機能
 - ログイン・ログアウト機能
-<!--
-- 新着情報表示機能
-- 管理者機能 -->
+- 管理者機能
 
 ## テスト
 - RSpec
