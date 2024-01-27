@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Sessions", type: :request do
   describe "#new" do
     it "レスポンスが正常であること" do
-      get login_path
+      get root_path
       expect(response).to have_http_status(:success)
     end
   end

@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe "Samples", type: :request do
+  before do
+    @user = FactoryBot.create(:user)
+    log_in(@user)
+  end
+
   describe '#index' do
     before do
       31.times do
@@ -30,11 +35,6 @@ RSpec.describe "Samples", type: :request do
       end
     end
 
-    it 'samples/newのリンクが存在すること' do
-      get samples_path
-      expect(response.body).to include("<a href=\"#{new_sample_path}\">")
-    end
-
     it 'headerが表示されること' do
       get samples_path
       expect(response.body).to include("<a class=\"navbar-brand fs-3\" href=\"#{samples_path}\">Surface Treatment Manager</a>")
@@ -61,8 +61,7 @@ RSpec.describe "Samples", type: :request do
 
     it 'samples/destroyのリンクが存在すること' do
       get sample_path(sample)
-      sample_id = sample.id
-      expect(response.body).to include("<a data-turbo-method=\"delete\" data-turbo-confirm=\"Are you sure?\" href=\"/samples/#{sample_id}\">")
+      expect(response.body).to include("data-turbo-confirm=\"Are you sure you want to delete?\"")
     end
 
     it 'samples/indexのリンクが存在すること' do

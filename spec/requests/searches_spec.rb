@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe "Searches", type: :request do
+  before do
+    @user = FactoryBot.create(:user)
+    log_in(@user)
+  end
+
   describe "#search" do
     before do
       5.times do
