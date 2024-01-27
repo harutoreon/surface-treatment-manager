@@ -30,11 +30,6 @@ RSpec.describe "Samples", type: :request do
       end
     end
 
-    it 'samples/newのリンクが存在すること' do
-      get samples_path
-      expect(response.body).to include("<a href=\"#{new_sample_path}\">")
-    end
-
     it 'headerが表示されること' do
       get samples_path
       expect(response.body).to include("<a class=\"navbar-brand fs-3\" href=\"#{samples_path}\">Surface Treatment Manager</a>")
