@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe "Samples", type: :request do
+  before do
+    @user = FactoryBot.create(:user)
+    log_in(@user)
+  end
+
   describe '#index' do
     before do
       31.times do
