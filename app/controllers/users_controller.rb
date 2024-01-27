@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     if @user.save
       log_in @user
       flash[:success] = "Welcome to the Surface Treatment Manager!"
-      redirect_to samples_path
+      redirect_to samples_url
     else
       render :new, status: :unprocessable_entity
     end
