@@ -1,9 +1,4 @@
 <div class="container">
-<div class="text-center fs-1 mt-5 mb-3">
-    Welcome to the Surface Treatment Manager.<br>
-    Please, Create an account.
-  </div>
-
   <div class="text-center fs-1 mt-5 mb-3">
     Sign up
   </div>
@@ -32,5 +27,9 @@
         <%= form.submit "Create my account", class: "btn btn-primary" %>
       </div>
     <% end %>
+  </div>
+
+  <div class="text-center mt-5">
+    <%= link_to "If you have an account, click here.", login_path %>
   </div>
 </div>
