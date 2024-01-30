@@ -1,50 +1,20 @@
-# NAMES = [
-#   "金めっき",
-#   "銀めっき",
-#   "銅めっき",
-#   "亜鉛めっき",
-#   "光沢ニッケルめっき",
-#   "無光沢ニッケルめっき",
-#   "黒色ニッケルめっき",
-#   "ハードクロムめっき",
-#   "無電解銀めっき",
-#   "無電解銅めっき",
-#   "無電解ニッケルめっき",
-#   "無電解スズめっき",
-#   "無電解金めっき",
-#   "アルマイト",
-#   "クロメート",
-#   "パーカー",
-#   "黒染め",
-#   "高周波焼入れ"
-# ]
-
-# CATEGORYS = [
-#   "めっき",
-#   "コーティング",
-#   "陽極酸化",
-#   "化成",
-#   "表面硬化"
-# ]
-
-# 99.times do
-#   name     = NAMES.sample
-#   category = CATEGORYS.sample
-#   color    = Faker::Color.color_name
-#   maker    = Faker::Company.name
-#   picture  = File.open("app/assets/images/kitten.jpg")
-#   Sample.create!(name: name, category: category, color: color, maker: maker, picture: picture)
-# end
-
 Faker::Config.locale = 'ja'
-
-# 表面処理一覧
-SAMPLES  = ["無電解ニッケルめっき", "めっき", "飴色のシルバー"]
-maker    = Faker::Company.name
-picture  = File.open("app/assets/images/kitten.jpg")
-
-Sample.create!(name: SAMPLES[0], category: SAMPLES[1], color: SAMPLES[2], maker: maker, picture: picture)
 
 # ユーザー
 User.create!(name: "Example User", password: "foobar", password_confirmation: "foobar", admin: true)
 User.create!(name: "Sample User", password: "foobaz", password_confirmation: "foobaz")
+
+# 表面処理一覧
+SAMPLES = [
+  { name: "無電解ニッケルめっき", category: "めっき", color: "飴色のシルバー", maker: Faker::Company.name },
+  { name: "白銀めっき", category: "めっき", color: "シルバー", maker: Faker::Company.name },
+  { name: "金めっき", category: "めっき", color: "ゴールド", maker: Faker::Company.name },
+  { name: "銀めっき", category: "めっき", color: "シルバー", maker: Faker::Company.name },
+  { name: "銅めっき", category: "めっき", color: "ブロンズ", maker: Faker::Company.name }
+]
+
+picture = File.open("app/assets/images/kitten.jpg")
+
+SAMPLES.each do |sample|
+  Sample.create!(name: sample[:name], category: sample[:category], color: sample[:color], maker: sample[:maker], picture: picture)
+end
