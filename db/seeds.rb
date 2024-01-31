@@ -18,7 +18,17 @@ SAMPLES = [
   { name: "黒色クロムめっき", category: "めっき", color: "マットブラック", maker: Faker::Company.name },
   { name: "白アルマイト", category: "陽極酸化", color: "ホワイト", maker: Faker::Company.name },
   { name: "黒アルマイト", category: "陽極酸化", color: "ブラック", maker: Faker::Company.name },
-  { name: "硬質アルマイト", category: "陽極酸化", color: "ダークブラウン", maker: Faker::Company.name }
+  { name: "硬質アルマイト", category: "陽極酸化", color: "ダークブラウン", maker: Faker::Company.name },
+  { name: "ユニクロクロメート", category: "化成", color: "シルバー", maker: Faker::Company.name },
+  { name: "有色クロメート", category: "化成", color: "イエローブラウン", maker: Faker::Company.name },
+  { name: "黒クロメート", category: "化成", color: "ブラック", maker: Faker::Company.name },
+  { name: "緑クロメート", category: "化成", color: "オリーブ", maker: Faker::Company.name }
+  # { name: "", category: "", color: "", maker: Faker::Company.name },
+  # { name: "", category: "", color: "", maker: Faker::Company.name },
+  # { name: "", category: "", color: "", maker: Faker::Company.name },
+  # { name: "", category: "", color: "", maker: Faker::Company.name },
+  # { name: "", category: "", color: "", maker: Faker::Company.name },
+  # { name: "", category: "", color: "", maker: Faker::Company.name },
 ]
 
 picture = File.open("app/assets/images/kitten.jpg")
