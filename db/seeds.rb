@@ -22,9 +22,9 @@ SAMPLES = [
   { name: "ユニクロクロメート", category: "化成", color: "シルバー", maker: Faker::Company.name },
   { name: "有色クロメート", category: "化成", color: "イエローブラウン", maker: Faker::Company.name },
   { name: "黒クロメート", category: "化成", color: "ブラック", maker: Faker::Company.name },
-  { name: "緑クロメート", category: "化成", color: "オリーブ", maker: Faker::Company.name }
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
+  { name: "緑クロメート", category: "化成", color: "オリーブ", maker: Faker::Company.name },
+  { name: "四三酸化鉄皮膜", category: "化成", color: "ブラック", maker: Faker::Company.name },
+  { name: "パーカー", category: "化成", color: "ブラック", maker: Faker::Company.name }
   # { name: "", category: "", color: "", maker: Faker::Company.name },
   # { name: "", category: "", color: "", maker: Faker::Company.name },
   # { name: "", category: "", color: "", maker: Faker::Company.name },
