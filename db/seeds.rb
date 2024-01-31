@@ -15,24 +15,10 @@ SAMPLES = [
   { name: "錫めっき", category: "めっき", color: "ホワイトシルバー", maker: Faker::Company.name },
   { name: "ニッケルめっき", category: "めっき", color: "ライトシルバー", maker: Faker::Company.name },
   { name: "クロムめっき", category: "めっき", color: "シルバー", maker: Faker::Company.name },
-  { name: "黒色クロムめっき", category: "めっき", color: "マットブラック", maker: Faker::Company.name }
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
+  { name: "黒色クロムめっき", category: "めっき", color: "マットブラック", maker: Faker::Company.name },
+  { name: "白アルマイト", category: "陽極酸化", color: "ホワイト", maker: Faker::Company.name },
+  { name: "黒アルマイト", category: "陽極酸化", color: "ブラック", maker: Faker::Company.name },
+  { name: "硬質アルマイト", category: "陽極酸化", color: "ダークブラウン", maker: Faker::Company.name }
 ]
 
 picture = File.open("app/assets/images/kitten.jpg")
