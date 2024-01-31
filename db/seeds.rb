@@ -24,7 +24,17 @@ SAMPLES = [
   { name: "黒クロメート", category: "化成", color: "ブラック", maker: Faker::Company.name },
   { name: "緑クロメート", category: "化成", color: "オリーブ", maker: Faker::Company.name },
   { name: "四三酸化鉄皮膜", category: "化成", color: "ブラック", maker: Faker::Company.name },
-  { name: "パーカー", category: "化成", color: "ブラック", maker: Faker::Company.name }
+  { name: "パーカー", category: "化成", color: "ブラック", maker: Faker::Company.name },
+  { name: "TiN", category: "コーティング", color: "ゴールド", maker: Faker::Company.name },
+  { name: "TiC", category: "コーティング", color: "シルバー", maker: Faker::Company.name },
+  { name: "TiCN", category: "コーティング", color: "グレー", maker: Faker::Company.name },
+  { name: "TiAlN", category: "コーティング", color: "ダークバイオレット", maker: Faker::Company.name },
+  { name: "AlCrN", category: "コーティング", color: "ダークグレー", maker: Faker::Company.name },
+  { name: "CrN", category: "コーティング", color: "シルバーグレー", maker: Faker::Company.name },
+  { name: "DLC", category: "コーティング", color: "ブラック", maker: Faker::Company.name }
+  # { name: "", category: "", color: "", maker: Faker::Company.name },
+  # { name: "", category: "", color: "", maker: Faker::Company.name },
+  # { name: "", category: "", color: "", maker: Faker::Company.name },
   # { name: "", category: "", color: "", maker: Faker::Company.name },
   # { name: "", category: "", color: "", maker: Faker::Company.name },
   # { name: "", category: "", color: "", maker: Faker::Company.name },
