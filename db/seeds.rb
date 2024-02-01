@@ -31,14 +31,14 @@ SAMPLES = [
   { name: "TiAlN", category: "コーティング", color: "ダークバイオレット", maker: Faker::Company.name },
   { name: "AlCrN", category: "コーティング", color: "ダークグレー", maker: Faker::Company.name },
   { name: "CrN", category: "コーティング", color: "シルバーグレー", maker: Faker::Company.name },
-  { name: "DLC", category: "コーティング", color: "ブラック", maker: Faker::Company.name }
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
-  # { name: "", category: "", color: "", maker: Faker::Company.name },
+  { name: "DLC", category: "コーティング", color: "ブラック", maker: Faker::Company.name },
+  { name: "ブラスト", category: "表面硬化", color: "メタリックグレー", maker: Faker::Company.name },
+  { name: "WPC", category: "表面硬化", color: "グレー", maker: Faker::Company.name },
+  { name: "レイデント", category: "めっき", color: "ブラック", maker: Faker::Company.name },
+  { name: "パルソナイト", category: "表面硬化", color: "グレー", maker: Faker::Company.name },
+  { name: "タフトライド", category: "表面硬化", color: "グレー", maker: Faker::Company.name },
+  { name: "キリンコートS", category: "表面硬化", color: "メタリックグレー", maker: Faker::Company.name },
+  { name: "カナック", category: "表面硬化", color: "ブラウン", maker: Faker::Company.name }
 ]
 
 picture = File.open("app/assets/images/kitten.jpg")
