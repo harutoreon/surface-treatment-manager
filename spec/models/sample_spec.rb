@@ -27,7 +27,12 @@ RSpec.describe Sample, type: :model do # rubocop:disable Metrics/BlockLength
     expect(sample).to_not be_valid
   end
 
-  describe 'scope' do # rubocop:disable Metrics/BlockLength
+  it 'pictureが存在すること' do
+    sample.picture = ''
+    expect(sample).to_not be_valid
+  end
+
+  describe 'scope' do
     describe '#search' do
       before do
         5.times do
