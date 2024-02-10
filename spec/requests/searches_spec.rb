@@ -23,4 +23,40 @@ RSpec.describe "Searches", type: :request do
       expect(response.body).to include("無電解ニッケルめっき")
     end
   end
+
+  describe '#name_search' do
+    it 'レスポンスが正常であること' do
+      get name_search_path
+      expect(response).to have_http_status(:success)
+    end
+
+    it '見出しが表示されること' do
+      get name_search_path
+      expect(response.body).to include("Searches Name Search")
+    end
+  end
+
+  describe '#category_search' do
+    it 'レスポンスが正常であること' do
+      get category_search_path
+      expect(response).to have_http_status(:success)
+    end
+
+    it '見出しが表示されること' do
+      get category_search_path
+      expect(response.body).to include("Searches Category Search")
+    end
+  end
+
+  describe '#maker_search' do
+    it 'レスポンスが正常であること' do
+      get maker_search_path
+      expect(response).to have_http_status(:success)
+    end
+
+    it '見出しが表示されること' do
+      get maker_search_path
+      expect(response.body).to include("Searches Maker Search")
+    end
+  end
 end
