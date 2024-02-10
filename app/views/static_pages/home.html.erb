@@ -1,8 +1,35 @@
-<div class="container text-center">
-  <div class="row">
-    <div class="welcome-message">Welcome to Surface Treatment Manager</div>
-  </div>
-  <div class="row">
-    <%= link_to "Sample Index", samples_path %>
+<%= render 'shared/header' %>
+
+<div class="container">
+  <div class="fs-1 text-center mb-5">Search Menu</div>
+
+  <div class="row justify-content-center">
+    <div class="card" style="width: 18rem;">
+      <% if sample_exists? %>
+        <%= image_tag("experiment.svg", alt: "image cap", class: "card-img-top") %>
+      <% else %>
+        <%= image_tag("science.svg", alt: "image cap", class: "card-img-top") %>
+      <% end %>
+      <div class="card-body text-center">
+        <div class="card-title fs-5 mb-3">Name by search</div>
+        <%= link_to  "Go search page", name_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+
+    <div class="card ms-5 me-5" style="width: 18rem;">
+      <%= image_tag("category.svg", alt: "image cap", class: "card-img-top") %>
+      <div class="card-body text-center">
+        <div class="card-title fs-5 mb-3">Category by search</div>
+        <%= link_to  "Go search page", category_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+
+    <div class="card" style="width: 18rem;">
+      <%= image_tag("factory.svg", alt: "image cap", class: "card-img-top") %>
+      <div class="card-body text-center">
+        <div class="card-title fs-5 mb-3">Maker by search</div>
+        <%= link_to  "Go search page", maker_path, class: "btn btn-primary" %>
+      </div>
+    </div>
   </div>
 </div>

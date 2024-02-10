@@ -1,20 +1,71 @@
 require 'rails_helper'
 
 RSpec.describe "StaticPages", type: :request do
-  # describe "#home" do
-  #   it "レスポンスが正常であること" do
-  #     get root_path
-  #     expect(response).to have_http_status(:success)
-  #   end
+  describe "#home" do
+    before do
+      @user = FactoryBot.create(:user)
+      log_in(@user)
+    end
 
-  #   it 'Welcomeメッセージが表示されること' do
-  #     get root_path
-  #     expect(response.body).to include "Welcome to Surface Treatment Manager"
-  #   end
+    it "レスポンスが正常であること" do
+      get home_path
+      expect(response).to have_http_status(:success)
+    end
 
-  #   it 'samples/indexのリンクが存在すること' do
-  #     get root_path
-  #     expect(response.body).to include "<a href=\"#{samples_path}\">"
-  #   end
-  # end
+    it '見出しが表示されること' do
+      get home_path
+      expect(response.body).to include("Search Menu")
+    end
+  end
+
+  describe '#name' do
+    before do
+      @user = FactoryBot.create(:user)
+      log_in(@user)
+    end
+
+    it 'レスポンスが正常であること' do
+      get name_path
+      expect(response).to have_http_status(:success)
+    end
+
+    it '見出しが表示されること' do
+      get name_path
+      expect(response.body).to include("Search Name")
+    end
+  end
+
+  describe '#category' do
+    before do
+      @user = FactoryBot.create(:user)
+      log_in(@user)
+    end
+
+    it 'レスポンスが正常であること' do
+      get category_path
+      expect(response).to have_http_status(:success)
+    end
+
+    it '見出しが表示されること' do
+      get category_path
+      expect(response.body).to include("Search Category")
+    end
+  end
+
+  describe '#maker' do
+    before do
+      @user = FactoryBot.create(:user)
+      log_in(@user)
+    end
+
+    it 'レスポンスが正常であること' do
+      get maker_path
+      expect(response).to have_http_status(:success)
+    end
+
+    it '見出しが表示されること' do
+      get maker_path
+      expect(response.body).to include("Search Maker")
+    end
+  end
 end
