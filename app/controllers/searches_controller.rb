@@ -4,6 +4,7 @@ class SearchesController < ApplicationController
   end
 
   def name_search
+    @samples = Sample.name_search(params[:keyword])
   end
 
   def category_search

@@ -25,6 +25,12 @@ RSpec.describe "Searches", type: :request do
   end
 
   describe '#name_search' do
+    before do
+      5.times do
+        FactoryBot.create(:sample_list)
+      end
+    end
+
     it 'レスポンスが正常であること' do
       get name_search_path
       expect(response).to have_http_status(:success)
@@ -32,7 +38,12 @@ RSpec.describe "Searches", type: :request do
 
     it '見出しが表示されること' do
       get name_search_path
-      expect(response.body).to include("Searches Name Search")
+      expect(response.body).to include("Search Result")
+    end
+
+    it '"めっき"を含んだ処理名が表示されること' do
+      get name_search_path, params: { keyword: 'めっき' }
+      expect(response.body).to include("無電解ニッケルめっき")
     end
   end
 

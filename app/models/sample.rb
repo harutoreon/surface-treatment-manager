@@ -15,6 +15,10 @@ class Sample < ApplicationRecord
     send("#{search}_search")
   end
 
+  def self.name_search(keyword)
+    Sample.where('name LIKE ?', "%#{keyword}%")
+  end
+
   private
 
     def picture_size
