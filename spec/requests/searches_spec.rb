@@ -60,6 +60,12 @@ RSpec.describe "Searches", type: :request do
   end
 
   describe '#maker_search' do
+    before do
+      5.times do
+        FactoryBot.create(:sample_list)
+      end
+    end
+
     it 'レスポンスが正常であること' do
       get maker_search_path
       expect(response).to have_http_status(:success)
@@ -67,7 +73,12 @@ RSpec.describe "Searches", type: :request do
 
     it '見出しが表示されること' do
       get maker_search_path
-      expect(response.body).to include("Searches Maker Search")
+      expect(response.body).to include("Search Result")
+    end
+
+    it '"無電解ニッケルめっき"が表示されること' do
+      get maker_search_path, params: { keyword: '株式会社' }
+      expect(response.body).to include("無電解ニッケルめっき")
     end
   end
 end
