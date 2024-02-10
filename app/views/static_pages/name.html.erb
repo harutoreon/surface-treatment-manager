@@ -1,1 +1,10 @@
-<h1>name search page</h1>
+<%= render 'shared/header' %>
+
+<div class="container w-25">
+  <div class="fs-1 text-center mb-5">Search Name</div>
+
+  <%= form_with url: "#", method: :get do |form| %>
+    <%= form.text_field :keyword, class: "form-control mb-3", placeholder: "input keyword here." %>
+    <%= form.submit "Search", class: "form-control btn btn-secondary" %>
+  <% end %>
+</div>

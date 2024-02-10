@@ -19,9 +19,19 @@ RSpec.describe "StaticPages", type: :request do
   end
 
   describe '#name' do
+    before do
+      @user = FactoryBot.create(:user)
+      log_in(@user)
+    end
+
     it 'レスポンスが正常であること' do
       get name_path
       expect(response).to have_http_status(:success)
+    end
+
+    it '見出しが表示されること' do
+      get name_path
+      expect(response.body).to include("Search Name")
     end
   end
 
