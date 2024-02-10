@@ -19,6 +19,10 @@ class Sample < ApplicationRecord
     Sample.where('name LIKE ?', "%#{keyword}%")
   end
 
+  def self.category_search(search)
+    Sample.where('category LIKE ?', "%#{search}%")
+  end
+
   def self.maker_search(keyword)
     Sample.where('maker LIKE ?', "%#{keyword}%")
   end

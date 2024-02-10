@@ -3,7 +3,7 @@
 <div class="container w-25">
   <div class="fs-1 text-center mb-5">Search Category</div>
 
-  <%= form_with url: "#", method: :get do |form| %>
+  <%= form_with url: category_search_path, method: :get do |form| %>
     <%= form.select :search, ["めっき", "陽極酸化", "化成", "コーティング", "表面硬化"], { include_blank: true }, { class: "form-select mb-3" } %>
     <%= form.submit "Search", class: "form-control mb-5 btn btn-secondary" %>
   <% end %>

@@ -8,6 +8,7 @@ class SearchesController < ApplicationController
   end
 
   def category_search
+    @samples = Sample.category_search(params[:search])
   end
 
   def maker_search
