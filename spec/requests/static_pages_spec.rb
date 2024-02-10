@@ -2,9 +2,19 @@ require 'rails_helper'
 
 RSpec.describe "StaticPages", type: :request do
   describe "#home" do
+    before do
+      @user = FactoryBot.create(:user)
+      log_in(@user)
+    end
+
     it "レスポンスが正常であること" do
-      get root_path
+      get home_path
       expect(response).to have_http_status(:success)
+    end
+
+    it '見出しが表示されること' do
+      get home_path
+      expect(response.body).to include("Search Menu")
     end
   end
 
