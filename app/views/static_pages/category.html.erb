@@ -5,6 +5,8 @@
 
   <%= form_with url: "#", method: :get do |form| %>
     <%= form.select :search, ["めっき", "陽極酸化", "化成", "コーティング", "表面硬化"], { include_blank: true }, { class: "form-select mb-3" } %>
-    <%= form.submit "Search", class: "form-control btn btn-secondary" %>
+    <%= form.submit "Search", class: "form-control mb-5 btn btn-secondary" %>
   <% end %>
+
+  <div class="text-center"><%= link_to "Search Menu", home_path %></div>
 </div>
