@@ -43,9 +43,19 @@ RSpec.describe "StaticPages", type: :request do
   end
 
   describe '#maker' do
+    before do
+      @user = FactoryBot.create(:user)
+      log_in(@user)
+    end
+
     it 'レスポンスが正常であること' do
       get maker_path
       expect(response).to have_http_status(:success)
+    end
+
+    it '見出しが表示されること' do
+      get maker_path
+      expect(response.body).to include("Search Maker")
     end
   end
 end
