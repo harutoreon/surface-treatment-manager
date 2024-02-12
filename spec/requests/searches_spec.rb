@@ -2,17 +2,15 @@ require 'rails_helper'
 
 RSpec.describe "Searches", type: :request do
   before do
-    @user = FactoryBot.create(:user)
-    log_in(@user)
+    user = FactoryBot.create(:user)
+    log_in(user)
+
+    5.times do
+      FactoryBot.create(:sample_list)
+    end
   end
 
   describe '#name_search' do
-    before do
-      5.times do
-        FactoryBot.create(:sample_list)
-      end
-    end
-
     it 'レスポンスが正常であること' do
       get name_search_path
       expect(response).to have_http_status(:success)
@@ -30,12 +28,6 @@ RSpec.describe "Searches", type: :request do
   end
 
   describe '#category_search' do
-    before do
-      5.times do
-        FactoryBot.create(:sample_list)
-      end
-    end
-
     it 'レスポンスが正常であること' do
       get category_search_path
       expect(response).to have_http_status(:success)
@@ -53,12 +45,6 @@ RSpec.describe "Searches", type: :request do
   end
 
   describe '#maker_search' do
-    before do
-      5.times do
-        FactoryBot.create(:sample_list)
-      end
-    end
-
     it 'レスポンスが正常であること' do
       get maker_search_path
       expect(response).to have_http_status(:success)
