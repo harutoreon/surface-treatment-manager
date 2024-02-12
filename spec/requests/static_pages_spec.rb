@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "StaticPages", type: :request do
-  describe "#home" do
-    before do
-      @user = FactoryBot.create(:user)
-      log_in(@user)
-    end
+  before do
+    user = FactoryBot.create(:user)
+    log_in(user)
+  end
 
+  describe "#home" do
     it "レスポンスが正常であること" do
       get home_path
       expect(response).to have_http_status(:success)
@@ -19,11 +19,6 @@ RSpec.describe "StaticPages", type: :request do
   end
 
   describe '#name' do
-    before do
-      @user = FactoryBot.create(:user)
-      log_in(@user)
-    end
-
     it 'レスポンスが正常であること' do
       get name_path
       expect(response).to have_http_status(:success)
@@ -36,11 +31,6 @@ RSpec.describe "StaticPages", type: :request do
   end
 
   describe '#category' do
-    before do
-      @user = FactoryBot.create(:user)
-      log_in(@user)
-    end
-
     it 'レスポンスが正常であること' do
       get category_path
       expect(response).to have_http_status(:success)
@@ -53,11 +43,6 @@ RSpec.describe "StaticPages", type: :request do
   end
 
   describe '#maker' do
-    before do
-      @user = FactoryBot.create(:user)
-      log_in(@user)
-    end
-
     it 'レスポンスが正常であること' do
       get maker_path
       expect(response).to have_http_status(:success)
