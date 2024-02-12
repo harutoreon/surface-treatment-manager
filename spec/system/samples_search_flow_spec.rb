@@ -8,7 +8,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
     log_in(user)
 
     10.times do
-      FactoryBot.create(:valid_search_sample)
+      FactoryBot.create(:anodised_aluminium)
     end
   end
 
