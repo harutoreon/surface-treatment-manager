@@ -25,15 +25,3 @@
     </div>
   </div>
 </div>
-
-<div class="container text-center w-25">
-  <div class="mt-5 fs-4">
-    Keyword Search
-  </div>
-
-    <%= form_with url: search_path, method: :get do |form| %>
-      <%= form.text_field :word, class: "form-control mt-3", placeholder: "input keyword here." %>
-      <%= form.select :search, ["perfect", "forward", "backward", "partial"], { include_blank: true }, { class: "form-select mt-3" } %>
-      <%= form.submit "Search", class: "form-control mt-3 btn btn-secondary" %>
-    <% end %>
-</div>

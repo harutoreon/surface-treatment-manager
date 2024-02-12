@@ -39,7 +39,7 @@ class SamplesController < ApplicationController
     @sample = Sample.find(params[:id])
     @sample.destroy
 
-    redirect_to samples_url, status: :see_other
+    redirect_to home_url, status: :see_other
   end
 
   private

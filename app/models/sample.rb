@@ -7,17 +7,9 @@ class Sample < ApplicationRecord
   validate  :picture_size
   mount_uploader :picture, PictureUploader
 
-  scope :search, -> (search, word) do
-    scope :perfect_search,  -> { where('name LIKE ?', "#{word}") }
-    scope :forward_search,  -> { where('name LIKE ?', "#{word}%") }
-    scope :backward_search, -> { where('name LIKE ?', "%#{word}") }
-    scope :partial_search,  -> { where('name LIKE ?', "%#{word}%") }
-    send("#{search}_search")
-  end
-
-  scope :name_search,     -> (keyword) { where('name LIKE ?',     "%#{keyword}%") }
-  scope :category_search, -> (keyword) { where('category LIKE ?', "%#{keyword}%") }
-  scope :maker_search,    -> (keyword) { where('maker LIKE ?',    "%#{keyword}%") }
+  scope :name_search,     -> (keyword)    { where('name LIKE ?',     "%#{keyword}%") }
+  scope :category_search, -> (selectword) { where('category LIKE ?', "%#{selectword}%") }
+  scope :maker_search,    -> (keyword)    { where('maker LIKE ?',    "%#{keyword}%") }
 
   private
 

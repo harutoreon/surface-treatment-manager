@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
 
     if user && user.authenticate(params[:session][:password])
       log_in user
-      redirect_to samples_url
+      redirect_to home_url
     else
       flash.now[:danger] = 'Invalid name/password combination'
       render 'new', status: :unprocessable_entity

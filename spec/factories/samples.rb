@@ -15,7 +15,7 @@ FactoryBot.define do
     picture { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')) }
   end
 
-  factory :valid_search_sample, class: Sample do
+  factory :anodised_aluminium, class: Sample do
     name { "白アルマイト" }
     category { "陽極酸化" }
     color { "ホワイト" }
@@ -23,7 +23,7 @@ FactoryBot.define do
     picture { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')) }
   end
 
-  factory :invalid_search_sample, class: Sample do
+  factory :chromate, class: Sample do
     name { "黒クロメート" }
     category { "化成" }
     color { "ブラック" }
