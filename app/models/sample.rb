@@ -15,9 +15,9 @@ class Sample < ApplicationRecord
     send("#{search}_search")
   end
 
-  scope :name_search,     -> (keyword) { where('name LIKE ?',     "%#{keyword}%") }
-  scope :category_search, -> (keyword) { where('category LIKE ?', "%#{keyword}%") }
-  scope :maker_search,    -> (keyword) { where('maker LIKE ?',    "%#{keyword}%") }
+  scope :name_search,     -> (keyword)    { where('name LIKE ?',     "%#{keyword}%") }
+  scope :category_search, -> (selectword) { where('category LIKE ?', "%#{selectword}%") }
+  scope :maker_search,    -> (keyword)    { where('maker LIKE ?',    "%#{keyword}%") }
 
   private
 

@@ -8,7 +8,7 @@ class SearchesController < ApplicationController
   end
 
   def category_search
-    @samples = Sample.category_search(params[:search])
+    @samples = Sample.category_search(params[:selectword])
   end
 
   def maker_search
