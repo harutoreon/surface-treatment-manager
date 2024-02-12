@@ -14,7 +14,7 @@ RSpec.describe "StaticPages", type: :request do
 
     it '見出しが表示されること' do
       get home_path
-      expect(response.body).to include("Search Menu")
+      expect(response.body).to include("Main Menu")
     end
   end
 

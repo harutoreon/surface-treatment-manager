@@ -16,7 +16,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
     context '有効なデータを入力したとき' do
       it '「白アルマイト」が10件表示されること' do
         visit home_path
-        expect(page).to have_content('Search Menu')
+        expect(page).to have_content('Main Menu')
 
         click_link('Go name search page')
         expect(page).to have_content('Search Name')
@@ -32,7 +32,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
     context '無効なデータを入力したとき' do
       it '「No matching sample.」が表示されること' do
         visit home_path
-        expect(page).to have_content('Search Menu')
+        expect(page).to have_content('Main Menu')
 
         click_link('Go name search page')
         expect(page).to have_content('Search Name')
@@ -50,7 +50,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
     context '有効なデータを入力したとき' do
       it '「白アルマイト」が10件表示されること' do
         visit home_path
-        expect(page).to have_content('Search Menu')
+        expect(page).to have_content('Main Menu')
 
         click_link('Go category search page')
         expect(page).to have_content('Search Category')
@@ -66,7 +66,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
     context '無効なデータを入力したとき' do
       it '「No matching sample.」が表示されること' do
         visit home_path
-        expect(page).to have_content('Search Menu')
+        expect(page).to have_content('Main Menu')
 
         click_link('Go category search page')
         expect(page).to have_content('Search Category')
@@ -84,7 +84,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
     context '有効なデータを入力したとき' do
       it '「白アルマイト」が10件表示されること' do
         visit home_path
-        expect(page).to have_content('Search Menu')
+        expect(page).to have_content('Main Menu')
 
         click_link('Go maker search page')
         expect(page).to have_content('Search Maker')
@@ -100,7 +100,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
     context '無効なデータを入力したとき' do
       it '「No matching sample.」が表示されること' do
         visit home_path
-        expect(page).to have_content('Search Menu')
+        expect(page).to have_content('Main Menu')
 
         click_link('Go maker search page')
         expect(page).to have_content('Search Maker')
