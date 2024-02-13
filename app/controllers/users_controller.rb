@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     if @user.save
       log_in @user
       flash[:success] = "Welcome to the Surface Treatment Manager!"
-      redirect_to samples_url
+      redirect_to home_url
     else
       render :new, status: :unprocessable_entity
     end
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
   def destroy
     User.find(params[:id]).destroy
     flash[:success] = "User deleted"
-    redirect_to samples_url, status: :see_other
+    redirect_to home_url, status: :see_other
   end
 
   private
