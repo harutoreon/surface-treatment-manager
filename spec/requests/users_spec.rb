@@ -126,7 +126,7 @@ RSpec.describe "Users", type: :request do
       it 'サンプル一覧画面にリダイレクトされること' do
         log_in(user)
         delete user_path(other_user)
-        expect(response).to redirect_to samples_url
+        expect(response).to redirect_to home_url
       end
     end
   end
