@@ -17,4 +17,5 @@ Rails.application.routes.draw do
 
   resources :samples
   resources :users
+  resources :categorys
 end
