@@ -1,4 +1,8 @@
 class CategoriesController < ApplicationController
+  def index
+    @categories = Category.all
+  end
+
   def show
     @category = Category.find(params[:id])
   end
@@ -11,7 +15,7 @@ class CategoriesController < ApplicationController
     @category = Category.new(category_params)
 
     if @category.save
-      # redirect_to @category
+      redirect_to categories_url
     else
       render :new, status: :unprocessable_entity
     end

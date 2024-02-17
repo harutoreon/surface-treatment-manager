@@ -8,8 +8,11 @@ RSpec.describe "Categories", type: :request do
     @category = FactoryBot.create(:category)
   end
 
-  describe "GET /index" do
-    # pending "add some examples (or delete) #{__FILE__}"
+  describe "#index" do
+    it 'レスポンスが正常であること' do
+      get categories_path
+      expect(response).to have_http_status :success
+    end
   end
 
   describe '#show' do
