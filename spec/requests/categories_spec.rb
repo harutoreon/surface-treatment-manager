@@ -50,4 +50,11 @@ RSpec.describe "Categories", type: :request do
       end
     end
   end
+
+  describe '#edit' do
+    it 'レスポンスが正常であること' do
+      get edit_category_path(@category)
+      expect(response).to have_http_status :success
+    end
+  end
 end
