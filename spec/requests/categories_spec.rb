@@ -5,11 +5,18 @@ RSpec.describe "Categories", type: :request do
     user = FactoryBot.create(:user)
     log_in(user)
 
-    @sample = FactoryBot.create(:sample)
+    @category = FactoryBot.create(:category)
   end
 
   describe "GET /index" do
     # pending "add some examples (or delete) #{__FILE__}"
+  end
+
+  describe '#show' do
+    it 'レスポンスが正常であること' do
+      get category_path(@category)
+      expect(response).to have_http_status :success
+    end
   end
 
   describe '#new' do
@@ -20,18 +27,18 @@ RSpec.describe "Categories", type: :request do
   end
 
   describe '#create' do
-    let(:valid_params) { { category: { item: "溶射" } } }
+    let(:valid_params) { { category: { item: "蒸着" } } }
     let(:invalid_params) { { category: { item: "" } } }
 
     context '有効なパラメータの場合' do
       it '登録が完了すること' do
-        expect { post categories_path, params: valid_params }.to change{ Category.count }.from(0).to(1)
+        expect { post categories_path, params: valid_params }.to change{ Category.count }.from(1).to(2)
       end
     end
 
     context '無効なパラメータの場合' do
       it '登録が失敗すること' do
-        expect { post categories_path, params: invalid_params }.to_not change{ Category.count }.from(0)
+        expect { post categories_path, params: invalid_params }.to_not change{ Category.count }.from(1)
       end
 
       it 'categories/newに遷移すること' do
