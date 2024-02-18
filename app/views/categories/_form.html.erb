@@ -1,11 +1,9 @@
-<%#= render "categories/form", category: @category %>
-
 <%= render 'shared/header' %>
 
 <div class="container w-25">
   <div class="fs-1 text-center mb-5">Category Edit</div>
 
-  <%= form_with model: @category do |form| %>
+  <%= form_with model: category do |form| %>
     <%= form.label :item, class: 'form-label' %>
     <%= form.text_field :item, class: 'form-control mb-3' %>
 

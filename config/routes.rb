@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   get '/home',     to: 'static_pages#home'
   get '/name',     to: 'static_pages#name'
-  get '/category', to: 'static_pages#category'
+  # get '/category', to: 'static_pages#category'
   get '/maker',    to: 'static_pages#maker'
 
   get '/name/search',     to: 'searches#name_search'

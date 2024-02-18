@@ -1,12 +1,1 @@
-<%= render 'shared/header' %>
-
-<div class="container w-25">
-  <div class="fs-1 text-center mb-5">Category New</div>
-
-  <%= form_with(model: @category, url: categories_path) do |form| %>
-    <%= form.label :item, class: 'form-label' %>
-    <%= form.text_field :item, class: 'form-control mb-3' %>
-
-    <%= form.submit "Create Category", class: 'col-12 btn btn-primary' %>
-  <% end %>
-</div>
+<%= render "categories/form", category: @category %>
