@@ -1,12 +1,6 @@
-<%= render 'shared/header' %>
+<%= form_with model: category do |form| %>
+  <%= form.label :item, class: 'form-label' %>
+  <%= form.text_field :item, class: 'form-control mb-3' %>
 
-<div class="container w-25">
-  <div class="fs-1 text-center mb-5">Category Edit</div>
-
-  <%= form_with model: category do |form| %>
-    <%= form.label :item, class: 'form-label' %>
-    <%= form.text_field :item, class: 'form-control mb-3' %>
-
-    <%= form.submit class: 'col-12 btn btn-primary' %>
-  <% end %>
-</div>
+  <%= form.submit class: 'col-12 btn btn-primary' %>
+<% end %>

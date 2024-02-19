@@ -57,4 +57,22 @@ RSpec.describe "Categories", type: :request do
       expect(response).to have_http_status :success
     end
   end
+
+  describe '#update' do
+    context '有効なパラメータの場合' do
+      it '更新が成功すること' do
+        patch category_path(@category), params: { category: { item: '陽極酸化' } }
+        @category.reload
+        expect(@category.item).to eq('陽極酸化')
+      end
+    end
+
+    context '無効なパラメータの場合' do
+      it '更新が失敗すること' do
+        patch category_path(@category), params: { category: { item: '' } }
+        @category.reload
+        expect(@category.item).to eq('溶射')
+      end
+    end
+  end
 end
