@@ -35,6 +35,13 @@ class CategoriesController < ApplicationController
     end
   end
 
+  def destroy
+    @category = Category.find(params[:id])
+    @category.destroy
+
+    redirect_to categories_url, status: :see_other
+  end
+
   private
 
     def category_params

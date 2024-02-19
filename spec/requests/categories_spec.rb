@@ -75,4 +75,10 @@ RSpec.describe "Categories", type: :request do
       end
     end
   end
+
+  describe 'destroy' do
+    it '削除できること' do
+      expect { delete category_path(@category) }.to change{ Category.count }.from(1).to(0)
+    end
+  end
 end
