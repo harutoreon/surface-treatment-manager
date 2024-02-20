@@ -13,6 +13,11 @@ RSpec.describe "Categories", type: :request do
       get categories_path
       expect(response).to have_http_status(:success)
     end
+
+    it '見出しが「Category Index」であること' do
+      get categories_path
+      expect(response.body).to include('Category Index')
+    end
   end
 
   describe '#show' do
@@ -20,12 +25,22 @@ RSpec.describe "Categories", type: :request do
       get category_path(@category)
       expect(response).to have_http_status(:success)
     end
+
+    it '見出しが「Category Show」であること' do
+      get category_path(@category)
+      expect(response.body).to include('Category Show')
+    end
   end
 
   describe '#new' do
     it 'レスポンスが正常であること' do
       get new_category_path
       expect(response).to have_http_status(:success)
+    end
+
+    it '見出しが「Category New」であること' do
+      get new_category_path
+      expect(response.body).to include('Category New')
     end
   end
 
@@ -61,6 +76,11 @@ RSpec.describe "Categories", type: :request do
     it 'レスポンスが正常であること' do
       get edit_category_path(@category)
       expect(response).to have_http_status(:success)
+    end
+
+    it '見出しが「Category Edit」であること' do
+      get edit_category_path(@category)
+      expect(response.body).to include('Category Edit')
     end
   end
 
@@ -99,7 +119,7 @@ RSpec.describe "Categories", type: :request do
       expect { delete category_path(@category) }.to change{ Category.count }.from(1).to(0)
     end
 
-    it 'categories#indexにリダイレクトされうること' do
+    it 'categories#indexにリダイレクトされること' do
       delete category_path(@category)
       expect(response).to redirect_to(categories_url)
     end
