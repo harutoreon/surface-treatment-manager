@@ -11,31 +11,37 @@ RSpec.describe "Categories", type: :request do
   describe "#index" do
     it 'レスポンスが正常であること' do
       get categories_path
-      expect(response).to have_http_status :success
+      expect(response).to have_http_status(:success)
     end
   end
 
   describe '#show' do
     it 'レスポンスが正常であること' do
       get category_path(@category)
-      expect(response).to have_http_status :success
+      expect(response).to have_http_status(:success)
     end
   end
 
   describe '#new' do
     it 'レスポンスが正常であること' do
       get new_category_path
-      expect(response).to have_http_status :success
+      expect(response).to have_http_status(:success)
     end
   end
 
   describe '#create' do
-    let(:valid_params) { { category: { item: "蒸着" } } }
+    let(:valid_params)   { { category: { item: "蒸着" } } }
     let(:invalid_params) { { category: { item: "" } } }
 
     context '有効なパラメータの場合' do
-      it '登録が完了すること' do
+      it '登録が成功すること' do
         expect { post categories_path, params: valid_params }.to change{ Category.count }.from(1).to(2)
+      end
+
+      it 'categories#showにリダイレクトされること' do
+        post categories_path, params: valid_params
+        category = Category.last
+        expect(response).to redirect_to(category)
       end
     end
 
@@ -54,7 +60,7 @@ RSpec.describe "Categories", type: :request do
   describe '#edit' do
     it 'レスポンスが正常であること' do
       get edit_category_path(@category)
-      expect(response).to have_http_status :success
+      expect(response).to have_http_status(:success)
     end
   end
 
@@ -65,6 +71,12 @@ RSpec.describe "Categories", type: :request do
         @category.reload
         expect(@category.item).to eq('陽極酸化')
       end
+
+      it 'categories#showにリダイレクトされること' do
+        patch category_path(@category), params: { category: { item: '陽極酸化' } }
+        @category.reload
+        expect(response).to redirect_to(@category)
+      end
     end
 
     context '無効なパラメータの場合' do
@@ -72,6 +84,12 @@ RSpec.describe "Categories", type: :request do
         patch category_path(@category), params: { category: { item: '' } }
         @category.reload
         expect(@category.item).to eq('溶射')
+      end
+
+      it 'categories#editに遷移されること' do
+        patch category_path(@category), params: { category: { item: '' } }
+        @category.reload
+        expect(response.body).to include("Category Edit")
       end
     end
   end
