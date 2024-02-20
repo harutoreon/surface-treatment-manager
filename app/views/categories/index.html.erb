@@ -5,7 +5,10 @@
 
   <div class="row">
     <% @categories.each do |category| %>
-      <div class="text-center mb-3"><%= category.item %></div>
+      <div class="text-center mb-3"><%= link_to category.item, category %></div>
     <% end %>
+
+    <div class="col text-center mt-5"><%= link_to 'Main Menu', home_path %></div>
+    <div class="col text-center mt-5"><%= link_to 'Category New', new_category_path %></div>
   </div>
 </div>
