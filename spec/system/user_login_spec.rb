@@ -17,9 +17,9 @@ RSpec.describe "UserLogin", type: :system do
       click_button('Log in')
 
       expect(page).to have_content('Main Menu')
-      expect(page).to have_link('Go name search page', href: name_path)
-      expect(page).to have_link('Go category search page', href: category_path)
-      expect(page).to have_link('Go maker search page', href: maker_path)
+      expect(page).to have_link('Go name search page',     href: category_name_path)
+      expect(page).to have_link('Go category search page', href: category_category_path)
+      expect(page).to have_link('Go maker search page',    href: category_maker_path)
     end
   end
 
