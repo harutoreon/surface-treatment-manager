@@ -1,15 +1,32 @@
 require 'rails_helper'
 
-# Specs in this file have access to a helper object that includes
-# the SamplesHelper. For example:
-#
-# describe SamplesHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
 RSpec.describe SamplesHelper, type: :helper do
-  # pending "add some examples to (or delete) #{__FILE__}"
+  describe '#select_word' do
+    before do
+      words = ['めっき', '陽極酸化', '化成', 'コーティング', '表面硬化']
+      words.each do |word|
+        Category.create(item: word)
+      end
+    end
+
+    it '1番目のカテゴリが「めっき」であること' do
+      expect(select_word.index('めっき')).to eq(0)
+    end
+
+    it '2番目ののカテゴリが「陽極酸化」であること' do
+      expect(select_word.index('陽極酸化')).to eq(1)
+    end
+
+    it '3番目のカテゴリが「化成」であること' do
+      expect(select_word.index('化成')).to eq(2)
+    end
+
+    it '4番目のカテゴリが「コーティング」であること' do
+      expect(select_word.index('コーティング')).to eq(3)
+    end
+
+    it '5番目のカテゴリが「表面硬化」であること' do
+      expect(select_word.index('表面硬化')).to eq(4)
+    end
+  end
 end

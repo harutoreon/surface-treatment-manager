@@ -203,6 +203,7 @@ Style/BlockDelimiters:
 Style/WordArray:
   Exclude:
     - 'db/**/*'
+    - 'spec/helpers/*'
 
 Style/HashSyntax:
   Exclude:
@@ -266,3 +267,7 @@ Layout/SpaceBeforeBlockBraces:
 Style/SafeNavigation:
   Exclude:
     - 'app/controllers/*'
+
+Style/SymbolProc:
+  Exclude:
+    - 'app/helpers/*'
