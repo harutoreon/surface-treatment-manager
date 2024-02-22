@@ -20,36 +20,36 @@ RSpec.describe "StaticPages", type: :request do
 
   describe '#name' do
     it 'レスポンスが正常であること' do
-      get name_path
+      get category_name_path
       expect(response).to have_http_status(:success)
     end
 
     it '見出しが表示されること' do
-      get name_path
+      get category_name_path
       expect(response.body).to include("Search Name")
     end
   end
 
   describe '#category' do
     it 'レスポンスが正常であること' do
-      get category_path
+      get category_category_path
       expect(response).to have_http_status(:success)
     end
 
     it '見出しが表示されること' do
-      get category_path
+      get category_category_path
       expect(response.body).to include("Search Category")
     end
   end
 
   describe '#maker' do
     it 'レスポンスが正常であること' do
-      get maker_path
+      get category_maker_path
       expect(response).to have_http_status(:success)
     end
 
     it '見出しが表示されること' do
-      get maker_path
+      get category_maker_path
       expect(response.body).to include("Search Maker")
     end
   end

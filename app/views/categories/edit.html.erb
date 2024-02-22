@@ -1,0 +1,9 @@
+<%= render 'shared/header' %>
+
+<div class="container w-25">
+  <div class="fs-1 text-center mb-5">Category Edit</div>
+
+  <%= render 'form', category: @category %>
+
+  <div class="text-center mt-5"><%= link_to 'Category Show', category_path(@category) %></div>
+</div>

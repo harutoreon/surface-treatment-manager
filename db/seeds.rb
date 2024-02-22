@@ -45,3 +45,9 @@ SAMPLES.each do |sample|
                  maker: Faker::Company.name,
                  picture: File.open("app/assets/images/#{sample[:picture]}.jpeg"))
 end
+
+SELECT_WORD = ['めっき', '陽極酸化', '化成', 'コーティング', '表面硬化']
+
+SELECT_WORD.each do |select_word|
+  Category.create!(item: select_word)
+end
