@@ -115,9 +115,9 @@ RSpec.describe "Samples", type: :request do
         expect(@sample.name).to eq("無電解ニッケルめっき")
       end
 
-      it 'samples/newが再描画されること' do
+      it 'samples/editが再描画されること' do
         patch sample_path(@sample), params: { sample: { name: "" } }
-        expect(response.body).to include("Sample New")
+        expect(response.body).to include("Sample Edit")
       end
     end
   end
