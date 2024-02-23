@@ -1,43 +1,31 @@
 <%= render 'shared/header' %>
 
 <div class="container">
-  <div class="mb-3 text-center fs-1">Sample Edit</div>
+  <div class="mb-5 text-center fs-1">Sample Edit</div>
 
   <div class="container w-50">
     <%= form_with model: @sample do |form| %>
-      <div class="mb-3">
-        <%= form.label :name, for: "exampleFormControlInput1", class: "form-label" %>
-        <%= form.text_field :name, class: "form-control", id: "exampleFormControlInput1" %>
-        <%= render 'shared/error_messages', object: @sample, label: :name %>
-      </div>
+      <%= form.label :name, class: "form-label" %>
+      <%= form.text_field :name, class: "form-control mb-3" %>
+      <%= render 'shared/error_messages', object: @sample, label: :name %>
 
-      <div class="mb-3">
-        <%= form.label :category, for: "exampleFormControlInput1", class: "form-label" %>
-        <%= form.text_field :category, class: "form-control", id: "exampleFormControlInput1" %>
-        <%= render 'shared/error_messages', object: @sample, label: :category %>
-      </div>
+      <%= form.label :category, class: "form-label" %>
+      <%= form.text_field :category, class: "form-control mb-3" %>
+      <%= render 'shared/error_messages', object: @sample, label: :category %>
 
-      <div class="mb-3">
-        <%= form.label :color, for: "exampleFormControlInput1", class: "form-label" %>
-        <%= form.text_field :color, class: "form-control", id: "exampleFormControlInput1" %>
-        <%= render 'shared/error_messages', object: @sample, label: :color %>
-      </div>
+      <%= form.label :color, class: "form-label" %>
+      <%= form.text_field :color, class: "form-control mb-3" %>
+      <%= render 'shared/error_messages', object: @sample, label: :color %>
 
-      <div class="mb-3">
-        <%= form.label :maker, for: "exampleFormControlInput1", class: "form-label" %>
-        <%= form.text_field :maker, class: "form-control", id: "exampleFormControlInput1" %>
-        <%= render 'shared/error_messages', object: @sample, label: :maker %>
-      </div>
+      <%= form.label :maker, class: "form-label" %>
+      <%= form.text_field :maker, class: "form-control mb-3" %>
+      <%= render 'shared/error_messages', object: @sample, label: :maker %>
 
-      <div class="mb-3">
-        <%= form.label :picture %>
-        <div><%= image_tag @sample.picture.url, class: 'mb-1', width: 200, height: 200 %></div>
-        <%= form.file_field :picture, accept: 'image/jpeg,image/gif,image/png,image/jpg' %>
-      </div>
+      <%= form.label :picture %>
+      <div><%= image_tag @sample.picture.url, alt: 'No Image', class: 'mb-2', width: 200, height: 200 %></div>
+      <%= form.file_field :picture, class: 'mb-3', accept: 'image/jpeg,image/gif,image/png,image/jpg' %>
 
-      <div class="mb-4 mt-4">
-        <%= form.submit class: "col-12 btn btn-primary" %>
-      </div>
+      <%= form.submit class: "col-12 btn btn-primary mb-4" %>
     <% end %>
   </div>
 </div>
