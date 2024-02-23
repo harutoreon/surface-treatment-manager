@@ -7,11 +7,9 @@
 <% end %>
 
 <div class="container w-50">
-  <div class="text-center mb-3 fs-1">
-    Sample Index
-  </div>
+  <div class="text-center mb-5 fs-1">Sample Index</div>
 
-  <div class="row">
+  <div class="row mb-3">
     <% @samples.each do |sample| %>
       <div class="col-4 mb-3 text-center">
         <%= link_to sample.name, sample %>
@@ -19,9 +17,11 @@
     <% end %>
   </div>
 
-  <div class="row mt-3">
+  <div class="row mb-5">
     <div class="col text-center">
       <%= will_paginate @samples, class: "justify-content-center" %>
     </div>
   </div>
+
+  <div class="text-center"><%= link_to 'Main Menu', home_path %></div>
 </div>
