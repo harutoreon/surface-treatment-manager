@@ -10,7 +10,7 @@
       <%= render 'shared/error_messages', object: @sample, label: :name %>
 
       <%= form.label :category, class: "form-label" %>
-      <%= form.text_field :category, class: "form-control mb-3" %>
+      <%= form.select :category, options_for_select(select_word), { include_blank: true }, class: "form-select mb-3" %>
       <%= render 'shared/error_messages', object: @sample, label: :category %>
 
       <%= form.label :color, class: "form-label" %>
@@ -21,13 +21,9 @@
       <%= form.text_field :maker, class: "form-control mb-3" %>
       <%= render 'shared/error_messages', object: @sample, label: :maker %>
 
-      <%= form.label :picture %>
-      <div>
-        <% if @sample.picture? %>
-          <%= image_tag @sample.picture.url, class: 'mb-2', width: 200, height: 200 %>
-        <% end %>
-      </div>
-      <%= form.file_field :picture, class: 'mb-3', accept: 'image/jpeg,image/gif,image/png,image/jpg' %>
+      <%= form.label :picture, class: "form-label" %>
+      <div><img id="preview_image" src="" alt="No Image" class="mb-2" width="200" height="200"></div>
+      <%= form.file_field :picture, class: 'form-control mb-3', accept: 'image/jpeg,image/gif,image/png,image/jpg' %>
 
       <%= form.submit class: "col-12 btn btn-primary mb-4" %>
     <% end %>
@@ -41,6 +37,17 @@
     let sizeInMegabytes = this.files[0].size / 1024 / 1024;
     if (sizeInMegabytes > 5) {
       alert('Maximum file size is 5MB. Please choose a smaller file.');
+    }
+  });
+
+  document.getElementById('sample_picture').addEventListener('change', function() {
+    let file = this.files[0];
+    if (file) {
+      let reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('preview_image').setAttribute('src', e.target.result);
+      }
+      reader.readAsDataURL(file);
     }
   });
 </script>
