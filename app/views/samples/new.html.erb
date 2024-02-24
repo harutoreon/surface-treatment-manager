@@ -1,13 +1,46 @@
 <%= render 'shared/header' %>
 
 <div class="container">
-  <div class="mb-3 text-center fs-1">
-    Sample New
-  </div>
+  <div class="mb-5 text-center fs-1">Sample New</div>
 
-  <%= render "shared/form", sample: @sample %>
+  <div class="container w-50">
+    <%= form_with model: @sample do |form| %>
+      <%= form.label :name, class: "form-label" %>
+      <%= form.text_field :name, class: "form-control mb-3" %>
+      <%= render 'shared/error_messages', object: @sample, label: :name %>
 
-  <div class="text-center">
-    <%= link_to "Main Menu", home_path %>
+      <%= form.label :category, class: "form-label" %>
+      <%= form.text_field :category, class: "form-control mb-3" %>
+      <%= render 'shared/error_messages', object: @sample, label: :category %>
+
+      <%= form.label :color, class: "form-label" %>
+      <%= form.text_field :color, class: "form-control mb-3" %>
+      <%= render 'shared/error_messages', object: @sample, label: :color %>
+
+      <%= form.label :maker, class: "form-label" %>
+      <%= form.text_field :maker, class: "form-control mb-3" %>
+      <%= render 'shared/error_messages', object: @sample, label: :maker %>
+
+      <%= form.label :picture %>
+      <div>
+        <% if @sample.picture? %>
+          <%= image_tag @sample.picture.url, class: 'mb-2', width: 200, height: 200 %>
+        <% end %>
+      </div>
+      <%= form.file_field :picture, class: 'mb-3', accept: 'image/jpeg,image/gif,image/png,image/jpg' %>
+
+      <%= form.submit class: "col-12 btn btn-primary mb-4" %>
+    <% end %>
   </div>
 </div>
+
+<div class="text-center mb-5"><%= link_to "Main Menu", home_path %></div>
+
+<script type="text/javascript">
+  document.getElementById('sample_picture').addEventListener('change', function() {
+    let sizeInMegabytes = this.files[0].size / 1024 / 1024;
+    if (sizeInMegabytes > 5) {
+      alert('Maximum file size is 5MB. Please choose a smaller file.');
+    }
+  });
+</script>
