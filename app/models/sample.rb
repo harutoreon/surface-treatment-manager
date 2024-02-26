@@ -3,7 +3,7 @@ class Sample < ApplicationRecord
   validates :category, presence: true
   validates :color,    presence: true
   validates :maker,    presence: true
-  validates :picture,  presence: true, allow_nil: true
+  validates :picture,  presence: true
   validate  :picture_size
   mount_uploader :picture, PictureUploader
 

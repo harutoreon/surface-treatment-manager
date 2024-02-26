@@ -22,7 +22,7 @@
       <%= render 'shared/error_messages', object: @sample, label: :maker %>
 
       <%= form.label :picture, class: "form-label" %>
-      <div><img id="preview_image" src="" alt="No Image" class="mb-2" width="200" height="200"></div>
+      <div><%= image_tag '', alt: 'No Image', class: 'mb-2', id: 'preview_image', width: 200, height: 200 %></div>
       <%= form.file_field :picture, class: 'form-control mb-3', accept: 'image/jpeg,image/gif,image/png,image/jpg' %>
 
       <%= form.submit class: "col-12 btn btn-primary mb-4" %>
