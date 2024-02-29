@@ -74,4 +74,20 @@ RSpec.describe SessionsHelper, type: :helper do
       end
     end
   end
+
+  describe '#log_out' do
+    before do
+      user = FactoryBot.create(:user)
+      log_in(user)
+      log_out
+    end
+
+    it 'セッションのuser_idがnilであること' do
+      expect(session[:user_id]).to be_nil
+    end
+
+    it '@current_userがnilであること' do
+      expect(instance_variable_get(:@current_user)).to be_nil
+    end
+  end
 end
