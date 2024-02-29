@@ -57,4 +57,21 @@ RSpec.describe SessionsHelper, type: :helper do
       end
     end
   end
+
+  describe '#logged_in?' do
+    let(:user) { FactoryBot.create(:user) }
+
+    context 'ログインしている場合' do
+      it 'trueが返ること' do
+        log_in(user)
+        expect(logged_in?).to eq(true)
+      end
+    end
+
+    context '未ログインの場合' do
+      it 'falseが返ること' do
+        expect(logged_in?).to eq(false)
+      end
+    end
+  end
 end
