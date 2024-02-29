@@ -20,4 +20,24 @@ RSpec.describe SessionsHelper, type: :helper do
       end
     end
   end
+
+  describe '#current_user?' do
+    before do
+      @logged_in_user = FactoryBot.create(:user)
+      @not_logged_in_user = FactoryBot.create(:michael)
+      log_in(@logged_in_user)
+    end
+
+    context 'ログインユーザーを引数に渡した場合' do
+      it 'trueが返ること' do
+        expect(current_user?(@logged_in_user)).to eq(true)
+      end
+    end
+
+    context '未ログインユーザーを引数に渡した場合' do
+      it 'falseが返ること' do
+        expect(current_user?(@not_logged_in_user)).to eq(false)
+      end
+    end
+  end
 end
