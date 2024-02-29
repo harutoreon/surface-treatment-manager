@@ -1,15 +1,25 @@
 require 'rails_helper'
 
-# Specs in this file have access to a helper object that includes
-# the StaticPagesHelper. For example:
-#
-# describe StaticPagesHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
 RSpec.describe StaticPagesHelper, type: :helper do
-  # pending "add some examples to (or delete) #{__FILE__}"
+  describe '#sample_exists?' do
+    context 'レコードが存在する場合' do
+      before do
+        FactoryBot.create(:sample)
+      end
+
+      it 'trueが返ること' do
+        expect(sample_exists?).to eq(true)
+      end
+    end
+
+    context 'レコードが存在しない場合' do
+      before do
+        Sample.destroy_all
+      end
+
+      it 'falseが返ること' do
+        expect(sample_exists?).to eq(false)
+      end
+    end
+  end
 end
