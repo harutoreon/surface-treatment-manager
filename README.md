@@ -10,11 +10,10 @@
 ## 使用技術
 - Ruby
 - Ruby on Rails
-- Bootstrap
-- Sass
 - RSpec
 - Rubocop
 - PostgreSQL
+- Bootstrap
 - CircleCI
 - Render
 
@@ -30,17 +29,24 @@
   - 新規登録機能
   - 更新機能
   - 削除機能
+- カテゴリ
+  - 一覧表示機能
+  - 閲覧機能
+  - 新規登録機能
+  - 更新機能
+  - 削除機能
 - ページネーション機能
 - 画像アップロード機能
+- プレビュー画像表示機能
 - 検索機能
 - ログイン・ログアウト機能
 - 管理者機能
 
 ## テスト
 - RSpec
-  - 単体テスト（ModelSpec）
-  - 機能テスト（RequestSpec）
-  - 統合テスト（SystemSpec）
+  - 単体テスト (ModelSpec, HelperSpec)
+  - 機能テスト (RequestSpec)
+  - 統合テスト (SystemSpec)
 
 ## データベース構造
 - samples テーブル
@@ -52,3 +58,5 @@
 - users テーブル
   - name
   - password
+- categories テーブル
+  - item
