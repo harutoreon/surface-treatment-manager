@@ -2,61 +2,28 @@
 
 <%= render 'shared/header' %>
 
-<div class="container">
-  <div class="mb-3 fs-1 text-center">
-    Sample Show
-  </div>
+<div class="container w-25">
+  <div class="mb-5 fs-1 text-center">Sample Show</div>
 
-  <div class="row fs-4 mb-3">
-    <div class="col text-end">
-      name :
-    </div>
-    <div class="col text-start">
-      <%= @sample.name %>
-    </div>
-  </div>
+  <div class="form-label">Name</div>
+  <div class="form-control mb-3"><%= @sample.name %></div>
 
-  <div class="row fs-4 mb-3">
-    <div class="col text-end">
-      category :
-    </div>
-    <div class="col text-start">
-      <%= @sample.category %>
-    </div>
-  </div>
+  <div class="form-label">Category</div>
+  <div class="form-control mb-3"><%= @sample.category %></div>
 
-  <div class="row fs-4 mb-3">
-    <div class="col text-end">
-      color :
-    </div>
-    <div class="col text-start">
-      <%= @sample.color %>
-    </div>
-  </div>
+  <div class="form-label">Color</div>
+  <div class="form-control mb-3"><%= @sample.color %></div>
 
-  <div class="row fs-4 mb-3">
-    <div class="col text-end">
-      maker :
-    </div>
-    <div class="col text-start">
-      <%= @sample.maker %>
-    </div>
-  </div>
+  <div class="form-label">Maker</div>
+  <div class="form-control mb-3"><%= @sample.maker %></div>
 
-  <div class="col mb-3 text-center">
-    <%= image_tag @sample.picture.url if @sample.picture? %>
-  </div>
+  <div class="form-label">Picture</div>
+  <div><%= image_tag @sample.picture.url, class: 'mb-5' %></div>
 
-  <div class="row">
-    <div class="col text-end">
-      <%= link_to "Sample Edit", edit_sample_path(@sample) %>
-    </div>
-    <div class="col-2 text-center">
-      <%= link_to "Sample Destroy", sample_path(@sample), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete?" } %>
-    </div>
-    <div class="col text-start">
-      <%= link_to "Main Menu", home_path %>
-    </div>
+  <div class="row text-center">
+    <div class="col"><%= link_to "Sample Edit", edit_sample_path(@sample) %></div>
+    <div class="col"><%= link_to "Sample Destroy", sample_path(@sample), data: { turbo_method: :delete,
+                                                                                 turbo_confirm: "Are you sure you want to delete?" } %></div>
+    <div class="col"><%= link_to "Main Menu", home_path %></div>
   </div>
 </div>
-
