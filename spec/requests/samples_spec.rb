@@ -18,6 +18,11 @@ RSpec.describe "Samples", type: :request do
       get samples_path
       expect(response.body).to include("Sample Index")
     end
+
+    it 'タイトルが表示されること' do
+      get samples_path
+      expect(response.body).to include('<title>Sample Index</title>')
+    end
   end
 
   describe "#show" do
@@ -29,6 +34,11 @@ RSpec.describe "Samples", type: :request do
     it '見出しが表示されること' do
       get sample_path(@sample)
       expect(response.body).to include("Sample Show")
+    end
+
+    it 'タイトルが表示されること' do
+      get sample_path(@sample)
+      expect(response.body).to include('<title>Sample Show</title>')
     end
   end
 
@@ -42,6 +52,12 @@ RSpec.describe "Samples", type: :request do
       get new_sample_path
       expect(response.body).to include("Sample New")
     end
+
+    it 'タイトルが表示されること' do
+      get new_sample_path
+      expect(response.body).to include('<title>Sample New</title>')
+    end
+
   end
 
   describe '#create' do
@@ -90,6 +106,11 @@ RSpec.describe "Samples", type: :request do
     it '見出しが表示されること' do
       get edit_sample_path(@sample)
       expect(response.body).to include("Sample Edit")
+    end
+
+    it 'タイトルが表示されること' do
+      get edit_sample_path(@sample)
+      expect(response.body).to include('<title>Sample Edit</title>')
     end
   end
 
