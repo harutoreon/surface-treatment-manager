@@ -1,10 +1,39 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
+  describe '#show' do
+    let!(:user) { FactoryBot.create(:user) }
+
+    it 'レスポンスが正常であること' do
+      get user_path(user)
+      expect(response).to have_http_status(:success)
+    end
+
+    it '見出しが表示されること' do
+      get user_path(user)
+      expect(response.body).to include('User Profile')
+    end
+
+    it 'タイトルが表示されること' do
+      get user_path(user)
+      expect(response.body).to include('<title>User Profile</title>')
+    end
+  end
+
   describe "#new" do
     it "レスポンスが正常であること" do
       get signup_path
       expect(response).to have_http_status(:success)
+    end
+
+    it '見出しが表示されること' do
+      get signup_path
+      expect(response.body).to include('Sign up')
+    end
+
+    it 'タイトルが表示されること' do
+      get signup_path
+      expect(response.body).to include('<title>Sign up</title>')
     end
   end
 
@@ -42,6 +71,11 @@ RSpec.describe "Users", type: :request do
     it '見出しが表示されること' do
       get edit_user_path(user)
       expect(response.body).to include("User Edit")
+    end
+
+    it 'タイトルが表示されること' do
+      get edit_user_path(user)
+      expect(response.body).to include('<title>User Edit</title>')
     end
   end
 

@@ -16,6 +16,11 @@ RSpec.describe "StaticPages", type: :request do
       get home_path
       expect(response.body).to include("Main Menu")
     end
+
+    it 'タイトルが表示されること' do
+      get home_path
+      expect(response.body).to include('<title>Main Menu</title>')
+    end
   end
 
   describe '#name' do
@@ -27,6 +32,11 @@ RSpec.describe "StaticPages", type: :request do
     it '見出しが表示されること' do
       get category_name_path
       expect(response.body).to include("Search Name")
+    end
+
+    it 'タイトルが表示されること' do
+      get category_name_path
+      expect(response.body).to include('<title>Search Name</title>')
     end
   end
 
@@ -40,6 +50,11 @@ RSpec.describe "StaticPages", type: :request do
       get category_category_path
       expect(response.body).to include("Search Category")
     end
+
+    it 'タイトルが表示されること' do
+      get category_category_path
+      expect(response.body).to include('<title>Search Category</title>')
+    end
   end
 
   describe '#maker' do
@@ -51,6 +66,11 @@ RSpec.describe "StaticPages", type: :request do
     it '見出しが表示されること' do
       get category_maker_path
       expect(response.body).to include("Search Maker")
+    end
+
+    it 'タイトルが表示されること' do
+      get category_maker_path
+      expect(response.body).to include('<title>Search Maker</title>')
     end
   end
 end
