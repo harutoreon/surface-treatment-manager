@@ -18,6 +18,11 @@ RSpec.describe "Categories", type: :request do
       get categories_path
       expect(response.body).to include('Category Index')
     end
+
+    it 'タイトルが表示されること' do
+      get categories_path
+      expect(response.body).to include('<title>Category Index</title>')
+    end
   end
 
   describe '#show' do
@@ -30,6 +35,11 @@ RSpec.describe "Categories", type: :request do
       get category_path(@category)
       expect(response.body).to include('Category Show')
     end
+
+    it 'タイトルが表示されること' do
+      get category_path(@category)
+      expect(response.body).to include('<title>Category Show</title>')
+    end
   end
 
   describe '#new' do
@@ -41,6 +51,11 @@ RSpec.describe "Categories", type: :request do
     it '見出しが「Category New」であること' do
       get new_category_path
       expect(response.body).to include('Category New')
+    end
+
+    it 'タイトルが表示されること' do
+      get new_category_path
+      expect(response.body).to include('<title>Category New</title>')
     end
   end
 
@@ -81,6 +96,11 @@ RSpec.describe "Categories", type: :request do
     it '見出しが「Category Edit」であること' do
       get edit_category_path(@category)
       expect(response.body).to include('Category Edit')
+    end
+
+    it 'タイトルが表示されること' do
+      get edit_category_path(@category)
+      expect(response.body).to include('<title>Category Edit</title>')
     end
   end
 
