@@ -1,0 +1,15 @@
+<%= provide(:title, 'Users index') %>
+
+<%= render 'shared/header' %>
+
+<div class="container w-50">
+  <div class="text-center fs-1 mb-5">Users index</div>
+
+  <div class="row">
+    <% @users.each do |user| %>
+      <div class="text-center mb-3"><%= link_to user.name, user %></div>
+    <% end %>
+  </div>
+
+  <div class="text-center mt-5"><%= link_to 'Main Menu', home_path %></div>
+</div>
