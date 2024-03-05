@@ -1,6 +1,28 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
+  describe '#index' do
+    before do
+      user = FactoryBot.create(:user)
+      log_in(user)
+    end
+
+    it 'レスポンスが正常であること' do
+      get users_path
+      expect(response).to have_http_status(:success)
+    end
+
+    it '見出しが表示されること' do
+      get users_path
+      expect(response.body).to include('Users Index')
+    end
+
+    it 'タイトルが表示されること' do
+      get users_path
+      expect(response.body).to include('<title>Users Index</title>')
+    end
+  end
+
   describe '#show' do
     let!(:user) { FactoryBot.create(:user) }
 
