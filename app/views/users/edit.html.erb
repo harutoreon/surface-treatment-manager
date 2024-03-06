@@ -1,33 +1,25 @@
 <%= provide(:title, 'User Edit') %>
 
-<div class="container">
-  <div class="text-center fs-1 mt-5 mb-3">
-    User Edit
-  </div>
+<%= render 'shared/header' %>
 
-  <div class="container w-50">
-    <%= form_with model: @user do |form| %>
-      <div class="mb-3">
-        <%= form.label :name, for: "exampleFormControlInput1", class: "form-label" %>
-        <%= form.text_field :name, id: "exampleFormControlInput1", class: "form-control" %>
-        <%= render 'shared/error_messages', object: @user, label: :name %>
-      </div>
+<div class="container w-25">
+  <div class="text-center fs-1 mb-5">User Edit</div>
 
-      <div class="mb-3">
-        <%= form.label :password, for: "inputPassword5", class: "form-label" %>
-        <%= form.password_field :password, id: "inputPassword5", class: "form-control" %>
-        <%= render 'shared/error_messages', object: @user, label: :password %>
-      </div>
+  <%= form_with model: @user do |form| %>
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-control mb-3" %>
+    <%= render 'shared/error_messages', object: @user, label: :name %>
 
-      <div class="mb-3">
-        <%= form.label :password_confirmation, "Confirmation", for: "inputPassword5", class: "form-label" %>
-        <%= form.password_field :password_confirmation, id: "inputPassword5", class: "form-control" %>
-        <%= render 'shared/error_messages', object: @user, label: :password_confirmation %>
-      </div>
+    <%= form.label :password, class: "form-label" %>
+    <%= form.password_field :password, class: "form-control mb-3" %>
+    <%= render 'shared/error_messages', object: @user, label: :password %>
 
-      <div class="mb-3">
-        <%= form.submit "Update", class: "btn btn-primary" %>
-      </div>
-    <% end %>
-  </div>
+    <%= form.label :password_confirmation, "Confirmation",class: "form-label" %>
+    <%= form.password_field :password_confirmation, class: "form-control mb-4" %>
+    <%= render 'shared/error_messages', object: @user, label: :password_confirmation %>
+
+    <%= form.submit class: "col-12 btn btn-primary mb-4" %>
+  <% end %>
+
+  <div class="text-center"><%= link_to 'User Show', @user %></div>
 </div>

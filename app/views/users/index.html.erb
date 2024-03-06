@@ -2,14 +2,17 @@
 
 <%= render 'shared/header' %>
 
-<div class="container w-50">
-  <div class="text-center fs-1 mb-5">Users index</div>
+<div class="container w-25">
+  <div class="text-center fs-1 mb-5">Users Index</div>
 
-  <div class="row">
+  <div class="row mb-5">
     <% @users.each do |user| %>
       <div class="text-center mb-3"><%= link_to user.name, user %></div>
     <% end %>
   </div>
 
-  <div class="text-center mt-5"><%= link_to 'Main Menu', home_path %></div>
+  <div class="row text-center">
+    <div class="col"><%= link_to 'User New', new_user_path %></div>
+    <div class="col"><%= link_to 'Main Menu', home_path %></div>
+  </div>
 </div>

@@ -28,12 +28,12 @@ RSpec.describe "Users", type: :request do
 
     it '見出しが表示されること' do
       get user_path(user)
-      expect(response.body).to include('User Profile')
+      expect(response.body).to include('User Show')
     end
 
     it 'タイトルが表示されること' do
       get user_path(user)
-      expect(response.body).to include('<title>User Profile</title>')
+      expect(response.body).to include('<title>User Show</title>')
     end
   end
 
@@ -45,12 +45,12 @@ RSpec.describe "Users", type: :request do
 
     it '見出しが表示されること' do
       get signup_path
-      expect(response.body).to include('Sign up')
+      expect(response.body).to include('User New')
     end
 
     it 'タイトルが表示されること' do
       get signup_path
-      expect(response.body).to include('<title>Sign up</title>')
+      expect(response.body).to include('<title>User New</title>')
     end
   end
 
