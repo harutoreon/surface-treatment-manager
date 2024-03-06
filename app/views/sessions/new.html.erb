@@ -6,13 +6,15 @@
   </div>
 <% end %>
 
-<div class="container text-center fs-1 mt-5 mb-3">
-  Welcome to the Surface Treatment Manager!<br>
-  Please login with your account.
+<div class="container">
+  <div class="text-center fs-1 mt-5 mb-5">
+    Welcome to the Surface Treatment Manager!<br>
+    Please login with your account.
+  </div>
 </div>
 
 <div class="container w-25">
-  <div class="fs-1 text-center mt-5 mb-3">Log in</div>
+  <div class="text-center fs-1 mb-5">Log in</div>
 
   <%= form_with(scope: :session, url: login_path) do |form| %>
     <%= form.label :name %>
@@ -23,8 +25,4 @@
 
     <%= form.submit "Log in", class: 'col-12 btn btn-primary' %>
   <% end %>
-
-  <div class="text-center mt-5">
-    <%= link_to "If you don't have an account, click here.", signup_path %>
-  </div>
 </div>
