@@ -39,17 +39,17 @@ RSpec.describe "Users", type: :request do
 
   describe "#new" do
     it "レスポンスが正常であること" do
-      get signup_path
+      get new_user_path
       expect(response).to have_http_status(:success)
     end
 
     it '見出しが表示されること' do
-      get signup_path
+      get new_user_path
       expect(response.body).to include('User New')
     end
 
     it 'タイトルが表示されること' do
-      get signup_path
+      get new_user_path
       expect(response.body).to include('<title>User New</title>')
     end
   end
@@ -68,11 +68,6 @@ RSpec.describe "Users", type: :request do
 
       it '登録が成功すること' do
         expect{ post users_path, params: user_params }.to change{ User.count }.from(0).to(1)
-      end
-
-      it 'ログイン状態であること' do
-        post users_path, params: user_params
-        expect(logged_in?).to be_truthy
       end
     end
   end
@@ -142,43 +137,15 @@ RSpec.describe "Users", type: :request do
 
   describe '#destroy' do
     let!(:user)       { FactoryBot.create(:user) }
-    let!(:other_user) { FactoryBot.create(:archer) }
+    # let!(:other_user) { FactoryBot.create(:archer) }
 
-    context 'ログインしてないユーザーであれば' do
-      it '削除できないこと' do
-        expect { delete user_path(user) }.to_not change{ User.count }.from(2)
-      end
-
-      it 'ログイン画面にリダイレクトされること' do
-        delete user_path(user)
-        expect(response).to redirect_to login_url
-      end
+    it '削除できること' do
+      expect { delete user_path(user) }.to change{ User.count }.from(1).to(0)
     end
 
-    context 'ログイン済みユーザーでも管理者ユーザーでなければ' do
-      it '削除できないこと' do
-        log_in(other_user)
-        expect { delete user_path(user) }.to_not change{ User.count }.from(2)
-      end
-
-      it 'ログイン画面にリダイレクトされること' do
-        log_in(other_user)
-        delete user_path(user)
-        expect(response).to redirect_to login_url
-      end
-    end
-
-    context '管理者ユーザーでログインすれば' do
-      it '削除できること' do
-        log_in(user)
-        expect { delete user_path(other_user) }.to change{ User.count }.from(2).to(1)
-      end
-
-      it 'サンプル一覧画面にリダイレクトされること' do
-        log_in(user)
-        delete user_path(other_user)
-        expect(response).to redirect_to home_url
-      end
+    it 'users#indexにリダイレクトされること' do
+      delete user_path(user)
+      expect(response).to redirect_to users_url
     end
   end
 end

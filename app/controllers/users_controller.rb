@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: :destroy
-  before_action :admin_user, only: :destroy
+  # before_action :admin_user, only: :destroy
 
   def index
     @users = User.all
@@ -18,9 +17,8 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      log_in @user
-      flash[:success] = "Welcome to the Surface Treatment Manager!"
-      redirect_to home_url
+      flash[:success] = "Successful registration of new user!"
+      redirect_to @user
     else
       render :new, status: :unprocessable_entity
     end
@@ -44,7 +42,7 @@ class UsersController < ApplicationController
   def destroy
     User.find(params[:id]).destroy
     flash[:success] = "User deleted"
-    redirect_to home_url, status: :see_other
+    redirect_to users_url, status: :see_other
   end
 
   private
@@ -53,14 +51,7 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name, :password, :password_confirmation)
     end
 
-    def logged_in_user
-      unless logged_in?
-        flash[:danger] = "Please log in."
-        redirect_to login_url
-      end
-    end
-
-    def admin_user
-      redirect_to(login_url) unless current_user.admin?
-    end
+  # def admin_user
+  #   redirect_to(login_url) unless current_user.admin?
+  # end
 end
