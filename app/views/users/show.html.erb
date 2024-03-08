@@ -1,29 +1,22 @@
-<%= provide(:title, 'User Profile') %>
+<%= provide(:title, 'User Show') %>
 
-<% if logged_in? %>
-  <%= render 'shared/header' %>
+<%= render 'shared/header' %>
 
-  <% flash.each do |message_type, message| %>
-    <div class="alert alert-<%= message_type %> alert-dismissible fade show"><%= message %>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-  <% end %>
-
-  <div class="container text-center w-50">
-    <div class="mb-3 fs-1">
-      User Profile
-    </div>
-    <div class="mb-3 fs-4">
-      Name: <%= @user.name %>
-    </div>
-    <div class="mb-5 fs-5">
-      This user is logging in.
-    </div>
-    <div class="mb-5"><%= link_to 'Main Menu', home_path %></div>
-    <div class="mb-3">
-      <% if current_user.admin? && !current_user?(@user)%>
-        <%= link_to "User destroy", @user, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
-      <% end %>
-    </div>
+<% flash.each do |message_type, message| %>
+  <div class="alert alert-<%= message_type %> alert-dismissible fade show"><%= message %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
 <% end %>
+
+<div class="container w-25">
+  <div class="text-center fs-1 mb-5">User Show</div>
+
+  <div class="form-label">Name</div>
+  <div class="form-control mb-5"><%= @user.name %></div>
+
+  <div class="row text-center">
+    <div class="col"><%= link_to 'User Edit', edit_user_path(@user) %></div>
+    <div class="col"><%= link_to "User destroy", @user, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></div>
+    <div class="col"><%= link_to 'Users Index', users_path %></div>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<%= provide(:title, 'Users Index') %>
+
+<%= render 'shared/header' %>
+
+<div class="container w-25">
+  <div class="text-center fs-1 mb-5">Users Index</div>
+
+  <div class="row mb-5">
+    <% @users.each do |user| %>
+      <% unless user.admin? %>
+        <div class="text-center mb-3"><%= link_to user.name, user %></div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="row text-center">
+    <div class="col"><%= link_to 'User New', new_user_path %></div>
+    <div class="col"><%= link_to 'Main Menu', home_path %></div>
+  </div>
+</div>

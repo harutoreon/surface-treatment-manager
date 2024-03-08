@@ -17,4 +17,17 @@ FactoryBot.define do
     password              { "password" }
     password_confirmation { "password" }
   end
+
+  factory :admin, class: User do
+    name                  { "admin user" }
+    password              { "password" }
+    password_confirmation { "password" }
+    admin { true }
+  end
+
+  factory :non_admin, class: User do
+    name                  { "non admin user" }
+    password              { "password" }
+    password_confirmation { "password" }
+  end
 end
