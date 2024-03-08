@@ -7,7 +7,9 @@
 
   <div class="row mb-5">
     <% @users.each do |user| %>
-      <div class="text-center mb-3"><%= link_to user.name, user %></div>
+      <% unless user.admin? %>
+        <div class="text-center mb-3"><%= link_to user.name, user %></div>
+      <% end %>
     <% end %>
   </div>
 
