@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  <div class="row justify-content-center">
+  <div class="row justify-content-center mb-4">
     <div class="card" style="width: 18rem;">
       <%= image_tag("library_add.svg", alt: "image cap", class: "card-img-top") %>
       <div class="card-body text-center">
@@ -51,6 +51,15 @@
       <%= image_tag("users_management.svg", alt: "image cap", class: "card-img-top") %>
       <div class="card-body text-center">
         <%= link_to  "Go users index page", users_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="card" style="width: 18rem;">
+      <%= image_tag("settings.svg", alt: "image cap", class: "card-img-top") %>
+      <div class="card-body text-center">
+        <%= link_to  "Go categories page", categories_path, class: "btn btn-primary" %>
       </div>
     </div>
   </div>
