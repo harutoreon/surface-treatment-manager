@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe "Categories", type: :request do
   before do
-    user = FactoryBot.create(:user)
-    log_in(user)
+    admin = FactoryBot.create(:admin)
+    log_in(admin)
 
     @category = FactoryBot.create(:category)
   end
