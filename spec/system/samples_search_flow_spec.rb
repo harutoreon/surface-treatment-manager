@@ -53,7 +53,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         expect(page).to have_content('Main Menu')
 
         click_link(id: 'category_search')
-        expect(page).to have_content('Search Category')
+        expect(page).to have_content('Search by category')
 
         select('陽極酸化')
 
@@ -69,7 +69,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         expect(page).to have_content('Main Menu')
 
         click_link(id: 'category_search')
-        expect(page).to have_content('Search Category')
+        expect(page).to have_content('Search by category')
 
         select('表面硬化')
 
