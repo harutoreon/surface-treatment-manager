@@ -2,64 +2,104 @@
 
 <%= render 'shared/header' %>
 
-<div class="container">
-  <div class="fs-1 text-center mb-5">Main Menu</div>
+<div class="container w-50">
+  <h3 class="text-center mb-5">Main Menu</h3>
 
-  <div class="row justify-content-center mb-4">
-    <div class="card" style="width: 18rem;">
-      <% if sample_exists? %>
-        <%= image_tag("experiment.svg", alt: "image cap", class: "card-img-top") %>
-      <% else %>
-        <%= image_tag("science.svg", alt: "image cap", class: "card-img-top") %>
-      <% end %>
-      <div class="card-body text-center">
-        <%= link_to  "Go name search page", category_name_path, class: "btn btn-primary" %>
+  <div class="row mb-4">
+    <div class="col">
+      <div class="card pt-2" style="width: 18rem;">
+        <%= image_tag 'experiment.svg', alt: 'sample image', class: 'card-img-top w-25', width: 50, height: 50 %>
+        <div class="card-body">
+          <h5 class="card-title">Search by treatment</h5>
+          <p class="card-text">Enter a treatment name to search for a surface treatment.</p>
+          <%= link_to 'Go to search page', category_name_path, class: 'card-link', id: 'name_search' %>
+        </div>
       </div>
     </div>
-
-    <div class="card ms-5 me-5" style="width: 18rem;">
-      <%= image_tag("category.svg", alt: "image cap", class: "card-img-top") %>
-      <div class="card-body text-center">
-        <%= link_to  "Go category search page", category_category_path, class: "btn btn-primary" %>
+    <div class="col">
+      <div class="card pt-2" style="width: 18rem;">
+        <%= image_tag 'category.svg', alt: 'sample image', class: 'card-img-top w-25', width: 50, height: 50 %>
+        <div class="card-body">
+          <h5 class="card-title">Search by category</h5>
+          <p class="card-text">Select a category to search for surface treatments.</p>
+          <%= link_to 'Go to search page', category_category_path, class: 'card-link', id: 'category_search' %>
+        </div>
       </div>
     </div>
-
-    <div class="card" style="width: 18rem;">
-      <%= image_tag("factory.svg", alt: "image cap", class: "card-img-top") %>
-      <div class="card-body text-center">
-        <%= link_to  "Go maker search page", category_maker_path, class: "btn btn-primary" %>
-      </div>
-    </div>
-  </div>
-
-  <div class="row justify-content-center mb-4">
-    <div class="card" style="width: 18rem;">
-      <%= image_tag("library_add.svg", alt: "image cap", class: "card-img-top") %>
-      <div class="card-body text-center">
-        <%= link_to  "Go samples new page", new_sample_path, class: "btn btn-primary" %>
-      </div>
-    </div>
-
-    <div class="card ms-5 me-5" style="width: 18rem;">
-      <%= image_tag("list.svg", alt: "image cap", class: "card-img-top") %>
-      <div class="card-body text-center">
-        <%= link_to  "Go samples index page", samples_path, class: "btn btn-primary" %>
-      </div>
-    </div>
-
-    <div class="card" style="width: 18rem;">
-      <%= image_tag("users_management.svg", alt: "image cap", class: "card-img-top") %>
-      <div class="card-body text-center">
-        <%= link_to  "Go users index page", users_path, class: "btn btn-primary" %>
+    <div class="col">
+      <div class="card pt-2" style="width: 18rem;">
+        <%= image_tag 'factory.svg', alt: 'sample image', class: 'card-img-top w-25', width: 50, height: 50 %>
+        <div class="card-body">
+          <h5 class="card-title">Search by maker</h5>
+          <p class="card-text">Enter a manufacturer's name to search for surface treatments.</p>
+          <%= link_to 'Go to search page', category_maker_path, class: 'card-link', id: 'maker_search' %>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="row justify-content-center">
-    <div class="card" style="width: 18rem;">
-      <%= image_tag("settings.svg", alt: "image cap", class: "card-img-top") %>
-      <div class="card-body text-center">
-        <%= link_to  "Go categories page", categories_path, class: "btn btn-primary" %>
+  <div class="row mb-4">
+    <div class="col">
+      <div class="card pt-2" style="width: 18rem;">
+        <%= image_tag 'list.svg', alt: 'sample image', class: 'card-img-top w-25', width: 50, height: 50 %>
+        <div class="card-body">
+          <h5 class="card-title">Search by list</h5>
+          <p class="card-text">Search for a treatment from the list of surface treatments.</p>
+          <%= link_to 'Go to search page', samples_path, class: 'card-link' %>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card pt-2" style="width: 18rem;">
+        <%= image_tag 'library_add.svg', alt: 'sample image', class: 'card-img-top w-25', width: 50, height: 50 %>
+        <div class="card-body">
+          <h5 class="card-title">Treatment management</h5>
+          <p class="card-text">Manage surface preparation information in one place.</p>
+          <%= link_to 'Go to management page', samples_path, class: 'card-link' %>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card pt-2" style="width: 18rem;">
+        <%= image_tag 'category_add.svg', alt: 'sample image', class: 'card-img-top w-25', width: 50, height: 50 %>
+        <div class="card-body">
+          <h5 class="card-title">Category management</h5>
+          <p class="card-text">Manage information about categories in one place.</p>
+          <%= link_to 'Go to management page', categories_path, class: 'card-link' %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col">
+      <div class="card pt-2" style="width: 18rem;">
+        <%= image_tag 'maker_add.svg', alt: 'sample image', class: 'card-img-top w-25', width: 50, height: 50 %>
+        <div class="card-body">
+          <h5 class="card-title">Maker management</h5>
+          <p class="card-text">Manage manufacturers' information in one place.</p>
+          <%= link_to 'Go to management page', '#', class: 'card-link' %>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card pt-2" style="width: 18rem;">
+        <%= image_tag 'user_add.svg', alt: 'sample image', class: 'card-img-top w-25', width: 50, height: 50 %>
+        <div class="card-body">
+          <h5 class="card-title">User management</h5>
+          <p class="card-text">Manage information about users in one place.</p>
+          <%= link_to 'Go to management page', users_path, class: 'card-link' %>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card pt-2" style="width: 18rem;">
+        <%= image_tag 'settings.svg', alt: 'sample image', class: 'card-img-top w-25', width: 50, height: 50 %>
+        <div class="card-body">
+          <h5 class="card-title">Application settings</h5>
+          <p class="card-text">Basic application settings and logout.</p>
+          <%= link_to 'Go to setting page', '#', class: 'card-link' %>
+        </div>
       </div>
     </div>
   </div>

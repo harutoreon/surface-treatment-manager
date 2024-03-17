@@ -18,7 +18,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         visit home_path
         expect(page).to have_content('Main Menu')
 
-        click_link('Go name search page')
+        click_link(id: 'name_search')
         expect(page).to have_content('Search Name')
 
         fill_in('keyword', with: 'アルマイト')
@@ -34,7 +34,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         visit home_path
         expect(page).to have_content('Main Menu')
 
-        click_link('Go name search page')
+        click_link(id: 'name_search')
         expect(page).to have_content('Search Name')
 
         fill_in('keyword', with: 'めっき')
@@ -52,7 +52,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         visit home_path
         expect(page).to have_content('Main Menu')
 
-        click_link('Go category search page')
+        click_link(id: 'category_search')
         expect(page).to have_content('Search Category')
 
         select('陽極酸化')
@@ -68,7 +68,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         visit home_path
         expect(page).to have_content('Main Menu')
 
-        click_link('Go category search page')
+        click_link(id: 'category_search')
         expect(page).to have_content('Search Category')
 
         select('表面硬化')
@@ -86,7 +86,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         visit home_path
         expect(page).to have_content('Main Menu')
 
-        click_link('Go maker search page')
+        click_link(id: 'maker_search')
         expect(page).to have_content('Search Maker')
 
         fill_in('keyword', with: '有限会社')
@@ -102,7 +102,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         visit home_path
         expect(page).to have_content('Main Menu')
 
-        click_link('Go maker search page')
+        click_link(id: 'maker_search')
         expect(page).to have_content('Search Maker')
 
         fill_in('keyword', with: '株式会社')
