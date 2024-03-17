@@ -19,7 +19,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         expect(page).to have_content('Main Menu')
 
         click_link(id: 'name_search')
-        expect(page).to have_content('Search Name')
+        expect(page).to have_content('Search by treatment')
 
         fill_in('keyword', with: 'アルマイト')
 
@@ -35,7 +35,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         expect(page).to have_content('Main Menu')
 
         click_link(id: 'name_search')
-        expect(page).to have_content('Search Name')
+        expect(page).to have_content('Search by treatment')
 
         fill_in('keyword', with: 'めっき')
 
