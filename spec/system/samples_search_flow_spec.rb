@@ -19,7 +19,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         expect(page).to have_content('Main Menu')
 
         click_link(id: 'name_search')
-        expect(page).to have_content('Search Name')
+        expect(page).to have_content('Search by treatment')
 
         fill_in('keyword', with: 'アルマイト')
 
@@ -35,7 +35,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         expect(page).to have_content('Main Menu')
 
         click_link(id: 'name_search')
-        expect(page).to have_content('Search Name')
+        expect(page).to have_content('Search by treatment')
 
         fill_in('keyword', with: 'めっき')
 
@@ -53,7 +53,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         expect(page).to have_content('Main Menu')
 
         click_link(id: 'category_search')
-        expect(page).to have_content('Search Category')
+        expect(page).to have_content('Search by category')
 
         select('陽極酸化')
 
@@ -69,7 +69,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         expect(page).to have_content('Main Menu')
 
         click_link(id: 'category_search')
-        expect(page).to have_content('Search Category')
+        expect(page).to have_content('Search by category')
 
         select('表面硬化')
 
@@ -87,7 +87,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         expect(page).to have_content('Main Menu')
 
         click_link(id: 'maker_search')
-        expect(page).to have_content('Search Maker')
+        expect(page).to have_content('Search by maker')
 
         fill_in('keyword', with: '有限会社')
 
@@ -103,7 +103,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         expect(page).to have_content('Main Menu')
 
         click_link(id: 'maker_search')
-        expect(page).to have_content('Search Maker')
+        expect(page).to have_content('Search by maker')
 
         fill_in('keyword', with: '株式会社')
 

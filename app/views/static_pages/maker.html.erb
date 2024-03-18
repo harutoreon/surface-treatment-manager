@@ -2,13 +2,13 @@
 
 <%= render 'shared/header' %>
 
-<div class="container w-25">
-  <div class="fs-1 text-center mb-5">Search Maker</div>
+<div class="container text-center w-25">
+  <h3 class="mb-5">Search by maker</h3>
 
   <%= form_with url: category_maker_search_path, method: :get do |form| %>
     <%= form.text_field :keyword, class: "form-control mb-3", placeholder: "input keyword here." %>
-    <%= form.submit "Search", class: "form-control mb-5 btn btn-secondary" %>
+    <%= form.submit "Search", class: "btn btn-secondary form-control mb-5" %>
   <% end %>
 
-  <div class="text-center"><%= link_to "Main Menu", home_path %></div>
+  <div><%= link_to "Main Menu", home_path %></div>
 </div>
