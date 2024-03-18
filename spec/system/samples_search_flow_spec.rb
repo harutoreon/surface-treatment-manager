@@ -87,7 +87,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         expect(page).to have_content('Main Menu')
 
         click_link(id: 'maker_search')
-        expect(page).to have_content('Search Maker')
+        expect(page).to have_content('Search by maker')
 
         fill_in('keyword', with: '有限会社')
 
@@ -103,7 +103,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         expect(page).to have_content('Main Menu')
 
         click_link(id: 'maker_search')
-        expect(page).to have_content('Search Maker')
+        expect(page).to have_content('Search by maker')
 
         fill_in('keyword', with: '株式会社')
 
