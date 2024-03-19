@@ -65,12 +65,12 @@ RSpec.describe "StaticPages", type: :request do
 
     it '見出しが表示されること' do
       get category_maker_path
-      expect(response.body).to include("Search Maker")
+      expect(response.body).to include("Search by maker")
     end
 
     it 'タイトルが表示されること' do
       get category_maker_path
-      expect(response.body).to include('<title>Search Maker</title>')
+      expect(response.body).to include('<title>Search by maker</title>')
     end
   end
 end

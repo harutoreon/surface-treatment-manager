@@ -33,12 +33,12 @@ RSpec.describe "Samples", type: :request do
 
     it '見出しが表示されること' do
       get sample_path(@sample)
-      expect(response.body).to include("Sample Show")
+      expect(response.body).to include("Surface Treatment Information")
     end
 
     it 'タイトルが表示されること' do
       get sample_path(@sample)
-      expect(response.body).to include('<title>Sample Show</title>')
+      expect(response.body).to include('<title>Surface Treatment Information</title>')
     end
   end
 
