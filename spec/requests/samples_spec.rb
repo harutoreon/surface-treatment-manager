@@ -50,12 +50,12 @@ RSpec.describe "Samples", type: :request do
 
     it '見出しが表示されること' do
       get new_sample_path
-      expect(response.body).to include("Sample New")
+      expect(response.body).to include("New Registration for Surface Treatment")
     end
 
     it 'タイトルが表示されること' do
       get new_sample_path
-      expect(response.body).to include('<title>Sample New</title>')
+      expect(response.body).to include('<title>New Registration for Surface Treatment</title>')
     end
 
   end
@@ -92,7 +92,7 @@ RSpec.describe "Samples", type: :request do
 
       it 'samples/newが再描画されること' do
         post samples_path, params: invalid_params
-        expect(response.body).to include("Sample New")
+        expect(response.body).to include("New Registration for Surface Treatment")
       end
     end
   end
