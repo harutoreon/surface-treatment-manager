@@ -31,5 +31,9 @@
   </div>
 
   <%= will_paginate @samples, class: "mb-5" %>
-  <%= link_to 'Main Menu', home_path %>
+
+  <div class="d-flex w-100 justify-content-evenly mb-5">
+    <%= link_to 'New Registration', new_sample_path %>
+    <%= link_to 'Main Menu', home_path %>
+  </div>
 </div>
