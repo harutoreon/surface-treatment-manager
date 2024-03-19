@@ -1,29 +1,37 @@
-<%= provide(:title, 'Sample Show') %>
+<%= provide(:title, 'Surface Treatment Information') %>
 
 <%= render 'shared/header' %>
 
 <div class="container w-25">
-  <div class="mb-5 fs-1 text-center">Sample Show</div>
+  <h3 class="text-center mb-5">Surface Treatment Information</h3>
 
-  <div class="form-label">Name</div>
-  <div class="form-control mb-3"><%= @sample.name %></div>
-
-  <div class="form-label">Category</div>
-  <div class="form-control mb-3"><%= @sample.category %></div>
-
-  <div class="form-label">Color</div>
-  <div class="form-control mb-3"><%= @sample.color %></div>
-
-  <div class="form-label">Maker</div>
-  <div class="form-control mb-3"><%= @sample.maker %></div>
-
-  <div class="form-label">Picture</div>
-  <div><%= image_tag @sample.picture.url, class: 'mb-5' %></div>
+  <div class="list-group mb-5">
+    <li class="d-flex justify-content-between list-group-item">
+      <div>Name :</div>
+      <div><%= @sample.name %></div>
+    </li>
+    <li class="d-flex justify-content-between list-group-item">
+      <div>Category :</div>
+      <div><%= @sample.category %></div>
+    </li>
+    <li class="d-flex justify-content-between list-group-item">
+      <div>Color :</div>
+      <div><%= @sample.color %></div>
+    </li>
+    <li class="d-flex justify-content-between list-group-item">
+      <div>Maker :</div>
+      <div><%= @sample.maker %></div>
+    </li>
+    <li class="d-flex justify-content-between list-group-item">
+      <div>Picture :</div>
+      <div><%= image_tag @sample.picture.url, alt: 'sample image', class: 'mt-2 mb-2', width: 250, height: 250 %></div>
+    </li>
+  </div>
 
   <div class="row text-center">
-    <div class="col"><%= link_to "Sample Edit", edit_sample_path(@sample) %></div>
-    <div class="col"><%= link_to "Sample Destroy", sample_path(@sample), data: { turbo_method: :delete,
-                                                                                 turbo_confirm: "Are you sure you want to delete?" } %></div>
-    <div class="col"><%= link_to "Main Menu", home_path %></div>
+    <div class="col"><%= link_to "Edit", edit_sample_path(@sample) %></div>
+    <div class="col"><%= link_to "Destroy", sample_path(@sample), data: { turbo_method: :delete,
+                                                                                  turbo_confirm: "Are you sure you want to delete?" } %></div>
+    <div class="col"><%= link_to "List", samples_path %></div>
   </div>
 </div>

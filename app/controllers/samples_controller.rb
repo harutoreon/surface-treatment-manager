@@ -1,6 +1,6 @@
 class SamplesController < ApplicationController
   def index
-    @samples = Sample.paginate(page: params[:page])
+    @samples = Sample.paginate(page: params[:page], per_page: 8)
   end
 
   def show
