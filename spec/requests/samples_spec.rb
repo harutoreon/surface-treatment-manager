@@ -105,12 +105,12 @@ RSpec.describe "Samples", type: :request do
 
     it '見出しが表示されること' do
       get edit_sample_path(@sample)
-      expect(response.body).to include("Sample Edit")
+      expect(response.body).to include("Edit for Surface Treatment")
     end
 
     it 'タイトルが表示されること' do
       get edit_sample_path(@sample)
-      expect(response.body).to include('<title>Sample Edit</title>')
+      expect(response.body).to include('<title>Edit for Surface Treatment</title>')
     end
   end
 
@@ -138,7 +138,7 @@ RSpec.describe "Samples", type: :request do
 
       it 'samples/editが再描画されること' do
         patch sample_path(@sample), params: { sample: { name: "" } }
-        expect(response.body).to include("Sample Edit")
+        expect(response.body).to include("Edit for Surface Treatment")
       end
     end
   end
