@@ -36,12 +36,12 @@ RSpec.describe "Users", type: :request do
 
     it '見出しが表示されること' do
       get user_path(@admin)
-      expect(response.body).to include('User Show')
+      expect(response.body).to include('User Information')
     end
 
     it 'タイトルが表示されること' do
       get user_path(@admin)
-      expect(response.body).to include('<title>User Show</title>')
+      expect(response.body).to include('<title>User Information</title>')
     end
   end
 
