@@ -114,12 +114,12 @@ RSpec.describe "Users", type: :request do
 
     it '見出しが表示されること' do
       get edit_user_path(@admin)
-      expect(response.body).to include("User Edit")
+      expect(response.body).to include("Edit for User")
     end
 
     it 'タイトルが表示されること' do
       get edit_user_path(@admin)
-      expect(response.body).to include('<title>User Edit</title>')
+      expect(response.body).to include('<title>Edit for User</title>')
     end
   end
 
@@ -157,7 +157,7 @@ RSpec.describe "Users", type: :request do
 
       it 'users/editページが表示されること' do
         patch user_path(@non_admin), params: { user: { name: '' } }
-        expect(response.body).to include('User Edit')
+        expect(response.body).to include('Edit for User')
       end
     end
   end
