@@ -1,11 +1,15 @@
-<%= provide(:title, 'Category Edit') %>
+<%= provide(:title, 'Edit for Category') %>
 
 <%= render 'shared/header' %>
 
 <div class="container w-25">
-  <div class="fs-1 text-center mb-5">Category Edit</div>
+  <h3 class="text-center mb-5">Edit for Category</h3>
 
-  <%= render 'form', category: @category %>
+  <%= form_with model: @category do |form| %>
+    <%= form.label :item, class: 'form-label' %>
+    <%= form.text_field :item, class: 'form-control mb-4' %>
+    <%= form.submit class: 'form-control btn btn-primary mb-5' %>
+  <% end %>
 
-  <div class="text-center mt-5"><%= link_to 'Category Show', category_path(@category) %></div>
+  <div class="text-center"><%= link_to 'Information', category_path(@category) %></div>
 </div>

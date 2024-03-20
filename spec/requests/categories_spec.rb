@@ -95,12 +95,12 @@ RSpec.describe "Categories", type: :request do
 
     it '見出しが「Category Edit」であること' do
       get edit_category_path(@category)
-      expect(response.body).to include('Category Edit')
+      expect(response.body).to include('Edit for Category')
     end
 
     it 'タイトルが表示されること' do
       get edit_category_path(@category)
-      expect(response.body).to include('<title>Category Edit</title>')
+      expect(response.body).to include('<title>Edit for Category</title>')
     end
   end
 
@@ -129,7 +129,7 @@ RSpec.describe "Categories", type: :request do
       it 'categories#editに遷移されること' do
         patch category_path(@category), params: { category: { item: '' } }
         @category.reload
-        expect(response.body).to include("Category Edit")
+        expect(response.body).to include("Edit for Category")
       end
     end
   end
