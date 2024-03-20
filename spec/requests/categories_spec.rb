@@ -14,14 +14,14 @@ RSpec.describe "Categories", type: :request do
       expect(response).to have_http_status(:success)
     end
 
-    it '見出しが「Category Index」であること' do
+    it '見出しが表示されること' do
       get categories_path
-      expect(response.body).to include('Category Index')
+      expect(response.body).to include('Category List')
     end
 
     it 'タイトルが表示されること' do
       get categories_path
-      expect(response.body).to include('<title>Category Index</title>')
+      expect(response.body).to include('<title>Category List</title>')
     end
   end
 
