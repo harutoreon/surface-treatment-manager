@@ -58,12 +58,12 @@ RSpec.describe "Users", type: :request do
 
     it '見出しが表示されること' do
       get new_user_path
-      expect(response.body).to include('User New')
+      expect(response.body).to include('New Registration for User')
     end
 
     it 'タイトルが表示されること' do
       get new_user_path
-      expect(response.body).to include('<title>User New</title>')
+      expect(response.body).to include('<title>New Registration for User</title>')
     end
   end
 
@@ -96,7 +96,7 @@ RSpec.describe "Users", type: :request do
 
       it 'users/newページが表示されること' do
         post users_path, params: user_params
-        expect(response.body).to include('User New')
+        expect(response.body).to include('New Registration for User')
       end
     end
   end
