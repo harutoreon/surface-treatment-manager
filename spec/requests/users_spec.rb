@@ -14,12 +14,12 @@ RSpec.describe "Users", type: :request do
 
     it '見出しが表示されること' do
       get users_path
-      expect(response.body).to include('Users Index')
+      expect(response.body).to include('User List')
     end
 
     it 'タイトルが表示されること' do
       get users_path
-      expect(response.body).to include('<title>Users Index</title>')
+      expect(response.body).to include('<title>User List</title>')
     end
   end
 
