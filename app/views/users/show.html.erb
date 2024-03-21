@@ -1,4 +1,4 @@
-<%= provide(:title, 'User Show') %>
+<%= provide(:title, 'User Information') %>
 
 <%= render 'shared/header' %>
 
@@ -9,14 +9,26 @@
 <% end %>
 
 <div class="container w-25">
-  <div class="text-center fs-1 mb-5">User Show</div>
+  <h3 class="text-center mb-5">User Information</h3>
 
-  <div class="form-label">Name</div>
-  <div class="form-control mb-5"><%= @user.name %></div>
+  <div class="list-group mb-5">
+    <li class="d-flex justify-content-between list-group-item">
+      <div>Name :</div>
+      <div><%= @user.name %></div>
+    </li>
+    <li class="d-flex justify-content-between list-group-item">
+      <div>Class :</div>
+      <% if @user.admin? %>
+        <div>admin</div>
+      <% else %>
+        <div>general</div>
+      <% end %>
+    </li>
+  </div>
 
-  <div class="row text-center">
-    <div class="col"><%= link_to 'User Edit', edit_user_path(@user) %></div>
-    <div class="col"><%= link_to "User destroy", @user, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></div>
-    <div class="col"><%= link_to 'Users Index', users_path %></div>
+  <div class="d-flex justify-content-evenly">
+    <div><%= link_to 'Edit', edit_user_path(@user) %></div>
+    <div><%= link_to "Destroy", @user, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></div>
+    <div><%= link_to 'List', users_path %></div>
   </div>
 </div>

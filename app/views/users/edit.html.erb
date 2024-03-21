@@ -1,9 +1,9 @@
-<%= provide(:title, 'User Edit') %>
+<%= provide(:title, 'Edit for User') %>
 
 <%= render 'shared/header' %>
 
 <div class="container w-25">
-  <div class="text-center fs-1 mb-5">User Edit</div>
+  <h3 class="text-center mb-5">Edit for User</h3>
 
   <%= form_with model: @user do |form| %>
     <%= form.label :name, class: "form-label" %>
@@ -14,12 +14,12 @@
     <%= form.password_field :password, class: "form-control mb-3" %>
     <%= render 'shared/error_messages', object: @user, label: :password %>
 
-    <%= form.label :password_confirmation, "Confirmation",class: "form-label" %>
+    <%= form.label :password_confirmation, "Confirmation", class: "form-label" %>
     <%= form.password_field :password_confirmation, class: "form-control mb-4" %>
     <%= render 'shared/error_messages', object: @user, label: :password_confirmation %>
 
-    <%= form.submit class: "col-12 btn btn-primary mb-4" %>
+    <%= form.submit class: "form-control btn btn-primary mb-5" %>
   <% end %>
 
-  <div class="text-center"><%= link_to 'User Show', @user %></div>
+  <div class="text-center"><%= link_to 'Information', user_path(@user) %></div>
 </div>
