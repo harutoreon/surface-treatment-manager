@@ -11,7 +11,7 @@
     <%= render 'shared/error_messages', object: @user, label: :name %>
 
     <%= form.label :password, class: "form-label" %>
-    <%= form.password_field :password, class: "form-control mb-4" %>
+    <%= form.password_field :password, class: "form-control mb-3" %>
     <%= render 'shared/error_messages', object: @user, label: :password %>
 
     <%= form.label :password_confirmation, "Confirmation", class: "form-label" %>
@@ -21,5 +21,5 @@
     <%= form.submit class: "form-control btn btn-primary mb-5" %>
   <% end %>
 
-  <div class="text-center"><%= link_to 'User List', users_path %></div>
+  <div class="text-center"><%= link_to 'List', users_path %></div>
 </div>

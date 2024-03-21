@@ -17,7 +17,7 @@
       <%= link_to user, class: "list-group-item list-group-item-action" do %>
         <div class="d-flex justify-content-between">
           <div><%= user.name %></div>
-          <div><%= "admin" if user.admin? %></div>
+          <div><%= user_class(user) %></div>
         </div>
       <% end %>
     <% end %>
