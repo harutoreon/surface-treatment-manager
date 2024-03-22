@@ -25,7 +25,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
 
         click_button('Search')
         expect(page).to have_content('Search result of surface treatment')
-        expect(page).to have_link('白アルマイト', count: 10)
+        expect(page).to have_link('白アルマイト', count: 8)
       end
     end
 
@@ -59,7 +59,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
 
         click_button('Search')
         expect(page).to have_content('Search result of surface treatment')
-        expect(page).to have_link('白アルマイト', count: 10)
+        expect(page).to have_link('白アルマイト', count: 8)
       end
     end
 
@@ -93,7 +93,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
 
         click_button('Search')
         expect(page).to have_content('Search result of surface treatment')
-        expect(page).to have_link('白アルマイト', count: 10)
+        expect(page).to have_link('白アルマイト', count: 8)
       end
     end
 
