@@ -18,12 +18,12 @@ RSpec.describe "Searches", type: :request do
 
     it '見出しが表示されること' do
       get category_name_search_path
-      expect(response.body).to include("Search Result")
+      expect(response.body).to include("Search result of surface treatment")
     end
 
     it 'タイトルが表示されること' do
       get category_name_search_path
-      expect(response.body).to include('<title>Search Result</title>')
+      expect(response.body).to include('<title>Search result of surface treatment</title>')
     end
 
     it '"めっき"を含んだ処理名が表示されること' do
@@ -40,12 +40,12 @@ RSpec.describe "Searches", type: :request do
 
     it '見出しが表示されること' do
       get category_category_search_path
-      expect(response.body).to include("Search Result")
+      expect(response.body).to include("Search result of surface treatment")
     end
 
     it 'タイトルが表示されること' do
       get category_category_search_path
-      expect(response.body).to include('<title>Search Result</title>')
+      expect(response.body).to include('<title>Search result of surface treatment</title>')
     end
 
     it '"無電解ニッケルめっき"が表示されること' do
@@ -62,12 +62,12 @@ RSpec.describe "Searches", type: :request do
 
     it '見出しが表示されること' do
       get category_maker_search_path
-      expect(response.body).to include("Search Result")
+      expect(response.body).to include("Search result of surface treatment")
     end
 
     it 'タイトルが表示されること' do
       get category_maker_search_path
-      expect(response.body).to include('<title>Search Result</title>')
+      expect(response.body).to include('<title>Search result of surface treatment</title>')
     end
 
     it '"無電解ニッケルめっき"が表示されること' do

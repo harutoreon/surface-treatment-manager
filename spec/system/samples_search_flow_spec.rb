@@ -24,8 +24,8 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         fill_in('keyword', with: 'アルマイト')
 
         click_button('Search')
-        expect(page).to have_content('Search Result')
-        expect(page).to have_link('白アルマイト', count: 10)
+        expect(page).to have_content('Search result of surface treatment')
+        expect(page).to have_link('白アルマイト', count: 8)
       end
     end
 
@@ -40,8 +40,8 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         fill_in('keyword', with: 'めっき')
 
         click_button('Search')
-        expect(page).to have_content('Search Result')
-        expect(page).to have_content('No matching sample.')
+        expect(page).to have_content('Search result of surface treatment')
+        expect(page).to have_content('No matching surface treatment.')
       end
     end
   end
@@ -58,8 +58,8 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         select('陽極酸化')
 
         click_button('Search')
-        expect(page).to have_content('Search Result')
-        expect(page).to have_link('白アルマイト', count: 10)
+        expect(page).to have_content('Search result of surface treatment')
+        expect(page).to have_link('白アルマイト', count: 8)
       end
     end
 
@@ -74,8 +74,8 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         select('表面硬化')
 
         click_button('Search')
-        expect(page).to have_content('Search Result')
-        expect(page).to have_content('No matching sample.')
+        expect(page).to have_content('Search result of surface treatment')
+        expect(page).to have_content('No matching surface treatment.')
       end
     end
   end
@@ -92,8 +92,8 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         fill_in('keyword', with: '有限会社')
 
         click_button('Search')
-        expect(page).to have_content('Search Result')
-        expect(page).to have_link('白アルマイト', count: 10)
+        expect(page).to have_content('Search result of surface treatment')
+        expect(page).to have_link('白アルマイト', count: 8)
       end
     end
 
@@ -108,8 +108,8 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         fill_in('keyword', with: '株式会社')
 
         click_button('Search')
-        expect(page).to have_content('Search Result')
-        expect(page).to have_content('No matching sample.')
+        expect(page).to have_content('Search result of surface treatment')
+        expect(page).to have_content('No matching surface treatment.')
       end
     end
   end

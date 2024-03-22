@@ -1,16 +1,13 @@
 class SearchesController < ApplicationController
   def name_search
-    @samples = Sample.name_search(params[:keyword])
-    @search_string = params[:keyword]
+    @samples = Sample.name_search(params[:keyword]).paginate(page: params[:page], per_page: 8)
   end
 
   def category_search
-    @samples = Sample.category_search(params[:selectword])
-    @search_string = params[:selectword]
+    @samples = Sample.category_search(params[:selectword]).paginate(page: params[:page], per_page: 8)
   end
 
   def maker_search
-    @samples = Sample.maker_search(params[:keyword])
-    @search_string = params[:keyword]
+    @samples = Sample.maker_search(params[:keyword]).paginate(page: params[:page], per_page: 8)
   end
 end

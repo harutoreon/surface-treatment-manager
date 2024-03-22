@@ -1,20 +1,37 @@
-<%= provide(:title, 'Search Result') %>
+<%= provide(:title, 'Search result of surface treatment') %>
 
 <%= render 'shared/header' %>
 
-<div class="container">
-  <div class="text-center fs-1 mb-5">Search Result</div>
-  <div class="text-center fs-6 mb-5">Search String :「<%= @search_string %>」</div>
+<div class="container w-50">
+  <h3 class="text-center mb-5">Search result of surface treatment</h3>
 
-  <div class="text-center">
+  <div class="list-group list-group-flush mb-3">
+    <div class="list-group-item">
+      <div class="d-flex w-100 justify-content-between">
+        <h6>Treatment name / Category</h6>
+        <h6>Maker</h6>
+      </div>
+    </div>
+
     <% if @samples.any? %>
       <% @samples.each do |sample| %>
-        <div class="mb-3"><%= link_to sample.name, sample_path(sample) %></div>
+        <%= link_to sample, class: "list-group-item list-group-item-action" do %>
+          <div class="d-flex justify-content-between">
+            <h6><%= sample.name %></h6>
+            <h6><%= sample.maker %></h6>
+          </div>
+          <h6 class="text-start"><%= sample.category %></h6>
+        <% end %>
       <% end %>
     <% else %>
-      <div class="fs-3">No matching sample.</div>
+      <h4 class="text-center m-5">No matching surface treatment.</h4>
     <% end %>
   </div>
 
-  <div class="text-center mt-5"><%= link_to 'Search Name', category_name_path %></div>
+  <%= will_paginate @samples, class: "mb-5 text-center" %>
+
+  <div class="d-flex justify-content-evenly">
+    <%= link_to 'Search again', category_name_path %>
+    <%= link_to 'Main Menu', home_path %>
+  </div>
 </div>
