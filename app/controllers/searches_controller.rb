@@ -10,6 +10,5 @@ class SearchesController < ApplicationController
 
   def maker_search
     @samples = Sample.maker_search(params[:keyword])
-    @search_string = params[:keyword]
   end
 end
