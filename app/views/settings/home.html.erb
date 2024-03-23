@@ -1,2 +1,15 @@
-<h1>Settings#home</h1>
-<p>Find me in app/views/settings/home.html.erb</p>
+<%= provide(:title, 'Application Setting') %>
+
+<%= render 'shared/header' %>
+
+<div class="container w-25">
+  <h3 class="text-center mb-5">Application Setting</h3>
+
+  <div class="list-group list-group-flush border-top border-bottom">
+    <%= link_to logout_path, data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to log out?" },
+      class: "list-group-item list-group-item-action pt-4 pb-4" do %>
+      <h6 class="fw-bold text-primary">Log out</h6>
+      <small>Log out of the application.</small>
+    <% end %>
+  </div>
+</div>
