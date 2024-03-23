@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   get '/category/category/search', to: 'searches#category_search'
   get '/category/maker/search',    to: 'searches#maker_search'
 
+  get '/setting', to: 'settings#home'
+
   resources :samples
   resources :users
   resources :categories
