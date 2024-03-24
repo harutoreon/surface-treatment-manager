@@ -32,21 +32,9 @@
 
   <% if @samples.any? %>
     <ul class="pagination justify-content-center mb-5">
-      <% if @samples.previous_page %>
-        <li class="page-item"><a class="page-link" href="/samples?page=<%= @samples.previous_page %>">Previous</a></li>
-      <% else %>
-        <li class="page-item disabled"><a class="page-link">Previous</a></li>
-      <% end %>
-
-      <% 1.upto(@samples.total_pages) do |page| %>
-        <li class="page-item <%= 'active' if @samples.current_page == page %>"><a class="page-link" href="/samples?page=<%= page %>"><%= page %></a></li>
-      <% end %>
-
-      <% if @samples.next_page %>
-        <li class="page-item"><a class="page-link" href="/samples?page=<%= @samples.next_page %>">Next</a></li>
-      <% else %>
-        <li class="page-item disabled"><a class="page-link">Next</a></li>
-      <% end %>
+      <%= render 'previous_page', pages: @samples %>
+      <%= render 'pages', pages: @samples %>
+      <%= render 'next_page', pages: @samples %>
     </ul>
   <% end %>
 
