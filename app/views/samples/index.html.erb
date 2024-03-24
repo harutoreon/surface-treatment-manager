@@ -11,7 +11,7 @@
 <div class="container text-center w-50">
   <h3 class="mb-5">Surface Treatment List</h3>
 
-  <div class="list-group list-group-flush mb-3">
+  <div class="list-group list-group-flush mb-2">
     <div class="list-group-item list-group-item-action">
       <div class="d-flex w-100 justify-content-between">
         <h6>Treatment name / Category</h6>
@@ -30,9 +30,27 @@
     <% end %>
   </div>
 
-  <%= will_paginate @samples, class: "mb-5" %>
+  <% if @samples.any? %>
+    <ul class="pagination justify-content-center mb-5">
+      <% if @samples.previous_page %>
+        <li class="page-item"><a class="page-link" href="/samples?page=<%= @samples.previous_page %>">Previous</a></li>
+      <% else %>
+        <li class="page-item disabled"><a class="page-link">Previous</a></li>
+      <% end %>
 
-  <div class="d-flex w-100 justify-content-evenly mb-5">
+      <% 1.upto(@samples.total_pages) do |page| %>
+        <li class="page-item <%= 'active' if @samples.current_page == page %>"><a class="page-link" href="/samples?page=<%= page %>"><%= page %></a></li>
+      <% end %>
+
+      <% if @samples.next_page %>
+        <li class="page-item"><a class="page-link" href="/samples?page=<%= @samples.next_page %>">Next</a></li>
+      <% else %>
+        <li class="page-item disabled"><a class="page-link">Next</a></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <div class="d-flex justify-content-evenly">
     <%= link_to 'New Registration', new_sample_path %>
     <%= link_to 'Main Menu', home_path %>
   </div>
