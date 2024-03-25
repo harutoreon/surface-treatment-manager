@@ -28,7 +28,13 @@
     <% end %>
   </div>
 
-  <%= will_paginate @samples, class: "mb-5 text-center" %>
+  <% if @samples.any? %>
+    <ul class="pagination justify-content-center mb-5">
+      <%= render 'previous_page', pages: @samples, keyword: @keyword %>
+      <%= render 'pages',         pages: @samples, keyword: @keyword %>
+      <%= render 'next_page',     pages: @samples, keyword: @keyword %>
+    </ul>
+  <% end %>
 
   <div class="d-flex justify-content-evenly">
     <%= link_to 'Search again', category_name_path %>
