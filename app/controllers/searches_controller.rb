@@ -11,5 +11,6 @@ class SearchesController < ApplicationController
 
   def maker_search
     @samples = Sample.maker_search(params[:keyword]).paginate(page: params[:page], per_page: 8)
+    @keyword = params[:keyword]
   end
 end
