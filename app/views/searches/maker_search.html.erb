@@ -35,9 +35,7 @@
           <a class="page-link" href="/category/maker/search?commit=Search&keyword=<%= @keyword %>&page=<%= @samples.previous_page %>">Previous</a>
         </li>
       <% else %>
-        <li class="page-item disabled">
-          <a class="page-link">Previous</a>
-        </li>
+        <%= render 'disabled_previous_pages' %>
       <% end %>
 
       <% 1.upto(@samples.total_pages) do |page| %>
@@ -51,9 +49,7 @@
           <a class="page-link" href="/category/maker/search?commit=Search&keyword=<%= @keyword %>&page=<%= @samples.next_page %>">Next</a>
         </li>
       <% else %>
-        <li class="page-item disabled">
-          <a class="page-link">Next</a>
-        </li>
+        <%= render 'disabled_next_pages' %>
       <% end %>
     </ul>
   <% end %>

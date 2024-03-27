@@ -1,5 +1,0 @@
-<% 1.upto(pages.total_pages) do |page| %>
-  <li class="page-item <%= 'active' if pages.current_page == page %>">
-    <a class="page-link" href="/category/name/search?commit=Search&keyword=<%= keyword %>&page=<%= page %>"><%= page %></a>
-  </li>
-<% end %>
