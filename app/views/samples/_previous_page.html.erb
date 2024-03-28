@@ -1,0 +1,9 @@
+<% if pages.previous_page %>
+  <li class="page-item">
+    <a class="page-link" href="/samples?page=<%= pages.previous_page %>">Previous</a>
+  </li>
+<% else %>
+  <li class="page-item disabled">
+    <a class="page-link">Previous</a>
+  </li>
+<% end %>

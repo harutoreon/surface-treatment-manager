@@ -11,7 +11,7 @@
 <div class="container text-center w-50">
   <h3 class="mb-5">Surface Treatment List</h3>
 
-  <div class="list-group list-group-flush mb-3">
+  <div class="list-group list-group-flush mb-2">
     <div class="list-group-item list-group-item-action">
       <div class="d-flex w-100 justify-content-between">
         <h6>Treatment name / Category</h6>
@@ -30,9 +30,15 @@
     <% end %>
   </div>
 
-  <%= will_paginate @samples, class: "mb-5" %>
+  <% if @samples.any? %>
+    <ul class="pagination justify-content-center mb-5">
+      <%= render 'previous_page', pages: @samples %>
+      <%= render 'pages', pages: @samples %>
+      <%= render 'next_page', pages: @samples %>
+    </ul>
+  <% end %>
 
-  <div class="d-flex w-100 justify-content-evenly mb-5">
+  <div class="d-flex justify-content-evenly">
     <%= link_to 'New Registration', new_sample_path %>
     <%= link_to 'Main Menu', home_path %>
   </div>
