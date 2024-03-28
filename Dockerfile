@@ -37,7 +37,7 @@ RUN bundle exec bootsnap precompile app/ lib/
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 # Run database seeds
-RUN ./bin/rails db/seed
+RUN ./bin/rails db:seed
 
 # Final stage for app image
 FROM base
