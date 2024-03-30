@@ -17,6 +17,10 @@ class MakersController < ApplicationController
     end
   end
 
+  def edit
+    @maker = Maker.find(params[:id])
+  end
+
   private
 
     def maker_params

@@ -71,4 +71,20 @@ RSpec.describe "Makers", type: :request do
       end
     end
   end
+
+  describe 'edit' do
+    before do
+      @maker = FactoryBot.create(:maker)
+    end
+
+    it 'レスポンスが正常であること' do
+      get edit_maker_path(@maker)
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'タイトルが表示されること' do
+      get edit_maker_path(@maker)
+      expect(response.body).to include('<title>Edit for Maker</title>')
+    end
+  end
 end
