@@ -6,4 +6,20 @@ class MakersController < ApplicationController
   def new
     @maker = Maker.new
   end
+
+  def create
+    @maker = Maker.new(maker_params)
+
+    if @maker.save
+      redirect_to @maker
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+    def maker_params
+      params.require(:maker).permit(:name, :postal_code, :address, :phone_number, :fax_number, :email, :home_page, :manufacturer_rep)
+    end
 end
