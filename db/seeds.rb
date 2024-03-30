@@ -51,3 +51,14 @@ SELECT_WORD = ['めっき', '陽極酸化', '化成', 'コーティング', '表
 SELECT_WORD.each do |select_word|
   Category.create!(item: select_word)
 end
+
+100.times do |n|
+  Maker.create!(name: Faker::Company.name,
+                postal_code: Faker::Address.postcode,
+                address: "東京都渋谷区神南1-2-#{n}",
+                phone_number: Faker::PhoneNumber.cell_phone,
+                fax_number: Faker::PhoneNumber.cell_phone,
+                email: "sample_maker#{n}@example.com",
+                home_page: "https://example.com/sample_maker#{n}",
+                manufacturer_rep: Faker::Name.name)
+end

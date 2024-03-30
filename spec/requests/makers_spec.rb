@@ -1,6 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe "Makers", type: :request do
+  describe 'index' do
+    it 'レスポンスが正常であること' do
+      get makers_path
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'タイトルが表示されること' do
+      get makers_path
+      expect(response.body).to include('<title>Maker List</title>')
+    end
+  end
+
   describe "show" do
     before do
       @maker = FactoryBot.create(:maker)
