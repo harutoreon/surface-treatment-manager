@@ -40,15 +40,9 @@
     </li>
   </div>
 
-  <%# <div class="row text-center"> %>
-    <%# <div class="col"> %>
-      <%#= link_to "Edit", edit_sample_path(@sample) %>
-    <%# </div> %>
-    <%# <div class="col"> %>
-      <%#= link_to "Destroy", sample_path(@sample), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete?" } %>
-    <%# </div> %>
-    <%# <div class="col"> %>
-      <%#= link_to "List", makers_path %>
-    <%# </div> %>
-  <%# </div> %>
-<%# </div> %>
+  <div class="d-flex justify-content-evenly">
+    <%= link_to "Edit", edit_maker_path(@maker) %>
+    <%= link_to "Destroy", maker_path(@maker), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete?" } %>
+    <%= link_to "List", makers_path %>
+  </div>
+</div>
