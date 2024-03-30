@@ -1,6 +1,6 @@
 class MakersController < ApplicationController
   def index
-    @makers = Maker.all
+    @makers = Maker.paginate(page: params[:page], per_page: 8)
   end
 
   def show
