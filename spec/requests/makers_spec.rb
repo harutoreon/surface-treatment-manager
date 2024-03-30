@@ -107,4 +107,19 @@ RSpec.describe "Makers", type: :request do
       end
     end
   end
+
+  describe 'destroy' do
+    before do
+      @maker = FactoryBot.create(:maker)
+    end
+
+    it '削除できること' do
+      expect { delete maker_path(@maker) }.to change{ Maker.count }.from(1).to(0)
+    end
+
+    it 'makers/indexにリダイレクトすること' do
+      delete maker_path(@maker)
+      expect(response).to redirect_to(makers_url)
+    end
+  end
 end

@@ -31,6 +31,13 @@ class MakersController < ApplicationController
     end
   end
 
+  def destroy
+    @maker = Maker.find(params[:id])
+    @maker.destroy
+
+    redirect_to makers_url, status: :see_other
+  end
+
   private
 
     def maker_params
