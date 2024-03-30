@@ -8,35 +8,35 @@
   <%= form_with model: @maker do |form| %>
     <%= form.label :name, class: "form-label" %>
     <%= form.text_field :name, class: "form-control mb-3" %>
-    <%#= render 'shared/error_messages', object: @maker, label: :name %>
+    <%= render 'shared/error_messages', object: @maker, label: :name %>
 
     <%= form.label :postal_code, class: "form-label" %>
     <%= form.text_field :postal_code, class: "form-control mb-3" %>
-    <%#= render 'shared/error_messages', object: @maker, label: :postal_code %>
+    <%= render 'shared/error_messages', object: @maker, label: :postal_code %>
 
     <%= form.label :address, class: "form-label" %>
     <%= form.text_field :address, class: "form-control mb-3" %>
-    <%#= render 'shared/error_messages', object: @maker, label: :address %>
+    <%= render 'shared/error_messages', object: @maker, label: :address %>
 
     <%= form.label :phone_number, class: "form-label" %>
     <%= form.text_field :phone_number, class: "form-control mb-3" %>
-    <%#= render 'shared/error_messages', object: @maker, label: :phone_number %>
+    <%= render 'shared/error_messages', object: @maker, label: :phone_number %>
 
     <%= form.label :fax_number, class: "form-label" %>
     <%= form.text_field :fax_number, class: "form-control mb-3" %>
-    <%#= render 'shared/error_messages', object: @maker, label: :fax_number %>
+    <%= render 'shared/error_messages', object: @maker, label: :fax_number %>
 
     <%= form.label :email, class: "form-label" %>
     <%= form.text_field :email, class: "form-control mb-3" %>
-    <%#= render 'shared/error_messages', object: @maker, label: :email %>
+    <%= render 'shared/error_messages', object: @maker, label: :email %>
 
     <%= form.label :home_page, class: "form-label" %>
     <%= form.text_field :home_page, class: "form-control mb-3" %>
-    <%#= render 'shared/error_messages', object: @maker, label: :home_page %>
+    <%= render 'shared/error_messages', object: @maker, label: :home_page %>
 
     <%= form.label :manufacturer_rep, class: "form-label" %>
     <%= form.text_field :manufacturer_rep, class: "form-control mb-3" %>
-    <%#= render 'shared/error_messages', object: @maker, label: :manufacturer_rep %>
+    <%= render 'shared/error_messages', object: @maker, label: :manufacturer_rep %>
 
     <%= form.submit class: "form-control btn btn-primary mb-5" %>
   <% end %>
