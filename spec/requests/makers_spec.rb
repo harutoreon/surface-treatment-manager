@@ -87,4 +87,24 @@ RSpec.describe "Makers", type: :request do
       expect(response.body).to include('<title>Edit for Maker</title>')
     end
   end
+
+  describe 'update' do
+    before do
+      @maker = FactoryBot.create(:maker)
+    end
+
+    context '有効なパラメータの場合' do
+      it '更新が成功すること' do
+        patch maker_path(@maker), params: { maker: { name: '佐藤情報合名会社' } }
+        @maker.reload
+        expect(@maker.name).to eq('佐藤情報合名会社')
+      end
+
+      it 'makers/showにリダイレクトすること' do
+        patch maker_path(@maker), params: { maker: { name: "佐藤情報合名会社" } }
+        @maker.reload
+        expect(response).to redirect_to(@maker)
+      end
+    end
+  end
 end

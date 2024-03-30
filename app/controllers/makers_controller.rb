@@ -21,6 +21,16 @@ class MakersController < ApplicationController
     @maker = Maker.find(params[:id])
   end
 
+  def update
+    @maker = Maker.find(params[:id])
+
+    if @maker.update(maker_params)
+      redirect_to @maker
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
     def maker_params
