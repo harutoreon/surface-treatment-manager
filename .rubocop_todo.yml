@@ -61,6 +61,7 @@ Metrics/BlockLength:
   Exclude:
     - 'config/environments/development.rb'
     - 'spec/**/*'
+    - 'db/**/*'
 
 # Offense count: 1
 # Configuration parameters: AllowedMethods, AllowedPatterns.
