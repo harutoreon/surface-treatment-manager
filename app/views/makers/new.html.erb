@@ -7,31 +7,31 @@
 
   <%= form_with model: @maker do |form| %>
     <%= form.label :name, class: "form-label" %>
-    <%= form.text_field :name, class: "form-control mb-3" %>
+    <%= form.text_field :name, class: "form-control mb-2" %>
     <%= render 'shared/error_messages', object: @maker, label: :name %>
 
     <%= form.label :postal_code, class: "form-label" %>
-    <%= form.text_field :postal_code, class: "form-control mb-3" %>
+    <%= form.text_field :postal_code, class: "form-control mb-2", style: "width: 10rem;" %>
     <%= render 'shared/error_messages', object: @maker, label: :postal_code %>
 
     <%= form.label :address, class: "form-label" %>
-    <%= form.text_field :address, class: "form-control mb-3" %>
+    <%= form.text_field :address, class: "form-control mb-2" %>
     <%= render 'shared/error_messages', object: @maker, label: :address %>
 
     <%= form.label :phone_number, class: "form-label" %>
-    <%= form.text_field :phone_number, class: "form-control mb-3" %>
+    <%= form.telephone_field :phone_number, class: "form-control mb-2", style: "width: 10rem;" %>
     <%= render 'shared/error_messages', object: @maker, label: :phone_number %>
 
     <%= form.label :fax_number, class: "form-label" %>
-    <%= form.text_field :fax_number, class: "form-control mb-3" %>
+    <%= form.telephone_field :fax_number, class: "form-control mb-2", style: "width: 10rem;" %>
     <%= render 'shared/error_messages', object: @maker, label: :fax_number %>
 
     <%= form.label :email, class: "form-label" %>
-    <%= form.text_field :email, class: "form-control mb-3" %>
+    <%= form.email_field :email, class: "form-control mb-2" %>
     <%= render 'shared/error_messages', object: @maker, label: :email %>
 
     <%= form.label :home_page, class: "form-label" %>
-    <%= form.text_field :home_page, class: "form-control mb-3" %>
+    <%= form.url_field :home_page, class: "form-control mb-2" %>
     <%= render 'shared/error_messages', object: @maker, label: :home_page %>
 
     <%= form.label :manufacturer_rep, class: "form-label" %>
