@@ -16,4 +16,16 @@ RSpec.describe "Makers", type: :request do
       expect(response.body).to include('<title>Maker Information</title>')
     end
   end
+
+  describe 'new' do
+    it 'レスポンスが正常であること' do
+      get new_maker_path
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'タイトルが表示されること' do
+      get new_maker_path
+      expect(response.body).to include('<title>New Registration for Maker</title>')
+    end
+  end
 end
