@@ -1,0 +1,48 @@
+<%= provide(:title, 'Maker Information') %>
+
+<%= render 'shared/header' %>
+
+<div class="container w-50">
+  <h3 class="text-center mb-5">Maker Information</h3>
+
+  <div class="list-group mb-5">
+    <li class="d-flex justify-content-between list-group-item">
+      <div>Name :</div>
+      <div><%= @maker.name %></div>
+    </li>
+    <li class="d-flex justify-content-between list-group-item">
+      <div>Postal Code :</div>
+      <div><%= @maker.postal_code %></div>
+    </li>
+    <li class="d-flex justify-content-between list-group-item">
+      <div>Address :</div>
+      <div><%= @maker.address %></div>
+    </li>
+    <li class="d-flex justify-content-between list-group-item">
+      <div>Phone Number :</div>
+      <div><%= @maker.phone_number %></div>
+    </li>
+    <li class="d-flex justify-content-between list-group-item">
+      <div>Fax Number :</div>
+      <div><%= @maker.fax_number %></div>
+    </li>
+    <li class="d-flex justify-content-between list-group-item">
+      <div>Email :</div>
+      <div><%= @maker.email %></div>
+    </li>
+    <li class="d-flex justify-content-between list-group-item">
+      <div>Home Page :</div>
+      <div><%= @maker.home_page %></div>
+    </li>
+    <li class="d-flex justify-content-between list-group-item">
+      <div>Manufacturer Rep :</div>
+      <div><%= @maker.manufacturer_rep %></div>
+    </li>
+  </div>
+
+  <div class="d-flex justify-content-evenly">
+    <%= link_to "Edit", edit_maker_path(@maker) %>
+    <%= link_to "Destroy", maker_path(@maker), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete?" } %>
+    <%= link_to "List", makers_path %>
+  </div>
+</div>
