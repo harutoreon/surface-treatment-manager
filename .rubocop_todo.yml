@@ -272,3 +272,8 @@ Style/SafeNavigation:
 Style/SymbolProc:
   Exclude:
     - 'app/helpers/*'
+
+Style/RegexpLiteral:
+  Exclude:
+    - 'app/models/**/*'
+
