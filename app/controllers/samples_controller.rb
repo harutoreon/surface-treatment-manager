@@ -15,6 +15,7 @@ class SamplesController < ApplicationController
     @sample = Sample.new(sample_params)
 
     if @sample.save
+      flash[:success] = "Successful registration of new surface treatment!"
       redirect_to @sample
     else
       render :new, status: :unprocessable_entity
@@ -29,6 +30,7 @@ class SamplesController < ApplicationController
     @sample = Sample.find(params[:id])
 
     if @sample.update(sample_params)
+      flash[:success] = "Successful updated user information!"
       redirect_to @sample
     else
       render :edit, status: :unprocessable_entity
@@ -38,8 +40,8 @@ class SamplesController < ApplicationController
   def destroy
     @sample = Sample.find(params[:id])
     @sample.destroy
-
-    redirect_to home_url, status: :see_other
+    flash[:success] = "Successful deleted surface treatment!"
+    redirect_to samples_url, status: :see_other
   end
 
   private
