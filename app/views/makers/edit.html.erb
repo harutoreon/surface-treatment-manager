@@ -2,8 +2,10 @@
 
 <%= render 'shared/header' %>
 
+<%= render 'shared/flash_message' %>
+
 <div class="container w-25">
-  <h3 class="text-center mb-5">Edit for Maker</h3>
+  <h3 class="text-center mt-5 mb-5">Edit for Maker</h3>
 
   <%= form_with model: @maker do |form| %>
     <%= form.label :name, class: "form-label" %>
