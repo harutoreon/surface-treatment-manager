@@ -17,6 +17,7 @@ class CategoriesController < ApplicationController
     @category = Category.new(category_params)
 
     if @category.save
+      flash[:success] = "Successful registration of new category!"
       redirect_to @category
     else
       render :new, status: :unprocessable_entity
@@ -31,6 +32,7 @@ class CategoriesController < ApplicationController
     @category = Category.find(params[:id])
 
     if @category.update(category_params)
+      flash[:success] = "Successful updated category information!"
       redirect_to @category
     else
       render :edit, status: :unprocessable_entity
@@ -40,7 +42,7 @@ class CategoriesController < ApplicationController
   def destroy
     @category = Category.find(params[:id])
     @category.destroy
-
+    flash[:success] = "Successful deleted category!"
     redirect_to categories_url, status: :see_other
   end
 
