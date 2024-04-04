@@ -148,9 +148,9 @@ RSpec.describe "Samples", type: :request do
       expect { delete sample_path(@sample) }.to change{ Sample.count }.from(1).to(0)
     end
 
-    it 'static_pages/homeにリダイレクトされること' do
+    it 'samples/indexにリダイレクトされること' do
       delete sample_path(@sample)
-      expect(response).to redirect_to(home_url)
+      expect(response).to redirect_to(samples_url)
     end
   end
 end

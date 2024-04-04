@@ -2,8 +2,10 @@
 
 <%= render 'shared/header' %>
 
+<%= render 'shared/flash_message' %>
+
 <div class="container w-25">
-  <h3 class="text-center mb-5">Category List</h3>
+  <h3 class="text-center mt-5 mb-5">Category List</h3>
 
   <ul class="list-group mb-5">
     <% @categories.each do |category| %>
