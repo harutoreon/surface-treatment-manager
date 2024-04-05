@@ -3,7 +3,7 @@
 <%= render 'shared/header' %>
 
 <div class="container text-center w-25">
-  <h3 class="mb-5">Search by maker</h3>
+  <h3 class="mt-5 mb-5">Search by maker</h3>
 
   <%= form_with url: category_maker_search_path, method: :get do |form| %>
     <%= form.text_field :keyword, class: "form-control mb-3", placeholder: "input keyword here." %>

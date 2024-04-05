@@ -3,7 +3,7 @@
 <%= render 'shared/header' %>
 
 <div class="container text-center w-25">
-  <h3 class="mb-5">Search by category</h3>
+  <h3 class="mt-5 mb-5">Search by category</h3>
 
   <%= form_with url: category_category_search_path, method: :get do |form| %>
     <%= form.select :selectword, ["めっき", "陽極酸化", "化成", "コーティング", "表面硬化"], { include_blank: true }, { class: "form-select mb-3" } %>
