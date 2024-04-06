@@ -1,7 +1,7 @@
 Faker::Config.locale = 'ja'
 
-User.create!(name: "Example User", password: "foobar", password_confirmation: "foobar", admin: true)
-User.create!(name: "Sample User", password: "foobaz", password_confirmation: "foobaz")
+User.create!(name: "admin user", password: "adminpassword", password_confirmation: "adminpassword", admin: true)
+User.create!(name: "general user", password: "generalpassword", password_confirmation: "generalpassword")
 
 SAMPLES = [
   { name: "無電解ニッケルめっき", category: "めっき", color: "イエローブラウンシルバー", picture: "electroless_nickel_plating" },
