@@ -4,15 +4,19 @@
 
 <%= render 'shared/flash_message' %>
 
-<div class="container w-25">
+<div class="container w-50">
   <h3 class="text-center mt-5 mb-5">Category Information</h3>
 
-  <div class="list-group mb-5">
+  <ul class="list-group mb-5">
     <li class="d-flex justify-content-between list-group-item">
-      <div>Category Name :</div>
+      <div>Item :</div>
       <div><%= @category.item %></div>
     </li>
-  </div>
+    <li class="d-flex justify-content-between list-group-item">
+      <div>Summary :</div>
+      <div><%= @category.summary %></div>
+    </li>
+  </ul>
 
   <div class="d-flex justify-content-evenly">
     <div><%= link_to 'Edit', edit_category_path(@category) %></div>
