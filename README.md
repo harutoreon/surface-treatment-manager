@@ -33,6 +33,7 @@
   - ユーザー管理
 - その他
   - ログイン・ログアウト
+  - ログイン時のユーザー選択
   - ページネーション
   - 画像アップロード
   - プレビュー画像表示
@@ -40,6 +41,6 @@
 
 ## テスト
 - RSpec
-  - 単体テスト (ModelSpec, HelperSpec)
-  - 機能テスト (RequestSpec)
-  - 統合テスト (SystemSpec)
+  - 単体テスト (Model Spec, Helper Spec)
+  - 機能テスト (Request Spec)
+  - 統合テスト (System Spec)

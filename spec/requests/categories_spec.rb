@@ -60,8 +60,8 @@ RSpec.describe "Categories", type: :request do
   end
 
   describe '#create' do
-    let(:valid_params)   { { category: { item: "蒸着" } } }
-    let(:invalid_params) { { category: { item: "" } } }
+    let(:valid_params)   { { category: { item: 'コーティング', summary: '溶射金属やセラミックスなどの粉末を、溶解状態にして製品表面に吹き付ける処理のこと。' } } }
+    let(:invalid_params) { { category: { item: "", summary: '溶射金属やセラミックスなどの粉末を、溶解状態にして製品表面に吹き付ける処理のこと。' } } }
 
     context '有効なパラメータの場合' do
       it '登録が成功すること' do
@@ -123,7 +123,7 @@ RSpec.describe "Categories", type: :request do
       it '更新が失敗すること' do
         patch category_path(@category), params: { category: { item: '' } }
         @category.reload
-        expect(@category.item).to eq('溶射')
+        expect(@category.item).to eq('めっき')
       end
 
       it 'categories#editに遷移されること' do

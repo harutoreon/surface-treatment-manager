@@ -49,7 +49,7 @@ class CategoriesController < ApplicationController
   private
 
     def category_params
-      params.require(:category).permit(:item)
+      params.require(:category).permit(:item, :summary)
     end
 
     def admin_user
