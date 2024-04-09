@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "MakersManagementFlow", type: :system do
+RSpec.describe "CategoriesManagementFlow", type: :system do
   before do
     driven_by(:rack_test)
 
@@ -15,7 +15,8 @@ RSpec.describe "MakersManagementFlow", type: :system do
       it '登録に成功すること' do
         visit new_category_path
 
-        fill_in('Item', with: 'めっき')
+        fill_in('Item',    with: '溶射')
+        fill_in('Summary', with: 'セラミックスやサーメットなどを熱源を用い溶融噴射し、基材表面に噴きつけて機能皮膜を形成する処理。')
 
         click_button('Create Category')
 
@@ -28,7 +29,8 @@ RSpec.describe "MakersManagementFlow", type: :system do
       it '登録に失敗すること' do
         visit new_category_path
 
-        fill_in('Item', with: '')
+        fill_in('Item',    with: '')
+        fill_in('Summary', with: 'セラミックスやサーメットなどを熱源を用い溶融噴射し、基材表面に噴きつけて機能皮膜を形成する処理。')
 
         click_button('Create Category')
 
@@ -43,7 +45,8 @@ RSpec.describe "MakersManagementFlow", type: :system do
       it '更新できること' do
         visit edit_category_path(@category)
 
-        fill_in('Item', with: 'めっき')
+        fill_in('Item', with: '溶射')
+        fill_in('Summary', with: 'セラミックスやサーメットなどを熱源を用い溶融噴射し、基材表面に噴きつけて機能皮膜を形成する処理。')
 
         click_button('Update Category')
 
