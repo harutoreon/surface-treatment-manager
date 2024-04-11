@@ -7,6 +7,10 @@ class Sample < ApplicationRecord
   validate  :picture_size
   mount_uploader :picture, PictureUploader
 
+  validates :hardness,       presence: true
+  validates :film_thickness, presence: true
+  validates :feature,        presence: true
+
   scope :name_search,     -> (keyword)    { where('name LIKE ?',     "%#{keyword}%") }
   scope :category_search, -> (selectword) { where('category LIKE ?', "%#{selectword}%") }
   scope :maker_search,    -> (keyword)    { where('maker LIKE ?',    "%#{keyword}%") }

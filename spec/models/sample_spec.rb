@@ -32,6 +32,21 @@ RSpec.describe Sample, type: :model do
       sample.picture = ''
       expect(sample).to_not be_valid
     end
+
+    it 'hardnessが存在すること' do
+      sample.hardness = ''
+      expect(sample).to_not be_valid
+    end
+
+    it 'film_thicknessが存在すること' do
+      sample.film_thickness = ''
+      expect(sample).to_not be_valid
+    end
+
+    it 'featureが存在すること' do
+      sample.feature = ''
+      expect(sample).to_not be_valid
+    end
   end
 
   describe 'scope' do
