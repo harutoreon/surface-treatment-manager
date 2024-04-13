@@ -20,6 +20,9 @@ RSpec.describe "SamplesManagementFlow", type: :system do
         select("めっき", from: 'sample_category')
         fill_in('Color', with: 'ゴールド')
         fill_in('Maker', with: '株式会社中川鉱業')
+        fill_in('Hardness', with: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
+        fill_in('Film thickness', with: '通常は3～5μm、厚めの場合は20～50μmまで可能')
+        fill_in('Feature', with: '耐食性・耐摩耗性・耐薬品性・耐熱性')
         attach_file('Picture', 'spec/fixtures/test.jpg')
 
         click_button('Create Sample')
@@ -37,6 +40,9 @@ RSpec.describe "SamplesManagementFlow", type: :system do
         select("めっき", from: 'sample_category')
         fill_in('Color', with: 'ゴールド')
         fill_in('Maker', with: '株式会社中川鉱業')
+        fill_in('Hardness', with: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
+        fill_in('Film thickness', with: '通常は3～5μm、厚めの場合は20～50μmまで可能')
+        fill_in('Feature', with: '耐食性・耐摩耗性・耐薬品性・耐熱性')
         attach_file('Picture', 'spec/fixtures/test.jpg')
 
         click_button('Create Sample')

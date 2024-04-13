@@ -24,6 +24,18 @@
     <%= form.text_field :maker, class: "form-control mb-3" %>
     <%= render 'shared/error_messages', object: @sample, label: :maker %>
 
+    <%= form.label :hardness, class: "form-label" %>
+    <%= form.text_field :hardness, class: "form-control mb-3" %>
+    <%= render 'shared/error_messages', object: @sample, label: :hardness %>
+
+    <%= form.label :film_thickness, class: "form-label" %>
+    <%= form.text_field :film_thickness, class: "form-control mb-3" %>
+    <%= render 'shared/error_messages', object: @sample, label: :film_thickness %>
+
+    <%= form.label :feature, class: "form-label" %>
+    <%= form.text_field :feature, class: "form-control mb-3" %>
+    <%= render 'shared/error_messages', object: @sample, label: :feature %>
+
     <%= form.label :picture, class: "form-label" %>
     <div><%= image_tag '', alt: 'No Image', class: 'mb-3', id: 'preview_image', width: 200, height: 200 %></div>
     <%= form.file_field :picture, class: 'form-control mb-4', accept: 'image/jpeg,image/gif,image/png,image/jpg' %>

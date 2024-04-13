@@ -65,13 +65,19 @@ RSpec.describe "Samples", type: :request do
                                      category: "表面硬化",
                                      color: "マゼンタ",
                                      maker: "有限会社松本農林",
-                                     picture: Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')) } } }
+                                     picture: Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')),
+                                     hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+                                     film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+                                     feature: '耐食性・耐摩耗性・耐薬品性・耐熱性' } } }
 
     let(:invalid_params) { { sample: { name: "",
                                        category: "表面硬化",
                                        color: "マゼンタ",
                                        maker: "有限会社松本農林",
-                                       picture: Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')) } } }
+                                       picture: Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')),
+                                       hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+                                       film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+                                       feature: '耐食性・耐摩耗性・耐薬品性・耐熱性' } } }
 
     context '有効なパラメータの場合' do
       it '登録が成功すること' do

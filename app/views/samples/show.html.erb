@@ -4,7 +4,7 @@
 
 <%= render 'shared/flash_message' %>
 
-<div class="container w-25">
+<div class="container w-50">
   <h3 class="text-center mt-5 mb-5">Surface Treatment Information</h3>
 
   <div class="list-group mb-5">
@@ -23,6 +23,18 @@
     <li class="d-flex justify-content-between list-group-item">
       <div>Maker :</div>
       <div><%= @sample.maker %></div>
+    </li>
+    <li class="d-flex justify-content-between list-group-item">
+      <div>Hardness :</div>
+      <div><%= @sample.hardness %></div>
+    </li>
+    <li class="d-flex justify-content-between list-group-item">
+      <div>Film Thickness :</div>
+      <div><%= @sample.film_thickness %></div>
+    </li>
+    <li class="d-flex justify-content-between list-group-item">
+      <div>Feature :</div>
+      <div><%= @sample.feature %></div>
     </li>
     <li class="d-flex justify-content-between list-group-item">
       <div>Picture :</div>
