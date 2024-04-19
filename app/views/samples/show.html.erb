@@ -7,6 +7,24 @@
 <div class="container w-50">
   <h3 class="text-center mt-5 mb-5">Surface Treatment Information</h3>
 
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-light" data-bs-toggle="collapse" data-bs-target="#collapselinks" aria-expanded="false">
+      Links
+    </button>
+  </div>
+  <div class="d-flex justify-content-end">
+    <div class="collapse" id="collapselinks">
+      <div class="card" style="width: 7rem;" >
+        <ul class="list-group list-group-flush text-end">
+          <li class="list-group-item"><%= link_to "Edit", edit_sample_path(@sample) %></li>
+          <li class="list-group-item"><%= link_to "Destroy", sample_path(@sample), data: { turbo_method: :delete,
+                                                                                          turbo_confirm: "Are you sure you want to delete?" } %></li>
+          <li class="list-group-item"><%= link_to "List", samples_path %></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
   <div class="list-group mb-5">
     <li class="d-flex justify-content-between list-group-item">
       <div>Name :</div>
@@ -40,12 +58,5 @@
       <div>Picture :</div>
       <div><%= image_tag @sample.picture.url, alt: 'sample image', class: 'mt-2 mb-2', width: 250, height: 250 %></div>
     </li>
-  </div>
-
-  <div class="row text-center">
-    <div class="col"><%= link_to "Edit", edit_sample_path(@sample) %></div>
-    <div class="col"><%= link_to "Destroy", sample_path(@sample), data: { turbo_method: :delete,
-                                                                                  turbo_confirm: "Are you sure you want to delete?" } %></div>
-    <div class="col"><%= link_to "List", samples_path %></div>
   </div>
 </div>
