@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe "LinksButtonFlow", type: :system do
   before do
-    driven_by(:selenium)
     @sample = FactoryBot.create(:sample)
   end
 
