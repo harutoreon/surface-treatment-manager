@@ -28,12 +28,6 @@ jobs:
           name: Running rubocop
           command: bundle exec rubocop
       - run:
-          name: Setup WebDriver
-          command: |
-            sudo apt-get update
-            sudo apt-get install -y chromium-chromedriver
-            sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/local/bin/
-      - run:
           name: Running rspec
           command: bundle exec rspec
 
