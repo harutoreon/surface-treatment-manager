@@ -19,8 +19,3 @@ module LoginSupport
     end
   end
 end
-
-RSpec.configure do |config|
-  config.include LoginSupport::System, type: :system
-  config.include LoginSupport::Request, type: :request
-end
