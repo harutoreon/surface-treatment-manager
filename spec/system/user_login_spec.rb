@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "UserLogin", type: :system do
-  before do
-    driven_by(:rack_test)
-  end
-
   context '有効な値を入力した場合' do
     let(:user) { FactoryBot.create(:michael) }
 
