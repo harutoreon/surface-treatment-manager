@@ -1,9 +1,12 @@
 version: 2.1
 
+orbs:
+  browser-tools: circleci/browser-tools@1.4.8
+
 jobs:
   test:
     docker:
-      - image: cimg/ruby:3.2.0
+      - image: cimg/ruby:3.2.0-browsers
       - image: cimg/postgres:16.1
         environment:
             POSTGRES_USER: example
@@ -17,25 +20,19 @@ jobs:
       TZ: "/usr/share/zoneinfo/Asia/Tokyo"
 
     steps:
+      - browser-tools/install-browser-tools
       - checkout
       - run:
-          name: Dependency installation
           command: bundle install
       - run:
-          name: Database initialization
           command: bin/rails db:create
       - run:
-          name: Running rubocop
           command: bundle exec rubocop
       - run:
-          name: Running rspec
           command: bundle exec rspec
 
 workflows:
   version: 2
   workflow:
     jobs:
-      - test:
-          filters:
-            branches:
-              only: main
+      - test
