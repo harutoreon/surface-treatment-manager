@@ -7,33 +7,25 @@ RSpec.describe 'LoginUserSelect', type: :system do
   end
 
   describe 'sessions#create', js: true do
-    context '登録されているユーザー情報が有効な場合' do
-      it 'general userの情報でログインできること' do
-        visit root_path
-        choose('General user')
-        click_button('Log in')
+    context '有効なユーザー情報がある場合' do
+      it '一般ユーザーでログインできること' do
+        login_as_general_user
         expect(page).to have_selector('h3', text: 'Main Menu')
       end
-      it 'admin userの情報でログインできること' do
-        visit root_path
-        choose('Admin user')
-        click_button('Log in')
+      it '管理者ユーザーでログインできること' do
+        login_as_admin_user
         expect(page).to have_selector('h3', text: 'Main Menu')
       end
     end
-    context '登録されているユーザー情報が無効な場合' do
-      it 'general userの情報でログインできないこと' do
-        @general_user.update(name: 'general')
-        visit root_path
-        choose('General user')
-        click_button('Log in')
+    context '無効なユーザー情報がある場合' do
+      it '一般ユーザーでログインできないこと' do
+        update_user_name(@general_user, 'general')
+        login_as_general_user
         expect(page).to have_selector('div.alert.alert-danger')
       end
-      it 'admin userの情報でログインできないこと' do
-        @admin_user.update(name: 'admin')
-        visit root_path
-        choose('Admin user')
-        click_button('Log in')
+      it '管理者ユーザーでログインできないこと' do
+        update_user_name(@admin_user, 'admin')
+        login_as_admin_user
         expect(page).to have_selector('div.alert.alert-danger')
       end
     end
