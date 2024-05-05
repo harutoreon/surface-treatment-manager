@@ -15,6 +15,8 @@
 - Ruby on Rails
 - RSpec
 - Rubocop
+- Capybara
+- Selenium
 - PostgreSQL
 - Bootstrap
 - CircleCI
