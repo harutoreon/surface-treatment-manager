@@ -16,7 +16,10 @@ Rails.application.routes.draw do
 
   get '/setting', to: 'settings#home'
 
-  resources :samples
+  resources :samples do
+    resources :comments
+  end
+
   resources :users
   resources :categories
   resources :makers
