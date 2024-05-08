@@ -59,4 +59,36 @@
       <div><%= image_tag @sample.picture.url, alt: 'sample image', class: 'mt-2 mb-2', width: 250, height: 250 %></div>
     </li>
   </div>
+
+  <h2>Add a comment:</h2>
+  <%= form_with model: [ @sample, @sample.comments.build ] do |form| %>
+    <p>
+      <%= form.label :commenter %><br>
+      <%= form.text_field :commenter %>
+    </p>
+
+    <p>
+      <%= form.label :body %><br>
+      <%= form.text_area :body %>
+    </p>
+
+    <p>
+      <%= form.submit %>
+    </p>
+  <% end %>
+
+  <h2>Comments</h2>
+  <% @sample.comments.each do |comment| %>
+    <p>
+      <strong>Commenter:</strong>
+      <%= comment.commenter %>
+    </p>
+    <p>
+      <strong>Comment:</strong>
+      <%= comment.body %>
+    </p>
+    <p>
+      <%= link_to "Destroy Comment", [comment.sample, comment], data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+    </p>
+  <% end %>
 </div>
