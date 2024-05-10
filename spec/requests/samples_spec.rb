@@ -150,8 +150,16 @@ RSpec.describe "Samples", type: :request do
   end
 
   describe '#destroy' do
+    before do
+      @sample.comments.create(commenter: 'sample user', body: 'sample comment.')
+    end
+
     it '削除できること' do
       expect { delete sample_path(@sample) }.to change{ Sample.count }.from(1).to(0)
+    end
+
+    it '紐付いたコメントも削除されること' do
+      expect { delete sample_path(@sample) }.to change{ Comment.count }.from(1).to(0)
     end
 
     it 'samples/indexにリダイレクトされること' do
