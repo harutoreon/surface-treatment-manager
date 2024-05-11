@@ -59,36 +59,41 @@
       <div><%= image_tag @sample.picture.url, alt: 'sample image', class: 'mt-2 mb-2', width: 250, height: 250 %></div>
     </li>
   </div>
+</div>
 
-  <h2>Add a comment:</h2>
-  <%= form_with model: [ @sample, @sample.comments.build ] do |form| %>
-    <p>
-      <%= form.label :commenter %><br>
-      <%= form.text_field :commenter %>
-    </p>
+<div class="container w-50">
+  <h4 class="mb-3">Add a comment</h4>
 
-    <p>
-      <%= form.label :body %><br>
-      <%= form.text_area :body %>
-    </p>
-
-    <p>
-      <%= form.submit %>
-    </p>
+  <%= form_with model: [ @sample, @sample.comments.build ],class: 'mb-5' do |form| %>
+    <div class="form-floating mb-3 w-25">
+      <%= form.text_field :commenter, class: 'form-control', id: 'commenter', placeholder: 'sample commenter' %>
+      <%= form.label :commenter, class: 'form-label', for: 'commenter' %>
+    </div>
+    <div class="form-floating mb-3 w-50">
+      <%= form.text_area :body, class: 'form-control', id: 'body', placeholder: 'sample body' %>
+      <%= form.label :body, 'Comment', class: 'form-label', for: 'body' %>
+    </div>
+    <%= form.submit class: "btn btn-primary" %>
   <% end %>
 
-  <h2>Comments</h2>
-  <% @sample.comments.each do |comment| %>
-    <p>
-      <strong>Commenter:</strong>
-      <%= comment.commenter %>
-    </p>
-    <p>
-      <strong>Comment:</strong>
-      <%= comment.body %>
-    </p>
-    <p>
-      <%= link_to "Destroy Comment", [comment.sample, comment], data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
-    </p>
+  <h4 class="mb-3">Comment list</h4>
+
+  <% if @sample.comments.any? %>
+    <ul class="list-group list-group-flush mb-5">
+      <% @sample.comments.each do |comment| %>
+        <% unless comment.commenter.blank? || comment.body.blank? %>
+          <li class="list-group-item">
+            <div class="d-flex justify-content-between">
+              <h6><%= comment.commenter %></h6>
+              <h6><%= time_ago_in_words(comment.created_at) %> ago</h6>
+            </div>
+            <div class="d-flex justify-content-between">
+              <h6><%= comment.body %></h6>
+              <h6><%= link_to "Destroy", [comment.sample, comment], data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></h6>
+            </div>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
   <% end %>
 </div>
