@@ -1,8 +1,15 @@
 class CommentsController < ApplicationController
   def create
     @sample = Sample.find(params[:sample_id])
-    @comment = @sample.comments.create(comment_params)
-    redirect_to sample_path(@sample)
+    @comment = @sample.comments.build(comment_params)
+
+    if @comment.save
+      flash[:success] = '1 comment added.'
+      redirect_to sample_path(@sample)
+    else
+      flash.now[:danger] = 'Invalid commenter or comment.'
+      render 'samples/show', status: :unprocessable_entity
+    end
   end
 
   def destroy
