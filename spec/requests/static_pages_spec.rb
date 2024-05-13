@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe "StaticPages", type: :request do
-  before do
-    user = FactoryBot.create(:user)
-    log_in(user)
-  end
+  # before do
+  #   user = FactoryBot.create(:user)
+  #   log_in(user)
+  # end
 
   describe "#home" do
     it "レスポンスが正常であること" do
