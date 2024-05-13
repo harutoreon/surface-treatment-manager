@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe "CategoriesManagementFlow", type: :system do
   before do
-    user = FactoryBot.create(:user)
-    log_in(user)
+    # user = FactoryBot.create(:user)
+    # log_in(user)
 
     @category = FactoryBot.create(:category)
   end
