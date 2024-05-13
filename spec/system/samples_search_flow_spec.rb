@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe "SamplesSearchFlow", type: :system do
   before do
-    user = FactoryBot.create(:user)
-    log_in(user)
+    # user = FactoryBot.create(:user)
+    # log_in(user)
 
     10.times do
       FactoryBot.create(:anodised_aluminium)

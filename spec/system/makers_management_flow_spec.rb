@@ -2,9 +2,6 @@ require 'rails_helper'
 
 RSpec.describe "MakersManagementFlow", type: :system do
   before do
-    user = FactoryBot.create(:user)
-    log_in(user)
-
     @maker = FactoryBot.create(:maker)
   end
 

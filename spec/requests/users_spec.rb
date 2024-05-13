@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
   describe '#index' do
-    before do
-      admin = FactoryBot.create(:admin)
-      log_in(admin)
-    end
+    # before do
+    #   admin = FactoryBot.create(:admin)
+    #   log_in(admin)
+    # end
 
     it 'レスポンスが正常であること' do
       get users_path
@@ -26,7 +26,7 @@ RSpec.describe "Users", type: :request do
   describe '#show' do
     before do
       @admin = FactoryBot.create(:admin)
-      log_in(@admin)
+      # log_in(@admin)
     end
 
     it 'レスポンスが正常であること' do
@@ -46,10 +46,10 @@ RSpec.describe "Users", type: :request do
   end
 
   describe "#new" do
-    before do
-      admin = FactoryBot.create(:admin)
-      log_in(admin)
-    end
+    # before do
+    #   admin = FactoryBot.create(:admin)
+    #   log_in(admin)
+    # end
 
     it "レスポンスが正常であること" do
       get new_user_path
@@ -69,8 +69,8 @@ RSpec.describe "Users", type: :request do
 
   describe '#create' do
     before do
-      admin = FactoryBot.create(:admin)
-      log_in(admin)
+      @admin = FactoryBot.create(:admin)
+      # log_in(admin)
     end
 
     context '有効なユーザー情報のとき' do
@@ -104,7 +104,7 @@ RSpec.describe "Users", type: :request do
   describe '#edit' do
     before do
       @admin = FactoryBot.create(:admin)
-      log_in(@admin)
+      # log_in(@admin)
     end
 
     it 'レスポンスが正常であること' do
@@ -125,8 +125,8 @@ RSpec.describe "Users", type: :request do
 
   describe '#update' do
     before do
-      admin = FactoryBot.create(:admin)
-      log_in(admin)
+      @admin = FactoryBot.create(:admin)
+      # log_in(admin)
       @non_admin = FactoryBot.create(:non_admin)
     end
 
@@ -164,8 +164,8 @@ RSpec.describe "Users", type: :request do
 
   describe '#destroy' do
     before do
-      admin = FactoryBot.create(:admin)
-      log_in(admin)
+      @admin = FactoryBot.create(:admin)
+      # log_in(admin)
       @non_admin = FactoryBot.create(:non_admin)
     end
 
