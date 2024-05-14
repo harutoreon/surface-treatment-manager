@@ -37,12 +37,31 @@ RSpec.describe 'CommentsManagementFlowSpec', type: :system do
       @comment = @sample.comments.create(commenter: 'sample commenter', body: 'sample comment.')
     end
 
-    it 'コメントが削除されること' do
-      visit sample_path(@sample)
-      click_link('Destroy', href: sample_comment_path(@sample, @sample.comments.first.id))
-      expect(page).to have_selector('h3', text: 'Surface Treatment Information')
-      expect(page).to_not have_selector('h6', text: 'sample commenter')
-      expect(page).to_not have_selector('h6', text: 'sample comment.')
+    context 'ログイン済みの場合' do
+      before do
+        user = FactoryBot.create(:user)
+        log_in(user)
+      end
+
+      it 'コメントが削除されること' do
+        visit sample_path(@sample)
+        click_link('Destroy', href: sample_comment_path(@sample, @sample.comments.first.id))
+        expect(page).to have_selector('h3', text: 'Surface Treatment Information')
+        expect(page).to_not have_selector('h6', text: 'sample commenter')
+        expect(page).to_not have_selector('h6', text: 'sample comment.')
+      end
+    end
+    context '未ログインの場合' do
+      it 'ログインページにリダイレクトされること' do
+        visit sample_path(@sample)
+        click_link('Destroy', href: sample_comment_path(@sample, @sample.comments.first.id))
+        expect(page).to have_selector('h3', text: 'Log in')
+      end
+      it 'フラッシュメッセージが表示されること' do
+        visit sample_path(@sample)
+        click_link('Destroy', href: sample_comment_path(@sample, @sample.comments.first.id))
+        expect(page).to have_selector('div', text: 'Please log in.')
+      end
     end
   end
 end

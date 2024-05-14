@@ -7,7 +7,7 @@ RSpec.describe "Comments", type: :request do
 
   describe "#create" do
     context '登録に成功した場合' do
-      valid_params = { comment: { commenter: 'sample user', body: 'sample comment.' } }
+      let(:valid_params) { { comment: { commenter: 'sample user', body: 'sample comment.' } } }
 
       it 'レコード数が増加すること' do
         expect { post sample_comments_path(@sample), params: valid_params }.to change{ Comment.count }.from(0).to(1)
@@ -22,7 +22,7 @@ RSpec.describe "Comments", type: :request do
       end
     end
     context '登録に失敗した場合' do
-      invalid_params = { comment: { commenter: '', body: 'sample comment.' } }
+      let(:invalid_params) { { comment: { commenter: '', body: 'sample comment.' } } }
 
       it 'レコード数が変化しないこと' do
         expect { post sample_comments_path(@sample), params: invalid_params }.to_not change{ Comment.count }.from(0)
@@ -43,12 +43,29 @@ RSpec.describe "Comments", type: :request do
       @comment = @sample.comments.create(commenter: 'sample user', body: 'sample comment.')
     end
 
-    it 'レコード数が減少すること' do
-      expect { delete sample_comment_path(@sample, @comment) }.to change{ Comment.count }.from(1).to(0)
+    context 'ログイン済みの場合' do
+      before do
+        user = FactoryBot.create(:user)
+        log_in(user)
+      end
+
+      it 'レコード数が減少すること' do
+        expect { delete sample_comment_path(@sample, @comment) }.to change{ Comment.count }.from(1).to(0)
+      end
+      it 'samples/showにリダイレクトすること' do
+        delete sample_comment_path(@sample, @comment)
+        expect(response).to redirect_to(@sample)
+      end
     end
-    it 'samples/showにリダイレクトすること' do
-      delete sample_comment_path(@sample, @comment)
-      expect(response).to redirect_to(@sample)
+    context '未ログインの場合' do
+      it "ログインページにリダイレクトされること" do
+        delete sample_comment_path(@sample, @comment)
+        assert_redirected_to login_url
+      end
+      it 'フラッシュメッセージが表示されること' do
+        delete sample_comment_path(@sample, @comment)
+        expect(flash[:danger]).to eq('Please log in.')
+      end
     end
   end
 end

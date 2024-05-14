@@ -1,4 +1,6 @@
 class CommentsController < ApplicationController
+  before_action :logged_in_user, only: :destroy
+
   def create
     @sample = Sample.find(params[:sample_id])
     @comment = @sample.comments.build(comment_params)
