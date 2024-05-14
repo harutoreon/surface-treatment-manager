@@ -2,21 +2,14 @@ require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
   describe '#index' do
-    # before do
-    #   admin = FactoryBot.create(:admin)
-    #   log_in(admin)
-    # end
-
     it 'レスポンスが正常であること' do
       get users_path
       expect(response).to have_http_status(:success)
     end
-
     it '見出しが表示されること' do
       get users_path
       expect(response.body).to include('User List')
     end
-
     it 'タイトルが表示されること' do
       get users_path
       expect(response.body).to include('<title>User List</title>')
@@ -25,42 +18,32 @@ RSpec.describe "Users", type: :request do
 
   describe '#show' do
     before do
-      @admin = FactoryBot.create(:admin)
-      # log_in(@admin)
+      @user = FactoryBot.create(:user)
     end
 
     it 'レスポンスが正常であること' do
-      get user_path(@admin)
+      get user_path(@user)
       expect(response).to have_http_status(:success)
     end
-
     it '見出しが表示されること' do
-      get user_path(@admin)
+      get user_path(@user)
       expect(response.body).to include('User Information')
     end
-
     it 'タイトルが表示されること' do
-      get user_path(@admin)
+      get user_path(@user)
       expect(response.body).to include('<title>User Information</title>')
     end
   end
 
   describe "#new" do
-    # before do
-    #   admin = FactoryBot.create(:admin)
-    #   log_in(admin)
-    # end
-
     it "レスポンスが正常であること" do
       get new_user_path
       expect(response).to have_http_status(:success)
     end
-
     it '見出しが表示されること' do
       get new_user_path
       expect(response.body).to include('New Registration for User')
     end
-
     it 'タイトルが表示されること' do
       get new_user_path
       expect(response.body).to include('<title>New Registration for User</title>')
@@ -69,8 +52,7 @@ RSpec.describe "Users", type: :request do
 
   describe '#create' do
     before do
-      @admin = FactoryBot.create(:admin)
-      # log_in(admin)
+      @user = FactoryBot.create(:user)
     end
 
     context '有効なユーザー情報のとき' do
@@ -79,21 +61,18 @@ RSpec.describe "Users", type: :request do
       it '登録が成功すること' do
         expect{ post users_path, params: user_params }.to change{ User.count }.from(1).to(2)
       end
-
       it 'users/showページにリダイレクトすること' do
         post users_path, params: user_params
         new_user = User.last
         expect(response).to redirect_to new_user
       end
     end
-
     context '無効なユーザー情報のとき' do
       let(:user_params) { { user: { name: "", password: "password", password_confirmation: "password" } } }
 
       it '登録が失敗すること' do
         expect{ post users_path, params: user_params }.to_not change{ User.count }.from(1)
       end
-
       it 'users/newページが表示されること' do
         post users_path, params: user_params
         expect(response.body).to include('New Registration for User')
@@ -102,85 +81,122 @@ RSpec.describe "Users", type: :request do
   end
 
   describe '#edit' do
-    before do
-      @admin = FactoryBot.create(:admin)
-      # log_in(@admin)
-    end
+    context 'ログイン済みの場合' do
+      before do
+        @user = FactoryBot.create(:user)
+        log_in(@user)
+      end
 
-    it 'レスポンスが正常であること' do
-      get edit_user_path(@admin)
-      expect(response).to have_http_status(:success)
+      it 'レスポンスが正常であること' do
+        get edit_user_path(@user)
+        expect(response).to have_http_status(:success)
+      end
+      it '見出しが表示されること' do
+        get edit_user_path(@user)
+        expect(response.body).to include("Edit for User")
+      end
+      it 'タイトルが表示されること' do
+        get edit_user_path(@user)
+        expect(response.body).to include('<title>Edit for User</title>')
+      end
     end
+    context '未ログインの場合' do
+      before do
+        @user = FactoryBot.create(:user)
+      end
 
-    it '見出しが表示されること' do
-      get edit_user_path(@admin)
-      expect(response.body).to include("Edit for User")
-    end
-
-    it 'タイトルが表示されること' do
-      get edit_user_path(@admin)
-      expect(response.body).to include('<title>Edit for User</title>')
+      it "ログインページにリダイレクトされること" do
+        get edit_user_path(@user)
+        assert_redirected_to login_url
+      end
+      it 'フラッシュメッセージが表示されること' do
+        get edit_user_path(@user)
+        expect(flash[:danger]).to eq('Please log in.')
+      end
     end
   end
 
   describe '#update' do
     before do
-      @admin = FactoryBot.create(:admin)
-      # log_in(admin)
-      @non_admin = FactoryBot.create(:non_admin)
+      @user = FactoryBot.create(:user)
     end
 
-    context '有効な値の場合' do
-      it '更新できること' do
-        patch user_path(@non_admin), params: { user: { name: 'sample user' } }
-        @non_admin.reload
-        expect(@non_admin.name).to eq('sample user')
+    context 'ログイン済みで' do
+      before do
+        log_in(@user)
       end
 
-      it 'users/showページにリダイレクトされること' do
-        patch user_path(@non_admin), params: { user: { name: 'sample user' } }
-        expect(response).to redirect_to @non_admin
+      context '有効な値の場合' do
+        it '更新できること' do
+          patch user_path(@user), params: { user: { name: 'sample user' } }
+          @user.reload
+          expect(@user.name).to eq('sample user')
+        end
+        it 'users/showページにリダイレクトされること' do
+          patch user_path(@user), params: { user: { name: 'sample user' } }
+          expect(response).to redirect_to @user
+        end
+        it 'フラッシュメッセージが表示されていること' do
+          patch user_path(@user), params: { user: { name: 'sample user' } }
+          expect(flash).to be_any
+        end
       end
-
-      it 'フラッシュメッセージが表示されていること' do
-        patch user_path(@non_admin), params: { user: { name: 'sample user' } }
-        expect(flash).to be_any
+      context '無効な値の場合' do
+        it '更新できないこと' do
+          patch user_path(@user), params: { user: { name: '' } }
+          @user.reload
+          expect(@user.name).to_not eq('')
+        end
+        it 'users/editページが表示されること' do
+          patch user_path(@user), params: { user: { name: '' } }
+          expect(response.body).to include('Edit for User')
+        end
       end
     end
-
-    context '無効な値の場合' do
-      it '更新できないこと' do
-        patch user_path(@non_admin), params: { user: { name: '' } }
-        @non_admin.reload
-        expect(@non_admin.name).to_not eq('')
+    context '未ログインの場合' do
+      it "ログインページにリダイレクトされること" do
+        patch user_path(@user), params: { user: { name: 'sample user' } }
+        assert_redirected_to login_url
       end
-
-      it 'users/editページが表示されること' do
-        patch user_path(@non_admin), params: { user: { name: '' } }
-        expect(response.body).to include('Edit for User')
+      it 'フラッシュメッセージが表示されること' do
+        patch user_path(@user), params: { user: { name: 'sample user' } }
+        expect(flash[:danger]).to eq('Please log in.')
       end
     end
   end
 
   describe '#destroy' do
     before do
-      @admin = FactoryBot.create(:admin)
-      # log_in(admin)
-      @non_admin = FactoryBot.create(:non_admin)
+      @other = FactoryBot.create(:michael)
     end
 
-    it '削除できること' do
-      expect { delete user_path(@non_admin) }.to change{ User.count }.from(2).to(1)
-    end
+    context 'ログイン済みの場合' do
+      before do
+        @user = FactoryBot.create(:user)
+        log_in(@user)
+      end
 
-    it 'users#indexにリダイレクトされること' do
-      delete user_path(@non_admin)
-      expect(response).to redirect_to users_url
+      it '削除できること' do
+        expect { delete user_path(@other) }.to change{ User.count }.from(2).to(1)
+      end
+      it 'users#indexにリダイレクトされること' do
+        delete user_path(@other)
+        expect(response).to redirect_to users_url
+      end
+      it 'フラッシュメッセージが表示されること' do
+        delete user_path(@other)
+        expect(flash).to be_any
+      end
     end
-
-    it 'フラッシュメッセージが表示されること' do
-      delete user_path(@non_admin)
-      expect(flash).to be_any
+    context '未ログインの場合' do
+      it "ログインページにリダイレクトされること" do
+        delete user_path(@other)
+        assert_redirected_to login_url
+      end
+      it 'フラッシュメッセージが表示されること' do
+        delete user_path(@other)
+        expect(flash[:danger]).to eq('Please log in.')
+      end
     end
   end
 end
