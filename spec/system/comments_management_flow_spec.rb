@@ -35,6 +35,8 @@ RSpec.describe 'CommentsManagementFlowSpec', type: :system do
   describe 'Comments#destroy' do
     before do
       @comment = @sample.comments.create(commenter: 'sample commenter', body: 'sample comment.')
+      user = FactoryBot.create(:user)
+      log_in(user)
     end
 
     it 'コメントが削除されること' do
