@@ -41,16 +41,31 @@ RSpec.describe "Comments", type: :request do
   describe '#destroy' do
     before do
       @comment = @sample.comments.create(commenter: 'sample user', body: 'sample comment.')
-      user = FactoryBot.create(:user)
-      log_in(user)
     end
 
-    it 'レコード数が減少すること' do
-      expect { delete sample_comment_path(@sample, @comment) }.to change{ Comment.count }.from(1).to(0)
+    context 'ログイン済みの場合' do
+      before do
+        user = FactoryBot.create(:user)
+        log_in(user)
+      end
+
+      it 'レコード数が減少すること' do
+        expect { delete sample_comment_path(@sample, @comment) }.to change{ Comment.count }.from(1).to(0)
+      end
+      it 'samples/showにリダイレクトすること' do
+        delete sample_comment_path(@sample, @comment)
+        expect(response).to redirect_to(@sample)
+      end
     end
-    it 'samples/showにリダイレクトすること' do
-      delete sample_comment_path(@sample, @comment)
-      expect(response).to redirect_to(@sample)
+    context '未ログインの場合' do
+      it "ログインページにリダイレクトされること" do
+        delete sample_comment_path(@sample, @comment)
+        assert_redirected_to login_url
+      end
+      it 'フラッシュメッセージが表示されること' do
+        delete sample_comment_path(@sample, @comment)
+        expect(flash[:danger]).to eq('Please log in.')
+      end
     end
   end
 end
