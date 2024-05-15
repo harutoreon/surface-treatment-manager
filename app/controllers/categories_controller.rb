@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-  # before_action :admin_user
+  before_action :logged_in_user, only: [:edit, :update, :destroy]
 
   def index
     @categories = Category.all
@@ -50,9 +50,5 @@ class CategoriesController < ApplicationController
 
     def category_params
       params.require(:category).permit(:item, :summary)
-    end
-
-    def admin_user
-      redirect_to(login_url) unless current_user.admin?
     end
 end
