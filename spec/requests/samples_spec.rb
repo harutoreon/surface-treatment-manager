@@ -1,24 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe "Samples", type: :request do
-  before do
-    # user = FactoryBot.create(:user)
-    # log_in(user)
-
-    @sample = FactoryBot.create(:sample)
-  end
-
   describe '#index' do
     it 'レスポンスが正常であること' do
       get samples_path
       expect(response).to have_http_status(:success)
     end
-
     it '見出しが表示されること' do
       get samples_path
       expect(response.body).to include("Surface Treatment List")
     end
-
     it 'タイトルが表示されること' do
       get samples_path
       expect(response.body).to include('<title>Surface Treatment List</title>')
@@ -26,16 +17,18 @@ RSpec.describe "Samples", type: :request do
   end
 
   describe "#show" do
+    before do
+      @sample = FactoryBot.create(:sample)
+    end
+
     it 'レスポンスが正常であること' do
       get sample_path(@sample)
       expect(response).to have_http_status(:success)
     end
-
     it '見出しが表示されること' do
       get sample_path(@sample)
       expect(response.body).to include("Surface Treatment Information")
     end
-
     it 'タイトルが表示されること' do
       get sample_path(@sample)
       expect(response.body).to include('<title>Surface Treatment Information</title>')
@@ -47,17 +40,14 @@ RSpec.describe "Samples", type: :request do
       get new_sample_path
       expect(response).to have_http_status(:success)
     end
-
     it '見出しが表示されること' do
       get new_sample_path
       expect(response.body).to include("New Registration for Surface Treatment")
     end
-
     it 'タイトルが表示されること' do
       get new_sample_path
       expect(response.body).to include('<title>New Registration for Surface Treatment</title>')
     end
-
   end
 
   describe '#create' do
@@ -81,21 +71,18 @@ RSpec.describe "Samples", type: :request do
 
     context '有効なパラメータの場合' do
       it '登録が成功すること' do
-        expect { post samples_path, params: valid_params }.to change{ Sample.count }.from(1).to(2)
+        expect { post samples_path, params: valid_params }.to change{ Sample.count }.from(0).to(1)
       end
-
       it 'samples/showにリダイレクトされること' do
         post samples_path, params: valid_params
         sample = Sample.last
         expect(response).to redirect_to(sample)
       end
     end
-
     context '無効なパラメータの場合' do
       it '登録が失敗すること' do
-        expect { post samples_path, params: invalid_params }.to_not change{ Sample.count }.from(1)
+        expect { post samples_path, params: invalid_params }.to_not change{ Sample.count }.from(0)
       end
-
       it 'samples/newが再描画されること' do
         post samples_path, params: invalid_params
         expect(response.body).to include("New Registration for Surface Treatment")
@@ -104,67 +91,120 @@ RSpec.describe "Samples", type: :request do
   end
 
   describe '#edit' do
-    it 'レスポンスが正常であること' do
-      get edit_sample_path(@sample)
-      expect(response).to have_http_status(:success)
+    before do
+      @sample = FactoryBot.create(:sample)
     end
 
-    it '見出しが表示されること' do
-      get edit_sample_path(@sample)
-      expect(response.body).to include("Edit for Surface Treatment")
-    end
+    context 'ログイン済みの場合' do
+      before do
+        user = FactoryBot.create(:user)
+        log_in(user)
+      end
 
-    it 'タイトルが表示されること' do
-      get edit_sample_path(@sample)
-      expect(response.body).to include('<title>Edit for Surface Treatment</title>')
+      it 'レスポンスが正常であること' do
+        get edit_sample_path(@sample)
+        expect(response).to have_http_status(:success)
+      end
+      it '見出しが表示されること' do
+        get edit_sample_path(@sample)
+        expect(response.body).to include("Edit for Surface Treatment")
+      end
+      it 'タイトルが表示されること' do
+        get edit_sample_path(@sample)
+        expect(response.body).to include('<title>Edit for Surface Treatment</title>')
+      end
+    end
+    context '未ログインの場合' do
+      it "ログインページにリダイレクトされること" do
+        get edit_sample_path(@sample)
+        assert_redirected_to login_url
+      end
+      it 'フラッシュメッセージが表示されること' do
+        get edit_sample_path(@sample)
+        expect(flash[:danger]).to eq('Please log in.')
+      end
     end
   end
 
   describe '#update' do
-    context '有効なパラメータの場合' do
-      it '更新が成功すること' do
-        patch sample_path(@sample), params: { sample: { name: "ハードクロムめっき" } }
-        @sample.reload
-        expect(@sample.name).to eq("ハードクロムめっき")
-      end
-
-      it 'samples/showにリダイレクトされること' do
-        patch sample_path(@sample), params: { sample: { name: "ハードクロムめっき" } }
-        @sample.reload
-        expect(response).to redirect_to(@sample)
-      end
+    before do
+      @sample = FactoryBot.create(:sample)
     end
 
-    context '無効なパラメータの場合' do
-      it '更新が失敗すること' do
-        patch sample_path(@sample), params: { sample: { name: "" } }
-        @sample.reload
-        expect(@sample.name).to eq("無電解ニッケルめっき")
+    context 'ログイン済みで' do
+      before do
+        user = FactoryBot.create(:user)
+        log_in(user)
       end
 
-      it 'samples/editが再描画されること' do
-        patch sample_path(@sample), params: { sample: { name: "" } }
-        expect(response.body).to include("Edit for Surface Treatment")
+      context '有効なパラメータの場合' do
+        it '更新が成功すること' do
+          patch sample_path(@sample), params: { sample: { name: "ハードクロムめっき" } }
+          @sample.reload
+          expect(@sample.name).to eq("ハードクロムめっき")
+        end
+        it 'samples/showページにリダイレクトされること' do
+          patch sample_path(@sample), params: { sample: { name: "ハードクロムめっき" } }
+          @sample.reload
+          expect(response).to redirect_to(@sample)
+        end
+      end
+      context '無効なパラメータの場合' do
+        it '更新が失敗すること' do
+          patch sample_path(@sample), params: { sample: { name: "" } }
+          @sample.reload
+          expect(@sample.name).to eq("無電解ニッケルめっき")
+        end
+        it 'samples/editページが表示されること' do
+          patch sample_path(@sample), params: { sample: { name: "" } }
+          expect(response.body).to include("Edit for Surface Treatment")
+        end
+      end
+    end
+    context '未ログインの場合' do
+      it "ログインページにリダイレクトされること" do
+        patch sample_path(@sample), params: { sample: { name: "ハードクロムめっき" } }
+        assert_redirected_to login_url
+      end
+      it 'フラッシュメッセージが表示されること' do
+        patch sample_path(@sample), params: { sample: { name: "ハードクロムめっき" } }
+        expect(flash[:danger]).to eq('Please log in.')
       end
     end
   end
 
   describe '#destroy' do
     before do
+      @sample = FactoryBot.create(:sample)
       @sample.comments.create(commenter: 'sample user', body: 'sample comment.')
     end
 
-    it '削除できること' do
-      expect { delete sample_path(@sample) }.to change{ Sample.count }.from(1).to(0)
-    end
+    context 'ログイン済みの場合' do
+      before do
+        user = FactoryBot.create(:user)
+        log_in(user)
+      end
 
-    it '紐付いたコメントも削除されること' do
-      expect { delete sample_path(@sample) }.to change{ Comment.count }.from(1).to(0)
+      it 'レコードが1件減少すること' do
+        expect { delete sample_path(@sample) }.to change{ Sample.count }.from(1).to(0)
+      end
+      it '紐付いたコメントも削除されること' do
+        expect { delete sample_path(@sample) }.to change{ Comment.count }.from(1).to(0)
+      end
+      it 'samples/indexページにリダイレクトされること' do
+        delete sample_path(@sample)
+        expect(response).to redirect_to(samples_url)
+      end
     end
-
-    it 'samples/indexにリダイレクトされること' do
-      delete sample_path(@sample)
-      expect(response).to redirect_to(samples_url)
+    context '未ログインの場合' do
+      it "ログインページにリダイレクトされること" do
+        delete sample_path(@sample)
+        assert_redirected_to login_url
+      end
+      it 'フラッシュメッセージが表示されること' do
+        delete sample_path(@sample)
+        expect(flash[:danger]).to eq('Please log in.')
+      end
     end
   end
 end
