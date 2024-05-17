@@ -1,4 +1,6 @@
 class SamplesController < ApplicationController
+  before_action :logged_in_user, only: [:edit, :update, :destroy]
+
   def index
     @samples = Sample.paginate(page: params[:page], per_page: 8)
   end
@@ -30,7 +32,7 @@ class SamplesController < ApplicationController
     @sample = Sample.find(params[:id])
 
     if @sample.update(sample_params)
-      flash[:success] = "Successful updated user information!"
+      flash[:success] = "Successful updated sample information!"
       redirect_to @sample
     else
       render :edit, status: :unprocessable_entity
