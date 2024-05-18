@@ -1,7 +1,41 @@
 require 'rails_helper'
 
 RSpec.describe "CategoriesManagementFlow", type: :system do
+  describe '#show' do
+    before do
+      @category = FactoryBot.create(:category)
+    end
+
+    context '管理者ユーザーでログインした場合' do
+      before do
+        admin_user = FactoryBot.create(:admin_user)
+        log_in(admin_user)
+      end
+
+      it '削除用リンクが表示されること' do
+        visit category_path(@category)
+        expect(page).to have_link('Destroy', count: 1)
+      end
+    end
+    context '一般ユーザーでログインした場合' do
+      before do
+        general_user = FactoryBot.create(:general_user)
+        log_in(general_user)
+      end
+
+      it '削除用リンクが表示されないこと' do
+        visit category_path(@category)
+        expect(page).to have_link('Destroy', count: 0)
+      end
+    end
+  end
+
   describe '#create' do
+    before do
+      general_user = FactoryBot.create(:general_user)
+      log_in(general_user)
+    end
+
     context '有効な値の場合' do
       it '登録に成功すること' do
         visit new_category_path
@@ -67,28 +101,15 @@ RSpec.describe "CategoriesManagementFlow", type: :system do
   describe '#destory' do
     before do
       @category = FactoryBot.create(:category)
+      admin_user = FactoryBot.create(:admin_user)
+      log_in(admin_user)
     end
 
-    context 'ログイン済みの場合' do
-      before do
-        user = FactoryBot.create(:user)
-        log_in(user)
-      end
-
-      it '削除に成功すること' do
-        visit category_path(@category)
-        click_link('Destroy')
-        expect(page).to have_selector('h3',  text: 'Category List')
-        expect(page).to have_selector('div', text: 'Successful deleted category!')
-      end
-    end
-    context '未ログインの場合' do
-      it 'ログインページにリダイレクトされること' do
-        visit category_path(@category)
-        click_link('Destroy')
-        expect(page).to have_selector('h3',  text: 'Log in')
-        expect(page).to have_selector('div', text: 'Please log in.')
-      end
+    it '削除に成功すること' do
+      visit category_path(@category)
+      click_link('Destroy')
+      expect(page).to have_selector('h3',  text: 'Category List')
+      expect(page).to have_selector('div', text: 'Successful deleted category!')
     end
   end
 end

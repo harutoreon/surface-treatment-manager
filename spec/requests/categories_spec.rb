@@ -19,6 +19,8 @@ RSpec.describe "Categories", type: :request do
   describe '#show' do
     before do
       @category = FactoryBot.create(:category)
+      admin_user = FactoryBot.create(:admin_user)
+      log_in(admin_user)
     end
 
     it 'レスポンスが正常であること' do
@@ -164,27 +166,36 @@ RSpec.describe "Categories", type: :request do
       @category = FactoryBot.create(:category)
     end
 
-    context 'ログイン済みの場合' do
+    context '管理者ユーザーでログインした場合' do
       before do
-        user = FactoryBot.create(:user)
-        log_in(user)
+        admin_user = FactoryBot.create(:admin_user)
+        log_in(admin_user)
       end
 
-      it 'レコードが1件減少すること' do
+      it '削除に成功すること' do
         expect { delete category_path(@category) }.to change{ Category.count }.from(1).to(0)
       end
-      it 'categories#indexにリダイレクトされること' do
+      it 'categories#indexページにリダイレクトされること' do
         delete category_path(@category)
         expect(response).to redirect_to(categories_url)
+        expect(flash[:success]).to eq('Successful deleted category!')
+      end
+    end
+    context '一般ユーザーでログインした場合' do
+      before do
+        general_user = FactoryBot.create(:general_user)
+        log_in(general_user)
+      end
+
+      it "ログインページにリダイレクトされること" do
+        delete category_path(@category)
+        expect(response).to redirect_to(login_url)
       end
     end
     context '未ログインの場合' do
       it "ログインページにリダイレクトされること" do
         delete category_path(@category)
-        assert_redirected_to login_url
-      end
-      it 'フラッシュメッセージが表示されること' do
-        delete category_path(@category)
+        expect(response).to redirect_to(login_url)
         expect(flash[:danger]).to eq('Please log in.')
       end
     end
