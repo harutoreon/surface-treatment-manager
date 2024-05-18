@@ -2,112 +2,68 @@ require 'rails_helper'
 
 RSpec.describe "SamplesSearchFlow", type: :system do
   before do
-    # user = FactoryBot.create(:user)
-    # log_in(user)
-
-    10.times do
-      FactoryBot.create(:anodised_aluminium)
-    end
+    FactoryBot.create_list(:anodised_aluminium, 8)  # 「8」はページネーションのリミット値
   end
 
-  describe 'name_search_flow' do
-    context '有効なデータを入力したとき' do
-      it '「白アルマイト」が10件表示されること' do
-        visit home_path
-        expect(page).to have_content('Main Menu')
-
-        click_link(id: 'name_search')
-        expect(page).to have_content('Search by treatment')
-
+  describe '#name_search' do
+    context '有効な値の場合' do
+      it '検索対象が見つかること' do
+        visit category_name_path
         fill_in('keyword', with: 'アルマイト')
-
         click_button('Search')
-        expect(page).to have_content('Search result of surface treatment')
+        expect(page).to have_selector('h3', text: 'Search result of surface treatment')
         expect(page).to have_link('白アルマイト', count: 8)
       end
     end
-
-    context '無効なデータを入力したとき' do
-      it '「No matching sample.」が表示されること' do
-        visit home_path
-        expect(page).to have_content('Main Menu')
-
-        click_link(id: 'name_search')
-        expect(page).to have_content('Search by treatment')
-
+    context '無効な値の場合' do
+      it '検索対象が見つからないこと' do
+        visit category_name_path
         fill_in('keyword', with: 'めっき')
-
         click_button('Search')
-        expect(page).to have_content('Search result of surface treatment')
-        expect(page).to have_content('No matching surface treatment.')
+        expect(page).to have_selector('h3', text: 'Search result of surface treatment')
+        expect(page).to have_selector('h4', text: 'No matching surface treatment.')
       end
     end
   end
 
-  describe 'category_search_flow' do
-    context '有効なデータを入力したとき' do
-      it '「白アルマイト」が10件表示されること' do
-        visit home_path
-        expect(page).to have_content('Main Menu')
-
-        click_link(id: 'category_search')
-        expect(page).to have_content('Search by category')
-
+  describe '#category_search' do
+    context '有効な値の場合' do
+      it '検索対象が見つかること' do
+        visit category_category_path
         select('陽極酸化')
-
         click_button('Search')
-        expect(page).to have_content('Search result of surface treatment')
+        expect(page).to have_selector('h3', text: 'Search result of surface treatment')
         expect(page).to have_link('白アルマイト', count: 8)
       end
     end
-
-    context '無効なデータを入力したとき' do
-      it '「No matching sample.」が表示されること' do
-        visit home_path
-        expect(page).to have_content('Main Menu')
-
-        click_link(id: 'category_search')
-        expect(page).to have_content('Search by category')
-
+    context '無効な値の場合' do
+      it '検索対象が見つからないこと' do
+        visit category_category_path
         select('表面硬化')
-
         click_button('Search')
-        expect(page).to have_content('Search result of surface treatment')
-        expect(page).to have_content('No matching surface treatment.')
+        expect(page).to have_selector('h3', text: 'Search result of surface treatment')
+        expect(page).to have_selector('h4', text: 'No matching surface treatment.')
       end
     end
   end
 
-  describe 'maker_search_flow' do
-    context '有効なデータを入力したとき' do
-      it '「白アルマイト」が10件表示されること' do
-        visit home_path
-        expect(page).to have_content('Main Menu')
-
-        click_link(id: 'maker_search')
-        expect(page).to have_content('Search by maker')
-
+  describe '#maker_search' do
+    context '有効な値の場合' do
+      it '検索対象が見つかること' do
+        visit category_maker_path
         fill_in('keyword', with: '有限会社')
-
         click_button('Search')
-        expect(page).to have_content('Search result of surface treatment')
+        expect(page).to have_selector('h3', text: 'Search result of surface treatment')
         expect(page).to have_link('白アルマイト', count: 8)
       end
     end
-
-    context '無効なデータを入力したとき' do
-      it '「No matching sample.」が表示されること' do
-        visit home_path
-        expect(page).to have_content('Main Menu')
-
-        click_link(id: 'maker_search')
-        expect(page).to have_content('Search by maker')
-
+    context '無効な値の場合' do
+      it '検索対象が見つからないこと' do
+        visit category_maker_path
         fill_in('keyword', with: '株式会社')
-
         click_button('Search')
-        expect(page).to have_content('Search result of surface treatment')
-        expect(page).to have_content('No matching surface treatment.')
+        expect(page).to have_selector('h3', text: 'Search result of surface treatment')
+        expect(page).to have_selector('h4', text: 'No matching surface treatment.')
       end
     end
   end

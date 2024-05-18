@@ -5,12 +5,12 @@ RSpec.describe 'CommentsManagementFlowSpec', type: :system do
     @sample = FactoryBot.create(:sample)
   end
 
-  describe 'Comments#create' do
-    context '有効な値を入力した場合' do
-      it 'コメントの登録に成功すること' do
+  describe '#create' do
+    context '有効な値の場合' do
+      it '登録に成功すること' do
         visit sample_path(@sample)
         fill_in('Commenter', with: 'sample commenter')
-        fill_in('Comment', with: 'sample comment.')
+        fill_in('Comment',   with: 'sample comment.')
         click_button('Create Comment')
         expect(page).to have_selector('div', text: '1 comment added.')
         expect(page).to have_selector('h3',  text: 'Surface Treatment Information')
@@ -18,11 +18,11 @@ RSpec.describe 'CommentsManagementFlowSpec', type: :system do
         expect(page).to have_selector('h6',  text: 'sample comment.')
       end
     end
-    context '無効な値を入力した場合' do
-      it 'コメントの登録に失敗すること' do
+    context '無効な値の場合' do
+      it '登録に失敗すること' do
         visit sample_path(@sample)
         fill_in('Commenter', with: '')
-        fill_in('Comment', with: 'sample comment.')
+        fill_in('Comment',   with: 'sample comment.')
         click_button('Create Comment')
         expect(page).to have_selector('div', text: 'Invalid commenter or comment.')
         expect(page).to have_selector('h3',  text: 'Surface Treatment Information')
@@ -32,7 +32,7 @@ RSpec.describe 'CommentsManagementFlowSpec', type: :system do
     end
   end
 
-  describe 'Comments#destroy' do
+  describe '#destroy' do
     before do
       @comment = @sample.comments.create(commenter: 'sample commenter', body: 'sample comment.')
     end
@@ -43,10 +43,10 @@ RSpec.describe 'CommentsManagementFlowSpec', type: :system do
         log_in(user)
       end
 
-      it 'コメントが削除されること' do
+      it '削除に成功すること' do
         visit sample_path(@sample)
         click_link('Destroy', href: sample_comment_path(@sample, @sample.comments.first.id))
-        expect(page).to have_selector('h3', text: 'Surface Treatment Information')
+        expect(page).to have_selector('h3',     text: 'Surface Treatment Information')
         expect(page).to_not have_selector('h6', text: 'sample commenter')
         expect(page).to_not have_selector('h6', text: 'sample comment.')
       end
@@ -55,11 +55,7 @@ RSpec.describe 'CommentsManagementFlowSpec', type: :system do
       it 'ログインページにリダイレクトされること' do
         visit sample_path(@sample)
         click_link('Destroy', href: sample_comment_path(@sample, @sample.comments.first.id))
-        expect(page).to have_selector('h3', text: 'Log in')
-      end
-      it 'フラッシュメッセージが表示されること' do
-        visit sample_path(@sample)
-        click_link('Destroy', href: sample_comment_path(@sample, @sample.comments.first.id))
+        expect(page).to have_selector('h3',  text: 'Log in')
         expect(page).to have_selector('div', text: 'Please log in.')
       end
     end

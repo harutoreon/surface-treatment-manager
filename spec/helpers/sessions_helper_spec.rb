@@ -2,20 +2,23 @@ require 'rails_helper'
 
 RSpec.describe SessionsHelper, type: :helper do
   describe '#log_in' do
-    let(:user) { FactoryBot.create(:user) }
-
-    context '存在するユーザーを引数に渡した場合' do
-      it 'セッションでuser_idが設定されること' do
-        log_in(user)
-        expect(session[:user_id]).to eq(user.id)
-      end
+    before do
+      @user = FactoryBot.create(:user)
     end
 
-    context '存在しないユーザーを引数に渡した場合' do
-      let(:non_existent_user) { FactoryBot.build(:user) }
+    context '有効な値の場合' do
+      it 'セッションのuser_idに値があること' do
+        log_in(@user)
+        expect(session[:user_id]).to eq(@user.id)
+      end
+    end
+    context '無効な値の場合' do
+      before do
+        @other = FactoryBot.build(:user, name: 'Alice')
+      end
 
       it 'セッションのuser_idがnilであること' do
-        log_in(non_existent_user)
+        log_in(@other)
         expect(session[:user_id]).to be_nil
       end
     end
@@ -28,13 +31,12 @@ RSpec.describe SessionsHelper, type: :helper do
       log_in(@logged_in_user)
     end
 
-    context 'ログインユーザーを引数に渡した場合' do
+    context '有効な値の場合' do
       it 'trueが返ること' do
         expect(current_user?(@logged_in_user)).to eq(true)
       end
     end
-
-    context '未ログインユーザーを引数に渡した場合' do
+    context '無効な値の場合' do
       it 'falseが返ること' do
         expect(current_user?(@not_logged_in_user)).to eq(false)
       end
@@ -42,15 +44,16 @@ RSpec.describe SessionsHelper, type: :helper do
   end
 
   describe '#current_user' do
-    let(:user) { FactoryBot.create(:user) }
+    before do
+      @user = FactoryBot.create(:user)
+    end
 
     context 'ログインしている場合' do
       it 'ユーザーが返ること' do
-        log_in(user)
-        expect(current_user).to eq(user)
+        log_in(@user)
+        expect(current_user).to eq(@user)
       end
     end
-
     context '未ログインの場合' do
       it 'nilが返ること' do
         expect(current_user).to be_nil
@@ -59,15 +62,16 @@ RSpec.describe SessionsHelper, type: :helper do
   end
 
   describe '#logged_in?' do
-    let(:user) { FactoryBot.create(:user) }
+    before do
+      @user = FactoryBot.create(:user)
+    end
 
     context 'ログインしている場合' do
       it 'trueが返ること' do
-        log_in(user)
+        log_in(@user)
         expect(logged_in?).to eq(true)
       end
     end
-
     context '未ログインの場合' do
       it 'falseが返ること' do
         expect(logged_in?).to eq(false)
@@ -85,7 +89,6 @@ RSpec.describe SessionsHelper, type: :helper do
     it 'セッションのuser_idがnilであること' do
       expect(session[:user_id]).to be_nil
     end
-
     it '@current_userがnilであること' do
       expect(instance_variable_get(:@current_user)).to be_nil
     end
