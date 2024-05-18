@@ -51,8 +51,4 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:name, :password, :password_confirmation)
     end
-
-  # def admin_user
-  #   redirect_to(login_url) unless current_user.admin?
-  # end
 end
