@@ -19,6 +19,7 @@ RSpec.describe "Users", type: :request do
   describe '#show' do
     before do
       @user = FactoryBot.create(:user)
+      log_in(@user)
     end
 
     it 'レスポンスが正常であること' do
@@ -167,34 +168,46 @@ RSpec.describe "Users", type: :request do
 
   describe '#destroy' do
     before do
-      @other = FactoryBot.create(:michael)
+      @sample_user = FactoryBot.create(:sample_user)
     end
 
-    context 'ログイン済みの場合' do
+    context '管理者ユーザーでログインした場合' do
       before do
-        @user = FactoryBot.create(:user)
-        log_in(@user)
+        @admin_user = FactoryBot.create(:admin_user)
+        log_in(@admin_user)
       end
 
-      it '削除できること' do
-        expect { delete user_path(@other) }.to change{ User.count }.from(2).to(1)
+      it '削除に成功すること' do
+        expect { delete user_path(@sample_user) }.to change{ User.count }.from(2).to(1)
       end
-      it 'users#indexにリダイレクトされること' do
-        delete user_path(@other)
+      it 'users/indexページにリダイレクトされること' do
+        delete user_path(@sample_user)
         expect(response).to redirect_to users_url
+        expect(flash[:success]).to eq('Successful deleted user!')
       end
-      it 'フラッシュメッセージが表示されること' do
-        delete user_path(@other)
-        expect(flash).to be_any
+    end
+    context '一般ユーザーでログインした場合' do
+      before do
+        @general_user = FactoryBot.create(:general_user)
+        log_in(@general_user)
+      end
+
+      it '削除に失敗すること' do
+        expect { delete user_path(@sample_user) }.to_not change{ User.count }.from(2)
+      end
+      it 'ログインページにリダイレクトされること' do
+        delete user_path(@sample_user)
+        expect(response).to redirect_to login_url
       end
     end
     context '未ログインの場合' do
-      it "ログインページにリダイレクトされること" do
-        delete user_path(@other)
-        assert_redirected_to login_url
+      it '削除に失敗すること' do
+        expect { delete user_path(@sample_user) }.to_not change{ User.count }.from(1)
       end
-      it 'フラッシュメッセージが表示されること' do
-        delete user_path(@other)
+
+      it "ログインページにリダイレクトされること" do
+        delete user_path(@sample_user)
+        expect(response).to redirect_to login_url
         expect(flash[:danger]).to eq('Please log in.')
       end
     end
