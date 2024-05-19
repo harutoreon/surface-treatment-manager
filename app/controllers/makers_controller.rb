@@ -1,5 +1,6 @@
 class MakersController < ApplicationController
   before_action :logged_in_user, only: [:edit, :update, :destroy]
+  before_action :admin_user, only: :destroy
 
   def index
     @makers = Maker.paginate(page: params[:page], per_page: 8)
