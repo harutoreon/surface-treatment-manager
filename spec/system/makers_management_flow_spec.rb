@@ -1,7 +1,36 @@
 require 'rails_helper'
 
 RSpec.describe "MakersManagementFlow", type: :system do
-  describe 'makers#create' do
+  describe '#show' do
+    before do
+      @maker = FactoryBot.create(:maker)
+    end
+
+    context '管理者ユーザーでログインした場合' do
+      before do
+        admin_user = FactoryBot.create(:admin_user)
+        log_in(admin_user)
+      end
+
+      it '削除用リンクが表示されること' do
+        visit maker_path(@maker)
+        expect(page).to have_link('Destroy', count: 1)
+      end
+    end
+    context '一般ユーザーでログインした場合' do
+      before do
+        general_user = FactoryBot.create(:general_user)
+        log_in(general_user)
+      end
+
+      it '削除用リンクが表示されないこと' do
+        visit maker_path(@maker)
+        expect(page).to have_link('Destroy', count: 0)
+      end
+    end
+  end
+
+  describe '#create' do
     before do
       general_user = FactoryBot.create(:general_user)
       log_in(general_user)
