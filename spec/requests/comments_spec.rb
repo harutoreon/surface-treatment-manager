@@ -6,33 +6,32 @@ RSpec.describe "Comments", type: :request do
   end
 
   describe "#create" do
-    context '登録に成功した場合' do
+    before do
+      general_user = FactoryBot.create(:general_user)
+      log_in(general_user)
+    end
+
+    context '有効な値の場合' do
       let(:valid_params) { { comment: { commenter: 'sample user', body: 'sample comment.' } } }
 
-      it 'レコード数が増加すること' do
+      it '登録が成功すること' do
         expect { post sample_comments_path(@sample), params: valid_params }.to change{ Comment.count }.from(0).to(1)
       end
-      it 'samples/showにリダイレクトされること' do
+      it 'samples/showページにリダイレクトされること' do
         post sample_comments_path(@sample), params: valid_params
         expect(response).to redirect_to(@sample)
-      end
-      it '「1 comment added.」のフラッシュメッセージが表示されること' do
-        post sample_comments_path(@sample), params: valid_params
         expect(flash['success']).to eq('1 comment added.')
       end
     end
-    context '登録に失敗した場合' do
+    context '無効な値の場合' do
       let(:invalid_params) { { comment: { commenter: '', body: 'sample comment.' } } }
 
-      it 'レコード数が変化しないこと' do
+      it '登録に失敗すること' do
         expect { post sample_comments_path(@sample), params: invalid_params }.to_not change{ Comment.count }.from(0)
       end
-      it 'samples/showを再描画すること' do
+      it 'samples/showページを再表示すること' do
         post sample_comments_path(@sample), params: invalid_params
         expect(response.body).to include('Surface Treatment Information')
-      end
-      it '「Invalid commenter or comment.」のフラッシュメッセージが表示されること' do
-        post sample_comments_path(@sample), params: invalid_params
         expect(flash['danger']).to eq('Invalid commenter or comment.')
       end
     end
@@ -45,8 +44,8 @@ RSpec.describe "Comments", type: :request do
 
     context 'ログイン済みの場合' do
       before do
-        user = FactoryBot.create(:user)
-        log_in(user)
+        admin_user = FactoryBot.create(:admin_user)
+        log_in(admin_user)
       end
 
       it 'レコード数が減少すること' do
@@ -60,10 +59,7 @@ RSpec.describe "Comments", type: :request do
     context '未ログインの場合' do
       it "ログインページにリダイレクトされること" do
         delete sample_comment_path(@sample, @comment)
-        assert_redirected_to login_url
-      end
-      it 'フラッシュメッセージが表示されること' do
-        delete sample_comment_path(@sample, @comment)
+        expect(response).to redirect_to(login_url)
         expect(flash[:danger]).to eq('Please log in.')
       end
     end

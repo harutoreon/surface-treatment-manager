@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe "LinksButtonFlow", type: :system do
-  before do
-    @sample = FactoryBot.create(:sample)
-  end
-
   describe 'samples/showページの', js: true do
+    before do
+      admin_user = FactoryBot.create(:admin_user)
+      log_in(admin_user)
+      @sample = FactoryBot.create(:sample)
+    end
+
     context 'Linksボタンを押下した時' do
       it 'aria-expanded属性がtrueであること' do
         visit sample_path(@sample)

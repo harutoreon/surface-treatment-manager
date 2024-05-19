@@ -6,6 +6,11 @@ RSpec.describe 'CommentsManagementFlowSpec', type: :system do
   end
 
   describe '#create' do
+    before do
+      general_user = FactoryBot.create(:general_user)
+      log_in(general_user)
+    end
+
     context '有効な値の場合' do
       it '登録に成功すること' do
         visit sample_path(@sample)
@@ -35,29 +40,16 @@ RSpec.describe 'CommentsManagementFlowSpec', type: :system do
   describe '#destroy' do
     before do
       @comment = @sample.comments.create(commenter: 'sample commenter', body: 'sample comment.')
+      admin_user = FactoryBot.create(:admin_user)
+      log_in(admin_user)
     end
 
-    context 'ログイン済みの場合' do
-      before do
-        user = FactoryBot.create(:user)
-        log_in(user)
-      end
-
-      it '削除に成功すること' do
-        visit sample_path(@sample)
-        click_link('Destroy', href: sample_comment_path(@sample, @sample.comments.first.id))
-        expect(page).to have_selector('h3',     text: 'Surface Treatment Information')
-        expect(page).to_not have_selector('h6', text: 'sample commenter')
-        expect(page).to_not have_selector('h6', text: 'sample comment.')
-      end
-    end
-    context '未ログインの場合' do
-      it 'ログインページにリダイレクトされること' do
-        visit sample_path(@sample)
-        click_link('Destroy', href: sample_comment_path(@sample, @sample.comments.first.id))
-        expect(page).to have_selector('h3',  text: 'Log in')
-        expect(page).to have_selector('div', text: 'Please log in.')
-      end
+    it '削除に成功すること' do
+      visit sample_path(@sample)
+      click_link('Destroy', href: sample_comment_path(@sample, @sample.comments.first.id))
+      expect(page).to have_selector('h3', text: 'Surface Treatment Information')
+      expect(page).to_not have_selector('h6', text: 'sample commenter')
+      expect(page).to_not have_selector('h6', text: 'sample comment.')
     end
   end
 end

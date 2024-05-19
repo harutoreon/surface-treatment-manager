@@ -19,6 +19,8 @@ RSpec.describe "Samples", type: :request do
   describe "#show" do
     before do
       @sample = FactoryBot.create(:sample)
+      admin_user = FactoryBot.create(:admin_user)
+      log_in(admin_user)
     end
 
     it 'レスポンスが正常であること' do
@@ -179,13 +181,13 @@ RSpec.describe "Samples", type: :request do
       @sample.comments.create(commenter: 'sample user', body: 'sample comment.')
     end
 
-    context 'ログイン済みの場合' do
+    context '管理者ユーザーでログインした場合' do
       before do
-        user = FactoryBot.create(:user)
-        log_in(user)
+        admin_user = FactoryBot.create(:admin_user)
+        log_in(admin_user)
       end
 
-      it 'レコードが1件減少すること' do
+      it '削除に成功すること' do
         expect { delete sample_path(@sample) }.to change{ Sample.count }.from(1).to(0)
       end
       it '紐付いたコメントも削除されること' do
@@ -194,15 +196,24 @@ RSpec.describe "Samples", type: :request do
       it 'samples/indexページにリダイレクトされること' do
         delete sample_path(@sample)
         expect(response).to redirect_to(samples_url)
+        expect(flash[:success]).to eq('Successful deleted surface treatment!')
+      end
+    end
+    context '一般ユーザーでログインした場合' do
+      before do
+        general_user = FactoryBot.create(:general_user)
+        log_in(general_user)
+      end
+
+      it "ログインページにリダイレクトされること" do
+        delete maker_path(@sample)
+        expect(response).to redirect_to(login_url)
       end
     end
     context '未ログインの場合' do
       it "ログインページにリダイレクトされること" do
         delete sample_path(@sample)
         assert_redirected_to login_url
-      end
-      it 'フラッシュメッセージが表示されること' do
-        delete sample_path(@sample)
         expect(flash[:danger]).to eq('Please log in.')
       end
     end
