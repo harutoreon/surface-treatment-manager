@@ -1,9 +1,40 @@
 require 'rails_helper'
 
 RSpec.describe "SamplesManagementFlow", type: :system do
+  describe '#show' do
+    before do
+      @sample = FactoryBot.create(:sample)
+    end
+
+    context '管理者ユーザーでログインした場合' do
+      before do
+        admin_user = FactoryBot.create(:admin_user)
+        log_in(admin_user)
+      end
+
+      it '削除用リンクが表示されること' do
+        visit sample_path(@sample)
+        expect(page).to have_link('Destroy', count: 1)
+      end
+    end
+    context '一般ユーザーでログインした場合' do
+      before do
+        general_user = FactoryBot.create(:general_user)
+        log_in(general_user)
+      end
+
+      it '削除用リンクが表示されないこと' do
+        visit sample_path(@sample)
+        expect(page).to have_link('Destroy', count: 0)
+      end
+    end
+  end
+
   describe '#create' do
     before do
       FactoryBot.create(:category, item: 'めっき')
+      general_user = FactoryBot.create(:general_user)
+      log_in(general_user)
     end
 
     context '有効な値を入力した場合' do
@@ -47,8 +78,8 @@ RSpec.describe "SamplesManagementFlow", type: :system do
 
     context 'ログイン済みで' do
       before do
-        user = FactoryBot.create(:user)
-        log_in(user)
+        general_user = FactoryBot.create(:general_user)
+        log_in(general_user)
       end
 
       context '有効な値を入力した場合' do
@@ -82,28 +113,15 @@ RSpec.describe "SamplesManagementFlow", type: :system do
   describe '#destroy' do
     before do
       @sample = FactoryBot.create(:sample)
+      admin_user = FactoryBot.create(:admin_user)
+      log_in(admin_user)
     end
 
-    context 'ログイン済みの場合' do
-      before do
-        user = FactoryBot.create(:user)
-        log_in(user)
-      end
-
-      it 'samples/indexページが表示されること' do
-        visit sample_path(@sample)
-        click_link('Destroy')
-        expect(page).to have_selector('h3',  text: 'Surface Treatment List')
-        expect(page).to have_selector('div', text: 'Successful deleted surface treatment!')
-      end
-    end
-    context '未ログインの場合' do
-      it 'ログインページにリダイレクトされること' do
-        visit sample_path(@sample)
-        click_link('Destroy')
-        expect(page).to have_selector('h3',  text: 'Log in')
-        expect(page).to have_selector('div', text: 'Please log in.')
-      end
+    it 'samples/indexページが表示されること' do
+      visit sample_path(@sample)
+      click_link('Destroy')
+      expect(page).to have_selector('h3',  text: 'Surface Treatment List')
+      expect(page).to have_selector('div', text: 'Successful deleted surface treatment!')
     end
   end
 end

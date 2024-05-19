@@ -15,6 +15,8 @@ RSpec.describe "Makers", type: :request do
   describe "#show" do
     before do
       @maker = FactoryBot.create(:maker)
+      admin_user = FactoryBot.create(:admin_user)
+      log_in(admin_user)
     end
 
     it 'レスポンスが正常であること' do
@@ -169,31 +171,36 @@ RSpec.describe "Makers", type: :request do
       @maker = FactoryBot.create(:maker)
     end
 
-    context 'ログイン済みの場合' do
+    context '管理者ユーザーでログインした場合' do
       before do
-        user = FactoryBot.create(:user)
-        log_in(user)
+        admin_user = FactoryBot.create(:admin_user)
+        log_in(admin_user)
       end
 
-      it 'レコードが1件減少すること' do
+      it '削除に成功すること' do
         expect { delete maker_path(@maker) }.to change{ Maker.count }.from(1).to(0)
       end
       it 'makers/indexページににリダイレクトすること' do
         delete maker_path(@maker)
         expect(response).to redirect_to(makers_url)
-      end
-      it 'フラッシュメッセージが表示されること' do
-        delete maker_path(@maker)
         expect(flash[:success]).to eq('Successful deleted maker!')
+      end
+    end
+    context '一般ユーザーでログインした場合' do
+      before do
+        general_user = FactoryBot.create(:general_user)
+        log_in(general_user)
+      end
+
+      it "ログインページにリダイレクトされること" do
+        delete maker_path(@maker)
+        expect(response).to redirect_to(login_url)
       end
     end
     context '未ログインの場合' do
       it "ログインページにリダイレクトされること" do
         delete maker_path(@maker)
-        assert_redirected_to login_url
-      end
-      it 'フラッシュメッセージが表示されること' do
-        delete maker_path(@maker)
+        expect(response).to redirect_to(login_url)
         expect(flash[:danger]).to eq('Please log in.')
       end
     end

@@ -1,11 +1,41 @@
 require 'rails_helper'
 
 RSpec.describe "MakersManagementFlow", type: :system do
-  before do
-    @maker = FactoryBot.create(:maker)
+  describe '#show' do
+    before do
+      @maker = FactoryBot.create(:maker)
+    end
+
+    context '管理者ユーザーでログインした場合' do
+      before do
+        admin_user = FactoryBot.create(:admin_user)
+        log_in(admin_user)
+      end
+
+      it '削除用リンクが表示されること' do
+        visit maker_path(@maker)
+        expect(page).to have_link('Destroy', count: 1)
+      end
+    end
+    context '一般ユーザーでログインした場合' do
+      before do
+        general_user = FactoryBot.create(:general_user)
+        log_in(general_user)
+      end
+
+      it '削除用リンクが表示されないこと' do
+        visit maker_path(@maker)
+        expect(page).to have_link('Destroy', count: 0)
+      end
+    end
   end
 
-  describe 'makers#create' do
+  describe '#create' do
+    before do
+      general_user = FactoryBot.create(:general_user)
+      log_in(general_user)
+    end
+
     context '有効な値の場合' do
       it '登録に成功すること' do
         visit new_maker_path
@@ -41,10 +71,14 @@ RSpec.describe "MakersManagementFlow", type: :system do
   end
 
   describe '#update' do
+    before do
+      @maker = FactoryBot.create(:maker)
+    end
+
     context 'ログイン済みで' do
       before do
-        user = FactoryBot.create(:user)
-        log_in(user)
+        general_user = FactoryBot.create(:general_user)
+        log_in(general_user)
       end
 
       context '有効な値を入力した場合' do
@@ -76,26 +110,17 @@ RSpec.describe "MakersManagementFlow", type: :system do
   end
 
   describe '#destroy' do
-    context 'ログイン済みの場合' do
-      before do
-        user = FactoryBot.create(:user)
-        log_in(user)
-      end
-
-      it '削除に成功すること' do
-        visit maker_path(@maker)
-        click_link('Destroy')
-        expect(page).to have_selector('h3',  text: 'Maker List')
-        expect(page).to have_selector('div', text: 'Successful deleted maker!')
-      end
+    before do
+      @maker = FactoryBot.create(:maker)
+      admin_user = FactoryBot.create(:admin_user)
+      log_in(admin_user)
     end
-    context '未ログインの場合' do
-      it 'ログインページにリダイレクトされること' do
-        visit maker_path(@maker)
-        click_link('Destroy')
-        expect(page).to have_selector('h3',  text: 'Log in')
-        expect(page).to have_selector('div', text: 'Please log in.')
-      end
+
+    it '削除に成功すること' do
+      visit maker_path(@maker)
+      click_link('Destroy')
+      expect(page).to have_selector('h3',  text: 'Maker List')
+      expect(page).to have_selector('div', text: 'Successful deleted maker!')
     end
   end
 end
