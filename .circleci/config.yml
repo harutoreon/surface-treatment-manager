@@ -6,7 +6,7 @@ orbs:
 jobs:
   test:
     docker:
-      - image: cimg/ruby:3.2.0-browsers
+      - image: cimg/ruby:3.2.4-browsers
       - image: cimg/postgres:16.1
         environment:
             POSTGRES_USER: example
