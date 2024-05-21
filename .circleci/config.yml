@@ -22,8 +22,21 @@ jobs:
     steps:
       - browser-tools/install-browser-tools
       - checkout
+      - restore_cache:
+          name: restore gems
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-dependencies-
       - run:
-          command: bundle install
+          name: bundle install
+          command: |
+            bundle config set path 'vendor/bundle' && \
+            bundle install
+      - save_cache:
+          name: save gems
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
       - run:
           command: bin/rails db:create
       - run:
