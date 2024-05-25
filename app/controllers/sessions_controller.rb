@@ -16,6 +16,6 @@ class SessionsController < ApplicationController
 
   def destroy
     log_out
-    redirect_to login_url
+    redirect_to login_url, status: :see_other
   end
 end
