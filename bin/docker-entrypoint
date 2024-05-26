@@ -2,7 +2,7 @@
 
 if [ "${1}" == "./bin/rails" ] && [ "${2}" == "server" ]; then
   # ./bin/rails db:prepare
-  ./bin/rails db:migrate:reset
+  ./bin/rails db:migrate
   ./bin/rails db:seed
 fi
 
