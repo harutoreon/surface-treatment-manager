@@ -72,6 +72,7 @@ group :development do
   gem "binding_of_caller"
   gem "rubocop", require: false
   gem 'bullet'
+  gem 'brakeman'
 end
 
 group :test do
