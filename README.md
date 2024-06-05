@@ -15,6 +15,8 @@
 - Ruby on Rails
 - RSpec
 - Rubocop
+- Brakeman
+- Bullet
 - Capybara
 - Selenium
 - PostgreSQL
