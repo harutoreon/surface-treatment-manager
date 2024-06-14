@@ -13,14 +13,15 @@
 ## 使用技術
 - Ruby
 - Ruby on Rails
+- Bootstrap
+- PostgreSQL
 - RSpec
 - Rubocop
 - Brakeman
-- Bullet
 - Capybara
 - Selenium
-- PostgreSQL
-- Bootstrap
+- Bullet
+- SimpleCov
 - CircleCI
 - Render
 
@@ -49,3 +50,5 @@
   - 単体テスト (Model Spec, Helper Spec)
   - 機能テスト (Request Spec)
   - 統合テスト (System Spec)
+- SimpleCov
+  - カバレッジ計測

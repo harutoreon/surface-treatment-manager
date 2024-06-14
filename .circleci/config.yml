@@ -45,6 +45,8 @@ jobs:
           command: bundle exec brakeman
       - run:
           command: bundle exec rspec
+      - store_artifacts:
+          path: coverage
 
 workflows:
   version: 2
