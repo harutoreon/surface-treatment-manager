@@ -15,7 +15,4 @@
 !/tmp/storage/.keep
 /public/assets
 /config/master.key
-
-# .env.production
-
 /coverage
