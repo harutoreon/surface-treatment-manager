@@ -39,6 +39,7 @@
     <%= form.label :picture, class: "form-label" %>
     <div><%= image_tag '', alt: 'No Image', class: 'mb-3', id: 'preview_image', width: 200, height: 200 %></div>
     <%= form.file_field :picture, class: 'form-control mb-4', accept: 'image/jpeg,image/gif,image/png,image/jpg' %>
+    <%= render 'shared/error_messages', object: @sample, label: :picture %>
 
     <%= form.submit class: "form-control btn btn-primary mb-4" %>
   <% end %>
