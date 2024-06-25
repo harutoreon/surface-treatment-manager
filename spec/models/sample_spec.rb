@@ -118,4 +118,14 @@ RSpec.describe Sample, type: :model do
       end
     end
   end
+
+  describe '#picture_size' do
+    context '画像サイズが5MBを超える場合は' do
+      it '検証エラーが発生すること' do
+        sample = FactoryBot.build(:invalid_image_sample)
+        sample.valid?
+        expect(sample.errors[:picture]).to include('should be less than 5MB')
+      end
+    end
+  end
 end
