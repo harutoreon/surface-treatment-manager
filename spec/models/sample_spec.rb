@@ -120,10 +120,12 @@ RSpec.describe Sample, type: :model do
   end
 
   describe '#picture_size' do
-    it '5MBを超える画像はバリデーションエラーになること' do
-      sample = FactoryBot.build(:invalid_image_sample)
-      sample.valid?
-      expect(sample.errors[:picture]).to include('should be less than 5MB')
+    context '画像サイズが5MBを超える場合は' do
+      it '検証エラーが発生すること' do
+        sample = FactoryBot.build(:invalid_image_sample)
+        sample.valid?
+        expect(sample.errors[:picture]).to include('should be less than 5MB')
+      end
     end
   end
 end
