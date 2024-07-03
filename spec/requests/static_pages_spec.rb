@@ -2,6 +2,11 @@ require 'rails_helper'
 
 RSpec.describe "StaticPages", type: :request do
   describe "#home" do
+    before do
+      user = FactoryBot.create(:user)
+      log_in(user)
+    end
+
     it "レスポンスが正常であること" do
       get home_path
       expect(response).to have_http_status(:success)
