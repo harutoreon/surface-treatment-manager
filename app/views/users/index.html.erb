@@ -12,11 +12,13 @@
     </div>
 
     <% @users.each do |user| %>
-      <%= link_to user, class: "list-group-item list-group-item-action" do %>
-        <div class="d-flex justify-content-between">
-          <div><%= user.name %></div>
-          <div><%= user_class(user) %></div>
-        </div>
+      <% unless user.name == "admin user" || user.name == "general user" %>
+        <%= link_to user, class: "list-group-item list-group-item-action" do %>
+          <div class="d-flex justify-content-between">
+            <div><%= user.name %></div>
+            <div><%= user_class(user) %></div>
+          </div>
+        <% end %>
       <% end %>
     <% end %>
   </div>
