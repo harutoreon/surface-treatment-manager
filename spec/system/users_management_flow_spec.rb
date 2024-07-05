@@ -1,6 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe "UsersManagementFlow", type: :system do
+  describe '#index' do
+    before do
+      admin_user = FactoryBot.create(:admin_user)
+      FactoryBot.create(:general_user)
+      log_in(admin_user)
+    end
+
+    it '管理者ユーザーと一般ユーザーはユーザーリストに表示されないこと' do
+      visit users_path
+      expect(page).to_not have_selector('div', text: 'admin user')
+      expect(page).to_not have_selector('div', text: 'general user')
+    end
+  end
+
   describe '#show' do
     before do
       @sample_user = FactoryBot.create(:sample_user)
