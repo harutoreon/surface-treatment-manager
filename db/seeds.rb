@@ -3,6 +3,14 @@ Faker::Config.locale = "ja"
 User.create!(name: "admin user", password: "adminpassword", password_confirmation: "adminpassword", admin: true)
 User.create!(name: "general user", password: "generalpassword", password_confirmation: "generalpassword")
 
+48.times do
+  name = Faker::Name.name
+  password = "password"
+  User.create!(name: name,
+               password: password,
+               password_confirmation: password)
+end
+
 SAMPLES = [
   { name: "無電解ニッケルめっき",
     category: "めっき",
