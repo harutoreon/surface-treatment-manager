@@ -5,20 +5,7 @@
 
   <div class="list-group list-group-flush mb-3">
     <%= render 'searches/list_label' %>
-
-    <% if @samples.any? %>
-      <% @samples.each do |sample| %>
-        <%= link_to sample, class: "list-group-item list-group-item-action" do %>
-          <div class="d-flex justify-content-between">
-            <h6><%= sample.name %></h6>
-            <h6><%= sample.maker %></h6>
-          </div>
-          <h6 class="text-start"><%= sample.category %></h6>
-        <% end %>
-      <% end %>
-    <% else %>
-      <h4 class="text-center m-5">No matching surface treatment.</h4>
-    <% end %>
+    <%= render 'searches/search_result', samples: @samples %>
   </div>
 
   <% if @samples.any? %>
