@@ -31,12 +31,12 @@ RSpec.describe "StaticPages", type: :request do
 
     it '見出しが表示されること' do
       get category_name_path
-      expect(response.body).to include("Search by treatment")
+      expect(response.body).to include("Search by name")
     end
 
     it 'タイトルが表示されること' do
       get category_name_path
-      expect(response.body).to include('<title>Search by treatment</title>')
+      expect(response.body).to include('<title>Search by name</title>')
     end
   end
 
