@@ -1,0 +1,25 @@
+<% if @samples.any? %>
+  <ul class="pagination justify-content-center mb-5">
+    <% if @samples.previous_page %>
+      <li class="page-item">
+        <a class="page-link" href="/category/maker/search?commit=Search&keyword=<%= @keyword %>&page=<%= @samples.previous_page %>">Previous</a>
+      </li>
+    <% else %>
+      <%= render 'disabled_previous_pages' %>
+    <% end %>
+
+    <% 1.upto(@samples.total_pages) do |page| %>
+      <li class="page-item <%= 'active' if @samples.current_page == page %>">
+        <a class="page-link" href="/category/maker/search?commit=Search&keyword=<%= @keyword %>&page=<%= page %>"><%= page %></a>
+      </li>
+    <% end %>
+
+    <% if @samples.next_page %>
+      <li class="page-item">
+        <a class="page-link" href="/category/maker/search?commit=Search&keyword=<%= @keyword %>&page=<%= @samples.next_page %>">Next</a>
+      </li>
+    <% else %>
+      <%= render 'disabled_next_pages' %>
+    <% end %>
+  </ul>
+<% end %>
