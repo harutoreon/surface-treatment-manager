@@ -52,8 +52,5 @@
     </ul>
   <% end %>
 
-  <div class="d-flex justify-content-evenly">
-    <%= link_to 'Search again', category_maker_path %>
-    <%= link_to 'Main Menu', home_path %>
-  </div>
+  <%= render 'searches/sub_menu', path: category_maker_path %>
 </div>
