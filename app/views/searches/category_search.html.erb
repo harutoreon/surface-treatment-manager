@@ -1,59 +1,13 @@
 <%= content_for(:title, 'Search result of surface treatment') %>
 
 <div class="container w-50">
-  <h3 class="text-center mt-5 mb-5">Search result of surface treatment</h3>
+  <%= render 'searches/headline' %>
 
   <div class="list-group list-group-flush mb-3">
-    <div class="list-group-item">
-      <div class="d-flex w-100 justify-content-between">
-        <h6>Treatment name / Category</h6>
-        <h6>Maker</h6>
-      </div>
-    </div>
-
-    <% if @samples.any? %>
-      <% @samples.each do |sample| %>
-        <%= link_to sample, class: "list-group-item list-group-item-action" do %>
-          <div class="d-flex justify-content-between">
-            <h6><%= sample.name %></h6>
-            <h6><%= sample.maker %></h6>
-          </div>
-          <h6 class="text-start"><%= sample.category %></h6>
-        <% end %>
-      <% end %>
-    <% else %>
-      <h4 class="text-center m-5">No matching surface treatment.</h4>
-    <% end %>
+    <%= render 'searches/list_label' %>
+    <%= render 'searches/search_result' %>
   </div>
 
-  <% if @samples.any? %>
-    <ul class="pagination justify-content-center mb-5">
-      <% if @samples.previous_page %>
-        <li class="page-item">
-          <a class="page-link" href="/category/category/search?commit=Search&page=<%= @samples.previous_page %>&selectword=<%= @selectword %>">Previous</a>
-        </li>
-      <% else %>
-        <%= render 'disabled_previous_pages' %>
-      <% end %>
-
-      <% 1.upto(@samples.total_pages) do |page| %>
-        <li class="page-item <%= 'active' if @samples.current_page == page %>">
-          <a class="page-link" href="/category/category/search?commit=Search&page=<%= page %>&selectword=<%= @selectword %>"><%= page %></a>
-        </li>
-      <% end %>
-
-      <% if @samples.next_page %>
-        <li class="page-item">
-          <a class="page-link" href="/category/category/search?commit=Search&page=<%= @samples.next_page %>&selectword=<%= @selectword %>">Next</a>
-        </li>
-      <% else %>
-        <%= render 'disabled_next_pages' %>
-      <% end %>
-    </ul>
-  <% end %>
-
-  <div class="d-flex justify-content-evenly">
-    <%= link_to 'Search again', category_category_path %>
-    <%= link_to 'Main Menu', home_path %>
-  </div>
+  <%= render 'searches/category_pagination' %>
+  <%= render 'searches/sub_menu', path: category_category_path %>
 </div>
