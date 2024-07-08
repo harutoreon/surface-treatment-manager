@@ -57,7 +57,7 @@ RSpec.describe "Users", type: :request do
     end
 
     context '有効なユーザー情報のとき' do
-      let(:user_params) { { user: { name: "sample user", password: "password", password_confirmation: "password" } } }
+      let(:user_params) { { user: { name: "sample user", department: "品質管理部", password: "password", password_confirmation: "password" } } }
 
       it '登録が成功すること' do
         expect{ post users_path, params: user_params }.to change{ User.count }.from(1).to(2)
@@ -69,7 +69,7 @@ RSpec.describe "Users", type: :request do
       end
     end
     context '無効なユーザー情報のとき' do
-      let(:user_params) { { user: { name: "", password: "password", password_confirmation: "password" } } }
+      let(:user_params) { { user: { name: "", department: "品質管理部", password: "password", password_confirmation: "password" } } }
 
       it '登録が失敗すること' do
         expect{ post users_path, params: user_params }.to_not change{ User.count }.from(1)
