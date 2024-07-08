@@ -1,7 +1,9 @@
 module LoginSupport
   module Request
     def log_in(user)
-      post login_path, params: { session: { name: user.name, password: user.password } }
+      post login_path, params: { session: { name: user.name,
+                                            department: user.department,
+                                            password: user.password } }
     end
 
     def logged_in?
@@ -13,7 +15,7 @@ module LoginSupport
     def log_in(user)
       visit login_path
 
-      fill_in 'Name', with: user.name
+      fill_in 'Name',     with: user.name
       fill_in 'Password', with: user.password
       click_button 'Log in'
     end
