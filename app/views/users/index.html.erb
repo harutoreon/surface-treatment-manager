@@ -7,7 +7,7 @@
     <div class="list-group-item">
       <div class="d-flex justify-content-between">
         <small>Name</small>
-        <small>Class</small>
+        <small>Department</small>
       </div>
     </div>
 
@@ -16,7 +16,7 @@
         <%= link_to user, class: "list-group-item list-group-item-action" do %>
           <div class="d-flex justify-content-between">
             <div><%= user.name %></div>
-            <div><%= user_class(user) %></div>
+            <div><%= user.department %></div>
           </div>
         <% end %>
       <% end %>
