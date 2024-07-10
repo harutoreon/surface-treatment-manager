@@ -89,8 +89,8 @@ RSpec.describe "UsersManagementFlow", type: :system do
       context '有効な値の場合' do
         it '更新に成功すること' do
           visit edit_user_path(@sample_user)
-          fill_in('Name', with: 'example user')
-          click_button('Update User')
+          fill_in('ユーザー名', with: 'example user')
+          click_button('登録')
           expect(page).to have_selector('h3',  text: 'ユーザー情報')
           expect(page).to have_selector('div', text: 'Successful updated user information!')
         end
@@ -98,8 +98,8 @@ RSpec.describe "UsersManagementFlow", type: :system do
       context '無効な値の場合' do
         it '更新に失敗すること' do
           visit edit_user_path(@sample_user)
-          fill_in('Name', with: '')
-          click_button('Update User')
+          fill_in('ユーザー名', with: '')
+          click_button('登録')
           expect(page).to have_selector('div', text: 'Name can\'t be blank')
         end
       end
