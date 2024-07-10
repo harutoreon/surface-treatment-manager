@@ -53,11 +53,11 @@ RSpec.describe "UsersManagementFlow", type: :system do
     context '有効な値の場合' do
       it '登録に成功すること' do
         visit new_user_path
-        fill_in('Name', with: 'sample user')
+        fill_in('ユーザー名', with: 'sample user')
         select('品質管理部', from: 'user_department')
-        fill_in('Password',     with: 'password')
-        fill_in('Confirmation', with: 'password')
-        click_button('Create User')
+        fill_in('パスワード', with: 'password')
+        fill_in('パスワードの確認', with: 'password')
+        click_button('登録')
         expect(page).to have_selector('h3',  text: 'ユーザー情報')
         expect(page).to have_selector('div', text: 'Successful registration of new user!')
       end
@@ -65,11 +65,11 @@ RSpec.describe "UsersManagementFlow", type: :system do
     context '無効な値の場合' do
       it '登録に失敗すること' do
         visit new_user_path
-        fill_in('Name',         with: '')
-        fill_in('Password',     with: 'password')
-        fill_in('Confirmation', with: 'password')
-        click_button('Create User')
-        expect(page).to have_selector('h3',  text: 'New Registration for User')
+        fill_in('ユーザー名', with: '')
+        fill_in('パスワード', with: 'password')
+        fill_in('パスワードの確認', with: 'password')
+        click_button('登録')
+        expect(page).to have_selector('h3',  text: 'ユーザー登録')
         expect(page).to have_selector('div', text: 'Name can\'t be blank')
       end
     end
