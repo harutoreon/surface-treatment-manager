@@ -72,9 +72,9 @@ RSpec.describe "CategoriesManagementFlow", type: :system do
       context '有効な値の場合' do
         it '更新に成功すること' do
           visit edit_category_path(@category)
-          fill_in('Item',    with: '塗装')
-          fill_in('Summary', with: '塗料によって固体表面に塗膜を形成させる加工方法のこと。')
-          click_button('Update Category')
+          fill_in('カテゴリー名', with: '塗装')
+          fill_in('概要', with: '塗料によって固体表面に塗膜を形成させる加工方法のこと。')
+          click_button('登録')
           expect(page).to have_selector('h3',  text: 'カテゴリー情報')
           expect(page).to have_selector('div', text: 'Successful updated category information!')
         end
@@ -82,9 +82,10 @@ RSpec.describe "CategoriesManagementFlow", type: :system do
       context '無効な値の場合' do
         it '更新に失敗すること' do
           visit edit_category_path(@category)
-          fill_in('Item', with: '')
-          click_button('Update Category')
-          expect(page).to have_selector('h3',  text: 'Edit for Category')
+          fill_in('カテゴリー名', with: '')
+          fill_in('概要', with: '塗料によって固体表面に塗膜を形成させる加工方法のこと。')
+          click_button('登録')
+          expect(page).to have_selector('h3',  text: 'カテゴリー情報の編集')
           expect(page).to have_selector('div', text: 'Item can\'t be blank')
         end
       end

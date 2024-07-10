@@ -80,13 +80,9 @@ RSpec.describe "Categories", type: :request do
         get edit_category_path(@category)
         expect(response).to have_http_status(:success)
       end
-      it '見出しが「Category Edit」であること' do
-        get edit_category_path(@category)
-        expect(response.body).to include('Edit for Category')
-      end
       it 'タイトルが表示されること' do
         get edit_category_path(@category)
-        expect(response.body).to include('<title>Edit for Category</title>')
+        expect(response.body).to include('<title>カテゴリー情報の編集</title>')
       end
     end
     context '未ログインの場合' do
@@ -133,7 +129,7 @@ RSpec.describe "Categories", type: :request do
         it 'categories#editに遷移されること' do
           patch category_path(@category), params: { category: { item: '' } }
           @category.reload
-          expect(response.body).to include("Edit for Category")
+          expect(response.body).to include("カテゴリー情報の編集")
         end
       end
     end
