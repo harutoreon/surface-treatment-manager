@@ -6,13 +6,9 @@ RSpec.describe "Users", type: :request do
       get users_path
       expect(response).to have_http_status(:success)
     end
-    it '見出しが表示されること' do
-      get users_path
-      expect(response.body).to include('User List')
-    end
     it 'タイトルが表示されること' do
       get users_path
-      expect(response.body).to include('<title>User List</title>')
+      expect(response.body).to include('<title>ユーザーリスト</title>')
     end
   end
 

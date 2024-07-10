@@ -123,7 +123,7 @@ RSpec.describe "UsersManagementFlow", type: :system do
     it '削除に成功すること' do
       visit user_path(@sample_user)
       click_link('Destroy')
-      expect(page).to have_selector('h3',  text: 'User List')
+      expect(page).to have_selector('h3',  text: 'ユーザーリスト')
       expect(page).to have_selector('div', text: 'Successful deleted user!')
     end
   end
