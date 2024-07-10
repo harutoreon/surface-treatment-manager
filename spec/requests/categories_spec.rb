@@ -6,13 +6,9 @@ RSpec.describe "Categories", type: :request do
       get categories_path
       expect(response).to have_http_status(:success)
     end
-    it '見出しが表示されること' do
-      get categories_path
-      expect(response.body).to include('Category List')
-    end
     it 'タイトルが表示されること' do
       get categories_path
-      expect(response.body).to include('<title>Category List</title>')
+      expect(response.body).to include('<title>カテゴリーリスト</title>')
     end
   end
 

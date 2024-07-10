@@ -108,7 +108,7 @@ RSpec.describe "CategoriesManagementFlow", type: :system do
     it '削除に成功すること' do
       visit category_path(@category)
       click_link('Destroy')
-      expect(page).to have_selector('h3',  text: 'Category List')
+      expect(page).to have_selector('h3',  text: 'カテゴリーリスト')
       expect(page).to have_selector('div', text: 'Successful deleted category!')
     end
   end
