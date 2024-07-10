@@ -28,7 +28,7 @@ RSpec.describe "UsersManagementFlow", type: :system do
 
       it '削除用リンクが表示されること' do
         visit user_path(@sample_user)
-        expect(page).to have_link('Destroy', count: 1)
+        expect(page).to have_link('ユーザー情報の削除', count: 1)
       end
     end
     context '一般ユーザーでログインした場合' do
@@ -58,7 +58,7 @@ RSpec.describe "UsersManagementFlow", type: :system do
         fill_in('Password',     with: 'password')
         fill_in('Confirmation', with: 'password')
         click_button('Create User')
-        expect(page).to have_selector('h3',  text: 'User Information')
+        expect(page).to have_selector('h3',  text: 'ユーザー情報')
         expect(page).to have_selector('div', text: 'Successful registration of new user!')
       end
     end
@@ -91,7 +91,7 @@ RSpec.describe "UsersManagementFlow", type: :system do
           visit edit_user_path(@sample_user)
           fill_in('Name', with: 'example user')
           click_button('Update User')
-          expect(page).to have_selector('h3',  text: 'User Information')
+          expect(page).to have_selector('h3',  text: 'ユーザー情報')
           expect(page).to have_selector('div', text: 'Successful updated user information!')
         end
       end
@@ -122,7 +122,7 @@ RSpec.describe "UsersManagementFlow", type: :system do
 
     it '削除に成功すること' do
       visit user_path(@sample_user)
-      click_link('Destroy')
+      click_link('ユーザー情報の削除')
       expect(page).to have_selector('h3',  text: 'ユーザーリスト')
       expect(page).to have_selector('div', text: 'Successful deleted user!')
     end
