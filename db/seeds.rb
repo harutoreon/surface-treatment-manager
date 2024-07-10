@@ -1,12 +1,14 @@
 Faker::Config.locale = "ja"
 
-User.create!(name: "admin user", password: "adminpassword", password_confirmation: "adminpassword", admin: true)
-User.create!(name: "general user", password: "generalpassword", password_confirmation: "generalpassword")
+User.create!(name: "admin user", department: "品質管理部", password: "adminpassword", password_confirmation: "adminpassword", admin: true)
+User.create!(name: "general user", department: "開発部", password: "generalpassword", password_confirmation: "generalpassword")
 
 48.times do
   name = Faker::Name.name
+  department = ["品質管理部", "製造部", "開発部", "営業部"].sample
   password = "password"
   User.create!(name: name,
+               department: department,
                password: password,
                password_confirmation: password)
 end

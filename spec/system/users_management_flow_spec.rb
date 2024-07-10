@@ -53,7 +53,8 @@ RSpec.describe "UsersManagementFlow", type: :system do
     context '有効な値の場合' do
       it '登録に成功すること' do
         visit new_user_path
-        fill_in('Name',         with: 'sample user')
+        fill_in('Name', with: 'sample user')
+        select('品質管理部', from: 'user_department')
         fill_in('Password',     with: 'password')
         fill_in('Confirmation', with: 'password')
         click_button('Create User')

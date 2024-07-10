@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'LoginUserSelect', type: :system do
   before do
-    @general_user = User.create(name: 'general user', password: 'generalpassword', admin: false)
-    @admin_user   = User.create(name: 'admin user',   password: 'adminpassword',   admin: true)
+    @general_user = FactoryBot.create(:general_user)
+    @admin_user   = FactoryBot.create(:admin_user)
   end
 
   describe 'sessions#create', js: true do

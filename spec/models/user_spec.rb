@@ -9,7 +9,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'nameが存在すること' do
-      user.name = ' '
+      user.name = ''
       expect(user).to_not be_valid
     end
 
@@ -18,8 +18,18 @@ RSpec.describe User, type: :model do
       expect(user).to_not be_valid
     end
 
+    it 'departmentが存在すること' do
+      user.department = ''
+      expect(user).to_not be_valid
+    end
+
+    it 'departmentは50文字以下であること' do
+      user.department = 's' * 51
+      expect(user).to_not be_valid
+    end
+
     it 'パスワードが空白でないこと' do
-      user.password = user.password_confirmation = ' ' * 6
+      user.password = user.password_confirmation = '' * 6
       expect(user).to_not be_valid
     end
 

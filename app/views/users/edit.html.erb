@@ -8,6 +8,10 @@
     <%= form.text_field :name, class: "form-control mb-3" %>
     <%= render 'shared/error_messages', object: @user, label: :name %>
 
+    <%= form.label :department, class: "form-label" %>
+		<%= form.select :department, ["品質管理部", "製造部", "開発部", "営業部"], { include_blank: true }, { class: "form-select mb-3" } %>
+    <%= render 'shared/error_messages', object: @user, label: :department %>
+
     <%= form.label :password, class: "form-label" %>
     <%= form.password_field :password, class: "form-control mb-3" %>
     <%= render 'shared/error_messages', object: @user, label: :password %>

@@ -9,12 +9,8 @@
       <div><%= @user.name %></div>
     </li>
     <li class="d-flex justify-content-between list-group-item">
-      <div>Class :</div>
-      <% if @user.admin? %>
-        <div>admin</div>
-      <% else %>
-        <div>general</div>
-      <% end %>
+      <div>Department :</div>
+      <div><%= @user.department %></div>
     </li>
   </div>
 
