@@ -34,13 +34,9 @@ RSpec.describe "Categories", type: :request do
       get new_category_path
       expect(response).to have_http_status(:success)
     end
-    it '見出しが表示されること' do
-      get new_category_path
-      expect(response.body).to include('New Registration for Category')
-    end
     it 'タイトルが表示されること' do
       get new_category_path
-      expect(response.body).to include('<title>New Registration for Category</title>')
+      expect(response.body).to include('<title>カテゴリー情報の登録</title>')
     end
   end
 
@@ -64,7 +60,7 @@ RSpec.describe "Categories", type: :request do
       end
       it 'categories/newに遷移すること' do
         post categories_path, params: invalid_params
-        expect(response.body).to include("New Registration for Category")
+        expect(response.body).to include("カテゴリー情報の登録")
       end
     end
   end

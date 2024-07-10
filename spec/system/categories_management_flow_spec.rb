@@ -39,9 +39,9 @@ RSpec.describe "CategoriesManagementFlow", type: :system do
     context '有効な値の場合' do
       it '登録に成功すること' do
         visit new_category_path
-        fill_in('Item',    with: '溶射')
-        fill_in('Summary', with: 'セラミックスなどを基材表面に噴きつけて機能皮膜を形成する処理。')
-        click_button('Create Category')
+        fill_in('カテゴリー名', with: '溶射')
+        fill_in('概要', with: 'セラミックスなどを基材表面に噴きつけて機能皮膜を形成する処理。')
+        click_button('登録')
         expect(page).to have_selector('h3',  text: 'カテゴリー情報')
         expect(page).to have_selector('div', text: 'Successful registration of new category!')
       end
@@ -49,10 +49,10 @@ RSpec.describe "CategoriesManagementFlow", type: :system do
     context '無効な値の場合' do
       it '登録に失敗すること' do
         visit new_category_path
-        fill_in('Item',    with: '')
-        fill_in('Summary', with: 'セラミックスなどを基材表面に噴きつけて機能皮膜を形成する処理。')
-        click_button('Create Category')
-        expect(page).to have_selector('h3',  text: 'New Registration for Category')
+        fill_in('カテゴリー名', with: '')
+        fill_in('概要', with: 'セラミックスなどを基材表面に噴きつけて機能皮膜を形成する処理。')
+        click_button('登録')
+        expect(page).to have_selector('h3',  text: 'カテゴリー情報の登録')
         expect(page).to have_selector('div', text: 'Item can\'t be blank')
       end
     end
