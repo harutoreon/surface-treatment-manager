@@ -8,7 +8,7 @@ RSpec.describe "Makers", type: :request do
     end
     it 'タイトルが表示されること' do
       get makers_path
-      expect(response.body).to include('<title>Maker List</title>')
+      expect(response.body).to include('<title>メーカーリスト</title>')
     end
   end
 

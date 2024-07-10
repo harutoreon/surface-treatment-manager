@@ -119,7 +119,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
     it '削除に成功すること' do
       visit maker_path(@maker)
       click_link('Destroy')
-      expect(page).to have_selector('h3',  text: 'Maker List')
+      expect(page).to have_selector('h3',  text: 'メーカーリスト')
       expect(page).to have_selector('div', text: 'Successful deleted maker!')
     end
   end
