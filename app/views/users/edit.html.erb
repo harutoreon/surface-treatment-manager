@@ -1,27 +1,27 @@
-<%= content_for(:title, 'Edit for User') %>
+<%= content_for(:title, 'ユーザー情報の編集') %>
 
 <div class="container w-25">
-  <h3 class="text-center mt-5 mb-5">Edit for User</h3>
+  <h3 class="text-center mt-5 mb-5">ユーザー情報の編集</h3>
 
   <%= form_with model: @user do |form| %>
-    <%= form.label :name, class: "form-label" %>
+    <%= form.label :name, "ユーザー名", class: "form-label" %>
     <%= form.text_field :name, class: "form-control mb-3" %>
     <%= render 'shared/error_messages', object: @user, label: :name %>
 
-    <%= form.label :department, class: "form-label" %>
+    <%= form.label :department, "部署名", class: "form-label" %>
 		<%= form.select :department, ["品質管理部", "製造部", "開発部", "営業部"], { include_blank: true }, { class: "form-select mb-3" } %>
     <%= render 'shared/error_messages', object: @user, label: :department %>
 
-    <%= form.label :password, class: "form-label" %>
+    <%= form.label :password, "パスワード", class: "form-label" %>
     <%= form.password_field :password, class: "form-control mb-3" %>
     <%= render 'shared/error_messages', object: @user, label: :password %>
 
-    <%= form.label :password_confirmation, "Confirmation", class: "form-label" %>
+    <%= form.label :password_confirmation, "パスワードの確認", class: "form-label" %>
     <%= form.password_field :password_confirmation, class: "form-control mb-4" %>
     <%= render 'shared/error_messages', object: @user, label: :password_confirmation %>
 
-    <%= form.submit class: "form-control btn btn-primary mb-5" %>
+    <%= form.submit "登録", class: "form-control btn btn-primary mb-5" %>
   <% end %>
 
-  <div class="text-center"><%= link_to 'Information', user_path(@user) %></div>
+  <div class="text-center"><%= link_to 'ユーザー情報へ', user_path(@user) %></div>
 </div>

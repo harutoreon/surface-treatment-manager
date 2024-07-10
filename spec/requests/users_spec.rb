@@ -6,13 +6,9 @@ RSpec.describe "Users", type: :request do
       get users_path
       expect(response).to have_http_status(:success)
     end
-    it '見出しが表示されること' do
-      get users_path
-      expect(response.body).to include('User List')
-    end
     it 'タイトルが表示されること' do
       get users_path
-      expect(response.body).to include('<title>User List</title>')
+      expect(response.body).to include('<title>ユーザーリスト</title>')
     end
   end
 
@@ -26,13 +22,9 @@ RSpec.describe "Users", type: :request do
       get user_path(@user)
       expect(response).to have_http_status(:success)
     end
-    it '見出しが表示されること' do
-      get user_path(@user)
-      expect(response.body).to include('User Information')
-    end
     it 'タイトルが表示されること' do
       get user_path(@user)
-      expect(response.body).to include('<title>User Information</title>')
+      expect(response.body).to include('<title>ユーザー情報</title>')
     end
   end
 
@@ -41,13 +33,9 @@ RSpec.describe "Users", type: :request do
       get new_user_path
       expect(response).to have_http_status(:success)
     end
-    it '見出しが表示されること' do
-      get new_user_path
-      expect(response.body).to include('New Registration for User')
-    end
     it 'タイトルが表示されること' do
       get new_user_path
-      expect(response.body).to include('<title>New Registration for User</title>')
+      expect(response.body).to include('<title>ユーザー登録</title>')
     end
   end
 
@@ -76,7 +64,7 @@ RSpec.describe "Users", type: :request do
       end
       it 'users/newページが表示されること' do
         post users_path, params: user_params
-        expect(response.body).to include('New Registration for User')
+        expect(response.body).to include('ユーザー登録')
       end
     end
   end
@@ -92,13 +80,9 @@ RSpec.describe "Users", type: :request do
         get edit_user_path(@user)
         expect(response).to have_http_status(:success)
       end
-      it '見出しが表示されること' do
-        get edit_user_path(@user)
-        expect(response.body).to include("Edit for User")
-      end
       it 'タイトルが表示されること' do
         get edit_user_path(@user)
-        expect(response.body).to include('<title>Edit for User</title>')
+        expect(response.body).to include('<title>ユーザー情報の編集</title>')
       end
     end
     context '未ログインの場合' do
@@ -150,7 +134,7 @@ RSpec.describe "Users", type: :request do
         end
         it 'users/editページが表示されること' do
           patch user_path(@user), params: { user: { name: '' } }
-          expect(response.body).to include('Edit for User')
+          expect(response.body).to include('ユーザー情報の編集')
         end
       end
     end

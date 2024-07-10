@@ -28,7 +28,7 @@ RSpec.describe "UsersManagementFlow", type: :system do
 
       it '削除用リンクが表示されること' do
         visit user_path(@sample_user)
-        expect(page).to have_link('Destroy', count: 1)
+        expect(page).to have_link('ユーザー情報の削除', count: 1)
       end
     end
     context '一般ユーザーでログインした場合' do
@@ -53,23 +53,23 @@ RSpec.describe "UsersManagementFlow", type: :system do
     context '有効な値の場合' do
       it '登録に成功すること' do
         visit new_user_path
-        fill_in('Name', with: 'sample user')
+        fill_in('ユーザー名', with: 'sample user')
         select('品質管理部', from: 'user_department')
-        fill_in('Password',     with: 'password')
-        fill_in('Confirmation', with: 'password')
-        click_button('Create User')
-        expect(page).to have_selector('h3',  text: 'User Information')
+        fill_in('パスワード', with: 'password')
+        fill_in('パスワードの確認', with: 'password')
+        click_button('登録')
+        expect(page).to have_selector('h3',  text: 'ユーザー情報')
         expect(page).to have_selector('div', text: 'Successful registration of new user!')
       end
     end
     context '無効な値の場合' do
       it '登録に失敗すること' do
         visit new_user_path
-        fill_in('Name',         with: '')
-        fill_in('Password',     with: 'password')
-        fill_in('Confirmation', with: 'password')
-        click_button('Create User')
-        expect(page).to have_selector('h3',  text: 'New Registration for User')
+        fill_in('ユーザー名', with: '')
+        fill_in('パスワード', with: 'password')
+        fill_in('パスワードの確認', with: 'password')
+        click_button('登録')
+        expect(page).to have_selector('h3',  text: 'ユーザー登録')
         expect(page).to have_selector('div', text: 'Name can\'t be blank')
       end
     end
@@ -89,17 +89,17 @@ RSpec.describe "UsersManagementFlow", type: :system do
       context '有効な値の場合' do
         it '更新に成功すること' do
           visit edit_user_path(@sample_user)
-          fill_in('Name', with: 'example user')
-          click_button('Update User')
-          expect(page).to have_selector('h3',  text: 'User Information')
+          fill_in('ユーザー名', with: 'example user')
+          click_button('登録')
+          expect(page).to have_selector('h3',  text: 'ユーザー情報')
           expect(page).to have_selector('div', text: 'Successful updated user information!')
         end
       end
       context '無効な値の場合' do
         it '更新に失敗すること' do
           visit edit_user_path(@sample_user)
-          fill_in('Name', with: '')
-          click_button('Update User')
+          fill_in('ユーザー名', with: '')
+          click_button('登録')
           expect(page).to have_selector('div', text: 'Name can\'t be blank')
         end
       end
@@ -122,8 +122,8 @@ RSpec.describe "UsersManagementFlow", type: :system do
 
     it '削除に成功すること' do
       visit user_path(@sample_user)
-      click_link('Destroy')
-      expect(page).to have_selector('h3',  text: 'User List')
+      click_link('ユーザー情報の削除')
+      expect(page).to have_selector('h3',  text: 'ユーザーリスト')
       expect(page).to have_selector('div', text: 'Successful deleted user!')
     end
   end
