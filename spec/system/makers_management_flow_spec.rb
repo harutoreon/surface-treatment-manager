@@ -14,7 +14,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
 
       it '削除用リンクが表示されること' do
         visit maker_path(@maker)
-        expect(page).to have_link('Destroy', count: 1)
+        expect(page).to have_link('削除', count: 1)
       end
     end
     context '一般ユーザーでログインした場合' do
@@ -48,7 +48,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
         fill_in('Home page',        with: 'https://example.com/')
         fill_in('Manufacturer rep', with: '池田 彩花')
         click_button('Create Maker')
-        expect(page).to have_selector('h3',  text: 'Maker Information')
+        expect(page).to have_selector('h3',  text: 'メーカー情報')
         expect(page).to have_selector('div', text: 'Successful registration of new maker!')
       end
     end
@@ -86,7 +86,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
           visit edit_maker_path(@maker)
           fill_in('Name', with: '岡田通信合資会社')
           click_button('Update Maker')
-          expect(page).to have_selector('h3',  text: 'Maker Information')
+          expect(page).to have_selector('h3',  text: 'メーカー情報')
           expect(page).to have_selector('div', text: 'Successful updated maker information!')
         end
       end
@@ -118,7 +118,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
 
     it '削除に成功すること' do
       visit maker_path(@maker)
-      click_link('Destroy')
+      click_link('削除')
       expect(page).to have_selector('h3',  text: 'メーカーリスト')
       expect(page).to have_selector('div', text: 'Successful deleted maker!')
     end
