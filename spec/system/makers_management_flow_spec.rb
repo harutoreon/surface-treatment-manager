@@ -14,7 +14,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
 
       it '削除用リンクが表示されること' do
         visit maker_path(@maker)
-        expect(page).to have_link('Destroy', count: 1)
+        expect(page).to have_link('削除', count: 1)
       end
     end
     context '一般ユーザーでログインした場合' do
@@ -39,32 +39,32 @@ RSpec.describe "MakersManagementFlow", type: :system do
     context '有効な値の場合' do
       it '登録に成功すること' do
         visit new_maker_path
-        fill_in('Name',             with: '松本情報合名会社')
-        fill_in('Postal code',      with: '859-1105')
-        fill_in('Address',          with: '東京都渋谷区神南1-2-3')
-        fill_in('Phone number',     with: '075-4747-2450')
-        fill_in('Fax number',       with: '075-4747-2451')
-        fill_in('Email',            with: 'sample_maker@example.com')
-        fill_in('Home page',        with: 'https://example.com/')
-        fill_in('Manufacturer rep', with: '池田 彩花')
-        click_button('Create Maker')
-        expect(page).to have_selector('h3',  text: 'Maker Information')
+        fill_in('メーカー名', with: '松本情報合名会社')
+        fill_in('郵便番号', with: '859-1105')
+        fill_in('住所', with: '東京都渋谷区神南1-2-3')
+        fill_in('電話番号', with: '075-4747-2450')
+        fill_in('FAX番号', with: '075-4747-2451')
+        fill_in('Email', with: 'sample_maker@example.com')
+        fill_in('ホームページ', with: 'https://example.com/')
+        fill_in('担当者', with: '池田 彩花')
+        click_button('登録')
+        expect(page).to have_selector('h3',  text: 'メーカー情報')
         expect(page).to have_selector('div', text: 'Successful registration of new maker!')
       end
     end
     context '無効な値の場合' do
       it '登録に失敗すること' do
         visit new_maker_path
-        fill_in('Name',             with: '')
-        fill_in('Postal code',      with: '859-1105')
-        fill_in('Address',          with: '東京都渋谷区神南1-2-3')
-        fill_in('Phone number',     with: '075-4747-2450')
-        fill_in('Fax number',       with: '075-4747-2451')
-        fill_in('Email',            with: 'sample_maker@example.com')
-        fill_in('Home page',        with: 'https://example.com/')
-        fill_in('Manufacturer rep', with: '池田 彩花')
-        click_button('Create Maker')
-        expect(page).to have_selector('h3',  text: 'New Registration for Maker')
+        fill_in('メーカー名', with: '')
+        fill_in('郵便番号', with: '859-1105')
+        fill_in('住所', with: '東京都渋谷区神南1-2-3')
+        fill_in('電話番号', with: '075-4747-2450')
+        fill_in('FAX番号', with: '075-4747-2451')
+        fill_in('Email', with: 'sample_maker@example.com')
+        fill_in('ホームページ', with: 'https://example.com/')
+        fill_in('担当者', with: '池田 彩花')
+        click_button('登録')
+        expect(page).to have_selector('h3',  text: 'メーカー情報の登録')
         expect(page).to have_selector('div', text: 'Name can\'t be blank')
       end
     end
@@ -84,18 +84,18 @@ RSpec.describe "MakersManagementFlow", type: :system do
       context '有効な値を入力した場合' do
         it '更新に成功すること' do
           visit edit_maker_path(@maker)
-          fill_in('Name', with: '岡田通信合資会社')
-          click_button('Update Maker')
-          expect(page).to have_selector('h3',  text: 'Maker Information')
+          fill_in('メーカー名', with: '岡田通信合資会社')
+          click_button('更新')
+          expect(page).to have_selector('h3',  text: 'メーカー情報')
           expect(page).to have_selector('div', text: 'Successful updated maker information!')
         end
       end
       context '無効な値を入力した場合' do
         it '更新に失敗すること' do
           visit edit_maker_path(@maker)
-          fill_in('Name', with: '')
-          click_button('Update Maker')
-          expect(page).to have_selector('h3',  text: 'Edit for Maker')
+          fill_in('メーカー名', with: '')
+          click_button('更新')
+          expect(page).to have_selector('h3',  text: 'メーカー情報の編集')
           expect(page).to have_selector('div', text: 'Name can\'t be blank')
         end
       end
@@ -118,8 +118,8 @@ RSpec.describe "MakersManagementFlow", type: :system do
 
     it '削除に成功すること' do
       visit maker_path(@maker)
-      click_link('Destroy')
-      expect(page).to have_selector('h3',  text: 'Maker List')
+      click_link('削除')
+      expect(page).to have_selector('h3',  text: 'メーカーリスト')
       expect(page).to have_selector('div', text: 'Successful deleted maker!')
     end
   end

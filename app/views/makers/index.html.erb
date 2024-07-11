@@ -1,7 +1,7 @@
-<%= content_for(:title, 'Maker List') %>
+<%= content_for(:title, 'メーカーリスト') %>
 
 <div class="container w-50">
-  <h3 class="text-center mt-5 mb-5">Maker List</h3>
+  <h3 class="text-center mt-5 mb-5">メーカーリスト</h3>
 
   <ul class="list-group mb-5">
     <% @makers.each do |maker| %>
@@ -27,7 +27,7 @@
   <% end %>
 
   <div class="d-flex justify-content-evenly">
-    <%= link_to 'New Registration', new_maker_path %>
-    <%= link_to 'Main Menu', home_path %>
+    <%= link_to 'メーカー情報の登録', new_maker_path %>
+    <%= link_to 'メインメニューへ', home_path %>
   </div>
 </div>

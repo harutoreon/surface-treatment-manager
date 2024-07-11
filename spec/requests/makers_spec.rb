@@ -8,7 +8,7 @@ RSpec.describe "Makers", type: :request do
     end
     it 'タイトルが表示されること' do
       get makers_path
-      expect(response.body).to include('<title>Maker List</title>')
+      expect(response.body).to include('<title>メーカーリスト</title>')
     end
   end
 
@@ -25,7 +25,7 @@ RSpec.describe "Makers", type: :request do
     end
     it 'タイトルが表示されること' do
       get maker_path(@maker)
-      expect(response.body).to include('<title>Maker Information</title>')
+      expect(response.body).to include('<title>メーカー情報</title>')
     end
   end
 
@@ -36,7 +36,7 @@ RSpec.describe "Makers", type: :request do
     end
     it 'タイトルが表示されること' do
       get new_maker_path
-      expect(response.body).to include('<title>New Registration for Maker</title>')
+      expect(response.body).to include('<title>メーカー情報の登録</title>')
     end
   end
 
@@ -76,7 +76,7 @@ RSpec.describe "Makers", type: :request do
       end
       it 'makers/newが再描画されること' do
         post makers_path, params: invalid_params
-        expect(response.body).to include("<title>New Registration for Maker</title>")
+        expect(response.body).to include("<title>メーカー情報の登録</title>")
       end
     end
   end
@@ -98,7 +98,7 @@ RSpec.describe "Makers", type: :request do
       end
       it 'タイトルが表示されること' do
         get edit_maker_path(@maker)
-        expect(response.body).to include('<title>Edit for Maker</title>')
+        expect(response.body).to include('<title>メーカー情報の編集</title>')
       end
     end
     context '未ログインの場合' do
@@ -149,7 +149,7 @@ RSpec.describe "Makers", type: :request do
         end
         it 'users/editページが表示されること' do
           patch maker_path(@maker), params: { maker: { name: '' } }
-          expect(response.body).to include('Edit for Maker')
+          expect(response.body).to include('メーカー情報の編集')
         end
       end
     end
