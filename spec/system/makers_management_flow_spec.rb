@@ -84,8 +84,8 @@ RSpec.describe "MakersManagementFlow", type: :system do
       context '有効な値を入力した場合' do
         it '更新に成功すること' do
           visit edit_maker_path(@maker)
-          fill_in('Name', with: '岡田通信合資会社')
-          click_button('Update Maker')
+          fill_in('メーカー名', with: '岡田通信合資会社')
+          click_button('更新')
           expect(page).to have_selector('h3',  text: 'メーカー情報')
           expect(page).to have_selector('div', text: 'Successful updated maker information!')
         end
@@ -93,9 +93,9 @@ RSpec.describe "MakersManagementFlow", type: :system do
       context '無効な値を入力した場合' do
         it '更新に失敗すること' do
           visit edit_maker_path(@maker)
-          fill_in('Name', with: '')
-          click_button('Update Maker')
-          expect(page).to have_selector('h3',  text: 'Edit for Maker')
+          fill_in('メーカー名', with: '')
+          click_button('更新')
+          expect(page).to have_selector('h3',  text: 'メーカー情報の編集')
           expect(page).to have_selector('div', text: 'Name can\'t be blank')
         end
       end

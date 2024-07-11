@@ -98,7 +98,7 @@ RSpec.describe "Makers", type: :request do
       end
       it 'タイトルが表示されること' do
         get edit_maker_path(@maker)
-        expect(response.body).to include('<title>Edit for Maker</title>')
+        expect(response.body).to include('<title>メーカー情報の編集</title>')
       end
     end
     context '未ログインの場合' do
@@ -149,7 +149,7 @@ RSpec.describe "Makers", type: :request do
         end
         it 'users/editページが表示されること' do
           patch maker_path(@maker), params: { maker: { name: '' } }
-          expect(response.body).to include('Edit for Maker')
+          expect(response.body).to include('メーカー情報の編集')
         end
       end
     end
