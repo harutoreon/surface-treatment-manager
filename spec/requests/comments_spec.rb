@@ -31,7 +31,7 @@ RSpec.describe "Comments", type: :request do
       end
       it 'samples/showページを再表示すること' do
         post sample_comments_path(@sample), params: invalid_params
-        expect(response.body).to include('Surface Treatment Information')
+        expect(response.body).to include('表面処理情報')
         expect(flash['danger']).to eq('Invalid commenter or comment.')
       end
     end

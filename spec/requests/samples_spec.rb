@@ -23,13 +23,9 @@ RSpec.describe "Samples", type: :request do
       get sample_path(@sample)
       expect(response).to have_http_status(:success)
     end
-    it '見出しが表示されること' do
-      get sample_path(@sample)
-      expect(response.body).to include("Surface Treatment Information")
-    end
     it 'タイトルが表示されること' do
       get sample_path(@sample)
-      expect(response.body).to include('<title>Surface Treatment Information</title>')
+      expect(response.body).to include('<title>表面処理情報</title>')
     end
   end
 

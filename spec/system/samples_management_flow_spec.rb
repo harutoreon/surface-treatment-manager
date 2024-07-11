@@ -14,7 +14,7 @@ RSpec.describe "SamplesManagementFlow", type: :system do
 
       it '削除用リンクが表示されること' do
         visit sample_path(@sample)
-        expect(page).to have_link('Destroy', count: 1)
+        expect(page).to have_link('削除', count: 1)
       end
     end
     context '一般ユーザーでログインした場合' do
@@ -50,7 +50,7 @@ RSpec.describe "SamplesManagementFlow", type: :system do
         attach_file('Picture', 'spec/fixtures/test.jpg')
         click_button('Create Sample')
         expect(page).to have_selector('div', text: 'Successful registration of new surface treatment!')
-        expect(page).to have_selector('h3',  text: 'Surface Treatment Information')
+        expect(page).to have_selector('h3',  text: '表面処理情報')
       end
     end
     context '無効な値を入力した場合' do
@@ -88,7 +88,7 @@ RSpec.describe "SamplesManagementFlow", type: :system do
           fill_in('Name', with: '亜鉛めっき')
           click_button('Update Sample')
           expect(page).to have_selector('div', text: 'Successful updated sample information!')
-          expect(page).to have_selector('h3',  text: 'Surface Treatment Information')
+          expect(page).to have_selector('h3',  text: '表面処理情報')
         end
       end
       context '無効な値を入力した場合' do
@@ -119,7 +119,7 @@ RSpec.describe "SamplesManagementFlow", type: :system do
 
     it 'samples/indexページが表示されること' do
       visit sample_path(@sample)
-      click_link('Destroy')
+      click_link('削除')
       expect(page).to have_selector('h3',  text: '表面処理リスト')
       expect(page).to have_selector('div', text: 'Successful deleted surface treatment!')
     end
