@@ -120,7 +120,7 @@ RSpec.describe "SamplesManagementFlow", type: :system do
     it 'samples/indexページが表示されること' do
       visit sample_path(@sample)
       click_link('Destroy')
-      expect(page).to have_selector('h3',  text: 'Surface Treatment List')
+      expect(page).to have_selector('h3',  text: '表面処理リスト')
       expect(page).to have_selector('div', text: 'Successful deleted surface treatment!')
     end
   end
