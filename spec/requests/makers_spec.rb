@@ -36,7 +36,7 @@ RSpec.describe "Makers", type: :request do
     end
     it 'タイトルが表示されること' do
       get new_maker_path
-      expect(response.body).to include('<title>New Registration for Maker</title>')
+      expect(response.body).to include('<title>メーカー情報の登録</title>')
     end
   end
 
@@ -76,7 +76,7 @@ RSpec.describe "Makers", type: :request do
       end
       it 'makers/newが再描画されること' do
         post makers_path, params: invalid_params
-        expect(response.body).to include("<title>New Registration for Maker</title>")
+        expect(response.body).to include("<title>メーカー情報の登録</title>")
       end
     end
   end
