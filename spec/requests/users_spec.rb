@@ -35,7 +35,7 @@ RSpec.describe "Users", type: :request do
     end
     it 'タイトルが表示されること' do
       get new_user_path
-      expect(response.body).to include('<title>ユーザー登録</title>')
+      expect(response.body).to include('<title>ユーザー情報の登録</title>')
     end
   end
 
@@ -64,7 +64,7 @@ RSpec.describe "Users", type: :request do
       end
       it 'users/newページが表示されること' do
         post users_path, params: user_params
-        expect(response.body).to include('ユーザー登録')
+        expect(response.body).to include('ユーザー情報の登録')
       end
     end
   end

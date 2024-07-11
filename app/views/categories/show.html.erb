@@ -15,9 +15,9 @@
   </ul>
 
   <div class="d-flex justify-content-evenly">
-    <div><%= link_to 'カテゴリー情報の編集', edit_category_path(@category) %></div>
+    <div><%= link_to '編集', edit_category_path(@category) %></div>
     <% if current_user.admin? %>
-      <div><%= link_to "カテゴリー情報の削除", @category, data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete?" } %></div>
+      <div><%= link_to "削除", @category, data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete?" } %></div>
     <% end %>
     <div><%= link_to 'カテゴリーリストへ', categories_path %></div>
   </div>

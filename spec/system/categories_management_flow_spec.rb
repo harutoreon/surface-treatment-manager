@@ -14,7 +14,7 @@ RSpec.describe "CategoriesManagementFlow", type: :system do
 
       it '削除用リンクが表示されること' do
         visit category_path(@category)
-        expect(page).to have_link('カテゴリー情報の削除', count: 1)
+        expect(page).to have_link('削除', count: 1)
       end
     end
     context '一般ユーザーでログインした場合' do
@@ -74,7 +74,7 @@ RSpec.describe "CategoriesManagementFlow", type: :system do
           visit edit_category_path(@category)
           fill_in('カテゴリー名', with: '塗装')
           fill_in('概要', with: '塗料によって固体表面に塗膜を形成させる加工方法のこと。')
-          click_button('登録')
+          click_button('更新')
           expect(page).to have_selector('h3',  text: 'カテゴリー情報')
           expect(page).to have_selector('div', text: 'Successful updated category information!')
         end
@@ -84,7 +84,7 @@ RSpec.describe "CategoriesManagementFlow", type: :system do
           visit edit_category_path(@category)
           fill_in('カテゴリー名', with: '')
           fill_in('概要', with: '塗料によって固体表面に塗膜を形成させる加工方法のこと。')
-          click_button('登録')
+          click_button('更新')
           expect(page).to have_selector('h3',  text: 'カテゴリー情報の編集')
           expect(page).to have_selector('div', text: 'Item can\'t be blank')
         end
@@ -108,7 +108,7 @@ RSpec.describe "CategoriesManagementFlow", type: :system do
 
     it '削除に成功すること' do
       visit category_path(@category)
-      click_link('カテゴリー情報の削除')
+      click_link('削除')
       expect(page).to have_selector('h3',  text: 'カテゴリーリスト')
       expect(page).to have_selector('div', text: 'Successful deleted category!')
     end
