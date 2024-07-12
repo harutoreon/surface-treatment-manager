@@ -1,12 +1,12 @@
-<%= content_for(:title, 'Search by category') %>
+<%= content_for(:title, 'カテゴリーで検索') %>
 
 <div class="container text-center w-25">
-  <h3 class="mt-5 mb-5">Search by category</h3>
+  <h3 class="mt-5 mb-5">カテゴリーで検索</h3>
 
   <%= form_with url: category_category_search_path, method: :get do |form| %>
     <%= form.select :selectword, ["めっき", "陽極酸化", "化成", "コーティング", "表面硬化"], { include_blank: true }, { class: "form-select mb-3" } %>
-    <%= form.submit "Search", class: "btn btn-secondary form-control mb-5" %>
+    <%= form.submit "検索", class: "btn btn-secondary form-control mb-5" %>
   <% end %>
 
-  <div><%= link_to "Main Menu", home_path %></div>
+  <div><%= link_to "メインメニューへ", home_path %></div>
 </div>

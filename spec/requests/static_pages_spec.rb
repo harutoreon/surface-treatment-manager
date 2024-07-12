@@ -39,15 +39,9 @@ RSpec.describe "StaticPages", type: :request do
       get category_category_path
       expect(response).to have_http_status(:success)
     end
-
-    it '見出しが表示されること' do
-      get category_category_path
-      expect(response.body).to include("Search by category")
-    end
-
     it 'タイトルが表示されること' do
       get category_category_path
-      expect(response.body).to include('<title>Search by category</title>')
+      expect(response.body).to include('<title>カテゴリーで検索</title>')
     end
   end
 
