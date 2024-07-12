@@ -1,49 +1,49 @@
-<%= content_for(:title, 'New Registration for Surface Treatment') %>
+<%= content_for(:title, '表面処理情報の登録') %>
 
 <div class="container mt-5 mb-5">
-  <h3 class="text-center">New Registration for Surface Treatment</h3>
+  <h3 class="text-center">表面処理情報の登録</h3>
 </div>
 
 <div class="container w-25">
   <%= form_with model: @sample do |form| %>
-    <%= form.label :name, class: "form-label" %>
+    <%= form.label :name, "処理名", class: "form-label" %>
     <%= form.text_field :name, class: "form-control mb-3" %>
     <%= render 'shared/error_messages', object: @sample, label: :name %>
 
-    <%= form.label :category, class: "form-label" %>
+    <%= form.label :category, "カテゴリー", class: "form-label" %>
     <%= form.select :category, options_for_select(select_word), { include_blank: true }, class: "form-select mb-3" %>
     <%= render 'shared/error_messages', object: @sample, label: :category %>
 
-    <%= form.label :color, class: "form-label" %>
+    <%= form.label :color, "色調", class: "form-label" %>
     <%= form.text_field :color, class: "form-control mb-3" %>
     <%= render 'shared/error_messages', object: @sample, label: :color %>
 
-    <%= form.label :maker, class: "form-label" %>
+    <%= form.label :maker, "メーカー", class: "form-label" %>
     <%= form.text_field :maker, class: "form-control mb-3" %>
     <%= render 'shared/error_messages', object: @sample, label: :maker %>
 
-    <%= form.label :hardness, class: "form-label" %>
+    <%= form.label :hardness, "硬度", class: "form-label" %>
     <%= form.text_field :hardness, class: "form-control mb-3" %>
     <%= render 'shared/error_messages', object: @sample, label: :hardness %>
 
-    <%= form.label :film_thickness, class: "form-label" %>
+    <%= form.label :film_thickness, "膜厚", class: "form-label" %>
     <%= form.text_field :film_thickness, class: "form-control mb-3" %>
     <%= render 'shared/error_messages', object: @sample, label: :film_thickness %>
 
-    <%= form.label :feature, class: "form-label" %>
+    <%= form.label :feature, "特徴", class: "form-label" %>
     <%= form.text_field :feature, class: "form-control mb-3" %>
     <%= render 'shared/error_messages', object: @sample, label: :feature %>
 
-    <%= form.label :picture, class: "form-label" %>
+    <%= form.label :picture, "画像", class: "form-label" %>
     <div><%= image_tag '', alt: 'No Image', class: 'mb-3', id: 'preview_image', width: 200, height: 200 %></div>
     <%= form.file_field :picture, class: 'form-control mb-4', accept: 'image/jpeg,image/gif,image/png,image/jpg' %>
     <%= render 'shared/error_messages', object: @sample, label: :picture %>
 
-    <%= form.submit class: "form-control btn btn-primary mb-4" %>
+    <%= form.submit "登録", class: "form-control btn btn-primary mb-4" %>
   <% end %>
 </div>
 
-<div class="text-center"><%= link_to "List", samples_path %></div>
+<div class="text-center"><%= link_to "表面処理リストへ", samples_path %></div>
 
 <script type="text/javascript">
   document.getElementById('sample_picture').addEventListener('change', function() {

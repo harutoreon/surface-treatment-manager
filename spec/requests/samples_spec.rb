@@ -34,13 +34,9 @@ RSpec.describe "Samples", type: :request do
       get new_sample_path
       expect(response).to have_http_status(:success)
     end
-    it '見出しが表示されること' do
-      get new_sample_path
-      expect(response.body).to include("New Registration for Surface Treatment")
-    end
     it 'タイトルが表示されること' do
       get new_sample_path
-      expect(response.body).to include('<title>New Registration for Surface Treatment</title>')
+      expect(response.body).to include('<title>表面処理情報の登録</title>')
     end
   end
 
@@ -79,7 +75,7 @@ RSpec.describe "Samples", type: :request do
       end
       it 'samples/newが再描画されること' do
         post samples_path, params: invalid_params
-        expect(response.body).to include("New Registration for Surface Treatment")
+        expect(response.body).to include("表面処理情報の登録")
       end
     end
   end
