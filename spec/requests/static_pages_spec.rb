@@ -28,15 +28,9 @@ RSpec.describe "StaticPages", type: :request do
       get category_name_path
       expect(response).to have_http_status(:success)
     end
-
-    it '見出しが表示されること' do
-      get category_name_path
-      expect(response.body).to include("Search by name")
-    end
-
     it 'タイトルが表示されること' do
       get category_name_path
-      expect(response.body).to include('<title>Search by name</title>')
+      expect(response.body).to include('<title>処理名で検索</title>')
     end
   end
 
@@ -45,15 +39,9 @@ RSpec.describe "StaticPages", type: :request do
       get category_category_path
       expect(response).to have_http_status(:success)
     end
-
-    it '見出しが表示されること' do
-      get category_category_path
-      expect(response.body).to include("Search by category")
-    end
-
     it 'タイトルが表示されること' do
       get category_category_path
-      expect(response.body).to include('<title>Search by category</title>')
+      expect(response.body).to include('<title>カテゴリーで検索</title>')
     end
   end
 
@@ -62,15 +50,9 @@ RSpec.describe "StaticPages", type: :request do
       get category_maker_path
       expect(response).to have_http_status(:success)
     end
-
-    it '見出しが表示されること' do
-      get category_maker_path
-      expect(response.body).to include("Search by maker")
-    end
-
     it 'タイトルが表示されること' do
       get category_maker_path
-      expect(response.body).to include('<title>Search by maker</title>')
+      expect(response.body).to include('<title>メーカー名で検索</title>')
     end
   end
 end

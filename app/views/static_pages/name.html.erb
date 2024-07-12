@@ -1,12 +1,12 @@
-<%= content_for(:title, 'Search by name') %>
+<%= content_for(:title, '処理名で検索') %>
 
 <div class="container text-center w-25">
-  <h3 class="mt-5 mb-5">Search by name</h3>
+  <h3 class="mt-5 mb-5">処理名で検索</h3>
 
   <%= form_with url: category_name_search_path, method: :get do |form| %>
-    <%= form.text_field :keyword, class: "form-control mb-3", placeholder: "input keyword here." %>
-    <%= form.submit "Search", class: "btn btn-secondary form-control mb-5" %>
+    <%= form.text_field :keyword, class: "form-control mb-3", placeholder: "キーワードをここに入力" %>
+    <%= form.submit "検索", class: "btn btn-secondary form-control mb-5" %>
   <% end %>
 
-  <div><%= link_to "Main Menu", home_path %></div>
+  <div><%= link_to "メインメニューへ", home_path %></div>
 </div>
