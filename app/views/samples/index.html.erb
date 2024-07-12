@@ -1,13 +1,13 @@
-<%= content_for(:title, 'Surface Treatment List') %>
+<%= content_for(:title, '表面処理リスト') %>
 
 <div class="container text-center w-50">
-  <h3 class="mt-5 mb-5">Surface Treatment List</h3>
+  <h3 class="mt-5 mb-5">表面処理リスト</h3>
 
   <div class="list-group list-group-flush mb-2">
     <div class="list-group-item list-group-item-action">
       <div class="d-flex w-100 justify-content-between">
-        <h6>Treatment name / Category</h6>
-        <h6>Maker</h6>
+        <h6>処理名 / カテゴリー</h6>
+        <h6>メーカー名</h6>
       </div>
     </div>
 
@@ -31,7 +31,7 @@
   <% end %>
 
   <div class="d-flex justify-content-evenly">
-    <%= link_to 'New Registration', new_sample_path %>
-    <%= link_to 'Main Menu', home_path %>
+    <%= link_to '表面処理情報の登録', new_sample_path %>
+    <%= link_to 'メインメニューへ', home_path %>
   </div>
 </div>
