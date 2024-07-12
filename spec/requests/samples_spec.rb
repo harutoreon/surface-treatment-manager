@@ -95,13 +95,9 @@ RSpec.describe "Samples", type: :request do
         get edit_sample_path(@sample)
         expect(response).to have_http_status(:success)
       end
-      it '見出しが表示されること' do
-        get edit_sample_path(@sample)
-        expect(response.body).to include("Edit for Surface Treatment")
-      end
       it 'タイトルが表示されること' do
         get edit_sample_path(@sample)
-        expect(response.body).to include('<title>Edit for Surface Treatment</title>')
+        expect(response.body).to include('<title>表面処理情報の編集</title>')
       end
     end
     context '未ログインの場合' do
@@ -147,7 +143,7 @@ RSpec.describe "Samples", type: :request do
         end
         it 'samples/editページが表示されること' do
           patch sample_path(@sample), params: { sample: { name: "" } }
-          expect(response.body).to include("Edit for Surface Treatment")
+          expect(response.body).to include("表面処理情報の編集")
         end
       end
     end

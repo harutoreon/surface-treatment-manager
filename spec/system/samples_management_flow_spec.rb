@@ -85,8 +85,8 @@ RSpec.describe "SamplesManagementFlow", type: :system do
       context '有効な値を入力した場合' do
         it '更新できること' do
           visit edit_sample_path(@sample)
-          fill_in('Name', with: '亜鉛めっき')
-          click_button('Update Sample')
+          fill_in('処理名', with: '亜鉛めっき')
+          click_button('更新')
           expect(page).to have_selector('div', text: 'Successful updated sample information!')
           expect(page).to have_selector('h3',  text: '表面処理情報')
         end
@@ -94,10 +94,10 @@ RSpec.describe "SamplesManagementFlow", type: :system do
       context '無効な値を入力した場合' do
         it '更新できないこと' do
           visit edit_sample_path(@sample)
-          fill_in('Name', with: '')
-          click_button('Update Sample')
+          fill_in('処理名', with: '')
+          click_button('更新')
           expect(page).to have_selector('div', text: 'Name can\'t be blank')
-          expect(page).to have_selector('h3',  text: 'Edit for Surface Treatment')
+          expect(page).to have_selector('h3',  text: '表面処理情報の編集')
         end
       end
     end
