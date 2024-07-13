@@ -15,21 +15,21 @@ module LoginSupport
     def log_in(user)
       visit login_path
 
-      fill_in 'Name',     with: user.name
-      fill_in 'Password', with: user.password
-      click_button 'Log in'
+      fill_in 'ユーザー名', with: user.name
+      fill_in 'パスワード', with: user.password
+      click_button 'ログイン'
     end
 
     def login_as_general_user
       visit root_path
-      choose('General user')
-      click_button('Log in')
+      choose('一般ユーザー')
+      click_button('ログイン')
     end
 
     def login_as_admin_user
       visit root_path
-      choose('Admin user')
-      click_button('Log in')
+      choose('管理者ユーザー')
+      click_button('ログイン')
     end
 
     def update_user_name(user, new_name)

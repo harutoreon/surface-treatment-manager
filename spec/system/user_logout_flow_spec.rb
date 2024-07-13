@@ -12,7 +12,7 @@ RSpec.describe 'UserLogoutFlow', type: :system do
       accept_alert('Are you sure you want to log out?') do
         click_link('Log out')
       end
-      expect(page).to have_selector('h3', text: 'Log in')
+      expect(page).to have_selector('h3', text: 'ログイン')
     end
   end
 end

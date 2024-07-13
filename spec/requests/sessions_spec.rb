@@ -7,14 +7,9 @@ RSpec.describe "Sessions", type: :request do
       expect(response).to have_http_status(:success)
     end
 
-    it '見出しが表示されること' do
-      get root_path
-      expect(response.body).to include('Log in')
-    end
-
     it 'タイトルが表示されること' do
       get root_path
-      expect(response.body).to include('<title>Log in</title>')
+      expect(response.body).to include('<title>ログイン</title>')
     end
   end
 

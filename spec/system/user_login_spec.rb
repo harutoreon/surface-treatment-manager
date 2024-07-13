@@ -8,18 +8,18 @@ RSpec.describe "UserLogin", type: :system do
   context '有効な値の場合' do
     it 'ログインに成功すること' do
       visit login_path
-      fill_in('Name',     with: @user.name)
-      fill_in('Password', with: @user.password)
-      click_button('Log in')
+      fill_in('ユーザー名', with: @user.name)
+      fill_in('パスワード', with: @user.password)
+      click_button('ログイン')
       expect(page).to have_selector('h3', text: 'Main Menu')
     end
   end
   context '無効な値の場合' do
     it 'ログインに失敗すること' do
       visit login_path
-      fill_in('Name',     with: '')
-      fill_in('Password', with: '')
-      click_button('Log in')
+      fill_in('ユーザー名', with: '')
+      fill_in('パスワード', with: '')
+      click_button('ログイン')
       expect(page).to have_selector('div', text: 'Invalid name/password combination')
       visit login_path
       expect(page).to_not have_selector('div', text: 'Invalid name/password combination')

@@ -93,7 +93,7 @@ RSpec.describe "CategoriesManagementFlow", type: :system do
     context '未ログインの場合' do
       it 'ログインページにリダイレクトされること' do
         visit edit_category_path(@category)
-        expect(page).to have_selector('h3',  text: 'Log in')
+        expect(page).to have_selector('h3',  text: 'ログイン')
         expect(page).to have_selector('div', text: 'Please log in.')
       end
     end
