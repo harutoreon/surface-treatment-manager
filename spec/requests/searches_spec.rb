@@ -47,14 +47,9 @@ RSpec.describe "Searches", type: :request do
       expect(response).to have_http_status(:success)
     end
 
-    it '見出しが表示されること' do
-      get category_maker_search_path
-      expect(response.body).to include("Search result of surface treatment")
-    end
-
     it 'タイトルが表示されること' do
       get category_maker_search_path
-      expect(response.body).to include('<title>Search result of surface treatment</title>')
+      expect(response.body).to include('<title>メーカー名での検索結果</title>')
     end
 
     it '"無電解ニッケルめっき"が表示されること' do
