@@ -9,7 +9,7 @@ RSpec.describe "Settings", type: :request do
 
     it 'タイトルが表示されること' do
       get setting_path
-      expect(response.body).to include('<title>Application Setting</title>')
+      expect(response.body).to include('<title>アプリケーションの管理</title>')
     end
   end
 end
