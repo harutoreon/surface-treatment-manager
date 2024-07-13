@@ -11,7 +11,7 @@ RSpec.describe "UserLogin", type: :system do
       fill_in('ユーザー名', with: @user.name)
       fill_in('パスワード', with: @user.password)
       click_button('ログイン')
-      expect(page).to have_selector('h3', text: 'Main Menu')
+      expect(page).to have_selector('h3', text: 'メインメニュー')
     end
   end
   context '無効な値の場合' do

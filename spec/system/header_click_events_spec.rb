@@ -10,7 +10,7 @@ RSpec.describe 'HeaderClickEvents', type: :system do
     it 'は、メインメニューに遷移すること' do
       visit root_path
       click_link('Surface Treatment Manager')
-      expect(page).to have_selector('h3', text: 'Main Menu')
+      expect(page).to have_selector('h3', text: 'メインメニュー')
     end
   end
   context 'ユーザーがログインしていない場合' do
