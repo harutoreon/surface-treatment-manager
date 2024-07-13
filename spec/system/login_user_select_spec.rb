@@ -10,11 +10,11 @@ RSpec.describe 'LoginUserSelect', type: :system do
     context '有効なユーザー情報がある場合' do
       it '一般ユーザーでログインできること' do
         login_as_general_user
-        expect(page).to have_selector('h3', text: 'Main Menu')
+        expect(page).to have_selector('h3', text: 'メインメニュー')
       end
       it '管理者ユーザーでログインできること' do
         login_as_admin_user
-        expect(page).to have_selector('h3', text: 'Main Menu')
+        expect(page).to have_selector('h3', text: 'メインメニュー')
       end
     end
     context '無効なユーザー情報がある場合' do
