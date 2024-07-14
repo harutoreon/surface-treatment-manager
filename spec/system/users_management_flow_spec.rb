@@ -59,7 +59,7 @@ RSpec.describe "UsersManagementFlow", type: :system do
         fill_in('パスワードの確認', with: 'password')
         click_button('登録')
         expect(page).to have_selector('h3',  text: 'ユーザー情報')
-        expect(page).to have_selector('div', text: 'Successful registration of new user!')
+        expect(page).to have_selector('div', text: 'ユーザーの登録に成功しました!')
       end
     end
     context '無効な値の場合' do
@@ -92,7 +92,7 @@ RSpec.describe "UsersManagementFlow", type: :system do
           fill_in('ユーザー名', with: 'example user')
           click_button('更新')
           expect(page).to have_selector('h3',  text: 'ユーザー情報')
-          expect(page).to have_selector('div', text: 'Successful updated user information!')
+          expect(page).to have_selector('div', text: 'ユーザーの更新に成功しました!')
         end
       end
       context '無効な値の場合' do
@@ -124,7 +124,7 @@ RSpec.describe "UsersManagementFlow", type: :system do
       visit user_path(@sample_user)
       click_link('削除')
       expect(page).to have_selector('h3',  text: 'ユーザーリスト')
-      expect(page).to have_selector('div', text: 'Successful deleted user!')
+      expect(page).to have_selector('div', text: 'ユーザーの削除に成功しました!')
     end
   end
 end
