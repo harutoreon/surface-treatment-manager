@@ -107,7 +107,7 @@ RSpec.describe "Samples", type: :request do
       end
       it 'フラッシュメッセージが表示されること' do
         get edit_sample_path(@sample)
-        expect(flash[:danger]).to eq('Please log in.')
+        expect(flash[:danger]).to eq('ログインしてください')
       end
     end
   end
@@ -154,7 +154,7 @@ RSpec.describe "Samples", type: :request do
       end
       it 'フラッシュメッセージが表示されること' do
         patch sample_path(@sample), params: { sample: { name: "ハードクロムめっき" } }
-        expect(flash[:danger]).to eq('Please log in.')
+        expect(flash[:danger]).to eq('ログインしてください')
       end
     end
   end
@@ -198,7 +198,7 @@ RSpec.describe "Samples", type: :request do
       it "ログインページにリダイレクトされること" do
         delete sample_path(@sample)
         assert_redirected_to login_url
-        expect(flash[:danger]).to eq('Please log in.')
+        expect(flash[:danger]).to eq('ログインしてください')
       end
     end
   end

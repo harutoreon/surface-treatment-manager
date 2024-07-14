@@ -60,7 +60,7 @@ RSpec.describe "Comments", type: :request do
       it "ログインページにリダイレクトされること" do
         delete sample_comment_path(@sample, @comment)
         expect(response).to redirect_to(login_url)
-        expect(flash[:danger]).to eq('Please log in.')
+        expect(flash[:danger]).to eq('ログインしてください')
       end
     end
   end

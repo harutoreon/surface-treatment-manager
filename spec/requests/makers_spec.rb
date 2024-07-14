@@ -108,7 +108,7 @@ RSpec.describe "Makers", type: :request do
       end
       it 'フラッシュメッセージが表示されること' do
         get edit_maker_path(@maker)
-        expect(flash[:danger]).to eq('Please log in.')
+        expect(flash[:danger]).to eq('ログインしてください')
       end
     end
   end
@@ -160,7 +160,7 @@ RSpec.describe "Makers", type: :request do
       end
       it 'フラッシュメッセージが表示されること' do
         patch maker_path(@maker), params: { user: { name: 'sample user' } }
-        expect(flash[:danger]).to eq('Please log in.')
+        expect(flash[:danger]).to eq('ログインしてください')
       end
     end
 
@@ -201,7 +201,7 @@ RSpec.describe "Makers", type: :request do
       it "ログインページにリダイレクトされること" do
         delete maker_path(@maker)
         expect(response).to redirect_to(login_url)
-        expect(flash[:danger]).to eq('Please log in.')
+        expect(flash[:danger]).to eq('ログインしてください')
       end
     end
   end

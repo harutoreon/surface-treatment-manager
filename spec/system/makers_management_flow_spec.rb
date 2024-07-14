@@ -104,7 +104,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
       it 'ログインページにリダイレクトされること' do
         visit edit_maker_path(@maker)
         expect(page).to have_selector('h3',  text: 'ログイン')
-        expect(page).to have_selector('div', text: 'Please log in.')
+        expect(page).to have_selector('div', text: 'ログインしてください')
       end
     end
   end
