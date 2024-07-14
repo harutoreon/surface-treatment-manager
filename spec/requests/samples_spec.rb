@@ -180,7 +180,7 @@ RSpec.describe "Samples", type: :request do
       it 'samples/indexページにリダイレクトされること' do
         delete sample_path(@sample)
         expect(response).to redirect_to(samples_url)
-        expect(flash[:success]).to eq('Successful deleted surface treatment!')
+        expect(flash[:success]).to eq('表面処理の削除に成功しました!')
       end
     end
     context '一般ユーザーでログインした場合' do

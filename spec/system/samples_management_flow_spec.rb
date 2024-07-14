@@ -49,7 +49,7 @@ RSpec.describe "SamplesManagementFlow", type: :system do
         fill_in('特徴', with: '耐食性・耐摩耗性・耐薬品性・耐熱性')
         attach_file('画像', 'spec/fixtures/test.jpg')
         click_button('登録')
-        expect(page).to have_selector('div', text: 'Successful registration of new surface treatment!')
+        expect(page).to have_selector('div', text: '表面処理の登録に成功しました!')
         expect(page).to have_selector('h3',  text: '表面処理情報')
       end
     end
@@ -87,7 +87,7 @@ RSpec.describe "SamplesManagementFlow", type: :system do
           visit edit_sample_path(@sample)
           fill_in('処理名', with: '亜鉛めっき')
           click_button('更新')
-          expect(page).to have_selector('div', text: 'Successful updated sample information!')
+          expect(page).to have_selector('div', text: '表面処理の更新に成功しました!')
           expect(page).to have_selector('h3',  text: '表面処理情報')
         end
       end
@@ -121,7 +121,7 @@ RSpec.describe "SamplesManagementFlow", type: :system do
       visit sample_path(@sample)
       click_link('削除')
       expect(page).to have_selector('h3',  text: '表面処理リスト')
-      expect(page).to have_selector('div', text: 'Successful deleted surface treatment!')
+      expect(page).to have_selector('div', text: '表面処理の削除に成功しました!')
     end
   end
 end
