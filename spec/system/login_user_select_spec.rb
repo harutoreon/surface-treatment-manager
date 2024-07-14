@@ -21,12 +21,12 @@ RSpec.describe 'LoginUserSelect', type: :system do
       it '一般ユーザーでログインできないこと' do
         update_user_name(@general_user, 'general')
         login_as_general_user
-        expect(page).to have_selector('div', text: 'Invalid name/password combination')
+        expect(page).to have_selector('div', text: '名前とパスワードの組み合わせが無効です')
       end
       it '管理者ユーザーでログインできないこと' do
         update_user_name(@admin_user, 'admin')
         login_as_admin_user
-        expect(page).to have_selector('div', text: 'Invalid name/password combination')
+        expect(page).to have_selector('div', text: '名前とパスワードの組み合わせが無効です')
       end
     end
   end

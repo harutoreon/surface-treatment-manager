@@ -20,9 +20,12 @@ RSpec.describe "UserLogin", type: :system do
       fill_in('ユーザー名', with: '')
       fill_in('パスワード', with: '')
       click_button('ログイン')
-      expect(page).to have_selector('div', text: 'Invalid name/password combination')
+
+      message = '名前とパスワードの組み合わせが無効です'
+
+      expect(page).to have_selector('div', text: message)
       visit login_path
-      expect(page).to_not have_selector('div', text: 'Invalid name/password combination')
+      expect(page).to_not have_selector('div', text: message)
     end
   end
 end

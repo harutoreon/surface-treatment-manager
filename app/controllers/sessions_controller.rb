@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
       log_in user
       redirect_to home_url
     else
-      flash.now[:danger] = 'Invalid name/password combination'
+      flash.now[:danger] = '名前とパスワードの組み合わせが無効です'
       render 'new', status: :unprocessable_entity
     end
   end
