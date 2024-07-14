@@ -162,7 +162,7 @@ RSpec.describe "Categories", type: :request do
       it 'categories#indexページにリダイレクトされること' do
         delete category_path(@category)
         expect(response).to redirect_to(categories_url)
-        expect(flash[:success]).to eq('Successful deleted category!')
+        expect(flash[:success]).to eq('カテゴリーの削除に成功しました!')
       end
     end
     context '一般ユーザーでログインした場合' do

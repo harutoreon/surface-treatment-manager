@@ -43,7 +43,7 @@ RSpec.describe "CategoriesManagementFlow", type: :system do
         fill_in('概要', with: 'セラミックスなどを基材表面に噴きつけて機能皮膜を形成する処理。')
         click_button('登録')
         expect(page).to have_selector('h3',  text: 'カテゴリー情報')
-        expect(page).to have_selector('div', text: 'Successful registration of new category!')
+        expect(page).to have_selector('div', text: 'カテゴリーの登録に成功しました!')
       end
     end
     context '無効な値の場合' do
@@ -76,7 +76,7 @@ RSpec.describe "CategoriesManagementFlow", type: :system do
           fill_in('概要', with: '塗料によって固体表面に塗膜を形成させる加工方法のこと。')
           click_button('更新')
           expect(page).to have_selector('h3',  text: 'カテゴリー情報')
-          expect(page).to have_selector('div', text: 'Successful updated category information!')
+          expect(page).to have_selector('div', text: 'カテゴリーの更新に成功しました!')
         end
       end
       context '無効な値の場合' do
@@ -110,7 +110,7 @@ RSpec.describe "CategoriesManagementFlow", type: :system do
       visit category_path(@category)
       click_link('削除')
       expect(page).to have_selector('h3',  text: 'カテゴリーリスト')
-      expect(page).to have_selector('div', text: 'Successful deleted category!')
+      expect(page).to have_selector('div', text: 'カテゴリーの削除に成功しました!')
     end
   end
 end
