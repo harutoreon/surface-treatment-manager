@@ -18,7 +18,7 @@ class MakersController < ApplicationController
     @maker = Maker.new(maker_params)
 
     if @maker.save
-      flash[:success] = "Successful registration of new maker!"
+      flash[:success] = "メーカーの登録に成功しました!"
       redirect_to @maker
     else
       render :new, status: :unprocessable_entity
@@ -33,7 +33,7 @@ class MakersController < ApplicationController
     @maker = Maker.find(params[:id])
 
     if @maker.update(maker_params)
-      flash[:success] = "Successful updated maker information!"
+      flash[:success] = "メーカーの更新に成功しました!"
       redirect_to @maker
     else
       render :edit, status: :unprocessable_entity
@@ -43,7 +43,7 @@ class MakersController < ApplicationController
   def destroy
     @maker = Maker.find(params[:id])
     @maker.destroy
-    flash[:success] = "Successful deleted maker!"
+    flash[:success] = "メーカーの削除に成功しました!"
     redirect_to makers_url, status: :see_other
   end
 
