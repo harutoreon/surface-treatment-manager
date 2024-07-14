@@ -7,10 +7,10 @@ class CommentsController < ApplicationController
     @comment = @sample.comments.build(comment_params)
 
     if @comment.save
-      flash[:success] = '1 comment added.'
+      flash[:success] = 'コメントを1件追加しました。'
       redirect_to sample_path(@sample)
     else
-      flash.now[:danger] = 'Invalid commenter or comment.'
+      flash.now[:danger] = 'コメントの投稿者またはコメントが無効です。'
       render 'samples/show', status: :unprocessable_entity
     end
   end

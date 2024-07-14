@@ -108,7 +108,7 @@ RSpec.describe "Makers", type: :request do
       end
       it 'フラッシュメッセージが表示されること' do
         get edit_maker_path(@maker)
-        expect(flash[:danger]).to eq('Please log in.')
+        expect(flash[:danger]).to eq('ログインしてください')
       end
     end
   end
@@ -138,7 +138,7 @@ RSpec.describe "Makers", type: :request do
         it 'フラッシュメッセージが表示されること' do
           patch maker_path(@maker), params: { maker: { name: "佐藤情報合名会社" } }
           @maker.reload
-          expect(flash[:success]).to eq('Successful updated maker information!')
+          expect(flash[:success]).to eq('メーカーの更新に成功しました!')
         end
       end
       context '無効なパラメータの場合' do
@@ -160,7 +160,7 @@ RSpec.describe "Makers", type: :request do
       end
       it 'フラッシュメッセージが表示されること' do
         patch maker_path(@maker), params: { user: { name: 'sample user' } }
-        expect(flash[:danger]).to eq('Please log in.')
+        expect(flash[:danger]).to eq('ログインしてください')
       end
     end
 
@@ -183,7 +183,7 @@ RSpec.describe "Makers", type: :request do
       it 'makers/indexページににリダイレクトすること' do
         delete maker_path(@maker)
         expect(response).to redirect_to(makers_url)
-        expect(flash[:success]).to eq('Successful deleted maker!')
+        expect(flash[:success]).to eq('メーカーの削除に成功しました!')
       end
     end
     context '一般ユーザーでログインした場合' do
@@ -201,7 +201,7 @@ RSpec.describe "Makers", type: :request do
       it "ログインページにリダイレクトされること" do
         delete maker_path(@maker)
         expect(response).to redirect_to(login_url)
-        expect(flash[:danger]).to eq('Please log in.')
+        expect(flash[:danger]).to eq('ログインしてください')
       end
     end
   end

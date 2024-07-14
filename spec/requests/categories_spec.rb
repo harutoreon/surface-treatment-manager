@@ -92,7 +92,7 @@ RSpec.describe "Categories", type: :request do
       end
       it 'フラッシュメッセージが表示されること' do
         get edit_category_path(@category)
-        expect(flash[:danger]).to eq('Please log in.')
+        expect(flash[:danger]).to eq('ログインしてください')
       end
     end
   end
@@ -140,7 +140,7 @@ RSpec.describe "Categories", type: :request do
       end
       it 'フラッシュメッセージが表示されること' do
         patch category_path(@category), params: { category: { item: '陽極酸化' } }
-        expect(flash[:danger]).to eq('Please log in.')
+        expect(flash[:danger]).to eq('ログインしてください')
       end
     end
   end
@@ -162,7 +162,7 @@ RSpec.describe "Categories", type: :request do
       it 'categories#indexページにリダイレクトされること' do
         delete category_path(@category)
         expect(response).to redirect_to(categories_url)
-        expect(flash[:success]).to eq('Successful deleted category!')
+        expect(flash[:success]).to eq('カテゴリーの削除に成功しました!')
       end
     end
     context '一般ユーザーでログインした場合' do
@@ -180,7 +180,7 @@ RSpec.describe "Categories", type: :request do
       it "ログインページにリダイレクトされること" do
         delete category_path(@category)
         expect(response).to redirect_to(login_url)
-        expect(flash[:danger]).to eq('Please log in.')
+        expect(flash[:danger]).to eq('ログインしてください')
       end
     end
   end

@@ -49,7 +49,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
         fill_in('担当者', with: '池田 彩花')
         click_button('登録')
         expect(page).to have_selector('h3',  text: 'メーカー情報')
-        expect(page).to have_selector('div', text: 'Successful registration of new maker!')
+        expect(page).to have_selector('div', text: 'メーカーの登録に成功しました!')
       end
     end
     context '無効な値の場合' do
@@ -87,7 +87,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
           fill_in('メーカー名', with: '岡田通信合資会社')
           click_button('更新')
           expect(page).to have_selector('h3',  text: 'メーカー情報')
-          expect(page).to have_selector('div', text: 'Successful updated maker information!')
+          expect(page).to have_selector('div', text: 'メーカーの更新に成功しました!')
         end
       end
       context '無効な値を入力した場合' do
@@ -104,7 +104,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
       it 'ログインページにリダイレクトされること' do
         visit edit_maker_path(@maker)
         expect(page).to have_selector('h3',  text: 'ログイン')
-        expect(page).to have_selector('div', text: 'Please log in.')
+        expect(page).to have_selector('div', text: 'ログインしてください')
       end
     end
   end
@@ -120,7 +120,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
       visit maker_path(@maker)
       click_link('削除')
       expect(page).to have_selector('h3',  text: 'メーカーリスト')
-      expect(page).to have_selector('div', text: 'Successful deleted maker!')
+      expect(page).to have_selector('div', text: 'メーカーの削除に成功しました!')
     end
   end
 end

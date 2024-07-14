@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      flash[:success] = "Successful registration of new user!"
+      flash[:success] = "ユーザーの登録に成功しました!"
       redirect_to @user
     else
       render :new, status: :unprocessable_entity
@@ -33,7 +33,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     if @user.update(user_params)
-      flash[:success] = "Successful updated user information!"
+      flash[:success] = "ユーザーの更新に成功しました!"
       redirect_to @user
     else
       render 'edit', status: :unprocessable_entity
@@ -42,7 +42,7 @@ class UsersController < ApplicationController
 
   def destroy
     User.find(params[:id]).destroy
-    flash[:success] = "Successful deleted user!"
+    flash[:success] = "ユーザーの削除に成功しました!"
     redirect_to users_url, status: :see_other
   end
 

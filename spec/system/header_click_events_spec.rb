@@ -18,7 +18,7 @@ RSpec.describe 'HeaderClickEvents', type: :system do
       visit root_path
       click_link('Surface Treatment Manager')
       expect(page).to have_selector('h3', text: 'ログイン')
-      expect(page).to have_selector('div', text: 'Please log in.')
+      expect(page).to have_selector('div', text: 'ログインしてください')
     end
   end
 end

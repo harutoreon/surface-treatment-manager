@@ -96,7 +96,7 @@ RSpec.describe "Users", type: :request do
       end
       it 'フラッシュメッセージが表示されること' do
         get edit_user_path(@user)
-        expect(flash[:danger]).to eq('Please log in.')
+        expect(flash[:danger]).to eq('ログインしてください')
       end
     end
   end
@@ -145,7 +145,7 @@ RSpec.describe "Users", type: :request do
       end
       it 'フラッシュメッセージが表示されること' do
         patch user_path(@user), params: { user: { name: 'sample user' } }
-        expect(flash[:danger]).to eq('Please log in.')
+        expect(flash[:danger]).to eq('ログインしてください')
       end
     end
   end
@@ -167,7 +167,7 @@ RSpec.describe "Users", type: :request do
       it 'users/indexページにリダイレクトされること' do
         delete user_path(@sample_user)
         expect(response).to redirect_to users_url
-        expect(flash[:success]).to eq('Successful deleted user!')
+        expect(flash[:success]).to eq('ユーザーの削除に成功しました!')
       end
     end
     context '一般ユーザーでログインした場合' do
@@ -192,7 +192,7 @@ RSpec.describe "Users", type: :request do
       it "ログインページにリダイレクトされること" do
         delete user_path(@sample_user)
         expect(response).to redirect_to login_url
-        expect(flash[:danger]).to eq('Please log in.')
+        expect(flash[:danger]).to eq('ログインしてください')
       end
     end
   end
