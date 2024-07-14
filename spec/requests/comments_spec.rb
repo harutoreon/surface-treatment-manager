@@ -20,7 +20,7 @@ RSpec.describe "Comments", type: :request do
       it 'samples/showページにリダイレクトされること' do
         post sample_comments_path(@sample), params: valid_params
         expect(response).to redirect_to(@sample)
-        expect(flash['success']).to eq('1 comment added.')
+        expect(flash['success']).to eq('コメントを1件追加しました。')
       end
     end
     context '無効な値の場合' do
@@ -32,7 +32,7 @@ RSpec.describe "Comments", type: :request do
       it 'samples/showページを再表示すること' do
         post sample_comments_path(@sample), params: invalid_params
         expect(response.body).to include('表面処理情報')
-        expect(flash['danger']).to eq('Invalid commenter or comment.')
+        expect(flash['danger']).to eq('コメントの投稿者またはコメントが無効です。')
       end
     end
   end
