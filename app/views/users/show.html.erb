@@ -17,7 +17,7 @@
   <div class="d-flex justify-content-evenly">
     <div><%= link_to '編集', edit_user_path(@user) %></div>
     <% if current_user.admin? && !current_user?(@user)%>
-      <div><%= link_to "削除", @user, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></div>
+      <div><%= link_to "削除", @user, data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" } %></div>
     <% end %>
     <div><%= link_to 'ユーザーリストへ', users_path %></div>
   </div>
