@@ -41,7 +41,7 @@
   <div class="d-flex justify-content-evenly">
     <%= link_to "編集", edit_maker_path(@maker) %>
     <% if current_user.admin? %>
-      <%= link_to "削除", maker_path(@maker), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete?" } %>
+      <%= link_to "削除", maker_path(@maker), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" } %>
     <% end %>
     <%= link_to "メーカーリストへ", makers_path %>
   </div>
