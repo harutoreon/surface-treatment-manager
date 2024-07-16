@@ -99,11 +99,11 @@ RSpec.describe "CategoriesManagementFlow", type: :system do
     end
   end
 
-  describe '#destory' do
+  describe '#destroy' do
     before do
+      @admin_user = FactoryBot.create(:admin_user)
+      log_in(@admin_user)
       @category = FactoryBot.create(:category)
-      admin_user = FactoryBot.create(:admin_user)
-      log_in(admin_user)
     end
 
     it '削除に成功すること' do

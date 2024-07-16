@@ -14,8 +14,7 @@
         <ul class="list-group list-group-flush text-end">
           <li class="list-group-item"><%= link_to "編集", edit_sample_path(@sample) %></li>
           <% if current_user.admin? %>
-            <li class="list-group-item"><%= link_to "削除", sample_path(@sample), data: { turbo_method: :delete,
-                                                                                             turbo_confirm: "Are you sure you want to delete?" } %></li>
+            <li class="list-group-item"><%= link_to "削除", sample_path(@sample), data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" } %></li>
           <% end %>
           <li class="list-group-item"><%= link_to "表面処理リストへ", samples_path %></li>
           <li class="list-group-item"><%= link_to "前ページへ", url_for(:back) %></li>
@@ -89,7 +88,7 @@
             <div class="d-flex justify-content-between">
               <h6><%= comment.body %></h6>
               <% if current_user.admin? %>
-                <h6><%= link_to "削除", [comment.sample, comment], data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></h6>
+                <h6><%= link_to "削除", [comment.sample, comment], data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" } %></h6>
               <% end %>
             </div>
           </li>
