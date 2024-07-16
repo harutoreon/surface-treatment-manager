@@ -53,7 +53,7 @@ RSpec.describe "CategoriesManagementFlow", type: :system do
         fill_in('概要', with: 'セラミックスなどを基材表面に噴きつけて機能皮膜を形成する処理。')
         click_button('登録')
         expect(page).to have_selector('h3',  text: 'カテゴリー情報の登録')
-        expect(page).to have_selector('div', text: 'Item can\'t be blank')
+        expect(page).to have_selector('div', text: '（カテゴリー名）が空白です。')
       end
     end
   end
@@ -86,7 +86,7 @@ RSpec.describe "CategoriesManagementFlow", type: :system do
           fill_in('概要', with: '塗料によって固体表面に塗膜を形成させる加工方法のこと。')
           click_button('更新')
           expect(page).to have_selector('h3',  text: 'カテゴリー情報の編集')
-          expect(page).to have_selector('div', text: 'Item can\'t be blank')
+          expect(page).to have_selector('div', text: '（カテゴリー名）が空白です。')
         end
       end
     end
