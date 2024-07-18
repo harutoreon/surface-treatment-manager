@@ -70,7 +70,7 @@ RSpec.describe "UsersManagementFlow", type: :system do
         fill_in('パスワードの確認', with: 'password')
         click_button('登録')
         expect(page).to have_selector('h3',  text: 'ユーザー情報の登録')
-        expect(page).to have_selector('div', text: 'Name can\'t be blank')
+        expect(page).to have_selector('div', text: '（名前）が空白です。')
       end
     end
   end
@@ -90,6 +90,8 @@ RSpec.describe "UsersManagementFlow", type: :system do
         it '更新に成功すること' do
           visit edit_user_path(@sample_user)
           fill_in('ユーザー名', with: 'example user')
+          fill_in('パスワード', with: 'password')
+          fill_in('パスワードの確認', with: 'password')
           click_button('更新')
           expect(page).to have_selector('h3',  text: 'ユーザー情報')
           expect(page).to have_selector('div', text: 'ユーザーの更新に成功しました!')
@@ -99,8 +101,10 @@ RSpec.describe "UsersManagementFlow", type: :system do
         it '更新に失敗すること' do
           visit edit_user_path(@sample_user)
           fill_in('ユーザー名', with: '')
+          fill_in('パスワード', with: 'password')
+          fill_in('パスワードの確認', with: 'password')
           click_button('更新')
-          expect(page).to have_selector('div', text: 'Name can\'t be blank')
+          expect(page).to have_selector('div', text: '（名前）が空白です。')
         end
       end
     end

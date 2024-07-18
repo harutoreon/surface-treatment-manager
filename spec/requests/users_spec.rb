@@ -113,16 +113,16 @@ RSpec.describe "Users", type: :request do
 
       context '有効な値の場合' do
         it '更新できること' do
-          patch user_path(@user), params: { user: { name: 'sample user' } }
+          patch user_path(@user), params: { user: { name: 'sample user', password: 'password' } }
           @user.reload
           expect(@user.name).to eq('sample user')
         end
         it 'users/showページにリダイレクトされること' do
-          patch user_path(@user), params: { user: { name: 'sample user' } }
+          patch user_path(@user), params: { user: { name: 'sample user', password: 'password' } }
           expect(response).to redirect_to @user
         end
         it 'フラッシュメッセージが表示されていること' do
-          patch user_path(@user), params: { user: { name: 'sample user' } }
+          patch user_path(@user), params: { user: { name: 'sample user', password: 'password' } }
           expect(flash).to be_any
         end
       end
