@@ -31,5 +31,10 @@ RSpec.describe User, type: :model do
       user = FactoryBot.build(:user, password: 's' * 5, password_confirmation: 's' * 5)
       expect(user).to_not be_valid
     end
+
+    it 'パスワードの組み合わせが正常であること' do
+      user = FactoryBot.build(:user, password: 'foobar', password_confirmation: 'foobaz')
+      expect(user).to_not be_valid
+    end
   end
 end

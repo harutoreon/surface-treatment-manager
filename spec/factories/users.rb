@@ -4,7 +4,7 @@ FactoryBot.define do
     department            { "品質管理部" }
     password              { "foobar" }
     password_confirmation { "foobar" }
-    admin { true }
+    admin                 { true }
   end
 
   factory :michael, class: User do
@@ -26,7 +26,7 @@ FactoryBot.define do
     department            { "品質管理部" }
     password              { "password" }
     password_confirmation { "password" }
-    admin { true }
+    admin                 { true }
   end
 
   factory :non_admin, class: User do
@@ -37,21 +37,24 @@ FactoryBot.define do
   end
 
   factory :admin_user, class: User do
-    name       { 'admin user' }
-    department { "品質管理部" }
-    password   { 'adminpassword' }
-    admin      { true }
+    name                  { 'admin user' }
+    department            { "品質管理部" }
+    password              { 'adminpassword' }
+    password_confirmation { 'adminpassword' }
+    admin                 { true }
   end
 
   factory :general_user, class: User do
-    name       { 'general user' }
-    department { "品質管理部" }
-    password   { 'generalpassword' }
+    name                    { 'general user' }
+    department              { "品質管理部" }
+    password                { 'generalpassword' }
+    password_confirmation   { 'generalpassword' }
   end
 
   factory :sample_user, class: User do
-    name       { 'sample user' }
-    department { "品質管理部" }
-    password   { 'password' }
+    name                    { 'sample user' }
+    department              { "品質管理部" }
+    password                { 'password' }
+    password_confirmation   { 'password' }
   end
 end
