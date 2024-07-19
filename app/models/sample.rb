@@ -1,7 +1,7 @@
 class Sample < ApplicationRecord
   has_many :comments, dependent: :destroy
 
-  validates :name,     presence: { message: '（名前）が空白です。' }
+  validates :name,     presence: { message: '（処理名）が空白です。' }
   validates :category, presence: { message: '（カテゴリー）が空白です。' }
   validates :color,    presence: { message: '（色調）が空白です。' }
   validates :maker,    presence: { message: '（メーカー）が空白です。' }
