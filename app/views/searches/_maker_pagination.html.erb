@@ -2,7 +2,7 @@
   <ul class="pagination justify-content-center mb-5">
     <% if @samples.previous_page %>
       <li class="page-item">
-        <a class="page-link" href="/category/maker/search?commit=Search&keyword=<%= @keyword %>&page=<%= @samples.previous_page %>">Previous</a>
+        <a class="page-link" href="/category/maker/search?commit=Search&keyword=<%= @keyword %>&page=<%= @samples.previous_page %>">前のページ</a>
       </li>
     <% else %>
       <%= render 'disabled_previous_pages' %>
@@ -16,7 +16,7 @@
 
     <% if @samples.next_page %>
       <li class="page-item">
-        <a class="page-link" href="/category/maker/search?commit=Search&keyword=<%= @keyword %>&page=<%= @samples.next_page %>">Next</a>
+        <a class="page-link" href="/category/maker/search?commit=Search&keyword=<%= @keyword %>&page=<%= @samples.next_page %>">次のページ</a>
       </li>
     <% else %>
       <%= render 'disabled_next_pages' %>
