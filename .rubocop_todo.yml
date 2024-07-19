@@ -277,3 +277,6 @@ Style/RegexpLiteral:
   Exclude:
     - 'app/models/**/*'
 
+Style/SoleNestedConditional:
+  Exclude:
+    - 'app/models/**/*'
