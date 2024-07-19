@@ -1,4 +1,7 @@
 class Category < ApplicationRecord
-  validates :item,    presence: true, uniqueness: true
-  validates :summary, presence: true, length: { maximum: 60 }
+  validates :item, presence: { message: "（カテゴリー名）が空白です。" },
+                   uniqueness: { message: "（カテゴリー名）が重複しています。" }
+
+  validates :summary, presence: { message: '（概要）が空白です。' },
+                      length: { maximum: 60, too_long: "（概要）が60文字を超えています。" }
 end

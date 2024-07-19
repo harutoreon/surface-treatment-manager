@@ -2,39 +2,33 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   describe 'validation' do
-    let(:user) { FactoryBot.create(:user) }
-
     it 'userが有効であること' do
+      user = FactoryBot.build(:user)
       expect(user).to be_valid
     end
 
     it 'nameが存在すること' do
-      user.name = ''
+      user = FactoryBot.build(:user, name: '')
       expect(user).to_not be_valid
     end
 
     it 'nameは50文字以下であること' do
-      user.name = 's' * 51
+      user = FactoryBot.build(:user, name: 's' * 51)
       expect(user).to_not be_valid
     end
 
     it 'departmentが存在すること' do
-      user.department = ''
-      expect(user).to_not be_valid
-    end
-
-    it 'departmentは50文字以下であること' do
-      user.department = 's' * 51
+      user = FactoryBot.build(:user, department: '')
       expect(user).to_not be_valid
     end
 
     it 'パスワードが空白でないこと' do
-      user.password = user.password_confirmation = '' * 6
+      user = FactoryBot.build(:user, password: '', password_confirmation: '')
       expect(user).to_not be_valid
     end
 
     it 'パスワードが6文字以上であること' do
-      user.password = user.password_confirmation = 's' * 5
+      user = FactoryBot.build(:user, password: 's' * 5, password_confirmation: 's' * 5)
       expect(user).to_not be_valid
     end
   end

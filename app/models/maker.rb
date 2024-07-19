@@ -5,12 +5,50 @@ class Maker < ApplicationRecord
   VALID_EMAIL        = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   VALID_URL          = /\Ahttps?:\/\/[^\s\/$.?#].[^\s]*\z/i
 
-  validates :name,             presence: true
-  validates :postal_code,      presence: true, format: { with: VALID_POSTAL_CODE }
-  validates :address,          presence: true
-  validates :phone_number,     presence: true, format: { with: VALID_PHONE_NUMBER }
-  validates :fax_number,       presence: true, format: { with: VALID_FAX_NUMBER }
-  validates :email,            presence: true, format: { with: VALID_EMAIL }
-  validates :home_page,        presence: true, format: { with: VALID_URL }
-  validates :manufacturer_rep, presence: true
+  validates :name,             presence: { message: '（メーカー名）が空白です' }
+  validates :postal_code,      presence: { message: '（郵便番号）が空白です' }
+  validates :address,          presence: { message: '（住所）が空白です' }
+  validates :phone_number,     presence: { message: '（電話番号）が空白です' }
+  validates :fax_number,       presence: { message: '（FAX番号）が空白です' }
+  validates :email,            presence: { message: '（メールアドレス）が空白です' }
+  validates :home_page,        presence: { message: '（ホームページのアドレス）が空白です' }
+  validates :manufacturer_rep, presence: { message: '（担当者）が空白です' }
+
+  validate :postal_code_format
+  validate :phone_number_format
+  validate :fax_number_format
+  validate :email_address_format
+  validate :url_format
+
+  private
+
+    def postal_code_format
+      if postal_code.present? && postal_code !~ VALID_POSTAL_CODE
+        errors.add(:postal_code, '（郵便番号）のパターンが無効です。')
+      end
+    end
+
+    def phone_number_format
+      if phone_number.present? && phone_number !~ VALID_PHONE_NUMBER
+        errors.add(:phone_number, '（電話番号）のパターンが無効です。')
+      end
+    end
+
+    def fax_number_format
+      if fax_number.present? && fax_number !~ VALID_FAX_NUMBER
+        errors.add(:fax_number, '（FAX番号）のパターンが無効です。')
+      end
+    end
+
+    def email_address_format
+      if email.present? && email !~ VALID_EMAIL
+        errors.add(:email, '（メールアドレス）のパターンが無効です。')
+      end
+    end
+
+    def url_format
+      if home_page.present? && home_page !~ VALID_URL
+        errors.add(:home_page, '（URL）のパターンが無効です。')
+      end
+    end
 end

@@ -65,7 +65,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
         fill_in('担当者', with: '池田 彩花')
         click_button('登録')
         expect(page).to have_selector('h3',  text: 'メーカー情報の登録')
-        expect(page).to have_selector('div', text: 'Name can\'t be blank')
+        expect(page).to have_selector('div', text: '（メーカー名）が空白です')
       end
     end
   end
@@ -96,7 +96,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
           fill_in('メーカー名', with: '')
           click_button('更新')
           expect(page).to have_selector('h3',  text: 'メーカー情報の編集')
-          expect(page).to have_selector('div', text: 'Name can\'t be blank')
+          expect(page).to have_selector('div', text: '（メーカー名）が空白です')
         end
       end
     end

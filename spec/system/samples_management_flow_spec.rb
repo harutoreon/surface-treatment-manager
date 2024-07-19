@@ -65,7 +65,7 @@ RSpec.describe "SamplesManagementFlow", type: :system do
         fill_in('特徴', with: '耐食性・耐摩耗性・耐薬品性・耐熱性')
         attach_file('画像', 'spec/fixtures/test.jpg')
         click_button('登録')
-        expect(page).to have_selector('div', text: 'Name can\'t be blank')
+        expect(page).to have_selector('div', text: '（処理名）が空白です。')
         expect(page).to have_selector('h3',  text: '表面処理情報の登録')
       end
     end
@@ -96,7 +96,7 @@ RSpec.describe "SamplesManagementFlow", type: :system do
           visit edit_sample_path(@sample)
           fill_in('処理名', with: '')
           click_button('更新')
-          expect(page).to have_selector('div', text: 'Name can\'t be blank')
+          expect(page).to have_selector('div', text: '（処理名）が空白です。')
           expect(page).to have_selector('h3',  text: '表面処理情報の編集')
         end
       end

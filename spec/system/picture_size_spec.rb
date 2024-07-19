@@ -18,7 +18,7 @@ RSpec.describe "PictureSize", type: :system do
         fill_in('特徴', with: '耐食性・耐摩耗性・耐薬品性・耐熱性')
         attach_file('画像', 'spec/fixtures/invalid_image.jpeg')
         click_button('登録')
-        expect(page).to have_selector('div', text: 'should be less than 5MB')
+        expect(page).to have_selector('div', text: '（画像）のサイズは5MB以下であること')
         expect(page).to have_selector('h3',  text: '表面処理情報の登録')
       end
     end
