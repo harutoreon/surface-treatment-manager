@@ -25,82 +25,17 @@ AllCops:
 
 #################### Layout ####################
 
-Layout/TrailingEmptyLines:
-  Exclude:
-    - 'spec/hello_spec.rb'
-
-Layout/LineLength:
-  Max: 198
-
-Layout/IndentationWidth:
-  Exclude:
-    - 'app/controllers/**/*'
-    - 'app/models/**/*'
-    - 'app/uploaders/**/*'
-
-Layout/IndentationConsistency:
-  Exclude:
-    - 'app/controllers/**/*'
-    - 'app/models/**/*'
-    - 'app/uploaders/**/*'
-
-Layout/EmptyLinesAroundBlockBody:
-  Exclude:
-    - 'app/controllers/**/*'
-    - 'spec/**/*'
-
-Layout/IndentationStyle:
-  Exclude:
-    - 'app/uploaders/**/*'
-
-Layout/LeadingCommentSpace:
-  Exclude:
-    - 'spec/**/*'
-
-Layout/SpaceBeforeComment:
-  Exclude:
-    - 'spec/**/*'
-
-Layout/MultilineBlockLayout:
-  Exclude:
-    - 'spec/**/*'
-
-Layout/BlockEndNewline:
-  Exclude:
-    - 'spec/**/*'
-
-Layout/SpaceInLambdaLiteral:
-  Exclude:
-    - 'app/models/**/*'
-
-Layout/SpaceBeforeBlockBraces:
-  Exclude:
-    - 'spec/**/*'
+Layout:
+  Enabled: false
 
 #################### Lint ####################
 
-Lint/RedundantCopDisableDirective:
-  Exclude:
-    - 'spec/**/*'
+# without
 
 #################### Metrics ####################
 
-Metrics/BlockLength:
-  Exclude:
-    - 'spec/**/*'
-
-Metrics/CyclomaticComplexity:
-  Max: 9
-
-Metrics/MethodLength:
-  Max: 13
-
-Metrics/PerceivedComplexity:
-  Max: 9
-
-Metrics/AbcSize:
-  Exclude:
-    - 'app/uploaders/**/*'
+Metrics:
+  Enabled: false
 
 #################### Migration ####################
 
@@ -116,81 +51,11 @@ Metrics/AbcSize:
 
 #################### Style ####################
 
-Style/Documentation:
-  Exclude:
-    - 'spec/**/*'
-    - 'test/**/*'
-    - 'app/controllers/*'
-    - 'app/helpers/*'
-    - 'app/mailers/**/*'
-    - 'app/models/*'
-    - 'app/uploaders/**/*'
-
-Style/FrozenStringLiteralComment:
+Style:
   Enabled: false
 
-Style/IfUnlessModifier:
-  Exclude:
-    - 'app/models/**/*'
-    - 'spec/**/*'
-    - 'app/helpers/**/*'
-
-Style/PercentLiteralDelimiters:
-  Exclude:
-    - 'app/uploaders/**/*'
-
-Style/SpecialGlobalVars:
-  EnforcedStyle: use_perl_names
-
-Style/StringLiterals:
+Style/AsciiComments:
   Enabled: false
-
-Style/SymbolArray:
-  EnforcedStyle: percent
-  MinSize: 10
 
 Style/EmptyMethod:
-  Exclude:
-    - 'app/controllers/**/*'
-
-Style/BlockDelimiters:
-  Exclude:
-    - 'spec/**/*'
-
-Style/WordArray:
-  Exclude:
-    - 'spec/helpers/*'
-
-Style/HashSyntax:
-  Exclude:
-    - 'app/models/**/*'
-
-Style/GuardClause:
-  Exclude:
-    - 'app/models/**/*'
-    - 'app/helpers/**/*'
-    - 'app/controllers/**/*'
-
-Style/RedundantInterpolation:
-  Exclude:
-    - 'app/models/**/*'
-
-Style/Lambda:
-  Exclude:
-    - 'app/models/**/*'
-
-Style/SafeNavigation:
-  Exclude:
-    - 'app/controllers/*'
-
-Style/SymbolProc:
-  Exclude:
-    - 'app/helpers/*'
-
-Style/RegexpLiteral:
-  Exclude:
-    - 'app/models/**/*'
-
-Style/SoleNestedConditional:
-  Exclude:
-    - 'app/models/**/*'
+  EnforcedStyle: expanded
