@@ -1,1 +1,80 @@
 inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  SuggestExtensions: false
+  NewCops: enable
+  Exclude:
+    - "bin/**/*"
+    - "config/**/*"
+    - "db/**/*"
+    - "lib/**/*"
+    - "log/**/*"
+    - 'tmp/**/*'
+    - "vendor/**/*"
+    - "spec/rails_helper.rb"
+    - "spec/spec_helper.rb"
+    - "Gemfile"
+
+#################### Bundler ####################
+
+# without
+
+#################### Gemspec ####################
+
+# without
+
+#################### Layout ####################
+
+Layout:
+  Enabled: false
+
+#################### Lint ####################
+
+# without
+
+#################### Metrics ####################
+
+Metrics:
+  Enabled: false
+
+#################### Migration ####################
+
+# without
+
+#################### Naming ####################
+
+# without
+
+#################### Security ####################
+
+# without
+
+#################### Style ####################
+
+Style:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+
+#################### Performance ####################
+
+# without
+
+#################### Rails ####################
+
+Rails:
+  Enabled: false
+
+#################### RSpec ####################
+
+RSpec:
+  Enabled: false

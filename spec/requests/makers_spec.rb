@@ -163,7 +163,6 @@ RSpec.describe "Makers", type: :request do
         expect(flash[:danger]).to eq('ログインしてください')
       end
     end
-
   end
 
   describe '#destroy' do
