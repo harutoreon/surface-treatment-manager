@@ -33,6 +33,7 @@ group :development do
   gem "better_errors"
   gem "binding_of_caller"
   gem "rubocop", require: false
+  gem 'rubocop-performance', require: false
   gem 'bullet'
   gem 'brakeman'
 end
