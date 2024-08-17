@@ -3,9 +3,18 @@ inherit_from: .rubocop_todo.yml
 AllCops:
   SuggestExtensions: false
 
+
+#################### Bundler ####################
+
 Bundler/OrderedGems:
   Exclude:
     - 'Gemfile'
+
+#################### Gemspec ####################
+
+# without
+
+#################### Layout ####################
 
 Layout/EmptyLineAfterGuardClause:
   Exclude:
@@ -28,6 +37,63 @@ Layout/TrailingEmptyLines:
   Exclude:
     - 'spec/hello_spec.rb'
 
+Layout/LineLength:
+  Max: 198
+
+Layout/IndentationWidth:
+  Exclude:
+    - 'app/controllers/**/*'
+    - 'app/models/**/*'
+    - 'app/uploaders/**/*'
+
+Layout/IndentationConsistency:
+  Exclude:
+    - 'app/controllers/**/*'
+    - 'app/models/**/*'
+    - 'app/uploaders/**/*'
+
+Layout/EmptyLinesAroundBlockBody:
+  Exclude:
+    - 'app/controllers/**/*'
+    - 'db/**/*'
+    - 'spec/**/*'
+
+Layout/IndentationStyle:
+  Exclude:
+    - 'app/uploaders/**/*'
+
+Layout/LeadingCommentSpace:
+  Exclude:
+    - 'spec/**/*'
+
+Layout/SpaceBeforeComment:
+  Exclude:
+    - 'spec/**/*'
+
+Layout/MultilineBlockLayout:
+  Exclude:
+    - 'spec/**/*'
+
+Layout/BlockEndNewline:
+  Exclude:
+    - 'spec/**/*'
+
+Layout/SpaceInLambdaLiteral:
+  Exclude:
+    - 'app/models/**/*'
+
+Layout/SpaceBeforeBlockBraces:
+  Exclude:
+    - 'spec/**/*'
+
+#################### Lint ####################
+
+Lint/RedundantCopDisableDirective:
+  Exclude:
+    - 'spec/**/*'
+
+#################### Metrics ####################
+
 Metrics/BlockLength:
   Exclude:
     - 'config/environments/development.rb'
@@ -42,6 +108,24 @@ Metrics/MethodLength:
 
 Metrics/PerceivedComplexity:
   Max: 9
+
+Metrics/AbcSize:
+  Exclude:
+    - 'app/uploaders/**/*'
+
+#################### Migration ####################
+
+# without
+
+#################### Naming ####################
+
+# without
+
+#################### Security ####################
+
+# without
+
+#################### Style ####################
 
 Style/BlockComments:
   Exclude:
@@ -97,30 +181,9 @@ Style/SymbolArray:
   EnforcedStyle: percent
   MinSize: 10
 
-Layout/LineLength:
-  Max: 198
-
 Style/NumericLiterals:
   Exclude:
     - 'db/**/*'
-
-Layout/IndentationWidth:
-  Exclude:
-    - 'app/controllers/**/*'
-    - 'app/models/**/*'
-    - 'app/uploaders/**/*'
-
-Layout/IndentationConsistency:
-  Exclude:
-    - 'app/controllers/**/*'
-    - 'app/models/**/*'
-    - 'app/uploaders/**/*'
-
-Layout/EmptyLinesAroundBlockBody:
-  Exclude:
-    - 'app/controllers/**/*'
-    - 'db/**/*'
-    - 'spec/**/*'
 
 Style/EmptyMethod:
   Exclude:
@@ -146,33 +209,9 @@ Style/GuardClause:
     - 'app/helpers/**/*'
     - 'app/controllers/**/*'
 
-Layout/IndentationStyle:
-  Exclude:
-    - 'app/uploaders/**/*'
-
-Metrics/AbcSize:
-  Exclude:
-    - 'app/uploaders/**/*'
-
 Style/MutableConstant:
   Exclude:
     - 'db/**/*'
-
-Layout/LeadingCommentSpace:
-  Exclude:
-    - 'spec/**/*'
-
-Layout/SpaceBeforeComment:
-  Exclude:
-    - 'spec/**/*'
-
-Layout/MultilineBlockLayout:
-  Exclude:
-    - 'spec/**/*'
-
-Layout/BlockEndNewline:
-  Exclude:
-    - 'spec/**/*'
 
 Style/RedundantInterpolation:
   Exclude:
@@ -181,18 +220,6 @@ Style/RedundantInterpolation:
 Style/Lambda:
   Exclude:
     - 'app/models/**/*'
-
-Layout/SpaceInLambdaLiteral:
-  Exclude:
-    - 'app/models/**/*'
-
-Lint/RedundantCopDisableDirective:
-  Exclude:
-    - 'spec/**/*'
-
-Layout/SpaceBeforeBlockBraces:
-  Exclude:
-    - 'spec/**/*'
 
 Style/SafeNavigation:
   Exclude:
