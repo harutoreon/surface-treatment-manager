@@ -2,36 +2,28 @@ inherit_from: .rubocop_todo.yml
 
 AllCops:
   SuggestExtensions: false
-
+  NewCops: enable
+  Exclude:
+    - "bin/**/*"
+    - "config/**/*"
+    - "db/**/*"
+    - "lib/**/*"
+    - "log/**/*"
+    - 'tmp/**/*'
+    - "vendor/**/*"
+    - "spec/rails_helper.rb"
+    - "spec/spec_helper.rb"
+    - "Gemfile"
 
 #################### Bundler ####################
 
-Bundler/OrderedGems:
-  Exclude:
-    - 'Gemfile'
+# without
 
 #################### Gemspec ####################
 
 # without
 
 #################### Layout ####################
-
-Layout/EmptyLineAfterGuardClause:
-  Exclude:
-    - 'bin/bundle'
-
-Layout/MultilineMethodCallIndentation:
-  Exclude:
-    - 'config/environments/production.rb'
-
-Layout/SpaceInsideArrayLiteralBrackets:
-  Exclude:
-    - 'config/environments/production.rb'
-
-Layout/SpaceInsidePercentLiteralDelimiters:
-  Exclude:
-    - 'Gemfile'
-    - 'config/initializers/assets.rb'
 
 Layout/TrailingEmptyLines:
   Exclude:
@@ -55,7 +47,6 @@ Layout/IndentationConsistency:
 Layout/EmptyLinesAroundBlockBody:
   Exclude:
     - 'app/controllers/**/*'
-    - 'db/**/*'
     - 'spec/**/*'
 
 Layout/IndentationStyle:
@@ -96,9 +87,7 @@ Lint/RedundantCopDisableDirective:
 
 Metrics/BlockLength:
   Exclude:
-    - 'config/environments/development.rb'
     - 'spec/**/*'
-    - 'db/**/*'
 
 Metrics/CyclomaticComplexity:
   Max: 9
@@ -127,10 +116,6 @@ Metrics/AbcSize:
 
 #################### Style ####################
 
-Style/BlockComments:
-  Exclude:
-    - 'spec/spec_helper.rb'
-
 Style/Documentation:
   Exclude:
     - 'spec/**/*'
@@ -139,37 +124,20 @@ Style/Documentation:
     - 'app/helpers/*'
     - 'app/mailers/**/*'
     - 'app/models/*'
-    - 'config/application.rb'
-    - 'db/**/*'
     - 'app/uploaders/**/*'
 
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-Style/GlobalStdStream:
-  Exclude:
-    - 'config/environments/production.rb'
-
 Style/IfUnlessModifier:
   Exclude:
-    - 'bin/bundle'
     - 'app/models/**/*'
     - 'spec/**/*'
     - 'app/helpers/**/*'
 
 Style/PercentLiteralDelimiters:
   Exclude:
-    - 'config/application.rb'
-    - 'config/initializers/assets.rb'
     - 'app/uploaders/**/*'
-
-Style/PerlBackrefs:
-  Exclude:
-    - 'bin/bundle'
-
-Style/RedundantFetchBlock:
-  Exclude:
-    - 'config/puma.rb'
 
 Style/SpecialGlobalVars:
   EnforcedStyle: use_perl_names
@@ -181,10 +149,6 @@ Style/SymbolArray:
   EnforcedStyle: percent
   MinSize: 10
 
-Style/NumericLiterals:
-  Exclude:
-    - 'db/**/*'
-
 Style/EmptyMethod:
   Exclude:
     - 'app/controllers/**/*'
@@ -195,12 +159,10 @@ Style/BlockDelimiters:
 
 Style/WordArray:
   Exclude:
-    - 'db/**/*'
     - 'spec/helpers/*'
 
 Style/HashSyntax:
   Exclude:
-    - 'db/**/*'
     - 'app/models/**/*'
 
 Style/GuardClause:
@@ -208,10 +170,6 @@ Style/GuardClause:
     - 'app/models/**/*'
     - 'app/helpers/**/*'
     - 'app/controllers/**/*'
-
-Style/MutableConstant:
-  Exclude:
-    - 'db/**/*'
 
 Style/RedundantInterpolation:
   Exclude:
