@@ -2,6 +2,7 @@ inherit_from: .rubocop_todo.yml
 
 require:
   - rubocop-performance
+  - rubocop-rails
 
 AllCops:
   SuggestExtensions: false
@@ -62,3 +63,17 @@ Style/AsciiComments:
 
 Style/EmptyMethod:
   EnforcedStyle: expanded
+
+#################### Performance ####################
+
+# without
+
+#################### Rails ####################
+
+Rails:
+  Enabled: false
+
+#################### RSpec ####################
+
+# without
+
