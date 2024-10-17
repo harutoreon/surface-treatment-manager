@@ -9,7 +9,24 @@ on:
 jobs:
   rspec:
     runs-on: ubuntu-latest
+
+    services:
+      postgresql:
+        image: postgres
+        env:
+          POSTGRES_USER: sample_user
+          POSTGRES_PASSWORD: sample_password
+          POSTGRES_DB: sample_test_db
+        ports:
+          - 5432:5432
+        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
+      - name: install packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y google-chrome-stable curl libjemalloc2 libvips postgresql-client
+
       - name: checkout code
         uses: actions/checkout@v4
 
@@ -20,4 +37,18 @@ jobs:
           bundler-cache: true
 
       - name: execution rspec
-        run: bundle exec rspec
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: postgres://sample_user:psample_password@127.0.0.1:5432/sample_test_db
+        run: |
+          bin/rails db:create
+          bin/rails db:schema:load
+          bundle exec rspec spec/requests
+
+      - name: Keep screenshots from failed system tests
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: screenshots
+          path: ${{ github.workspace }}/tmp/screenshots
+          if-no-files-found: ignore
