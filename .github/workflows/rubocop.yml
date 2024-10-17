@@ -1,0 +1,20 @@
+name: RuboCop
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [ main ]
+
+jobs:
+  rubocop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: setup ruby
+        uses: ruby/setup-ruby@v1
+
+      - name: execution rubocop
+        run: bundle exec rubocop
