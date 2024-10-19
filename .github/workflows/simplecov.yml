@@ -1,4 +1,4 @@
-name: RSpec
+name: Upload coverage
 
 on:
   pull_request:
@@ -57,5 +57,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage_report
-          path: coverage/
+          path: coverage/index.html
           retention-days: 1
