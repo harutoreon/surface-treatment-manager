@@ -22,3 +22,6 @@ jobs:
 
       - name: execution brakeman
         run: bundle exec brakeman --no-pager
+
+      - name: execution rubocop
+        run: bundle exec rubocop
