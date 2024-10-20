@@ -56,4 +56,5 @@ jobs:
       - name: simplecov report
         uses: shettytejas/simplecov-reporter@v1
         with:
+          result-path: coverage/.last_run.json
           token: ${{ secrets.GITHUB_TOKEN }}
