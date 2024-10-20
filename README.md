@@ -14,7 +14,6 @@
 - Ruby
 - Ruby on Rails
 - Bootstrap
-- PostgreSQL
 - RSpec
 - Rubocop
 - Brakeman
@@ -22,8 +21,6 @@
 - Selenium
 - Bullet
 - SimpleCov
-- CircleCI
-- Render
 
 ## 機能一覧
 - 表面処理の検索
@@ -52,3 +49,13 @@
   - 統合テスト (System Spec)
 - SimpleCov
   - カバレッジ計測
+
+## CI
+- GitHub Actions
+
+## データベース
+- 開発環境: PostgreSQL version 14.13
+- 本番環境: PostgreSQL version 16
+
+## デプロイ
+- Render
