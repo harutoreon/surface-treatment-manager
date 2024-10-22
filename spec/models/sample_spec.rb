@@ -2,8 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Sample, type: :model do
   describe 'validation' do
-    # let(:sample) { FactoryBot.create(:sample) }
-
     before do
       @sample = FactoryBot.build(:sample)
     end
@@ -55,10 +53,7 @@ RSpec.describe Sample, type: :model do
 
   describe 'scope' do
     before do
-      9.times do
-        FactoryBot.create(:anodised_aluminium)
-      end
-
+      FactoryBot.create_list(:anodised_aluminium, 9)
       FactoryBot.create(:chromate)
     end
 
