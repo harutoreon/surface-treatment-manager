@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Maker, type: :model do
   describe 'validation' do
     before do
-      @maker = FactoryBot.create(:maker)
+      @maker = FactoryBot.build(:maker)
     end
 
     describe 'valid' do
