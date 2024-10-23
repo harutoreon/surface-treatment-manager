@@ -2,59 +2,58 @@ require 'rails_helper'
 
 RSpec.describe Sample, type: :model do
   describe 'validation' do
-    let(:sample) { FactoryBot.create(:sample) }
+    before do
+      @sample = FactoryBot.build(:sample)
+    end
 
     it 'sampleが有効であること' do
-      expect(sample).to be_valid
+      expect(@sample).to be_valid
     end
 
     it 'nameが存在すること' do
-      sample.name = ''
-      expect(sample).to_not be_valid
+      @sample.name = ''
+      expect(@sample).to_not be_valid
     end
 
     it 'categoryが存在すること' do
-      sample.category = ''
-      expect(sample).to_not be_valid
+      @sample.category = ''
+      expect(@sample).to_not be_valid
     end
 
     it 'colorが存在すること' do
-      sample.color = ''
-      expect(sample).to_not be_valid
+      @sample.color = ''
+      expect(@sample).to_not be_valid
     end
 
     it 'makerが存在すること' do
-      sample.maker = ''
-      expect(sample).to_not be_valid
+      @sample.maker = ''
+      expect(@sample).to_not be_valid
     end
 
     it 'pictureが存在すること' do
-      sample.picture = ''
-      expect(sample).to_not be_valid
+      @sample.picture = ''
+      expect(@sample).to_not be_valid
     end
 
     it 'hardnessが存在すること' do
-      sample.hardness = ''
-      expect(sample).to_not be_valid
+      @sample.hardness = ''
+      expect(@sample).to_not be_valid
     end
 
     it 'film_thicknessが存在すること' do
-      sample.film_thickness = ''
-      expect(sample).to_not be_valid
+      @sample.film_thickness = ''
+      expect(@sample).to_not be_valid
     end
 
     it 'featureが存在すること' do
-      sample.feature = ''
-      expect(sample).to_not be_valid
+      @sample.feature = ''
+      expect(@sample).to_not be_valid
     end
   end
 
   describe 'scope' do
     before do
-      9.times do
-        FactoryBot.create(:anodised_aluminium)
-      end
-
+      FactoryBot.create_list(:anodised_aluminium, 9)
       FactoryBot.create(:chromate)
     end
 
