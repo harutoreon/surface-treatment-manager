@@ -4,7 +4,7 @@ RSpec.describe Comment, type: :model do
   describe 'validation' do
     before do
       sample = FactoryBot.create(:sample)
-      @comment = sample.comments.create(commenter: 'commenter', body: 'sample comment.')
+      @comment = sample.comments.build(commenter: 'commenter', body: 'sample comment.')
     end
 
     it 'commentオブジェクトが有効であること' do
