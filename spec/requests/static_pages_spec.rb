@@ -12,11 +12,6 @@ RSpec.describe "StaticPages", type: :request do
       expect(response).to have_http_status(:success)
     end
 
-    it '見出しが表示されること' do
-      get home_path
-      expect(response.body).to include("Main Menu")
-    end
-
     it 'タイトルが表示されること' do
       get home_path
       expect(response.body).to include('<title>Main Menu</title>')
