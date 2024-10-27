@@ -183,6 +183,10 @@ RSpec.describe "Users", type: :request do
       it 'users/indexページにリダイレクトされること' do
         delete user_path(@sample_user)
         expect(response).to redirect_to users_url
+      end
+
+      it 'フラッシュメッセージが表示されること' do
+        delete user_path(@sample_user)
         expect(flash[:success]).to eq('ユーザーの削除に成功しました!')
       end
     end
@@ -211,6 +215,10 @@ RSpec.describe "Users", type: :request do
       it "ログインページにリダイレクトされること" do
         delete user_path(@sample_user)
         expect(response).to redirect_to login_url
+      end
+
+      it "フラッシュメッセージが表示されること" do
+        delete user_path(@sample_user)
         expect(flash[:danger]).to eq('ログインしてください')
       end
     end
