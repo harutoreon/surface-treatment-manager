@@ -48,28 +48,38 @@ RSpec.describe "Users", type: :request do
     end
 
     context '有効なユーザー情報のとき' do
-      let(:user_params) { { user: { name: "sample user", department: "品質管理部", password: "password", password_confirmation: "password" } } }
+      before do
+        @valid_user_params = { user: { name: 'sample user',
+                                       department: '品質管理部',
+                                       password: 'password',
+                                       password_confirmation: 'password' } }
+      end
 
       it '登録が成功すること' do
-        expect{ post users_path, params: user_params }.to change{ User.count }.from(1).to(2)
+        expect{ post users_path, params: @valid_user_params }.to change{ User.count }.from(1).to(2)
       end
 
       it 'users/showページにリダイレクトすること' do
-        post users_path, params: user_params
+        post users_path, params: @valid_user_params
         new_user = User.last
         expect(response).to redirect_to new_user
       end
     end
 
     context '無効なユーザー情報のとき' do
-      let(:user_params) { { user: { name: "", department: "品質管理部", password: "password", password_confirmation: "password" } } }
+      before do
+        @invalid_user_params = { user: { name: '',
+                                         department: '品質管理部',
+                                         password: 'password',
+                                         password_confirmation: 'password' } }
+      end
 
       it '登録が失敗すること' do
-        expect{ post users_path, params: user_params }.to_not change{ User.count }.from(1)
+        expect{ post users_path, params: @invalid_user_params }.to_not change{ User.count }.from(1)
       end
 
       it 'users/newページが表示されること' do
-        post users_path, params: user_params
+        post users_path, params: @invalid_user_params
         expect(response.body).to include('ユーザー情報の登録')
       end
     end
