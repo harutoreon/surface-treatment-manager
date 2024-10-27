@@ -78,3 +78,18 @@ Rails:
 
 RSpec:
   Enabled: false
+
+RSpec/EmptyLineAfterExample:
+  Enabled: true
+  Include:
+    - 'spec/requests/users_spec.rb'
+
+RSpec/EmptyLineAfterHook:
+  Enabled: true
+  Include:
+    - 'spec/requests/users_spec.rb'
+
+RSpec/EmptyLineAfterExampleGroup:
+  Enabled: true
+  Include:
+    - 'spec/requests/users_spec.rb'
