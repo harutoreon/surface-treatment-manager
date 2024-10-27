@@ -100,7 +100,7 @@ RSpec.describe "Users", type: :request do
 
       it "ログインページにリダイレクトされること" do
         get edit_user_path(@user)
-        assert_redirected_to login_url
+        expect(response).to redirect_to login_url
       end
 
       it 'フラッシュメッセージが表示されること' do
@@ -155,7 +155,7 @@ RSpec.describe "Users", type: :request do
     context '未ログインの場合' do
       it "ログインページにリダイレクトされること" do
         patch user_path(@user), params: { user: { name: 'sample user' } }
-        assert_redirected_to login_url
+        expect(response).to redirect_to login_url
       end
 
       it 'フラッシュメッセージが表示されること' do
