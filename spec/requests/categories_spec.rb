@@ -6,6 +6,7 @@ RSpec.describe "Categories", type: :request do
       get categories_path
       expect(response).to have_http_status(:success)
     end
+
     it 'タイトルが表示されること' do
       get categories_path
       expect(response.body).to include('<title>カテゴリーリスト</title>')
@@ -23,6 +24,7 @@ RSpec.describe "Categories", type: :request do
       get category_path(@category)
       expect(response).to have_http_status(:success)
     end
+
     it 'タイトルが表示されること' do
       get category_path(@category)
       expect(response.body).to include('<title>カテゴリー情報</title>')
@@ -34,6 +36,7 @@ RSpec.describe "Categories", type: :request do
       get new_category_path
       expect(response).to have_http_status(:success)
     end
+
     it 'タイトルが表示されること' do
       get new_category_path
       expect(response.body).to include('<title>カテゴリー情報の登録</title>')
@@ -48,16 +51,19 @@ RSpec.describe "Categories", type: :request do
       it 'レコードが1件増加すること' do
         expect { post categories_path, params: valid_params }.to change{ Category.count }.from(0).to(1)
       end
+
       it 'categories#showにリダイレクトされること' do
         post categories_path, params: valid_params
         category = Category.last
         expect(response).to redirect_to(category)
       end
     end
+
     context '無効なパラメータの場合' do
       it 'レコード数が変わらないこと' do
         expect { post categories_path, params: invalid_params }.to_not change{ Category.count }.from(0)
       end
+
       it 'categories/newに遷移すること' do
         post categories_path, params: invalid_params
         expect(response.body).to include("カテゴリー情報の登録")
@@ -80,16 +86,19 @@ RSpec.describe "Categories", type: :request do
         get edit_category_path(@category)
         expect(response).to have_http_status(:success)
       end
+
       it 'タイトルが表示されること' do
         get edit_category_path(@category)
         expect(response.body).to include('<title>カテゴリー情報の編集</title>')
       end
     end
+
     context '未ログインの場合' do
       it "ログインページにリダイレクトされること" do
         get edit_category_path(@category)
         assert_redirected_to login_url
       end
+
       it 'フラッシュメッセージが表示されること' do
         get edit_category_path(@category)
         expect(flash[:danger]).to eq('ログインしてください')
@@ -114,18 +123,21 @@ RSpec.describe "Categories", type: :request do
           @category.reload
           expect(@category.item).to eq('陽極酸化')
         end
+
         it 'categories#showにリダイレクトされること' do
           patch category_path(@category), params: { category: { item: '陽極酸化' } }
           @category.reload
           expect(response).to redirect_to(@category)
         end
       end
+
       context '無効なパラメータの場合' do
         it '更新が失敗すること' do
           patch category_path(@category), params: { category: { item: '' } }
           @category.reload
           expect(@category.item).to eq('めっき')
         end
+
         it 'categories#editに遷移されること' do
           patch category_path(@category), params: { category: { item: '' } }
           @category.reload
@@ -133,11 +145,13 @@ RSpec.describe "Categories", type: :request do
         end
       end
     end
+
     context '未ログインの場合' do
       it "ログインページにリダイレクトされること" do
         patch category_path(@category), params: { category: { item: '陽極酸化' } }
         assert_redirected_to login_url
       end
+
       it 'フラッシュメッセージが表示されること' do
         patch category_path(@category), params: { category: { item: '陽極酸化' } }
         expect(flash[:danger]).to eq('ログインしてください')
@@ -159,12 +173,14 @@ RSpec.describe "Categories", type: :request do
       it '削除に成功すること' do
         expect { delete category_path(@category) }.to change{ Category.count }.from(1).to(0)
       end
+
       it 'categories#indexページにリダイレクトされること' do
         delete category_path(@category)
         expect(response).to redirect_to(categories_url)
         expect(flash[:success]).to eq('カテゴリーの削除に成功しました!')
       end
     end
+
     context '一般ユーザーでログインした場合' do
       before do
         general_user = FactoryBot.create(:general_user)
@@ -176,6 +192,7 @@ RSpec.describe "Categories", type: :request do
         expect(response).to redirect_to(login_url)
       end
     end
+
     context '未ログインの場合' do
       it "ログインページにリダイレクトされること" do
         delete category_path(@category)
