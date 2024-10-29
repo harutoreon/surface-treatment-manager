@@ -96,7 +96,7 @@ RSpec.describe "Categories", type: :request do
     context '未ログインの場合' do
       it "ログインページにリダイレクトされること" do
         get edit_category_path(@category)
-        assert_redirected_to login_url
+        expect(response).to redirect_to login_url
       end
 
       it 'フラッシュメッセージが表示されること' do
@@ -149,7 +149,7 @@ RSpec.describe "Categories", type: :request do
     context '未ログインの場合' do
       it "ログインページにリダイレクトされること" do
         patch category_path(@category), params: { category: { item: '陽極酸化' } }
-        assert_redirected_to login_url
+        expect(response).to redirect_to login_url
       end
 
       it 'フラッシュメッセージが表示されること' do
