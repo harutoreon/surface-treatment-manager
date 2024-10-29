@@ -177,6 +177,10 @@ RSpec.describe "Categories", type: :request do
       it 'categories#indexページにリダイレクトされること' do
         delete category_path(@category)
         expect(response).to redirect_to(categories_url)
+      end
+
+      it 'フラッシュメッセージが表示されること' do
+        delete category_path(@category)
         expect(flash[:success]).to eq('カテゴリーの削除に成功しました!')
       end
     end
@@ -197,6 +201,10 @@ RSpec.describe "Categories", type: :request do
       it "ログインページにリダイレクトされること" do
         delete category_path(@category)
         expect(response).to redirect_to(login_url)
+      end
+
+      it "フラッシュメッセージが表示されること" do
+        delete category_path(@category)
         expect(flash[:danger]).to eq('ログインしてください')
       end
     end
