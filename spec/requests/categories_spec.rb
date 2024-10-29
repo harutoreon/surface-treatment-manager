@@ -44,28 +44,35 @@ RSpec.describe "Categories", type: :request do
   end
 
   describe '#create' do
-    let(:valid_params)   { { category: { item: 'コーティング', summary: '溶射金属やセラミックスなどの粉末を、溶解状態にして製品表面に吹き付ける処理のこと。' } } }
-    let(:invalid_params) { { category: { item: "", summary: '溶射金属やセラミックスなどの粉末を、溶解状態にして製品表面に吹き付ける処理のこと。' } } }
-
     context '有効なパラメータの場合' do
+      before do
+        @valid_category_params = { category: { item: 'コーティング',
+                                               summary: '溶射金属やセラミックスなどの粉末を、溶解状態にして製品表面に吹き付ける処理のこと。' } }
+      end
+
       it 'レコードが1件増加すること' do
-        expect { post categories_path, params: valid_params }.to change{ Category.count }.from(0).to(1)
+        expect { post categories_path, params: @valid_category_params }.to change{ Category.count }.from(0).to(1)
       end
 
       it 'categories#showにリダイレクトされること' do
-        post categories_path, params: valid_params
+        post categories_path, params: @valid_category_params
         category = Category.last
         expect(response).to redirect_to(category)
       end
     end
 
     context '無効なパラメータの場合' do
+      before do
+        @invalid_category_params = { category: { item: "",
+                                                 summary: '溶射金属やセラミックスなどの粉末を、溶解状態にして製品表面に吹き付ける処理のこと。' } }
+      end
+
       it 'レコード数が変わらないこと' do
-        expect { post categories_path, params: invalid_params }.to_not change{ Category.count }.from(0)
+        expect { post categories_path, params: @invalid_category_params }.to_not change{ Category.count }.from(0)
       end
 
       it 'categories/newに遷移すること' do
-        post categories_path, params: invalid_params
+        post categories_path, params: @invalid_category_params
         expect(response.body).to include("カテゴリー情報の登録")
       end
     end
