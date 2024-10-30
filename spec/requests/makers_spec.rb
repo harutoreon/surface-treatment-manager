@@ -197,6 +197,10 @@ RSpec.describe "Makers", type: :request do
       it 'makers/indexページににリダイレクトすること' do
         delete maker_path(@maker)
         expect(response).to redirect_to(makers_url)
+      end
+
+      it 'フラッシュメッセージが表示されること' do
+        delete maker_path(@maker)
         expect(flash[:success]).to eq('メーカーの削除に成功しました!')
       end
     end
@@ -217,6 +221,10 @@ RSpec.describe "Makers", type: :request do
       it "ログインページにリダイレクトされること" do
         delete maker_path(@maker)
         expect(response).to redirect_to(login_url)
+      end
+
+      it "フラッシュメッセージが表示されること" do
+        delete maker_path(@maker)
         expect(flash[:danger]).to eq('ログインしてください')
       end
     end
