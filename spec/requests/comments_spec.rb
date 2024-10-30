@@ -17,18 +17,21 @@ RSpec.describe "Comments", type: :request do
       it '登録が成功すること' do
         expect { post sample_comments_path(@sample), params: valid_params }.to change{ Comment.count }.from(0).to(1)
       end
+
       it 'samples/showページにリダイレクトされること' do
         post sample_comments_path(@sample), params: valid_params
         expect(response).to redirect_to(@sample)
         expect(flash['success']).to eq('コメントを1件追加しました。')
       end
     end
+
     context '無効な値の場合' do
       let(:invalid_params) { { comment: { commenter: '', body: 'sample comment.' } } }
 
       it '登録に失敗すること' do
         expect { post sample_comments_path(@sample), params: invalid_params }.to_not change{ Comment.count }.from(0)
       end
+
       it 'samples/showページを再表示すること' do
         post sample_comments_path(@sample), params: invalid_params
         expect(response.body).to include('表面処理情報')
@@ -51,11 +54,13 @@ RSpec.describe "Comments", type: :request do
       it 'レコード数が減少すること' do
         expect { delete sample_comment_path(@sample, @comment) }.to change{ Comment.count }.from(1).to(0)
       end
+
       it 'samples/showにリダイレクトすること' do
         delete sample_comment_path(@sample, @comment)
         expect(response).to redirect_to(@sample)
       end
     end
+
     context '未ログインの場合' do
       it "ログインページにリダイレクトされること" do
         delete sample_comment_path(@sample, @comment)
