@@ -45,42 +45,46 @@ RSpec.describe "Makers", type: :request do
 
   describe '#create' do
     context '有効なパラメータの場合' do
-      let(:valid_params) { { maker: { name: '松本情報合名会社',
-                                      postal_code: '859-1105',
-                                      address: '東京都渋谷区神南1-2-3',
-                                      phone_number: '075-4747-2450',
-                                      fax_number: '075-4747-2451',
-                                      email: 'sample_maker@example.com',
-                                      home_page: 'https://example.com/',
-                                      manufacturer_rep: '池田 彩花' } } }
+      before do
+        @valid_maker_params = { maker: { name: '松本情報合名会社',
+                                         postal_code: '859-1105',
+                                         address: '東京都渋谷区神南1-2-3',
+                                         phone_number: '075-4747-2450',
+                                         fax_number: '075-4747-2451',
+                                         email: 'sample_maker@example.com',
+                                         home_page: 'https://example.com/',
+                                         manufacturer_rep: '池田 彩花' } }
+      end
 
       it '登録が成功すること' do
-        expect { post makers_path, params: valid_params }.to change{ Maker.count }.from(0).to(1)
+        expect { post makers_path, params: @valid_maker_params }.to change{ Maker.count }.from(0).to(1)
       end
 
       it 'makers/showにリダイレクトすること' do
-        post makers_path, params: valid_params
+        post makers_path, params: @valid_maker_params
         maker = Maker.last
         expect(response).to redirect_to(maker)
       end
     end
 
     context '無効なパラメータの場合' do
-      let(:invalid_params) { { maker: { name: '',
-                                        postal_code: '859-1105',
-                                        address: '東京都渋谷区神南1-2-3',
-                                        phone_number: '075-4747-2450',
-                                        fax_number: '075-4747-2451',
-                                        email: 'sample_maker@example.com',
-                                        home_page: 'https://example.com/',
-                                        manufacturer_rep: '池田 彩花' } } }
+      before do
+        @invalid_maker_params = { maker: { name: '',
+                                           postal_code: '859-1105',
+                                           address: '東京都渋谷区神南1-2-3',
+                                           phone_number: '075-4747-2450',
+                                           fax_number: '075-4747-2451',
+                                           email: 'sample_maker@example.com',
+                                           home_page: 'https://example.com/',
+                                           manufacturer_rep: '池田 彩花' } }
+      end
 
       it '登録が失敗すること' do
-        expect { post makers_path, params: invalid_params }.to_not change{ Maker.count }.from(0)
+        expect { post makers_path, params: @invalid_maker_params }.to_not change{ Maker.count }.from(0)
       end
 
       it 'makers/newが再描画されること' do
-        post makers_path, params: invalid_params
+        post makers_path, params: @invalid_maker_params
         expect(response.body).to include("<title>メーカー情報の登録</title>")
       end
     end
