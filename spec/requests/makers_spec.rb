@@ -111,7 +111,7 @@ RSpec.describe "Makers", type: :request do
     context '未ログインの場合' do
       it "ログインページにリダイレクトされること" do
         get edit_maker_path(@maker)
-        assert_redirected_to login_url
+        expect(response).to redirect_to login_url
       end
 
       it 'フラッシュメッセージが表示されること' do
@@ -169,7 +169,7 @@ RSpec.describe "Makers", type: :request do
     context '未ログインの場合' do
       it "ログインページにリダイレクトされること" do
         patch maker_path(@maker), params: { maker: { name: 'sample user' } }
-        assert_redirected_to login_url
+        expect(response).to redirect_to login_url
       end
 
       it 'フラッシュメッセージが表示されること' do
