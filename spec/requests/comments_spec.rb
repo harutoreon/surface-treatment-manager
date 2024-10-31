@@ -23,6 +23,10 @@ RSpec.describe "Comments", type: :request do
       it 'samples/showページにリダイレクトされること' do
         post sample_comments_path(@sample), params: @valid_comment_params
         expect(response).to redirect_to(@sample)
+      end
+
+      it 'フラッシュメッセージが表示されること' do
+        post sample_comments_path(@sample), params: @valid_comment_params
         expect(flash['success']).to eq('コメントを1件追加しました。')
       end
     end
@@ -39,6 +43,10 @@ RSpec.describe "Comments", type: :request do
       it 'samples/showページを再表示すること' do
         post sample_comments_path(@sample), params: @invalid_comment_params
         expect(response.body).to include('表面処理情報')
+      end
+
+      it 'フラッシュメッセージが表示されること' do
+        post sample_comments_path(@sample), params: @invalid_comment_params
         expect(flash['danger']).to eq('コメントの投稿者またはコメントが無効です。')
       end
     end
