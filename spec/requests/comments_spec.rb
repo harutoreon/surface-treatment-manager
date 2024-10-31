@@ -57,7 +57,7 @@ RSpec.describe "Comments", type: :request do
       @comment = @sample.comments.create(commenter: 'sample user', body: 'sample comment.')
     end
 
-    context 'ログイン済みの場合' do
+    context '管理者ユーザーでログインした場合' do
       before do
         admin_user = FactoryBot.create(:admin_user)
         log_in(admin_user)
@@ -73,10 +73,30 @@ RSpec.describe "Comments", type: :request do
       end
     end
 
+    context '一般ユーザーでログインした場合' do
+      before do
+        general_user = FactoryBot.create(:general_user)
+        log_in(general_user)
+      end
+
+      it 'レコード数が変わらないこと' do
+        expect { delete sample_comment_path(@sample, @comment) }.to_not change{ Comment.count }.from(1)
+      end
+
+      it "ログインページにリダイレクトされること" do
+        delete sample_comment_path(@sample, @comment)
+        expect(response).to redirect_to(login_url)
+      end
+    end
+
     context '未ログインの場合' do
       it "ログインページにリダイレクトされること" do
         delete sample_comment_path(@sample, @comment)
         expect(response).to redirect_to(login_url)
+      end
+
+      it "フラッシュメッセージが表示されること" do
+        delete sample_comment_path(@sample, @comment)
         expect(flash[:danger]).to eq('ログインしてください')
       end
     end
