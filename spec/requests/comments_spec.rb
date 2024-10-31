@@ -12,28 +12,32 @@ RSpec.describe "Comments", type: :request do
     end
 
     context '有効な値の場合' do
-      let(:valid_params) { { comment: { commenter: 'sample user', body: 'sample comment.' } } }
+      before do
+        @valid_comment_params = { comment: { commenter: 'sample user', body: 'sample comment.' } }
+      end
 
       it '登録が成功すること' do
-        expect { post sample_comments_path(@sample), params: valid_params }.to change{ Comment.count }.from(0).to(1)
+        expect { post sample_comments_path(@sample), params: @valid_comment_params }.to change{ Comment.count }.from(0).to(1)
       end
 
       it 'samples/showページにリダイレクトされること' do
-        post sample_comments_path(@sample), params: valid_params
+        post sample_comments_path(@sample), params: @valid_comment_params
         expect(response).to redirect_to(@sample)
         expect(flash['success']).to eq('コメントを1件追加しました。')
       end
     end
 
     context '無効な値の場合' do
-      let(:invalid_params) { { comment: { commenter: '', body: 'sample comment.' } } }
+      before do
+        @invalid_comment_params = { comment: { commenter: '', body: 'sample comment.' } }
+      end
 
       it '登録に失敗すること' do
-        expect { post sample_comments_path(@sample), params: invalid_params }.to_not change{ Comment.count }.from(0)
+        expect { post sample_comments_path(@sample), params: @invalid_comment_params }.to_not change{ Comment.count }.from(0)
       end
 
       it 'samples/showページを再表示すること' do
-        post sample_comments_path(@sample), params: invalid_params
+        post sample_comments_path(@sample), params: @invalid_comment_params
         expect(response.body).to include('表面処理情報')
         expect(flash['danger']).to eq('コメントの投稿者またはコメントが無効です。')
       end
