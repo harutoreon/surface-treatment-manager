@@ -85,6 +85,7 @@ RSpec/EmptyLineAfterExample:
     - 'spec/requests/users_spec.rb'
     - 'spec/requests/categories_spec.rb'
     - 'spec/requests/makers_spec.rb'
+    - 'spec/requests/comments_spec.rb'
 
 RSpec/EmptyLineAfterHook:
   Enabled: true
@@ -92,6 +93,7 @@ RSpec/EmptyLineAfterHook:
     - 'spec/requests/users_spec.rb'
     - 'spec/requests/categories_spec.rb'
     - 'spec/requests/makers_spec.rb'
+    - 'spec/requests/comments_spec.rb'
 
 RSpec/EmptyLineAfterExampleGroup:
   Enabled: true
@@ -99,3 +101,4 @@ RSpec/EmptyLineAfterExampleGroup:
     - 'spec/requests/users_spec.rb'
     - 'spec/requests/categories_spec.rb'
     - 'spec/requests/makers_spec.rb'
+    - 'spec/requests/comments_spec.rb'

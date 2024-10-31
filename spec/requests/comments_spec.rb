@@ -12,26 +12,41 @@ RSpec.describe "Comments", type: :request do
     end
 
     context '有効な値の場合' do
-      let(:valid_params) { { comment: { commenter: 'sample user', body: 'sample comment.' } } }
+      before do
+        @valid_comment_params = { comment: { commenter: 'sample user', body: 'sample comment.' } }
+      end
 
       it '登録が成功すること' do
-        expect { post sample_comments_path(@sample), params: valid_params }.to change{ Comment.count }.from(0).to(1)
+        expect { post sample_comments_path(@sample), params: @valid_comment_params }.to change{ Comment.count }.from(0).to(1)
       end
+
       it 'samples/showページにリダイレクトされること' do
-        post sample_comments_path(@sample), params: valid_params
+        post sample_comments_path(@sample), params: @valid_comment_params
         expect(response).to redirect_to(@sample)
+      end
+
+      it 'フラッシュメッセージが表示されること' do
+        post sample_comments_path(@sample), params: @valid_comment_params
         expect(flash['success']).to eq('コメントを1件追加しました。')
       end
     end
+
     context '無効な値の場合' do
-      let(:invalid_params) { { comment: { commenter: '', body: 'sample comment.' } } }
+      before do
+        @invalid_comment_params = { comment: { commenter: '', body: 'sample comment.' } }
+      end
 
       it '登録に失敗すること' do
-        expect { post sample_comments_path(@sample), params: invalid_params }.to_not change{ Comment.count }.from(0)
+        expect { post sample_comments_path(@sample), params: @invalid_comment_params }.to_not change{ Comment.count }.from(0)
       end
+
       it 'samples/showページを再表示すること' do
-        post sample_comments_path(@sample), params: invalid_params
+        post sample_comments_path(@sample), params: @invalid_comment_params
         expect(response.body).to include('表面処理情報')
+      end
+
+      it 'フラッシュメッセージが表示されること' do
+        post sample_comments_path(@sample), params: @invalid_comment_params
         expect(flash['danger']).to eq('コメントの投稿者またはコメントが無効です。')
       end
     end
@@ -42,7 +57,7 @@ RSpec.describe "Comments", type: :request do
       @comment = @sample.comments.create(commenter: 'sample user', body: 'sample comment.')
     end
 
-    context 'ログイン済みの場合' do
+    context '管理者ユーザーでログインした場合' do
       before do
         admin_user = FactoryBot.create(:admin_user)
         log_in(admin_user)
@@ -51,15 +66,37 @@ RSpec.describe "Comments", type: :request do
       it 'レコード数が減少すること' do
         expect { delete sample_comment_path(@sample, @comment) }.to change{ Comment.count }.from(1).to(0)
       end
+
       it 'samples/showにリダイレクトすること' do
         delete sample_comment_path(@sample, @comment)
         expect(response).to redirect_to(@sample)
       end
     end
+
+    context '一般ユーザーでログインした場合' do
+      before do
+        general_user = FactoryBot.create(:general_user)
+        log_in(general_user)
+      end
+
+      it 'レコード数が変わらないこと' do
+        expect { delete sample_comment_path(@sample, @comment) }.to_not change{ Comment.count }.from(1)
+      end
+
+      it "ログインページにリダイレクトされること" do
+        delete sample_comment_path(@sample, @comment)
+        expect(response).to redirect_to(login_url)
+      end
+    end
+
     context '未ログインの場合' do
       it "ログインページにリダイレクトされること" do
         delete sample_comment_path(@sample, @comment)
         expect(response).to redirect_to(login_url)
+      end
+
+      it "フラッシュメッセージが表示されること" do
+        delete sample_comment_path(@sample, @comment)
         expect(flash[:danger]).to eq('ログインしてください')
       end
     end
