@@ -111,7 +111,7 @@ RSpec.describe "Samples", type: :request do
     context '未ログインの場合' do
       it "ログインページにリダイレクトされること" do
         get edit_sample_path(@sample)
-        assert_redirected_to login_url
+        expect(response).to redirect_to login_url
       end
 
       it 'フラッシュメッセージが表示されること' do
@@ -163,7 +163,7 @@ RSpec.describe "Samples", type: :request do
     context '未ログインの場合' do
       it "ログインページにリダイレクトされること" do
         patch sample_path(@sample), params: { sample: { name: "ハードクロムめっき" } }
-        assert_redirected_to login_url
+        expect(response).to redirect_to login_url
       end
 
       it 'フラッシュメッセージが表示されること' do
@@ -215,7 +215,7 @@ RSpec.describe "Samples", type: :request do
     context '未ログインの場合' do
       it "ログインページにリダイレクトされること" do
         delete sample_path(@sample)
-        assert_redirected_to login_url
+        expect(response).to redirect_to login_url
         expect(flash[:danger]).to eq('ログインしてください')
       end
     end
