@@ -196,6 +196,10 @@ RSpec.describe "Samples", type: :request do
       it 'samples/indexページにリダイレクトされること' do
         delete sample_path(@sample)
         expect(response).to redirect_to(samples_url)
+      end
+
+      it 'フラッシュメッセージが表示されること' do
+        delete sample_path(@sample)
         expect(flash[:success]).to eq('表面処理の削除に成功しました!')
       end
     end
@@ -216,6 +220,10 @@ RSpec.describe "Samples", type: :request do
       it "ログインページにリダイレクトされること" do
         delete sample_path(@sample)
         expect(response).to redirect_to login_url
+      end
+
+      it "フラッシュメッセージが表示されること" do
+        delete sample_path(@sample)
         expect(flash[:danger]).to eq('ログインしてください')
       end
     end
