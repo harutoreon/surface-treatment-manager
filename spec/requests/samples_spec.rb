@@ -44,43 +44,47 @@ RSpec.describe "Samples", type: :request do
   end
 
   describe '#create' do
-    let(:valid_params) { { sample: { name: "銅めっき",
-                                     category: "表面硬化",
-                                     color: "マゼンタ",
-                                     maker: "有限会社松本農林",
-                                     picture: Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')),
-                                     hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
-                                     film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
-                                     feature: '耐食性・耐摩耗性・耐薬品性・耐熱性' } } }
-
-    let(:invalid_params) { { sample: { name: "",
-                                       category: "表面硬化",
-                                       color: "マゼンタ",
-                                       maker: "有限会社松本農林",
-                                       picture: Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')),
-                                       hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
-                                       film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
-                                       feature: '耐食性・耐摩耗性・耐薬品性・耐熱性' } } }
-
     context '有効なパラメータの場合' do
+      before do
+        @valid_sample_params = { sample: { name: "銅めっき",
+                                           category: "表面硬化",
+                                           color: "マゼンタ",
+                                           maker: "有限会社松本農林",
+                                           picture: Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')),
+                                           hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+                                           film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+                                           feature: '耐食性・耐摩耗性・耐薬品性・耐熱性' } }
+      end
+
       it '登録が成功すること' do
-        expect { post samples_path, params: valid_params }.to change{ Sample.count }.from(0).to(1)
+        expect { post samples_path, params: @valid_sample_params }.to change{ Sample.count }.from(0).to(1)
       end
 
       it 'samples/showにリダイレクトされること' do
-        post samples_path, params: valid_params
+        post samples_path, params: @valid_sample_params
         sample = Sample.last
         expect(response).to redirect_to(sample)
       end
     end
 
     context '無効なパラメータの場合' do
+      before do
+        @invalid_sample_params = { sample: { name: "",
+                                             category: "表面硬化",
+                                             color: "マゼンタ",
+                                             maker: "有限会社松本農林",
+                                             picture: Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')),
+                                             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+                                             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+                                             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性' } }
+      end
+
       it '登録が失敗すること' do
-        expect { post samples_path, params: invalid_params }.to_not change{ Sample.count }.from(0)
+        expect { post samples_path, params: @invalid_sample_params }.to_not change{ Sample.count }.from(0)
       end
 
       it 'samples/newが再描画されること' do
-        post samples_path, params: invalid_params
+        post samples_path, params: @invalid_sample_params
         expect(response.body).to include("表面処理情報の登録")
       end
     end
