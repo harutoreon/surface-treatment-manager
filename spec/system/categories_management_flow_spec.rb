@@ -73,6 +73,26 @@ RSpec.describe "CategoriesManagementFlow", type: :system do
     end
   end
 
+  describe '#edit' do
+    before do
+      user = FactoryBot.create(:user)
+      log_in(user)
+
+      @category = FactoryBot.create(:category)
+    end
+
+    it 'カテゴリー名と概要のテキストフィールドが存在すること' do
+      visit edit_category_path(@category)
+      expect(page).to have_selector('input[type="text"][value="めっき"]')
+      expect(page).to have_selector('input[type="text"][value="金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。"]')
+    end
+
+    it '更新ボタンが存在すること' do
+      visit edit_category_path(@category)
+      expect(page).to have_selector('input[type="submit"][value="更新"]')
+    end
+  end
+
   describe '#update' do
     before do
       @category = FactoryBot.create(:category)
