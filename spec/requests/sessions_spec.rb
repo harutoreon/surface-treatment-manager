@@ -14,11 +14,22 @@ RSpec.describe "Sessions", type: :request do
   end
 
   describe '#destroy' do
-    it 'ログアウトできること' do
+    before do
       user = FactoryBot.create(:user)
-      post login_path, params: { session: { name: user.name, password: user.password } }
-      expect(logged_in?).to be_truthy
+      log_in(user)
+    end
 
+    it 'ステータスコード303が返ること' do
+      delete logout_path
+      expect(response).to have_http_status(:see_other)
+    end
+
+    it 'ログイン画面にリダイレクトされること' do
+      delete logout_path
+      expect(response).to redirect_to login_url
+    end
+
+    it '@current_userが空であること' do
       delete logout_path
       expect(logged_in?).to_not be_truthy
     end
