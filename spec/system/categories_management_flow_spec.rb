@@ -1,6 +1,27 @@
 require 'rails_helper'
 
 RSpec.describe "CategoriesManagementFlow", type: :system do
+  describe '#index' do
+    before do
+      Category.create([
+        { item: 'めっき', summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。' },
+        { item: '陽極酸化', summary: '人工的にアルミニウム表面に分厚い酸化アルミニウム被膜を作る処理のこと。' },
+        { item: '化成', summary: '金属の表面に処理剤を作用させて化学反応を起こさせる処理のこと。' },
+        { item: 'コーティング', summary: '溶射金属やセラミックスの粉末を、溶解状態にして製品表面に吹き付ける処理のこと。' },
+        { item: '表面硬化', summary: '主に金属材料に対して行われる、加熱・冷却・雰囲気により材料の性質を変化させる処理のこと。' }
+      ])
+    end
+
+    it '各カテゴリー情報へのリンクが表示されること' do
+      visit categories_path
+      expect(page).to have_link(href: category_path(Category.find_by(item: 'めっき')))
+      expect(page).to have_link(href: category_path(Category.find_by(item: '陽極酸化')))
+      expect(page).to have_link(href: category_path(Category.find_by(item: '化成')))
+      expect(page).to have_link(href: category_path(Category.find_by(item: 'コーティング')))
+      expect(page).to have_link(href: category_path(Category.find_by(item: '表面硬化')))
+    end
+  end
+
   describe '#show' do
     before do
       @category = FactoryBot.create(:category)
