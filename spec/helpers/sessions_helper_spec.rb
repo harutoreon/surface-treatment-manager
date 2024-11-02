@@ -12,6 +12,7 @@ RSpec.describe SessionsHelper, type: :helper do
         expect(session[:user_id]).to eq(@user.id)
       end
     end
+
     context '無効な値の場合' do
       before do
         @other = FactoryBot.build(:user, name: 'Alice')
@@ -36,6 +37,7 @@ RSpec.describe SessionsHelper, type: :helper do
         expect(current_user?(@logged_in_user)).to eq(true)
       end
     end
+
     context '無効な値の場合' do
       it 'falseが返ること' do
         expect(current_user?(@not_logged_in_user)).to eq(false)
@@ -54,6 +56,7 @@ RSpec.describe SessionsHelper, type: :helper do
         expect(current_user).to eq(@user)
       end
     end
+
     context '未ログインの場合' do
       it 'nilが返ること' do
         expect(current_user).to be_nil
@@ -72,6 +75,7 @@ RSpec.describe SessionsHelper, type: :helper do
         expect(logged_in?).to eq(true)
       end
     end
+
     context '未ログインの場合' do
       it 'falseが返ること' do
         expect(logged_in?).to eq(false)
@@ -89,6 +93,7 @@ RSpec.describe SessionsHelper, type: :helper do
     it 'セッションのuser_idがnilであること' do
       expect(session[:user_id]).to be_nil
     end
+
     it '@current_userがnilであること' do
       expect(instance_variable_get(:@current_user)).to be_nil
     end
