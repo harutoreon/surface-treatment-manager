@@ -13,6 +13,7 @@ RSpec.describe 'HeaderClickEvents', type: :system do
       expect(page).to have_selector('h3', text: 'メインメニュー')
     end
   end
+
   context 'ユーザーがログインしていない場合' do
     it 'は、ログインを要求すること' do
       visit root_path
