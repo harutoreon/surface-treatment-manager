@@ -82,17 +82,17 @@ RSpec:
 RSpec/EmptyLineAfterExample:
   Enabled: true
   Exclude:
-    - 'spec/helpers/*'
+    - 'spec/helpers/sessions_helper_spec.rb'
     - 'spec/system/*'
 
 RSpec/EmptyLineAfterHook:
   Enabled: true
   Exclude:
-    - 'spec/helpers/*'
+    - 'spec/helpers/sessions_helper_spec.rb'
     - 'spec/system/*'
 
 RSpec/EmptyLineAfterExampleGroup:
   Enabled: true
   Exclude:
-    - 'spec/helpers/*'
+    - 'spec/helpers/sessions_helper_spec.rb'
     - 'spec/system/*'
