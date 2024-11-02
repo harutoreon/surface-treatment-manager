@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "SamplesSearchFlow", type: :system do
   before do
-    FactoryBot.create_list(:anodised_aluminium, 8)  # 「8」はページネーションのリミット値
+    FactoryBot.create_list(:anodised_aluminium, 10)  # ページネーションのリミット値が 8 のため 10 とする
   end
 
   describe '#name_search' do
