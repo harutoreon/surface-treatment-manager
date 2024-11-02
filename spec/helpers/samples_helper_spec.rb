@@ -11,7 +11,7 @@ RSpec.describe SamplesHelper, type: :helper do
     end
 
     it '登録されたカテゴリが返ること' do
-      expect(Category.pluck(:item)).to contain_exactly('めっき', '陽極酸化', '化成', 'コーティング', '表面硬化')
+      expect(helper.select_word).to contain_exactly('めっき', '陽極酸化', '化成', 'コーティング', '表面硬化')
     end
   end
 end
