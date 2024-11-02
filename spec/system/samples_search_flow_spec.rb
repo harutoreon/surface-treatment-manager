@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "SamplesSearchFlow", type: :system do
   before do
-    FactoryBot.create_list(:anodised_aluminium, 8)  # 「8」はページネーションのリミット値
+    FactoryBot.create_list(:anodised_aluminium, 10)  # ページネーションのリミット値が 8 のため 10 とする
   end
 
   describe '#name_search' do
@@ -15,6 +15,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         expect(page).to have_link('白アルマイト', count: 8)
       end
     end
+
     context '無効な値の場合' do
       it '検索対象が見つからないこと' do
         visit category_name_path
@@ -36,6 +37,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         expect(page).to have_link('白アルマイト', count: 8)
       end
     end
+
     context '無効な値の場合' do
       it '検索対象が見つからないこと' do
         visit category_category_path
@@ -57,6 +59,7 @@ RSpec.describe "SamplesSearchFlow", type: :system do
         expect(page).to have_link('白アルマイト', count: 8)
       end
     end
+
     context '無効な値の場合' do
       it '検索対象が見つからないこと' do
         visit category_maker_path
