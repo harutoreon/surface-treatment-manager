@@ -31,6 +31,19 @@ RSpec.describe "CategoriesManagementFlow", type: :system do
     end
   end
 
+  describe '#new' do
+    it 'カテゴリー名と概要のテキストフィールドが存在すること' do
+      visit new_category_path
+      expect(page).to have_selector('input', id: 'category_item')
+      expect(page).to have_selector('input', id: 'category_summary')
+    end
+
+    it '登録ボタンが存在すること' do
+      visit new_category_path
+      expect(page).to have_selector('input[type="submit"][value="登録"]')
+    end
+  end
+
   describe '#create' do
     before do
       general_user = FactoryBot.create(:general_user)
