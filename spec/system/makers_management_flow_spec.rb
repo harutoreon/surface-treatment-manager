@@ -30,6 +30,25 @@ RSpec.describe "MakersManagementFlow", type: :system do
     end
   end
 
+  describe '#new' do
+    it 'テキストフィールドが存在すること' do
+      visit new_maker_path
+      expect(page).to have_selector('input', id: 'maker_name')
+      expect(page).to have_selector('input', id: 'maker_postal_code')
+      expect(page).to have_selector('input', id: 'maker_address')
+      expect(page).to have_selector('input', id: 'maker_phone_number')
+      expect(page).to have_selector('input', id: 'maker_fax_number')
+      expect(page).to have_selector('input', id: 'maker_email')
+      expect(page).to have_selector('input', id: 'maker_home_page')
+      expect(page).to have_selector('input', id: 'maker_manufacturer_rep')
+    end
+
+    it '登録ボタンが存在すること' do
+      visit new_maker_path
+      expect(page).to have_selector('input[type="submit"][value="登録"]')
+    end
+  end
+
   describe '#create' do
     before do
       general_user = FactoryBot.create(:general_user)
