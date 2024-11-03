@@ -45,6 +45,29 @@ RSpec.describe "UsersManagementFlow", type: :system do
     end
   end
 
+  describe '#new' do
+    it 'テキストフィールドが表示されること' do
+      visit new_user_path
+      expect(page).to have_selector('input', id: 'user_name')
+    end
+
+    it 'セレクトフィールドが表示されること' do
+      visit new_user_path
+      expect(page).to have_selector('select', id: 'user_department')
+    end
+
+    it 'パスワードとパスワード確認のフィールドが表示されること' do
+      visit new_user_path
+      expect(page).to have_selector('input', id: 'user_password')
+      expect(page).to have_selector('input', id: 'user_password_confirmation')
+    end
+
+    it '登録ボタンが表示されること' do
+      visit new_user_path
+      expect(page).to have_selector('input[type="submit"][value="登録"]')
+    end
+  end
+
   describe '#create' do
     before do
       general_user = FactoryBot.create(:general_user)
