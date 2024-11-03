@@ -82,7 +82,7 @@ RSpec:
 RSpec/EmptyLineAfterExample:
   Enabled: true
   Exclude:
-    - 'spec/system/categories_management_flow_spec.rb'
+    # - 'spec/system/categories_management_flow_spec.rb'
     - 'spec/system/comments_management_flow_spec.rb'
     # - 'spec/system/header_click_events_spec.rb'
     - 'spec/system/links_button_flow_spec.rb'
@@ -98,7 +98,7 @@ RSpec/EmptyLineAfterExample:
 RSpec/EmptyLineAfterHook:
   Enabled: true
   Exclude:
-    - 'spec/system/categories_management_flow_spec.rb'
+    # - 'spec/system/categories_management_flow_spec.rb'
     - 'spec/system/comments_management_flow_spec.rb'
     # - 'spec/system/header_click_events_spec.rb'
     - 'spec/system/links_button_flow_spec.rb'
@@ -114,7 +114,7 @@ RSpec/EmptyLineAfterHook:
 RSpec/EmptyLineAfterExampleGroup:
   Enabled: true
   Exclude:
-    - 'spec/system/categories_management_flow_spec.rb'
+    # - 'spec/system/categories_management_flow_spec.rb'
     - 'spec/system/comments_management_flow_spec.rb'
     # - 'spec/system/header_click_events_spec.rb'
     - 'spec/system/links_button_flow_spec.rb'
