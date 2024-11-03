@@ -17,6 +17,7 @@ RSpec.describe "SamplesManagementFlow", type: :system do
         expect(page).to have_link('削除', count: 1)
       end
     end
+
     context '一般ユーザーでログインした場合' do
       before do
         general_user = FactoryBot.create(:general_user)
@@ -53,6 +54,7 @@ RSpec.describe "SamplesManagementFlow", type: :system do
         expect(page).to have_selector('h3',  text: '表面処理情報')
       end
     end
+
     context '無効な値を入力した場合' do
       it '登録が失敗すること' do
         visit new_sample_path
@@ -91,6 +93,7 @@ RSpec.describe "SamplesManagementFlow", type: :system do
           expect(page).to have_selector('h3',  text: '表面処理情報')
         end
       end
+
       context '無効な値を入力した場合' do
         it '更新できないこと' do
           visit edit_sample_path(@sample)
@@ -101,6 +104,7 @@ RSpec.describe "SamplesManagementFlow", type: :system do
         end
       end
     end
+
     context '未ログインの場合' do
       it 'ログインページにリダイレクトされること' do
         visit edit_sample_path(@sample)
