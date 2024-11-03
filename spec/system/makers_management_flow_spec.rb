@@ -1,6 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe "MakersManagementFlow", type: :system do
+  describe '#index' do
+    before do
+      FactoryBot.create_list(:maker_list, 9)
+    end
+
+    it '/makers/を含むリンクが8件表示されること' do
+      visit makers_path
+      expect(page).to have_link(href: %r{/makers/\d}, count: 8)
+    end
+  end
+
   describe '#show' do
     before do
       @maker = FactoryBot.create(:maker)
@@ -17,6 +28,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
         expect(page).to have_link('削除', count: 1)
       end
     end
+
     context '一般ユーザーでログインした場合' do
       before do
         general_user = FactoryBot.create(:general_user)
@@ -27,6 +39,25 @@ RSpec.describe "MakersManagementFlow", type: :system do
         visit maker_path(@maker)
         expect(page).to have_link('Destroy', count: 0)
       end
+    end
+  end
+
+  describe '#new' do
+    it 'テキストフィールドが存在すること' do
+      visit new_maker_path
+      expect(page).to have_selector('input', id: 'maker_name')
+      expect(page).to have_selector('input', id: 'maker_postal_code')
+      expect(page).to have_selector('input', id: 'maker_address')
+      expect(page).to have_selector('input', id: 'maker_phone_number')
+      expect(page).to have_selector('input', id: 'maker_fax_number')
+      expect(page).to have_selector('input', id: 'maker_email')
+      expect(page).to have_selector('input', id: 'maker_home_page')
+      expect(page).to have_selector('input', id: 'maker_manufacturer_rep')
+    end
+
+    it '登録ボタンが存在すること' do
+      visit new_maker_path
+      expect(page).to have_selector('input[type="submit"][value="登録"]')
     end
   end
 
@@ -52,6 +83,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
         expect(page).to have_selector('div', text: 'メーカーの登録に成功しました!')
       end
     end
+
     context '無効な値の場合' do
       it '登録に失敗すること' do
         visit new_maker_path
@@ -67,6 +99,32 @@ RSpec.describe "MakersManagementFlow", type: :system do
         expect(page).to have_selector('h3',  text: 'メーカー情報の登録')
         expect(page).to have_selector('div', text: '（メーカー名）が空白です')
       end
+    end
+  end
+
+  describe '#edit' do
+    before do
+      user = FactoryBot.create(:user)
+      log_in(user)
+
+      @maker = FactoryBot.create(:maker)
+    end
+
+    it 'テキストフィールドが存在すること' do
+      visit edit_maker_path(@maker)
+      expect(page).to have_selector('input[type="text"][value="松本情報合名会社"]')
+      expect(page).to have_selector('input[type="text"][value="859-1105"]')
+      expect(page).to have_selector('input[type="text"][value="東京都渋谷区神南1-2-3"]')
+      expect(page).to have_selector('input[type="text"][value="075-4747-2450"]')
+      expect(page).to have_selector('input[type="text"][value="075-4747-2451"]')
+      expect(page).to have_selector('input[type="text"][value="sample_maker@example.com"]')
+      expect(page).to have_selector('input[type="text"][value="https://example.com/"]')
+      expect(page).to have_selector('input[type="text"][value="池田 彩花"]')
+    end
+
+    it '更新ボタンが存在すること' do
+      visit edit_maker_path(@maker)
+      expect(page).to have_selector('input[type="submit"][value="更新"]')
     end
   end
 
@@ -90,6 +148,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
           expect(page).to have_selector('div', text: 'メーカーの更新に成功しました!')
         end
       end
+
       context '無効な値を入力した場合' do
         it '更新に失敗すること' do
           visit edit_maker_path(@maker)
@@ -100,6 +159,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
         end
       end
     end
+
     context '未ログインの場合' do
       it 'ログインページにリダイレクトされること' do
         visit edit_maker_path(@maker)
