@@ -91,6 +91,32 @@ RSpec.describe "MakersManagementFlow", type: :system do
     end
   end
 
+  describe '#edit' do
+    before do
+      user = FactoryBot.create(:user)
+      log_in(user)
+
+      @maker = FactoryBot.create(:maker)
+    end
+
+    it 'テキストフィールドが存在すること' do
+      visit edit_maker_path(@maker)
+      expect(page).to have_selector('input[type="text"][value="松本情報合名会社"]')
+      expect(page).to have_selector('input[type="text"][value="859-1105"]')
+      expect(page).to have_selector('input[type="text"][value="東京都渋谷区神南1-2-3"]')
+      expect(page).to have_selector('input[type="text"][value="075-4747-2450"]')
+      expect(page).to have_selector('input[type="text"][value="075-4747-2451"]')
+      expect(page).to have_selector('input[type="text"][value="sample_maker@example.com"]')
+      expect(page).to have_selector('input[type="text"][value="https://example.com/"]')
+      expect(page).to have_selector('input[type="text"][value="池田 彩花"]')
+    end
+
+    it '更新ボタンが存在すること' do
+      visit edit_maker_path(@maker)
+      expect(page).to have_selector('input[type="submit"][value="更新"]')
+    end
+  end
+
   describe '#update' do
     before do
       @maker = FactoryBot.create(:maker)
