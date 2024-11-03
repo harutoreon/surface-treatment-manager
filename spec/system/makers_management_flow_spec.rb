@@ -17,6 +17,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
         expect(page).to have_link('削除', count: 1)
       end
     end
+
     context '一般ユーザーでログインした場合' do
       before do
         general_user = FactoryBot.create(:general_user)
@@ -71,6 +72,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
         expect(page).to have_selector('div', text: 'メーカーの登録に成功しました!')
       end
     end
+
     context '無効な値の場合' do
       it '登録に失敗すること' do
         visit new_maker_path
@@ -109,6 +111,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
           expect(page).to have_selector('div', text: 'メーカーの更新に成功しました!')
         end
       end
+
       context '無効な値を入力した場合' do
         it '更新に失敗すること' do
           visit edit_maker_path(@maker)
@@ -119,6 +122,7 @@ RSpec.describe "MakersManagementFlow", type: :system do
         end
       end
     end
+
     context '未ログインの場合' do
       it 'ログインページにリダイレクトされること' do
         visit edit_maker_path(@maker)
