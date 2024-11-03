@@ -6,6 +6,13 @@ RSpec.describe "UsersManagementFlow", type: :system do
       admin_user = FactoryBot.create(:admin_user)
       FactoryBot.create(:general_user)
       log_in(admin_user)
+
+      FactoryBot.create_list(:user_list, 10)
+    end
+
+    it 'ユーザー10件表示されること' do
+      visit users_path
+      expect(page).to have_link(href: %r{/users/\d}, count: 10)
     end
 
     it '管理者ユーザーと一般ユーザーはユーザーリストに表示されないこと' do

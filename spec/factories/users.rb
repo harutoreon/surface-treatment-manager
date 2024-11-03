@@ -57,4 +57,11 @@ FactoryBot.define do
     password                { 'password' }
     password_confirmation   { 'password' }
   end
+
+  factory :user_list, class: User do
+    name                    { Faker::Name.name }
+    department              { ["品質管理部", "製造部", "開発部", "営業部"].sample }
+    password                { 'password' }
+    password_confirmation   { 'password' }
+  end
 end
