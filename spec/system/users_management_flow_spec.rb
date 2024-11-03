@@ -6,6 +6,13 @@ RSpec.describe "UsersManagementFlow", type: :system do
       admin_user = FactoryBot.create(:admin_user)
       FactoryBot.create(:general_user)
       log_in(admin_user)
+
+      FactoryBot.create_list(:user_list, 10)
+    end
+
+    it 'ユーザー10件表示されること' do
+      visit users_path
+      expect(page).to have_link(href: %r{/users/\d}, count: 10)
     end
 
     it '管理者ユーザーと一般ユーザーはユーザーリストに表示されないこと' do
@@ -31,6 +38,7 @@ RSpec.describe "UsersManagementFlow", type: :system do
         expect(page).to have_link('削除', count: 1)
       end
     end
+
     context '一般ユーザーでログインした場合' do
       before do
         general_user = FactoryBot.create(:general_user)
@@ -41,6 +49,29 @@ RSpec.describe "UsersManagementFlow", type: :system do
         visit user_path(@sample_user)
         expect(page).to have_link('Destroy', count: 0)
       end
+    end
+  end
+
+  describe '#new' do
+    it 'テキストフィールドが表示されること' do
+      visit new_user_path
+      expect(page).to have_selector('input', id: 'user_name')
+    end
+
+    it 'セレクトフィールドが表示されること' do
+      visit new_user_path
+      expect(page).to have_selector('select', id: 'user_department')
+    end
+
+    it 'パスワードとパスワード確認のフィールドが表示されること' do
+      visit new_user_path
+      expect(page).to have_selector('input', id: 'user_password')
+      expect(page).to have_selector('input', id: 'user_password_confirmation')
+    end
+
+    it '登録ボタンが表示されること' do
+      visit new_user_path
+      expect(page).to have_selector('input[type="submit"][value="登録"]')
     end
   end
 
@@ -62,6 +93,7 @@ RSpec.describe "UsersManagementFlow", type: :system do
         expect(page).to have_selector('div', text: 'ユーザーの登録に成功しました!')
       end
     end
+
     context '無効な値の場合' do
       it '登録に失敗すること' do
         visit new_user_path
@@ -72,6 +104,36 @@ RSpec.describe "UsersManagementFlow", type: :system do
         expect(page).to have_selector('h3',  text: 'ユーザー情報の登録')
         expect(page).to have_selector('div', text: '（ユーザー名）が空白です。')
       end
+    end
+  end
+
+  describe '#edit' do
+    before do
+      general_user = FactoryBot.create(:general_user)
+      log_in(general_user)
+
+      @sample_user = FactoryBot.create(:sample_user)
+    end
+
+    it 'テキストフィールドが存在すること' do
+      visit edit_user_path(@sample_user)
+      expect(page).to have_selector('input[type="text"][value="sample user"]')
+    end
+
+    it 'セレクトフィールドが存在すること' do
+      visit edit_user_path(@sample_user)
+      expect(page).to have_selector('select[id="user_department"] option[selected]', text: '品質管理部')
+    end
+
+    it 'パスワードとパスワード確認のフィールドが存在すること' do
+      visit edit_user_path(@sample_user)
+      expect(page).to have_selector('input', id: 'user_password')
+      expect(page).to have_selector('input', id: 'user_password_confirmation')
+    end
+
+    it '更新ボタンが存在すること' do
+      visit edit_user_path(@sample_user)
+      expect(page).to have_selector('input[type="submit"][value="更新"]')
     end
   end
 
@@ -97,6 +159,7 @@ RSpec.describe "UsersManagementFlow", type: :system do
           expect(page).to have_selector('div', text: 'ユーザーの更新に成功しました!')
         end
       end
+
       context '無効な値の場合' do
         it '更新に失敗すること' do
           visit edit_user_path(@sample_user)
@@ -108,6 +171,7 @@ RSpec.describe "UsersManagementFlow", type: :system do
         end
       end
     end
+
     context '未ログインの場合' do
       it 'ログインページにリダイレクトされること' do
         visit edit_user_path(@sample_user)

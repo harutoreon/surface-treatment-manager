@@ -93,7 +93,7 @@ RSpec/EmptyLineAfterExample:
     # - 'spec/system/samples_search_flow_spec.rb'
     - 'spec/system/user_login_spec.rb'
     - 'spec/system/user_logout_flow_spec.rb'
-    - 'spec/system/users_management_flow_spec.rb'
+    # - 'spec/system/users_management_flow_spec.rb'
 
 RSpec/EmptyLineAfterHook:
   Enabled: true
@@ -109,7 +109,7 @@ RSpec/EmptyLineAfterHook:
     # - 'spec/system/samples_search_flow_spec.rb'
     - 'spec/system/user_login_spec.rb'
     - 'spec/system/user_logout_flow_spec.rb'
-    - 'spec/system/users_management_flow_spec.rb'
+    # - 'spec/system/users_management_flow_spec.rb'
 
 RSpec/EmptyLineAfterExampleGroup:
   Enabled: true
@@ -125,4 +125,4 @@ RSpec/EmptyLineAfterExampleGroup:
     # - 'spec/system/samples_search_flow_spec.rb'
     - 'spec/system/user_login_spec.rb'
     - 'spec/system/user_logout_flow_spec.rb'
-    - 'spec/system/users_management_flow_spec.rb'
+    # - 'spec/system/users_management_flow_spec.rb'
