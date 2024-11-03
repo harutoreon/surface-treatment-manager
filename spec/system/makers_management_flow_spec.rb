@@ -1,6 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe "MakersManagementFlow", type: :system do
+  describe '#index' do
+    before do
+      FactoryBot.create_list(:maker_list, 9)
+    end
+
+    it '/makers/を含むリンクが8件表示されること' do
+      visit makers_path
+      expect(page).to have_link(href: %r{/makers/\d}, count: 8)
+    end
+  end
+
   describe '#show' do
     before do
       @maker = FactoryBot.create(:maker)
