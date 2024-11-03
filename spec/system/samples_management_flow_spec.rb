@@ -31,6 +31,33 @@ RSpec.describe "SamplesManagementFlow", type: :system do
     end
   end
 
+  describe '#new' do
+    it 'テキストフィールドが6個存在すること' do
+      visit new_sample_path
+      expect(page).to have_selector('input[type="text"]', id: %r{sample_}, count: 6)
+    end
+
+    it 'セレクトフィールドが存在すること' do
+      visit new_sample_path
+      expect(page).to have_selector('select', id: 'sample_category')
+    end
+
+    it '画像フィールドが存在すること' do
+      visit new_sample_path
+      expect(page).to have_selector('input[type="file"]', id: 'sample_picture')
+    end
+
+    it '画像が表示されていないこと' do
+      visit new_sample_path
+      expect(page).to have_selector('img[src=""]', id: 'preview_image')
+    end
+
+    it '登録ボタンが存在すること' do
+      visit new_sample_path
+      expect(page).to have_selector('input[type="submit"][value="登録"]')
+    end
+  end
+
   describe '#create' do
     before do
       FactoryBot.create(:category, item: 'めっき')
