@@ -100,6 +100,36 @@ RSpec.describe "UsersManagementFlow", type: :system do
     end
   end
 
+  describe '#edit' do
+    before do
+      general_user = FactoryBot.create(:general_user)
+      log_in(general_user)
+
+      @sample_user = FactoryBot.create(:sample_user)
+    end
+
+    it 'テキストフィールドが存在すること' do
+      visit edit_user_path(@sample_user)
+      expect(page).to have_selector('input[type="text"][value="sample user"]')
+    end
+
+    it 'セレクトフィールドが存在すること' do
+      visit edit_user_path(@sample_user)
+      expect(page).to have_selector('select[id="user_department"] option[selected]', text: '品質管理部')
+    end
+
+    it 'パスワードとパスワード確認のフィールドが存在すること' do
+      visit edit_user_path(@sample_user)
+      expect(page).to have_selector('input', id: 'user_password')
+      expect(page).to have_selector('input', id: 'user_password_confirmation')
+    end
+
+    it '更新ボタンが存在すること' do
+      visit edit_user_path(@sample_user)
+      expect(page).to have_selector('input[type="submit"][value="更新"]')
+    end
+  end
+
   describe '#update' do
     before do
       @sample_user = FactoryBot.create(:sample_user)
