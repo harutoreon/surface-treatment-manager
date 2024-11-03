@@ -31,6 +31,7 @@ RSpec.describe "UsersManagementFlow", type: :system do
         expect(page).to have_link('削除', count: 1)
       end
     end
+
     context '一般ユーザーでログインした場合' do
       before do
         general_user = FactoryBot.create(:general_user)
@@ -62,6 +63,7 @@ RSpec.describe "UsersManagementFlow", type: :system do
         expect(page).to have_selector('div', text: 'ユーザーの登録に成功しました!')
       end
     end
+
     context '無効な値の場合' do
       it '登録に失敗すること' do
         visit new_user_path
@@ -97,6 +99,7 @@ RSpec.describe "UsersManagementFlow", type: :system do
           expect(page).to have_selector('div', text: 'ユーザーの更新に成功しました!')
         end
       end
+
       context '無効な値の場合' do
         it '更新に失敗すること' do
           visit edit_user_path(@sample_user)
@@ -108,6 +111,7 @@ RSpec.describe "UsersManagementFlow", type: :system do
         end
       end
     end
+
     context '未ログインの場合' do
       it 'ログインページにリダイレクトされること' do
         visit edit_user_path(@sample_user)
