@@ -1,6 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe "SamplesManagementFlow", type: :system do
+  describe '#index' do
+    before do
+      FactoryBot.create_list(:sample_list, 10)
+    end
+
+    it 'サンプルが8件表示されること' do
+      visit samples_path
+      expect(page).to have_link(href: %r{/samples/\d}, count: 8)
+    end
+  end
+
   describe '#show' do
     before do
       @sample = FactoryBot.create(:sample)
