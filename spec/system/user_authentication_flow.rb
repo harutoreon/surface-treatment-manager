@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Userauthenticationflow", type: :system do
-  describe 'user login' do
+  describe 'ユーザーのログイン' do
     before do
       @user = FactoryBot.create(:michael)
     end
@@ -32,7 +32,7 @@ RSpec.describe "Userauthenticationflow", type: :system do
     end
   end
 
-  describe 'user logout' do
+  describe 'ユーザーのログアウト' do
     before do
       admin_user = User.create(name: 'admin user', password: 'adminpassword', admin: true)
       log_in(admin_user)
@@ -50,7 +50,7 @@ RSpec.describe "Userauthenticationflow", type: :system do
     end
   end
 
-  describe 'login user select' do
+  describe 'ログイン時のユーザー選択' do
     before do
       @general_user = FactoryBot.create(:general_user)
       @admin_user   = FactoryBot.create(:admin_user)
