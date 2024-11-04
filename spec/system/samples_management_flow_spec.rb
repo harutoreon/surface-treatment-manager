@@ -100,6 +100,35 @@ RSpec.describe "SamplesManagementFlow", type: :system do
     end
   end
 
+  describe '#edit' do
+    before do
+      user = FactoryBot.create(:user)
+      log_in(user)
+
+      @sample = FactoryBot.create(:sample)
+    end
+
+    it 'テキストフィールドが7個存在すること' do
+      visit edit_sample_path(@sample)
+      expect(page).to have_selector('input[type="text"]', id: %r{sample_}, count: 7)
+    end
+
+    it '画像フィールドが存在すること' do
+      visit edit_sample_path(@sample)
+      expect(page).to have_selector('input[type="file"]', id: 'sample_picture')
+    end
+
+    it '画像が表示されていること' do
+      visit edit_sample_path(@sample)
+      expect(page).to_not have_selector('img[src=""]', id: 'preview_image')
+    end
+
+    it '更新ボタンが存在すること' do
+      visit edit_sample_path(@sample)
+      expect(page).to have_selector('input[type="submit"][value="更新"]')
+    end
+  end
+
   describe '#update' do
     before do
       @sample = FactoryBot.create(:sample)
