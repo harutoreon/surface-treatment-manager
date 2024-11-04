@@ -19,21 +19,5 @@ module LoginSupport
       fill_in 'パスワード', with: user.password
       click_button 'ログイン'
     end
-
-    def login_as_general_user
-      visit root_path
-      choose('一般ユーザー')
-      click_button('ログイン')
-    end
-
-    def login_as_admin_user
-      visit root_path
-      choose('管理者ユーザー')
-      click_button('ログイン')
-    end
-
-    def update_user_name(user, new_name)
-      user.update(name: new_name)
-    end
   end
 end
