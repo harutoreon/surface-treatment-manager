@@ -56,31 +56,43 @@ RSpec.describe "Userauthenticationflow", type: :system do
       @admin_user   = FactoryBot.create(:admin_user)
     end
 
-    describe 'sessions#create', js: true do
-      context '有効なユーザー情報がある場合' do
-        it '一般ユーザーでログインできること' do
-          login_as_general_user
-          expect(page).to have_selector('h3', text: 'メインメニュー')
-        end
+    context 'ユーザー情報が有効である場合', js: true do
+      it '一般ユーザーでログインできること' do
+        visit root_path
+        choose('一般ユーザー')
+        click_button('ログイン')
 
-        it '管理者ユーザーでログインできること' do
-          login_as_admin_user
-          expect(page).to have_selector('h3', text: 'メインメニュー')
-        end
+        expect(page).to have_selector('h3', text: 'メインメニュー')
       end
 
-      context '無効なユーザー情報がある場合' do
-        it '一般ユーザーでログインできないこと' do
-          update_user_name(@general_user, 'general')
-          login_as_general_user
-          expect(page).to have_selector('div', text: '名前とパスワードの組み合わせが無効です')
-        end
+      it '管理者ユーザーでログインできること' do
+        visit root_path
+        choose('管理者ユーザー')
+        click_button('ログイン')
 
-        it '管理者ユーザーでログインできないこと' do
-          update_user_name(@admin_user, 'admin')
-          login_as_admin_user
-          expect(page).to have_selector('div', text: '名前とパスワードの組み合わせが無効です')
-        end
+        expect(page).to have_selector('h3', text: 'メインメニュー')
+      end
+    end
+
+    context 'ユーザー情報が無効である場合', js: true do
+      it '一般ユーザーでログインできないこと' do
+        @general_user.update(name: 'general')
+
+        visit root_path
+        choose('一般ユーザー')
+        click_button('ログイン')
+
+        expect(page).to have_selector('div', text: '名前とパスワードの組み合わせが無効です')
+      end
+
+      it '管理者ユーザーでログインできないこと' do
+        @admin_user.update(name: 'admin')
+
+        visit root_path
+        choose('管理者ユーザー')
+        click_button('ログイン')
+
+        expect(page).to have_selector('div', text: '名前とパスワードの組み合わせが無効です')
       end
     end
   end
