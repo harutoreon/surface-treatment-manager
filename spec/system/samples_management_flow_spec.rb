@@ -1,6 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe "SamplesManagementFlow", type: :system do
+  describe '#index' do
+    before do
+      FactoryBot.create_list(:sample_list, 10)
+    end
+
+    it 'サンプルが8件表示されること' do
+      visit samples_path
+      expect(page).to have_link(href: %r{/samples/\d}, count: 8)
+    end
+  end
+
   describe '#show' do
     before do
       @sample = FactoryBot.create(:sample)
@@ -17,6 +28,7 @@ RSpec.describe "SamplesManagementFlow", type: :system do
         expect(page).to have_link('削除', count: 1)
       end
     end
+
     context '一般ユーザーでログインした場合' do
       before do
         general_user = FactoryBot.create(:general_user)
@@ -27,6 +39,33 @@ RSpec.describe "SamplesManagementFlow", type: :system do
         visit sample_path(@sample)
         expect(page).to have_link('Destroy', count: 0)
       end
+    end
+  end
+
+  describe '#new' do
+    it 'テキストフィールドが6個存在すること' do
+      visit new_sample_path
+      expect(page).to have_selector('input[type="text"]', id: %r{sample_}, count: 6)
+    end
+
+    it 'セレクトフィールドが存在すること' do
+      visit new_sample_path
+      expect(page).to have_selector('select', id: 'sample_category')
+    end
+
+    it '画像フィールドが存在すること' do
+      visit new_sample_path
+      expect(page).to have_selector('input[type="file"]', id: 'sample_picture')
+    end
+
+    it '画像が表示されていないこと' do
+      visit new_sample_path
+      expect(page).to have_selector('img[src=""]', id: 'preview_image')
+    end
+
+    it '登録ボタンが存在すること' do
+      visit new_sample_path
+      expect(page).to have_selector('input[type="submit"][value="登録"]')
     end
   end
 
@@ -53,6 +92,7 @@ RSpec.describe "SamplesManagementFlow", type: :system do
         expect(page).to have_selector('h3',  text: '表面処理情報')
       end
     end
+
     context '無効な値を入力した場合' do
       it '登録が失敗すること' do
         visit new_sample_path
@@ -68,6 +108,35 @@ RSpec.describe "SamplesManagementFlow", type: :system do
         expect(page).to have_selector('div', text: '（処理名）が空白です。')
         expect(page).to have_selector('h3',  text: '表面処理情報の登録')
       end
+    end
+  end
+
+  describe '#edit' do
+    before do
+      user = FactoryBot.create(:user)
+      log_in(user)
+
+      @sample = FactoryBot.create(:sample)
+    end
+
+    it 'テキストフィールドが7個存在すること' do
+      visit edit_sample_path(@sample)
+      expect(page).to have_selector('input[type="text"]', id: %r{sample_}, count: 7)
+    end
+
+    it '画像フィールドが存在すること' do
+      visit edit_sample_path(@sample)
+      expect(page).to have_selector('input[type="file"]', id: 'sample_picture')
+    end
+
+    it '画像が表示されていること' do
+      visit edit_sample_path(@sample)
+      expect(page).to_not have_selector('img[src=""]', id: 'preview_image')
+    end
+
+    it '更新ボタンが存在すること' do
+      visit edit_sample_path(@sample)
+      expect(page).to have_selector('input[type="submit"][value="更新"]')
     end
   end
 
@@ -91,6 +160,7 @@ RSpec.describe "SamplesManagementFlow", type: :system do
           expect(page).to have_selector('h3',  text: '表面処理情報')
         end
       end
+
       context '無効な値を入力した場合' do
         it '更新できないこと' do
           visit edit_sample_path(@sample)
@@ -101,6 +171,7 @@ RSpec.describe "SamplesManagementFlow", type: :system do
         end
       end
     end
+
     context '未ログインの場合' do
       it 'ログインページにリダイレクトされること' do
         visit edit_sample_path(@sample)
