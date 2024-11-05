@@ -20,6 +20,7 @@ gem 'sassc-rails'
 gem 'mini_racer'
 gem 'carrierwave'
 gem 'mini_magick'
+gem 'bundler', '~> 2.4.20'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]

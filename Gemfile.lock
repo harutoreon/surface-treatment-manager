@@ -366,6 +366,7 @@ DEPENDENCIES
   bootstrap
   brakeman
   bullet
+  bundler (~> 2.4.20)
   capybara
   carrierwave
   debug
@@ -397,4 +398,4 @@ RUBY VERSION
    ruby 3.2.5p208
 
 BUNDLED WITH
-   2.4.20
+   2.4.22
