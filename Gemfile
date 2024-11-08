@@ -2,9 +2,9 @@ source "https://rubygems.org"
 
 ruby "3.2.6"
 
-gem "rails", "~> 7.1.1"
+gem "rails", "7.2.0"
 gem "sprockets-rails"
-gem "puma", ">= 5.0"
+gem "puma"
 gem "importmap-rails"
 gem "turbo-rails"
 gem "stimulus-rails"
@@ -20,7 +20,7 @@ gem 'sassc-rails'
 gem 'mini_racer'
 gem 'carrierwave'
 gem 'mini_magick'
-gem 'bundler', '2.5.23'
+gem 'bundler'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
