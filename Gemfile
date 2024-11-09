@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 ruby "3.2.6"
 
-gem "rails", "7.2.0"
+gem "rails", "7.2.1"
 gem "sprockets-rails"
 gem "puma"
 gem "importmap-rails"
