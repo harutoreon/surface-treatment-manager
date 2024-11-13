@@ -76,6 +76,15 @@
 
   <h4 class="mb-3">コメントリスト</h4>
 
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item border-bottom mb-2">
+      <div class="d-flex w-100 justify-content-between">
+        <h6>部署名 / 投稿者 / コメント</h6>
+        <h6>投稿日</h6>
+      </div>
+    </li>
+  </ul>
+
   <div class="list-group-item list-group-item-action">
     <% if @sample.comments.any? %>
       <ul class="list-group list-group-flush mb-5">
