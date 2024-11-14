@@ -342,6 +342,8 @@ treatment_list = Sample.all
 users = User.where(id: 3..50)  # id:1 の admin user と id:2 の general user は除く
 commenters = users.map { |user| user.department + " " + user.name }
 
-treatment_list.each do |treatment|
-  treatment.comments.create!(commenter: commenters.sample, body: SAMPLE_COMMENT.sample)
+5.times do
+  treatment_list.each do |treatment|
+    treatment.comments.create!(commenter: commenters.sample, body: SAMPLE_COMMENT.sample)
+  end
 end
