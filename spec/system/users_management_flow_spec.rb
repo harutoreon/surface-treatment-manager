@@ -3,16 +3,16 @@ require 'rails_helper'
 RSpec.describe "UsersManagementFlow", type: :system do
   describe '#index' do
     before do
-      admin_user = FactoryBot.create(:admin_user)
-      FactoryBot.create(:general_user)
-      log_in(admin_user)
-
       FactoryBot.create_list(:user_list, 10)
+      FactoryBot.create(:general_user)
+
+      admin_user = FactoryBot.create(:admin_user)
+      log_in(admin_user)
     end
 
-    it 'ユーザー10件表示されること' do
+    it 'ユーザーが8件表示されること' do
       visit users_path
-      expect(page).to have_link(href: %r{/users/\d}, count: 10)
+      expect(page).to have_link(href: %r{/users/\d}, count: 8)
     end
 
     it '管理者ユーザーと一般ユーザーはユーザーリストに表示されないこと' do

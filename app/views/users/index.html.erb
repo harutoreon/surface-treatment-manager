@@ -23,6 +23,14 @@
     <% end %>
   </div>
 
+  <% if @users.any? %>
+    <ul class="pagination justify-content-center mb-5">
+      <%= render 'previous_page', pages: @users %>
+      <%= render 'pages', pages: @users %>
+      <%= render 'next_page', pages: @users %>
+    </ul>
+  <% end %>
+
   <div class="d-flex justify-content-evenly">
     <%= link_to 'ユーザー情報の登録', new_user_path %>
     <%= link_to 'メインメニューへ', home_path %>
