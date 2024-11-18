@@ -1,8 +1,5 @@
 Faker::Config.locale = "ja"
 
-User.create!(name: "admin user", department: "品質管理部", password: "adminpassword", password_confirmation: "adminpassword", admin: true)
-User.create!(name: "general user", department: "開発部", password: "generalpassword", password_confirmation: "generalpassword")
-
 48.times do
   name = Faker::Name.name
   department = ["品質管理部", "製造部", "開発部", "営業部"].sample
@@ -12,6 +9,9 @@ User.create!(name: "general user", department: "開発部", password: "generalpa
                password: password,
                password_confirmation: password)
 end
+
+User.create!(name: "admin user", department: "品質管理部", password: "adminpassword", password_confirmation: "adminpassword", admin: true)
+User.create!(name: "general user", department: "開発部", password: "generalpassword", password_confirmation: "generalpassword")
 
 CATEGORIES = {
   "めっき" => "金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。",
@@ -339,7 +339,7 @@ SAMPLE_COMMENT = [
 ]
 
 treatment_list = Sample.all
-users = User.where(id: 3..50)  # id:1 の admin user と id:2 の general user は除く
+users = User.where(id: 1..48)  # id:49 の admin user と id:50 の general user は除く
 commenters = users.map { |user| user.department + " " + user.name }
 
 5.times do
