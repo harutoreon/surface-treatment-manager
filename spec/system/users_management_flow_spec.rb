@@ -15,8 +15,9 @@ RSpec.describe "UsersManagementFlow", type: :system do
       expect(page).to have_link(href: %r{/users/\d}, count: 8)
     end
 
-    it '管理者ユーザーと一般ユーザーはユーザーリストに表示されないこと' do
+    it '2ページ目に管理者ユーザーと一般ユーザーが表示されないこと' do
       visit users_path
+      click_link '2', exact: true
       expect(page).to_not have_selector('div', text: 'admin user')
       expect(page).to_not have_selector('div', text: 'general user')
     end
