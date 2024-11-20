@@ -10,6 +10,8 @@ class User < ApplicationRecord
   validate :password_length
   validate :password_comparison
 
+  scope :displayable, -> { User.where.not(name: ['admin user', 'general user']) }
+
   private
 
     def name_length

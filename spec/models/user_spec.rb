@@ -43,4 +43,29 @@ RSpec.describe User, type: :model do
       expect(@user).to_not be_valid
     end
   end
+
+  describe 'scope' do
+    describe '.displayable' do
+      before do
+        FactoryBot.create_list(:user_list, 28)
+        FactoryBot.create(:admin_user)
+        FactoryBot.create(:general_user)
+      end
+
+      it '30件中28件のユーザーが取得されること' do
+        users = User.displayable
+        expect(users.count).to eq(28)
+      end
+
+      it '管理者ユーザーが含まれないこと' do
+        users = User.displayable
+        expect(users.find_by(name: 'admin user')).to be_nil
+      end
+
+      it '一般ユーザーが含まれないこと' do
+        users = User.displayable
+        expect(users.find_by(name: 'general user')).to be_nil
+      end
+    end
+  end
 end

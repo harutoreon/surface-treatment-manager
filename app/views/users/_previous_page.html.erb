@@ -1,0 +1,9 @@
+<% if pages.previous_page %>
+  <li class="page-item">
+    <a class="page-link" href="/users?page=<%= pages.previous_page %>">前ページ</a>
+  </li>
+<% else %>
+  <li class="page-item disabled">
+    <a class="page-link">前ページ</a>
+  </li>
+<% end %>
