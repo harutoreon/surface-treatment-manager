@@ -71,6 +71,11 @@ RSpec.describe "Comments", type: :request do
         delete sample_comment_path(@sample, @comment)
         expect(response).to redirect_to(@sample)
       end
+
+      it 'flash変数に:successが格納されること' do
+        delete sample_comment_path(@sample, @comment)
+        expect(flash[:success]).to eq('コメントの削除に成功しました!')
+      end
     end
 
     context '一般ユーザーでログインした場合' do
