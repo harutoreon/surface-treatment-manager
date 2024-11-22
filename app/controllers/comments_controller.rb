@@ -19,6 +19,7 @@ class CommentsController < ApplicationController
     @sample = Sample.find(params[:sample_id])
     @comment = @sample.comments.find(params[:id])
     @comment.destroy
+    flash[:success] = 'コメントの削除に成功しました!'
     redirect_to sample_path(@sample), status: :see_other
   end
 

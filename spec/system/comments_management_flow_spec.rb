@@ -47,6 +47,7 @@ RSpec.describe 'CommentsManagementFlowSpec', type: :system do
     it '削除に成功すること' do
       visit sample_path(@sample)
       click_link('削除', href: sample_comment_path(@sample, @sample.comments.first.id))
+      expect(page).to have_selector('div', text: 'コメントの削除に成功しました!')
       expect(page).to have_selector('h3', text: '表面処理情報')
       expect(page).to_not have_selector('h6', text: 'sample commenter')
       expect(page).to_not have_selector('h6', text: 'sample comment.')
