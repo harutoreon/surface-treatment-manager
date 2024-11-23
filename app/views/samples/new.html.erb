@@ -1,10 +1,8 @@
 <%= content_for(:title, '表面処理情報の登録') %>
 
-<div class="container mt-5 mb-5">
-  <h3 class="text-center">表面処理情報の登録</h3>
-</div>
-
 <div class="container w-25">
+  <h3 class="text-center mt-5 mb-5">表面処理情報の登録</h3>
+
   <%= form_with model: @sample do |form| %>
     <%= form.label :name, "処理名", class: "form-label" %>
     <%= form.text_field :name, class: "form-control mb-3" %>
@@ -43,7 +41,7 @@
   <% end %>
 </div>
 
-<div class="text-center"><%= link_to "表面処理リストへ", samples_path %></div>
+<div class="text-center mb-5"><%= link_to "表面処理リストへ", samples_path %></div>
 
 <script type="text/javascript">
   document.getElementById('sample_picture').addEventListener('change', function() {
