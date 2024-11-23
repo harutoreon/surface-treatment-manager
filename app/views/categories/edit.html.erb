@@ -3,17 +3,7 @@
 <div class="container w-25">
   <h3 class="text-center mt-5 mb-5">カテゴリー情報の編集</h3>
 
-  <%= form_with model: @category do |form| %>
-    <%= form.label :item, "カテゴリー名", class: 'form-label' %>
-    <%= form.text_field :item, class: 'form-control mb-4' %>
-    <%= render 'shared/error_messages', object: @category, label: :item %>
-
-    <%= form.label :summary, "概要", class: 'form-label' %>
-    <%= form.text_field :summary, class: 'form-control mb-4' %>
-    <%= render 'shared/error_messages', object: @category, label: :summary %>
-
-    <%= form.submit "更新", class: 'form-control btn btn-primary mb-5' %>
-  <% end %>
+  <%= render 'form', button_name: '更新' %>
 
   <div class="text-center"><%= link_to 'カテゴリー情報へ', category_path(@category) %></div>
 </div>
