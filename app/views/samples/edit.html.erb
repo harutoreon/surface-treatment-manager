@@ -8,22 +8,4 @@
 
 <div class="text-center mb-5"><%= link_to "表面処理情報へ", sample_path(@sample) %></div>
 
-<script type="text/javascript">
-  document.getElementById('sample_picture').addEventListener('change', function() {
-    let sizeInMegabytes = this.files[0].size / 1024 / 1024;
-    if (sizeInMegabytes > 5) {
-      alert('最大ファイルサイズは5MBです。より小さいファイルをお選びください。');
-    }
-  });
-
-  document.getElementById('sample_picture').addEventListener('change', function() {
-    let file = this.files[0];
-    if (file) {
-      let reader = new FileReader();
-      reader.onload = function(e) {
-        document.getElementById('preview_image').setAttribute('src', e.target.result);
-      }
-      reader.readAsDataURL(file);
-    }
-  });
-</script>
+<%= render 'picture_size_alert' %>
