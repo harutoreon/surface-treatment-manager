@@ -3,41 +3,7 @@
 <div class="container w-25">
   <h3 class="text-center mt-5 mb-5">メーカー情報の登録</h3>
 
-  <%= form_with model: @maker do |form| %>
-    <%= form.label :name, "メーカー名", class: "form-label" %>
-    <%= form.text_field :name, class: "form-control mb-2" %>
-    <%= render 'shared/error_messages', object: @maker, label: :name %>
-
-    <%= form.label :postal_code, "郵便番号", class: "form-label" %>
-    <%= form.text_field :postal_code, class: "form-control mb-2", style: "width: 10rem;" %>
-    <%= render 'shared/error_messages', object: @maker, label: :postal_code %>
-
-    <%= form.label :address, "住所", class: "form-label" %>
-    <%= form.text_field :address, class: "form-control mb-2" %>
-    <%= render 'shared/error_messages', object: @maker, label: :address %>
-
-    <%= form.label :phone_number, "電話番号", class: "form-label" %>
-    <%= form.telephone_field :phone_number, class: "form-control mb-2", style: "width: 10rem;" %>
-    <%= render 'shared/error_messages', object: @maker, label: :phone_number %>
-
-    <%= form.label :fax_number, "FAX番号", class: "form-label" %>
-    <%= form.telephone_field :fax_number, class: "form-control mb-2", style: "width: 10rem;" %>
-    <%= render 'shared/error_messages', object: @maker, label: :fax_number %>
-
-    <%= form.label :email, class: "form-label" %>
-    <%= form.email_field :email, class: "form-control mb-2" %>
-    <%= render 'shared/error_messages', object: @maker, label: :email %>
-
-    <%= form.label :home_page, "ホームページ", class: "form-label" %>
-    <%= form.url_field :home_page, class: "form-control mb-2" %>
-    <%= render 'shared/error_messages', object: @maker, label: :home_page %>
-
-    <%= form.label :manufacturer_rep, "担当者", class: "form-label" %>
-    <%= form.text_field :manufacturer_rep, class: "form-control mb-3" %>
-    <%= render 'shared/error_messages', object: @maker, label: :manufacturer_rep %>
-
-    <%= form.submit "登録", class: "form-control btn btn-primary mb-5" %>
-  <% end %>
+  <%= render 'form', button_name: '登録' %>
 
   <div class="d-flex justify-content-center">
     <%= link_to 'メーカーリストへ', makers_path %>

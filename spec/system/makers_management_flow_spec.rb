@@ -115,10 +115,10 @@ RSpec.describe "MakersManagementFlow", type: :system do
       expect(page).to have_selector('input[type="text"][value="松本情報合名会社"]')
       expect(page).to have_selector('input[type="text"][value="859-1105"]')
       expect(page).to have_selector('input[type="text"][value="東京都渋谷区神南1-2-3"]')
-      expect(page).to have_selector('input[type="text"][value="075-4747-2450"]')
-      expect(page).to have_selector('input[type="text"][value="075-4747-2451"]')
-      expect(page).to have_selector('input[type="text"][value="sample_maker@example.com"]')
-      expect(page).to have_selector('input[type="text"][value="https://example.com/"]')
+      expect(page).to have_selector('input[type="tel"][value="075-4747-2450"]')
+      expect(page).to have_selector('input[type="tel"][value="075-4747-2451"]')
+      expect(page).to have_selector('input[type="email"][value="sample_maker@example.com"]')
+      expect(page).to have_selector('input[type="url"][value="https://example.com/"]')
       expect(page).to have_selector('input[type="text"][value="池田 彩花"]')
     end
 
