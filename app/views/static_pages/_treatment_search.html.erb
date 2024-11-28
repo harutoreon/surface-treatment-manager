@@ -1,0 +1,10 @@
+<div class="col">
+  <div class="card pt-2" style="width: 18rem;">
+    <%= image_tag 'experiment.svg', alt: 'sample image', class: 'card-img-top w-25', width: 50, height: 50 %>
+    <div class="card-body">
+      <h5 class="card-title">処理名で検索</h5>
+      <p class="card-text">処理名を入力して表面処理を検索します。</p>
+      <%= link_to '検索ページへ', category_name_path, class: 'card-link', id: 'name_search' %>
+    </div>
+  </div>
+</div>
