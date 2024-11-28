@@ -1,19 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe "Comments", type: :request do
-  before do
-    @sample = FactoryBot.create(:sample)
-  end
-
   describe "#create" do
     before do
+      @sample = FactoryBot.create(:sample)
+
       general_user = FactoryBot.create(:general_user)
       log_in(general_user)
     end
 
     context '有効な値の場合' do
       before do
-        @valid_comment_params = { comment: { commenter: 'sample user', body: 'sample comment.' } }
+        @valid_comment_params = { comment: { commenter: 'sample user', department: 'department', body: 'sample comment.' } }
       end
 
       it '登録が成功すること' do
@@ -33,7 +31,7 @@ RSpec.describe "Comments", type: :request do
 
     context '無効な値の場合' do
       before do
-        @invalid_comment_params = { comment: { commenter: '', body: 'sample comment.' } }
+        @invalid_comment_params = { comment: { commenter: '', department: 'department', body: 'sample comment.' } }
       end
 
       it '登録に失敗すること' do
@@ -54,7 +52,8 @@ RSpec.describe "Comments", type: :request do
 
   describe '#destroy' do
     before do
-      @comment = @sample.comments.create(commenter: 'sample user', body: 'sample comment.')
+      @sample = FactoryBot.create(:sample)
+      @comment = @sample.comments.create(commenter: 'sample user', department: 'department', body: 'sample comment.')
     end
 
     context '管理者ユーザーでログインした場合' do

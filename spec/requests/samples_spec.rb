@@ -180,7 +180,7 @@ RSpec.describe "Samples", type: :request do
   describe '#destroy' do
     before do
       @sample = FactoryBot.create(:sample)
-      @sample.comments.create(commenter: 'sample user', body: 'sample comment.')
+      @sample.comments.create(commenter: 'sample user', department: 'department', body: 'sample comment.')
     end
 
     context '管理者ユーザーでログインした場合' do

@@ -4,7 +4,7 @@ RSpec.describe Comment, type: :model do
   describe 'validation' do
     before do
       sample = FactoryBot.create(:sample)
-      @comment = sample.comments.build(commenter: 'commenter', body: 'sample comment.')
+      @comment = sample.comments.build(commenter: 'commenter', department: 'department', body: 'sample comment.')
     end
 
     it 'commentオブジェクトが有効であること' do
@@ -13,6 +13,11 @@ RSpec.describe Comment, type: :model do
 
     it 'commenterが存在すること' do
       @comment.commenter = ''
+      expect(@comment).to_not be_valid
+    end
+
+    it 'departmentが存在すること' do
+      @comment.department = ''
       expect(@comment).to_not be_valid
     end
 
