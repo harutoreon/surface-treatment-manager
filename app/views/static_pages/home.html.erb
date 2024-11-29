@@ -4,101 +4,20 @@
   <h3 class="text-center mt-5 mb-5">メインメニュー</h3>
 
   <div class="row mb-4">
-    <div class="col">
-      <div class="card pt-2" style="width: 18rem;">
-        <%= image_tag 'experiment.svg', alt: 'sample image', class: 'card-img-top w-25', width: 50, height: 50 %>
-        <div class="card-body">
-          <h5 class="card-title">処理名で検索</h5>
-          <p class="card-text">処理名を入力して表面処理を検索します。</p>
-          <%= link_to '検索ページへ', category_name_path, class: 'card-link', id: 'name_search' %>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card pt-2" style="width: 18rem;">
-        <%= image_tag 'category.svg', alt: 'sample image', class: 'card-img-top w-25', width: 50, height: 50 %>
-        <div class="card-body">
-          <h5 class="card-title">カテゴリーで検索</h5>
-          <p class="card-text">カテゴリーを選択して表面処理を検索します。</p>
-          <%= link_to '検索ページへ', category_category_path, class: 'card-link', id: 'category_search' %>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card pt-2" style="width: 18rem;">
-        <%= image_tag 'factory.svg', alt: 'sample image', class: 'card-img-top w-25', width: 50, height: 50 %>
-        <div class="card-body">
-          <h5 class="card-title">メーカー名で検索</h5>
-          <p class="card-text">メーカー名を入力して表面処理を検索します。</p>
-          <%= link_to '検索ページへ', category_maker_path, class: 'card-link', id: 'maker_search' %>
-        </div>
-      </div>
-    </div>
+    <%= render 'treatment_search' %>
+    <%= render 'category_search' %>
+    <%= render 'maker_search' %>
   </div>
 
   <div class="row mb-4">
-    <div class="col">
-      <div class="card pt-2" style="width: 18rem;">
-        <%= image_tag 'list.svg', alt: 'sample image', class: 'card-img-top w-25', width: 50, height: 50 %>
-        <div class="card-body">
-          <h5 class="card-title">処理の一覧から検索</h5>
-          <p class="card-text">表面処理一覧から目的の処理を検索します。</p>
-          <%= link_to '検索ページへ', samples_path, class: 'card-link' %>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card pt-2" style="width: 18rem;">
-        <%= image_tag 'library_add.svg', alt: 'sample image', class: 'card-img-top w-25', width: 50, height: 50 %>
-        <div class="card-body">
-          <h5 class="card-title">表面処理の管理</h5>
-          <p class="card-text">表面処理に関する情報を一括管理します。</p>
-          <%= link_to '管理ページへ', samples_path, class: 'card-link' %>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card pt-2" style="width: 18rem;">
-        <%= image_tag 'category_add.svg', alt: 'sample image', class: 'card-img-top w-25', width: 50, height: 50 %>
-        <div class="card-body">
-          <h5 class="card-title">カテゴリーの管理</h5>
-          <p class="card-text">カテゴリーに関する情報を一括管理します。</p>
-          <%= link_to '管理ページへ', categories_path, class: 'card-link' %>
-        </div>
-      </div>
-    </div>
+    <%= render 'treatment_list_search' %>
+    <%= render 'treatment_manage' %>
+    <%= render 'category_manage' %>
   </div>
 
   <div class="row mb-4">
-    <div class="col">
-      <div class="card pt-2" style="width: 18rem;">
-        <%= image_tag 'maker_add.svg', alt: 'sample image', class: 'card-img-top w-25', width: 50, height: 50 %>
-        <div class="card-body">
-          <h5 class="card-title">メーカーの管理</h5>
-          <p class="card-text">メーカーに関する情報を一括管理します。</p>
-          <%= link_to '管理ページへ', makers_path, class: 'card-link' %>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card pt-2" style="width: 18rem;">
-        <%= image_tag 'user_add.svg', alt: 'sample image', class: 'card-img-top w-25', width: 50, height: 50 %>
-        <div class="card-body">
-          <h5 class="card-title">ユーザーの管理</h5>
-          <p class="card-text">ユーザーに関する情報を一括管理します。</p>
-          <%= link_to '管理ページへ', users_path, class: 'card-link' %>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card pt-2" style="width: 18rem;">
-        <%= image_tag 'settings.svg', alt: 'sample image', class: 'card-img-top w-25', width: 50, height: 50 %>
-        <div class="card-body">
-          <h5 class="card-title">アプリケーションの管理</h5>
-          <p class="card-text">アプリケーションの設定やログアウトを行います。</p>
-          <%= link_to '管理ページへ', setting_path, class: 'card-link' %>
-        </div>
-      </div>
-    </div>
+    <%= render 'maker_manage' %>
+    <%= render 'user_manage' %>
+    <%= render 'application_manage' %>
   </div>
 </div>
