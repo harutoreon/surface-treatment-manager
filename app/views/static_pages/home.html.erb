@@ -44,7 +44,12 @@
   </div>
 
   <div class="row mb-4">
-    <%= render 'maker_manage' %>
+    <%= render partial: 'home_partial', locals: { image_path: 'maker_add.svg',
+                                                  card_title: 'メーカーの管理',
+                                                  card_text:  'メーカーに関する情報を一括管理します。',
+                                                  link_title: '管理ページへ',
+                                                  link_path:  makers_path } %>
+
     <%= render 'user_manage' %>
     <%= render 'application_manage' %>
   </div>
