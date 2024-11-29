@@ -16,7 +16,11 @@
                                                   link_title: '検索ページへ',
                                                   link_path:  category_category_path } %>
 
-    <%= render 'maker_search' %>
+    <%= render partial: 'home_partial', locals: { image_path: 'factory.svg',
+                                                  card_title: 'メーカー名で検索',
+                                                  card_text:  'メーカー名を入力して表面処理を検索します。',
+                                                  link_title: '検索ページへ',
+                                                  link_path:  category_maker_path } %>
   </div>
 
   <div class="row mb-4">
