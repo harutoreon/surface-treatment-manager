@@ -50,7 +50,12 @@
                                                   link_title: '管理ページへ',
                                                   link_path:  makers_path } %>
 
-    <%= render 'user_manage' %>
+    <%= render partial: 'home_partial', locals: { image_path: 'user_add.svg',
+                                                  card_title: 'ユーザーの管理',
+                                                  card_text:  'ユーザーに関する情報を一括管理します。',
+                                                  link_title: '管理ページへ',
+                                                  link_path:  users_path } %>
+
     <%= render 'application_manage' %>
   </div>
 </div>
