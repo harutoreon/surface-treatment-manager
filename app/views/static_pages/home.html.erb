@@ -12,18 +12,7 @@
   <div class="row mb-4">
     <%= render 'treatment_list_search' %>
     <%= render 'treatment_manage' %>
-
-
-    <div class="col">
-      <div class="card pt-2" style="width: 18rem;">
-        <%= image_tag 'category_add.svg', alt: 'sample image', class: 'card-img-top w-25', width: 50, height: 50 %>
-        <div class="card-body">
-          <h5 class="card-title">カテゴリーの管理</h5>
-          <p class="card-text">カテゴリーに関する情報を一括管理します。</p>
-          <%= link_to '管理ページへ', categories_path, class: 'card-link' %>
-        </div>
-      </div>
-    </div>
+    <%= render 'category_manage' %>
   </div>
 
   <div class="row mb-4">
