@@ -36,7 +36,11 @@
                                                   link_title: '管理ページへ',
                                                   link_path:  samples_path } %>
 
-    <%= render 'category_manage' %>
+    <%= render partial: 'home_partial', locals: { image_path: 'category_add.svg',
+                                                  card_title: 'カテゴリーの管理',
+                                                  card_text:  'カテゴリーに関する情報を一括管理します。',
+                                                  link_title: '管理ページへ',
+                                                  link_path:  categories_path } %>
   </div>
 
   <div class="row mb-4">
