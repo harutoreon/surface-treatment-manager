@@ -56,6 +56,10 @@
                                                   link_title: '管理ページへ',
                                                   link_path:  users_path } %>
 
-    <%= render 'application_manage' %>
+    <%= render partial: 'home_partial', locals: { image_path: 'settings.svg',
+                                                  card_title: 'アプリケーションの管理',
+                                                  card_text:  'アプリケーションの設定やログアウトを行います。',
+                                                  link_title: '管理ページへ',
+                                                  link_path:  setting_path } %>
   </div>
 </div>
