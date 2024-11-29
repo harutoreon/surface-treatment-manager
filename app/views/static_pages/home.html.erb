@@ -4,7 +4,11 @@
   <h3 class="text-center mt-5 mb-5">メインメニュー</h3>
 
   <div class="row mb-4">
-    <%= render 'treatment_search' %>
+    <%= render partial: 'home_partial', locals: { image_path: 'experiment.svg',
+                                                  card_title: '処理名で検索',
+                                                  card_text:  '処理名を入力して表面処理を検索します。',
+                                                  link_title: '検索ページへ',
+                                                  link_path:  category_name_path } %>
     <%= render 'category_search' %>
     <%= render 'maker_search' %>
   </div>
