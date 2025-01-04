@@ -10,11 +10,11 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: "postgresql://postgres:password@db:5432/myapp_development"
+      DATABASE_URL: "postgresql://postgres:password@db:5432/example_dev"
     command: ["rails", "server", "-b", "0.0.0.0"]
 
   db:
-    image: postgres:15
+    image: postgres:16
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
