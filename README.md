@@ -13,14 +13,19 @@
 ## 使用技術
 - Ruby
 - Ruby on Rails
-- Bootstrap
+- PostgreSQL
 - RSpec
-- Rubocop
-- Brakeman
 - Capybara
 - Selenium
+- Rubocop
+- Brakeman
 - Bullet
 - SimpleCov
+- Bootstrap
+- Docker
+- Docker Compose
+- Github Actions
+- Render
 
 ## 機能一覧
 - 表面処理の検索
@@ -53,9 +58,8 @@
 ## CI
 - GitHub Actions
 
-## データベース
-- 開発環境: PostgreSQL version 14.13
-- 本番環境: PostgreSQL version 16
+## 開発環境
+- Docker Compose
 
-## デプロイ
-- Render
+## 本番環境
+- Docker / Render
