@@ -37,7 +37,9 @@ jobs:
           bundler-cache: true
 
       - name: execution brakeman
-        run: bundle exec brakeman --no-pager
+        run: |
+          cd backend/
+          bundle exec brakeman --no-pager
 
       - name: execution rubocop
         run: bundle exec rubocop
