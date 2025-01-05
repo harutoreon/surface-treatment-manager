@@ -33,7 +33,7 @@ jobs:
       - name: setup ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: backend/.ruby-version
+          ruby-version: 3.2.6
           bundler-cache: true
 
       - name: execution brakeman
