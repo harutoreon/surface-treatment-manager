@@ -34,7 +34,12 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.2.6
-          bundler-cache: false
+          bundler-cache: ture
+
+      - name: Install dependencies
+        run: |
+          cd backend/
+          bundle install
 
       - name: execution brakeman
         run: |
@@ -42,7 +47,9 @@ jobs:
           bundle exec brakeman --no-pager
 
       - name: execution rubocop
-        run: bundle exec rubocop
+        run: |
+          cd backend/
+          bundle exec rubocop
 
       - name: execution rspec
         env:
