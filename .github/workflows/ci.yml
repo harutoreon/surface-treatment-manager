@@ -34,7 +34,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.2.6
-          bundler-cache: true
+          bundler-cache: false
 
       - name: execution brakeman
         run: |
