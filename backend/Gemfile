@@ -21,6 +21,7 @@ gem 'mini_racer'
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'bundler'
+gem 'rack-cors'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
