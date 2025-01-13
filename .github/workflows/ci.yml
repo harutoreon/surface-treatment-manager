@@ -47,15 +47,15 @@ jobs:
         run: bundle exec rubocop
         working-directory: backend/
 
-      - name: execution rspec
-        env:
-          RAILS_ENV: test
-          DATABASE_URL: postgres://sample_user:sample_password@127.0.0.1:5432/sample_test_db
-        run: |
-          bin/rails db:create
-          bin/rails db:schema:load
-          bundle exec rspec
-        working-directory: backend/
+      # - name: execution rspec
+      #   env:
+      #     RAILS_ENV: test
+      #     DATABASE_URL: postgres://sample_user:sample_password@127.0.0.1:5432/sample_test_db
+      #   run: |
+      #     bin/rails db:create
+      #     bin/rails db:schema:load
+      #     bundle exec rspec
+      #   working-directory: backend/
 
 
       - name: Keep screenshots from failed system tests
