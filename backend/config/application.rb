@@ -8,6 +8,8 @@ Bundler.require(*Rails.groups)
 
 module SurfaceTreatmentManager
   class Application < Rails::Application
+    config.api_only = true
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
 
@@ -23,5 +25,14 @@ module SurfaceTreatmentManager
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+      origins 'http://localhost:5173'
+      resource '*',
+        headers: :any,
+        methods: [:get, :post, :put, :patch, :delete, :options, :head]
+      end
+    end
   end
 end
