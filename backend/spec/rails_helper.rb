@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'simplecov'
 
 SimpleCov.start do
-  # add_filter 'app/uploaders'
   add_filter '/spec/'
   add_filter '/config/'
   add_group 'Controllers', 'app/controllers'
