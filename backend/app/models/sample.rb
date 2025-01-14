@@ -7,7 +7,7 @@ class Sample < ApplicationRecord
   validates :maker,    presence: { message: '（メーカー）が空白です。' }
   validates :picture,  presence: { message: '（画像）がありません。' }
   validate  :picture_size
-  mount_uploader :picture, PictureUploader
+  # mount_uploader :picture, PictureUploader
 
   validates :hardness,       presence: { message: '（硬度）が空白です。' }
   validates :film_thickness, presence: { message: '（膜厚）が空白です。' }
