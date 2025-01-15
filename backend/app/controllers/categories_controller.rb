@@ -1,47 +1,39 @@
 class CategoriesController < ApplicationController
   def index
     @categories = Category.all
+
+    render json: @categories
   end
 
   def show
     @category = Category.find(params[:id])
-  end
 
-  def new
-    @category = Category.new
+    render json: @category
   end
 
   def create
     @category = Category.new(category_params)
 
     if @category.save
-      flash[:success] = "カテゴリーの登録に成功しました!"
-      redirect_to @category
+      render json: @category, status: created, location: @category
     else
-      render :new, status: :unprocessable_entity
+      render json: @category.errors, status: :unprocessable_entity
     end
-  end
-
-  def edit
-    @category = Category.find(params[:id])
   end
 
   def update
     @category = Category.find(params[:id])
 
     if @category.update(category_params)
-      flash[:success] = "カテゴリーの更新に成功しました!"
-      redirect_to @category
+      render json: @category
     else
-      render :edit, status: :unprocessable_entity
+      render json: @category.errors, status: :unprocessable_entity
     end
   end
 
   def destroy
     @category = Category.find(params[:id])
     @category.destroy
-    flash[:success] = "カテゴリーの削除に成功しました!"
-    redirect_to categories_url, status: :see_other
   end
 
   private
