@@ -7,9 +7,9 @@ development:
   <<: *default
   database: example_dev
 # docker compose
-  username: <%= ENV['POSTGRES_USER'] || 'postgres' %>
-  password: <%= ENV['POSTGRES_PASSWORD'] || 'password' %>
-  host: <%= ENV['POSTGRES_HOST'] || 'db' %>
+  # username: <%= ENV['POSTGRES_USER'] || 'postgres' %>
+  # password: <%= ENV['POSTGRES_PASSWORD'] || 'password' %>
+  # host: <%= ENV['POSTGRES_HOST'] || 'db' %>
 
 test:
   <<: *default

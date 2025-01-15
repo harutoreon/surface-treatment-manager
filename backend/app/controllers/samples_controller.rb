@@ -1,7 +1,4 @@
 class SamplesController < ApplicationController
-  before_action :logged_in_user, only: [:edit, :update, :destroy]
-  before_action :admin_user, only: :destroy
-
   def index
     @samples = Sample.paginate(page: params[:page], per_page: 8)
   end
