@@ -1,47 +1,39 @@
 class SamplesController < ApplicationController
   def index
-    @samples = Sample.paginate(page: params[:page], per_page: 8)
+    @samples = Sample.all
+
+    render json: @samples
   end
 
   def show
     @sample = Sample.find(params[:id])
-  end
 
-  def new
-    @sample = Sample.new
+    render json: @sample
   end
 
   def create
     @sample = Sample.new(sample_params)
 
     if @sample.save
-      flash[:success] = "表面処理の登録に成功しました!"
-      redirect_to @sample
+      render json: @sample, status: created, location: @sample
     else
-      render :new, status: :unprocessable_entity
+      render json: @sample.errors, status: :unprocessable_entity
     end
-  end
-
-  def edit
-    @sample = Sample.find(params[:id])
   end
 
   def update
     @sample = Sample.find(params[:id])
 
     if @sample.update(sample_params)
-      flash[:success] = "表面処理の更新に成功しました!"
-      redirect_to @sample
+      render json: @sample
     else
-      render :edit, status: :unprocessable_entity
+      render json: @sample.errors, status: :unprocessable_entity
     end
   end
 
   def destroy
     @sample = Sample.find(params[:id])
     @sample.destroy
-    flash[:success] = "表面処理の削除に成功しました!"
-    redirect_to samples_url, status: :see_other
   end
 
   private
