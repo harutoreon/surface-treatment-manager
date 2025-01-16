@@ -1,14 +1,37 @@
 class CommentsController < ApplicationController
+  def index
+    @sample = Sample.find(params[:sample_id])
+    @comments = @sample.comments
+
+    render json: @comments
+  end
+
+  def show
+    @sample = Sample.find(params[:sample_id])
+    @comment = @sample.comments.find(params[:id])
+
+    render json: @comment
+  end
+
   def create
     @sample = Sample.find(params[:sample_id])
     @comment = @sample.comments.build(comment_params)
 
     if @comment.save
-      flash[:success] = 'コメントを1件追加しました。'
-      redirect_to sample_path(@sample)
+      render json: @comment, status: created, location: @comment
     else
-      flash.now[:danger] = 'コメントの投稿者またはコメントが無効です。'
-      render 'samples/show', status: :unprocessable_entity
+      render json: @comment.errors, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    @sample = Sample.find(params[:sample_id])
+    @comment = @sample.comments.find(params[:id])
+
+    if @comment.update(comment_params)
+      render json: @comment
+    else
+      render json: @comment.errors, status: :unprocessable_entity
     end
   end
 
@@ -16,8 +39,6 @@ class CommentsController < ApplicationController
     @sample = Sample.find(params[:sample_id])
     @comment = @sample.comments.find(params[:id])
     @comment.destroy
-    flash[:success] = 'コメントの削除に成功しました!'
-    redirect_to sample_path(@sample), status: :see_other
   end
 
   private
