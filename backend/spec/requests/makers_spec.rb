@@ -82,9 +82,8 @@ RSpec.describe "Makers API", type: :request do
       end
 
       it 'データベースに登録されないこと' do
-        expect{ post "/makers", params: @invalid_maker_params }.to_not change{ User.count }.from(0)
+        expect{ post "/makers", params: @invalid_maker_params }.to_not change{ Maker.count }.from(0)
       end
-
     end
   end
 
@@ -99,7 +98,6 @@ RSpec.describe "Makers API", type: :request do
         json = JSON.parse(response.body, symbolize_names: true)
         expect(json[:name]).to eq('sample maker')
       end
-
     end
 
     context '無効なメーカー情報で更新した場合' do
