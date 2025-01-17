@@ -15,7 +15,7 @@ class MakersController < ApplicationController
     @maker = Maker.new(maker_params)
 
     if @maker.save
-      render json: @maker, status: created, location: @maker
+      render json: @maker, status: :created, location: @maker
     else
       render json: @maker.errors, status: :unprocessable_entity
     end
