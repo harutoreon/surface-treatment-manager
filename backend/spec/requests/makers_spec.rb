@@ -75,6 +75,7 @@ RSpec.describe "Makers API", type: :request do
                                            home_page: 'https://example.com/',
                                            manufacturer_rep: '池田 彩花' } }
       end
+
       it 'レスポンスのステータスがunprocessable_entityであること' do
         post "/makers", params: @invalid_maker_params
         expect(response).to have_http_status(:unprocessable_entity)
