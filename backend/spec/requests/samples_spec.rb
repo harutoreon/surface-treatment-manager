@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Samples", type: :request do
+RSpec.describe "Samples API", type: :request do
   describe '#index' do
     before do
       FactoryBot.create_list(:sample_list, 10)

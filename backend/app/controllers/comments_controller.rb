@@ -14,13 +14,13 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @sample = Sample.find(params[:sample_id])
-    @comment = @sample.comments.build(comment_params)
+    sample = Sample.find(params[:sample_id])
+    comment = sample.comments.build(comment_params)
 
-    if @comment.save
-      render json: @comment, status: created, location: @comment
+    if comment.save
+      render json: comment, status: :created, location: sample_comment_url(sample, comment)
     else
-      render json: @comment.errors, status: :unprocessable_entity
+      render json: comment.errors, status: :unprocessable_entity
     end
   end
 
