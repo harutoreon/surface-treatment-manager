@@ -109,7 +109,7 @@ RSpec.describe "Comments API", type: :request do
       it 'commenterが空白で更新できないこと' do
         patch "/samples/#{@comment.sample_id}/comments/#{@comment.id}",params: { comment: { commenter: '' } }
         json = JSON.parse(response.body, symbolize_names: true)
-        expect(json[:commenter]).to eq(["can't be blank"])
+        expect(json[:commenter]).to eq(["（投稿者名）が空白です。"])
       end
     end
   end
