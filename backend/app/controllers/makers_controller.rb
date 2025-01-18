@@ -1,50 +1,39 @@
 class MakersController < ApplicationController
-  before_action :logged_in_user, only: [:edit, :update, :destroy]
-  before_action :admin_user, only: :destroy
-
   def index
-    @makers = Maker.paginate(page: params[:page], per_page: 8)
+    @makers = Maker.all
+
+    render json: @makers
   end
 
   def show
     @maker = Maker.find(params[:id])
-  end
 
-  def new
-    @maker = Maker.new
+    render json: @maker
   end
 
   def create
     @maker = Maker.new(maker_params)
 
     if @maker.save
-      flash[:success] = "メーカーの登録に成功しました!"
-      redirect_to @maker
+      render json: @maker, status: :created, location: @maker
     else
-      render :new, status: :unprocessable_entity
+      render json: @maker.errors, status: :unprocessable_entity
     end
-  end
-
-  def edit
-    @maker = Maker.find(params[:id])
   end
 
   def update
     @maker = Maker.find(params[:id])
 
     if @maker.update(maker_params)
-      flash[:success] = "メーカーの更新に成功しました!"
-      redirect_to @maker
+      render json: @maker
     else
-      render :edit, status: :unprocessable_entity
+      render json: @maker.errors, status: :unprocessable_entity
     end
   end
 
   def destroy
     @maker = Maker.find(params[:id])
     @maker.destroy
-    flash[:success] = "メーカーの削除に成功しました!"
-    redirect_to makers_url, status: :see_other
   end
 
   private

@@ -3,8 +3,8 @@ class User < ApplicationRecord
 
   validates :name,                  presence: { message: '（ユーザー名）が空白です。' }
   validates :department,            presence: { message: '（部署名）が空白です。' }
-  validates :password,              presence: { message: '（パスワード）が空白です。' }
-  validates :password_confirmation, presence: { message: '（パスワードの確認）が空白です。' }
+  validates :password,              presence: { message: '（パスワード）が空白です。', allow_nil: true }
+  validates :password_confirmation, presence: { message: '（パスワードの確認）が空白です。', allow_nil: true }
 
   validate :name_length
   validate :password_length

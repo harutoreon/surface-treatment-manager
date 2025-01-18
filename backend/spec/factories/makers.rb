@@ -12,12 +12,12 @@ FactoryBot.define do
 
   factory :maker_list, class: Maker do
     name { Faker::Company.name }
-    sequence(:postal_code) { |n| "859-110#{n}" }
-    sequence(:address) { |n| "東京都渋谷区神南1-2-#{n}" }
-    sequence(:phone_number) { |n| "075-4747-245#{n}" }
-    sequence(:fax_number) { |n| "075-4747-245#{n}" }
-    sequence(:email) { |n| "sample_maker#{n}@example.com" }
-    sequence(:home_page) { |n| "https://example.com/sample_maker#{n}" }
+    postal_code { "859-1101" }
+    address { "東京都渋谷区神南1-2-2" }
+    phone_number { "075-4747-2453" }
+    fax_number { "075-4747-2454" }
+    email { "sample_maker@example.com" }
+    home_page { "https://example.com/sample_maker" }
     manufacturer_rep { Faker::Name.name }
   end
 end

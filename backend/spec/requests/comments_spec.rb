@@ -1,108 +1,129 @@
-# require 'rails_helper'
+require 'rails_helper'
 
-# RSpec.describe "Comments", type: :request do
-#   describe "#create" do
-#     before do
-#       @sample = FactoryBot.create(:sample)
+RSpec.describe "Comments API", type: :request do
+  describe '#index' do
+    before do
+      FactoryBot.create(:sample)
+      FactoryBot.create_list(:comment, 10)
+      @comment = Comment.first
+    end
 
-#       general_user = FactoryBot.create(:general_user)
-#       log_in(general_user)
-#     end
+    it 'レスポンスのステータスがsuccessであること' do
+      get "/samples/#{@comment.sample_id}/comments"
+      expect(response).to have_http_status(:success)
+    end
 
-#     context '有効な値の場合' do
-#       before do
-#         @valid_comment_params = { comment: { commenter: 'sample user', department: 'department', body: 'sample comment.' } }
-#       end
+    it 'コメントの件数が10件返ること' do
+      get "/samples/#{@comment.sample_id}/comments"
+      json = JSON.parse(response.body)
+      expect(json.count).to eq(10)
+    end
+  end
 
-#       it '登録が成功すること' do
-#         expect { post sample_comments_path(@sample), params: @valid_comment_params }.to change{ Comment.count }.from(0).to(1)
-#       end
+  describe '#show' do
+    before do
+      FactoryBot.create(:sample)
+      @comment = FactoryBot.create(:comment)
+    end
 
-#       it 'samples/showページにリダイレクトされること' do
-#         post sample_comments_path(@sample), params: @valid_comment_params
-#         expect(response).to redirect_to(@sample)
-#       end
+    it 'レスポンスのステータスがsuccessであること' do
+      get "/samples/#{@comment.sample_id}/comments/#{@comment.id}"
+      expect(response).to have_http_status(:success)
+    end
 
-#       it 'フラッシュメッセージが表示されること' do
-#         post sample_comments_path(@sample), params: @valid_comment_params
-#         expect(flash['success']).to eq('コメントを1件追加しました。')
-#       end
-#     end
+    it 'コメントの詳細が返ること' do
+      get "/samples/#{@comment.sample_id}/comments/#{@comment.id}"
+      json = JSON.parse(response.body, symbolize_names: true)
+      expect(json[:commenter]).to eq("木下 太一")
+      expect(json[:department]).to eq("品質管理部")
+      expect(json[:body]).to eq("変寸量が一定ではありません。")
+    end
+  end
 
-#     context '無効な値の場合' do
-#       before do
-#         @invalid_comment_params = { comment: { commenter: '', department: 'department', body: 'sample comment.' } }
-#       end
+  describe "#create" do
+    before do
+      @sample = FactoryBot.create(:sample)
+    end
 
-#       it '登録に失敗すること' do
-#         expect { post sample_comments_path(@sample), params: @invalid_comment_params }.to_not change{ Comment.count }.from(0)
-#       end
+    context '有効なコメント情報で登録したとき' do
+      before do
+        @valid_comment_params = { comment: { commenter: 'sample user',
+                                             department: 'department',
+                                             body: 'sample comment.' } }
+      end
 
-#       it 'samples/showページを再表示すること' do
-#         post sample_comments_path(@sample), params: @invalid_comment_params
-#         expect(response.body).to include('表面処理情報')
-#       end
+      it 'レスポンスのステータスがcreatedであること' do
+        post "/samples/#{@sample.id}/comments", params: @valid_comment_params
+        expect(response).to have_http_status(:created)
+      end
 
-#       it 'フラッシュメッセージが表示されること' do
-#         post sample_comments_path(@sample), params: @invalid_comment_params
-#         expect(flash['danger']).to eq('コメントの投稿者またはコメントが無効です。')
-#       end
-#     end
-#   end
+      it 'headerのlocationが登録したコメントを参照していること' do
+        post "/samples/#{@sample.id}/comments", params: @valid_comment_params
+        comment = Comment.last
+        expect(response.header["Location"]).to eq("http://www.example.com/samples/#{comment.sample_id}/comments/#{comment.id}")
+      end
 
-#   describe '#destroy' do
-#     before do
-#       @sample = FactoryBot.create(:sample)
-#       @comment = @sample.comments.create(commenter: 'sample user', department: 'department', body: 'sample comment.')
-#     end
+      it 'データベースのコメント数が1件増えること' do
+        expect { post "/samples/#{@sample.id}/comments", params: @valid_comment_params }.to change{ Comment.count }.from(0).to(1)
+      end
+    end
 
-#     context '管理者ユーザーでログインした場合' do
-#       before do
-#         admin_user = FactoryBot.create(:admin_user)
-#         log_in(admin_user)
-#       end
+    context '無効なコメント情報で登録したとき' do
+      before do
+        @invalid_comment_params = { comment: { commenter: '',
+                                               department: 'department',
+                                               body: 'sample comment.' } }
+      end
 
-#       it 'レコード数が減少すること' do
-#         expect { delete sample_comment_path(@sample, @comment) }.to change{ Comment.count }.from(1).to(0)
-#       end
+      it 'レスポンスのステータスがunprocessable_entityであること' do
+        post "/samples/#{@sample.id}/comments", params: @invalid_comment_params
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
 
-#       it 'samples/showにリダイレクトすること' do
-#         delete sample_comment_path(@sample, @comment)
-#         expect(response).to redirect_to(@sample)
-#       end
+      it 'データベースに登録されないこと' do
+        expect { post "/samples/#{@sample.id}/comments", params: @invalid_comment_params }.to_not change{ Comment.count }.from(0)
+      end
+    end
+  end
 
-#       it 'flash変数に:successが格納されること' do
-#         delete sample_comment_path(@sample, @comment)
-#         expect(flash[:success]).to eq('コメントの削除に成功しました!')
-#       end
-#     end
+  describe '#update' do
+    before do
+      FactoryBot.create(:sample)
+      @comment = FactoryBot.create(:comment)
+    end
 
-#     context '一般ユーザーでログインした場合' do
-#       before do
-#         general_user = FactoryBot.create(:general_user)
-#         log_in(general_user)
-#       end
+    context '有効なコメント情報で更新したとき' do
+      it 'commenterがsample userで更新されること' do
+        patch "/samples/#{@comment.sample_id}/comments/#{@comment.id}",params: { comment: { commenter: 'sample user' } }
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json[:commenter]).to eq("sample user")
+      end
+    end
 
-#       it 'レコード数が変わらないこと' do
-#         expect { delete sample_comment_path(@sample, @comment) }.to_not change{ Comment.count }.from(1)
-#       end
+    context '無効なコメント情報で更新したとき' do
+      it 'レスポンスがunprocessable_entityであること' do
+        patch "/samples/#{@comment.sample_id}/comments/#{@comment.id}",params: { comment: { commenter: '' } }
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
 
-#       it "ログインページにリダイレクトされること" do
-#         delete sample_comment_path(@sample, @comment)
-#         expect(response).to redirect_to(login_url)
-#       end
-#     end
+      it 'commenterが空白で更新できないこと' do
+        patch "/samples/#{@comment.sample_id}/comments/#{@comment.id}",params: { comment: { commenter: '' } }
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json[:commenter]).to eq(["（投稿者名）が空白です。"])
+      end
+    end
+  end
 
-#     context '未ログインの場合' do
-#       it "ログインページにリダイレクトされること" do
-#         delete sample_comment_path(@sample, @comment)
-#         expect(response).to redirect_to(login_url)
-#       end
+  describe '#destroy' do
+    before do
+      FactoryBot.create(:sample)
+      @comment = FactoryBot.create(:comment)
+    end
 
-#       it "フラッシュメッセージが表示されること" do
-#         delete sample_comment_path(@sample, @comment)
-#         expect(flash[:danger]).to eq('ログインしてください')
-#       end
-#     end
-#   end
-# end
+    it 'コメントが1件削除されること' do
+      expect {
+        delete "/samples/#{@comment.sample_id}/comments/#{@comment.id}"
+      }.to change{ Comment.count }.from(1).to(0)
+    end
+  end
+end
