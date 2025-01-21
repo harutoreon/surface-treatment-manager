@@ -28,7 +28,11 @@ module SurfaceTreatmentManager
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-      origins 'http://localhost:5173'
+        if Rails.env.production?
+          origins 'https://surface-treatment-manager-vue.onrender.com'
+        else
+          origins 'http://localhost:5173'
+        end
       resource '*',
         headers: :any,
         methods: [:get, :post, :put, :patch, :delete, :options, :head]

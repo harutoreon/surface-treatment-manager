@@ -2,13 +2,14 @@
 import { ref, onMounted, watch } from 'vue'
 import axios from 'axios'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const sampleData = ref([])
 const data = ref([])
 const selected = ref('')
 
 const downloadData = async () => {
   try {
-    const response = await axios.get(`https://surface-treatment-manager.onrender.com/samples`)
+    const response = await axios.get(`${API_BASE_URL}/samples`)
     sampleData.value = response.data
   } catch (error) {
     console.error('Failed to load data:', error)
@@ -17,7 +18,7 @@ const downloadData = async () => {
 
 const loadData = async () => {
   try {
-    const response = await axios.get(`https://surface-treatment-manager.onrender.com/samples/${selected.value}`)
+    const response = await axios.get(`${API_BASE_URL}/samples/${selected.value}`)
     data.value = response.data
   } catch (error) {
     console.error('Failed to load data:', error)
