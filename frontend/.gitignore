@@ -29,6 +29,6 @@ coverage
 
 *.tsbuildinfo
 
-#vite api base url
+# vite api base url
 .env.development
 .env.production
