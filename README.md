@@ -58,3 +58,20 @@
     - Static Site / Docker
   - Backend
     - Web Service, PostgreSQL / Docker
+
+## コンテナの起動
+```sh
+$ docker compose up -d
+```
+
+## ログのリアルタイム表示
+```sh
+$ docker compose logs -f db
+$ docker compose logs -f backend
+$ docker compose logs -f frontend
+```
+
+## コンテナの停止
+```sh
+$ docker compose down
+```
