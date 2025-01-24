@@ -1,0 +1,39 @@
+databases:
+- name: surface-treatment-manager
+  databaseName: surface_treatment_manager_bmdu
+  user: surface_treatment_manager_bmdu_user
+  plan: free
+  region: singapore
+  ipAllowList:
+  - source: 0.0.0.0/0
+    description: everywhere
+  postgresMajorVersion: "16"
+services:
+- type: web
+  name: surface-treatment-manager
+  runtime: docker
+  repo: https://github.com/harutoreon/surface-treatment-manager
+  plan: free
+  envVars:
+  - key: DATABASE_URL
+    fromDatabase:
+      name: surface-treatment-manager
+      property: connectionString
+  - key: RAILS_MASTER_KEY
+    sync: false
+  - key: WEB_CONCURRENCY
+    sync: false
+  region: singapore
+  dockerContext: ./backend
+  dockerfilePath: ./backend/Dockerfile
+- type: web
+  name: surface-treatment-manager-vue
+  runtime: static
+  repo: https://github.com/harutoreon/surface-treatment-manager
+  envVars:
+  - key: VITE_API_BASE_URL
+    sync: false
+  buildCommand: npm install && npm run build
+  staticPublishPath: dist
+  rootDir: ./frontend
+version: "1"
