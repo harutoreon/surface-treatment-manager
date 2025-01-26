@@ -73,9 +73,9 @@ jobs:
           path: backend/coverage/
           retention-days: 1
 
-      - name: deploy frontend
-        if: github.ref == 'refs/heads/main'
-        env:
-          deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
-        run: |
-          curl "$deploy_url"
+      # - name: deploy frontend
+      #   if: github.ref == 'refs/heads/main'
+      #   env:
+      #     deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+      #   run: |
+      #     curl "$deploy_url"
