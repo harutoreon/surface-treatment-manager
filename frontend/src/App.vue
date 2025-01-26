@@ -9,7 +9,7 @@ const user = ref([{
   password: ''
 }])
 
-function getUserInformation() {
+function getUserInfor() {
   user.value.name = name.value
   user.value.password = password.value
 }
@@ -24,7 +24,7 @@ function getUserInformation() {
   <label for="password">パスワード</label>
   <input type="password" id="password" v-model="password"><br>
 
-  <input type="submit" value="ログイン" v-on:click="getUserInformation">
+  <input type="submit" value="ログイン" v-on:click="getUserInfor">
 
   <p>ユーザー名 : {{ user.name }}</p>
   <p>パスワード : {{ user.password }}</p>
