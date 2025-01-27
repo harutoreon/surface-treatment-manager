@@ -1,14 +1,16 @@
-import { createMemoryHistory,createRouter } from "vue-router"
+import { createRouter, createWebHistory } from "vue-router"
 
-import HomeView from './HomeView.vue'
-import AboutView from './AboutView.vue'
+import LoginView from './src/components/LoginView.vue'
+import SamplesView from './src/components/SamplesView.vue'
 
 const routes = [
-  { path: '/', component: HomeView },
-  { path: '/about', component: AboutView }
+  { path: '/', component: LoginView },
+  { path: '/about', component: SamplesView}
 ]
 
 const router = createRouter({
-  history: createMemoryHistory(),
+  history: createWebHistory(),
   routes
 })
+
+export default router
