@@ -1,18 +1,6 @@
-# require 'rails_helper'
+require 'rails_helper'
 
-# RSpec.describe "Sessions", type: :request do
-#   describe "#new" do
-#     it "ステータスコード200が返ること" do
-#       get root_path
-#       expect(response).to have_http_status(:success)
-#     end
-
-#     it 'タイトルが表示されること' do
-#       get root_path
-#       expect(response.body).to include('<title>ログイン</title>')
-#     end
-#   end
-
+RSpec.describe "Sessions", type: :request do
 #   describe '#create' do
 #     before do
 #       FactoryBot.create(:general_user)
@@ -77,4 +65,4 @@
 #       expect(logged_in?).to_not be_truthy
 #     end
 #   end
-# end
+end
