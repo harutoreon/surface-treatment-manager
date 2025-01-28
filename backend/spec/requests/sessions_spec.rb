@@ -1,48 +1,50 @@
 require 'rails_helper'
 
 RSpec.describe "Sessions", type: :request do
-#   describe '#create' do
-#     before do
-#       FactoryBot.create(:general_user)
-#     end
+  describe '#create' do
+    before do
+      @general_user = FactoryBot.create(:general_user)
+    end
 
-#     context '認証に成功する場合' do
-#       before do
-#         @valid_login_params = { session: { name: 'general user', password: 'generalpassword' } }
-#       end
+    context '認証に成功した場合' do
+      before do
+        @valid_login_params = { name: 'general user', password: 'generalpassword' }
+      end
 
-#       it 'ステータスコード302が返ること' do
-#         post login_path, params: @valid_login_params
-#         expect(response).to have_http_status(:found)
-#       end
+      it 'ステータスコードのレスポンスがsuccessであること' do
+        post "/login", params: @valid_login_params
+        expect(response).to have_http_status(:success)
+      end
 
-#       it 'メインメニュー画面にリダイレクトされること' do
-#         post login_path, params: @valid_login_params
-#         expect(response).to redirect_to home_url
-#       end
-#     end
+      it 'セッションにgeneral userのidが登録されること' do
+        post "/login", params: @valid_login_params
+        expect(session[:user_id]).to eq(@general_user.id)
+      end
 
-#     context '認証に失敗する場合' do
-#       before do
-#         @invalid_login_params = { session: { name: 'general user', password: 'general' } }
-#       end
+      it 'ユーザー情報が返ること' do
+        post "/login", params: @valid_login_params
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json[:user][:name]).to eq('general user')
+      end
+    end
 
-#       it 'ステータスコード422が返ること' do
-#         post login_path, params: @invalid_login_params
-#         expect(response).to have_http_status(:unprocessable_entity)
-#       end
+    context '認証に失敗した場合' do
+      before do
+        @invalid_login_params = { session: { name: 'general user', password: '' } }
+      end
 
-#       it 'ログイン画面のままであること' do
-#         post login_path, params: @invalid_login_params
-#         expect(response.body).to include('<title>ログイン</title>')
-#       end
+      it 'レスポンスのステータスがunprocessable_entityであること' do
+        post "/login", params: @invalid_login_params
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
 
-#       it 'フラッシュメッセージが表示されること' do
-#         post login_path, params: @invalid_login_params
-#         expect(flash[:danger]).to eq('名前とパスワードの組み合わせが無効です')
-#       end
-#     end
-#   end
+      it 'エラーメッセージが返ること' do
+        post "/login", params: @invalid_login_params
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json[:error]).to eq('Invalid name or password')
+      end
+    end
+  end
 
 #   describe '#destroy' do
 #     before do
