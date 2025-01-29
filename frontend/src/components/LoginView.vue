@@ -22,4 +22,18 @@ const handleLogin = async () => {
 </script>
 
 <template>
+  <div>
+    <form v-on:submit.prevent="handleLogin">
+      <input v-model="name" type="text" placeholder="Name" required><br>
+      <input v-model="password" type="password" placeholder="Password" required><br>
+      <button type="submit">Login</button>
+    </form>
+    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+  </div>
 </template>
+
+<style>
+.error {
+  color: red;
+}
+</style>

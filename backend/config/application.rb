@@ -8,6 +8,11 @@ Bundler.require(*Rails.groups)
 
 module SurfaceTreatmentManager
   class Application < Rails::Application
+    config.session_store :cookie_store, key: '_surface_treatment_manager_session'
+
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
+
     config.api_only = true
 
     # Initialize configuration defaults for originally generated Rails version.
