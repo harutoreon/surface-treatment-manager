@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import LoginView from './components/LoginView.vue';
 
 const user = ref(null)

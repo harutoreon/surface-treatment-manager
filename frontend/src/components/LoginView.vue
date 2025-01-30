@@ -5,6 +5,7 @@ import axios from 'axios'
 const name = ref('')
 const password = ref('')
 const errorMessage = ref('')
+const emit = defineEmits(['login-success'])
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
