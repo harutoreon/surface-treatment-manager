@@ -1,31 +1,40 @@
 <script setup>
-import { ref } from "vue"
+import { ref } from 'vue'
+import axios from 'axios'
 
 const name = ref('')
 const password = ref('')
+const errorMessage = ref('')
+const emit = defineEmits(['login-success'])
 
-const user = ref([{
-  name: '',
-  password: ''
-}])
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
-function getUserInfor() {
-  user.value.name = name.value
-  user.value.password = password.value
+const handleLogin = async () => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/login`, {
+      name: name.value,
+      password: password.value
+    })
+    emit('login-success', response.data.user)
+  } catch (error) {
+    errorMessage.value = 'Invalid name or password'
+  }
 }
 </script>
 
 <template>
-  <h3>ログイン</h3>
-
-  <label for="name">ユーザー名</label>
-  <input type="text" id="name" v-model="name"><br>
-
-  <label for="password">パスワード</label>
-  <input type="password" id="password" v-model="password"><br>
-
-  <input type="submit" value="ログイン" v-on:click="getUserInfor">
-
-  <p>ユーザー名 : {{ user.name }}</p>
-  <p>パスワード : {{ user.password }}</p>
+  <div>
+    <form v-on:submit.prevent="handleLogin">
+      <input v-model="name" type="text" placeholder="Name" required><br>
+      <input v-model="password" type="password" placeholder="Password" required><br>
+      <button type="submit">Login</button>
+    </form>
+    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+  </div>
 </template>
+
+<style>
+.error {
+  color: red;
+}
+</style>

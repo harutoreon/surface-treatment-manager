@@ -64,4 +64,9 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # config.session_store :cookie_store, key: '_surface_treatment_manager_session'
+
+  # config.middleware.use ActionDispatch::Cookies
+  # config.middleware.use ActionDispatch::Session::CookieStore, Rails.application.config.session_options
 end
