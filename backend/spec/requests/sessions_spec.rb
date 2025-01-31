@@ -46,25 +46,20 @@ RSpec.describe "Sessions", type: :request do
     end
   end
 
-#   describe '#destroy' do
-#     before do
-#       user = FactoryBot.create(:user)
-#       log_in(user)
-#     end
+  describe '#destroy' do
+    before do
+      user = FactoryBot.create(:general_user)
+      post "/login", params: { name: user.name, password: user.password }
+    end
 
-#     it 'ステータスコード303が返ること' do
-#       delete logout_path
-#       expect(response).to have_http_status(:see_other)
-#     end
+    it 'レスポンスのステータスコードがno_contentであること' do
+      delete "/logout"
+      expect(response).to have_http_status(:no_content)
+    end
 
-#     it 'ログイン画面にリダイレクトされること' do
-#       delete logout_path
-#       expect(response).to redirect_to login_url
-#     end
-
-#     it '@current_userが空であること' do
-#       delete logout_path
-#       expect(logged_in?).to_not be_truthy
-#     end
-#   end
+    it 'セッションのユーザーidが空であること' do
+      delete "/logout"
+      expect(session[:user_id]).to eq(nil)
+    end
+  end
 end
