@@ -1,7 +1,8 @@
+# Exported from Render on 2025-02-01T01:16:51Z
 databases:
 - name: surface-treatment-manager
-  databaseName: surface_treatment_manager_bmdu
-  user: surface_treatment_manager_bmdu_user
+  databaseName: surface_treatment_manager_r5ag
+  user: surface_treatment_manager_r5ag_user
   plan: free
   region: singapore
   ipAllowList:
