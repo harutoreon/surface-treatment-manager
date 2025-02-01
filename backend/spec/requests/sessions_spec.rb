@@ -52,14 +52,53 @@ RSpec.describe "Sessions", type: :request do
       post "/login", params: { name: user.name, password: user.password }
     end
 
-    it 'レスポンスのステータスコードがno_contentであること' do
+    it 'レスポンスのステータスコードがsuccessであること' do
       delete "/logout"
-      expect(response).to have_http_status(:no_content)
+      expect(response).to have_http_status(:success)
     end
 
     it 'セッションのユーザーidが空であること' do
       delete "/logout"
       expect(session[:user_id]).to eq(nil)
+    end
+  end
+
+  describe '#logged_in?' do
+    context 'ログインしている場合' do
+      before do
+        @user = FactoryBot.create(:general_user)
+        post "/login", params: { name: @user.name, password: @user.password }        
+      end
+
+      it 'logged_inがtrueであること' do
+        get "/logged_in?"
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json[:logged_in]).to eq(true)
+      end
+
+      it 'ログインしたユーザー情報が含まれていること' do
+        get "/logged_in?"
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json[:user][:id]).to eq(@user.id)
+      end
+
+      it 'レスポンスのステータスコードがsuccessであること' do
+        get "/logged_in?"
+        expect(response).to have_http_status(:success)
+      end
+    end
+
+    context 'ログインしていない場合' do
+      it 'logged_inがfalseであること' do
+        get "/logged_in?"
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json[:logged_in]).to eq(false)
+      end
+
+      it 'レスポンスのステータスがsuccessであること' do
+        get "/logged_in?"
+        expect(response).to have_http_status(:success)
+      end
     end
   end
 end
