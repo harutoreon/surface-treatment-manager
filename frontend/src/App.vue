@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import LoginView from './components/LoginView.vue';
 
@@ -19,6 +19,19 @@ const logout = async () => {
     console.error('Logout failed')
   }
 }
+
+const checkLoginStatus = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/logged_in`)
+    user.value = response.data.user || null
+  } catch (error) {
+    console.error('Failed to check login status')
+  }
+}
+
+onMounted(() => {
+  checkLoginStatus()
+})
 </script>
 
 <template>
