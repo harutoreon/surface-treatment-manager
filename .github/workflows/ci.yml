@@ -88,5 +88,5 @@ jobs:
         working-directory: frontend/
 
       - name: execution vitest
-        run: npm run test
+        run: npm run test --silent
         working-directory: frontend/
