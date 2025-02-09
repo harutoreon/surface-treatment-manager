@@ -73,7 +73,7 @@ jobs:
           retention-days: 1
 
       - name: setup node.js
-        uses: actions/setup-node@4
+        uses: actions/setup-node@v4
         with:
           node-version: '22.13.0'
 
