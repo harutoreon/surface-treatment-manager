@@ -1,19 +1,24 @@
 # Backend 開発環境
-- Ruby（3.2.6）
-- Ruby on Rails（7.2.2）
-- PostgreSQL（16.4）
-- RSpec（3.13）
-- RuboCop（1.69.2）
-- brakeman（7.0.0）
+- Ruby
+- Ruby on Rails
+- PostgreSQL
+- RSpec
+- RuboCop
+- brakeman
+
+## イメージの生成
+```sh
+$ docker compose build
+```
 
 ## コンテナの起動
 ```sh
-$ docker compose up -d
+$ docker compose up --detach
 ```
 
 ## ログのリアルタイム表示
 ```sh
-$ docker compose logs -f app
+$ docker compose logs --follow app
 ```
 
 ## コンテナの停止

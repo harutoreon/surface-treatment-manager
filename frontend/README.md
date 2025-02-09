@@ -1,15 +1,27 @@
 # Frontend 開発環境
-- Vue.js（3.5.13）
-- Vite（6.0.7）
+  - HTML
+  - CSS
+  - JavaScript
+  - Vue.js
+  - Vite
+  - Vue Router
+  - ESLint
+  - Vitest
+  - Bootstrap
+
+## イメージの生成
+```sh
+$ docker compose build
+```
 
 ## コンテナの起動
 ```sh
-$ docker compose up -d
+$ docker compose up --detach
 ```
 
 ## ログのリアルタイム表示
 ```sh
-$ docker compose logs -f app
+$ docker compose logs --follow app
 ```
 
 ## コンテナの停止
