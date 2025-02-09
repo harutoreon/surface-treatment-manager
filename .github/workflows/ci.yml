@@ -79,7 +79,8 @@ jobs:
           node-version-file: ./frontend/.node-version
 
       - name: install dependencies
-        run: npm install
+        # run: npm install
+        run: npm ci
         working-directory: frontend/
 
       - name: execution eslint
