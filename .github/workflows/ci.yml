@@ -76,7 +76,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           # node-version: '22.13.0'
-          node-version-file: ./frontend/
+          node-version-file: ./frontend/node-version
 
       - name: install dependencies
         run: npm install
