@@ -9,7 +9,12 @@
 
 ## 使用技術
 - Frontend
-  - Vue.js（SPAで実装予定）
+  - HTML
+  - CSS
+  - JavaScript
+  - Vue.js（SPA）
+  - Vue Router
+  - Bootstrap
 - Backend
   - Ruby
   - Ruby on Rails（API）
@@ -30,21 +35,29 @@
   - コメント機能
 
 ## コード解析
-- Rubocop
+- Frontend
+  - ESLint
+- Backend
+  - Rubocop
 
 ## セキュリティチェック
-- Brakeman
+- Backend
+  - Brakeman
 
 ## SQL N + 1 対策
 - Bullet
 
 ## テスト
-- RSpec
-  - 単体テスト (Model Spec)
-  - 機能テスト (Request Spec)
+- Frontend
+  - Vitest
+- Backend
+  - RSpec
+    - 単体テスト (Model Spec)
+    - 機能テスト (Request Spec)
 
 ## カバレッジ計測
-- SimpleCov
+- Backend
+  - SimpleCov
 
 ## CI/CD
 - GitHub Actions
@@ -55,20 +68,25 @@
 ## 本番環境
 - Render
   - Frontend
-    - Static Site / Docker
+    - Static Site / Static
   - Backend
     - Web Service, PostgreSQL / Docker
 
+## イメージの生成
+```sh
+$ docker compose build
+```
+
 ## コンテナの起動
 ```sh
-$ docker compose up -d
+$ docker compose up --detach
 ```
 
 ## ログのリアルタイム表示
 ```sh
-$ docker compose logs -f db
-$ docker compose logs -f backend
-$ docker compose logs -f frontend
+$ docker compose logs --follow backend
+$ docker compose logs --follow frontend
+$ docker compose logs --follow db
 ```
 
 ## コンテナの停止
