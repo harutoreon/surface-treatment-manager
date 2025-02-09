@@ -80,7 +80,7 @@ jobs:
 
       - name: install dependencies
         # run: npm install
-        run: npm ci
+        run: npm ci --no-fund
         working-directory: frontend/
 
       - name: execution eslint
