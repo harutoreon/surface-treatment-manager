@@ -35,7 +35,7 @@ jobs:
         with:
           ruby-version: 3.2.6
 
-      - name: Install dependencies
+      - name: install dependencies
         run: bundle install
         working-directory: backend/
 
@@ -57,7 +57,6 @@ jobs:
           bundle exec rspec
         working-directory: backend/
 
-
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
         if: failure()
@@ -72,3 +71,20 @@ jobs:
           name: coverage_report
           path: backend/coverage/
           retention-days: 1
+
+      - name: setup node.js
+        uses: actions/setup-node@4
+        with:
+          node-version: '22.13.0'
+
+      - name: install dependencies
+        run: npm install
+        working-directory: frontend/
+
+      - name: execution eslint
+        run: npm run lint
+        working-directory: frontend/
+
+      - name: execution vitest
+        run: npm run test
+        working-directory: frontend/
