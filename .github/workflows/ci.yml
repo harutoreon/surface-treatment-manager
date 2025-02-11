@@ -85,6 +85,10 @@ jobs:
         run: npm run lint
         working-directory: frontend/
 
+      - name: execution audit
+        run: npm audit
+        working-directory: frontend/
+
       - name: execution vitest
         run: npm run test
         working-directory: frontend/
