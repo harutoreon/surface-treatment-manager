@@ -1,4 +1,5 @@
 import pluginVue from "eslint-plugin-vue"
+import pluginSecurity from 'eslint-plugin-security'
 
 export default [
   {
@@ -28,4 +29,5 @@ export default [
       "vue/no-undef-components": "warn",
     },
   },
+  pluginSecurity.configs.recommended
 ]
