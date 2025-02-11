@@ -41,6 +41,9 @@
   - Rubocop
 
 ## セキュリティチェック
+- Frontend
+  - ESLint - eslint-plugin-security
+  - npm audit
 - Backend
   - Brakeman
 
