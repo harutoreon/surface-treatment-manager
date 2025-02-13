@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router"
 
-import LoginView from './src/components/LoginView.vue'
+import LoginForm from "@/components/LoginForm.vue"
 
 const routes = [
-  { path: '/', component: LoginView }
+  { path: '/', component: LoginForm }
 ]
 
 const router = createRouter({

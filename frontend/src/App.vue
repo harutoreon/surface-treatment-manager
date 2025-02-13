@@ -32,26 +32,28 @@
 // onMounted(() => {
 //   checkLoginStatus()
 // })
-document.addEventListener('DOMContentLoaded', function() {
-  let radio1 = document.getElementById('general_user');
-  let radio2 = document.getElementById('admin_user');
-  let usernameField = document.getElementById('name');
-  let userpasswordField = document.getElementById('password');
+// document.addEventListener('DOMContentLoaded', function() {
+//   let radio1 = document.getElementById('general_user');
+//   let radio2 = document.getElementById('admin_user');
+//   let usernameField = document.getElementById('name');
+//   let userpasswordField = document.getElementById('password');
 
-  radio1.addEventListener('change', function() {
-    if (radio1.checked) {
-      usernameField.value = 'general user';
-      userpasswordField.value = 'generalpassword';
-    }
-  });
+//   radio1.addEventListener('change', function() {
+//     if (radio1.checked) {
+//       usernameField.value = 'general user';
+//       userpasswordField.value = 'generalpassword';
+//     }
+//   });
 
-  radio2.addEventListener('change', function() {
-    if (radio2.checked) {
-      usernameField.value = 'admin user';
-      userpasswordField.value = 'adminpassword';
-    }
-  });
-});
+//   radio2.addEventListener('change', function() {
+//     if (radio2.checked) {
+//       usernameField.value = 'admin user';
+//       userpasswordField.value = 'adminpassword';
+//     }
+//   });
+// });
+
+import LoginForm from './components/LoginForm.vue'
 </script>
 
 <template>
@@ -70,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <!-- <main>
       <LoginView v-if="!user" @login-success="setUser"/>
     </main> -->
-    <div class="container w-25">
+    <!-- <div class="container w-25">
 
       <h3 class="text-center mt-5 mb-5">ログイン</h3>
 
@@ -106,6 +108,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <div class="text-center mt-5">
       <RouterLink to="#">logout page</RouterLink>
-    </div>
+    </div> -->
   </div>
+
+  <LoginForm />
 </template>
