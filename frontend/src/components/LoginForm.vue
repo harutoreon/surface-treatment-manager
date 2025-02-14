@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 
   <div class="text-center mt-5">
-    <RouterLink to="#">logout page</RouterLink>
+    <RouterLink to="/sample">Sample List</RouterLink>
   </div>
 </template>
 

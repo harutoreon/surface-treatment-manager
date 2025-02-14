@@ -53,22 +53,25 @@
 //   });
 // });
 
-import LoginForm from './components/LoginForm.vue'
+// import LoginForm from './components/LoginForm.vue'
 </script>
 
 <template>
-  <div>
+  <header>
+    <nav class="navbar bg-body-tertiary border-bottom">
+      <div class="container justify-content-center">
+        <a class="navbar-brand" href="#">Surface Treatment Manager</a>
+      </div>
+    </nav>
+  </header>
+
+  <RouterView />
+  
+  <!-- <div> -->
     <!-- <header>
       <h1>Welcome {{ user ? user.name : 'Guest' }}</h1>
       <button v-if="user" v-on:click="logout">Logout</button>
     </header> -->
-    <header>
-      <nav class="navbar bg-body-tertiary border-bottom">
-        <div class="container justify-content-center">
-          <a class="navbar-brand" href="#">Surface Treatment Manager</a>
-        </div>
-      </nav>
-    </header>
     <!-- <main>
       <LoginView v-if="!user" @login-success="setUser"/>
     </main> -->
@@ -104,12 +107,12 @@ import LoginForm from './components/LoginForm.vue'
 
         <input type="submit" name="commit" value="ログイン" class="form-control btn btn-primary" data-disable-with="ログイン">
       </form>
-    </div>
+    </div> -->
 
-    <div class="text-center mt-5">
+    <!-- <div class="text-center mt-5">
       <RouterLink to="#">logout page</RouterLink>
     </div> -->
-  </div>
+  <!-- </div> -->
 
-  <LoginForm />
+
 </template>
