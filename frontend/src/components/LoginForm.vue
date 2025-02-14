@@ -85,8 +85,9 @@ document.addEventListener('DOMContentLoaded', function() {
     </form>
   </div>
 
-  <div class="text-center mt-5">
-    <RouterLink to="/sample">Sample List</RouterLink>
+  <div class="d-flex justify-content-center mt-5">
+    <RouterLink to="/sample" class="me-5">表面処理リストへ</RouterLink>
+    <RouterLink to="/settings">アプリケーションの管理へ</RouterLink>
   </div>
 </template>
 
