@@ -1,56 +1,30 @@
 <script setup>
-// import { ref } from 'vue'
-// import axios from 'axios'
+import { ref } from 'vue'
+import axios from 'axios'
+import router from '../../router'
 
-// const name = ref('')
-// const password = ref('')
-// const errorMessage = ref('')
-// const emit = defineEmits(['login-success'])
+const name = ref('')
+const password = ref('')
+const errorMessage = ref('')
+const emit = defineEmits(['login-success'])
 
-// const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
-// const handleLogin = async () => {
-//   try {
-//     const response = await axios.post(`${API_BASE_URL}/login`, {
-//       name: name.value,
-//       password: password.value
-//     })
-//     emit('login-success', response.data.user)
-//   } catch (error) {
-//     errorMessage.value = 'Invalid name or password'
-//   }
-// }
-document.addEventListener('DOMContentLoaded', function() {
-  let radio1 = document.getElementById('general_user');
-  let radio2 = document.getElementById('admin_user');
-  let usernameField = document.getElementById('name');
-  let userpasswordField = document.getElementById('password');
-
-  radio1.addEventListener('change', function() {
-    if (radio1.checked) {
-      usernameField.value = 'general user';
-      userpasswordField.value = 'generalpassword';
-    }
-  });
-
-  radio2.addEventListener('change', function() {
-    if (radio2.checked) {
-      usernameField.value = 'admin user';
-      userpasswordField.value = 'adminpassword';
-    }
-  });
-});
+const handleLogin = async () => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/login`, {
+      name: name.value,
+      password: password.value
+    })
+    emit('login-success', response.data.user)
+    router.push('/settings')
+  } catch (error) {
+    errorMessage.value = 'ユーザー名またはパスワードが無効です'
+  }
+}
 </script>
 
 <template>
-  <!-- <div>
-    <form v-on:submit.prevent="handleLogin">
-      <input v-model="name" type="text" placeholder="Name" required><br>
-      <input v-model="password" type="password" placeholder="Password" required><br>
-      <button type="submit" class="btn btn-primary">Login</button>
-    </form>
-    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-  </div> -->
   <div class="container w-25">
 
     <h3 class="text-center mt-5 mb-5">ログイン</h3>
@@ -74,25 +48,15 @@ document.addEventListener('DOMContentLoaded', function() {
       </li>
     </ul>
 
-    <form action="#" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="BFnGCq8MFwhs3_ggh5BJFgFppk5VnAtKXLVCWNX5tu1vnl2lB2BunGielvf7GxnxYF6T1R07CQkYNMNhl5p2Xw" autocomplete="off">
+    <form v-on:submit.prevent="handleLogin">
       <label for="name">ユーザー名</label>
-      <input class="form-control mb-3" id="name" type="text" name="session[name]">
+      <input v-model="name" class="form-control" type="text" required><br>
 
       <label for="password">パスワード</label>
-      <input class="form-control mb-4" id="password" type="password" name="session[password]">
+      <input v-model="password" class="form-control mb-4" type="password" required><br>
 
-      <input type="submit" name="commit" value="ログイン" class="form-control btn btn-primary" data-disable-with="ログイン">
+      <button type="submit" class="form-control btn btn-primary">ログイン</button>
     </form>
-  </div>
-
-  <div class="d-flex justify-content-center mt-5">
-    <RouterLink to="/sample" class="me-5">表面処理リストへ</RouterLink>
-    <RouterLink to="/settings">アプリケーションの管理へ</RouterLink>
+    <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">{{ errorMessage }}</p>
   </div>
 </template>
-
-<style>
-/* .error {
-  color: red;
-} */
-</style>
