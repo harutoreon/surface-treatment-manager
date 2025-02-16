@@ -4,7 +4,9 @@ import { defineEmits } from 'vue'
 const emit = defineEmits(['logout'])
 
 const handleLogout = () => {
-  emit('logout')  
+  if (confirm('本当にログアウトしますか？')) {
+    emit('logout')
+  }  
 }
 </script>
 
