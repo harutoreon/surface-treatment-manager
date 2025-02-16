@@ -44,5 +44,5 @@ onMounted(() => {
     </nav>
   </header>
 
-  <RouterView @login-success="setUser" @logout="logout"/>
+  <RouterView v-on:login-success="setUser" v-on:logout="logout"/>
 </template>
