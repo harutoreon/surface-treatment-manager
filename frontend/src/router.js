@@ -1,8 +1,10 @@
-import { createRouter, createWebHistory } from "vue-router"
+import { createRouter, createWebHistory, createMemoryHistory } from "vue-router"
 
 import LoginForm from "@/components/LoginForm.vue"
 import SamplesView from "@/components/SamplesView.vue"
 import SettingsView from "@/components/SettingsView.vue"
+
+const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : createWebHistory()
 
 const routes = [   
   { path: '/', component: LoginForm },
@@ -11,7 +13,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history,
   routes
 })
 
