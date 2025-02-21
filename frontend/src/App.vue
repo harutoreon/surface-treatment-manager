@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import router from '../router'
+import router from './router'
 
 const user = ref(null)
 

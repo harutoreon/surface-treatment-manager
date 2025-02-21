@@ -86,7 +86,7 @@ jobs:
         working-directory: frontend/
 
       - name: execution audit
-        run: npm audit
+        run: npm audit --audit-level=critical
         working-directory: frontend/
 
       - name: execution vitest
