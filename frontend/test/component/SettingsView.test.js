@@ -5,11 +5,17 @@ import { describe, it, expect, vi } from 'vitest'
 const context = describe
 
 describe('SettingsView.vue', () => {
-  context('ログアウトの選択で OK を押した場合', () => {
-    it('logou イベントが発火すること', async () => {
+  context('ログアウトの選択でOKを押した場合', () => {
+    it('logoutイベントが発火すること', async () => {
       vi.spyOn(window, 'confirm').mockReturnValue(true)
     
-      const wrapper = mount(SettingsView)
+      const wrapper = mount(SettingsView, {
+        global: {
+          stubs: {
+            RouterLink: true
+          }
+        }
+      })
       await wrapper.find('button').trigger('click')
       
       expect(wrapper.emitted('logout')).toBeTruthy()
@@ -17,10 +23,16 @@ describe('SettingsView.vue', () => {
   })
 
   context('ログアウトの選択でキャンセルを押した場合', () => {
-    it('logout イベントが発火しないこと', async () => {
+    it('logoutイベントが発火しないこと', async () => {
       vi.spyOn(window, 'confirm').mockReturnValue(false)
     
-      const wrapper = mount(SettingsView)
+      const wrapper = mount(SettingsView, {
+        global: {
+          stubs: {
+            RouterLink: true
+          }
+        }
+      })
       await wrapper.find('button').trigger('click')
       
       expect(wrapper.emitted('logout')).toBeFalsy()
