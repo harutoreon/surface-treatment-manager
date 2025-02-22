@@ -21,7 +21,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
           <div class="card-body">
             <h5 class="card-title">処理名で検索</h5>
             <p class="card-text">処理名を入力して表面処理を検索します。</p>
-            <!-- <a class="card-link" href="/category/name">検索ページへ</a> -->
+            <RouterLink to="#" class="card-link">検索ページへ</RouterLink>
           </div>
         </div>
       </div>
@@ -31,7 +31,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
           <div class="card-body">
             <h5 class="card-title">カテゴリーで検索</h5>
             <p class="card-text">カテゴリーを選択して表面処理を検索します。</p>
-            <!-- <a class="card-link" href="/category/category">検索ページへ</a> -->
+            <RouterLink to="#" class="card-link">検索ページへ</RouterLink>
           </div>
         </div>
       </div>
@@ -41,7 +41,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
           <div class="card-body">
             <h5 class="card-title">メーカー名で検索</h5>
             <p class="card-text">メーカー名を入力して表面処理を検索します。</p>
-            <!-- <a class="card-link" href="/category/maker">検索ページへ</a> -->
+            <RouterLink to="#" class="card-link">検索ページへ</RouterLink>
           </div>
         </div>
       </div>
@@ -51,7 +51,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
           <div class="card-body">
             <h5 class="card-title">処理一覧から検索</h5>
             <p class="card-text">表面処理一覧から目的の処理を検索します。</p>
-            <!-- <a class="card-link" href="/samples">検索ページへ</a> -->
+            <RouterLink to="#" class="card-link">検索ページへ</RouterLink>
           </div>
         </div>
       </div>
@@ -64,7 +64,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
           <div class="card-body">
             <h5 class="card-title">表面処理の管理</h5>
             <p class="card-text">表面処理に関する情報を一括管理します。</p>
-            <!-- <a class="card-link" href="/samples">管理ページへ</a> -->
+            <RouterLink to="#" class="card-link">管理ページへ</RouterLink>
           </div>
         </div>
       </div>
@@ -74,7 +74,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
           <div class="card-body">
             <h5 class="card-title">カテゴリーの管理</h5>
             <p class="card-text">カテゴリーに関する情報を一括管理します。</p>
-            <!-- <a class="card-link" href="/categories">管理ページへ</a> -->
+            <RouterLink to="#" class="card-link">管理ページへ</RouterLink>
           </div>
         </div>
       </div>
@@ -84,7 +84,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
           <div class="card-body">
             <h5 class="card-title">メーカーの管理</h5>
             <p class="card-text">メーカーに関する情報を一括管理します。</p>
-            <!-- <a class="card-link" href="/makers">管理ページへ</a> -->
+            <RouterLink to="#" class="card-link">管理ページへ</RouterLink>
           </div>
         </div>
       </div>
@@ -94,7 +94,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
           <div class="card-body">
             <h5 class="card-title">ユーザーの管理</h5>
             <p class="card-text">ユーザーに関する情報を一括管理します。</p>
-            <!-- <a class="card-link" href="/users">管理ページへ</a> -->
+            <RouterLink to="#" class="card-link">管理ページへ</RouterLink>
           </div>
         </div>
       </div>
@@ -107,7 +107,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
           <div class="card-body">
             <h5 class="card-title">アプリケーションの管理</h5>
             <p class="card-text">アプリケーションの設定やログアウトを行います。</p>
-            <!-- <a class="card-link" href="/setting">管理ページへ</a> -->
+            <RouterLink to="#" class="card-link">管理ページへ</RouterLink>
           </div>
         </div>
       </div>
