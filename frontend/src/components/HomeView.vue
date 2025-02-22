@@ -107,7 +107,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
           <div class="card-body">
             <h5 class="card-title">アプリケーションの管理</h5>
             <p class="card-text">アプリケーションの設定やログアウトを行います。</p>
-            <RouterLink to="#" class="card-link">管理ページへ</RouterLink>
+            <RouterLink to="/settings" class="card-link">管理ページへ</RouterLink>
           </div>
         </div>
       </div>

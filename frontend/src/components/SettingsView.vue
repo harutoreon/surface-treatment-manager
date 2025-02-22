@@ -20,7 +20,7 @@ const handleLogout = () => {
     </div>
 
     <div class="d-flex justify-content-center">
-      <RouterLink to="#" class="me-5">メインメニューへ</RouterLink>
+      <RouterLink to="/home" class="me-5">メインメニューへ</RouterLink>
     </div>
   </div>
 </template>

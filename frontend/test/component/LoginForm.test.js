@@ -30,7 +30,7 @@ describe('LoginForm.vue', () => {
       
       expect(wrapper.emitted('login-success')).toBeTruthy()
       expect(wrapper.emitted('login-success')[0]).toEqual([mockUser])
-      expect(router.push).toHaveBeenCalledWith('/settings')
+      expect(router.push).toHaveBeenCalledWith('/home')
     })
   })
 
