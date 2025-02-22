@@ -8,6 +8,9 @@ export default [
         ecmaVersion: "latest",
         sourceType: "module",
       },
+      globals: {
+        window: "readonly"
+      },
     },
     plugins: {
       vue: pluginVue,
