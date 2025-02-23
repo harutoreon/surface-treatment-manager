@@ -31,44 +31,44 @@ onMounted(() => {
         </div>        
       </div>
 
-      <a v-for="user in users" v-bind:key="user.id" class="list-group-item list-group-item-action" href="#">
+      <RouterLink v-for="user in users" v-bind:key="user.id" class="list-group-item list-group-item-action" to="#">
         <div class="d-flex justify-content-between">
           <div>{{ user.name }}</div>
           <div>{{ user.department }}</div>
         </div>
-      </a>
+      </RouterLink>
     </div>
 
       <ul class="pagination justify-content-center mb-5">
         <li class="page-item disabled">
-          <a class="page-link">前ページ</a>
+          <RouterLink to="#" class="page-link">前ページ</RouterLink>
         </li>
         <li class="page-item active">
-          <a class="page-link" href="#">1</a>
+          <RouterLink to="#" class="page-link">1</RouterLink>
         </li>
         <li class="page-item ">
-          <a class="page-link" href="#">2</a>
+          <RouterLink to="#" class="page-link">2</RouterLink>
         </li>
         <li class="page-item ">
-          <a class="page-link" href="#">3</a>
+          <RouterLink to="#" class="page-link">3</RouterLink>
         </li>
         <li class="page-item ">
-          <a class="page-link" href="#">4</a>
+          <RouterLink to="#" class="page-link">4</RouterLink>
         </li>
         <li class="page-item ">
-          <a class="page-link" href="#">5</a>
+          <RouterLink to="#" class="page-link">5</RouterLink>
         </li>
         <li class="page-item ">
-          <a class="page-link" href="#">6</a>
+          <RouterLink to="#" class="page-link">6</RouterLink>
         </li>
         <li class="page-item">
-          <a class="page-link" href="#">次ページ</a>
+          <RouterLink to="#" class="page-link">次ページ</RouterLink>
         </li>
       </ul>
 
     <div class="d-flex justify-content-evenly">
-      <a href="#">ユーザー情報の登録</a>
-      <a href="#">メインメニューへ</a>
+      <RouterLink to="#">ユーザー情報の登録</RouterLink>
+      <RouterLink to="/home">メインメニューへ</RouterLink>
     </div>
   </div>
 </template>
