@@ -1,22 +1,41 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import axios from 'axios'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const users = ref([])
+const currentPage = ref(Number(route.query.page) || 1)
+const totalPages = ref(1)
 
-const getUserList = async () => {
+const fetchUserList = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/users`)
-    users.value = response.data
+    const response = await axios.get(`${API_BASE_URL}/users?page=${currentPage.value}`)
+    const data = response.data
+    users.value = data.users
+    currentPage.value = data.current_page
+    totalPages.value = data.total_pages
   } catch (error) {
     console.error('Get user list failed')
   }
 }
 
-onMounted(() => {
-  getUserList()
+const getPageLink = (page) => ({
+  path: route.path,
+  query: { page }
 })
+
+watch(route, () => {
+  currentPage.value = Number(route.query.page) || 1
+  fetchUserList()
+}, { immediate: true })
+
+onMounted(() => {
+  fetchUserList()
+})
+
 </script>
 
 <template>
@@ -31,6 +50,7 @@ onMounted(() => {
         </div>        
       </div>
 
+      <!-- <RouterLink v-for="user in users" v-bind:key="user.id" class="list-group-item list-group-item-action" v-bind:to="`/users/${user.id}`"> -->
       <RouterLink v-for="user in users" v-bind:key="user.id" class="list-group-item list-group-item-action" to="#">
         <div class="d-flex justify-content-between">
           <div>{{ user.name }}</div>
@@ -40,29 +60,16 @@ onMounted(() => {
     </div>
 
       <ul class="pagination justify-content-center mb-5">
-        <li class="page-item disabled">
-          <RouterLink to="#" class="page-link">前ページ</RouterLink>
+        <li class="page-item" v-bind:class="{ disabled: currentPage === 1 }">
+          <RouterLink class="page-link" v-bind:to="currentPage > 1 ? getPageLink(currentPage - 1) : '#'" >前ページ</RouterLink>
         </li>
-        <li class="page-item active">
-          <RouterLink to="#" class="page-link">1</RouterLink>
+
+        <li v-for="page in totalPages" v-bind:key="page" class="page-item" v-bind:class="{ active: page === currentPage }">
+          <RouterLink class="page-link" v-bind:to="getPageLink(page)">{{ page }}</RouterLink>
         </li>
-        <li class="page-item ">
-          <RouterLink to="#" class="page-link">2</RouterLink>
-        </li>
-        <li class="page-item ">
-          <RouterLink to="#" class="page-link">3</RouterLink>
-        </li>
-        <li class="page-item ">
-          <RouterLink to="#" class="page-link">4</RouterLink>
-        </li>
-        <li class="page-item ">
-          <RouterLink to="#" class="page-link">5</RouterLink>
-        </li>
-        <li class="page-item ">
-          <RouterLink to="#" class="page-link">6</RouterLink>
-        </li>
-        <li class="page-item">
-          <RouterLink to="#" class="page-link">次ページ</RouterLink>
+
+        <li class="page-item" v-bind:class="{ disabled: currentPage === totalPages }">
+          <RouterLink class="page-link" v-bind:to="currentPage < totalPages ? getPageLink(currentPage + 1) : '#'">次ページ</RouterLink>
         </li>
       </ul>
 

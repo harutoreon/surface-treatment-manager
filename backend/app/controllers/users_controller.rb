@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   def index
-    users = User.paginate(page: params[:page], per_page: 8)
+    users = User.paginate(page: params[:page], per_page: 10)
 
     render json: {
       users: users, current_page: users.current_page, total_pages: users.total_pages
