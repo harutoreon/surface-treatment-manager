@@ -7,7 +7,7 @@ const route = useRoute()
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const users = ref([])
-const currentPage = ref(Number(route.query.page) || 1)
+const currentPage = ref(1)
 const totalPages = ref(1)
 
 const fetchUserList = async () => {
@@ -27,15 +27,10 @@ const getPageLink = (page) => ({
   query: { page }
 })
 
-watch(route, () => {
+watch(() => route.query.page, () => {
   currentPage.value = Number(route.query.page) || 1
   fetchUserList()
 }, { immediate: true })
-
-onMounted(() => {
-  fetchUserList()
-})
-
 </script>
 
 <template>
