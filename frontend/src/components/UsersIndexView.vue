@@ -45,8 +45,7 @@ watch(() => route.query.page, () => {
         </div>        
       </div>
 
-      <!-- <RouterLink v-for="user in users" v-bind:key="user.id" class="list-group-item list-group-item-action" v-bind:to="`/users/${user.id}`"> -->
-      <RouterLink v-for="user in users" v-bind:key="user.id" class="list-group-item list-group-item-action" to="#">
+      <RouterLink v-for="user in users" v-bind:key="user.id" class="list-group-item list-group-item-action" v-bind:to="`/users/${user.id}`">
         <div class="d-flex justify-content-between">
           <div>{{ user.name }}</div>
           <div>{{ user.department }}</div>
