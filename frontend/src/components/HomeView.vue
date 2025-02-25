@@ -94,7 +94,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
           <div class="card-body">
             <h5 class="card-title">ユーザーの管理</h5>
             <p class="card-text">ユーザーに関する情報を一括管理します。</p>
-            <RouterLink to="#" class="card-link">管理ページへ</RouterLink>
+            <RouterLink to="/users" class="card-link">管理ページへ</RouterLink>
           </div>
         </div>
       </div>

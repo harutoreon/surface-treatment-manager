@@ -3,7 +3,7 @@ import { createRouter, createWebHistory, createMemoryHistory } from 'vue-router'
 import LoginForm from '@/components/LoginForm.vue'
 import HomeView from '@/components/HomeView.vue'
 import SettingsView from '@/components/SettingsView.vue'
-
+import UsersIndexView from '@/components/UsersIndexView.vue'
 
 const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : createWebHistory()
 
@@ -11,6 +11,7 @@ const routes = [
   { path: '/', component: LoginForm },
   { path: '/home', component: HomeView },
   { path: '/settings', component: SettingsView },
+  { path: '/users', component: UsersIndexView },
 ]
 
 const router = createRouter({

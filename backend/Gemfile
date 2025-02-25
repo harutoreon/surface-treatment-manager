@@ -12,6 +12,7 @@ gem "faker"
 gem 'pg'
 gem 'bundler'
 gem 'rack-cors'
+gem 'will_paginate'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]

@@ -11,10 +11,22 @@ RSpec.describe "Users API", type: :request do
       expect(response).to have_http_status(:success)
     end
 
-    it 'json形式のユーザーリストが10件返ること' do
-      get "/users.json"
+    it 'レスポンスのusersは10件であること' do
+      get "/users"
       json = JSON.parse(response.body)
-      expect(json.count).to eq(10)
+      expect(json['users'].length).to eq(10)
+    end
+
+    it 'レスポンスのcurrent_pageは1であること' do
+      get "/users"
+      json = JSON.parse(response.body)
+      expect(json['current_page']).to eq(1)
+    end
+    
+    it 'レスポンスのtotal_pagesは1であること' do
+      get "/users"
+      json = JSON.parse(response.body)
+      expect(json['total_pages']).to eq(1)
     end
   end
 

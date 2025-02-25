@@ -69,7 +69,7 @@ describe('HomeView', () => {
       expect(links[4].attributes('href')).toBe('#')
       expect(links[5].attributes('href')).toBe('#')
       expect(links[6].attributes('href')).toBe('#')
-      expect(links[7].attributes('href')).toBe('#')
+      expect(links[7].attributes('href')).toBe('/users')
       expect(links[8].attributes('href')).toBe('/settings')
     })
   })
