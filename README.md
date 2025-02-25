@@ -14,6 +14,7 @@
   - JavaScript
   - Vue.js（SPA）
   - Vue Router
+  - Axios
   - Bootstrap
 - Backend
   - Ruby
@@ -33,6 +34,7 @@
   - ユーザー管理
 - その他
   - コメント機能
+  - ページネーション機能
 
 ## コード解析
 - Frontend
