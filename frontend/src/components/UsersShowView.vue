@@ -1,4 +1,24 @@
 <script setup>
+import axios from 'axios'
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const user = ref([])
+const route = useRoute()
+
+const fetchUserInformation = async (id) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/users/${id}`)
+    user.value = response.data
+  } catch (error) {
+    console.error('Get user information failed')
+  }
+}
+
+onMounted(() => {
+  fetchUserInformation(route.params.id)
+})
 </script>
 
 <template>
@@ -8,13 +28,11 @@
     <div class="list-group mb-5">
       <li class="d-flex justify-content-between list-group-item">
         <div>ユーザー名：</div>
-        <div>Sample User</div>
-        <!-- <div>{{ user.name }}</div> -->
+        <div>{{ user.name }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
         <div>部署名：</div>
-        <div>製造部</div>
-        <!-- <div>{{ user.department }}</div> -->
+        <div>{{ user.department }}</div>
       </li>
     </div>
 
