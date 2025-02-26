@@ -4,6 +4,7 @@ import LoginForm from '@/components/LoginForm.vue'
 import HomeView from '@/components/HomeView.vue'
 import SettingsView from '@/components/SettingsView.vue'
 import UsersIndexView from '@/components/UsersIndexView.vue'
+import UsersShowView from '@/components/UsersShowView.vue'
 
 const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : createWebHistory()
 
@@ -12,6 +13,7 @@ const routes = [
   { path: '/home', component: HomeView },
   { path: '/settings', component: SettingsView },
   { path: '/users', component: UsersIndexView },
+  { path: '/users/:id', component: UsersShowView },
 ]
 
 const router = createRouter({
