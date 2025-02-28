@@ -41,6 +41,6 @@ const options = ref([
     </form>
     <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">{{ errorMessage }}</p>
     
-    <div class="text-center"><a href="/users">ユーザーリスト</a></div>
+    <RouterLink to="/users" class="d-flex justify-content-evenly">ユーザーリスト</RouterLink>
   </div>
 </template>

@@ -68,7 +68,7 @@ watch(() => route.query.page, () => {
       </ul>
 
     <div class="d-flex justify-content-evenly">
-      <RouterLink to="#">ユーザー情報の登録</RouterLink>
+      <RouterLink to="/users/new">ユーザー情報の登録</RouterLink>
       <RouterLink to="/home">メインメニューへ</RouterLink>
     </div>
   </div>
