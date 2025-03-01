@@ -22,12 +22,15 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const userRegistration = async () => {
   try {
     const response = await axios.post(`${API_BASE_URL}/users`, {
-      name: name.value,
-      department: department.value,
-      password: password.value,
-      password_confirmation: password_confirmation.value
+      user: {
+        name: name.value,
+        department: department.value,
+        password: password.value,
+        password_confirmation: password_confirmation.value
+      }
     })
     user.value = response.data
+    console.log(user.value)
     router.push(`/users/${user.value.id}`)
   } catch (error) {
     errorMessage.value = '入力に不備があります。'
