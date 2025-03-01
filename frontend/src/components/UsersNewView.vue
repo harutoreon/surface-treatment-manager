@@ -1,5 +1,7 @@
 <script setup>
 import { ref } from 'vue'
+import axios from 'axios'
+import router from '@/router'
 
 const name = ref('')
 const department = ref('')
@@ -13,13 +15,31 @@ const options = ref([
   { text: '開発部', value: '開発部' },
   { text: '営業部', value: '営業部' },
 ])
+
+const user = ref('')
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+
+const userRegistration = async () => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/users`, {
+      name: name.value,
+      department: department.value,
+      password: password.value,
+      password_confirmation: password_confirmation.value
+    })
+    user.value = response.data
+    router.push(`/users/${user.value.id}`)
+  } catch (error) {
+    errorMessage.value = '入力に不備があります。'
+  }
+}
 </script>
 
 <template>
   <div class="container w-25">
     <h3 class="text-center mt-5 mb-5">ユーザー情報の登録</h3>
 
-    <form>
+    <form v-on:submit.prevent="userRegistration">
       <label class="form-label" for="user_name">ユーザー名</label>
       <input v-model="name" class="form-control mb-3" type="text" id="user_name" required>
 
