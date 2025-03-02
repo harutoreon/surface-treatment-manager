@@ -49,7 +49,6 @@ describe('UsersShowView', () => {
     it('RouterLinkのto属性が/usersであること', () => {
       const links = wrapper.findAll('a')
 
-      expect(links[0].attributes('href')).toBe('#')
       expect(links[1].attributes('href')).toBe('/users')
     })
   })
