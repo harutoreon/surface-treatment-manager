@@ -7,7 +7,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/users/:id', component: { template: '<div></div>' } }
+    { path: '/users/:id', component: UsersEditView }
   ],
 })
 
@@ -16,7 +16,7 @@ vi.mock('axios')
 const mockUser = {
   id: 1,
   name: 'test_user',
-  department: '営業部'
+  department: 'test_department'
 }
 
 describe('コンポーネントのレンダリング', () => {
@@ -41,7 +41,6 @@ describe('コンポーネントのレンダリング', () => {
     })
 
     await wrapper.vm.$nextTick()
-    // await new Promise(resolve => setTimeout(resolve, 0))
   })
 
   it('フォームの各入力フィールドが正しく表示されている', () => {
