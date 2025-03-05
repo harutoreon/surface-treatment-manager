@@ -1,52 +1,38 @@
 import { mount } from '@vue/test-utils'
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import axios from 'axios'
+import { describe, it, expect } from 'vitest'
 import UsersEditView from '@/components/UsersEditView.vue'
-import { createRouter, createWebHistory } from 'vue-router'
 
-const router = createRouter({
-  history: createWebHistory(),
-  routes: [
-    { path: '/users/:id', component: UsersEditView }
-  ],
-})
+describe('UsersEditView', () => {
+  describe('コンポーネントがレンダリングされたとき', () => {
+    it('見出し「ユーザー情報の編集」が表示されること', () => {
+      const wrapper = mount(UsersEditView)
 
-vi.mock('axios')
-
-const mockUser = {
-  id: 1,
-  name: 'test_user',
-  department: 'test_department'
-}
-
-describe('コンポーネントのレンダリング', () => {
-  let wrapper
-
-  beforeEach(async () => {
-    axios.get.mockResolvedValue({ data: mockUser })
-
-    router.push('users/1')
-    await router.isReady()
-
-    wrapper = mount(UsersEditView, {
-      global: {
-        plugins: [router],
-        stubs: {
-          RouterLink: {
-            props: ['to'],
-            template: '<a v-bind:href="to"><slot /></a>'
-          }
-        }
-      }
+      expect(wrapper.find('h3').text()).toBe('ユーザー情報の編集')
     })
 
-    await wrapper.vm.$nextTick()
-  })
+    it('入力フォームが表示されること', ()  => {
+      const wrapper = mount(UsersEditView)
 
-  it('フォームの各入力フィールドが正しく表示されている', () => {
-    expect(wrapper.find('input#user_name').exists()).toBe(true)
-    expect(wrapper.find('select#user_department').exists()).toBe(true)
-    expect(wrapper.find('input#user_password').exists()).toBe(true)
-    expect(wrapper.find('input#user_password_confirmation').exists()).toBe(true)
+      expect(wrapper.find('label[for="user_name"]').text()).toBe('ユーザー名')
+      expect(wrapper.find('input[id="user_name"]').exists()).toBe(true)
+
+      expect(wrapper.find('label[for="user_department"]').text()).toBe('部署名')
+      expect(wrapper.find('select[id="user_department"]').exists()).toBe(true)
+
+      expect(wrapper.find('label[for="user_password"]').text()).toBe('パスワード')
+      expect(wrapper.find('input[id="user_password"]').exists()).toBe(true)
+
+      expect(wrapper.find('label[for="user_password_confirmation"]').text()).toBe('パスワードの確認')
+      expect(wrapper.find('input[id="user_password_confirmation"]').exists()).toBe(true)
+      
+      expect(wrapper.find('button[type="submit"]').exists()).toBe(true)
+    })
+
+    it('「ユーザー情報」と「ユーザーリスト」のリンクが表示されること', () => {
+      const wrapper = mount(UsersEditView)
+
+      expect(wrapper.find('routerlink[id="user_information"]').text()).toBe('ユーザー情報')
+      expect(wrapper.find('routerlink[id="user_list"]').text()).toBe('ユーザーリスト')
+    })
   })
 })
