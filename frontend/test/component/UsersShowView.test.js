@@ -6,6 +6,9 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 vi.mock('vue-router', () => ({
   useRoute: () => ({
     params: { id: '1' }
+  }),
+  useRouter: () => ({
+    push: vi.fn()
   })
 }))
 
