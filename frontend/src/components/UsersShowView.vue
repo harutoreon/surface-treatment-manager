@@ -1,11 +1,12 @@
 <script setup>
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const user = ref([])
 const route = useRoute()
+const router = useRouter()
 
 const fetchUserInformation = async (id) => {
   try {
@@ -13,6 +14,18 @@ const fetchUserInformation = async (id) => {
     user.value = response.data
   } catch (error) {
     console.error('Get user information failed')
+  }
+}
+
+const handleDelete = async () => {
+  const confirmDelete = window.confirm('本当に削除しますか？')
+  if (!confirmDelete) return
+
+  try {
+    await axios.delete(`${API_BASE_URL}/users/${route.params.id}`)
+    router.push('/users')
+  } catch (error) {
+    console.error('削除処理に失敗しました', error)
   }
 }
 
@@ -39,6 +52,15 @@ onMounted(() => {
     <div class="d-flex justify-content-evenly">
       <RouterLink v-bind:to="`/users/${user.id}/edit`">ユーザー情報の編集</RouterLink>
       <RouterLink to="/users">ユーザーリスト</RouterLink>
+      <p v-on:click="handleDelete" class="text-primary text-decoration-underline">
+        ユーザーの削除
+      </p>
     </div>
   </div>
 </template>
+
+<style>
+p {
+  cursor: pointer;
+}
+</style>
