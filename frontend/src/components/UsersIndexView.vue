@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import axios from 'axios'
 import { useRoute } from 'vue-router'
 
@@ -7,7 +7,7 @@ const route = useRoute()
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const users = ref([])
-const currentPage = ref(1)
+const currentPage = ref(Number(route.query.page) || 1)
 const totalPages = ref(1)
 
 const fetchUserList = async () => {
@@ -27,10 +27,14 @@ const getPageLink = (page) => ({
   query: { page }
 })
 
-watch(() => route.query.page, () => {
-  currentPage.value = Number(route.query.page) || 1
+watch(() => route.query.page, (newPage) => {
+  currentPage.value = Number(newPage) || 1
   fetchUserList()
 }, { immediate: true })
+
+onMounted(() => {
+  fetchUserList()
+})
 </script>
 
 <template>
@@ -53,19 +57,21 @@ watch(() => route.query.page, () => {
       </RouterLink>
     </div>
 
-      <ul class="pagination justify-content-center mb-5">
-        <li class="page-item" v-bind:class="{ disabled: currentPage === 1 }">
-          <RouterLink class="page-link" v-bind:to="currentPage > 1 ? getPageLink(currentPage - 1) : '#'" >前ページ</RouterLink>
-        </li>
+    <ul v-if="totalPages > 0"  class="pagination justify-content-center mb-5">
+      <li class="page-item" :class="{ disabled: currentPage === 1 }">
+        <RouterLink class="page-link" v-if="currentPage > 1" v-bind:to="getPageLink(currentPage - 1)">前ページ</RouterLink>
+        <span v-else class="page-link">前ページ</span>
+      </li>
 
-        <li v-for="page in totalPages" v-bind:key="page" class="page-item" v-bind:class="{ active: page === currentPage }">
-          <RouterLink class="page-link" v-bind:to="getPageLink(page)">{{ page }}</RouterLink>
-        </li>
+      <li v-for="page in totalPages" v-bind:key="page" class="page-item" v-bind:class="{ active: page === currentPage }">
+        <RouterLink class="page-link" v-bind:to="getPageLink(page)">{{ page }}</RouterLink>
+      </li>
 
-        <li class="page-item" v-bind:class="{ disabled: currentPage === totalPages }">
-          <RouterLink class="page-link" v-bind:to="currentPage < totalPages ? getPageLink(currentPage + 1) : '#'">次ページ</RouterLink>
-        </li>
-      </ul>
+      <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+        <RouterLink class="page-link" v-if="currentPage < totalPages" v-bind:to="getPageLink(currentPage + 1)">次ページ</RouterLink>
+        <span v-else class="page-link">次ページ</span>
+      </li>
+    </ul>
 
     <div class="d-flex justify-content-evenly">
       <RouterLink to="/users/new">ユーザー情報の登録</RouterLink>
