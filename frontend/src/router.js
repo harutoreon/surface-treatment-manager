@@ -7,6 +7,7 @@ import UsersIndexView from '@/components/UsersIndexView.vue'
 import UsersShowView from '@/components/UsersShowView.vue'
 import UsersNewView from '@/components/UsersNewView.vue'
 import UsersEditView from '@/components/UsersEditView.vue'
+import CategoriesIndexView from '@/components/categories/CategoriesIndexView.vue'
 
 const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : createWebHistory()
 
@@ -18,6 +19,7 @@ const routes = [
   { path: '/users/:id', component: UsersShowView },
   { path: '/users/new', component: UsersNewView },
   { path: '/users/:id/edit', component: UsersEditView },
+  { path: '/categories', component: CategoriesIndexView },
 ]
 
 const router = createRouter({
