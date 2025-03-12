@@ -22,7 +22,7 @@ describe('CategoriesIndexView', () => {
       const wrapper = mount(CategoriesIndexView)
       const links = wrapper.findAll('routerlink[to="#"]')
 
-      expect(links[5].text()).toBe('カテゴリー情報の登録')
+      expect(links[0].text()).toBe('カテゴリー情報の登録')
       expect(wrapper.find('routerlink[to="/home"]').text()).toBe('メインメニューへ')
     })
   })
