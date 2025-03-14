@@ -5,10 +5,19 @@ import axios from 'axios'
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const categories = ref([])
 
+function replaceStringWithEllipsis() {
+  for (let i = 0; i < categories.value.length; i++) {
+    if (categories.value[i].summary.length > 10) {
+      categories.value[i].summary = categories.value[i].summary.slice(0, 10) + '...'  
+    }
+  }
+}
+
 const fetchCategoryList = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/categories`)
     categories.value = response.data
+    replaceStringWithEllipsis()
   } catch (error) {
     console.error('Get category list failed')
   }
@@ -20,7 +29,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="container w-50">
+  <div class="container w-25">
     <h3 class="text-center mt-5 mb-5">カテゴリーリスト</h3>
 
     <div class="list-group list-group-flush mb-5">
