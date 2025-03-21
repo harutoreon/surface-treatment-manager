@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { describe, it, expect, vi } from 'vitest'
+import { mount, RouterLinkStub } from '@vue/test-utils'
 import CategoriesIndexView from '@/components/categories/CategoriesIndexView.vue'
 
 describe('CategoriesIndexView', () => {
@@ -24,6 +24,24 @@ describe('CategoriesIndexView', () => {
 
       expect(links[0].text()).toBe('カテゴリー情報の登録')
       expect(wrapper.find('routerlink[to="/home"]').text()).toBe('メインメニューへ')
+    })
+  })
+
+  describe('リンクの動作', () => {
+    it('メインメニューのリンクのto属性が/homeであること', async () => {
+      const wrapper = mount(CategoriesIndexView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      const links = wrapper.findAllComponents(RouterLinkStub)
+      const link = links.find(element => element.text() === 'メインメニューへ')
+
+      expect(link).toBeDefined()
+      expect(link.props().to).toBe('/home')
     })
   })
 })
