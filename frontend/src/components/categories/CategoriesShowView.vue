@@ -38,9 +38,9 @@ onMounted(() => {
     </ul>
 
     <div class="d-flex justify-content-evenly">
-      <div><a href="#">編集</a></div>
-      <div><a href="#">削除</a></div>
-      <div><a href="#">カテゴリーリストへ</a></div>
+      <RouterLink to="#">カテゴリー情報の編集</RouterLink>
+      <RouterLink to="#">カテゴリー情報の削除</RouterLink>
+      <RouterLink to="/categories">カテゴリーリストへ</RouterLink>
     </div>
   </div>
 </template>
