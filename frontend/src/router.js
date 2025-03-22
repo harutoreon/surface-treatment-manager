@@ -21,7 +21,7 @@ const routes = [
   { path: '/users/new', component: UsersNewView },
   { path: '/users/:id/edit', component: UsersEditView },
   { path: '/categories', component: CategoriesIndexView },
-  { path: '/categories/show/', component: CategoriesShowView },
+  { path: '/categories/:id', component: CategoriesShowView },
 ]
 
 const router = createRouter({
