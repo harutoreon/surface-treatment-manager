@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
 
-const category = ref({})
+const category = ref({ data: { item: '', summary: '' } })
 const route = useRoute()
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
