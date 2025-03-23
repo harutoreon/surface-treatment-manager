@@ -49,7 +49,7 @@ onMounted(() => {
     </div>
 
     <div class="d-flex justify-content-evenly">
-      <RouterLink to="#">カテゴリー情報の登録</RouterLink>
+      <RouterLink to="/categories/new">カテゴリー情報の登録</RouterLink>
       <RouterLink to="/home">メインメニューへ</RouterLink>
     </div>
   </div>

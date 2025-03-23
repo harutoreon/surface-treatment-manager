@@ -12,8 +12,8 @@
       <input type="submit" name="commit" value="登録" class="form-control btn btn-primary mb-5" data-disable-with="登録" />
     </form>
 
-    <div class="text-center">
-      <a href="/categories">カテゴリーリストへ</a>
+    <div class="d-flex justify-content-evenly">
+      <RouterLink to="/categories">カテゴリーリストへ</RouterLink>
     </div>
   </div>
 </template>
