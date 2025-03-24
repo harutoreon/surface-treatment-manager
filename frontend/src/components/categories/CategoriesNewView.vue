@@ -18,13 +18,11 @@
         }
       })
       category.value = response.data
-      console.log(category.value)
       router.push(`/categories/${category.value.id}`)
     } catch (error) {
       errorMessage.value = '入力に不備があります。'
     }
   }
-
 </script>
 
 <template>
@@ -36,15 +34,13 @@
       <input v-model="item" class="form-control mb-4" type="text" id="category_item" required/>
 
       <label class="form-label" for="category_summary">概要</label>
-      <input v-model="summary" class="form-control mb-4" type="text" id="category_summary" required/>
-
-      <input type="submit" name="commit" value="登録" class="form-control btn btn-primary mb-5" data-disable-with="登録" />
+      <textarea v-model="summary" class="form-control mb-4" id="category_summary" required></textarea>
+      
+      <button type="submit" class="form-control btn btn-primary mb-5">登録</button>
     </form>
 
     <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">{{ errorMessage }}</p>
 
-    <div class="d-flex justify-content-evenly">
-      <RouterLink to="/categories">カテゴリーリストへ</RouterLink>
-    </div>
+    <RouterLink to="/categories" class="d-flex justify-content-evenly">カテゴリーリストへ</RouterLink>
   </div>
 </template>
