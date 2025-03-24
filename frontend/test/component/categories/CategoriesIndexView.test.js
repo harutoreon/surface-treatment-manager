@@ -19,11 +19,17 @@ describe('CategoriesIndexView', () => {
     })
 
     it('「カテゴリー情報の登録」と「メインメニューへ」のリンクが表示されること', () => {
-      const wrapper = mount(CategoriesIndexView)
-      const links = wrapper.findAll('routerlink[to="#"]')
+      const wrapper = mount(CategoriesIndexView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+      const links = wrapper.findAll('a')
 
       expect(links[0].text()).toBe('カテゴリー情報の登録')
-      expect(wrapper.find('routerlink[to="/home"]').text()).toBe('メインメニューへ')
+      expect(links[1].text()).toBe('メインメニューへ')
     })
   })
 
