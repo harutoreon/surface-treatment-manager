@@ -6,6 +6,7 @@
   const item = ref('')
   const summary = ref('')
   const category = ref('')
+  const errorMessage = ref('')
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
   const categoryRegistration = async () => {
@@ -20,7 +21,7 @@
       console.log(category.value)
       router.push(`/categories/${category.value.id}`)
     } catch (error) {
-      console.error('Category registration failed.')
+      errorMessage.value = '入力に不備があります。'
     }
   }
 
@@ -39,6 +40,8 @@
 
       <input type="submit" name="commit" value="登録" class="form-control btn btn-primary mb-5" data-disable-with="登録" />
     </form>
+
+    <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">{{ errorMessage }}</p>
 
     <div class="d-flex justify-content-evenly">
       <RouterLink to="/categories">カテゴリーリストへ</RouterLink>
