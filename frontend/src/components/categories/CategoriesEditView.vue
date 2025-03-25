@@ -20,8 +20,7 @@
     <div class="d-flex justify-content-evenly">
       <!-- <RouterLink v-bind:to="`/users/${user.id}`" id="user_information">ユーザー情報</RouterLink> -->
       <a href="#">カテゴリー情報へ</a>
-      <!-- <RouterLink to="/users" id="user_list">ユーザーリスト</RouterLink> -->
-      <a href="/categories">カテゴリーリストへ</a>
+      <RouterLink to="/categories">カテゴリーリストへ</RouterLink>
     </div>
   </div>  
 </template>

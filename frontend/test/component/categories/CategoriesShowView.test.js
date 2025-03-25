@@ -16,6 +16,7 @@ describe('CategoriesShowView', () => {
   beforeEach(() => {
     axios.get.mockResolvedValue({
       data: {
+        id: 1,
         item: 'めっき',
         summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
       }
@@ -54,7 +55,7 @@ describe('CategoriesShowView', () => {
       expect(wrapper.findAll('a')[2].text()).toBe('カテゴリーリストへ')
     })
 
-    it('RouterLinkにto属性が定義されていること', () => {
+    it('RouterLinkにto属性が定義されていること', async () => {
       const wrapper = mount(CategoriesShowView, {
         global: {
           stubs: {
@@ -63,9 +64,11 @@ describe('CategoriesShowView', () => {
         }
       })
 
+      await flushPromises()
+
       const links = wrapper.findAllComponents({ name: 'RouterLinkStub' })
 
-      expect(links[0].props().to).toBe('#')
+      expect(links[0].props().to).toBe('/categories/1/edit')
       expect(links[1].props().to).toBe('#')
       expect(links[2].props().to).toBe('/categories')
     })
