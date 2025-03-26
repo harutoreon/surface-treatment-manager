@@ -1,10 +1,26 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect,  vi, beforeEach } from 'vitest'
 import { mount, RouterLinkStub } from '@vue/test-utils'
 import CategoriesEditView from '@/components/categories/CategoriesEditView.vue'
+import axios from 'axios'
+
+vi.mock('axios')
+
+vi.mock('vue-router', () => ({
+  useRoute: () => ({
+    params: { id: '1' }
+  }),
+}))
 
 let wrapper
 
 beforeEach(() => {
+  axios.get.mockResolvedValue({
+    data: {
+      id: 1,
+      item: 'めっき',
+      summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+    }
+  })
   wrapper = mount(CategoriesEditView, {
     global: { stubs: { RouterLink: RouterLinkStub } }
   })
@@ -25,11 +41,21 @@ describe('コンポーネントをレンダリングした時に、', () => {
   })
 
   it('外部リンク「カテゴリー情報」と「カテゴリーリストへ」が表示されること', () => {
-    expect(wrapper.find('a').text()).toBe('カテゴリー情報へ')
-    expect(wrapper.findComponent(RouterLinkStub).text()).toBe('カテゴリーリストへ')
+    const links = wrapper.findAllComponents(RouterLinkStub)
+
+    expect(links[0].text()).toBe('カテゴリー情報へ')
+    expect(links[1].text()).toBe('カテゴリーリストへ')
   })
 
   it('外部リンク「カテゴリーリストへ」のto属性は/categoriesであること', () => {
-    expect(wrapper.findComponent(RouterLinkStub).props().to).toBe('/categories')
+    const links = wrapper.findAllComponents(RouterLinkStub)
+
+    expect(links[0].props().to).toBe('/categories/1')
+    expect(links[1].props().to).toBe('/categories')
+  })
+
+  it('「カテゴリー名」と「概要」の値が表示されること', async () => {
+    expect(wrapper.vm.category.item).toBe('めっき')
+    expect(wrapper.vm.category.summary).toBe('金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。')    
   })
 })
