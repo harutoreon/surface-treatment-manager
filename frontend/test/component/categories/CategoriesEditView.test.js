@@ -9,24 +9,32 @@ vi.mock('vue-router', () => ({
   useRoute: () => ({
     params: { id: '1' }
   }),
+  useRouter: () => ({
+    push: vi.fn()
+  })
 }))
 
-let wrapper
-
-beforeEach(() => {
-  axios.get.mockResolvedValue({
-    data: {
-      id: 1,
-      item: 'めっき',
-      summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
-    }
-  })
-  wrapper = mount(CategoriesEditView, {
-    global: { stubs: { RouterLink: RouterLinkStub } }
-  })
-})
-
 describe('コンポーネントをレンダリングした時に、', () => {
+  let wrapper
+
+  beforeEach(() => {
+    axios.get.mockResolvedValue({
+      data: {
+        id: 1,
+        item: 'めっき',
+        summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+      }
+    })
+
+    wrapper = mount(CategoriesEditView, {
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub
+        }
+      }
+    })
+  })
+  
   it('見出し「カテゴリー情報の編集」が表示されること', () => {
     expect(wrapper.find('h3').text()).toBe('カテゴリー情報の編集')
   })
@@ -54,8 +62,48 @@ describe('コンポーネントをレンダリングした時に、', () => {
     expect(links[1].props().to).toBe('/categories')
   })
 
-  it('「カテゴリー名」と「概要」の値が表示されること', async () => {
+  it('「カテゴリー名」と「概要」の値が表示されること', () => {
     expect(wrapper.vm.category.item).toBe('めっき')
     expect(wrapper.vm.category.summary).toBe('金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。')    
+  })
+})
+
+describe('フォームの更新ボタンを押した時に、', () => {
+  let wrapper
+
+  beforeEach(() => {
+    wrapper = mount(CategoriesEditView, {
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub
+        }
+      }
+    })
+  })
+
+  describe('有効なデータを入力していれば', () => {
+    it('更新が成功すること', async () => {
+      axios.patch.mockResolvedValue({
+        data: {
+          id: 1,
+          item: 'めっき',
+          summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+        }
+      })
+  
+      await wrapper.find('form').trigger('submit.prevent')
+
+      expect(axios.patch).toHaveBeenCalled()
+    })
+  })
+
+  describe('無効なデータを入力していると', () => {
+    it('更新が失敗すること', async () => {
+      axios.patch.mockRejectedValue(new Error('Invalid credentials'))
+
+      await wrapper.find('form').trigger('submit.prevent')
+
+      expect(wrapper.text()).toContain('入力に不備があります。')
+    })
   })
 })
