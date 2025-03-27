@@ -38,7 +38,7 @@ onMounted(() => {
     </ul>
 
     <div class="d-flex justify-content-evenly">
-      <RouterLink to="#">カテゴリー情報の編集</RouterLink>
+      <RouterLink v-bind:to="`/categories/${category.id}/edit`">カテゴリー情報の編集</RouterLink>
       <RouterLink to="#">カテゴリー情報の削除</RouterLink>
       <RouterLink to="/categories">カテゴリーリストへ</RouterLink>
     </div>
