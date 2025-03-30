@@ -1,10 +1,11 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 
 const category = ref({ data: { item: '', summary: '' } })
 const route = useRoute()
+const router = useRouter()
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
@@ -14,6 +15,18 @@ const fetchCategoryData = async (id) => {
     category.value = response.data
   } catch (error) {
     console.error('Get category information failed')
+  }
+}
+
+const handleDelete = async () => {
+  const confirmDelete = window.confirm('本当に削除しますか？')
+  if (!confirmDelete) return
+
+  try {
+    await axios.delete(`${API_BASE_URL}/categories/${route.params.id}`)
+    router.push('/categories')
+  } catch (error) {
+    console.error('削除処理に失敗しました', error)
   }
 }
 
@@ -39,8 +52,16 @@ onMounted(() => {
 
     <div class="d-flex justify-content-evenly">
       <RouterLink v-bind:to="`/categories/${category.id}/edit`">カテゴリー情報の編集</RouterLink>
-      <RouterLink to="#">カテゴリー情報の削除</RouterLink>
+      <p v-on:click="handleDelete" class="text-primary text-decoration-underline">
+        カテゴリーの削除
+      </p>
       <RouterLink to="/categories">カテゴリーリストへ</RouterLink>
     </div>
   </div>
 </template>
+
+<style>
+p {
+  cursor: pointer;
+}
+</style>
