@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount, RouterLinkStub } from '@vue/test-utils'
 import CategoriesShowView from '@/components/categories/CategoriesShowView.vue'
-import axios from 'axios'
 import { flushPromises } from '@vue/test-utils'
+import axios from 'axios'
 
 vi.mock('axios')
 
@@ -45,7 +45,7 @@ describe('CategoriesShowView', () => {
       expect(wrapper.find('h3').text()).toBe('カテゴリー情報')
     })
 
-    it('カテゴリー名と概要が表示されること', async () => {
+    it('カテゴリー名と概要のラベルと内容が表示されること', async () => {
       await flushPromises()
 
       const liElement = wrapper.findAll('li')
@@ -56,7 +56,7 @@ describe('CategoriesShowView', () => {
       expect(liElement[1].findAll('div')[1].text()).toBe('金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。')
     })
 
-    it('3つの外部リンクが表示されること', () => {
+    it('編集、削除、リストの外部リンクが表示されること', () => {
       const links = wrapper.findAllComponents(RouterLinkStub)
       const pElement = wrapper.find('p')
 
@@ -65,7 +65,7 @@ describe('CategoriesShowView', () => {
       expect(pElement.text()).toBe('カテゴリーの削除')
     })
 
-    it('RouterLinkにto属性が定義されていること', async () => {
+    it('RouterLinkのto属性が適切であること', async () => {
       await flushPromises()
 
       const links = wrapper.findAllComponents(RouterLinkStub)
