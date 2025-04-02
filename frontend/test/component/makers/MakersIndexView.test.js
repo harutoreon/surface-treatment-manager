@@ -142,10 +142,17 @@ describe('MakersIndexView', () => {
     })
 
     it('外部リンク「メーカー情報の登録」と「メインメニュー」が表示されること', () => {
-      const links = wrapper.findAll('a')
+      const links = wrapper.findAllComponents(RouterLinkStub)
 
       expect(links[12].text()).toBe('メーカー情報の登録')
       expect(links[13].text()).toBe('メインメニューへ')
+    })
+
+    it('外部リンクのto属性に「#」と「/home」が設定されていること', () => {
+      const links = wrapper.findAllComponents(RouterLinkStub)
+
+      expect(links[12].props().to).toBe('#')
+      expect(links[13].props().to).toBe('/home')
     })
   })  
 })
