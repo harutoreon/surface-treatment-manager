@@ -78,25 +78,9 @@ describe('MakersIndexView', () => {
             "phone_number": "090-6097-5063",
             "fax_number": "090-2418-6666",
           },
-          {
-            "id": 8,
-            "name": "杉山通信合名会社",
-            "postal_code": "781-4246",
-            "address": "東京都渋谷区神南1-2-7",
-            "phone_number": "080-1190-9863",
-            "fax_number": "070-1138-0025",
-          },
-          {
-            "id": 9,
-            "name": "藤本情報有限会社",
-            "postal_code": "014-1116",
-            "address": "東京都渋谷区神南1-2-8",
-            "phone_number": "080-5522-9216",
-            "fax_number": "070-2610-5760",
-          },
         ],
         current_page: 1,
-        total_pages: 2
+        total_pages: 1
       }
     }),
     wrapper = mount(MakersIndexView, {
@@ -120,39 +104,37 @@ describe('MakersIndexView', () => {
       expect(labels[1].text()).toBe('電話番号 / FAX番号')
     })
   
-    it('メーカーリストが9件表示されること', () => {
+    it('メーカーリストが7件表示されること', () => {
       const links = wrapper.findAll('a[class="list-group-item list-group-item-action"]')
 
-      expect(links.length).toBe(9)
+      expect(links.length).toBe(7)
     })
 
     it('ページネーションの「前ページ」と「次ページ」のリンクが表示されること', () => {
-      const spanElement = wrapper.find('span[class="page-link"]')
-      const aElement = wrapper.findAll('a[class="page-link"]')
+      const spanElement = wrapper.findAll('span[class="page-link"]')
 
-      expect(spanElement.text()).toBe('前ページ')
-      expect(aElement[2].text()).toBe('次ページ')
+      expect(spanElement[0].text()).toBe('前ページ')
+      expect(spanElement[1].text()).toBe('次ページ')
     })
 
-    it('total_pagesが2に対しページネーションリンクの「1」と「2」が表示されること', () => {
+    it('total_pagesが1に対しページネーションリンクの「1」が表示されること', () => {
       const aElement = wrapper.findAll('a[class="page-link"]')
 
       expect(aElement[0].text()).toBe('1')
-      expect(aElement[1].text()).toBe('2')
     })
 
     it('外部リンク「メーカー情報の登録」と「メインメニュー」が表示されること', () => {
       const links = wrapper.findAllComponents(RouterLinkStub)
 
-      expect(links[12].text()).toBe('メーカー情報の登録')
-      expect(links[13].text()).toBe('メインメニューへ')
+      expect(links[8].text()).toBe('メーカー情報の登録')
+      expect(links[9].text()).toBe('メインメニューへ')
     })
 
     it('外部リンクのto属性に「#」と「/home」が設定されていること', () => {
       const links = wrapper.findAllComponents(RouterLinkStub)
 
-      expect(links[12].props().to).toBe('#')
-      expect(links[13].props().to).toBe('/home')
+      expect(links[8].props().to).toBe('#')
+      expect(links[9].props().to).toBe('/home')
     })
   })  
 })
