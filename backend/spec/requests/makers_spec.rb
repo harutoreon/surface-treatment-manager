@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Makers API", type: :request do
   describe '#index' do
     before do
-      FactoryBot.create_list(:maker_list, 9)
+      FactoryBot.create_list(:maker_list, 7)
     end
 
     it 'レスポンスのステータスがsuccessであること' do
@@ -11,10 +11,22 @@ RSpec.describe "Makers API", type: :request do
       expect(response).to have_http_status(:success)
     end
 
-    it 'メーカーリストが9件返ること' do
+    it 'レスポンスのmakersは7件であること' do
       get "/makers"
       json = JSON.parse(response.body)
-      expect(json.count).to eq(9)
+      expect(json['makers'].length).to eq(7)
+    end
+
+    it 'レスポンスのcurrent_pageは1であること' do
+      get "/makers"
+      json = JSON.parse(response.body)
+      expect(json['current_page']).to eq(1)
+    end
+    
+    it 'レスポンスのtotal_pagesは1であること' do
+      get "/makers"
+      json = JSON.parse(response.body)
+      expect(json['total_pages']).to eq(1)
     end
   end
 
