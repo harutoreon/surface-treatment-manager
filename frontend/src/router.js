@@ -29,7 +29,7 @@ const routes = [
   { path: '/categories/new', component: CategoriesNewView },
   { path: '/categories/:id/edit', component: CategoriesEditView },
   { path: '/makers', component: MakersIndexView },
-  { path: '/makers/1', component: MakersShowView },
+  { path: '/makers/:id', component: MakersShowView },
 ]
 
 const router = createRouter({
