@@ -12,6 +12,7 @@ import CategoriesShowView from './components/categories/CategoriesShowView.vue'
 import CategoriesNewView from './components/categories/CategoriesNewView.vue'
 import CategoriesEditView from './components/categories/CategoriesEditView.vue'
 import MakersIndexView from './components/makers/MakersIndexView.vue'
+import MakersShowView from './components/makers/MakersShowView.vue'
 
 const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : createWebHistory()
 
@@ -28,6 +29,7 @@ const routes = [
   { path: '/categories/new', component: CategoriesNewView },
   { path: '/categories/:id/edit', component: CategoriesEditView },
   { path: '/makers', component: MakersIndexView },
+  { path: '/makers/1', component: MakersShowView },
 ]
 
 const router = createRouter({
