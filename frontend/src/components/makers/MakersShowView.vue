@@ -71,9 +71,9 @@ onMounted(() => {
     </div>
 
     <div class="d-flex justify-content-evenly">
-      <a href="#" id="maker-edit">メーカー情報の編集へ</a>
-      <a href="#" id="maker-destroy">メーカー情報の削除</a>
-      <a href="#" id="maker-list">メーカーリストへ</a>
+      <RouterLink to="#" id="maker-edit">メーカー情報の編集へ</RouterLink>
+      <RouterLink to="#" id="maker-destroy">メーカー情報の削除</RouterLink>
+      <RouterLink to="/makers" id="maker-list">メーカーリストへ</RouterLink>
     </div>
   </div>
 </template>
