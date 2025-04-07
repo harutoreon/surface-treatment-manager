@@ -1,31 +1,72 @@
+<script setup>
+import { ref } from 'vue'
+import axios from 'axios'
+import router from '@/router'
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const maker = ref('')
+const name = ref('')
+const postalCode = ref('')
+const address = ref('')
+const phoneNumber = ref('')
+const faxNumber = ref('')
+const email = ref('')
+const homePage = ref('')
+const manufacturerRep = ref('')
+const errorMessage = ref('')
+
+const makerRegistration = async () => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/makers`, {
+      maker: {
+        name: name.value,
+        postal_code: postalCode.value,
+        address: address.value,
+        phone_number: phoneNumber.value,
+        fax_number: faxNumber.value,
+        email: email.value,
+        home_page: homePage.value,
+        manufacturer_rep: manufacturerRep.value
+      }
+    })
+    maker.value = response.data
+    router.push(`/makers/${maker.value.id}`)
+  } catch (error) {
+    errorMessage.value = '入力に不備があります。'
+  }
+}
+</script>
+
 <template>
   <div class="container w-25">
     <h3 class="text-center mt-5 mb-5">メーカー情報の登録</h3>
 
-    <form action="/makers" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="oBb2XYLck14ar9-bRmlv-2fFNBuu0-QvMb7CqBlFCLOAqrRsRvtJ3-MpYUaGO2US8jbJcCFiI_68xy04N3Inug" autocomplete="off" />
+    <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">{{ errorMessage }}</p>
+
+    <form v-on:submit.prevent="makerRegistration">
       <label class="form-label" for="maker_name">メーカー名</label>
-      <input class="form-control mb-2" type="text" name="maker[name]" id="maker_name" />
+      <input v-model="name" class="form-control mb-2" type="text" id="maker_name" />
       
       <label class="form-label" for="maker_postal_code">郵便番号</label>
-      <input class="form-control mb-2" style="width: 10rem;" type="text" name="maker[postal_code]" id="maker_postal_code" />
+      <input v-model="postalCode" class="form-control mb-2" style="width: 10rem;" type="text" id="maker_postal_code" />
       
       <label class="form-label" for="maker_address">住所</label>
-      <input class="form-control mb-2" type="text" name="maker[address]" id="maker_address" />
+      <input v-model="address" class="form-control mb-2" type="text" id="maker_address" />
       
       <label class="form-label" for="maker_phone_number">電話番号</label>
-      <input class="form-control mb-2" style="width: 10rem;" type="tel" name="maker[phone_number]" id="maker_phone_number" />
+      <input v-model="phoneNumber" class="form-control mb-2" style="width: 10rem;" type="tel" id="maker_phone_number" />
       
       <label class="form-label" for="maker_fax_number">FAX番号</label>
-      <input class="form-control mb-2" style="width: 10rem;" type="tel" name="maker[fax_number]" id="maker_fax_number" />
+      <input v-model="faxNumber" class="form-control mb-2" style="width: 10rem;" type="tel" id="maker_fax_number" />
       
       <label class="form-label" for="maker_email">Email</label>
-      <input class="form-control mb-2" type="email" name="maker[email]" id="maker_email" />
+      <input v-model="email" class="form-control mb-2" type="email" id="maker_email" />
       
       <label class="form-label" for="maker_home_page">ホームページ</label>
-      <input class="form-control mb-2" type="url" name="maker[home_page]" id="maker_home_page" />
+      <input v-model="homePage" class="form-control mb-2" type="url" id="maker_home_page" />
       
       <label class="form-label" for="maker_manufacturer_rep">担当者</label>
-      <input class="form-control mb-3" type="text" name="maker[manufacturer_rep]" id="maker_manufacturer_rep" />
+      <input v-model="manufacturerRep" class="form-control mb-3" type="text" id="maker_manufacturer_rep" />
       
       <button type="submit" class="form-control btn btn-primary mb-5">登録</button>
     </form>
