@@ -31,4 +31,18 @@ describe('Makers routing', () => {
 
     expect(wrapper.html()).toContain('メーカー情報')
   })
+
+  it('「メーカー情報の新規登録」ページに遷移すること', async () => {
+    router.push('makers/new')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    expect(wrapper.html()).toContain('メーカー情報の登録')
+  })
 })
