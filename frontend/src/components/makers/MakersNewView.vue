@@ -45,7 +45,7 @@ const makerRegistration = async () => {
 
     <form v-on:submit.prevent="makerRegistration">
       <label class="form-label" for="maker_name">メーカー名</label>
-      <input v-model="name" class="form-control mb-2" type="text" id="maker_name" />
+      <input v-model="name" class="form-control mb-2" type="text" id="maker_name" required/>
       
       <label class="form-label" for="maker_postal_code">郵便番号</label>
       <input v-model="postalCode" class="form-control mb-2" style="width: 10rem;" type="text" id="maker_postal_code" />
