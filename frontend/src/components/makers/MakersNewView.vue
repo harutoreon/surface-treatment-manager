@@ -72,7 +72,7 @@ const makerRegistration = async () => {
     </form>
 
     <div class="d-flex justify-content-center">
-      <a href="/makers">メーカーリストへ</a>
+      <RouterLink to="/makers">メーカーリストへ</RouterLink>
     </div>
   </div>
 </template>

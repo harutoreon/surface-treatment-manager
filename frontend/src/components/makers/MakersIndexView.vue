@@ -77,7 +77,7 @@ onMounted(() => {
     </ul>
 
     <div class="d-flex justify-content-evenly">
-      <RouterLink to="#">メーカー情報の登録</RouterLink>
+      <RouterLink to="/makers/new">メーカー情報の登録</RouterLink>
       <RouterLink to="/home">メインメニューへ</RouterLink>
     </div>
   </div>

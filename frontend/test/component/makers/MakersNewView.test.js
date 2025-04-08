@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { mount, RouterLinkStub } from '@vue/test-utils'
 import MakersNewView from '@/components/makers/MakersNewView.vue'
 import axios from 'axios'
 import router from '@/router'
@@ -54,9 +54,16 @@ describe('MakersNewView', () => {
   })
 
   it('外部リンクが表示されること', () => {
-    const wrapper = mount(MakersNewView)
+    const wrapper = mount(MakersNewView, {
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub
+        }
+      }
+    })
 
-    expect(wrapper.find('a').text()).toBe('メーカーリストへ')
+    expect(wrapper.findComponent(RouterLinkStub).text()).toBe('メーカーリストへ')
+    expect(wrapper.findComponent(RouterLinkStub).props().to).toBe('/makers')
   })
 
   it('有効な情報を入力した場合は登録が成功すること', async () => {

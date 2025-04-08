@@ -133,7 +133,7 @@ describe('MakersIndexView', () => {
     it('外部リンクのto属性に「#」と「/home」が設定されていること', () => {
       const links = wrapper.findAllComponents(RouterLinkStub)
 
-      expect(links[8].props().to).toBe('#')
+      expect(links[8].props().to).toBe('/makers/new')
       expect(links[9].props().to).toBe('/home')
     })
   })  
