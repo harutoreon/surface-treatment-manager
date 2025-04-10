@@ -66,7 +66,7 @@ const makerRegistration = async () => {
       <input v-model="homePage" class="form-control mb-2" type="url" id="maker_home_page" />
       
       <label class="form-label" for="maker_manufacturer_rep">担当者</label>
-      <input v-model="manufacturerRep" class="form-control mb-3" type="text" id="maker_manufacturer_rep" />
+      <input v-model="manufacturerRep" class="form-control mb-3" type="text" id="maker_manufacturer_rep"/>
       
       <button type="submit" class="form-control btn btn-primary mb-5">登録</button>
     </form>
