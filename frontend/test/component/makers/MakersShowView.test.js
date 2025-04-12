@@ -19,6 +19,7 @@ describe('MakersShowView', () => {
   beforeEach(() => {
     axios.get.mockResolvedValue({
       data: { 
+        id: '1',
         name: '有限会社中野銀行',
         postal_code: '962-0713',
         address: '東京都渋谷区神南1-2-0',
@@ -66,7 +67,7 @@ describe('MakersShowView', () => {
     const listLink = links.find(link => link.attributes('id') === 'maker-list')
 
     expect(editLink.exists()).toBe(true)
-    expect(editLink.props().to).toBe('#')
+    expect(editLink.props().to).toBe('/makers/1/edit')
     
     expect(destroyLink.exists()).toBe(true)
     expect(destroyLink.props().to).toBe('#')

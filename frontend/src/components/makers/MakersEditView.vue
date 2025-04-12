@@ -76,9 +76,9 @@ onMounted(() => {
       <button type="submit" class="form-control btn btn-primary mb-5">更新</button>
     </form>
 
-    <div class="d-flex justify-content-center">
-      <!-- <RouterLink to="/makers">メーカーリストへ</RouterLink> -->
-      <a>メーカーリストへ</a>
+    <div class="d-flex justify-content-evenly">
+      <RouterLink v-bind:to="`/makers/${maker.id}`" id="maker_information">メーカー情報へ</RouterLink>
+      <RouterLink to="/makers" id="maker_list">メーカーリストへ</RouterLink>
     </div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { flushPromises, mount } from '@vue/test-utils'
+import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import MakersEditView from '@/components/makers/MakersEditView.vue'
 import axios from 'axios'
 
@@ -29,8 +29,28 @@ describe('MakersEditView', () => {
   let wrapper
 
   describe('初期レンダリング', () => {
+    axios.get.mockResolvedValue({
+      data: {
+        id: 1,
+        name: "有限会社中野銀行",
+        postal_code: "962-0713",
+        address: "東京都渋谷区神南1-2-0",
+        phone_number: "070-3288-2552",
+        fax_number: "070-2623-8399",
+        email: "sample_maker0@example.com",
+        home_page: "https://example.com/sample_maker0",
+        manufacturer_rep: "宮本 悠斗"
+      }
+    })
+    
     beforeEach(() => {
-      wrapper = mount(MakersEditView)
+      wrapper = mount(MakersEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
     })
 
     it('見出しが表示されること', () => {
@@ -84,8 +104,11 @@ describe('MakersEditView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      expect(wrapper.find('a').exists()).toBe(true)
-      expect(wrapper.find('a').text()).toBe('メーカーリストへ')
+      expect(wrapper.findComponent('#maker_information').text()).toBe('メーカー情報へ')
+      expect(wrapper.findComponent('#maker_information').props().to).toBe('/makers/1')
+
+      expect(wrapper.findComponent('#maker_list').text()).toBe('メーカーリストへ')
+      expect(wrapper.findComponent('#maker_list').props().to).toBe('/makers')
     })
   })
 
@@ -108,7 +131,14 @@ describe('MakersEditView', () => {
 
         axios.get.mockResolvedValue(mockResponse)
 
-        wrapper = mount(MakersEditView)
+        wrapper = mount(MakersEditView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
+
         await flushPromises()
 
         expect(wrapper.find('#maker_name').element.value).toBe('有限会社中野銀行')
@@ -139,7 +169,13 @@ describe('MakersEditView', () => {
 
         axios.patch.mockResolvedValue(mockResponse)
 
-        wrapper = mount(MakersEditView)
+        wrapper = mount(MakersEditView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
 
         await wrapper.find('form').trigger('submit.prevent')
         await flushPromises()
@@ -153,7 +189,13 @@ describe('MakersEditView', () => {
       it('更新が失敗すること', async () => {
         axios.patch.mockRejectedValue(new Error('Validation error'))
 
-        wrapper = mount(MakersEditView)
+        wrapper = mount(MakersEditView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
 
         await wrapper.find('form').trigger('submit.prevent')
         await flushPromises()
