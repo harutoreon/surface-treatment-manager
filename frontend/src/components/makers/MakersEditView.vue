@@ -14,7 +14,9 @@ const fetchMakerData = async (id) => {
     const response = await axios.get(`${API_BASE_URL}/makers/${id}`)
     maker.value = response.data
   } catch (error) {
-    console.error('Get maker data failed')
+    if (error.response && error.response.status === 404) {
+      router.replace({ name: 'NotFound' })
+    }
   }
 }
 

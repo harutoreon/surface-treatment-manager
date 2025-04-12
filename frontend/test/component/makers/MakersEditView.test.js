@@ -6,6 +6,7 @@ import axios from 'axios'
 vi.mock('axios')
 
 const pushMock = vi.fn()
+const replaceMock = vi.fn()
 
 vi.mock('vue-router', async () => {
   const actual = await vi.importActual('vue-router')
@@ -19,7 +20,8 @@ vi.mock('vue-router', async () => {
     },
     useRouter: () => {
       return {
-        push: pushMock
+        push: pushMock,
+        replace: replaceMock
       }
     }
   }
@@ -152,11 +154,27 @@ describe('MakersEditView', () => {
       })
     })
 
-    // describe('メーカー情報の取得に失敗した場合', () => {
-    //   it('エラーメッセージが表示されること', () => {
-      
-    //   })
-    // })
+    describe('メーカー情報の取得に失敗した場合', () => {
+      it('404ページに遷移すること', async () => {
+        axios.get.mockRejectedValue({
+          response: {
+            status: 404
+          }
+        })
+
+        wrapper = mount(MakersEditView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
+
+        await flushPromises()
+        
+        expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
+      })
+    })
 
     describe('有効な情報を入力して送信すると', () => {
       it('更新が成功すること', async () => {
