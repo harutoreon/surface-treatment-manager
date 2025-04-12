@@ -1,15 +1,38 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { flushPromises, mount } from '@vue/test-utils'
 import MakersEditView from '@/components/makers/MakersEditView.vue'
+import axios from 'axios'
+
+vi.mock('axios')
+
+const pushMock = vi.fn()
+
+vi.mock('vue-router', async () => {
+  const actual = await vi.importActual('vue-router')
+
+  return {
+    ...actual,
+    useRoute: () => {
+      return {
+        params: { id: '1' }
+      }
+    },
+    useRouter: () => {
+      return {
+        push: pushMock
+      }
+    }
+  }
+})
 
 describe('MakersEditView', () => {
   let wrapper
 
-  beforeEach(() => {
-    wrapper = mount(MakersEditView)
-  })
-
   describe('初期レンダリング', () => {
+    beforeEach(() => {
+      wrapper = mount(MakersEditView)
+    })
+
     it('見出しが表示されること', () => {
       expect(wrapper.find('h3').text()).toBe('メーカー情報の編集')
     })
@@ -63,6 +86,80 @@ describe('MakersEditView', () => {
     it('外部リンクが表示されること', () => {
       expect(wrapper.find('a').exists()).toBe(true)
       expect(wrapper.find('a').text()).toBe('メーカーリストへ')
+    })
+  })
+
+  describe('API通信', () => {
+    describe('メーカー情報の取得に成功した場合', () => {
+      it('フォームフィールドにメーカー情報が表示されること', async () => {
+        const mockResponse = {
+          data: {
+            id: 1,
+            name: "有限会社中野銀行",
+            postal_code: "962-0713",
+            address: "東京都渋谷区神南1-2-0",
+            phone_number: "070-3288-2552",
+            fax_number: "070-2623-8399",
+            email: "sample_maker0@example.com",
+            home_page: "https://example.com/sample_maker0",
+            manufacturer_rep: "宮本 悠斗"
+          }
+        }
+
+        axios.get.mockResolvedValue(mockResponse)
+
+        wrapper = mount(MakersEditView)
+        await flushPromises()
+
+        expect(wrapper.find('#maker_name').element.value).toBe('有限会社中野銀行')
+        expect(wrapper.find('#maker_postal_code').element.value).toBe('962-0713')
+        expect(wrapper.find('#maker_address').element.value).toBe('東京都渋谷区神南1-2-0')
+        expect(wrapper.find('#maker_phone_number').element.value).toBe('070-3288-2552')
+        expect(wrapper.find('#maker_fax_number').element.value).toBe('070-2623-8399')
+        expect(wrapper.find('#maker_email').element.value).toBe('sample_maker0@example.com')
+        expect(wrapper.find('#maker_home_page').element.value).toBe('https://example.com/sample_maker0')
+        expect(wrapper.find('#maker_manufacturer_rep').element.value).toBe('宮本 悠斗')
+      })
+    })
+
+    // describe('メーカー情報の取得に失敗した場合', () => {
+    //   it('エラーメッセージが表示されること', () => {
+      
+    //   })
+    // })
+
+    describe('有効な情報を入力して送信すると', () => {
+      it('更新が成功すること', async () => {
+        const mockResponse = {
+          data: {
+            id: 1,
+            name: "有限会社中野銀行",
+          }
+        }
+
+        axios.patch.mockResolvedValue(mockResponse)
+
+        wrapper = mount(MakersEditView)
+
+        await wrapper.find('form').trigger('submit.prevent')
+        await flushPromises()
+
+        expect(axios.patch).toHaveBeenCalled()
+        expect(pushMock).toHaveBeenCalledWith('/makers/1')
+      })
+    })
+
+    describe('空の状態で送信すると', () => {
+      it('更新が失敗すること', async () => {
+        axios.patch.mockRejectedValue(new Error('Validation error'))
+
+        wrapper = mount(MakersEditView)
+
+        await wrapper.find('form').trigger('submit.prevent')
+        await flushPromises()
+
+        expect(wrapper.text()).toContain('入力に不備があります。')
+      })
     })
   })
 })
