@@ -30,7 +30,7 @@ vi.mock('vue-router', async () => {
 describe('MakersEditView', () => {
   let wrapper
 
-  describe('初期レンダリング', () => {
+  describe('DOMの構造', () => {
     axios.get.mockResolvedValue({
       data: {
         id: 1,
@@ -55,15 +55,15 @@ describe('MakersEditView', () => {
       })
     })
 
-    it('見出しが表示されること', () => {
+    it('見出しが存在すること', () => {
       expect(wrapper.find('h3').text()).toBe('メーカー情報の編集')
     })
 
-    it('フォームが表示されること', () => {
+    it('フォームが存在すること', () => {
       expect(wrapper.find('form').exists()).toBe(true)
     })
 
-    it('すべてのラベルが表示されること', () => {
+    it('ラベルが存在すること', () => {
       expect(wrapper.find('label[for="maker_name"]').exists()).toBe(true)
       expect(wrapper.find('label[for="maker_name"]').text()).toBe('メーカー名')
 
@@ -89,7 +89,7 @@ describe('MakersEditView', () => {
       expect(wrapper.find('label[for="maker_manufacturer_rep"]').text()).toBe('担当者')
     })
 
-    it('すべてのフォームフィールドが表示されること', () => {
+    it('フォームフィールドが存在すること', () => {
       expect(wrapper.find('#maker_name').exists()).toBe(true)
       expect(wrapper.find('#maker_postal_code').exists()).toBe(true)
       expect(wrapper.find('#maker_address').exists()).toBe(true)
@@ -100,12 +100,12 @@ describe('MakersEditView', () => {
       expect(wrapper.find('#maker_manufacturer_rep').exists()).toBe(true)
     })
 
-    it('ボタンが表示されること', () => {
+    it('ボタンが存在すること', () => {
       expect(wrapper.find('button').exists()).toBe(true)
       expect(wrapper.find('button').text()).toBe('更新')
     })
 
-    it('外部リンクが表示されること', () => {
+    it('外部リンクが存在すること', () => {
       expect(wrapper.findComponent('#maker_information').text()).toBe('メーカー情報へ')
       expect(wrapper.findComponent('#maker_information').props().to).toBe('/makers/1')
 
@@ -171,7 +171,7 @@ describe('MakersEditView', () => {
         })
 
         await flushPromises()
-        
+
         expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
       })
     })
@@ -182,10 +182,31 @@ describe('MakersEditView', () => {
           data: {
             id: 1,
             name: "有限会社中野銀行",
+            postal_code: "962-0713",
+            address: "東京都渋谷区神南1-2-0",
+            phone_number: "070-3288-2552",
+            fax_number: "070-2623-8399",
+            email: "sample_maker0@example.com",
+            home_page: "https://example.com/sample_maker0",
+            manufacturer_rep: "宮本 悠斗"
           }
         }
 
         axios.patch.mockResolvedValue(mockResponse)
+
+        axios.get.mockResolvedValue({
+          data: {
+            id: 1,
+            name: "有限会社中野銀行",
+            postal_code: "962-0713",
+            address: "東京都渋谷区神南1-2-0",
+            phone_number: "070-3288-2552",
+            fax_number: "070-2623-8399",
+            email: "sample_maker0@example.com",
+            home_page: "https://example.com/sample_maker0",
+            manufacturer_rep: "宮本 悠斗"
+          }
+        })
 
         wrapper = mount(MakersEditView, {
           global: {
@@ -195,8 +216,18 @@ describe('MakersEditView', () => {
           }
         })
 
-        await wrapper.find('form').trigger('submit.prevent')
         await flushPromises()
+
+        expect(wrapper.find('#maker_name').element.value).toBe('有限会社中野銀行')
+        expect(wrapper.find('#maker_postal_code').element.value).toBe('962-0713')
+        expect(wrapper.find('#maker_address').element.value).toBe('東京都渋谷区神南1-2-0')
+        expect(wrapper.find('#maker_phone_number').element.value).toBe('070-3288-2552')
+        expect(wrapper.find('#maker_fax_number').element.value).toBe('070-2623-8399')
+        expect(wrapper.find('#maker_email').element.value).toBe('sample_maker0@example.com')
+        expect(wrapper.find('#maker_home_page').element.value).toBe('https://example.com/sample_maker0')
+        expect(wrapper.find('#maker_manufacturer_rep').element.value).toBe('宮本 悠斗')
+
+        await wrapper.find('form').trigger('submit.prevent')
 
         expect(axios.patch).toHaveBeenCalled()
         expect(pushMock).toHaveBeenCalledWith('/makers/1')
@@ -215,8 +246,8 @@ describe('MakersEditView', () => {
           }
         })
 
-        await wrapper.find('form').trigger('submit.prevent')
         await flushPromises()
+        await wrapper.find('form').trigger('submit.prevent')
 
         expect(wrapper.text()).toContain('入力に不備があります。')
       })
