@@ -5,7 +5,7 @@ import axios from 'axios'
 
 vi.mock('axios')
 
-vi.mock('vue-router', () => {
+vi.mock('vue-router', async () => {
   return {
     useRoute: () => {
       return {
@@ -77,19 +77,27 @@ describe('MakersShowView', () => {
     expect(wrapper.findComponent('#maker_list').props().to).toBe('/makers')
   })
 
-  it('メーカー情報の削除の選択でOKを押した場合、trueが返りhandleDeleteのイベントが発火すること', async () => {
-    const spy = vi.spyOn(window, 'confirm').mockReturnValue(true)
-
-    await wrapper.find('p').trigger('click')
-
-    expect(spy.mock.results[0].value).toBe(true)
+  describe('メーカー情報の削除選択でOKを押した場合', () => {
+    it('axios.deleteが実行されること', async () => {
+      const spy = vi.spyOn(window, 'confirm').mockReturnValue(true)
+      axios.delete = vi.fn()
+  
+      await wrapper.find('p').trigger('click')
+  
+      expect(spy.mock.results[0].value).toBe(true)
+      expect(axios.delete).toHaveBeenCalled()
+    })    
   })
 
-  it('メーカー情報の削除の選択でキャンセルを押した場合、falseが返りhandleDeleteのイベントが発火すること', async () => {
-    const spy = vi.spyOn(window, 'confirm').mockReturnValue(false)
-
-    await wrapper.find('p').trigger('click')
-
-    expect(spy.mock.results[0].value).toBe(false)
+  describe('メーカー情報の削除選択でキャンセルを押した場合', () => {
+    it('axion.deleteが実行されないこと', async () => {
+      const spy = vi.spyOn(window, 'confirm').mockReturnValue(false)
+      axios.delete = vi.fn()
+  
+      await wrapper.find('p').trigger('click')
+  
+      expect(spy.mock.results[0].value).toBe(false)
+      expect(axios.delete).not.toHaveBeenCalled()
+    })
   })
 })
