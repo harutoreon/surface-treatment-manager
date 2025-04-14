@@ -5,13 +5,20 @@ import axios from 'axios'
 
 vi.mock('axios')
 
-vi.mock('vue-router', () => ({
-  useRoute: () => ({
-    params: {
-      id: '1'
+vi.mock('vue-router', async () => {
+  return {
+    useRoute: () => {
+      return {
+        params: { id: '1' }
+      }
+    },
+    useRouter: () => {
+      return {
+        push: vi.fn()
+      }
     }
-  })
-}))
+  }
+})
 
 describe('MakersShowView', () => {
   let wrapper
@@ -55,24 +62,42 @@ describe('MakersShowView', () => {
   })
 
   it('外部リンクが表示されること', () => {
-    expect(wrapper.findComponent('a[id="maker-edit"]').text()).toBe('メーカー情報の編集へ')
-    expect(wrapper.findComponent('a[id="maker-destroy"]').text()).toBe('メーカー情報の削除')
-    expect(wrapper.findComponent('a[id="maker-list"]').text()).toBe('メーカーリストへ')
+    expect(wrapper.find('#maker_edit').exists()).toBe(true)
+    expect(wrapper.find('#maker_edit').text()).toBe('メーカー情報の編集へ')
+    
+    expect(wrapper.find('#maker_destroy').exists()).toBe(true)
+    expect(wrapper.find('#maker_destroy').text()).toBe('メーカー情報の削除')
+    
+    expect(wrapper.find('#maker_list').exists()).toBe(true)
+    expect(wrapper.find('#maker_list').text()).toBe('メーカーリストへ')
   })
 
   it('外部リンクのto属性が適切であること', () => {
-    const links = wrapper.findAllComponents(RouterLinkStub)
-    const editLink = links.find(link => link.attributes('id') === 'maker-edit')
-    const destroyLink = links.find(link => link.attributes('id') === 'maker-destroy')
-    const listLink = links.find(link => link.attributes('id') === 'maker-list')
+    expect(wrapper.findComponent('#maker_edit').props().to).toBe('/makers/1/edit')
+    expect(wrapper.findComponent('#maker_list').props().to).toBe('/makers')
+  })
 
-    expect(editLink.exists()).toBe(true)
-    expect(editLink.props().to).toBe('/makers/1/edit')
-    
-    expect(destroyLink.exists()).toBe(true)
-    expect(destroyLink.props().to).toBe('#')
+  describe('メーカー情報の削除選択でOKを押した場合', () => {
+    it('axios.deleteが実行されること', async () => {
+      const spy = vi.spyOn(window, 'confirm').mockReturnValue(true)
+      axios.delete = vi.fn()
+  
+      await wrapper.find('p').trigger('click')
+  
+      expect(spy.mock.results[0].value).toBe(true)
+      expect(axios.delete).toHaveBeenCalled()
+    })    
+  })
 
-    expect(listLink.exists()).toBe(true)
-    expect(listLink.props().to).toBe('/makers')
+  describe('メーカー情報の削除選択でキャンセルを押した場合', () => {
+    it('axion.deleteが実行されないこと', async () => {
+      const spy = vi.spyOn(window, 'confirm').mockReturnValue(false)
+      axios.delete = vi.fn()
+  
+      await wrapper.find('p').trigger('click')
+  
+      expect(spy.mock.results[0].value).toBe(false)
+      expect(axios.delete).not.toHaveBeenCalled()
+    })
   })
 })

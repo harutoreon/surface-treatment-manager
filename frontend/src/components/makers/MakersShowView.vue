@@ -1,10 +1,11 @@
 <script setup>
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const route = useRoute()
+const router = useRouter()
 const maker = ref({
   id: '',
   name: '',
@@ -23,6 +24,18 @@ const fetchMakerData = async (id) => {
     maker.value = response.data
   } catch (error) {
     console.error('Get maker information failed.')
+  }
+}
+
+const handleDelete = async () => {
+  const confirmDelete = window.confirm('本当に削除しますか？')
+  if (!confirmDelete) return
+
+  try {
+    await axios.delete(`${API_BASE_URL}/makers/${route.params.id}`)
+    router.push('/makers')
+  } catch (error) {
+    console.error('削除処理に失敗しました', error)
   }
 }
 
@@ -72,15 +85,20 @@ onMounted(() => {
       </div>
 
       <div class="d-flex justify-content-evenly">
-        <RouterLink v-if="maker.id" v-bind:to="`/makers/${maker.id}/edit`" id="maker-edit">メーカー情報の編集へ</RouterLink>
-        <RouterLink to="#" id="maker-destroy">メーカー情報の削除</RouterLink>
-        <RouterLink to="/makers" id="maker-list">メーカーリストへ</RouterLink>
+        <RouterLink v-if="maker.id" v-bind:to="`/makers/${maker.id}/edit`" id="maker_edit">メーカー情報の編集へ</RouterLink>
+        <p v-on:click="handleDelete" class="text-primary text-decoration-underline" id="maker_destroy">
+          メーカー情報の削除
+        </p>
+        <RouterLink to="/makers" id="maker_list">メーカーリストへ</RouterLink>
       </div>
     </div>
   </div>
 </template>
 
 <style>
+p {
+  cursor: pointer;
+}
 .custom-width {
   width: 45%;
 }
