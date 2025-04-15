@@ -62,3 +62,21 @@ describe('Makers routing', () => {
     expect(wrapper.html()).toContain('メーカー情報の編集')
   })
 })
+
+describe('Samples routing', () => {
+  it('「表面処理リスト」ページに遷移すること', async () => {
+    router.push('/samples')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(wrapper.html()).toContain('表面処理リスト')
+  })
+})
