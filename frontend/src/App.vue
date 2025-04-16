@@ -44,5 +44,13 @@ onMounted(() => {
     </nav>
   </header>
 
-  <RouterView v-on:login-success="setUser" v-on:logout="logout"/>
+  <RouterView v-slot="{ Component }">
+    <component
+      :is="Component"
+      v-bind="{
+        ...(Component?.emits?.includes?.('login-success') && { onLoginSuccess: setUser }),
+        ...(Component?.emits?.includes?.('logout') && { onLogout: logout })
+      }"
+    />
+  </RouterView>
 </template>

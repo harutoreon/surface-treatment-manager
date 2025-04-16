@@ -1,3 +1,25 @@
+<script setup>
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const samples = ref('')
+
+const fetchSampleList = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/samples`)
+    samples.value = response.data
+  } catch (error) {
+    console.error('Get sample list failed')
+  }
+}
+
+onMounted(() => {
+  fetchSampleList()
+})
+</script>
+
+
 <template>
   <div class="container text-center w-50">
     <h3 class="mt-5 mb-5">表面処理リスト</h3>
@@ -10,68 +32,12 @@
         </div>
       </div>
 
-      <a class="list-group-item list-group-item-action" href="/samples/#">
+      <a v-for="sample in samples" v-bind:key="sample.id" class="list-group-item list-group-item-action" href="/samples/#">
         <div class="d-flex w-100 justify-content-between">
-          <h6>無電解ニッケルめっき</h6>
-          <h6>合名会社西村ガス</h6>
+          <h6>{{ sample.name }}</h6>
+          <h6>{{ sample.maker }}</h6>
         </div>
-        <h6 class="text-start">めっき</h6>
-      </a>
-    
-      <a class="list-group-item list-group-item-action" href="/samples/#">
-        <div class="d-flex w-100 justify-content-between">
-          <h6>白金めっき</h6>
-          <h6>合同会社山口運輸</h6>
-        </div>
-        <h6 class="text-start">めっき</h6>
-      </a>
-    
-      <a class="list-group-item list-group-item-action" href="/samples/#">
-        <div class="d-flex w-100 justify-content-between">
-          <h6>金めっき</h6>
-          <h6>藤本情報株式会社</h6>
-        </div>
-        <h6 class="text-start">めっき</h6>
-      </a>
-    
-      <a class="list-group-item list-group-item-action" href="/samples/#">
-        <div class="d-flex w-100 justify-content-between">
-          <h6>銀めっき</h6>
-          <h6>岩崎通信株式会社</h6>
-        </div>
-        <h6 class="text-start">めっき</h6>
-      </a>
-      
-      <a class="list-group-item list-group-item-action" href="/samples/#">
-        <div class="d-flex w-100 justify-content-between">
-          <h6>銅めっき</h6>
-          <h6>合同会社高木印刷</h6>
-        </div>
-        <h6 class="text-start">めっき</h6>
-      </a>
-      
-      <a class="list-group-item list-group-item-action" href="/samples/#">
-        <div class="d-flex w-100 justify-content-between">
-          <h6>亜鉛めっき</h6>
-          <h6>株式会社後藤運輸</h6>
-        </div>
-        <h6 class="text-start">めっき</h6>
-      </a>
-      
-      <a class="list-group-item list-group-item-action" href="/samples/#">
-        <div class="d-flex w-100 justify-content-between">
-          <h6>錫めっき</h6>
-          <h6>上田鉱業合同会社</h6>
-        </div>
-        <h6 class="text-start">めっき</h6>
-      </a>
-      
-      <a class="list-group-item list-group-item-action" href="/samples/#">
-        <div class="d-flex w-100 justify-content-between">
-          <h6>ニッケルめっき</h6>
-          <h6>宮本食品合同会社</h6>
-        </div>
-        <h6 class="text-start">めっき</h6>
+        <h6 class="text-start">{{ sample.category }}</h6>
       </a>
     </div>
 
