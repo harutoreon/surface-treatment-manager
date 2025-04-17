@@ -158,8 +158,11 @@ describe('SamplesIndexView', () => {
     })
 
     it('外部リンクが存在すること', () => {
-      expect(wrapper.find('a[href="/samples/new"]').text()).toBe('表面処理情報の登録')
-      expect(wrapper.find('a[href="/home"]').text()).toBe('メインメニューへ')
+      expect(wrapper.findComponent('#link_samples_new').text()).toBe('表面処理情報の登録')
+      expect(wrapper.findComponent('#link_samples_new').props().to).toBe('#')
+
+      expect(wrapper.findComponent('#link_home').text()).toBe('メインメニューへ')
+      expect(wrapper.findComponent('#link_home').props().to).toBe('/home')
     })
   })
 
