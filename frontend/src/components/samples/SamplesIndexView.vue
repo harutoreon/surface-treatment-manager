@@ -1,18 +1,34 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const route = useRoute()
 const samples = ref('')
+const currentPage = ref(Number(route.query.page) || 1)
+const totalPages = ref(1)
 
 const fetchSampleList = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/samples`)
-    samples.value = response.data
+    const response = await axios.get(`${API_BASE_URL}/samples?page=${currentPage.value}`)
+    samples.value = response.data.samples
+    currentPage.value = response.data.current_page
+    totalPages.value = response.data.total_pages
   } catch (error) {
     console.error('Get sample list failed')
   }
 }
+
+const getPageLink = (page) => ({
+  path: route.path,
+  query: { page }
+})
+
+watch(() => route.query.page, (newPage) => {
+  currentPage.value = Number(newPage) || 1
+  fetchSampleList()
+}, { immediate: true })
 
 onMounted(() => {
   fetchSampleList()
@@ -41,24 +57,19 @@ onMounted(() => {
       </a>
     </div>
 
-    <ul class="pagination justify-content-center mb-5">
-      <li class="page-item disabled">
-        <a class="page-link" id="previous_page">前のページ</a>
+    <ul v-if="totalPages > 0"  class="pagination justify-content-center mb-5" id="pagination">
+      <li class="page-item" :class="{ disabled: currentPage === 1 }" id="pagination_previous_page">
+        <RouterLink class="page-link" v-if="currentPage > 1" v-bind:to="getPageLink(currentPage - 1)">前ページ</RouterLink>
+        <span v-else class="page-link">前ページ</span>
       </li>
-      <li class="page-item active">
-        <a class="page-link" href="/samples?page=#">1</a>
+
+      <li v-for="page in totalPages" v-bind:key="page" class="page-item" v-bind:class="{ active: page === currentPage }">
+        <RouterLink class="page-link" v-bind:to="getPageLink(page)">{{ page }}</RouterLink>
       </li>
-      <li class="page-item ">
-        <a class="page-link" href="/samples?page=#">2</a>
-      </li>
-      <li class="page-item ">
-        <a class="page-link" href="/samples?page=#">3</a>
-      </li>
-      <li class="page-item ">
-        <a class="page-link" href="/samples?page=#">4</a>
-      </li>
-      <li class="page-item">
-        <a class="page-link" id="next_page" href="/samples?page=#">次のページ</a>
+
+      <li class="page-item" :class="{ disabled: currentPage === totalPages }" id="pagination_next_page">
+        <RouterLink class="page-link" v-if="currentPage < totalPages" v-bind:to="getPageLink(currentPage + 1)">次ページ</RouterLink>
+        <span v-else class="page-link">次ページ</span>
       </li>
     </ul>
 
