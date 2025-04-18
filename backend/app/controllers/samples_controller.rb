@@ -1,8 +1,12 @@
 class SamplesController < ApplicationController
   def index
-    @samples = Sample.all
+    samples = Sample.paginate(page: params[:page], per_page: 7)
 
-    render json: @samples
+    render json: {
+      samples: samples,
+      current_page: samples.current_page,
+      total_pages: samples.total_pages
+    }
   end
 
   def show

@@ -16,6 +16,7 @@ import MakersShowView from './components/makers/MakersShowView.vue'
 import MakersNewView from './components/makers/MakersNewView.vue'
 import MakersEditView from './components/makers/MakersEditView.vue'
 import NotFound from './components/NotFound.vue'
+import SamplesIndexView from './components/samples/SamplesIndexView.vue'
 
 const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : createWebHistory()
 
@@ -35,7 +36,8 @@ const routes = [
   { path: '/makers/:id', component: MakersShowView },
   { path: '/makers/new', component: MakersNewView },
   { path: '/makers/:id/edit', component: MakersEditView },
-  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound}
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound},
+  { path: '/samples', component: SamplesIndexView},
 ]
 
 const router = createRouter({

@@ -11,10 +11,25 @@ RSpec.describe "Samples API", type: :request do
       expect(response).to have_http_status(:success)
     end
 
-    it '表面処理リストが10件返ること' do
+    it 'レスポンスにsamplesが含まれていること' do
       get "/samples"
-      json = JSON.parse(response.body)
-      expect(json.count).to eq(10)
+      json = JSON.parse(response.body, symbolize_names: true)
+      expect(json.include?(:samples)).to be(true)
+      expect(json[:samples].count).to eq(7)
+    end
+
+    it 'レスポンスにcurrent_pageが含まれていること' do
+      get "/samples"
+      json = JSON.parse(response.body, symbolize_names: true)
+      expect(json.include?(:current_page)).to be(true)
+      expect(json[:current_page]).to eq(1)
+    end
+
+    it 'レスポンスにtotal_pagesが含まれていること' do
+      get "/samples"
+      json = JSON.parse(response.body, symbolize_names: true)
+      expect(json.include?(:total_pages)).to be(true)  
+      expect(json[:total_pages]).to eq(2)  
     end
   end
 
