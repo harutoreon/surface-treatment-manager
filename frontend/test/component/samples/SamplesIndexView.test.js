@@ -154,7 +154,7 @@ describe('SamplesIndexView', () => {
   })
 
   describe('API通信', () => {
-    it('表面処理リストが8件表示されること', () => {
+    it('表面処理リストが7件表示されること', () => {
       expect(wrapper.html()).toContain('無電解ニッケルめっき')
       expect(wrapper.html()).toContain('白金めっき')
       expect(wrapper.html()).toContain('金めっき')
