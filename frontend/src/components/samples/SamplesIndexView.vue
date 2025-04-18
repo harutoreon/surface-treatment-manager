@@ -37,7 +37,7 @@ onMounted(() => {
 
 
 <template>
-  <div class="container text-center w-50">
+  <div class="container text-center w-25">
     <h3 class="mt-5 mb-5">表面処理リスト</h3>
 
     <div class="list-group list-group-flush mb-2">
@@ -53,7 +53,10 @@ onMounted(() => {
           <h6>{{ sample.name }}</h6>
           <h6>{{ sample.maker }}</h6>
         </div>
-        <h6 class="text-start">{{ sample.category }}</h6>
+        <div class="d-flex w-100 justify-content-between">
+          <h6>{{ sample.category }}</h6>
+          <h6>{{ sample.color }}</h6>
+        </div>
       </a>
     </div>
 

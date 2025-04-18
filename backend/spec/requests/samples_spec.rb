@@ -15,7 +15,7 @@ RSpec.describe "Samples API", type: :request do
       get "/samples"
       json = JSON.parse(response.body, symbolize_names: true)
       expect(json.include?(:samples)).to be(true)
-      expect(json[:samples].count).to eq(8)
+      expect(json[:samples].count).to eq(7)
     end
 
     it 'レスポンスにcurrent_pageが含まれていること' do

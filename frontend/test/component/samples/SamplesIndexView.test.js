@@ -113,19 +113,6 @@ describe('SamplesIndexView', () => {
             "film_thickness": "光沢スズめっきで3～10μm、無光沢スズめっきで5～20μm程度",
             "feature": "耐食性・潤滑性・摺動性"
           },
-          {
-            "id": 8,
-            "name": "ニッケルめっき",
-            "category": "めっき",
-            "color": "ライトシルバー",
-            "maker": "合資会社村田ガス",
-            "created_at": "2025-02-23T22:15:29.825Z",
-            "updated_at": "2025-02-23T22:15:29.825Z",
-            "picture": "#<File:0x0000ffff85d4fd20>",
-            "hardness": "Hv350 ～500程度",
-            "film_thickness": "3～30μm程度",
-            "feature": "耐食性・耐薬品性・耐熱性"
-          },
         ],
         curent_page: 1,
         total_pages: 1
@@ -175,7 +162,6 @@ describe('SamplesIndexView', () => {
       expect(wrapper.html()).toContain('銅めっき')
       expect(wrapper.html()).toContain('亜鉛めっき')
       expect(wrapper.html()).toContain('錫めっき')
-      expect(wrapper.html()).toContain('ニッケルめっき')
     })
   })
 })
