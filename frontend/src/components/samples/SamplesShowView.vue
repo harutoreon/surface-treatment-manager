@@ -1,10 +1,11 @@
 <script setup>
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const route = useRoute()
+const router = useRouter()
 const sample = ref({
   id: '',
   name: '',
@@ -17,18 +18,33 @@ const sample = ref({
   feature: ''
 })
 
+const sampleComments = ref([])
+
 const fetchSampleData = async (id) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/samples/${id}`)
     sample.value = response.data
-    console.log(sample.value)
   } catch (error) {
-    console.error('Get sample data failed.')
+    if (error.response && error.response.status === 404) {
+      router.replace({ name: 'NotFound' })
+    }
+  }
+}
+
+const fetchSampleCommentsData = async (id) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/samples/${id}/comments`)
+    sampleComments.value = response.data
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      router.replace({ name: 'NotFound' })
+    }
   }
 }
 
 onMounted(() => {
   fetchSampleData(route.params.id)
+  fetchSampleCommentsData(route.params.id)
 })
 </script>
 
@@ -83,53 +99,13 @@ onMounted(() => {
         </div>
       </div>
 
-      <div class="list-group-item list-group-item-action" href="/samples/#">
+      <div v-for="comment in sampleComments" v-bind:key="comment.id" class="list-group-item list-group-item-action" href="#">
         <div class="d-flex w-100 justify-content-between">
-          <h6>品質管理部：テストユーザー</h6>
-          <h6>2025/1/1</h6>
+          <h6>{{ comment.department }}：{{ comment.commenter }}</h6>
+          <h6>{{ comment.created_at }}</h6>
         </div>
         <div class="d-flex w-100 justify-content-between">
-          <h6>表面の質感が滑らかで触感が良好です。</h6>
-        </div>
-      </div>
-
-      <div class="list-group-item list-group-item-action" href="/samples/#">
-        <div class="d-flex w-100 justify-content-between">
-          <h6>品質管理部：テストユーザー</h6>
-          <h6>2025/1/1</h6>
-        </div>
-        <div class="d-flex w-100 justify-content-between">
-          <h6>表面の質感が滑らかで触感が良好です。</h6>
-        </div>
-      </div>
-
-      <div class="list-group-item list-group-item-action" href="/samples/#">
-        <div class="d-flex w-100 justify-content-between">
-          <h6>品質管理部：テストユーザー</h6>
-          <h6>2025/1/1</h6>
-        </div>
-        <div class="d-flex w-100 justify-content-between">
-          <h6>表面の質感が滑らかで触感が良好です。</h6>
-        </div>
-      </div>
-
-      <div class="list-group-item list-group-item-action" href="/samples/#">
-        <div class="d-flex w-100 justify-content-between">
-          <h6>品質管理部：テストユーザー</h6>
-          <h6>2025/1/1</h6>
-        </div>
-        <div class="d-flex w-100 justify-content-between">
-          <h6>表面の質感が滑らかで触感が良好です。</h6>
-        </div>
-      </div>
-
-      <div class="list-group-item list-group-item-action" href="/samples/#">
-        <div class="d-flex w-100 justify-content-between">
-          <h6>品質管理部：テストユーザー</h6>
-          <h6>2025/1/1</h6>
-        </div>
-        <div class="d-flex w-100 justify-content-between">
-          <h6>表面の質感が滑らかで触感が良好です。</h6>
+          <h6>{{ comment.body }}</h6>
         </div>
       </div>
     </div>

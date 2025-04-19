@@ -1,33 +1,27 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import SamplesShowView from '@/components/samples/SamplesShowView.vue'
 import axios from 'axios'
 
 vi.mock('axios')
 
-vi.mock('vue-router', () => {
+const replaceMock = vi.fn()
+
+vi.mock('vue-router', async () => {
+  const actual = await vi.importActual('vue-router')
+
   return {
+    ...actual,
     useRoute: () => {
       return {
         params: { id: 1 }
       }
+    },
+    useRouter: () => {
+      return {
+        replace: replaceMock
+      }
     }
-  }
-})
-
-axios.get.mockReturnValue({
-  data: {
-    "id": 1,
-    "name": "無電解ニッケルめっき",
-    "category": "めっき",
-    "color": "イエローブラウンシルバー",
-    "maker": "小島印刷合同会社",
-    "created_at": "2025-02-23T22:15:29.815Z",
-    "updated_at": "2025-02-23T22:15:29.815Z",
-    "picture": "#<File:0x0000ffff859a8be0>",
-    "hardness": "析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度",
-    "film_thickness": "通常は3～5μm、厚めの場合は20～50μmまで可能",
-    "feature": "耐食性・耐摩耗性・耐薬品性・耐熱性"
   }
 })
 
@@ -36,6 +30,22 @@ describe('SamplesShowView', () => {
     let wrapper
 
     beforeEach(() => {
+      axios.get.mockReturnValue({
+        data: {
+          "id": 1,
+          "name": "無電解ニッケルめっき",
+          "category": "めっき",
+          "color": "イエローブラウンシルバー",
+          "maker": "小島印刷合同会社",
+          "created_at": "2025-02-23T22:15:29.815Z",
+          "updated_at": "2025-02-23T22:15:29.815Z",
+          "picture": "#<File:0x0000ffff859a8be0>",
+          "hardness": "析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度",
+          "film_thickness": "通常は3～5μm、厚めの場合は20～50μmまで可能",
+          "feature": "耐食性・耐摩耗性・耐薬品性・耐熱性"
+        }
+      })
+
       wrapper = mount(SamplesShowView)
     })
 
@@ -74,6 +84,122 @@ describe('SamplesShowView', () => {
       expect(wrapper.find('#link_sample_edit').text()).toBe('表面処理情報の編集')
       expect(wrapper.find('#link_sample_destroy').text()).toBe('表面処理情報の削除')
       expect(wrapper.find('#link_home').text()).toBe('メインメニューへ')
+    })
+  })
+
+  describe('API通信', () => {
+    describe('表面処理情報の取得に成功した場合', () => {
+      it('すべての情報が表示されること', async () => {
+        axios.get.mockResolvedValue({
+          data: {
+            "id": 1,
+            "name": "無電解ニッケルめっき",
+            "category": "めっき",
+            "color": "イエローブラウンシルバー",
+            "maker": "小島印刷合同会社",
+            "hardness": "析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度",
+            "film_thickness": "通常は3～5μm、厚めの場合は20～50μmまで可能",
+            "feature": "耐食性・耐摩耗性・耐薬品性・耐熱性"
+          }
+        })
+
+        const wrapper = mount(SamplesShowView)
+
+        await flushPromises()
+
+        expect(wrapper.find('#sample_name').text()).toBe('無電解ニッケルめっき')
+        expect(wrapper.find('#sample_category').text()).toBe('めっき')
+        expect(wrapper.find('#sample_color').text()).toBe('イエローブラウンシルバー')
+        expect(wrapper.find('#sample_maker').text()).toBe('小島印刷合同会社')
+        expect(wrapper.find('img').attributes('alt')).toBe('sample image')
+        expect(wrapper.find('#sample_hardness').text()).toBe('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
+        expect(wrapper.find('#sample_film_thickness').text()).toBe('通常は3～5μm、厚めの場合は20～50μmまで可能')
+        expect(wrapper.find('#sample_feature').text()).toBe('耐食性・耐摩耗性・耐薬品性・耐熱性')
+      })
+    })
+
+    describe('表面処理情報の取得に失敗した場合', () => {
+      it('404ページに遷移すること', async () => {
+        axios.get.mockRejectedValue({
+          response: {
+            status: 404
+          },
+        })
+
+        mount(SamplesShowView)
+
+        await flushPromises()
+
+        expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
+      })
+    })
+
+    describe('コメントの取得に成功した場合', () => {
+      it('すべてのコメントが表示されること', async () => {
+        const mockSampleResponse = {
+          data: {
+            "id": 1,
+            "name": "無電解ニッケルめっき",
+            "category": "めっき",
+            "color": "イエローブラウンシルバー",
+            "maker": "小島印刷合同会社",
+            "hardness": "析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度",
+            "film_thickness": "通常は3～5μm、厚めの場合は20～50μmまで可能",
+            "feature": "耐食性・耐摩耗性・耐薬品性・耐熱性"
+          }
+        }
+
+        const mockSampleCommentResponse = {
+          data: [
+            {
+              "id": 1,
+              "commenter": "岡本 陽子",
+              "body": "表面の質感が滑らかで、触感が良好です。",
+              "sample_id": 1,
+              "created_at": "2025-02-23T22:15:30.030Z",
+              "updated_at": "2025-02-23T22:15:30.030Z",
+              "department": "営業部"
+            }
+          ]
+        }
+
+        axios.get
+          .mockResolvedValueOnce(mockSampleResponse)
+          .mockResolvedValueOnce(mockSampleCommentResponse)
+
+        const wrapper = mount(SamplesShowView)
+
+        await flushPromises()
+
+        expect(wrapper.html()).toContain('営業部：岡本 陽子')
+        expect(wrapper.html()).toContain('2025-02-23T22:15:30.030Z')
+        expect(wrapper.html()).toContain('表面の質感が滑らかで、触感が良好です。')
+      })
+    })
+
+    describe('コメントの取得に失敗した場合', () => {
+      it('404ページに遷移すること', async () => {
+        const mockSampleResponse = {
+          response: {
+            status: 404
+          }
+        }
+
+        const mockSampleCommentResponse = {
+          response: {
+            status: 404
+          }
+        }
+        axios.get
+          .mockRejectedValueOnce(mockSampleResponse)
+          .mockRejectedValueOnce(mockSampleCommentResponse)
+
+        mount(SamplesShowView)
+        
+        await flushPromises()
+
+        expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
+      })
     })
   })
 })
