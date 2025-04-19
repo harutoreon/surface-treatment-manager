@@ -79,4 +79,20 @@ describe('Samples routing', () => {
 
     expect(wrapper.html()).toContain('表面処理リスト')
   })
+
+  it('「表面処理情報」ページに遷移すること', async () => {
+    router.push('/samples/1')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(wrapper.html()).toContain('表面処理情報')
+  })
 })
