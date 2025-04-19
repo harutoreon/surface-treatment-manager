@@ -1,3 +1,37 @@
+<script setup>
+import { useRoute } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const route = useRoute()
+const sample = ref({
+  id: '',
+  name: '',
+  category: '',
+  color: '',
+  maker: '',
+  picture: '',
+  hardness: '',
+  film_thickness: '',
+  feature: ''
+})
+
+const fetchSampleData = async (id) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/samples/${id}`)
+    sample.value = response.data
+    console.log(sample.value)
+  } catch (error) {
+    console.error('Get sample data failed.')
+  }
+}
+
+onMounted(() => {
+  fetchSampleData(route.params.id)
+})
+</script>
+
 <template>
   <div class="container w-50">
     <h3 class="text-center mt-5 mb-5">表面処理情報</h3>
@@ -5,31 +39,31 @@
     <div class="list-group mb-5">
       <li class="d-flex justify-content-between list-group-item">
         <div id="label_sample_name">処理名：</div>
-        <div id="sample_name">無電解ニッケルめっき</div>
+        <div id="sample_name">{{ sample.name }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
         <div id="label_sample_category">カテゴリー：</div>
-        <div id="sample_category">めっき</div>
+        <div id="sample_category">{{ sample.category }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
         <div id="label_sample_color">色調：</div>
-        <div id="sample_color">イエローブラウンシルバー</div>
+        <div id="sample_color">{{ sample.color }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
         <div id="label_sample_maker">メーカー：</div>
-        <div id="sample_maker">小島印刷合同会社</div>
+        <div id="sample_maker">{{ sample.maker }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
         <div id="label_sample_hardness">硬度：</div>
-        <div id="sample_hardness">析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度</div>
+        <div id="sample_hardness">{{ sample.hardness }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
         <div id="label_sample_film_thickness">膜厚：</div>
-        <div id="sample_film_thickness">通常は3～5μm、厚めの場合は20～50μmまで可能</div>
+        <div id="sample_film_thickness">{{ sample.film_thickness }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
         <div id="label_sample_feature">特徴：</div>
-        <div id="sample_feature">耐食性・耐摩耗性・耐薬品性・耐熱性</div>
+        <div id="sample_feature">{{ sample.feature }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
         <div id="label_sample_picture">画像：</div>
