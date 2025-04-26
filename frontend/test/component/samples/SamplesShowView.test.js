@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { flushPromises, mount } from '@vue/test-utils'
+import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import SamplesShowView from '@/components/samples/SamplesShowView.vue'
 import axios from 'axios'
 
@@ -47,7 +47,13 @@ describe('SamplesShowView', () => {
         }
       })
 
-      wrapper = mount(SamplesShowView)
+      wrapper = mount(SamplesShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
     })
 
     it('見出しが表示されること', () => {
@@ -105,7 +111,13 @@ describe('SamplesShowView', () => {
           }
         })
 
-        const wrapper = mount(SamplesShowView)
+        const wrapper = mount(SamplesShowView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
 
         await flushPromises()
 
@@ -128,7 +140,13 @@ describe('SamplesShowView', () => {
           },
         })
 
-        mount(SamplesShowView)
+        mount(SamplesShowView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
 
         await flushPromises()
 
@@ -170,7 +188,13 @@ describe('SamplesShowView', () => {
           .mockResolvedValueOnce(mockSampleResponse)
           .mockResolvedValueOnce(mockSampleCommentResponse)
 
-        const wrapper = mount(SamplesShowView)
+        const wrapper = mount(SamplesShowView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
 
         await flushPromises()
 
@@ -197,7 +221,13 @@ describe('SamplesShowView', () => {
           .mockRejectedValueOnce(mockSampleResponse)
           .mockRejectedValueOnce(mockSampleCommentResponse)
 
-        mount(SamplesShowView)
+        mount(SamplesShowView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
         
         await flushPromises()
 

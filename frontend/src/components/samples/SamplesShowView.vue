@@ -112,10 +112,10 @@ onMounted(() => {
       </div>
     </div>
 
-    <div class="d-flex justify-content-evenly">
-      <a href="#" id="link_sample_edit">表面処理情報の編集</a>
-      <a href="#" id="link_sample_destroy">表面処理情報の削除</a>
-      <a href="#" id="link_home">メインメニューへ</a>
+    <div class="d-flex justify-content-evenly mt-5 mb-5">
+      <RouterLink to="#" id="link_sample_edit">表面処理情報の編集</RouterLink>
+      <RouterLink to="#" id="link_sample_destroy">表面処理情報の削除</RouterLink>
+      <RouterLink to="/home" id="link_home">メインメニューへ</RouterLink>
     </div>
   </div>
 </template>
