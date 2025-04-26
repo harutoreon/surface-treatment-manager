@@ -42,7 +42,8 @@ describe('SamplesShowView', () => {
           "picture": "#<File:0x0000ffff859a8be0>",
           "hardness": "析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度",
           "film_thickness": "通常は3～5μm、厚めの場合は20～50μmまで可能",
-          "feature": "耐食性・耐摩耗性・耐薬品性・耐熱性"
+          "feature": "耐食性・耐摩耗性・耐薬品性・耐熱性",
+          "image_url": "http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg"
         }
       })
 
@@ -99,7 +100,8 @@ describe('SamplesShowView', () => {
             "maker": "小島印刷合同会社",
             "hardness": "析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度",
             "film_thickness": "通常は3～5μm、厚めの場合は20～50μmまで可能",
-            "feature": "耐食性・耐摩耗性・耐薬品性・耐熱性"
+            "feature": "耐食性・耐摩耗性・耐薬品性・耐熱性",
+            "image_url": "http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg"
           }
         })
 
@@ -111,7 +113,7 @@ describe('SamplesShowView', () => {
         expect(wrapper.find('#sample_category').text()).toBe('めっき')
         expect(wrapper.find('#sample_color').text()).toBe('イエローブラウンシルバー')
         expect(wrapper.find('#sample_maker').text()).toBe('小島印刷合同会社')
-        expect(wrapper.find('img').attributes('alt')).toBe('sample image')
+        expect(wrapper.find('#sample_picture').exists()).toBe(true)
         expect(wrapper.find('#sample_hardness').text()).toBe('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
         expect(wrapper.find('#sample_film_thickness').text()).toBe('通常は3～5μm、厚めの場合は20～50μmまで可能')
         expect(wrapper.find('#sample_feature').text()).toBe('耐食性・耐摩耗性・耐薬品性・耐熱性')
@@ -145,7 +147,8 @@ describe('SamplesShowView', () => {
             "maker": "小島印刷合同会社",
             "hardness": "析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度",
             "film_thickness": "通常は3～5μm、厚めの場合は20～50μmまで可能",
-            "feature": "耐食性・耐摩耗性・耐薬品性・耐熱性"
+            "feature": "耐食性・耐摩耗性・耐薬品性・耐熱性",
+            "image_url": "http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg"
           }
         }
 

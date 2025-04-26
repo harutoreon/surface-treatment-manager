@@ -15,7 +15,8 @@ const sample = ref({
   picture: '',
   hardness: '',
   film_thickness: '',
-  feature: ''
+  feature: '',
+  image_url: ''
 })
 
 const sampleComments = ref([])
@@ -83,8 +84,9 @@ onMounted(() => {
       </li>
       <li class="d-flex justify-content-between list-group-item">
         <div id="label_sample_picture">画像：</div>
-        <div id="sample_picture">
-          <img src="@/assets/images/electroless_nickel_plating.png" alt="sample image" class="mt-2 mb-2" width="250" height="250">
+        <div>
+          <img v-if="sample.image_url" v-bind:src="sample.image_url" alt="Sample Image" id="sample_picture" />
+          <div v-else>No Image</div>   
         </div>
       </li>
     </div>
