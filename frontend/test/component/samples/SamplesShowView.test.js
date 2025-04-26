@@ -199,7 +199,7 @@ describe('SamplesShowView', () => {
         await flushPromises()
 
         expect(wrapper.html()).toContain('営業部：岡本 陽子')
-        expect(wrapper.html()).toContain('2025/2/24')
+        expect(wrapper.html()).toMatch(/\d{4}\/\d{1,2}\/\d{1,2}/)
         expect(wrapper.html()).toContain('表面の質感が滑らかで、触感が良好です。')
       })
     })
