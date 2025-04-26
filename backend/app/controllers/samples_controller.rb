@@ -12,7 +12,7 @@ class SamplesController < ApplicationController
   def show
     @sample = Sample.find(params[:id])
 
-    render json: @sample
+    render json: @sample, methods: [:image_url]
   end
 
   def create

@@ -69,4 +69,7 @@ Rails.application.configure do
 
   # config.middleware.use ActionDispatch::Cookies
   # config.middleware.use ActionDispatch::Session::CookieStore, Rails.application.config.session_options
+
+  Rails.application.routes.default_url_options[:host] = 'localhost'
+  Rails.application.routes.default_url_options[:port] = 3000
 end
