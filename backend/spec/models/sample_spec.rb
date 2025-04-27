@@ -1,7 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe Sample, type: :model do
-  describe 'validation' do
+  describe 'Association' do
+    describe 'has_one_attached' do
+      it '画像を添付できること' do
+        sample = FactoryBot.build(:sample)
+
+        sample.image.attach(
+          io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
+          filename: 'test.jpg',
+          content_type: 'image/jpg'
+        )
+
+        expect(sample.image).to be_attached
+      end
+    end
+  end
+
+  describe 'Validation' do
     before do
       @sample = FactoryBot.build(:sample)
     end
@@ -51,13 +67,13 @@ RSpec.describe Sample, type: :model do
     end
   end
 
-  describe 'scope' do
-    before do
-      FactoryBot.create_list(:anodised_aluminium, 9)
-      FactoryBot.create(:chromate)
-    end
-
-    describe '#name_search' do
+  describe 'Method return values' do
+    describe '.name_search' do
+      before do
+        FactoryBot.create_list(:anodised_aluminium, 9)
+        FactoryBot.create(:chromate)
+      end
+      
       context '引数が「アルマイト」の場合' do
         it 'サンプルが9件返ること' do
           expect(Sample.name_search('アルマイト').count).to eq(9)
@@ -77,7 +93,12 @@ RSpec.describe Sample, type: :model do
       end
     end
 
-    describe '#category_search' do
+    describe '.category_search' do
+      before do
+        FactoryBot.create_list(:anodised_aluminium, 9)
+        FactoryBot.create(:chromate)
+      end
+
       context '引数が「陽極酸化」の場合' do
         it 'サンプルが9件返ること' do
           expect(Sample.category_search('陽極酸化').count).to eq(9)
@@ -97,7 +118,12 @@ RSpec.describe Sample, type: :model do
       end
     end
 
-    describe '#maker_search' do
+    describe '.maker_search' do
+      before do
+        FactoryBot.create_list(:anodised_aluminium, 9)
+        FactoryBot.create(:chromate)
+      end
+
       context '引数が「有限会社」の場合' do
         it 'サンプルが9件返ること' do
           expect(Sample.maker_search('有限会社').count).to eq(9)
@@ -113,6 +139,31 @@ RSpec.describe Sample, type: :model do
       context '引数が「合同会社」の場合' do
         it '空の配列が返ること' do
           expect(Sample.maker_search('合同会社')).to eq([])
+        end
+      end
+    end
+
+    describe '#image_url' do
+      context '画像が添付されている場合' do
+        it '画像のURLを返すこと' do
+          sample = FactoryBot.create(:sample)
+
+          sample.image.attach(
+            io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
+            filename: 'test.jpg',
+            content_type: 'image/jpg'
+          )
+
+          expect(sample.image_url).to be_present
+          expect(sample.image_url).to include('test.jpg')
+        end
+      end
+
+      context '画像が添付されていない場合' do
+        it 'nilを返すこと' do
+          sample = FactoryBot.create(:sample)
+
+          expect(sample.image_url).to be_nil
         end
       end
     end

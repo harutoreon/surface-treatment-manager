@@ -48,7 +48,12 @@ onMounted(() => {
         </div>
       </div>
 
-      <a v-for="sample in samples" v-bind:key="sample.id" class="list-group-item list-group-item-action" href="/samples/#">
+      <RouterLink
+        v-for="sample in samples"
+        v-bind:key="sample.id"
+        class="list-group-item list-group-item-action"
+        v-bind:to="`/samples/${sample.id}`"
+      >
         <div class="d-flex w-100 justify-content-between">
           <h6>{{ sample.name }}</h6>
           <h6>{{ sample.maker }}</h6>
@@ -57,7 +62,7 @@ onMounted(() => {
           <h6>{{ sample.category }}</h6>
           <h6>{{ sample.color }}</h6>
         </div>
-      </a>
+      </RouterLink>
     </div>
 
     <ul v-if="totalPages > 0"  class="pagination justify-content-center mb-5" id="pagination">

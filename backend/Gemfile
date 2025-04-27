@@ -13,6 +13,7 @@ gem 'pg'
 gem 'bundler'
 gem 'rack-cors'
 gem 'will_paginate'
+gem "image_processing", ">= 1.2"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]

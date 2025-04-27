@@ -38,15 +38,48 @@ RSpec.describe "Samples API", type: :request do
       @sample = FactoryBot.create(:sample)
     end
 
+    after(:context) do
+      FileUtils.rm_rf(ActiveStorage::Blob.service.root)
+    end
+
     it 'レスポンスのステータスがsuccessであること' do
-      get "/samples/#{@sample.id}"
+      get "/samples/#{@sample.id}" 
       expect(response).to have_http_status(:success)
     end
 
-    it '表面処理情報が返ること' do
+    it 'レスポンスに主要な属性がすべて含まれていること' do
       get "/samples/#{@sample.id}"
       json = JSON.parse(response.body, symbolize_names: true)
-      expect(json[:name]).to eq("無電解ニッケルめっき")
+
+      expect(json).to include(:name)
+      expect(json).to include(:category)
+      expect(json).to include(:color)
+      expect(json).to include(:maker)
+      expect(json).to include(:picture)
+      expect(json).to include(:hardness)
+      expect(json).to include(:film_thickness)
+      expect(json).to include(:feature)
+      expect(json).to include(:image_url)
+    end
+
+    context '画像が添付済の場合' do
+      it 'image_url の戻り値が画像の URL であること' do
+        @sample.image.attach(io: File.open(Rails.root + 'spec/fixtures/test.jpg'), filename: 'test.jpg')
+        @sample.save!
+  
+        get "/samples/#{@sample.id}"
+        json = JSON.parse(response.body, symbolize_names: true)
+  
+        expect(json[:image_url]).to include('http://localhost:3000/rails/active_storage/blobs')
+      end        
+    end
+
+    context '画像が未添付の場合' do
+      it 'image_url の戻り値が nil であること' do
+        get "/samples/#{@sample.id}"
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json[:image_url]).to eq(nil)
+      end      
     end
   end
 
