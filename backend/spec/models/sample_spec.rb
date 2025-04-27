@@ -118,6 +118,49 @@ RSpec.describe Sample, type: :model do
     end
   end
 
+  describe 'Method return values' do
+    describe 'image_url' do
+      context '画像が添付されている場合' do
+        it '画像のURLを返すこと' do
+          sample = FactoryBot.create(:sample)
+
+          sample.image.attach(
+            io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
+            filename: 'test.jpg',
+            content_type: 'image/jpg'
+          )
+
+          expect(sample.image_url).to be_present
+          expect(sample.image_url).to include('test.jpg')
+        end
+      end
+
+      context '画像が添付されていない場合' do
+        it 'nilを返すこと' do
+          sample = FactoryBot.create(:sample)
+
+          expect(sample.image_url).to be_nil
+        end
+      end
+    end
+  end
+
+  describe 'Association' do
+    describe 'has_one_attached' do
+      it '画像を添付できること' do
+        sample = FactoryBot.build(:sample)
+
+        sample.image.attach(
+          io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
+          filename: 'test.jpg',
+          content_type: 'image/jpg'
+        )
+
+        expect(sample.image).to be_attached
+      end
+    end  
+  end
+
   # describe '#picture_size' do
   #   context '画像サイズが5MBを超える場合は' do
   #     it '検証エラーが発生すること' do
