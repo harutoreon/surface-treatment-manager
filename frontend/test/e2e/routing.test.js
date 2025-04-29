@@ -111,4 +111,20 @@ describe('Samples routing', () => {
 
     expect(wrapper.html()).toContain('表面処理情報の登録')
   })
+
+  it('「表面処理情報の編集」ページに遷移すること', async () => {
+    router.push('/samples/1/edit')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(wrapper.html()).toContain('表面処理情報の編集')
+  })
 })

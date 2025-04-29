@@ -19,6 +19,7 @@ import NotFound from './components/NotFound.vue'
 import SamplesIndexView from './components/samples/SamplesIndexView.vue'
 import SamplesShowView from './components/samples/SamplesShowView.vue'
 import SamplesNewView from './components/samples/SamplesNewView.vue'
+import SamplesEditView from './components/samples/SamplesEditView.vue'
 
 const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : createWebHistory()
 
@@ -41,8 +42,9 @@ const routes = [
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound},
   { path: '/samples', component: SamplesIndexView},
   { path: '/samples/:id', component: SamplesShowView },
-  { path: '/samples/new', component: SamplesNewView }
-]
+  { path: '/samples/new', component: SamplesNewView },
+  { path: '/samples/:id/edit', component: SamplesEditView },
+] 
 
 const router = createRouter({
   history,
