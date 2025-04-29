@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { flushPromises, mount } from '@vue/test-utils'
+import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import SamplesNewView from '@/components/samples/SamplesNewView.vue'
 import axios from 'axios'
 import router from '@/router'
@@ -19,7 +19,13 @@ describe('SamplesNewView', () => {
     let wrapper
 
     beforeEach(() => {
-      wrapper = mount(SamplesNewView)
+      wrapper = mount(SamplesNewView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
     })
 
     it('見出しが存在すること', () => {
@@ -86,8 +92,8 @@ describe('SamplesNewView', () => {
     })
 
     it('外部リンクが存在すること', () => {
-      expect(wrapper.find('a').exists()).toBe(true)
-      expect(wrapper.find('a').text()).toBe('表面処理リストへ')
+      expect(wrapper.findComponent(RouterLinkStub).exists()).toBe(true)
+      expect(wrapper.findComponent(RouterLinkStub).props().to).toBe('/samples')
     })
   })
 
@@ -103,7 +109,13 @@ describe('SamplesNewView', () => {
 
         axios.post.mockResolvedValue(mockResponse)
 
-        const wrapper = mount(SamplesNewView)
+        const wrapper = mount(SamplesNewView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
 
         await wrapper.find('form').trigger('submit.prevent')
         await flushPromises()
@@ -117,7 +129,13 @@ describe('SamplesNewView', () => {
       it('登録が失敗すること', async () => {
         axios.post.mockRejectedValue(new Error('Validation Error'))
 
-        const wrapper = mount(SamplesNewView)
+        const wrapper = mount(SamplesNewView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
 
         await wrapper.find('form').trigger('submit.prevent')
         await flushPromises()

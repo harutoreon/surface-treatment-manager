@@ -107,7 +107,7 @@ const sampleRegistration = async () => {
     </form>
 
     <div class="text-center mb-5">
-      <a href="/samples">表面処理リストへ</a>
+      <RouterLink to="/samples">表面処理リストへ</RouterLink>
     </div>
   </div>
 </template>
