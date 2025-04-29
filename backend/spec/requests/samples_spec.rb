@@ -35,7 +35,7 @@ RSpec.describe "Samples API", type: :request do
 
   describe "#show" do
     before do
-      @sample = FactoryBot.create(:sample)
+      @sample = FactoryBot.build(:sample)
     end
 
     after(:context) do
@@ -43,11 +43,27 @@ RSpec.describe "Samples API", type: :request do
     end
 
     it 'レスポンスのステータスがsuccessであること' do
+      @sample.image.attach(
+        io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
+        filename: 'test.jpg',
+        content_type: 'image/jpg'
+      )
+
+      @sample.save
+
       get "/samples/#{@sample.id}" 
       expect(response).to have_http_status(:success)
     end
 
     it 'レスポンスに主要な属性がすべて含まれていること' do
+      @sample.image.attach(
+        io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
+        filename: 'test.jpg',
+        content_type: 'image/jpg'
+      )
+
+      @sample.save
+
       get "/samples/#{@sample.id}"
       json = JSON.parse(response.body, symbolize_names: true)
 
@@ -90,7 +106,7 @@ RSpec.describe "Samples API", type: :request do
                                            category: "表面硬化",
                                            color: "マゼンタ",
                                            maker: "有限会社松本農林",
-                                           picture: Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')),
+                                           image: Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')),
                                            hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
                                            film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
                                            feature: '耐食性・耐摩耗性・耐薬品性・耐熱性' } }
@@ -137,7 +153,15 @@ RSpec.describe "Samples API", type: :request do
 
   describe '#update' do
     before do
-      @sample = FactoryBot.create(:sample)
+      @sample = FactoryBot.build(:sample)
+
+      @sample.image.attach(
+        io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
+        filename: 'test.jpg',
+        content_type: 'image/jpg'
+      )
+
+      @sample.save
     end
 
     context '有効な表面処理情報で更新したとき' do
@@ -164,7 +188,16 @@ RSpec.describe "Samples API", type: :request do
 
   describe '#destroy' do
     before do
-      @sample = FactoryBot.create(:sample)
+      @sample = FactoryBot.build(:sample)
+
+      @sample.image.attach(
+        io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
+        filename: 'test.jpg',
+        content_type: 'image/jpg'
+      )
+
+      @sample.save
+
       @sample.comments.create(commenter: 'sample user', department: 'department', body: 'sample comment.')
     end
 

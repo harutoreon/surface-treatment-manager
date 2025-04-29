@@ -1,6 +1,18 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { flushPromises, mount } from '@vue/test-utils'
 import SamplesNewView from '@/components/samples/SamplesNewView.vue'
+import axios from 'axios'
+import router from '@/router'
+
+vi.mock('axios')
+
+vi.mock('@/router', () => {
+  return {
+    default: {
+      push: vi.fn()
+    }
+  }
+})
 
 describe('SamplesNewView', () => { 
   describe('DOMの構造', () => {
@@ -76,6 +88,42 @@ describe('SamplesNewView', () => {
     it('外部リンクが存在すること', () => {
       expect(wrapper.find('a').exists()).toBe(true)
       expect(wrapper.find('a').text()).toBe('表面処理リストへ')
+    })
+  })
+
+  describe('API通信', () => {
+    describe('有効な情報を送信すると', () => {
+      it('登録が成功すること', async () => {
+        const mockResponse = {
+          data: {
+            id: 1,
+            name: '無電解ニッケルめっき'
+          }
+        }
+
+        axios.post.mockResolvedValue(mockResponse)
+
+        const wrapper = mount(SamplesNewView)
+
+        await wrapper.find('form').trigger('submit.prevent')
+        await flushPromises()
+
+        expect(axios.post).toHaveBeenCalled()
+        expect(router.push).toHaveBeenCalledWith('/samples/1')
+      })
+    })
+
+    describe('空の状態で送信すると', () => {
+      it('登録が失敗すること', async () => {
+        axios.post.mockRejectedValue(new Error('Validation Error'))
+
+        const wrapper = mount(SamplesNewView)
+
+        await wrapper.find('form').trigger('submit.prevent')
+        await flushPromises()
+
+        expect(wrapper.text()).toContain('入力に不備があります。')
+      })
     })
   })
 })
