@@ -8,8 +8,7 @@ class Sample < ApplicationRecord
   validates :category, presence: { message: '（カテゴリー）が空白です。' }
   validates :color,    presence: { message: '（色調）が空白です。' }
   validates :maker,    presence: { message: '（メーカー）が空白です。' }
-  validates :picture,  presence: { message: '（画像）がありません。' }
-  # validate  :picture_size
+  validates :image,    presence: { message: '（画像）がありません。' }
 
   validates :hardness,       presence: { message: '（硬度）が空白です。' }
   validates :film_thickness, presence: { message: '（膜厚）が空白です。' }
@@ -22,12 +21,4 @@ class Sample < ApplicationRecord
   def image_url
     image.attached? ? url_for(image) : nil  
   end
-
-  # private
-
-  #   def picture_size
-  #     if picture.size > 5.megabytes
-  #       errors.add(:picture, "（画像）のサイズは5MB以下であること")
-  #     end
-  #   end
 end

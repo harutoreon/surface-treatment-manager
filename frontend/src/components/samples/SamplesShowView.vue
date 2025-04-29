@@ -91,7 +91,13 @@ onMounted(() => {
       <li class="d-flex justify-content-between list-group-item">
         <div id="label_sample_picture">画像：</div>
         <div>
-          <img v-if="sample.image_url" v-bind:src="sample.image_url" alt="Sample Image" id="sample_picture" />
+          <img
+            v-if="sample.image_url"
+            v-bind:src="sample.image_url"
+            alt="Sample Image"
+            id="sample_picture"
+            style="width: 250px; height: auto;"
+          />
           <div v-else>No Image</div>   
         </div>
       </li>

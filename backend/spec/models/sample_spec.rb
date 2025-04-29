@@ -20,6 +20,12 @@ RSpec.describe Sample, type: :model do
   describe 'Validation' do
     before do
       @sample = FactoryBot.build(:sample)
+
+      @sample.image.attach(
+        io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
+        filename: 'test.jpg',
+        content_type: 'image/jpg'
+      )
     end
 
     it 'sampleが有効であること' do
@@ -43,11 +49,6 @@ RSpec.describe Sample, type: :model do
 
     it 'makerが存在すること' do
       @sample.maker = ''
-      expect(@sample).to_not be_valid
-    end
-
-    it 'pictureが存在すること' do
-      @sample.picture = ''
       expect(@sample).to_not be_valid
     end
 
@@ -146,13 +147,15 @@ RSpec.describe Sample, type: :model do
     describe '#image_url' do
       context '画像が添付されている場合' do
         it '画像のURLを返すこと' do
-          sample = FactoryBot.create(:sample)
+          sample = FactoryBot.build(:sample)
 
           sample.image.attach(
             io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
             filename: 'test.jpg',
             content_type: 'image/jpg'
           )
+
+          sample.save
 
           expect(sample.image_url).to be_present
           expect(sample.image_url).to include('test.jpg')
@@ -161,21 +164,11 @@ RSpec.describe Sample, type: :model do
 
       context '画像が添付されていない場合' do
         it 'nilを返すこと' do
-          sample = FactoryBot.create(:sample)
+          sample = FactoryBot.build(:sample)
 
           expect(sample.image_url).to be_nil
         end
       end
     end
   end
-
-  # describe '#picture_size' do
-  #   context '画像サイズが5MBを超える場合は' do
-  #     it '検証エラーが発生すること' do
-  #       sample = FactoryBot.build(:invalid_image_sample)
-  #       sample.valid?
-  #       expect(sample.errors[:picture]).to include('（画像）のサイズは5MB以下であること')
-  #     end
-  #   end
-  # end
 end

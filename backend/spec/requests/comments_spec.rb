@@ -3,7 +3,16 @@ require 'rails_helper'
 RSpec.describe "Comments API", type: :request do
   describe '#index' do
     before do
-      FactoryBot.create(:sample)
+      sample = FactoryBot.build(:sample)
+
+      sample.image.attach(
+        io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
+        filename: 'test.jpg',
+        content_type: 'image/jpg'
+      )
+
+      sample.save
+
       FactoryBot.create_list(:comment, 10)
       @comment = Comment.first
     end
@@ -22,7 +31,16 @@ RSpec.describe "Comments API", type: :request do
 
   describe '#show' do
     before do
-      FactoryBot.create(:sample)
+      sample = FactoryBot.build(:sample)
+
+      sample.image.attach(
+        io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
+        filename: 'test.jpg',
+        content_type: 'image/jpg'
+      )
+
+      sample.save
+
       @comment = FactoryBot.create(:comment)
     end
 
@@ -42,7 +60,15 @@ RSpec.describe "Comments API", type: :request do
 
   describe "#create" do
     before do
-      @sample = FactoryBot.create(:sample)
+      @sample = FactoryBot.build(:sample)
+
+      @sample.image.attach(
+        io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
+        filename: 'test.jpg',
+        content_type: 'image/jpg'
+      )
+
+      @sample.save
     end
 
     context '有効なコメント情報で登録したとき' do
@@ -88,7 +114,16 @@ RSpec.describe "Comments API", type: :request do
 
   describe '#update' do
     before do
-      FactoryBot.create(:sample)
+      sample = FactoryBot.build(:sample)
+
+      sample.image.attach(
+        io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
+        filename: 'test.jpg',
+        content_type: 'image/jpg'
+      )
+
+      sample.save
+      
       @comment = FactoryBot.create(:comment)
     end
 
@@ -116,7 +151,16 @@ RSpec.describe "Comments API", type: :request do
 
   describe '#destroy' do
     before do
-      FactoryBot.create(:sample)
+      sample = FactoryBot.build(:sample)
+
+      sample.image.attach(
+        io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
+        filename: 'test.jpg',
+        content_type: 'image/jpg'
+      )
+
+      sample.save
+
       @comment = FactoryBot.create(:comment)
     end
 
