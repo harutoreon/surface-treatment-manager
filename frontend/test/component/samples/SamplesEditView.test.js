@@ -1,6 +1,6 @@
-import SamplesEditView from '@/components/samples/SamplesEditView.vue'
 import { describe, it, expect,vi, beforeEach } from 'vitest'
-import { flushPromises, mount } from '@vue/test-utils'
+import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
+import SamplesEditView from '@/components/samples/SamplesEditView.vue'
 import axios from 'axios'
 
 vi.mock('axios')
@@ -48,7 +48,13 @@ describe('SamplesEditView', () => {
     let wrapper
 
     beforeEach(() => {
-      wrapper = mount(SamplesEditView)
+      wrapper = mount(SamplesEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
     })
 
     it('見出しが存在すること', () => {
@@ -104,12 +110,11 @@ describe('SamplesEditView', () => {
     it('外部リンクが存在すること', () => {
       expect(wrapper.find('#sample_show').exists()).toBe(true)
       expect(wrapper.find('#sample_show').text()).toBe('表面処理情報へ')
+      expect(wrapper.findComponent('#sample_show').props().to).toBe('/samples/35')
       
       expect(wrapper.find('#sample_list').exists()).toBe(true)
       expect(wrapper.find('#sample_list').text()).toBe('表面処理リストへ')
-
-      // expect(wrapper.findComponent(RouterLinkStub).exists()).toBe(true)
-      // expect(wrapper.findComponent(RouterLinkStub).props().to).toBe('/samples')
+      expect(wrapper.findComponent('#sample_list').props().to).toBe('/samples')
     })    
   })
 
@@ -132,7 +137,13 @@ describe('SamplesEditView', () => {
           }
         })
 
-        const wrapper = mount(SamplesEditView)
+        const wrapper = mount(SamplesEditView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
 
         await flushPromises()
 
@@ -155,7 +166,13 @@ describe('SamplesEditView', () => {
           }
         })
 
-        mount(SamplesEditView)
+        mount(SamplesEditView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
 
         await flushPromises()
 
@@ -184,7 +201,13 @@ describe('SamplesEditView', () => {
         axios.get.mockResolvedValue(mockResponse)
         axios.patch.mockResolvedValue(mockResponse)
 
-        const wrapper = mount(SamplesEditView)
+        const wrapper = mount(SamplesEditView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
 
         await flushPromises()
 
@@ -208,7 +231,13 @@ describe('SamplesEditView', () => {
       it('更新に失敗すること', async () => {
         axios.patch.mockRejectedValue(new Error('Validation error'))
 
-        const wrapper = mount(SamplesEditView)
+        const wrapper = mount(SamplesEditView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
   
         await flushPromises()
         await wrapper.find('form').trigger('submit.prevent')

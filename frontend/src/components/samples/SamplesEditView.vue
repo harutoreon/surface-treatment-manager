@@ -98,9 +98,8 @@ onMounted(() => {
     </form>
 
     <div class="d-flex justify-content-evenly mb-5">
-      <!-- <RouterLink to="/samples">表面処理リストへ</RouterLink> -->
-      <a href="#" id="sample_show">表面処理情報へ</a>
-      <a href="#" id="sample_list">表面処理リストへ</a>
+      <RouterLink v-bind:to="`/samples/${sample.id}`" id="sample_show">表面処理情報へ</RouterLink>
+      <RouterLink to="/samples" id="sample_list">表面処理リストへ</RouterLink>
     </div>
   </div>
 </template>
