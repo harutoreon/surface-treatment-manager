@@ -201,6 +201,11 @@ RSpec.describe "Samples API", type: :request do
       @sample.comments.create(commenter: 'sample user', department: 'department', body: 'sample comment.')
     end
 
+    it 'レスポンスのステータスがno_contentであること' do
+      delete "/samples/#{@sample.id}"      
+      expect(response).to have_http_status(:no_content)
+    end
+    
     it '表面処理の削除に成功すること' do
       expect { delete "/samples/#{@sample.id}" }.to change{ Sample.count }.from(1).to(0)
     end
