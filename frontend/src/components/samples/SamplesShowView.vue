@@ -49,6 +49,18 @@ const formatDate = (isoString) => {
   return `${year}/${month}/${day}`
 }
 
+const handleDelete = async () => {
+  const confirmDelete = window.confirm('本当に削除しますか？')
+  if (!confirmDelete) return
+
+  try {
+    await axios.delete(`${API_BASE_URL}/samples/${route.params.id}`)
+    router.push('/samples')
+  } catch (error) {
+    console.error('削除処理に失敗しました')
+  }
+}
+
 onMounted(() => {
   fetchSampleData(route.params.id)
   fetchSampleCommentsData(route.params.id)
@@ -126,8 +138,19 @@ onMounted(() => {
 
     <div class="d-flex justify-content-evenly mt-5 mb-5">
       <RouterLink v-bind:to="`/samples/${sample.id}/edit`" id="link_sample_edit">表面処理情報の編集</RouterLink>
-      <RouterLink to="#" id="link_sample_destroy">表面処理情報の削除</RouterLink>
+      <p v-on:click="handleDelete" class="text-primary text-decoration-underline" id="link_sample_destroy">
+        表面処理情報の削除
+      </p>
       <RouterLink to="/home" id="link_home">メインメニューへ</RouterLink>
     </div>
   </div>
 </template>
+
+<style>
+p {
+  cursor: pointer;
+}
+.custom-width {
+  width: 45%;
+}
+</style>
