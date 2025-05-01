@@ -6,6 +6,7 @@ import axios from 'axios'
 vi.mock('axios')
 
 const replaceMock = vi.fn()
+const pushMock = vi.fn()
 
 vi.mock('vue-router', async () => {
   const actual = await vi.importActual('vue-router')
@@ -19,7 +20,8 @@ vi.mock('vue-router', async () => {
     },
     useRouter: () => {
       return {
-        replace: replaceMock
+        replace: replaceMock,
+        push: pushMock
       }
     }
   }
@@ -232,6 +234,53 @@ describe('SamplesShowView', () => {
         await flushPromises()
 
         expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
+      })
+    })
+
+    describe('表面処理の削除選択でOKを押した場合', () => {
+      it('axios.deleteが実行されること', async () => {
+        const spy = vi.spyOn(window, 'confirm').mockReturnValue(true)
+        axios.delete = vi.fn()
+
+        const wrapper = mount(SamplesShowView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
+
+        await flushPromises()
+
+        await wrapper.find('#link_sample_destroy').trigger('click')
+        await flushPromises()
+
+        expect(spy.mock.results[0].value).toBe(true)
+        expect(axios.delete).toHaveBeenCalled()
+        expect(pushMock).toHaveBeenCalledWith('/samples')
+      })
+    })
+    
+    describe('表面処理の削除選択でキャンセルを押した場合', () => {
+      it('axios.deleteが実行されないこと', async () => {
+        const spy = vi.spyOn(window, 'confirm').mockReturnValue(false)
+        axios.delete = vi.fn()
+  
+        const wrapper = mount(SamplesShowView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
+  
+        await flushPromises()
+  
+        await wrapper.find('#link_sample_destroy').trigger('click')
+        await flushPromises()
+  
+        expect(spy.mock.results[0].value).toBe(false)
+        expect(axios.delete).not.toHaveBeenCalled()
       })
     })
   })

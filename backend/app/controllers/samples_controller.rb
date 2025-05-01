@@ -38,6 +38,8 @@ class SamplesController < ApplicationController
   def destroy
     @sample = Sample.find(params[:id])
     @sample.destroy
+    
+    head :no_content
   end
 
   private
