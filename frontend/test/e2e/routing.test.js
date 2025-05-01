@@ -128,3 +128,21 @@ describe('Samples routing', () => {
     expect(wrapper.html()).toContain('表面処理情報の編集')
   })
 })
+
+describe('Static Pages routing', () => {
+  it('「処理名で検索」ページに遷移すること', async () => {
+    router.push('/static_pages/name')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(wrapper.html()).toContain('処理名で検索')
+  })
+})
