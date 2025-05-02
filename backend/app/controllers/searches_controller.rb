@@ -1,0 +1,11 @@
+class SearchesController < ApplicationController
+  def name_search
+    samples = Sample.name_search(params[:keyword])
+    keyword = params[:keyword]
+
+    render json: {
+      samples: samples,
+      keyword: keyword
+    }
+  end
+end
