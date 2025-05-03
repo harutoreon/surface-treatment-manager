@@ -40,19 +40,19 @@ onMounted(() => {
           <h6 id="label_maker">メーカー名</h6>
         </div>
       </div>
-      <a v-for="sample in samples" v-bind:key="sample.id" href="#" class="list-group-item list-group-item-action">
+      <RouterLink v-for="sample in samples" v-bind:key="sample.id" v-bind:to="`/samples/${sample.id}`" class="list-group-item list-group-item-action">
         <div class="d-flex justify-content-between">
           <h6>{{ sample.name }}</h6>
           <h6>{{ sample.maker }}</h6>
         </div>
         <h6 class="text-start">{{ sample.category }}</h6>
-      </a>
+       </RouterLink>
       <h4 v-if="samples.length === 0" class="text-center m-5">該当する表面処理はありませんでした。</h4>
     </div>
 
     <div class="d-flex justify-content-evenly mt-5 mb-5">
-      <a href="#" id="research">再検索</a>
-      <a href="#" id="home">メインメニューへ</a>
+      <RouterLink to="/static_pages/name" id="link_research">再検索</RouterLink>
+      <RouterLink to="/home" id="link_home">メインメニューへ</RouterLink>
     </div>
   </div>
 </template>

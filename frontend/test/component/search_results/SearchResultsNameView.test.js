@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { flushPromises, mount } from '@vue/test-utils'
+import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import SearchResultsNameView from '@/components/search_results/SearchResultsNameView.vue'
 import axios from 'axios'
 
@@ -29,7 +29,13 @@ describe('SearchResultsNameView', () => {
     })
     
     beforeEach(async () => {
-      wrapper = mount(SearchResultsNameView)
+      wrapper = mount(SearchResultsNameView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
       await flushPromises()
     })
 
@@ -52,13 +58,13 @@ describe('SearchResultsNameView', () => {
     })
 
     it('外部リンクが存在すること', () => {
-      expect(wrapper.find('#research').exists()).toBe(true)
-      expect(wrapper.find('#research').text()).toBe('再検索')
-      expect(wrapper.find('#research').attributes('href')).toBe('#')
-      
-      expect(wrapper.find('#home').exists()).toBe(true)
-      expect(wrapper.find('#home').text()).toBe('メインメニューへ')
-      expect(wrapper.find('#home').attributes('href')).toBe('#')
+      expect(wrapper.find('#link_research').exists()).toBe(true)
+      expect(wrapper.findComponent('#link_research').text()).toBe('再検索')
+      expect(wrapper.findComponent('#link_research').props().to).toBe('/static_pages/name')
+
+      expect(wrapper.findComponent('#link_home').exists()).toBe(true)
+      expect(wrapper.findComponent('#link_home').text()).toBe('メインメニューへ')
+      expect(wrapper.findComponent('#link_home').props().to).toBe('/home')
     })
   })
 
@@ -75,7 +81,13 @@ describe('SearchResultsNameView', () => {
           }
         })
 
-        const wrapper = mount(SearchResultsNameView)
+        const wrapper = mount(SearchResultsNameView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
         await flushPromises()
 
         expect(wrapper.find('h5').text()).toBe('検索文字列：「めっき」')
@@ -95,7 +107,13 @@ describe('SearchResultsNameView', () => {
           }
         })
   
-        const wrapper = mount(SearchResultsNameView)
+        const wrapper = mount(SearchResultsNameView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
         await flushPromises()
 
         expect(wrapper.find('h4').text()).toBe('該当する表面処理はありませんでした。')
