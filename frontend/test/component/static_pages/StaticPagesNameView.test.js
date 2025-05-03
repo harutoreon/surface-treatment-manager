@@ -63,7 +63,8 @@ describe('StaticPagesNameView', () => {
         await flushPromises()
 
         expect(pushMock).toHaveBeenCalledWith({
-          path: '/static_pages/name/search_results',
+          name: 'SearchResults',
+          params: { searchMethod: 'name' },
           query: { keyword: 'めっき' }
         })
       })

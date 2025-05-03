@@ -7,7 +7,8 @@ const router = useRouter()
 
 const submitSearch = () => {
   router.push({
-    path: '/static_pages/name/search_results',
+    name: 'SearchResults',
+    params: { searchMethod: 'name' },
     query: { keyword: keyword.value }
   })
 }

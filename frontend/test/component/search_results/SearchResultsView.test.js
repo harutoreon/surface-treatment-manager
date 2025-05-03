@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
-import SearchResultsNameView from '@/components/search_results/SearchResultsNameView.vue'
+import SearchResultsView from '@/components/search_results/SearchResultsView.vue'
 import axios from 'axios'
 
 vi.mock('axios')
@@ -29,7 +29,7 @@ describe('SearchResultsNameView', () => {
     })
     
     beforeEach(async () => {
-      wrapper = mount(SearchResultsNameView, {
+      wrapper = mount(SearchResultsView, {
         global: {
           stubs: {
             RouterLink: RouterLinkStub
@@ -81,7 +81,7 @@ describe('SearchResultsNameView', () => {
           }
         })
 
-        const wrapper = mount(SearchResultsNameView, {
+        const wrapper = mount(SearchResultsView, {
           global: {
             stubs: {
               RouterLink: RouterLinkStub
@@ -107,7 +107,7 @@ describe('SearchResultsNameView', () => {
           }
         })
   
-        const wrapper = mount(SearchResultsNameView, {
+        const wrapper = mount(SearchResultsView, {
           global: {
             stubs: {
               RouterLink: RouterLinkStub
