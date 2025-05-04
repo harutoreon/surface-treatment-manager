@@ -223,4 +223,27 @@ describe('Static Pages routing', () => {
       expect(wrapper.findComponent('#link_research').props().to).toBe('/static_pages/category')
     })
   })
+
+  describe('パラメータにmakerを指定した場合', () => {
+    it('makerを含むパスの「表面処理の検索結果」ページに遷移すること', async () => {
+      router.push({
+        name: 'SearchResults',
+        params: { searchMethod: 'maker' },
+        query: { keyword: '株式会社' }
+      })
+
+      await flushPromises()
+
+      const wrapper = mount(App, {
+        global: {
+          plugins: [router]
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.html()).toContain('表面処理の検索結果')
+      expect(wrapper.findComponent('#link_research').props().to).toBe('/static_pages/maker')
+    })
+  })
 })
