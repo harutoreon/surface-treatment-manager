@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   delete '/logout',    to: 'sessions#destroy'
   get    '/logged_in', to: 'sessions#logged_in?'
 
-  get '/name_search', to: 'searches#name_search'
+  get '/name_search',     to: 'searches#name_search'
+  get '/category_search', to: 'searches#category_search'
 
   resources :categories
   resources :makers
