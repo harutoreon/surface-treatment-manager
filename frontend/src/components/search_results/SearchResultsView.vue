@@ -40,7 +40,12 @@ onMounted(() => {
           <h6 id="label_maker">メーカー名</h6>
         </div>
       </div>
-      <RouterLink v-for="sample in samples" v-bind:key="sample.id" v-bind:to="`/samples/${sample.id}`" class="list-group-item list-group-item-action">
+      <RouterLink
+        v-for="sample in samples"
+        v-bind:key="sample.id"
+        v-bind:to="`/samples/${sample.id}`"
+        class="list-group-item list-group-item-action"
+      >
         <div class="d-flex justify-content-between">
           <h6>{{ sample.name }}</h6>
           <h6>{{ sample.maker }}</h6>
