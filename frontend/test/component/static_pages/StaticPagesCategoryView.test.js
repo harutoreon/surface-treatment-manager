@@ -1,22 +1,40 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { mount, RouterLinkStub } from '@vue/test-utils'
+import { describe, it, expect,vi, beforeEach } from 'vitest'
+import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import StaticPagesCategoryView from '@/components/static_pages/StaticPagesCategoryView.vue'
-// import { RouterLink } from 'vue-router'
+
+const pushMock = vi.fn()
+
+vi.mock('vue-router', async () => {
+  const actual = await vi.importActual('vue-router')
+
+  return {
+    ...actual,
+    useRouter: () => {
+      return {
+        push: pushMock
+      }
+    }
+  }
+})
+
+beforeEach(() => {
+  pushMock.mockClear()
+})
 
 describe('StaticPagesCategory', () => {
-  describe('DOMの構造', () => {
-    let wrapper
+  let wrapper
 
-    beforeEach(() => {
-      wrapper = mount(StaticPagesCategoryView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
+  beforeEach(() => {
+    wrapper = mount(StaticPagesCategoryView, {
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub
         }
-      })
+      }
     })
-
+  })
+  
+  describe('DOMの構造', () => {
     it('見出しが存在すること', () => {
       expect(wrapper.find('h3').exists()).toBe(true)
       expect(wrapper.find('h3').text()).toBe('カテゴリーで検索')
@@ -50,6 +68,24 @@ describe('StaticPagesCategory', () => {
       expect(wrapper.findComponent(RouterLinkStub).exists()).toBe(true)
       expect(wrapper.findComponent(RouterLinkStub).text()).toBe('メインメニューへ')
       expect(wrapper.findComponent(RouterLinkStub).props().to).toBe('/home')
+    })
+  })
+
+  describe('API通信', () => {
+    describe('カテゴリーを選択して送信した場合', () => {
+      it('/static_pages/categoryのパスが呼び出されること', async () => {
+        await wrapper.find('select').setValue('めっき')
+        expect(wrapper.find('select').element.value).toBe('めっき')
+
+        await wrapper.find('form').trigger('submit.prevent')
+        await flushPromises()
+
+        expect(pushMock).toHaveBeenCalledWith({
+          name: 'SearchResults',
+          params: { searchMethod: 'category' },
+          query: { keyword: 'めっき' }
+        })
+      })
     })
   })
 })
