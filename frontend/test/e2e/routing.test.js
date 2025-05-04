@@ -162,6 +162,22 @@ describe('Static Pages routing', () => {
     expect(wrapper.html()).toContain('カテゴリーで検索')
   })
 
+  it('「メーカー名で検索」ページに遷移すること', async () => {
+    router.push('/static_pages/maker')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(wrapper.html()).toContain('メーカー名で検索')
+  })
+
   describe('パラメータにnameを指定した場合', () => {
     it('nameを含むパスの「表面処理の検索結果」ページに遷移すること', async () => {
       router.push({

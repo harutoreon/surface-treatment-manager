@@ -22,6 +22,7 @@ import SamplesNewView from './components/samples/SamplesNewView.vue'
 import SamplesEditView from './components/samples/SamplesEditView.vue'
 import StaticPagesNameView from './components/static_pages/StaticPagesNameView.vue'
 import StaticPagesCategoryView from './components/static_pages/StaticPagesCategoryView.vue'
+import StaticPagesMakerView from './components/static_pages/StaticPagesMakerView.vue'
 import SearchResultsView from './components/search_results/SearchResultsView.vue'
 
 const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : createWebHistory()
@@ -48,7 +49,8 @@ const routes = [
   { path: '/samples/new', component: SamplesNewView },
   { path: '/samples/:id/edit', component: SamplesEditView },
   { path: '/static_pages/name', component: StaticPagesNameView },
-  { path: '/static_pages/category', component: StaticPagesCategoryView }, 
+  { path: '/static_pages/category', component: StaticPagesCategoryView },
+  { path: '/static_pages/maker', component: StaticPagesMakerView },
   {
     path: '/static_pages/:searchMethod(name|category|maker)/search_results',
     component: SearchResultsView,
