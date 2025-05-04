@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   get '/name_search',     to: 'searches#name_search'
   get '/category_search', to: 'searches#category_search'
+  get '/maker_search', to: 'searches#maker_search'
 
   resources :categories
   resources :makers
