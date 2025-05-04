@@ -28,7 +28,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="container w-50">
+  <div class="container w-25">
     <h3 class="text-center mt-5 mb-5">表面処理の検索結果</h3>
 
     <h5 class="text-center mb-5">検索文字列：「{{ data.keyword }}」</h5>
