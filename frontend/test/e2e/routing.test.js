@@ -146,21 +146,65 @@ describe('Static Pages routing', () => {
     expect(wrapper.html()).toContain('処理名で検索')
   })
 
+  it('「カテゴリーで検索」ページに遷移すること', async () => {
+    router.push('/static_pages/category')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(wrapper.html()).toContain('カテゴリーで検索')
+  })
+
   describe('パラメータにnameを指定した場合', () => {
     it('nameを含むパスの「表面処理の検索結果」ページに遷移すること', async () => {
-      router.push('/static_pages/name/search_results')
-  
-      await router.isReady()
-  
+      router.push({
+        name: 'SearchResults',
+        params: { searchMethod: 'name' },
+        query: { keyword: 'めっき' }
+      })
+
+      await flushPromises()
+
       const wrapper = mount(App, {
         global: {
           plugins: [router]
         }
       })
-  
+
       await flushPromises()
-  
+
       expect(wrapper.html()).toContain('表面処理の検索結果')
+      expect(wrapper.findComponent('#link_research').props().to).toBe('/static_pages/name')
+    })
+  })
+
+  describe('パラメータにcategoryを指定した場合', () => {
+    it('categoryを含むパスの「表面処理の検索結果」ページに遷移すること', async () => {
+      router.push({
+        name: 'SearchResults',
+        params: { searchMethod: 'category' },
+        query: { keyword: 'めっき' }
+      })
+
+      await flushPromises()
+
+      const wrapper = mount(App, {
+        global: {
+          plugins: [router]
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.html()).toContain('表面処理の検索結果')
+      expect(wrapper.findComponent('#link_research').props().to).toBe('/static_pages/category')
     })
   })
 })

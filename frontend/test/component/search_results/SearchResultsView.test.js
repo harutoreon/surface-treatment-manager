@@ -2,33 +2,35 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import SearchResultsView from '@/components/search_results/SearchResultsView.vue'
 import axios from 'axios'
+import { useRoute } from 'vue-router'
 
 vi.mock('axios')
 
 vi.mock('vue-router', () => {
   return {
-    useRoute: () => {
-      return {
-        query: { keyword: 'めっき' }
-      }
-    }
+    useRoute: vi.fn()
   }
 })
 
 describe('SearchResultsNameView', () => {
   describe('DOMの構造', () => {
     let wrapper
-
-    axios.get.mockReturnValue({
-      data: {
-        keyword: 'めっき',
-        samples: [
-          { id: 1, name: 'ハードクロムめっき', maker: 'サンプルメーカー', category: 'めっき' },
-        ]
-      }
-    })
     
     beforeEach(async () => {
+      useRoute.mockReturnValue({
+        params: { searchMethod: 'name' },
+        query: { keyword: 'めっき' }
+      })
+  
+      axios.get.mockResolvedValue({
+        data: {
+          keyword: 'めっき',
+          samples: [
+            { id: 1, name: 'ハードクロムめっき', maker: 'サンプルメーカー', category: 'めっき' },
+          ]
+        }
+      })
+
       wrapper = mount(SearchResultsView, {
         global: {
           stubs: {
@@ -36,6 +38,7 @@ describe('SearchResultsNameView', () => {
           }
         }
       })
+
       await flushPromises()
     })
 
@@ -58,13 +61,13 @@ describe('SearchResultsNameView', () => {
     })
 
     it('外部リンクが存在すること', () => {
-      expect(wrapper.find('#link_research').exists()).toBe(true)
-      expect(wrapper.findComponent('#link_research').text()).toBe('再検索')
-      expect(wrapper.findComponent('#link_research').props().to).toBe('/static_pages/name')
+      expect(wrapper.findComponent({ ref: 'linkResearch' }).exists()).toBe(true)
+      expect(wrapper.findComponent({ ref: 'linkResearch' }).text()).toBe('再検索')
+      expect(wrapper.findComponent({ ref: 'linkResearch' }).props().to).toBe('/static_pages/name')
 
-      expect(wrapper.findComponent('#link_home').exists()).toBe(true)
-      expect(wrapper.findComponent('#link_home').text()).toBe('メインメニューへ')
-      expect(wrapper.findComponent('#link_home').props().to).toBe('/home')
+      expect(wrapper.findComponent({ ref: 'linkHome' }).exists()).toBe(true)
+      expect(wrapper.findComponent({ ref: 'linkHome' }).text()).toBe('メインメニューへ')
+      expect(wrapper.findComponent({ ref: 'linkHome' }).props().to).toBe('/home')
     })
   })
 
@@ -88,6 +91,7 @@ describe('SearchResultsNameView', () => {
             }
           }
         })
+
         await flushPromises()
 
         expect(wrapper.find('h5').text()).toBe('検索文字列：「めっき」')
@@ -114,9 +118,72 @@ describe('SearchResultsNameView', () => {
             }
           }
         })
+
         await flushPromises()
 
         expect(wrapper.find('h4').text()).toBe('該当する表面処理はありませんでした。')
+      })
+    })
+  })
+
+  describe('ルートパラメータ毎の表示', () => {
+    describe('ルートパラメータがnameの場合', () => {
+      it('再検索リンクのパスにnameが含まれていること', async () => {
+        useRoute.mockReturnValue({
+          params: { searchMethod: 'name' },
+          query: { keyword: 'めっき' }
+        })
+
+        axios.get.mockResolvedValue({
+          data: {
+            keyword: 'めっき',
+            samples: [
+              { id: 1, name: 'ハードクロムめっき', maker: 'メーカーA', category: 'めっき' }
+            ],
+          }
+        })
+
+        const wrapper = mount(SearchResultsView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
+
+        await flushPromises()
+
+        expect(wrapper.findComponent({ ref: 'linkResearch' }).props().to).toBe('/static_pages/name')
+      })
+    })
+
+    describe('ルートパラメータがcategoryの場合', () => {
+      it('再検索リンクのパスにcategoryが含まれていること', async () => {
+        useRoute.mockReturnValue({
+          params: { searchMethod: 'category' },
+          query: { keyword: 'めっき' }
+        })
+
+        axios.get.mockResolvedValue({
+          data: {
+            keyword: 'めっき',
+            samples: [
+              { id: 1, name: 'ハードクロムめっき', maker: 'メーカーA', category: 'めっき' }
+            ],
+          }
+        })
+
+        const wrapper = mount(SearchResultsView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
+
+        await flushPromises()
+
+        expect(wrapper.findComponent({ ref: 'linkResearch' }).props().to).toBe('/static_pages/category')
       })
     })
   })

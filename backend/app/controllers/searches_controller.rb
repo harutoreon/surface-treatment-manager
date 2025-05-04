@@ -8,4 +8,14 @@ class SearchesController < ApplicationController
       keyword: keyword
     }
   end
+
+  def category_search
+    samples = Sample.category_search(params[:keyword])
+    keyword = params[:keyword]
+
+    render json: {
+      samples: samples,
+      keyword: keyword
+    }
+  end
 end

@@ -7,12 +7,14 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const route = useRoute()
 const data = ref('')
 const samples = ref('')
+const searchMethod = ref('')
 
 const fetchSearchResults = async () => {
   const keyword = route.query.keyword
-
+  searchMethod.value = route.params.searchMethod
+  
   try {
-    const response = await axios.get(`${API_BASE_URL}/name_search`, {
+    const response = await axios.get(`${API_BASE_URL}/${searchMethod.value}_search`, {
       params: { keyword: keyword }
     })
     data.value = response.data
@@ -56,8 +58,8 @@ onMounted(() => {
     </div>
 
     <div class="d-flex justify-content-evenly mt-5 mb-5">
-      <RouterLink to="/static_pages/name" id="link_research">再検索</RouterLink>
-      <RouterLink to="/home" id="link_home">メインメニューへ</RouterLink>
+      <RouterLink v-bind:to="`/static_pages/${searchMethod}`" id="link_research" ref="linkResearch">再検索</RouterLink>
+      <RouterLink to="/home" id="link_home" ref="linkHome">メインメニューへ</RouterLink>
     </div>
   </div>
 </template>
