@@ -20,6 +20,8 @@ import SamplesIndexView from './components/samples/SamplesIndexView.vue'
 import SamplesShowView from './components/samples/SamplesShowView.vue'
 import SamplesNewView from './components/samples/SamplesNewView.vue'
 import SamplesEditView from './components/samples/SamplesEditView.vue'
+import StaticPagesNameView from './components/static_pages/StaticPagesNameView.vue'
+import SearchResultsView from './components/search_results/SearchResultsView.vue'
 
 const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : createWebHistory()
 
@@ -44,7 +46,13 @@ const routes = [
   { path: '/samples/:id', component: SamplesShowView },
   { path: '/samples/new', component: SamplesNewView },
   { path: '/samples/:id/edit', component: SamplesEditView },
-] 
+  { path: '/static_pages/name', component: StaticPagesNameView },
+  {
+    path: '/static_pages/:searchMethod(name|category|maker)/search_results',
+    component: SearchResultsView,
+    name: 'SearchResults',
+  },
+]
 
 const router = createRouter({
   history,
