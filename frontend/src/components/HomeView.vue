@@ -41,7 +41,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
           <div class="card-body">
             <h5 class="card-title">メーカー名で検索</h5>
             <p class="card-text">メーカー名を入力して表面処理を検索します。</p>
-            <RouterLink to="#" class="card-link">検索ページへ</RouterLink>
+            <RouterLink to="/static_pages/maker" class="card-link">検索ページへ</RouterLink>
           </div>
         </div>
       </div>

@@ -1,8 +1,8 @@
-# Exported from Render on 2025-04-04T20:34:06Z
+# Exported from Render on 2025-05-05T01:35:03Z
 databases:
 - name: surface-treatment-manager
-  databaseName: surface_treatment_manager_6w8p
-  user: surface_treatment_manager_6w8p_user
+  databaseName: surface_treatment_manager_bixl
+  user: surface_treatment_manager_bixl_user
   plan: free
   region: singapore
   ipAllowList:

@@ -18,4 +18,14 @@ class SearchesController < ApplicationController
       keyword: keyword
     }
   end
+
+  def maker_search
+    samples = Sample.maker_search(params[:keyword])
+    keyword = params[:keyword]
+
+    render json: {
+      samples: samples,
+      keyword: keyword
+    }
+  end
 end

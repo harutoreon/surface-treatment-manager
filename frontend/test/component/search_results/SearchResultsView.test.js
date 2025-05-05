@@ -126,7 +126,7 @@ describe('SearchResultsNameView', () => {
     })
   })
 
-  describe('ルートパラメータ毎の表示', () => {
+  describe('ルートパラメータ別の表示', () => {
     describe('ルートパラメータがnameの場合', () => {
       it('再検索リンクのパスにnameが含まれていること', async () => {
         useRoute.mockReturnValue({
@@ -184,6 +184,36 @@ describe('SearchResultsNameView', () => {
         await flushPromises()
 
         expect(wrapper.findComponent({ ref: 'linkResearch' }).props().to).toBe('/static_pages/category')
+      })
+    })
+
+    describe('ルートパラメータがmakerの場合', () => {
+      it('再検索リンクのパスにmakerが含まれていること', async () => {
+        useRoute.mockReturnValue({
+          params: { searchMethod: 'maker' },
+          query: { keyword: '株式会社' }
+        })
+
+        axios.get.mockResolvedValue({
+          data: {
+            keyword: '株式会社',
+            samples: [
+              { id: 1, name: 'ハードクロムめっき', maker: '株式会社テスト', category: 'めっき' }
+            ],
+          }
+        })
+
+        const wrapper = mount(SearchResultsView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
+
+        await flushPromises()
+
+        expect(wrapper.findComponent({ ref: 'linkResearch' }).props().to).toBe('/static_pages/maker')
       })
     })
   })
