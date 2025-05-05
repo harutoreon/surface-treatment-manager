@@ -55,7 +55,7 @@ RSpec.describe "Samples API", type: :request do
       expect(json).to include(:category)
       expect(json).to include(:color)
       expect(json).to include(:maker)
-      expect(json).to include(:picture)
+      # expect(json).to include(:picture)
       expect(json).to include(:hardness)
       expect(json).to include(:film_thickness)
       expect(json).to include(:feature)

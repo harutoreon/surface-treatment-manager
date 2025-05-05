@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_24_112507) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_05_012249) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -79,7 +79,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_24_112507) do
     t.string "maker"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "picture"
     t.string "hardness"
     t.string "film_thickness"
     t.string "feature"
