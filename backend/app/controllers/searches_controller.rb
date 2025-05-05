@@ -28,4 +28,10 @@ class SearchesController < ApplicationController
       keyword: keyword
     }
   end
+
+  def list_search
+    samples = Sample.order(:id)
+
+    render json: samples
+  end
 end

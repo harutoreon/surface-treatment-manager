@@ -54,4 +54,18 @@ RSpec.describe "Searches", type: :request do
       expect(json[:keyword]).to eq('株式会社')
     end
   end
+
+  describe '#list_search' do
+    it 'レスポンスのステータスがsuccessであること' do
+      get '/list_search'
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'レスポンスのjsonにサンプルが5件含まれていること' do
+      get '/list_search'
+      json = JSON.parse(response.body)
+
+      expect(json.count).to eq(5)
+    end
+  end
 end
