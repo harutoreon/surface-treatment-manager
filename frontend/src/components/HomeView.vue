@@ -51,7 +51,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
           <div class="card-body">
             <h5 class="card-title">処理一覧から検索</h5>
             <p class="card-text">表面処理一覧から目的の処理を検索します。</p>
-            <RouterLink to="#" class="card-link">検索ページへ</RouterLink>
+            <RouterLink to="/list_search_results" class="card-link">検索ページへ</RouterLink>
           </div>
         </div>
       </div>

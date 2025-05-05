@@ -24,6 +24,7 @@ import StaticPagesNameView from './components/static_pages/StaticPagesNameView.v
 import StaticPagesCategoryView from './components/static_pages/StaticPagesCategoryView.vue'
 import StaticPagesMakerView from './components/static_pages/StaticPagesMakerView.vue'
 import SearchResultsView from './components/search_results/SearchResultsView.vue'
+import SearchResultsListView from './components/search_results/SearchResultsListView.vue'
 
 const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : createWebHistory()
 
@@ -56,6 +57,7 @@ const routes = [
     component: SearchResultsView,
     name: 'SearchResults',
   },
+  { path: '/list_search_results', component: SearchResultsListView },
 ]
 
 const router = createRouter({

@@ -177,7 +177,9 @@ describe('Static Pages routing', () => {
 
     expect(wrapper.html()).toContain('メーカー名で検索')
   })
+})
 
+describe('Search Results routing', () => {
   describe('パラメータにnameを指定した場合', () => {
     it('nameを含むパスの「表面処理の検索結果」ページに遷移すること', async () => {
       router.push({
@@ -245,5 +247,21 @@ describe('Static Pages routing', () => {
       expect(wrapper.html()).toContain('表面処理の検索結果')
       expect(wrapper.findComponent('#link_research').props().to).toBe('/static_pages/maker')
     })
+  })
+
+  it('「表面処理一覧」ページに遷移すること', async () => {
+    router.push('/list_search_results')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(wrapper.html()).toContain('表面処理一覧')    
   })
 })
