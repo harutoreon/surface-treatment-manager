@@ -7,12 +7,16 @@ const samplesWithImage = ref([])
 const samplesWithoutImage = ref([])
 
 const fetchSearchResults = async () => {
-  const response = await axios.get(`${API_BASE_URL}/list_search`)
+  try {
+    const response = await axios.get(`${API_BASE_URL}/list_search`)
   samplesWithoutImage.value = response.data
 
   for (let i = 0; i < samplesWithoutImage.value.length; i++) {
     const response = await axios.get(`${API_BASE_URL}/samples/${samplesWithoutImage.value[i].id}`)
     samplesWithImage.value.push(response.data)
+  }    
+  } catch (error) {
+    console.error('検索結果の取得に失敗しました', error)
   }
 }
 
