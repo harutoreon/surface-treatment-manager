@@ -65,7 +65,7 @@ describe('HomeView', () => {
       expect(links[0].attributes('href')).toBe('/static_pages/name')
       expect(links[1].attributes('href')).toBe('/static_pages/category')
       expect(links[2].attributes('href')).toBe('/static_pages/maker')
-      expect(links[3].attributes('href')).toBe('#')
+      expect(links[3].attributes('href')).toBe('/list_search_results')
       expect(links[4].attributes('href')).toBe('/samples')
       expect(links[5].attributes('href')).toBe('/categories')
       expect(links[6].attributes('href')).toBe('/makers')
