@@ -3,16 +3,7 @@ require 'rails_helper'
 RSpec.describe Comment, type: :model do
   describe 'validation' do
     before do
-      sample = FactoryBot.build(:sample)
-
-      sample.image.attach(
-        io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
-        filename: 'test.jpg',
-        content_type: 'image/jpg'
-      )
-
-      sample.save
-      
+      FactoryBot.create(:sample)      
       @comment = FactoryBot.build(:comment)
     end
 

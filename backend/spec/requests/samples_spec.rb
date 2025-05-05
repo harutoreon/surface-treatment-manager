@@ -35,7 +35,7 @@ RSpec.describe "Samples API", type: :request do
 
   describe "#show" do
     before do
-      @sample = FactoryBot.build(:sample)
+      @sample = FactoryBot.create(:sample)
     end
 
     after(:context) do
@@ -43,27 +43,11 @@ RSpec.describe "Samples API", type: :request do
     end
 
     it 'レスポンスのステータスがsuccessであること' do
-      @sample.image.attach(
-        io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
-        filename: 'test.jpg',
-        content_type: 'image/jpg'
-      )
-
-      @sample.save
-
       get "/samples/#{@sample.id}" 
       expect(response).to have_http_status(:success)
     end
 
     it 'レスポンスに主要な属性がすべて含まれていること' do
-      @sample.image.attach(
-        io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
-        filename: 'test.jpg',
-        content_type: 'image/jpg'
-      )
-
-      @sample.save
-
       get "/samples/#{@sample.id}"
       json = JSON.parse(response.body, symbolize_names: true)
 
@@ -80,9 +64,6 @@ RSpec.describe "Samples API", type: :request do
 
     context '画像が添付済の場合' do
       it 'image_url の戻り値が画像の URL であること' do
-        @sample.image.attach(io: File.open(Rails.root + 'spec/fixtures/test.jpg'), filename: 'test.jpg')
-        @sample.save!
-  
         get "/samples/#{@sample.id}"
         json = JSON.parse(response.body, symbolize_names: true)
   
@@ -92,8 +73,11 @@ RSpec.describe "Samples API", type: :request do
 
     context '画像が未添付の場合' do
       it 'image_url の戻り値が nil であること' do
+        @sample.image.purge
+
         get "/samples/#{@sample.id}"
         json = JSON.parse(response.body, symbolize_names: true)
+
         expect(json[:image_url]).to eq(nil)
       end      
     end
@@ -134,14 +118,15 @@ RSpec.describe "Samples API", type: :request do
                                              category: "表面硬化",
                                              color: "マゼンタ",
                                              maker: "有限会社松本農林",
-                                             picture: Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')),
+                                            #  picture: Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')),
+                                             image: nil,
                                              hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
                                              film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
                                              feature: '耐食性・耐摩耗性・耐薬品性・耐熱性' } }
       end
 
       it 'レスポンスのステータスがunprocessable_entityであること' do
-        post "/samples", params: @invalid_sample_params
+        post "/samples", params: @invalid_sample_params        
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
@@ -153,21 +138,14 @@ RSpec.describe "Samples API", type: :request do
 
   describe '#update' do
     before do
-      @sample = FactoryBot.build(:sample)
-
-      @sample.image.attach(
-        io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
-        filename: 'test.jpg',
-        content_type: 'image/jpg'
-      )
-
-      @sample.save
+      @sample = FactoryBot.create(:sample)
     end
 
     context '有効な表面処理情報で更新したとき' do
       it 'nameがハードクロムめっきで更新されること' do
         patch "/samples/#{@sample.id}", params: { sample: { name: "ハードクロムめっき" } }
         json = JSON.parse(response.body, symbolize_names: true)
+
         expect(json[:name]).to eq("ハードクロムめっき")
       end
     end
@@ -181,6 +159,7 @@ RSpec.describe "Samples API", type: :request do
       it '表面処理名が空白で更新できないこと' do
         patch "/samples/#{@sample.id}", params: { sample: { name: '' } }
         json = JSON.parse(response.body, symbolize_names: true)
+
         expect(json[:name]).to eq(["（処理名）が空白です。"])
       end
     end
@@ -188,16 +167,7 @@ RSpec.describe "Samples API", type: :request do
 
   describe '#destroy' do
     before do
-      @sample = FactoryBot.build(:sample)
-
-      @sample.image.attach(
-        io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
-        filename: 'test.jpg',
-        content_type: 'image/jpg'
-      )
-
-      @sample.save
-
+      @sample = FactoryBot.create(:sample)
       @sample.comments.create(commenter: 'sample user', department: 'department', body: 'sample comment.')
     end
 

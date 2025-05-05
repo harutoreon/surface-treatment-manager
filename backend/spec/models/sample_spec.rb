@@ -4,13 +4,7 @@ RSpec.describe Sample, type: :model do
   describe 'Association' do
     describe 'has_one_attached' do
       it '画像を添付できること' do
-        sample = FactoryBot.build(:sample)
-
-        sample.image.attach(
-          io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
-          filename: 'test.jpg',
-          content_type: 'image/jpg'
-        )
+        sample = FactoryBot.create(:sample)
 
         expect(sample.image).to be_attached
       end
@@ -20,12 +14,6 @@ RSpec.describe Sample, type: :model do
   describe 'Validation' do
     before do
       @sample = FactoryBot.build(:sample)
-
-      @sample.image.attach(
-        io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
-        filename: 'test.jpg',
-        content_type: 'image/jpg'
-      )
     end
 
     it 'sampleが有効であること' do
@@ -49,6 +37,11 @@ RSpec.describe Sample, type: :model do
 
     it 'makerが存在すること' do
       @sample.maker = ''
+      expect(@sample).to_not be_valid
+    end
+
+    it 'imageが存在すること' do
+      @sample.image = nil
       expect(@sample).to_not be_valid
     end
 
@@ -147,15 +140,7 @@ RSpec.describe Sample, type: :model do
     describe '#image_url' do
       context '画像が添付されている場合' do
         it '画像のURLを返すこと' do
-          sample = FactoryBot.build(:sample)
-
-          sample.image.attach(
-            io: File.open(Rails.root + 'spec/fixtures/test.jpg'),
-            filename: 'test.jpg',
-            content_type: 'image/jpg'
-          )
-
-          sample.save
+          sample = FactoryBot.create(:sample)
 
           expect(sample.image_url).to be_present
           expect(sample.image_url).to include('test.jpg')
@@ -164,7 +149,8 @@ RSpec.describe Sample, type: :model do
 
       context '画像が添付されていない場合' do
         it 'nilを返すこと' do
-          sample = FactoryBot.build(:sample)
+          sample = FactoryBot.create(:sample)
+          sample.image.purge
 
           expect(sample.image_url).to be_nil
         end
