@@ -43,6 +43,26 @@ describe('Home routing', () => {
   })
 })
 
+describe('Settings routing', () => {
+  it('「アプリケーションの管理」ページに遷移すること', async () => {
+    router.push('/settings')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('Settings')
+    expect(document.title).toBe('Settings')
+    expect(wrapper.find('h3').text()).toBe('アプリケーションの管理')
+  })
+})
+
 
 describe('Makers routing', () => {
   it('「メーカーリスト」ページに遷移できること', async () => {
