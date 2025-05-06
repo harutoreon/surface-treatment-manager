@@ -63,6 +63,79 @@ describe('Settings routing', () => {
   })
 })
 
+describe('Users routing', () => {
+  it('「ユーザーリスト」ページに遷移すること', async () => {
+    router.push('/users')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('User Index')
+    expect(document.title).toBe('User Index')
+    expect(wrapper.find('h3').text()).toBe('ユーザーリスト')
+  })
+
+  it('「ユーザー情報」ページに遷移すること', async () => {
+    router.push('/users/1')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('User Show')
+    expect(document.title).toBe('User Show')
+    expect(wrapper.find('h3').text()).toBe('ユーザー情報')
+  })
+
+  it('「ユーザー情報の登録」ページに遷移すること', async () => {
+    router.push('/users/new')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('User New')
+    expect(document.title).toBe('User New')
+    expect(wrapper.find('h3').text()).toBe('ユーザー情報の登録')
+  })
+
+  it('「ユーザー情報の編集」ページに遷移すること', async () => {
+    router.push('/users/1/edit')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('User Edit')
+    expect(document.title).toBe('User Edit')
+    expect(wrapper.find('h3').text()).toBe('ユーザー情報の編集')
+  })
+})
 
 describe('Makers routing', () => {
   it('「メーカーリスト」ページに遷移できること', async () => {
