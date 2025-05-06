@@ -29,7 +29,7 @@ import SearchResultsListView from './components/search_results/SearchResultsList
 const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : createWebHistory()
 
 const routes = [
-  { path: '/', component: LoginForm },
+  { path: '/', component: LoginForm, meta: { title: 'Login' } },
   { path: '/home', component: HomeView },
   { path: '/settings', component: SettingsView },
   { path: '/users', component: UsersIndexView },
@@ -63,6 +63,11 @@ const routes = [
 const router = createRouter({
   history,
   routes
+})
+
+router.afterEach((to) => {
+  const defaultTitle = 'surface-treatment-manager'
+  document.title = to.meta.title || defaultTitle
 })
 
 export default router

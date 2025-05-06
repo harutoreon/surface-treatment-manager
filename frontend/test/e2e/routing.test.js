@@ -3,6 +3,26 @@ import { flushPromises, mount } from '@vue/test-utils'
 import App from '@/App.vue'
 import router from '@/router'
 
+describe('Login routing', () => {
+  it('「ログイン」ページに遷移すること', async () => {
+    router.push('/')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('Login')
+    expect(document.title).toBe('Login')
+    expect(wrapper.find('h3').text()).toBe('ログイン')
+  })
+})
+
 describe('Makers routing', () => {
   it('「メーカーリスト」ページに遷移できること', async () => {
     router.push('/makers')
@@ -14,6 +34,8 @@ describe('Makers routing', () => {
         plugins: [router]
       }
     })
+
+    await flushPromises()
 
     expect(wrapper.html()).toContain('メーカーリスト')
   })
@@ -29,6 +51,8 @@ describe('Makers routing', () => {
       }
     })
 
+    await flushPromises()
+
     expect(wrapper.html()).toContain('メーカー情報')
   })
 
@@ -42,6 +66,8 @@ describe('Makers routing', () => {
         plugins: [router]
       }
     })
+
+    await flushPromises()
 
     expect(wrapper.html()).toContain('メーカー情報の登録')
   })
