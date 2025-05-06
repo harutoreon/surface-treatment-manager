@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import LoginForm from '@/components/LoginForm.vue'
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import axios from 'axios'
 import router from '@/router'
 
@@ -42,6 +42,32 @@ describe('LoginForm.vue', () => {
       await wrapper.find('form').trigger('submit.prevent')
       
       expect(wrapper.text()).toContain('ユーザー名またはパスワードが無効です')
+    })
+  })
+
+  describe('値のバインディング', () => {
+    let wrapper
+
+    beforeEach(() => {
+      wrapper = mount(LoginForm)
+    })
+
+    describe('管理者ユーザーのラジオボンタンを押した場合', () => {
+      it('管理者ユーザーの認証情報が入力フォームにセットされること', async () => {
+        await wrapper.find('#admin_user').trigger('change')
+
+        expect(wrapper.find('#user_name').element.value).toBe('admin user')
+        expect(wrapper.find('#password').element.value).toBe('adminpassword')
+      })
+    })
+
+    describe('一般ユーザーのラジオボンタンを押した場合', () => {
+      it('一般ユーザーの認証情報が入力フォームにセットされること', async () => {
+        await wrapper.find('#general_user').trigger('change')
+
+        expect(wrapper.find('#user_name').element.value).toBe('general user')
+        expect(wrapper.find('#password').element.value).toBe('generalpassword')
+      })
     })
   })
 })
