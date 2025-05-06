@@ -30,7 +30,7 @@ const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : create
 
 const routes = [
   { path: '/', component: LoginForm, meta: { title: 'Login' } },
-  { path: '/home', component: HomeView },
+  { path: '/home', component: HomeView, meta: { title: 'Home' } },
   { path: '/settings', component: SettingsView },
   { path: '/users', component: UsersIndexView },
   { path: '/users/:id', component: UsersShowView },

@@ -23,6 +23,27 @@ describe('Login routing', () => {
   })
 })
 
+describe('Home routing', () => {
+  it('「メインメニュー」ページに遷移すること', async () => {
+    router.push('/home')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('Home')
+    expect(document.title).toBe('Home')
+    expect(wrapper.find('h3').text()).toBe('メインメニュー')
+  })
+})
+
+
 describe('Makers routing', () => {
   it('「メーカーリスト」ページに遷移できること', async () => {
     router.push('/makers')

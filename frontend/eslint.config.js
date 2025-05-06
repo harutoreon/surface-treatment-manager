@@ -9,7 +9,8 @@ export default [
         sourceType: "module",
       },
       globals: {
-        window: "readonly"
+        window: "readonly",
+        document: "readonly",
       },
     },
     plugins: {
