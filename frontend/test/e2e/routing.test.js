@@ -287,7 +287,7 @@ describe('Makers routing', () => {
 
 describe('NotFound routing', () => {
   it('「404」ページに遷移すること', async () => {
-    router.push('/notfound')
+    router.push('/non-existent-path')
 
     await router.isReady()
 
