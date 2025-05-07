@@ -225,7 +225,9 @@ describe('Makers routing', () => {
 
     await flushPromises()
 
-    expect(wrapper.html()).toContain('メーカーリスト')
+    expect(router.currentRoute.value.meta.title).toBe('Maker Index')
+    expect(document.title).toBe('Maker Index')
+    expect(wrapper.find('h3').text()).toContain('メーカーリスト')
   })
 
   it('「メーカー情報」ページに遷移できること', async () => {
@@ -241,10 +243,12 @@ describe('Makers routing', () => {
 
     await flushPromises()
 
-    expect(wrapper.html()).toContain('メーカー情報')
+    expect(router.currentRoute.value.meta.title).toBe('Maker Show')
+    expect(document.title).toBe('Maker Show')
+    expect(wrapper.find('h3').text()).toContain('メーカー情報')
   })
 
-  it('「メーカー情報の新規登録」ページに遷移すること', async () => {
+  it('「メーカー情報の登録」ページに遷移すること', async () => {
     router.push('/makers/new')
 
     await router.isReady()
@@ -257,7 +261,9 @@ describe('Makers routing', () => {
 
     await flushPromises()
 
-    expect(wrapper.html()).toContain('メーカー情報の登録')
+    expect(router.currentRoute.value.meta.title).toBe('Maker New')
+    expect(document.title).toBe('Maker New')
+    expect(wrapper.find('h3').text()).toContain('メーカー情報の登録')
   })
 
   it('「メーカー情報の編集」ページに遷移すること', async () => {
@@ -273,7 +279,9 @@ describe('Makers routing', () => {
 
     await flushPromises()
 
-    expect(wrapper.html()).toContain('メーカー情報の編集')
+    expect(router.currentRoute.value.meta.title).toBe('Maker Edit')
+    expect(document.title).toBe('Maker Edit')
+    expect(wrapper.find('h3').text()).toContain('メーカー情報の編集')
   })
 })
 
