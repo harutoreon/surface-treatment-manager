@@ -227,7 +227,7 @@ describe('Makers routing', () => {
 
     expect(router.currentRoute.value.meta.title).toBe('Maker Index')
     expect(document.title).toBe('Maker Index')
-    expect(wrapper.find('h3').text()).toContain('メーカーリスト')
+    expect(wrapper.find('h3').text()).toBe('メーカーリスト')
   })
 
   it('「メーカー情報」ページに遷移できること', async () => {
@@ -245,7 +245,7 @@ describe('Makers routing', () => {
 
     expect(router.currentRoute.value.meta.title).toBe('Maker Show')
     expect(document.title).toBe('Maker Show')
-    expect(wrapper.find('h3').text()).toContain('メーカー情報')
+    expect(wrapper.find('h3').text()).toBe('メーカー情報')
   })
 
   it('「メーカー情報の登録」ページに遷移すること', async () => {
@@ -263,7 +263,7 @@ describe('Makers routing', () => {
 
     expect(router.currentRoute.value.meta.title).toBe('Maker New')
     expect(document.title).toBe('Maker New')
-    expect(wrapper.find('h3').text()).toContain('メーカー情報の登録')
+    expect(wrapper.find('h3').text()).toBe('メーカー情報の登録')
   })
 
   it('「メーカー情報の編集」ページに遷移すること', async () => {
@@ -281,7 +281,7 @@ describe('Makers routing', () => {
 
     expect(router.currentRoute.value.meta.title).toBe('Maker Edit')
     expect(document.title).toBe('Maker Edit')
-    expect(wrapper.find('h3').text()).toContain('メーカー情報の編集')
+    expect(wrapper.find('h3').text()).toBe('メーカー情報の編集')
   })
 })
 
@@ -299,7 +299,9 @@ describe('Samples routing', () => {
 
     await flushPromises()
 
-    expect(wrapper.html()).toContain('表面処理リスト')
+    expect(router.currentRoute.value.meta.title).toBe('Sample Index')
+    expect(document.title).toBe('Sample Index')
+    expect(wrapper.find('h3').text()).toBe('表面処理リスト')
   })
 
   it('「表面処理情報」ページに遷移すること', async () => {
@@ -315,7 +317,9 @@ describe('Samples routing', () => {
 
     await flushPromises()
 
-    expect(wrapper.html()).toContain('表面処理情報')
+    expect(router.currentRoute.value.meta.title).toBe('Sample Show')
+    expect(document.title).toBe('Sample Show')
+    expect(wrapper.find('h3').text()).toBe('表面処理情報')
   })
 
   it('「表面処理情報の登録」ページに遷移すること', async () => { 
@@ -330,8 +334,9 @@ describe('Samples routing', () => {
     })
 
     await flushPromises()
-
-    expect(wrapper.html()).toContain('表面処理情報の登録')
+    expect(router.currentRoute.value.meta.title).toBe('Sample New')
+    expect(document.title).toBe('Sample New')
+    expect(wrapper.find('h3').text()).toBe('表面処理情報の登録')
   })
 
   it('「表面処理情報の編集」ページに遷移すること', async () => {
@@ -347,7 +352,9 @@ describe('Samples routing', () => {
 
     await flushPromises()
 
-    expect(wrapper.html()).toContain('表面処理情報の編集')
+    expect(router.currentRoute.value.meta.title).toBe('Sample Edit')
+    expect(document.title).toBe('Sample Edit')
+    expect(wrapper.find('h3').text()).toBe('表面処理情報の編集')
   })
 })
 
