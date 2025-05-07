@@ -285,6 +285,26 @@ describe('Makers routing', () => {
   })
 })
 
+describe('NotFound routing', () => {
+  it('「404」ページに遷移すること', async () => {
+    router.push('/notfound')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('NotFound (404)')
+    expect(document.title).toBe('NotFound (404)')
+    expect(wrapper.find('h1').text()).toBe('404')
+  })
+})
+
 describe('Samples routing', () => {
   it('「表面処理リスト」ページに遷移すること', async () => {
     router.push('/samples')

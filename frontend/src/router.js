@@ -44,7 +44,7 @@ const routes = [
   { path: '/makers/:id', component: MakersShowView, meta: { title: 'Maker Show' } },
   { path: '/makers/new', component: MakersNewView, meta: { title: 'Maker New' } },
   { path: '/makers/:id/edit', component: MakersEditView, meta: { title: 'Maker Edit' } },
-  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound, meta: { title: 'NotFound (404)' } },
   { path: '/samples', component: SamplesIndexView, meta: { title: 'Sample Index' }},
   { path: '/samples/:id', component: SamplesShowView, meta: { title: 'Sample Show' } },
   { path: '/samples/new', component: SamplesNewView, meta: { title: 'Sample New' } },
