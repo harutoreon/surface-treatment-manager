@@ -392,7 +392,9 @@ describe('Static Pages routing', () => {
 
     await flushPromises()
 
-    expect(wrapper.html()).toContain('処理名で検索')
+    expect(router.currentRoute.value.meta.title).toBe('Static Pages Name')
+    expect(document.title).toBe('Static Pages Name')
+    expect(wrapper.find('h3').text()).toBe('処理名で検索')
   })
 
   it('「カテゴリーで検索」ページに遷移すること', async () => {
@@ -408,7 +410,9 @@ describe('Static Pages routing', () => {
 
     await flushPromises()
 
-    expect(wrapper.html()).toContain('カテゴリーで検索')
+    expect(router.currentRoute.value.meta.title).toBe('Static Pages Category')
+    expect(document.title).toBe('Static Pages Category')
+    expect(wrapper.find('h3').text()).toBe('カテゴリーで検索')
   })
 
   it('「メーカー名で検索」ページに遷移すること', async () => {
@@ -424,7 +428,9 @@ describe('Static Pages routing', () => {
 
     await flushPromises()
 
-    expect(wrapper.html()).toContain('メーカー名で検索')
+    expect(router.currentRoute.value.meta.title).toBe('Static Pages Maker')
+    expect(document.title).toBe('Static Pages Maker')
+    expect(wrapper.find('h3').text()).toBe('メーカー名で検索')
   })
 })
 

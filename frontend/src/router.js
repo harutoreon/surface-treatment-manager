@@ -49,9 +49,9 @@ const routes = [
   { path: '/samples/:id', component: SamplesShowView, meta: { title: 'Sample Show' } },
   { path: '/samples/new', component: SamplesNewView, meta: { title: 'Sample New' } },
   { path: '/samples/:id/edit', component: SamplesEditView, meta: { title: 'Sample Edit' } },
-  { path: '/static_pages/name', component: StaticPagesNameView },
-  { path: '/static_pages/category', component: StaticPagesCategoryView },
-  { path: '/static_pages/maker', component: StaticPagesMakerView },
+  { path: '/static_pages/name', component: StaticPagesNameView, meta: { title: 'Static Pages Name' } },
+  { path: '/static_pages/category', component: StaticPagesCategoryView, meta: { title: 'Static Pages Category' } },
+  { path: '/static_pages/maker', component: StaticPagesMakerView, meta: { title: 'Static Pages Maker' } },
   {
     path: '/static_pages/:searchMethod(name|category|maker)/search_results',
     component: SearchResultsView,
