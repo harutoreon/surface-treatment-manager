@@ -54,10 +54,11 @@ const routes = [
   { path: '/static_pages/maker', component: StaticPagesMakerView, meta: { title: 'Static Pages Maker' } },
   {
     path: '/static_pages/:searchMethod(name|category|maker)/search_results',
-    component: SearchResultsView,
     name: 'SearchResults',
+    component: SearchResultsView,
+    meta: { title: "Search Results" }
   },
-  { path: '/list_search_results', component: SearchResultsListView },
+  { path: '/list_search_results', component: SearchResultsListView, meta: { title: 'Search Results' } },
 ]
 
 const router = createRouter({
@@ -67,7 +68,7 @@ const router = createRouter({
 
 router.afterEach((to) => {
   const defaultTitle = 'surface-treatment-manager'
-  document.title = to.meta.title || defaultTitle
+  document.title = to.meta.title || defaultTitle  
 })
 
 export default router

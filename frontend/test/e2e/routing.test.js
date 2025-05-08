@@ -453,7 +453,9 @@ describe('Search Results routing', () => {
 
       await flushPromises()
 
-      expect(wrapper.html()).toContain('表面処理の検索結果')
+      expect(router.currentRoute.value.meta.title).toBe('Search Results')
+      expect(document.title).toBe('Search Results')
+      expect(wrapper.find('h3').text()).toBe('表面処理の検索結果')
       expect(wrapper.findComponent('#link_research').props().to).toBe('/static_pages/name')
     })
   })
@@ -476,7 +478,9 @@ describe('Search Results routing', () => {
 
       await flushPromises()
 
-      expect(wrapper.html()).toContain('表面処理の検索結果')
+      expect(router.currentRoute.value.meta.title).toBe('Search Results')
+      expect(document.title).toBe('Search Results')
+      expect(wrapper.find('h3').text()).toBe('表面処理の検索結果')
       expect(wrapper.findComponent('#link_research').props().to).toBe('/static_pages/category')
     })
   })
@@ -499,7 +503,9 @@ describe('Search Results routing', () => {
 
       await flushPromises()
 
-      expect(wrapper.html()).toContain('表面処理の検索結果')
+      expect(router.currentRoute.value.meta.title).toBe('Search Results')
+      expect(document.title).toBe('Search Results')
+      expect(wrapper.find('h3').text()).toBe('表面処理の検索結果')
       expect(wrapper.findComponent('#link_research').props().to).toBe('/static_pages/maker')
     })
   })
@@ -517,6 +523,8 @@ describe('Search Results routing', () => {
 
     await flushPromises()
 
-    expect(wrapper.html()).toContain('表面処理一覧')    
+    expect(router.currentRoute.value.meta.title).toBe('Search Results')
+    expect(document.title).toBe('Search Results')
+    expect(wrapper.find('h3').text()).toBe('表面処理一覧')
   })
 })
