@@ -3,6 +3,214 @@ import { flushPromises, mount } from '@vue/test-utils'
 import App from '@/App.vue'
 import router from '@/router'
 
+describe('Login routing', () => {
+  it('「ログイン」ページに遷移すること', async () => {
+    router.push('/')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('Login')
+    expect(document.title).toBe('Login')
+    expect(wrapper.find('h3').text()).toBe('ログイン')
+  })
+})
+
+describe('Home routing', () => {
+  it('「メインメニュー」ページに遷移すること', async () => {
+    router.push('/home')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('Home')
+    expect(document.title).toBe('Home')
+    expect(wrapper.find('h3').text()).toBe('メインメニュー')
+  })
+})
+
+describe('Settings routing', () => {
+  it('「アプリケーションの管理」ページに遷移すること', async () => {
+    router.push('/settings')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('Settings')
+    expect(document.title).toBe('Settings')
+    expect(wrapper.find('h3').text()).toBe('アプリケーションの管理')
+  })
+})
+
+describe('Users routing', () => {
+  it('「ユーザーリスト」ページに遷移すること', async () => {
+    router.push('/users')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('User Index')
+    expect(document.title).toBe('User Index')
+    expect(wrapper.find('h3').text()).toBe('ユーザーリスト')
+  })
+
+  it('「ユーザー情報」ページに遷移すること', async () => {
+    router.push('/users/1')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('User Show')
+    expect(document.title).toBe('User Show')
+    expect(wrapper.find('h3').text()).toBe('ユーザー情報')
+  })
+
+  it('「ユーザー情報の登録」ページに遷移すること', async () => {
+    router.push('/users/new')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('User New')
+    expect(document.title).toBe('User New')
+    expect(wrapper.find('h3').text()).toBe('ユーザー情報の登録')
+  })
+
+  it('「ユーザー情報の編集」ページに遷移すること', async () => {
+    router.push('/users/1/edit')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('User Edit')
+    expect(document.title).toBe('User Edit')
+    expect(wrapper.find('h3').text()).toBe('ユーザー情報の編集')
+  })
+})
+
+describe('Categories routing', () => {
+  it('「カテゴリーリスト」ページに遷移できること', async () => {
+    router.push('/categories')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('Category Index')
+    expect(document.title).toBe('Category Index')
+    expect(wrapper.find('h3').text()).toBe('カテゴリーリスト')
+  })
+
+  it('「カテゴリー情報」ページに遷移できること', async () => {
+    router.push('/categories/1')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('Category Show')
+    expect(document.title).toBe('Category Show')
+    expect(wrapper.find('h3').text()).toBe('カテゴリー情報')
+  })
+
+  it('「カテゴリー情報の登録」ページに遷移できること', async () => {
+    router.push('/categories/new')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('Category New')
+    expect(document.title).toBe('Category New')
+    expect(wrapper.find('h3').text()).toBe('カテゴリー情報の登録')
+  })
+
+  it('「カテゴリー情報の編集」ページに遷移できること', async () => {
+    router.push('/categories/1/edit')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('Category Edit')
+    expect(document.title).toBe('Category Edit')
+    expect(wrapper.find('h3').text()).toBe('カテゴリー情報の編集')
+  })
+})
+
 describe('Makers routing', () => {
   it('「メーカーリスト」ページに遷移できること', async () => {
     router.push('/makers')
@@ -15,7 +223,11 @@ describe('Makers routing', () => {
       }
     })
 
-    expect(wrapper.html()).toContain('メーカーリスト')
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('Maker Index')
+    expect(document.title).toBe('Maker Index')
+    expect(wrapper.find('h3').text()).toBe('メーカーリスト')
   })
 
   it('「メーカー情報」ページに遷移できること', async () => {
@@ -29,10 +241,14 @@ describe('Makers routing', () => {
       }
     })
 
-    expect(wrapper.html()).toContain('メーカー情報')
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('Maker Show')
+    expect(document.title).toBe('Maker Show')
+    expect(wrapper.find('h3').text()).toBe('メーカー情報')
   })
 
-  it('「メーカー情報の新規登録」ページに遷移すること', async () => {
+  it('「メーカー情報の登録」ページに遷移すること', async () => {
     router.push('/makers/new')
 
     await router.isReady()
@@ -43,7 +259,11 @@ describe('Makers routing', () => {
       }
     })
 
-    expect(wrapper.html()).toContain('メーカー情報の登録')
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('Maker New')
+    expect(document.title).toBe('Maker New')
+    expect(wrapper.find('h3').text()).toBe('メーカー情報の登録')
   })
 
   it('「メーカー情報の編集」ページに遷移すること', async () => {
@@ -59,7 +279,29 @@ describe('Makers routing', () => {
 
     await flushPromises()
 
-    expect(wrapper.html()).toContain('メーカー情報の編集')
+    expect(router.currentRoute.value.meta.title).toBe('Maker Edit')
+    expect(document.title).toBe('Maker Edit')
+    expect(wrapper.find('h3').text()).toBe('メーカー情報の編集')
+  })
+})
+
+describe('NotFound routing', () => {
+  it('「404」ページに遷移すること', async () => {
+    router.push('/non-existent-path')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router]
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('NotFound (404)')
+    expect(document.title).toBe('NotFound (404)')
+    expect(wrapper.find('h1').text()).toBe('404')
   })
 })
 
@@ -77,7 +319,9 @@ describe('Samples routing', () => {
 
     await flushPromises()
 
-    expect(wrapper.html()).toContain('表面処理リスト')
+    expect(router.currentRoute.value.meta.title).toBe('Sample Index')
+    expect(document.title).toBe('Sample Index')
+    expect(wrapper.find('h3').text()).toBe('表面処理リスト')
   })
 
   it('「表面処理情報」ページに遷移すること', async () => {
@@ -93,7 +337,9 @@ describe('Samples routing', () => {
 
     await flushPromises()
 
-    expect(wrapper.html()).toContain('表面処理情報')
+    expect(router.currentRoute.value.meta.title).toBe('Sample Show')
+    expect(document.title).toBe('Sample Show')
+    expect(wrapper.find('h3').text()).toBe('表面処理情報')
   })
 
   it('「表面処理情報の登録」ページに遷移すること', async () => { 
@@ -108,8 +354,9 @@ describe('Samples routing', () => {
     })
 
     await flushPromises()
-
-    expect(wrapper.html()).toContain('表面処理情報の登録')
+    expect(router.currentRoute.value.meta.title).toBe('Sample New')
+    expect(document.title).toBe('Sample New')
+    expect(wrapper.find('h3').text()).toBe('表面処理情報の登録')
   })
 
   it('「表面処理情報の編集」ページに遷移すること', async () => {
@@ -125,7 +372,9 @@ describe('Samples routing', () => {
 
     await flushPromises()
 
-    expect(wrapper.html()).toContain('表面処理情報の編集')
+    expect(router.currentRoute.value.meta.title).toBe('Sample Edit')
+    expect(document.title).toBe('Sample Edit')
+    expect(wrapper.find('h3').text()).toBe('表面処理情報の編集')
   })
 })
 
@@ -143,7 +392,9 @@ describe('Static Pages routing', () => {
 
     await flushPromises()
 
-    expect(wrapper.html()).toContain('処理名で検索')
+    expect(router.currentRoute.value.meta.title).toBe('Static Pages Name')
+    expect(document.title).toBe('Static Pages Name')
+    expect(wrapper.find('h3').text()).toBe('処理名で検索')
   })
 
   it('「カテゴリーで検索」ページに遷移すること', async () => {
@@ -159,7 +410,9 @@ describe('Static Pages routing', () => {
 
     await flushPromises()
 
-    expect(wrapper.html()).toContain('カテゴリーで検索')
+    expect(router.currentRoute.value.meta.title).toBe('Static Pages Category')
+    expect(document.title).toBe('Static Pages Category')
+    expect(wrapper.find('h3').text()).toBe('カテゴリーで検索')
   })
 
   it('「メーカー名で検索」ページに遷移すること', async () => {
@@ -175,7 +428,9 @@ describe('Static Pages routing', () => {
 
     await flushPromises()
 
-    expect(wrapper.html()).toContain('メーカー名で検索')
+    expect(router.currentRoute.value.meta.title).toBe('Static Pages Maker')
+    expect(document.title).toBe('Static Pages Maker')
+    expect(wrapper.find('h3').text()).toBe('メーカー名で検索')
   })
 })
 
@@ -198,7 +453,9 @@ describe('Search Results routing', () => {
 
       await flushPromises()
 
-      expect(wrapper.html()).toContain('表面処理の検索結果')
+      expect(router.currentRoute.value.meta.title).toBe('Search Results')
+      expect(document.title).toBe('Search Results')
+      expect(wrapper.find('h3').text()).toBe('表面処理の検索結果')
       expect(wrapper.findComponent('#link_research').props().to).toBe('/static_pages/name')
     })
   })
@@ -221,7 +478,9 @@ describe('Search Results routing', () => {
 
       await flushPromises()
 
-      expect(wrapper.html()).toContain('表面処理の検索結果')
+      expect(router.currentRoute.value.meta.title).toBe('Search Results')
+      expect(document.title).toBe('Search Results')
+      expect(wrapper.find('h3').text()).toBe('表面処理の検索結果')
       expect(wrapper.findComponent('#link_research').props().to).toBe('/static_pages/category')
     })
   })
@@ -244,7 +503,9 @@ describe('Search Results routing', () => {
 
       await flushPromises()
 
-      expect(wrapper.html()).toContain('表面処理の検索結果')
+      expect(router.currentRoute.value.meta.title).toBe('Search Results')
+      expect(document.title).toBe('Search Results')
+      expect(wrapper.find('h3').text()).toBe('表面処理の検索結果')
       expect(wrapper.findComponent('#link_research').props().to).toBe('/static_pages/maker')
     })
   })
@@ -262,6 +523,8 @@ describe('Search Results routing', () => {
 
     await flushPromises()
 
-    expect(wrapper.html()).toContain('表面処理一覧')    
+    expect(router.currentRoute.value.meta.title).toBe('Search Results')
+    expect(document.title).toBe('Search Results')
+    expect(wrapper.find('h3').text()).toBe('表面処理一覧')
   })
 })

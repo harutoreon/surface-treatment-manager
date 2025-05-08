@@ -29,40 +29,46 @@ import SearchResultsListView from './components/search_results/SearchResultsList
 const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : createWebHistory()
 
 const routes = [
-  { path: '/', component: LoginForm },
-  { path: '/home', component: HomeView },
-  { path: '/settings', component: SettingsView },
-  { path: '/users', component: UsersIndexView },
-  { path: '/users/:id', component: UsersShowView },
-  { path: '/users/new', component: UsersNewView },
-  { path: '/users/:id/edit', component: UsersEditView },
-  { path: '/categories', component: CategoriesIndexView },
-  { path: '/categories/:id', component: CategoriesShowView },
-  { path: '/categories/new', component: CategoriesNewView },
-  { path: '/categories/:id/edit', component: CategoriesEditView },
-  { path: '/makers', component: MakersIndexView },
-  { path: '/makers/:id', component: MakersShowView },
-  { path: '/makers/new', component: MakersNewView },
-  { path: '/makers/:id/edit', component: MakersEditView },
-  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound},
-  { path: '/samples', component: SamplesIndexView},
-  { path: '/samples/:id', component: SamplesShowView },
-  { path: '/samples/new', component: SamplesNewView },
-  { path: '/samples/:id/edit', component: SamplesEditView },
-  { path: '/static_pages/name', component: StaticPagesNameView },
-  { path: '/static_pages/category', component: StaticPagesCategoryView },
-  { path: '/static_pages/maker', component: StaticPagesMakerView },
+  { path: '/', component: LoginForm, meta: { title: 'Login' } },
+  { path: '/home', component: HomeView, meta: { title: 'Home' } },
+  { path: '/settings', component: SettingsView, meta: { title: 'Settings' }  },
+  { path: '/users', component: UsersIndexView, meta: { title: 'User Index' } },
+  { path: '/users/:id', component: UsersShowView, meta: { title: 'User Show' } },
+  { path: '/users/new', component: UsersNewView, meta: { title: 'User New' } },
+  { path: '/users/:id/edit', component: UsersEditView, meta: { title: 'User Edit' } },
+  { path: '/categories', component: CategoriesIndexView, meta: { title: 'Category Index' } },
+  { path: '/categories/:id', component: CategoriesShowView, meta: { title: 'Category Show' } },
+  { path: '/categories/new', component: CategoriesNewView, meta: { title: 'Category New' } },
+  { path: '/categories/:id/edit', component: CategoriesEditView, meta: { title: 'Category Edit' } },
+  { path: '/makers', component: MakersIndexView, meta: { title: 'Maker Index' } },
+  { path: '/makers/:id', component: MakersShowView, meta: { title: 'Maker Show' } },
+  { path: '/makers/new', component: MakersNewView, meta: { title: 'Maker New' } },
+  { path: '/makers/:id/edit', component: MakersEditView, meta: { title: 'Maker Edit' } },
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound, meta: { title: 'NotFound (404)' } },
+  { path: '/samples', component: SamplesIndexView, meta: { title: 'Sample Index' }},
+  { path: '/samples/:id', component: SamplesShowView, meta: { title: 'Sample Show' } },
+  { path: '/samples/new', component: SamplesNewView, meta: { title: 'Sample New' } },
+  { path: '/samples/:id/edit', component: SamplesEditView, meta: { title: 'Sample Edit' } },
+  { path: '/static_pages/name', component: StaticPagesNameView, meta: { title: 'Static Pages Name' } },
+  { path: '/static_pages/category', component: StaticPagesCategoryView, meta: { title: 'Static Pages Category' } },
+  { path: '/static_pages/maker', component: StaticPagesMakerView, meta: { title: 'Static Pages Maker' } },
   {
     path: '/static_pages/:searchMethod(name|category|maker)/search_results',
-    component: SearchResultsView,
     name: 'SearchResults',
+    component: SearchResultsView,
+    meta: { title: "Search Results" }
   },
-  { path: '/list_search_results', component: SearchResultsListView },
+  { path: '/list_search_results', component: SearchResultsListView, meta: { title: 'Search Results' } },
 ]
 
 const router = createRouter({
   history,
   routes
+})
+
+router.afterEach((to) => {
+  const defaultTitle = 'surface-treatment-manager'
+  document.title = to.meta.title || defaultTitle  
 })
 
 export default router
