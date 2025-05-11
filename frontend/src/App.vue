@@ -3,13 +3,19 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import router from './router'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const user = ref(null)
+const messageType = ref('')
+const message = ref('')
 
 const setUser = (newUser) => {
   user.value = newUser
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const handleMessageDelete = () => {
+  messageType.value = ''
+  message.value = ''
+}
 
 const logout = async () => {
   try {
@@ -17,7 +23,8 @@ const logout = async () => {
     user.value = null
     router.push('/')
   } catch (error) {
-    console.error('Logout failed')
+    messageType.value = 'danger'
+    message.value = 'ログアウト処理に失敗しました。'
   }
 }
 
@@ -26,7 +33,8 @@ const checkLoginStatus = async () => {
     const response = await axios.get(`${API_BASE_URL}/logged_in`)
     user.value = response.data.user || null
   } catch (error) {
-    console.error('Failed to check login status')
+    message.value = 'danger'
+    message.value = 'ログイン情報の取得に失敗しました。'
   }
 }
 
@@ -43,15 +51,11 @@ onMounted(() => {
       </div>
     </nav>
   </header>
+  
+  <div v-if="message" v-bind:class="`alert alert-${messageType} alert-dismissible fade show`">
+    {{ message }}
+    <button type="button" class="btn-close" v-on:click="handleMessageDelete" data-bs-dismiss="alert"></button>
+  </div>
 
-  <!-- <RouterView v-slot="{ Component }">
-    <component
-      :is="Component"
-      v-bind="{
-        ...(Component?.emits?.includes?.('login-success') && { onLoginSuccess: setUser }),
-        ...(Component?.emits?.includes?.('logout') && { onLogout: logout })
-      }"
-    />
-  </RouterView> -->
   <RouterView @login-success="setUser" @logout="logout"/>
 </template>
