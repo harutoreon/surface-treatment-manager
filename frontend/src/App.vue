@@ -21,7 +21,7 @@ const logout = async () => {
   try {
     await axios.delete(`${API_BASE_URL}/logout`)
     user.value = null
-    messageType.value = 'success'
+    router.push('/')
   } catch (error) {
     messageType.value = 'danger'
     message.value = 'ログアウト処理に失敗しました。'
