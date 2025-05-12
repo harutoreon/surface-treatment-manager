@@ -3,12 +3,22 @@ import { ref } from 'vue'
 import axios from 'axios'
 import router from '../router'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const emit = defineEmits(['login-success'])
 const name = ref('')
 const password = ref('')
 const errorMessage = ref('')
-const emit = defineEmits(['login-success'])
+const selectedUserType = ref('')
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const changeToAdminUserData = () => {
+  name.value = 'admin user'
+  password.value = 'adminpassword'
+}
+
+const changeToGeneralUserData = () => {
+  name.value = 'general user'
+  password.value = 'generalpassword'
+}
 
 const handleLogin = async () => {
   try {
@@ -21,18 +31,6 @@ const handleLogin = async () => {
   } catch (error) {
     errorMessage.value = 'ユーザー名またはパスワードが無効です'
   }
-}
-
-const selectedUserType = ref('')
-
-const changeToAdminUserData = () => {
-  name.value = 'admin user'
-  password.value = 'adminpassword'
-}
-
-const changeToGeneralUserData = () => {
-  name.value = 'general user'
-  password.value = 'generalpassword'
 }
 </script>
 
@@ -50,17 +48,12 @@ const changeToGeneralUserData = () => {
             class="form-check-input"
             type="radio"
             id="general_user"
-            value="general"
-          >
-          <label
-            class="form-check-label"
-            for="general_user"
-          >
-            一般ユーザー
-          </label>
+            value="general">
+          <label class="form-check-label" for="general_user">一般ユーザー</label>
         </div>
         <small class="ms-4">一部の機能は制限されます。</small>
       </li>
+
       <li class="list-group-item">
         <div class="form-check">
           <input
@@ -69,14 +62,8 @@ const changeToGeneralUserData = () => {
             class="form-check-input"
             type="radio"
             id="admin_user"
-            value="admin"
-          >
-          <label
-            class="form-check-label"
-            for="admin_user"
-          >
-            管理者ユーザー
-          </label>
+            value="admin">
+          <label class="form-check-label" for="admin_user">管理者ユーザー</label>
         </div>
         <small class="ms-4">すべての機能が利用できます。</small>
       </li>
@@ -84,34 +71,17 @@ const changeToGeneralUserData = () => {
 
     <form v-on:submit.prevent="handleLogin">
       <label for="name">ユーザー名</label>
-      <input
-        v-model="name"
-        class="form-control mb-4"
-        type="text"
-        id="user_name"
-        required
-      >
+      <input v-model="name" class="form-control mb-4" type="text" id="user_name" required>
+
       <label for="password">パスワード</label>
-      <input
-        v-model="password"
-        class="form-control mb-5"
-        type="password"
-        id="password"
-        required
-      >
-      <button
-        type="submit"
-        class="form-control btn btn-primary"
-      >
+      <input v-model="password" class="form-control mb-5" type="password" id="password" required>
+
+      <button type="submit" class="form-control btn btn-primary">
         ログイン
       </button>
     </form>
 
-    <p
-      v-if="errorMessage"
-      class="alert alert-danger mt-4"
-      role="alert"
-    >
+    <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">
       {{ errorMessage }}
     </p>
   </div>
