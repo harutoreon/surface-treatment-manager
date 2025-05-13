@@ -4,7 +4,7 @@ import axios from 'axios'
 import router from '../router'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-const emit = defineEmits(['login-success'])
+const emit = defineEmits(['login-success', 'message'])
 const name = ref('')
 const password = ref('')
 const errorMessage = ref('')
@@ -27,6 +27,7 @@ const handleLogin = async () => {
       password: password.value
     })
     emit('login-success', response.data.user)
+    emit('message', { type: 'success', text: 'ログインしました。' })
     router.push('/home')
   } catch (error) {
     errorMessage.value = 'ユーザー名またはパスワードが無効です'

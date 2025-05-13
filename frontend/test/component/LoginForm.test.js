@@ -27,9 +27,18 @@ describe('LoginForm.vue', () => {
       await passwordInput.setValue('password')
       
       await wrapper.find('form').trigger('submit.prevent')
-      
+
       expect(wrapper.emitted('login-success')).toBeTruthy()
       expect(wrapper.emitted('login-success')[0]).toEqual([mockUser])
+
+      expect(wrapper.emitted('message')).toBeTruthy
+      expect(wrapper.emitted('message')[0]).toEqual([
+        {
+          type: 'success',
+          text: 'ログインしました。'
+        }
+      ])
+
       expect(router.push).toHaveBeenCalledWith('/home')
     })
   })
