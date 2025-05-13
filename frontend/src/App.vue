@@ -12,6 +12,11 @@ const setUser = (newUser) => {
   user.value = newUser
 }
 
+const showMessage = (payload) => {
+  messageType.value = payload.type
+  message.value = payload.text
+}
+
 const handleMessageDelete = () => {
   messageType.value = ''
   message.value = ''
@@ -57,5 +62,5 @@ onMounted(() => {
     <button type="button" class="btn-close" v-on:click="handleMessageDelete" data-bs-dismiss="alert"></button>
   </div>
 
-  <RouterView @login-success="setUser" @logout="logout"/>
+  <RouterView @login-success="setUser" @logout="logout" v-on:message="showMessage"/>
 </template>
