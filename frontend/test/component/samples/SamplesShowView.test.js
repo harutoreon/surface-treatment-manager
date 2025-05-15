@@ -142,7 +142,7 @@ describe('SamplesShowView', () => {
           },
         })
 
-        mount(SamplesShowView, {
+        const wrapper = mount(SamplesShowView, {
           global: {
             stubs: {
               RouterLink: RouterLinkStub
@@ -152,6 +152,10 @@ describe('SamplesShowView', () => {
 
         await flushPromises()
 
+        expect(wrapper.emitted()).toHaveProperty('message')
+        expect(wrapper.emitted().message[0]).toEqual([
+          { type: 'danger', text: '表面処理情報の取得に失敗しました。' }
+        ])
         expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
       })
     })
@@ -223,7 +227,7 @@ describe('SamplesShowView', () => {
           .mockRejectedValueOnce(mockSampleResponse)
           .mockRejectedValueOnce(mockSampleCommentResponse)
 
-        mount(SamplesShowView, {
+        const wrapper = mount(SamplesShowView, {
           global: {
             stubs: {
               RouterLink: RouterLinkStub
@@ -233,6 +237,10 @@ describe('SamplesShowView', () => {
         
         await flushPromises()
 
+        expect(wrapper.emitted()).toHaveProperty('message')
+        expect(wrapper.emitted().message[1]).toEqual([
+          { type: 'danger', text: 'コメントの取得に失敗しました。' }
+        ])
         expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
       })
     })
@@ -281,6 +289,54 @@ describe('SamplesShowView', () => {
   
         expect(spy.mock.results[0].value).toBe(false)
         expect(axios.delete).not.toHaveBeenCalled()
+      })
+    })
+
+    describe('表面処理の削除処理に失敗した場合', () => {
+      it('404ページに遷移すること', async () => {
+        vi.spyOn(window, 'confirm').mockReturnValue(true)
+
+        axios.get
+          .mockResolvedValueOnce({
+            data: {
+              id: 1,
+              name: '無電解ニッケルめっき',
+              category: 'めっき',
+              color: 'イエローブラウンシルバー',
+              maker: '小島印刷合同会社',
+              hardness: 'HV700',
+              film_thickness: '5μm',
+              feature: '耐摩耗性',
+              image_url: 'http://example.com/sample.jpg',
+            }
+          })
+          .mockResolvedValueOnce({ 
+            data: []
+          })
+
+        axios.delete = vi.fn().mockRejectedValue({
+          response: {
+            status: 404
+          }
+        })
+
+        const wrapper = mount(SamplesShowView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
+
+        await flushPromises()
+
+        await wrapper.find('#link_sample_destroy').trigger('click')
+
+        expect(wrapper.emitted()).toHaveProperty('message')
+        expect(wrapper.emitted().message[0]).toEqual([
+          { type: 'danger', text: '表面処理情報の削除処理に失敗しました。' }
+        ])
+        expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
       })
     })
   })

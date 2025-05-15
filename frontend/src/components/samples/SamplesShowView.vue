@@ -4,6 +4,7 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const emit = defineEmits(['message'])
 const route = useRoute()
 const router = useRouter()
 const sample = ref({
@@ -27,6 +28,7 @@ const fetchSampleData = async (id) => {
     sample.value = response.data
   } catch (error) {
     if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: '表面処理情報の取得に失敗しました。' })
       router.replace({ name: 'NotFound' })
     }
   }
@@ -38,6 +40,7 @@ const fetchSampleCommentsData = async (id) => {
     sampleComments.value = response.data
   } catch (error) {
     if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: 'コメントの取得に失敗しました。' })
       router.replace({ name: 'NotFound' })
     }
   }
@@ -57,7 +60,10 @@ const handleDelete = async () => {
     await axios.delete(`${API_BASE_URL}/samples/${route.params.id}`)
     router.push('/samples')
   } catch (error) {
-    console.error('削除処理に失敗しました')
+    if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: '表面処理情報の削除処理に失敗しました。' })
+      router.replace({ name: 'NotFound' })
+    }
   }
 }
 
