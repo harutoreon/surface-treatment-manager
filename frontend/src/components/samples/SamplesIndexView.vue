@@ -1,13 +1,15 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const route = useRoute()
+const router = useRouter()
 const samples = ref('')
 const currentPage = ref(Number(route.query.page) || 1)
 const totalPages = ref(1)
+const emit = defineEmits(['message'])
 
 const fetchSampleList = async () => {
   try {
@@ -16,7 +18,10 @@ const fetchSampleList = async () => {
     currentPage.value = response.data.current_page
     totalPages.value = response.data.total_pages
   } catch (error) {
-    console.error('Get sample list failed')
+    if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: '表面処理リストの取得に失敗しました。' })
+      router.replace({ name: 'NotFound' })
+    }
   }
 }
 

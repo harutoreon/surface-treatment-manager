@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const emit = defineEmits(['message'])
 const sample = ref('')
 const route = useRoute()
 const router = useRouter()
@@ -16,6 +17,7 @@ const fetchSampleData = async (id) => {
     sample.value = response.data
   } catch (error) {
     if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: '表面処理情報の取得に失敗しました。' })
       router.replace({ name: 'NotFound' })
     }
   }
@@ -42,6 +44,7 @@ const sampleUpdate = async () => {
       }
     })
     sample.value = response.data
+    emit('message', { type: 'success', text: '表面処理情報を更新しました。' })
     router.push(`/samples/${sample.value.id}`)
   } catch (error) {
     errorMessage.value = '入力に不備があります。'

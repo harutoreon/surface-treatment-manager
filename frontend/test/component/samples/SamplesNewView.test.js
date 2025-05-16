@@ -121,6 +121,10 @@ describe('SamplesNewView', () => {
         await flushPromises()
 
         expect(axios.post).toHaveBeenCalled()
+        expect(wrapper.emitted()).toHaveProperty('message')
+        expect(wrapper.emitted().message[0]).toEqual([
+          { type: 'success', text: '表面処理情報を1件登録しました。' }
+        ])
         expect(router.push).toHaveBeenCalledWith('/samples/1')
       })
     })

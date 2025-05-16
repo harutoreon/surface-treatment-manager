@@ -166,7 +166,7 @@ describe('SamplesEditView', () => {
           }
         })
 
-        mount(SamplesEditView, {
+        const wrapper = mount(SamplesEditView, {
           global: {
             stubs: {
               RouterLink: RouterLinkStub
@@ -176,6 +176,10 @@ describe('SamplesEditView', () => {
 
         await flushPromises()
 
+        expect(wrapper.emitted()).toHaveProperty('message')
+        expect(wrapper.emitted().message[0]).toEqual([
+          { type: 'danger', text: '表面処理情報の取得に失敗しました。' }
+        ])
         expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
       })
     })
@@ -223,6 +227,10 @@ describe('SamplesEditView', () => {
         await wrapper.find('form').trigger('submit.prevent')
 
         expect(axios.patch).toHaveBeenCalled()
+        expect(wrapper.emitted()).toHaveProperty('message')
+        expect(wrapper.emitted().message[0]).toEqual([
+          { type: 'success', text: '表面処理情報を更新しました。' }
+        ])
         expect(pushMock).toHaveBeenCalledWith('/samples/35')
       })
     })
