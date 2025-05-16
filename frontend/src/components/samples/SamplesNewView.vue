@@ -4,6 +4,7 @@ import axios from 'axios'
 import router from '@/router'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const emit = defineEmits(['message'])
 const sample = ref('')
 const name = ref('')
 const category = ref('')
@@ -51,6 +52,7 @@ const sampleRegistration = async () => {
       }
     })
     sample.value = response.data
+    emit('message', { type: 'success', text: '表面処理情報を1件登録しました。' })
     router.push(`/samples/${sample.value.id}`)
   } catch (error) {
     errorMessage.value = '入力に不備があります。'
