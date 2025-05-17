@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 
+const emit = defineEmits(['message'])
 const category = ref({ data: { item: '', summary: '' } })
 const route = useRoute()
 const router = useRouter()
@@ -14,7 +15,10 @@ const fetchCategoryData = async (id) => {
     const response = await axios.get(`${API_BASE_URL}/categories/${id}`)
     category.value = response.data
   } catch (error) {
-    console.error('Get category information failed')
+    if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: 'カテゴリーの取得に失敗しました。' })
+      router.replace({ name: 'NotFound' })
+    }
   }
 }
 
@@ -24,9 +28,13 @@ const handleDelete = async () => {
 
   try {
     await axios.delete(`${API_BASE_URL}/categories/${route.params.id}`)
+    emit('message', { type: 'success', text: 'カテゴリーを1件削除しました。' })
     router.push('/categories')
   } catch (error) {
-    console.error('削除処理に失敗しました', error)
+    if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: '削除処理に失敗しました。' })
+      router.replace({ name: 'NotFound' })
+    }
   }
 }
 

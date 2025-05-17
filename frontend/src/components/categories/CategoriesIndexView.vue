@@ -1,8 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import router from '@/router'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const emit = defineEmits(['message'])
 const categories = ref([])
 
 function replaceStringWithEllipsis() {
@@ -19,7 +21,10 @@ const fetchCategoryList = async () => {
     categories.value = response.data
     replaceStringWithEllipsis()
   } catch (error) {
-    console.error('Get category list failed')
+    if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: 'カテゴリーの取得に失敗しました。' })
+      router.replace({ name: 'NotFound' })
+    }
   }
 }
 
