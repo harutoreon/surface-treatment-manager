@@ -3,6 +3,7 @@
   import axios from 'axios'
   import router from '@/router'
 
+  const emit = defineEmits(['message'])
   const item = ref('')
   const summary = ref('')
   const category = ref('')
@@ -18,6 +19,7 @@
         }
       })
       category.value = response.data
+      emit('message', { type: 'success', text: 'カテゴリーを1件登録しました。' })
       router.push(`/categories/${category.value.id}`)
     } catch (error) {
       errorMessage.value = '入力に不備があります。'
