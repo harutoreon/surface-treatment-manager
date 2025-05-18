@@ -1,18 +1,28 @@
 import { describe, it, expect,  vi, beforeEach } from 'vitest'
-import { mount, RouterLinkStub } from '@vue/test-utils'
+import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import CategoriesEditView from '@/components/categories/CategoriesEditView.vue'
 import axios from 'axios'
 
 vi.mock('axios')
 
-vi.mock('vue-router', () => ({
-  useRoute: () => ({
-    params: { id: '1' }
-  }),
-  useRouter: () => ({
-    push: vi.fn()
-  })
-}))
+const replaceMock = vi.fn()
+const pushMock = vi.fn()
+
+vi.mock('vue-router', async () => {
+  return {
+    useRoute: () => {
+      return {
+        params: { id: '1' }
+      }
+    },
+    useRouter: () => {
+      return {
+        push: pushMock,
+        replace: replaceMock
+      }
+    }
+  }
+})
 
 describe('コンポーネントをレンダリングした時に、', () => {
   let wrapper
@@ -68,42 +78,112 @@ describe('コンポーネントをレンダリングした時に、', () => {
   })
 })
 
-describe('フォームの更新ボタンを押した時に、', () => {
-  let wrapper
+describe('カテゴリー情報の取得に成功した場合', () => {
+  it('カテゴリー名と概要が表示されること', async () => {
+    axios.get.mockResolvedValue({
+      data: {
+        id: 1,
+        item: 'sample category',
+        summary: 'sample summary'
+      }
+    })
 
-  beforeEach(() => {
-    wrapper = mount(CategoriesEditView, {
+    const wrapper = mount(CategoriesEditView, {
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub 
+        }
+      }
+    })
+
+    await flushPromises()
+
+    expect(wrapper.find('#category_item').element.value).toBe('sample category')
+    expect(wrapper.find('#category_summary').element.value).toBe('sample summary')
+  })
+})
+
+describe('カテゴリー情報の取得に失敗した場合', () => {
+  it('404ページに遷移すること', async () => {
+    axios.get.mockRejectedValue({
+      response: {
+        status: 404
+      }
+    })
+
+    const wrapper = mount(CategoriesEditView, {
       global: {
         stubs: {
           RouterLink: RouterLinkStub
         }
       }
     })
-  })
 
-  describe('有効なデータを入力していれば', () => {
-    it('更新が成功すること', async () => {
-      axios.patch.mockResolvedValue({
-        data: {
-          id: 1,
-          item: 'めっき',
-          summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+    await flushPromises()
+
+    expect(wrapper.emitted()).toHaveProperty('message')
+    expect(wrapper.emitted().message[0]).toEqual([
+      { type: 'danger', text: 'カテゴリー情報の取得に失敗しました。' }
+    ])
+    expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
+  })
+})
+
+
+describe('有効なデータを入力して更新ボタンを押した場合', () => {
+  it('更新が成功してカテゴリー情報のページに遷移すること', async () => {
+    axios.get.mockResolvedValue({
+      data: {
+        id: 1,
+        item: 'めっき',
+        summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+      }
+    })
+
+    axios.patch.mockResolvedValue({
+      data: {
+        id: 1,
+        item: 'めっき（更新後）',
+        summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+      }
+    })
+
+    const wrapper = mount(CategoriesEditView, {
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub
         }
-      })
-  
-      await wrapper.find('form').trigger('submit.prevent')
-
-      expect(axios.patch).toHaveBeenCalled()
+      }
     })
+
+    await flushPromises()
+
+    await wrapper.find('form').trigger('submit.prevent')
+
+    expect(wrapper.emitted()).toHaveProperty('message')
+    expect(wrapper.emitted().message[0]).toEqual([
+      { type: 'success', text: 'カテゴリー情報を更新しました。' }
+    ])
+    expect(pushMock).toHaveBeenCalledWith('/categories/1')
   })
+})
 
-  describe('無効なデータを入力していると', () => {
-    it('更新が失敗すること', async () => {
-      axios.patch.mockRejectedValue(new Error('Invalid credentials'))
+describe('無効なデータを入力して更新ボタンを押した場合', () => {
+  it('入力不備のメッセージが表示されること', async () => {
+    axios.patch.mockRejectedValue(new Error('Invalid credentials'))
 
-      await wrapper.find('form').trigger('submit.prevent')
-
-      expect(wrapper.text()).toContain('入力に不備があります。')
+    const wrapper = mount(CategoriesEditView, {
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub
+        }
+      }
     })
+
+    await flushPromises()
+
+    await wrapper.find('form').trigger('submit.prevent')
+
+    expect(wrapper.text()).toContain('入力に不備があります。')
   })
 })
