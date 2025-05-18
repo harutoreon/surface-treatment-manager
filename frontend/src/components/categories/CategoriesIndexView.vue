@@ -45,7 +45,12 @@ onMounted(() => {
         </div>
       </div>
 
-      <RouterLink v-for="category in categories" v-bind:key="category.id" class="list-group-item list-group-item-action" v-bind:to="`/categories/${category.id}`">
+      <RouterLink
+        v-for="category in categories"
+        v-bind:key="category.id"
+        class="list-group-item list-group-item-action"
+        v-bind:to="`/categories/${category.id}`"
+      >
         <div class="d-flex w-100 justify-content-between">
           <h6>{{ category.item }}</h6>
           <h6>{{ category.summary }}</h6>
