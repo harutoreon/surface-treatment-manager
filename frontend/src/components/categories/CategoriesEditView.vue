@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 
+const emit = defineEmits(['message'])
 const route = useRoute()
 const router = useRouter()
 const category = ref({ item: '', summary: '' })
@@ -14,7 +15,10 @@ const fetchCategoryData = async (id) => {
     const response = await axios.get(`${API_BASE_URL}/categories/${id}`)
     category.value = response.data
   } catch (error) {
-    console.error('Get category data failed')
+    if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: 'カテゴリー情報の取得に失敗しました。' })
+      router.replace({ name: 'NotFound' })
+    }
   }
 }
 
@@ -25,6 +29,7 @@ const categoryUpdate = async () => {
       summary: category.value.summary
     })
     category.value = response.data
+    emit('message', { type: 'success', text: 'カテゴリー情報を更新しました。' })
     router.push(`/categories/${category.value.id}`)
   } catch (error) {
     errorMessage.value = '入力に不備があります。'

@@ -1,46 +1,54 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { mount, RouterLinkStub } from '@vue/test-utils'
+import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import CategoriesShowView from '@/components/categories/CategoriesShowView.vue'
-import { flushPromises } from '@vue/test-utils'
 import axios from 'axios'
 
 vi.mock('axios')
 
-vi.mock('vue-router', () => ({
-  useRoute: () => {
-    return {
-      params: { id: '1' }
-    }
-  },
-  useRouter: () => {
-    return {
-      push: vi.fn()
+const replaceMock = vi.fn()
+const pushMock = vi.fn()
+
+vi.mock('vue-router', async () => {
+  const actual = await vi.importActual('vue-router')
+
+  return {
+    ...actual,
+    useRoute: () => {
+      return {
+        params: { id: 1 }
+      }
+    },
+    useRouter: () => {
+      return {
+        replace: replaceMock,
+        push: pushMock
+      }
     }
   }
-}))
-
-let wrapper
+})
 
 describe('CategoriesShowView', () => {
-  beforeEach(() => {
-    axios.get.mockResolvedValue({
-      data: {
-        id: 1,
-        item: 'めっき',
-        summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
-      }
-    })
-
-    wrapper = mount(CategoriesShowView, {
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
-      }
-    })
-  })
-
   describe('コンポーネントのレンダリング', () => {
+    let wrapper
+
+    beforeEach(() => {
+      axios.get.mockResolvedValue({
+        data: {
+          id: 1,
+          item: 'めっき',
+          summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+        }
+      })
+
+      wrapper = mount(CategoriesShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+    })
+
     it('カテゴリー情報の見出しが表示されること', () => {
       expect(wrapper.find('h3').text()).toBe('カテゴリー情報')
     })
@@ -75,24 +83,125 @@ describe('CategoriesShowView', () => {
     })
   })
 
-  describe('イベントの発火', () => {
-    describe('カテゴリーの削除の選択でOKを押した場合、', () => {
-      it('trueが返りhandleDeleteのイベントが発火すること', async () => {
-        const spy = vi.spyOn(window, 'confirm').mockReturnValue(true)
+  describe('API通信', () => {
+    describe('カテゴリー情報の取得に成功した場合', () => {
+      it('カテゴリー名と概要が表示されること', async () => {
+        axios.get.mockResolvedValue({
+          data: {
+            id: 1,
+            item: 'めっき',
+            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+          }
+        })
 
-        await wrapper.find('p').trigger('click')
+        const wrapper = mount(CategoriesShowView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
 
-        expect(spy.mock.results[0].value).toBe(true)
+        await flushPromises()
+
+        expect(wrapper.text()).toContain('めっき')
+        expect(wrapper.text()).toContain('金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。')
       })
     })
 
-    describe('カテゴリーの削除の選択でキャンセルを押した場合、', () => {
-      it('falseが返りhandleDeleteのイベントが発火しないこと', async () => {
-        const spy = vi.spyOn(window, 'confirm').mockReturnValue(false)
+    describe('カテゴリー情報の取得に失敗した場合', () => {
+      it('404ページに遷移すること', async () => {
+        axios.get.mockRejectedValue({
+          response: {
+            status: 404
+          }
+        })
+
+        const wrapper = mount(CategoriesShowView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
+
+        await flushPromises()
+
+        expect(wrapper.emitted()).toHaveProperty('message')
+        expect(wrapper.emitted().message[0]).toEqual([
+          { type: 'danger', text: 'カテゴリーの取得に失敗しました。' }
+        ])
+        expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
+      })
+    })
+
+    describe('削除処理に成功した場合', () => {
+      it('カテゴリーリストに遷移すること', async () => {
+        vi.spyOn(window, 'confirm').mockReturnValue(true)
+
+        axios.get.mockResolvedValue({
+          data: {
+            id: 1,
+            item: 'めっき',
+            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+          }
+        })
+
+        const wrapper = mount(CategoriesShowView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
+
+        await flushPromises()
 
         await wrapper.find('p').trigger('click')
+        
+        expect(wrapper.emitted()).toHaveProperty('message')
+        expect(wrapper.emitted().message[0]).toEqual([
+          { type: 'success', text: 'カテゴリーを1件削除しました。' }
+        ])
+        expect(pushMock).toHaveBeenCalledWith('/categories')
+      })
+    })
 
-        expect(spy.mock.results[0].value).toBe(false)
+    describe('削除処理に成功した場合', () => {
+      it('404ページに遷移すること', async () => {
+        vi.spyOn(window, 'confirm').mockReturnValue(true)
+
+        axios.get.mockResolvedValue({
+          data: {
+            id: 1,
+            item: 'めっき',
+            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+          }
+        })
+
+        axios.delete.mockRejectedValue({
+          response: {
+            status: 404
+          }
+        })
+
+        const wrapper = mount(CategoriesShowView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
+        
+        await flushPromises()
+        
+        await wrapper.find('p').trigger('click')
+
+        expect(wrapper.emitted()).toHaveProperty('message')
+        expect(wrapper.emitted().message[0]).toEqual([
+          { type: 'danger', text: '削除処理に失敗しました。' }
+        ])
+        expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
       })
     })
   })

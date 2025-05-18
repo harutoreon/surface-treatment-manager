@@ -54,6 +54,7 @@ describe('カテゴリー登録で', () => {
     it('登録が成功すること', async () => {
       const mockCategory = {
         data: {
+          id: 1,
           item: 'test item',
           summary: 'test summary'
         }
@@ -68,6 +69,10 @@ describe('カテゴリー登録で', () => {
       await summaryTextArea.setValue('test summary')
       await wrapper.find('form').trigger('submit.prevent')
 
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'success', text: 'カテゴリーを1件登録しました。' }
+      ])
       expect(router.push).toHaveBeenCalledWith(`/categories/${mockCategory.id}`)
     })
   })
