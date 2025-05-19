@@ -1,10 +1,12 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const emit = defineEmits(['message'])
 const route = useRoute()
+const router = useRouter()
 const makers = ref([])
 const currentPage = ref(Number(route.query.page) || 1)
 const totalPages = ref(1)
@@ -17,7 +19,10 @@ const fetchMakerList = async () => {
     currentPage.value = data.current_page
     totalPages.value = data.total_pages
   } catch (error) {
-    console.error('Get maker list failed')
+    if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: 'メーカーリストの取得に失敗しました。' })
+      router.replace({ name: 'NotFound' })
+    }
   }
 }
 
