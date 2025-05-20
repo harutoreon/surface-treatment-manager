@@ -53,7 +53,12 @@ onMounted(() => {
         </div>
       </div>
 
-      <RouterLink v-for="maker in makers" v-bind:key="maker.id" class="list-group-item list-group-item-action" v-bind:to="`/makers/${maker.id}`">
+      <RouterLink
+        v-for="maker in makers"
+        v-bind:key="maker.id"
+        class="list-group-item list-group-item-action"
+        v-bind:to="`/makers/${maker.id}`"
+      >
         <div class="d-flex justify-content-between">
           <h6>{{ maker.name }}</h6>
           <small>{{ maker.phone_number }}</small>
