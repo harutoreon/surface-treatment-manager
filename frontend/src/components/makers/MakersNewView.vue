@@ -4,6 +4,7 @@ import axios from 'axios'
 import router from '@/router'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const emit = defineEmits(['message'])
 const maker = ref('')
 const name = ref('')
 const postalCode = ref('')
@@ -30,6 +31,7 @@ const makerRegistration = async () => {
       }
     })
     maker.value = response.data
+    emit('message', { type: 'success', text: 'メーカー情報を1件登録しました。' })
     router.push(`/makers/${maker.value.id}`)
   } catch (error) {
     errorMessage.value = '入力に不備があります。'

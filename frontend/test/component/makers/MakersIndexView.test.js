@@ -1,15 +1,22 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { mount, RouterLinkStub } from '@vue/test-utils'
+import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import MakersIndexView from '@/components/makers/MakersIndexView.vue'
 import axios from 'axios'
 
 vi.mock('axios')
+
+const replaceMock = vi.fn()
 
 vi.mock('vue-router', () => {
   return {
     useRoute: () => {
       return {
         query: { page: '1' }
+      }
+    },
+    useRouter: () => {
+      return {
+        replace: replaceMock
       }
     }
   }
@@ -22,67 +29,19 @@ describe('MakersIndexView', () => {
     axios.get.mockResolvedValue({ 
       data: { 
         makers: [
-          {
-            "id": 1,
-            "name": "有限会社中野銀行",
-            "postal_code": "962-0713",
-            "address": "東京都渋谷区神南1-2-0",
-            "phone_number": "070-3288-2552",
-            "fax_number": "070-2623-8399",
-          },
-          {
-            "id": 2,
-            "name": "坂本建設有限会社",
-            "postal_code": "652-0812",
-            "address": "東京都渋谷区神南1-2-1",
-            "phone_number": "070-2977-0116",
-            "fax_number": "090-2701-9505",
-          },
-          {
-            "id": 3,
-            "name": "合同会社中村食品",
-            "postal_code": "950-2073",
-            "address": "東京都渋谷区神南1-2-2",
-            "phone_number": "080-3109-7360",
-            "fax_number": "070-2929-9663",
-          },
-          {
-            "id": 4,
-            "name": "合名会社武田印刷",
-            "postal_code": "007-0870",
-            "address": "東京都渋谷区神南1-2-3",
-            "phone_number": "080-7349-8615",
-            "fax_number": "080-3489-8988",
-          },
-          {
-            "id": 5,
-            "name": "中川食品有限会社",
-            "postal_code": "990-0810",
-            "address": "東京都渋谷区神南1-2-4",
-            "phone_number": "080-7508-7472",
-            "fax_number": "080-8725-9443",
-          },
-          {
-            "id": 6,
-            "name": "河野電気株式会社",
-            "postal_code": "780-0932",
-            "address": "東京都渋谷区神南1-2-5",
-            "phone_number": "070-6431-8311",
-            "fax_number": "080-1287-6419",
-          },
-          {
-            "id": 7,
-            "name": "小山食品合同会社",
-            "postal_code": "649-2602",
-            "address": "東京都渋谷区神南1-2-6",
-            "phone_number": "090-6097-5063",
-            "fax_number": "090-2418-6666",
-          },
+          { "id": 1, "name": "有限会社中野銀行" },
+          { "id": 2, "name": "坂本建設有限会社" },
+          { "id": 3, "name": "合同会社中村食品" },
+          { "id": 4, "name": "合名会社武田印刷" },
+          { "id": 5, "name": "中川食品有限会社" },
+          { "id": 6, "name": "河野電気株式会社" },
+          { "id": 7, "name": "小山食品合同会社" },
         ],
         current_page: 1,
         total_pages: 1
       }
-    }),
+    })
+
     wrapper = mount(MakersIndexView, {
       global: {
         stubs: {
@@ -135,6 +94,70 @@ describe('MakersIndexView', () => {
 
       expect(links[8].props().to).toBe('/makers/new')
       expect(links[9].props().to).toBe('/home')
+    })
+  })
+  
+  describe('API通信', () => {
+    describe('メーカーリストの取得に成功した場合', () => {
+      it('取得した分のメーカーリストが表示されること', async () => {
+        axios.get.mockResolvedValue({
+          data: {
+            makers: [
+              { "id": 1, "name": "有限会社中野銀行" },
+              { "id": 2, "name": "坂本建設有限会社" },
+              { "id": 3, "name": "合同会社中村食品" },
+              { "id": 4, "name": "合名会社武田印刷" },
+              { "id": 5, "name": "中川食品有限会社" },
+              { "id": 6, "name": "河野電気株式会社" },
+              { "id": 7, "name": "小山食品合同会社" },
+            ]
+          }
+        })
+
+        const wrapper = mount(MakersIndexView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
+
+        await flushPromises()
+
+        expect(wrapper.text()).toContain('有限会社中野銀行')
+        expect(wrapper.text()).toContain('坂本建設有限会社')
+        expect(wrapper.text()).toContain('合同会社中村食品')
+        expect(wrapper.text()).toContain('合名会社武田印刷')
+        expect(wrapper.text()).toContain('中川食品有限会社')
+        expect(wrapper.text()).toContain('河野電気株式会社')
+        expect(wrapper.text()).toContain('小山食品合同会社')
+      })
+    })
+
+    describe('メーカーリストの取得に失敗した場合', () => {
+      it('404ページに遷移すること', async () => {
+        axios.get.mockRejectedValue({
+          response: {
+            status: 404
+          }
+        })
+
+        const wrapper = mount(MakersIndexView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
+
+        await flushPromises()
+
+        expect(wrapper.emitted()).toHaveProperty('message')
+        expect(wrapper.emitted().message[0]).toEqual([
+          { type: 'danger', text: 'メーカーリストの取得に失敗しました。' }
+        ])
+        expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
+      })
     })
   })  
 })
