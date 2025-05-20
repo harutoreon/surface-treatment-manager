@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const emit = defineEmits(['message'])
 const route = useRoute()
 const router = useRouter()
 const maker = ref('')
@@ -15,6 +16,7 @@ const fetchMakerData = async (id) => {
     maker.value = response.data
   } catch (error) {
     if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: 'メーカー情報の取得に失敗しました。' })
       router.replace({ name: 'NotFound' })
     }
   }
@@ -33,6 +35,7 @@ const makerUpdate = async () => {
       manufacturer_rep: maker.value.manufacturer_rep
     })
     maker.value = response.data
+    emit('message', { type: 'success', text: 'メーカー情報を更新しました。' })
     router.push(`/makers/${maker.value.id}`)
   } catch (error) {
     errorMessage.value = '入力に不備があります。'
