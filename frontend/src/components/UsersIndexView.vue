@@ -1,10 +1,11 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue'
 import axios from 'axios'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
-
+const router = useRouter()
+const emit = defineEmits(['message'])
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const users = ref([])
 const currentPage = ref(Number(route.query.page) || 1)
@@ -18,7 +19,10 @@ const fetchUserList = async () => {
     currentPage.value = data.current_page
     totalPages.value = data.total_pages
   } catch (error) {
-    console.error('Get user list failed')
+    if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: 'ユーザーリストの取得に失敗しました。' })
+      router.replace({ name: 'NotFound' })
+    }
   }
 }
 
