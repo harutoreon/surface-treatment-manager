@@ -4,6 +4,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const emit = defineEmits(['message'])
 const user = ref([])
 const route = useRoute()
 const router = useRouter()
@@ -13,7 +14,10 @@ const fetchUserInformation = async (id) => {
     const response = await axios.get(`${API_BASE_URL}/users/${id}`)
     user.value = response.data
   } catch (error) {
-    console.error('Get user information failed')
+    if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: 'ユーザー情報の取得に失敗しました。' })
+      router.replace({ name: 'NotFound' })
+    }
   }
 }
 
@@ -23,9 +27,13 @@ const handleDelete = async () => {
 
   try {
     await axios.delete(`${API_BASE_URL}/users/${route.params.id}`)
+    emit('message', { type: 'success', text: 'ユーザー情報を削除しました。' })
     router.push('/users')
   } catch (error) {
-    console.error('削除処理に失敗しました', error)
+    if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: 'ユーザー情報の削除に失敗しました。' })
+      router.replace({ name: 'NotFound' })
+    }
   }
 }
 
