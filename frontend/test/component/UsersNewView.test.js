@@ -1,22 +1,28 @@
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import UsersNewView from '@/components/UsersNewView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import axios from 'axios'
-import router from '@/router'
 
 const context = describe
 
 vi.mock('axios')
-vi.mock('@/router', () => ({
-  default: {
-    push: vi.fn()
-  },
-}))
+
+const pushMock = vi.fn()
+
+vi.mock('vue-router', () => {
+  return {
+    useRouter: () => {
+      return {
+        push: pushMock
+      }
+    }
+  }
+})
 
 describe('UsersNewView', () => {
   let wrapper
 
-  beforeEach(() => {
+  beforeEach(async () => {
     wrapper = mount(UsersNewView, {
       global: {
         stubs: {
@@ -27,6 +33,8 @@ describe('UsersNewView', () => {
         }
       }
     })
+
+    await flushPromises()
   })
 
   describe('コンポーネントのレンダリング', () => {
@@ -51,6 +59,7 @@ describe('UsersNewView', () => {
       it('ユーザー情報の登録に成功すること', async () => {
         const mockUser = {
           data: {
+            id: 1,
             name: 'sample user',
             department: '開発部',
             password: 'password',
@@ -71,7 +80,11 @@ describe('UsersNewView', () => {
 
         await wrapper.find('form').trigger('submit.prevent')
 
-        expect(router.push).toHaveBeenCalledWith(`/users/${mockUser.id}`)
+        expect(wrapper.emitted()).toHaveProperty('message')
+        expect(wrapper.emitted().message[0]).toEqual([
+          { type: 'success', text: 'ユーザー情報を登録しました。' }
+        ])
+        expect(pushMock).toHaveBeenCalledWith(`/users/${mockUser.id}`)
       })
     })
 
