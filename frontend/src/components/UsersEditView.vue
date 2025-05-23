@@ -5,6 +5,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 const errorMessage = ref('')
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const emit = defineEmits(['message'])
 
 const user = ref({
   name: '',
@@ -40,6 +41,7 @@ const userUpdate = async () => {
 
     const response = await axios.patch(`${API_BASE_URL}/users/${user.value.id}`, updateData)
     user.value = response.data
+    emit('message', { type: 'success', text: 'ユーザー情報を更新しました。' })
     router.push(`/users/${user.value.id}`)
   } catch (error) {
     errorMessage.value = '入力に不備があります。'
@@ -51,7 +53,10 @@ const fetchUserInformation = async () => {
     const response = await axios.get(`${API_BASE_URL}/users/${route.params.id}`)
     user.value = response.data
   } catch (error) {
-    console.error('Get user information failed')
+    if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: 'ユーザー情報の取得に失敗しました。' })
+      router.replace({ name: 'NotFound' })
+    }
   }
 }
 
@@ -67,7 +72,7 @@ onMounted(() => {
 
     <form v-on:submit.prevent="userUpdate">
       <label class="form-label" for="user_name">ユーザー名</label>
-      <input class="form-control mb-3" type="text" v-model="user.name" id="user_name" required>
+      <input class="form-control mb-3" type="text" v-model="user.name" id="user_name" required />
 
       <label class="form-label" for="user_department">部署名</label>
       <select class="form-select mb-3" v-model="user.department" id="user_department" required>

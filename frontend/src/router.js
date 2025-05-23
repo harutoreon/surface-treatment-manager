@@ -15,7 +15,6 @@ import MakersIndexView from './components/makers/MakersIndexView.vue'
 import MakersShowView from './components/makers/MakersShowView.vue'
 import MakersNewView from './components/makers/MakersNewView.vue'
 import MakersEditView from './components/makers/MakersEditView.vue'
-import NotFound from './components/NotFound.vue'
 import SamplesIndexView from './components/samples/SamplesIndexView.vue'
 import SamplesShowView from './components/samples/SamplesShowView.vue'
 import SamplesNewView from './components/samples/SamplesNewView.vue'
@@ -25,6 +24,7 @@ import StaticPagesCategoryView from './components/static_pages/StaticPagesCatego
 import StaticPagesMakerView from './components/static_pages/StaticPagesMakerView.vue'
 import SearchResultsView from './components/search_results/SearchResultsView.vue'
 import SearchResultsListView from './components/search_results/SearchResultsListView.vue'
+import NotFound from './components/NotFound.vue'
 
 const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : createWebHistory()
 
@@ -44,7 +44,6 @@ const routes = [
   { path: '/makers/:id', component: MakersShowView, meta: { title: 'Maker Show' } },
   { path: '/makers/new', component: MakersNewView, meta: { title: 'Maker New' } },
   { path: '/makers/:id/edit', component: MakersEditView, meta: { title: 'Maker Edit' } },
-  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound, meta: { title: 'NotFound (404)' } },
   { path: '/samples', component: SamplesIndexView, meta: { title: 'Sample Index' }},
   { path: '/samples/:id', component: SamplesShowView, meta: { title: 'Sample Show' } },
   { path: '/samples/new', component: SamplesNewView, meta: { title: 'Sample New' } },
@@ -59,6 +58,7 @@ const routes = [
     meta: { title: "Search Results" }
   },
   { path: '/list_search_results', component: SearchResultsListView, meta: { title: 'Search Results' } },
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound, meta: { title: 'NotFound (404)' } },
 ]
 
 const router = createRouter({
