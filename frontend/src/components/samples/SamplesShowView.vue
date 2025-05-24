@@ -156,7 +156,4 @@ onMounted(() => {
 p {
   cursor: pointer;
 }
-.custom-width {
-  width: 45%;
-}
 </style>
