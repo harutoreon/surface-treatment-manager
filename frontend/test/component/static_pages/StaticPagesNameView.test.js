@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { flushPromises, mount } from '@vue/test-utils'
+import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import StaticPagesNameView from '@/components/static_pages/StaticPagesNameView.vue'
 
 const pushMock = vi.fn()
@@ -25,8 +25,16 @@ describe('StaticPagesNameView', () => {
   describe('DOMの構造', () => {
     let wrapper
 
-    beforeEach(() => {
-      wrapper = mount(StaticPagesNameView)
+    beforeEach(async () => {
+      wrapper = mount(StaticPagesNameView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
     })
 
     it('見出しが存在すること', () => {
@@ -45,23 +53,31 @@ describe('StaticPagesNameView', () => {
     })
 
     it('外部リンクが存在すること', () => {
-      expect(wrapper.find('a').exists()).toBe(true)
-      expect(wrapper.find('a').text()).toBe('メインメニューへ')
-      expect(wrapper.find('a').attributes('href')).toBe('/home')
+      expect(wrapper.findComponent(RouterLinkStub).exists()).toBe(true)
+      expect(wrapper.findComponent(RouterLinkStub).text()).toBe('メインメニューへ')
+      expect(wrapper.findComponent(RouterLinkStub).props().to).toBe('/home')
     })
   })
 
   describe('API通信', () => {
     describe('有効な検索文字列を入力して送信した場合', () => {
       it('/static_pages/name/search_resultsページに遷移すること', async () => {
-        const wrapper = mount(StaticPagesNameView)
+        const wrapper = mount(StaticPagesNameView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
+
+        await flushPromises()
 
         await wrapper.find('input').setValue('めっき')
+        
         expect(wrapper.find('input').element.value).toBe('めっき')
 
         await wrapper.find('form').trigger('submit.prevent')
-        await flushPromises()
-
+        
         expect(pushMock).toHaveBeenCalledWith({
           name: 'SearchResults',
           params: { searchMethod: 'name' },
