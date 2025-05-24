@@ -2,14 +2,17 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import MakersNewView from '@/components/makers/MakersNewView.vue'
 import axios from 'axios'
-import router from '@/router'
+
+const pushMock = vi.fn()
 
 vi.mock('axios')
 
-vi.mock('@/router', () => {
+vi.mock('vue-router', () => {
   return {
-    default: {
-      push: vi.fn()
+    useRouter: () => {
+      return {
+        push: pushMock
+      }
     }
   }
 })
@@ -110,7 +113,7 @@ describe('MakersNewView', () => {
         expect(wrapper.emitted().message[0]).toEqual([
           { type: 'success', text: 'メーカー情報を1件登録しました。' }
         ])
-        expect(router.push).toHaveBeenCalledWith('/makers/1')
+        expect(pushMock).toHaveBeenCalledWith('/makers/1')
       })
     })
 
