@@ -2,14 +2,17 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import SamplesNewView from '@/components/samples/SamplesNewView.vue'
 import axios from 'axios'
-import router from '@/router'
+
+const pushMock = vi.fn()
 
 vi.mock('axios')
 
-vi.mock('@/router', () => {
+vi.mock('vue-router', () => {
   return {
-    default: {
-      push: vi.fn()
+    useRouter: () => {
+      return {
+        push: pushMock
+      }
     }
   }
 })
@@ -125,7 +128,7 @@ describe('SamplesNewView', () => {
         expect(wrapper.emitted().message[0]).toEqual([
           { type: 'success', text: '表面処理情報を1件登録しました。' }
         ])
-        expect(router.push).toHaveBeenCalledWith('/samples/1')
+        expect(pushMock).toHaveBeenCalledWith('/samples/1')
       })
     })
 

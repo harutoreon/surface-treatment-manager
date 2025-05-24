@@ -1,9 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import router from './router'
+import { useRouter } from 'vue-router'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const router = useRouter()
 const user = ref(null)
 const messageType = ref('')
 const message = ref('')
