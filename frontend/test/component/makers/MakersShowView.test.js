@@ -181,8 +181,17 @@ describe('MakersShowView', () => {
       it('404ページに遷移すること', async () => {
         vi.spyOn(window, 'confirm').mockReturnValue(true)
 
-        axios.get.mockRejectedValue({
-          response: { 
+        axios.get.mockResolvedValue({
+          data: { 
+            id: 1,
+            name: '有限会社中野銀行',
+            postal_code: '962-0713',
+            address: '東京都渋谷区神南1-2-0',
+            phone_number: '070-3288-2552',
+            fax_number: '070-2623-8399',
+            email: 'sample_maker0@example.com',
+            home_page: 'https://example.com/sample_maker0',
+            manufacturer_rep: '宮本 悠斗'
           }
         })
 
