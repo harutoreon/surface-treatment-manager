@@ -58,6 +58,7 @@ const handleDelete = async () => {
 
   try {
     await axios.delete(`${API_BASE_URL}/samples/${route.params.id}`)
+    emit('message', { type: 'success', text: '表面処理情報を削除しました。' })
     router.push('/samples')
   } catch (error) {
     if (error.response && error.response.status === 404) {
@@ -147,7 +148,7 @@ onMounted(() => {
       <p v-on:click="handleDelete" class="text-primary text-decoration-underline" id="link_sample_destroy">
         表面処理情報の削除
       </p>
-      <RouterLink to="/home" id="link_home">メインメニューへ</RouterLink>
+      <RouterLink to="/samples" id="link_samples">表面処理リストへ</RouterLink>
     </div>
   </div>
 </template>
