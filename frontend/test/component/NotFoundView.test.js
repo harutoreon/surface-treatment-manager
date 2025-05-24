@@ -1,19 +1,24 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import NotFound from '@/components/NotFound.vue'
-import router from '@/router'
 
-router.push = vi.fn()
+const pushMock = vi.fn()
+
+vi.mock('vue-router', () => {
+  return {
+    useRouter: () => {
+      return {
+        push: pushMock
+      }
+    }
+  }
+})
 
 describe('NotFound', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = mount(NotFound, {
-      global: {
-        plugins: [router]
-      }
-    })
+    wrapper = mount(NotFound)
   })
 
   describe('DOMの構造', () => {
@@ -40,8 +45,8 @@ describe('NotFound', () => {
     it('「ホームに戻る」ボタンを押すと/homeが呼び出されること', async () => {
       await wrapper.find('button').trigger('click')
 
-      expect(router.push).toHaveBeenCalledWith('/home')
-      expect(router.push).toHaveBeenCalledTimes(1)
+      expect(pushMock).toHaveBeenCalledWith('/home')
+      expect(pushMock).toHaveBeenCalledTimes(1)
     })
   })
 })
