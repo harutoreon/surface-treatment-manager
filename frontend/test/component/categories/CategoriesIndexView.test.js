@@ -2,9 +2,20 @@ import { describe, it, expect, vi } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import CategoriesIndexView from '@/components/categories/CategoriesIndexView.vue'
 import axios from 'axios'
-import router from '@/router'
+
+const replaceMock = vi.fn()
 
 vi.mock('axios')
+
+vi.mock('vue-router', () => {
+  return {
+    useRouter: () => {
+      return {
+        replace: replaceMock
+      }
+    }
+  }
+})
 
 describe('CategoriesIndexView', () => {
   describe('コンポーネントのレンダリング', () => {
@@ -94,8 +105,6 @@ describe('CategoriesIndexView', () => {
           }
         })
 
-        router.replace = vi.fn()
-
         const wrapper = mount(CategoriesIndexView, {
           global: {
             stubs: {
@@ -110,7 +119,7 @@ describe('CategoriesIndexView', () => {
         expect(wrapper.emitted().message[0]).toEqual([
           { type: 'danger', text: 'カテゴリーの取得に失敗しました。' }
         ])
-        expect(router.replace).toHaveBeenCalledWith({ name: 'NotFound' })
+        expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
       })
     })
   })

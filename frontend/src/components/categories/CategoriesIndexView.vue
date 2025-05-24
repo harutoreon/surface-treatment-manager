@@ -1,10 +1,11 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import axios from 'axios'
-import router from '@/router'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
+const router = useRouter()
 const categories = ref([])
 
 function replaceStringWithEllipsis() {
