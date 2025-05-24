@@ -2,14 +2,17 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount, RouterLinkStub } from '@vue/test-utils'
 import CategoriesNewView from '@/components/categories/CategoriesNewView.vue'
 import axios from 'axios'
-import router from '@/router'
+
+const pushMock = vi.fn()
 
 vi.mock('axios')
 
-vi.mock('@/router', () => {
+vi.mock('vue-router', () => {
   return {
-    default: {
-      push: vi.fn()
+    useRouter: () => {
+      return {
+        push: pushMock
+      }
     }
   }
 })
@@ -73,7 +76,7 @@ describe('カテゴリー登録で', () => {
       expect(wrapper.emitted().message[0]).toEqual([
         { type: 'success', text: 'カテゴリーを1件登録しました。' }
       ])
-      expect(router.push).toHaveBeenCalledWith(`/categories/${mockCategory.id}`)
+      expect(pushMock).toHaveBeenCalledWith(`/categories/${mockCategory.id}`)
     })
   })
 
