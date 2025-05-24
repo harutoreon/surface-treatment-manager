@@ -1,8 +1,11 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const emit = defineEmits(['message'])
+const router = useRouter()
 const samplesWithImage = ref([])
 const samplesWithoutImage = ref([])
 
@@ -16,7 +19,10 @@ const fetchSearchResults = async () => {
       samplesWithImage.value.push(response.data)
     }    
   } catch (error) {
-    console.error('検索結果の取得に失敗しました', error)
+    if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: 'サンプルの取得に失敗しました。' })
+      router.replace({ name: 'NotFound' })
+    }
   }
 }
 
