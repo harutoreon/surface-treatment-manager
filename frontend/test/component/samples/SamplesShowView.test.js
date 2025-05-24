@@ -92,7 +92,7 @@ describe('SamplesShowView', () => {
     it('外部リンクが表示されること', () => {
       expect(wrapper.find('#link_sample_edit').text()).toBe('表面処理情報の編集')
       expect(wrapper.find('#link_sample_destroy').text()).toBe('表面処理情報の削除')
-      expect(wrapper.find('#link_home').text()).toBe('メインメニューへ')
+      expect(wrapper.find('#link_samples').text()).toBe('表面処理リストへ')
     })
   })
 
@@ -246,9 +246,26 @@ describe('SamplesShowView', () => {
     })
 
     describe('表面処理の削除選択でOKを押した場合', () => {
-      it('axios.deleteが実行されること', async () => {
-        const spy = vi.spyOn(window, 'confirm').mockReturnValue(true)
-        axios.delete = vi.fn()
+      it('削除成功のメッセージが表示され表面処理リストのページに遷移する', async () => {
+        vi.spyOn(window, 'confirm').mockReturnValue(true)
+        
+        axios.get
+          .mockResolvedValueOnce({
+            data: {
+              id: 1,
+              name: '無電解ニッケルめっき',
+              category: 'めっき',
+              color: 'イエローブラウンシルバー',
+              maker: '小島印刷合同会社',
+              hardness: 'HV700',
+              film_thickness: '5μm',
+              feature: '耐摩耗性',
+              image_url: 'http://example.com/sample.jpg',
+            }
+          })
+          .mockResolvedValueOnce({ 
+            data: []
+          })
 
         const wrapper = mount(SamplesShowView, {
           global: {
@@ -261,17 +278,18 @@ describe('SamplesShowView', () => {
         await flushPromises()
 
         await wrapper.find('#link_sample_destroy').trigger('click')
-        await flushPromises()
 
-        expect(spy.mock.results[0].value).toBe(true)
-        expect(axios.delete).toHaveBeenCalled()
+        expect(wrapper.emitted()).toHaveProperty('message')
+        expect(wrapper.emitted().message[0]).toEqual([
+          { type: 'success', text: '表面処理情報を削除しました。' }
+        ])
         expect(pushMock).toHaveBeenCalledWith('/samples')
       })
     })
     
     describe('表面処理の削除選択でキャンセルを押した場合', () => {
-      it('axios.deleteが実行されないこと', async () => {
-        const spy = vi.spyOn(window, 'confirm').mockReturnValue(false)
+      it('削除処理は実行されずページ遷移も行われないこと', async () => {
+        vi.spyOn(window, 'confirm').mockReturnValue(false)
         axios.delete = vi.fn()
   
         const wrapper = mount(SamplesShowView, {
@@ -285,10 +303,9 @@ describe('SamplesShowView', () => {
         await flushPromises()
   
         await wrapper.find('#link_sample_destroy').trigger('click')
-        await flushPromises()
   
-        expect(spy.mock.results[0].value).toBe(false)
         expect(axios.delete).not.toHaveBeenCalled()
+        expect(wrapper.find('h3').text()).toBe('表面処理情報')
       })
     })
 
