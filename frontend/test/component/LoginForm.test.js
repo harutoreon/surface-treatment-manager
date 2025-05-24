@@ -2,16 +2,21 @@ import { mount } from '@vue/test-utils'
 import LoginForm from '@/components/LoginForm.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import axios from 'axios'
-import router from '@/router'
 
 const context = describe
+const pushMock = vi.fn()
 
 vi.mock('axios')
-vi.mock('@/router', () => ({
-  default: {
-    push: vi.fn()
-  },
-}))
+
+vi.mock('vue-router', () => {
+  return {
+    useRouter: () => {
+      return {
+        push: pushMock
+      }
+    }
+  }
+})
 
 describe('LoginForm.vue', () => {
   context ('有効な認証情報を入力した場合', () => {
@@ -39,7 +44,7 @@ describe('LoginForm.vue', () => {
         }
       ])
 
-      expect(router.push).toHaveBeenCalledWith('/home')
+      expect(pushMock).toHaveBeenCalledWith('/home')
     })
   })
 
