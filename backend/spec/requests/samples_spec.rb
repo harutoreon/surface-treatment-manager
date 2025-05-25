@@ -55,7 +55,6 @@ RSpec.describe "Samples API", type: :request do
       expect(json).to include(:category)
       expect(json).to include(:color)
       expect(json).to include(:maker)
-      # expect(json).to include(:picture)
       expect(json).to include(:hardness)
       expect(json).to include(:film_thickness)
       expect(json).to include(:feature)
@@ -118,7 +117,6 @@ RSpec.describe "Samples API", type: :request do
                                              category: "表面硬化",
                                              color: "マゼンタ",
                                              maker: "有限会社松本農林",
-                                            #  picture: Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')),
                                              image: nil,
                                              hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
                                              film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
