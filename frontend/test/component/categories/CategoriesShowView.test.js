@@ -8,11 +8,12 @@ vi.mock('axios')
 const replaceMock = vi.fn()
 const pushMock = vi.fn()
 
-vi.mock('vue-router', async () => {
-  const actual = await vi.importActual('vue-router')
+// vi.mock('vue-router', async () => {
+vi.mock('vue-router', () => {
+  // const actual = await vi.importActual('vue-router')
 
   return {
-    ...actual,
+    // ...actual,
     useRoute: () => {
       return {
         params: { id: 1 }
