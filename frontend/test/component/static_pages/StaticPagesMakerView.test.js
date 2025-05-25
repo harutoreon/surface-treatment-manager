@@ -4,11 +4,8 @@ import StaticPagesMakerView from '@/components/static_pages/StaticPagesMakerView
 
 const pushMock = vi.fn()
 
-vi.mock('vue-router', async () => {
-  const actual = await vi.importActual('vue-router')
-
+vi.mock('vue-router', () => {
   return {
-    ...actual,
     useRouter: () => {
       return {
         push: pushMock
