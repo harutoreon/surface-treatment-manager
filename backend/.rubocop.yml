@@ -93,3 +93,16 @@ RSpec/EmptyLineAfterHook:
 
 RSpec/EmptyLineAfterExampleGroup:
   Enabled: true
+
+RSpec/ExpectInHook:
+  Enabled: true
+
+RSpec/ExampleLength:
+  Enabled: true
+  Max: 10
+
+RSpec/HookArgument:
+  Enabled: true
+
+RSpec/LetBeforeExamples:
+  Enabled: true
