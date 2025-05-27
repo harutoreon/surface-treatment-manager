@@ -74,6 +74,12 @@ Style/EmptyMethod:
 Rails:
   Enabled: false
 
+Rails/HasManyOrHasOneDependent:
+  Enabled: true
+
+Rails/Validation:
+  Enabled: true
+
 #################### RSpec ####################
 
 RSpec:
@@ -81,48 +87,9 @@ RSpec:
 
 RSpec/EmptyLineAfterExample:
   Enabled: true
-  Exclude:
-    # - 'spec/system/categories_management_flow_spec.rb'
-    - 'spec/system/comments_management_flow_spec.rb'
-    # - 'spec/system/header_click_events_spec.rb'
-    - 'spec/system/links_button_flow_spec.rb'
-    - 'spec/system/login_user_select_spec.rb'
-    # - 'spec/system/makers_management_flow_spec.rb'
-    - 'spec/system/picture_size_spec.rb'
-    # - 'spec/system/samples_management_flow_spec.rb'
-    # - 'spec/system/samples_search_flow_spec.rb'
-    - 'spec/system/user_login_spec.rb'
-    - 'spec/system/user_logout_flow_spec.rb'
-    # - 'spec/system/users_management_flow_spec.rb'
 
 RSpec/EmptyLineAfterHook:
   Enabled: true
-  Exclude:
-    # - 'spec/system/categories_management_flow_spec.rb'
-    - 'spec/system/comments_management_flow_spec.rb'
-    # - 'spec/system/header_click_events_spec.rb'
-    - 'spec/system/links_button_flow_spec.rb'
-    - 'spec/system/login_user_select_spec.rb'
-    # - 'spec/system/makers_management_flow_spec.rb'
-    - 'spec/system/picture_size_spec.rb'
-    # - 'spec/system/samples_management_flow_spec.rb'
-    # - 'spec/system/samples_search_flow_spec.rb'
-    - 'spec/system/user_login_spec.rb'
-    - 'spec/system/user_logout_flow_spec.rb'
-    # - 'spec/system/users_management_flow_spec.rb'
 
 RSpec/EmptyLineAfterExampleGroup:
   Enabled: true
-  Exclude:
-    # - 'spec/system/categories_management_flow_spec.rb'
-    - 'spec/system/comments_management_flow_spec.rb'
-    # - 'spec/system/header_click_events_spec.rb'
-    - 'spec/system/links_button_flow_spec.rb'
-    - 'spec/system/login_user_select_spec.rb'
-    # - 'spec/system/makers_management_flow_spec.rb'
-    - 'spec/system/picture_size_spec.rb'
-    # - 'spec/system/samples_management_flow_spec.rb'
-    # - 'spec/system/samples_search_flow_spec.rb'
-    - 'spec/system/user_login_spec.rb'
-    - 'spec/system/user_logout_flow_spec.rb'
-    # - 'spec/system/users_management_flow_spec.rb'
