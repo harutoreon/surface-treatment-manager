@@ -39,8 +39,7 @@ Layout:
 
 #################### Metrics ####################
 
-Metrics:
-  Enabled: false
+# without
 
 #################### Migration ####################
 
@@ -57,9 +56,6 @@ Metrics:
 #################### Style ####################
 
 Style:
-  Enabled: false
-
-Style/AsciiComments:
   Enabled: false
 
 Style/EmptyMethod:
