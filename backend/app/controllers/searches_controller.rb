@@ -6,7 +6,8 @@ class SearchesController < ApplicationController
     render json: {
       samples: samples,
       keyword: keyword
-    }
+    },
+    status: :ok
   end
 
   def category_search
@@ -16,7 +17,8 @@ class SearchesController < ApplicationController
     render json: {
       samples: samples,
       keyword: keyword
-    }
+    },
+    status: :ok
   end
 
   def maker_search
@@ -26,12 +28,13 @@ class SearchesController < ApplicationController
     render json: {
       samples: samples,
       keyword: keyword
-    }
+    },
+    status: :ok
   end
 
   def list_search
     samples = Sample.order(:id)
 
-    render json: samples
+    render json: samples, status: :ok
   end
 end

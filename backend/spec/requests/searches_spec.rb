@@ -6,9 +6,9 @@ RSpec.describe "Searches", type: :request do
   end
 
   describe '#name_search' do
-    it 'レスポンスのステータスがsuccessであること' do
+    it 'レスポンスのステータスがokであること' do
       get '/name_search'
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'レスポンスのjsonに:samplesと:keywordが含まれていること' do
@@ -22,9 +22,9 @@ RSpec.describe "Searches", type: :request do
   end
 
   describe '#category_search' do
-    it 'レスポンスのステータスがsuccessであること' do
+    it 'レスポンスのステータスがokであること' do
       get '/category_search'
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'レスポンスのjsonに:samplesと:keywordが含まれていること' do
@@ -39,9 +39,9 @@ RSpec.describe "Searches", type: :request do
   end
 
   describe '#maker_search' do
-    it 'レスポンスのステータスがsuccessであること' do
+    it 'レスポンスのステータスがokであること' do
       get '/maker_search'
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'レスポンスのjsonに:samplesと:keywordが含まれていること' do
@@ -56,9 +56,9 @@ RSpec.describe "Searches", type: :request do
   end
 
   describe '#list_search' do
-    it 'レスポンスのステータスがsuccessであること' do
+    it 'レスポンスのステータスがokであること' do
       get '/list_search'
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'レスポンスのjsonにサンプルが5件含まれていること' do
