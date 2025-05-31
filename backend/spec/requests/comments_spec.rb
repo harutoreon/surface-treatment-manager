@@ -8,9 +8,9 @@ RSpec.describe "Comments API", type: :request do
       @comment = Comment.first
     end
 
-    it 'レスポンスのステータスがsuccessであること' do
+    it 'レスポンスのステータスがokであること' do
       get "/samples/#{@comment.sample_id}/comments"
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'コメントの件数が10件返ること' do
@@ -26,9 +26,9 @@ RSpec.describe "Comments API", type: :request do
       @comment = FactoryBot.create(:comment)
     end
 
-    it 'レスポンスのステータスがsuccessであること' do
+    it 'レスポンスのステータスがokであること' do
       get "/samples/#{@comment.sample_id}/comments/#{@comment.id}"
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'コメントの詳細が返ること' do
@@ -93,6 +93,11 @@ RSpec.describe "Comments API", type: :request do
     end
 
     context '有効なコメント情報で更新したとき' do
+      it 'レスポンスのステータスがokであること' do
+        patch "/samples/#{@comment.sample_id}/comments/#{@comment.id}",params: { comment: { commenter: 'sample user' } }
+        expect(response).to have_http_status(:ok)
+      end
+
       it 'commenterがsample userで更新されること' do
         patch "/samples/#{@comment.sample_id}/comments/#{@comment.id}",params: { comment: { commenter: 'sample user' } }
         json = JSON.parse(response.body, symbolize_names: true)
@@ -118,6 +123,16 @@ RSpec.describe "Comments API", type: :request do
     before do
       FactoryBot.create(:sample)
       @comment = FactoryBot.create(:comment)
+    end
+
+    it 'レスポンスのステータスがno_contentであること' do
+      delete "/samples/#{@comment.sample_id}/comments/#{@comment.id}"
+      expect(response).to have_http_status(:no_content)
+    end
+
+    it 'レスポンスのbodyが空であること' do
+      delete "/samples/#{@comment.sample_id}/comments/#{@comment.id}"
+      expect(response.body).to be_blank
     end
 
     it 'コメントが1件削除されること' do
