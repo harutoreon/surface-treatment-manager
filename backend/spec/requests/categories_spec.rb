@@ -6,9 +6,9 @@ RSpec.describe "Categories API", type: :request do
       @category = FactoryBot.create(:category)
     end
 
-    it 'レスポンスのステータスがsuccessであること' do
+    it 'レスポンスのステータスがokであること' do
       get "/categories"
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'カテゴリーリストが1件返ること' do
@@ -23,9 +23,9 @@ RSpec.describe "Categories API", type: :request do
       @category = FactoryBot.create(:category)
     end
 
-    it 'レスポンスのステータスがsuccessであること' do
+    it 'レスポンスのステータスがokであること' do
       get "/categories/#{@category.id}"
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'カテゴリー情報が返ること' do
@@ -82,6 +82,11 @@ RSpec.describe "Categories API", type: :request do
     end
 
     context '有効なカテゴリー情報で更新したとき' do
+      it 'レスポンスのステータスがokであること' do
+        patch "/categories/#{@category.id}", params: { category: { item: 'sample category' } }
+        expect(response).to have_http_status(:ok)
+      end
+
       it 'itemがsample categoryで更新されること' do
         patch "/categories/#{@category.id}", params: { category: { item: 'sample category' } }
         json = JSON.parse(response.body, symbolize_names: true)
@@ -106,6 +111,11 @@ RSpec.describe "Categories API", type: :request do
   describe '#destroy' do
     before do
       @category = FactoryBot.create(:category)
+    end
+
+    it 'レスポンスのステータスがno_contentであること' do
+      delete "/categories/#{@category.id}"
+      expect(response).to have_http_status(:no_content)
     end
 
     it 'カテゴリーの削除に成功すること' do
