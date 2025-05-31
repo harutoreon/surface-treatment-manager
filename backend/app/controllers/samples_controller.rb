@@ -10,34 +10,34 @@ class SamplesController < ApplicationController
   end
 
   def show
-    @sample = Sample.find(params[:id])
+    sample = Sample.find(params[:id])
 
-    render json: @sample, methods: [:image_url]
+    render json: sample, methods: [:image_url]
   end
 
   def create
-    @sample = Sample.new(sample_params)
+    sample = Sample.new(sample_params)
 
-    if @sample.save
-      render json: @sample, status: :created, location: @sample
+    if sample.save
+      render json: sample, status: :created, location: sample
     else
-      render json: @sample.errors, status: :unprocessable_entity
+      render json: sample.errors, status: :unprocessable_entity
     end
   end
 
   def update
-    @sample = Sample.find(params[:id])
+    sample = Sample.find(params[:id])
 
-    if @sample.update(sample_params)
-      render json: @sample
+    if sample.update(sample_params)
+      render json: sample
     else
-      render json: @sample.errors, status: :unprocessable_entity
+      render json: sample.errors, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @sample = Sample.find(params[:id])
-    @sample.destroy
+    sample = Sample.find(params[:id])
+    sample.destroy
     
     head :no_content
   end
