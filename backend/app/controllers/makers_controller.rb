@@ -3,14 +3,17 @@ class MakersController < ApplicationController
     makers = Maker.paginate(page: params[:page], per_page: 7)
 
     render json: {
-      makers: makers, current_page: makers.current_page, total_pages: makers.total_pages
-    }
+      makers: makers,
+      current_page: makers.current_page,
+      total_pages: makers.total_pages
+    },
+    status: :ok
   end
 
   def show
     maker = Maker.find(params[:id])
 
-    render json: maker
+    render json: maker, status: :ok
   end
 
   def create
@@ -27,7 +30,7 @@ class MakersController < ApplicationController
     maker = Maker.find(params[:id])
 
     if maker.update(maker_params)
-      render json: maker
+      render json: maker, status: :ok
     else
       render json: maker.errors, status: :unprocessable_entity
     end
@@ -36,6 +39,7 @@ class MakersController < ApplicationController
   def destroy
     maker = Maker.find(params[:id])
     maker.destroy
+    head :no_content
   end
 
   private

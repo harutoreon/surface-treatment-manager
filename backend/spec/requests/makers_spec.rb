@@ -6,9 +6,9 @@ RSpec.describe "Makers API", type: :request do
       FactoryBot.create_list(:maker_list, 7)
     end
 
-    it 'レスポンスのステータスがsuccessであること' do
+    it 'レスポンスのステータスがokであること' do
       get "/makers"
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'レスポンスのmakersは7件であること' do
@@ -35,9 +35,9 @@ RSpec.describe "Makers API", type: :request do
       @maker = FactoryBot.create(:maker)
     end
 
-    it 'レスポンスのステータスがsuccessであること' do
+    it 'レスポンスのステータスがokであること' do
       get "/makers/#{@maker.id}"
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'メーカー情報が返ること' do
@@ -105,6 +105,11 @@ RSpec.describe "Makers API", type: :request do
     end
 
     context '有効なメーカー情報で更新したとき' do
+      it 'レスポンスのステータスがokであること' do
+        patch "/makers/#{@maker.id}", params: { maker: { name: 'sample maker' } }
+        expect(response).to have_http_status(:ok)
+      end
+
       it 'nameがsample makerで更新されること' do
         patch "/makers/#{@maker.id}", params: { maker: { name: 'sample maker' } }
         json = JSON.parse(response.body, symbolize_names: true)
@@ -129,6 +134,16 @@ RSpec.describe "Makers API", type: :request do
   describe '#destroy' do
     before do
       @maker = FactoryBot.create(:maker)
+    end
+
+    it 'レスポンスのステータスがno_contentであること' do
+      delete "/makers/#{@maker.id}"
+      expect(response).to have_http_status(:no_content)
+    end
+
+    it 'レスポンスの本文が空であること' do
+      delete "/makers/#{@maker.id}"
+      expect(response.body).to be_blank
     end
 
     it 'メーカーの削除に成功すること' do
