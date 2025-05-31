@@ -2,13 +2,13 @@ class CategoriesController < ApplicationController
   def index
     categories = Category.all
 
-    render json: categories
+    render json: categories, status: :ok
   end
 
   def show
     category = Category.find(params[:id])
 
-    render json: category
+    render json: category, status: :ok
   end
 
   def create
@@ -25,7 +25,7 @@ class CategoriesController < ApplicationController
     category = Category.find(params[:id])
 
     if category.update(category_params)
-      render json: category
+      render json: category, status: :ok
     else
       render json: category.errors, status: :unprocessable_entity
     end
@@ -34,6 +34,7 @@ class CategoriesController < ApplicationController
   def destroy
     category = Category.find(params[:id])
     category.destroy
+    head :no_content
   end
 
   private

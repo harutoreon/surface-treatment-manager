@@ -4,13 +4,14 @@ class UsersController < ApplicationController
 
     render json: {
       users: users, current_page: users.current_page, total_pages: users.total_pages
-    }
+    },
+    status: :ok
   end
 
   def show
     user = User.find(params[:id])
 
-    render json: user
+    render json: user, status: :ok
   end
 
   def create
@@ -27,7 +28,7 @@ class UsersController < ApplicationController
     user = User.find(params[:id])
 
     if user.update(user_params)
-      render json: user
+      render json: user, status: :ok
     else
       render json: user.errors, status: :unprocessable_entity
     end
@@ -36,6 +37,7 @@ class UsersController < ApplicationController
   def destroy
     user = User.find(params[:id])
     user.destroy
+    head :no_content
   end
 
   private

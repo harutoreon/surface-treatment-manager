@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
 
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
-      render json: { logged_in: true, user: user }
+      render json: { logged_in: true, user: user }, status: :ok
     else
       render json: { logged_in: false, error: 'Invalid name or password' }, status: :unprocessable_entity
     end
@@ -12,15 +12,15 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil
-    render json: { logged_in: false }
+    render json: { logged_in: false }, status: :ok
   end
 
   def logged_in?
     if session[:user_id]
       user = User.find(session[:user_id])
-      render json: { logged_in: true, user: user }
+      render json: { logged_in: true, user: user }, status: :ok
     else
-      render json: { logged_in: false }
-    end  
+      render json: { logged_in: false }, status: :ok
+    end
   end
 end
