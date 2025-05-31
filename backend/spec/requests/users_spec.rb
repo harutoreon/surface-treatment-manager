@@ -134,6 +134,11 @@ RSpec.describe "Users API", type: :request do
       expect(response).to have_http_status(:no_content)
     end
 
+    it 'レスポンスの本文が空であること' do
+      delete "/users/#{@user.id}"
+      expect(response.body).to be_blank
+    end
+
     it 'ユーザーの削除に成功すること' do
       expect { delete "/users/#{@user.id}" }.to change{ User.count }.from(1).to(0)
     end

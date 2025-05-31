@@ -118,6 +118,11 @@ RSpec.describe "Categories API", type: :request do
       expect(response).to have_http_status(:no_content)
     end
 
+    it 'レスポンスの本文が空であること' do
+      delete "/categories/#{@category.id}"
+      expect(response.body).to be_blank
+    end
+
     it 'カテゴリーの削除に成功すること' do
       expect { delete "/categories/#{@category.id}" }.to change{ Category.count }.from(1).to(0)
     end
