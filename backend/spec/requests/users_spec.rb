@@ -6,9 +6,9 @@ RSpec.describe "Users API", type: :request do
       FactoryBot.create_list(:user_list, 10)
     end
 
-    it 'レスポンスのステータスがsuccessであること' do
+    it 'レスポンスのステータスがokであること' do
       get "/users.json"
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'レスポンスのusersは10件であること' do
@@ -35,9 +35,9 @@ RSpec.describe "Users API", type: :request do
       @user = FactoryBot.create(:user)
     end
 
-    it 'レスポンスのステータスがsuccessであること' do
+    it 'レスポンスのステータスがokであること' do
       get "/users/#{@user.id}.json"
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'json形式のユーザー情報が返ること' do
@@ -98,6 +98,11 @@ RSpec.describe "Users API", type: :request do
     end
 
     context '有効なユーザー情報で更新したとき' do
+      it 'レスポンスのステータスがokであること' do
+        patch "/users/#{@user.id}", params: { user: { name: 'sample user' } }
+        expect(response).to have_http_status(:ok)
+      end
+
       it 'nameがsample userで更新されること' do
         patch "/users/#{@user.id}", params: { user: { name: 'sample user' } }
         json = JSON.parse(response.body, symbolize_names: true)
@@ -122,6 +127,11 @@ RSpec.describe "Users API", type: :request do
   describe '#destroy' do
     before do
       @user = FactoryBot.create(:sample_user)
+    end
+
+    it 'レスポンスのステータスがno_contentであること' do
+      delete "/users/#{@user.id}"
+      expect(response).to have_http_status(:no_content)
     end
 
     it 'ユーザーの削除に成功すること' do
