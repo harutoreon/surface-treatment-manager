@@ -6,13 +6,14 @@ class SamplesController < ApplicationController
       samples: samples,
       current_page: samples.current_page,
       total_pages: samples.total_pages
-    }
+    },
+    status: :ok
   end
 
   def show
     sample = Sample.find(params[:id])
 
-    render json: sample, methods: [:image_url]
+    render json: sample, status: :ok, methods: [:image_url]
   end
 
   def create
@@ -29,7 +30,7 @@ class SamplesController < ApplicationController
     sample = Sample.find(params[:id])
 
     if sample.update(sample_params)
-      render json: sample
+      render json: sample, status: :ok
     else
       render json: sample.errors, status: :unprocessable_entity
     end
@@ -38,7 +39,6 @@ class SamplesController < ApplicationController
   def destroy
     sample = Sample.find(params[:id])
     sample.destroy
-    
     head :no_content
   end
 

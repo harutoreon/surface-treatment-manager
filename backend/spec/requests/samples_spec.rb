@@ -6,9 +6,9 @@ RSpec.describe "Samples API", type: :request do
       FactoryBot.create_list(:sample_list, 10)
     end
 
-    it 'レスポンスのステータスがsuccessであること' do
+    it 'レスポンスのステータスがokであること' do
       get "/samples"
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'レスポンスにsamplesが含まれていること' do
@@ -42,9 +42,9 @@ RSpec.describe "Samples API", type: :request do
       FileUtils.rm_rf(ActiveStorage::Blob.service.root)
     end
 
-    it 'レスポンスのステータスがsuccessであること' do
+    it 'レスポンスのステータスがokであること' do
       get "/samples/#{@sample.id}" 
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'レスポンスに主要な属性がすべて含まれていること' do
@@ -140,6 +140,11 @@ RSpec.describe "Samples API", type: :request do
     end
 
     context '有効な表面処理情報で更新したとき' do
+      it 'レスポンスのステータスがokであること' do
+        patch "/samples/#{@sample.id}", params: { sample: { name: "ハードクロムめっき" } }
+        expect(response).to have_http_status(:ok)
+      end
+
       it 'nameがハードクロムめっきで更新されること' do
         patch "/samples/#{@sample.id}", params: { sample: { name: "ハードクロムめっき" } }
         json = JSON.parse(response.body, symbolize_names: true)
@@ -172,6 +177,11 @@ RSpec.describe "Samples API", type: :request do
     it 'レスポンスのステータスがno_contentであること' do
       delete "/samples/#{@sample.id}"      
       expect(response).to have_http_status(:no_content)
+    end
+
+    it 'レスポンスの本文が空であること' do
+      delete "/samples/#{@sample.id}"      
+      expect(response.body).to be_blank
     end
     
     it '表面処理の削除に成功すること' do
