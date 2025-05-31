@@ -1,16 +1,16 @@
 class CommentsController < ApplicationController
   def index
-    @sample = Sample.find(params[:sample_id])
-    @comments = @sample.comments
+    sample = Sample.find(params[:sample_id])
+    comments = sample.comments
 
-    render json: @comments
+    render json: comments
   end
 
   def show
-    @sample = Sample.find(params[:sample_id])
-    @comment = @sample.comments.find(params[:id])
+    sample = Sample.find(params[:sample_id])
+    comment = sample.comments.find(params[:id])
 
-    render json: @comment
+    render json: comment
   end
 
   def create
@@ -25,20 +25,20 @@ class CommentsController < ApplicationController
   end
 
   def update
-    @sample = Sample.find(params[:sample_id])
-    @comment = @sample.comments.find(params[:id])
+    sample = Sample.find(params[:sample_id])
+    comment = sample.comments.find(params[:id])
 
-    if @comment.update(comment_params)
-      render json: @comment
+    if comment.update(comment_params)
+      render json: comment
     else
-      render json: @comment.errors, status: :unprocessable_entity
+      render json: comment.errors, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @sample = Sample.find(params[:sample_id])
-    @comment = @sample.comments.find(params[:id])
-    @comment.destroy
+    sample = Sample.find(params[:sample_id])
+    comment = sample.comments.find(params[:id])
+    comment.destroy
   end
 
   private
