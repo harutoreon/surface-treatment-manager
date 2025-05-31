@@ -11,9 +11,9 @@ RSpec.describe "Sessions", type: :request do
         @valid_login_params = { name: 'general user', password: 'generalpassword' }
       end
 
-      it 'ステータスコードのレスポンスがsuccessであること' do
+      it 'ステータスコードのレスポンスがokであること' do
         post "/login", params: @valid_login_params
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:ok)
       end
 
       it 'セッションにgeneral userのidが登録されること' do
@@ -52,9 +52,15 @@ RSpec.describe "Sessions", type: :request do
       post "/login", params: { name: user.name, password: user.password }
     end
 
-    it 'レスポンスのステータスコードがsuccessであること' do
+    it 'レスポンスのステータスコードがokであること' do
       delete "/logout"
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'ログイン状態がfalseであること' do
+      delete "/logout"
+      json = JSON.parse(response.body, symbolize_names: true)
+      expect(json[:logged_in]).to eq(false)
     end
 
     it 'セッションのユーザーidが空であること' do
@@ -82,9 +88,9 @@ RSpec.describe "Sessions", type: :request do
         expect(json[:user][:id]).to eq(@user.id)
       end
 
-      it 'レスポンスのステータスコードがsuccessであること' do
+      it 'レスポンスのステータスコードがokであること' do
         get "/logged_in?"
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:ok)
       end
     end
 
@@ -95,9 +101,9 @@ RSpec.describe "Sessions", type: :request do
         expect(json[:logged_in]).to eq(false)
       end
 
-      it 'レスポンスのステータスがsuccessであること' do
+      it 'レスポンスのステータスがokであること' do
         get "/logged_in?"
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(:ok)
       end
     end
   end
