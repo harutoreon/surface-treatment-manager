@@ -58,8 +58,8 @@ onMounted(() => {
     </div>
 
     <div class="d-flex justify-content-evenly">
-      <RouterLink v-bind:to="`/users/${user.id}/edit`">ユーザー情報の編集</RouterLink>
-      <RouterLink to="/users">ユーザーリスト</RouterLink>
+      <RouterLink v-bind:to="`/users/${user.id}/edit`" ref="linkUsersEdit">ユーザー情報の編集</RouterLink>
+      <RouterLink to="/users" ref="linkUsers">ユーザーリスト</RouterLink>
       <p v-on:click="handleDelete" class="text-primary text-decoration-underline">
         ユーザーの削除
       </p>

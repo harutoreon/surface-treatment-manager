@@ -70,6 +70,11 @@ describe('UsersIndexView', () => {
       expect(wrapper.text()).toContain('前ページ')
       expect(wrapper.text()).toContain('次ページ')
     })
+
+    it('RouterLinkにto属性が設定されていること', () => {
+      expect(wrapper.findComponent({ ref: 'linkUsersNew' }).props().to).toBe('/users/new')
+      expect(wrapper.findComponent({ ref: 'linkHome' }).props().to).toBe('/home')
+    })
   })
 
   describe('API通信', () => {

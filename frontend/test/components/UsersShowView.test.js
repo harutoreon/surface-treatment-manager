@@ -58,6 +58,11 @@ describe('UsersShowView', () => {
       expect(elements[0].find('div:nth-child(2)').text()).toBe('test_user')
       expect(elements[1].find('div:nth-child(2)').text()).toBe('製造部')
     })
+
+    it('RouterLinkにto属性が設定されていること', () => {
+      expect(wrapper.findComponent({ ref: 'linkUsersEdit' }).props().to).toBe('/users/1/edit')
+      expect(wrapper.findComponent({ ref: 'linkUsers' }).props().to).toBe('/users')
+    })
   })
 
   describe('API通信', () => {

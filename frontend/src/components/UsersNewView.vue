@@ -66,6 +66,6 @@ const userRegistration = async () => {
     </form>
     <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">{{ errorMessage }}</p>
     
-    <RouterLink to="/users" class="d-flex justify-content-evenly">ユーザーリスト</RouterLink>
+    <RouterLink to="/users" class="d-flex justify-content-evenly" ref="linkUsersNew">ユーザーリスト</RouterLink>
   </div>
 </template>
