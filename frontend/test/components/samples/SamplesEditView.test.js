@@ -81,8 +81,8 @@ describe('SamplesEditView', () => {
       expect(wrapper.find('#label_sample_feature').exists()).toBe(true)
       expect(wrapper.find('#label_sample_feature').text()).toBe('特徴')
 
-      expect(wrapper.find('#label_sample_picture').exists()).toBe(true)
-      expect(wrapper.find('#label_sample_picture').text()).toBe('画像')
+      expect(wrapper.find('#label_sample_image').exists()).toBe(true)
+      expect(wrapper.find('#label_sample_image').text()).toBe('画像')
     })
 
     it('すべてのテキスト入力が存在すること', () => {
