@@ -8,7 +8,7 @@ const emit = defineEmits(['message'])
 const sample = ref('')
 const route = useRoute()
 const router = useRouter()
-const picture = ref(null)
+const image = ref(null)
 const errorMessage = ref('')
 
 const fetchSampleData = async (id) => {
@@ -34,8 +34,8 @@ const sampleUpdate = async () => {
     formData.append('sample[film_thickness]', sample.value.film_thickness)
     formData.append('sample[feature]', sample.value.feature)
 
-    if (picture.value) {
-      formData.append('sample[image]', picture.value)  
+    if (image.value) {
+      formData.append('sample[image]', image.value)  
     }
 
     const response = await axios.patch(`${API_BASE_URL}/samples/${route.params.id}`, formData, {
@@ -84,7 +84,7 @@ onMounted(() => {
       <label class="form-label" for="sample_feature" id="label_sample_feature">特徴</label>
       <input v-model="sample.feature" class="form-control mb-3" type="text" id="sample_feature" />
 
-      <label class="form-label" for="sample_picture" id="label_sample_picture">画像</label>
+      <label class="form-label" for="sample_image" id="label_sample_image">画像</label>
       <div>
         <img
           v-if="sample.image_url"
