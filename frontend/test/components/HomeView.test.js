@@ -53,24 +53,17 @@ describe('HomeView', () => {
     })
   })
 
-  describe('Link Behavior', () => {
-    it('リンク要素が9個あること', () => {
-      const links = wrapper.findAll('a')
-      expect(links.length).toBe(9)
-    })
-
-    it('各リンクのto属性に間違いがないこと', () => {
-      const links = wrapper.findAll('a')
-
-      expect(links[0].attributes('href')).toBe('/static_pages/name')
-      expect(links[1].attributes('href')).toBe('/static_pages/category')
-      expect(links[2].attributes('href')).toBe('/static_pages/maker')
-      expect(links[3].attributes('href')).toBe('/list_search_results')
-      expect(links[4].attributes('href')).toBe('/samples')
-      expect(links[5].attributes('href')).toBe('/categories')
-      expect(links[6].attributes('href')).toBe('/makers')
-      expect(links[7].attributes('href')).toBe('/users')
-      expect(links[8].attributes('href')).toBe('/settings')
+  describe('リンク要素', () => {
+    it('RouterLinkにto属性が設定されていること', () => {
+      expect(wrapper.findComponent({ ref: "linkSearchName" }).props().to).toBe('/static_pages/name')
+      expect(wrapper.findComponent({ ref: "linkSearchCategory" }).props().to).toBe('/static_pages/category')
+      expect(wrapper.findComponent({ ref: "linkSearchMaker" }).props().to).toBe('/static_pages/maker')
+      expect(wrapper.findComponent({ ref: "linkSearchList" }).props().to).toBe('/list_search_results')
+      expect(wrapper.findComponent({ ref: "linkManageSamples" }).props().to).toBe('/samples')
+      expect(wrapper.findComponent({ ref: "linkManageCategories" }).props().to).toBe('/categories')
+      expect(wrapper.findComponent({ ref: "linkManageMakers" }).props().to).toBe('/makers')
+      expect(wrapper.findComponent({ ref: "linkManageUsers" }).props().to).toBe('/users')
+      expect(wrapper.findComponent({ ref: "linkSettings" }).props().to).toBe('/settings')
     })
   })
 
