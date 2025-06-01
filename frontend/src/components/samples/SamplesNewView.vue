@@ -14,13 +14,13 @@ const maker = ref('')
 const hardness = ref('')
 const filmThickness = ref('')
 const feature = ref('')
-const picture = ref(null)
+const image = ref(null)
 const errorMessage = ref('')
 
 const handleFileChange = (event) => {
   const file = event.target.files[0]
   if (file) {
-    picture.value = file
+    image.value = file
 
     const reader = new FileReader()
     reader.onload = (e) => {
@@ -43,8 +43,8 @@ const sampleRegistration = async () => {
     formData.append('sample[hardness]', hardness.value)
     formData.append('sample[film_thickness]', filmThickness.value)
     formData.append('sample[feature]', feature.value)
-    if (picture.value) {
-      formData.append('sample[image]', picture.value)
+    if (image.value) {
+      formData.append('sample[image]', image.value)
     }
 
     const response = await axios.post(`${API_BASE_URL}/samples`, formData, {
@@ -96,13 +96,13 @@ const sampleRegistration = async () => {
       <label class="form-label" for="sample_feature" id="label_sample_feature">特徴</label>
       <input v-model="feature" class="form-control mb-3" type="text" id="sample_feature" />
 
-      <label class="form-label" for="sample_picture" id="label_sample_picture">画像</label>
+      <label class="form-label" for="sample_image" id="label_sample_image">画像</label>
       <div><img alt="No Image" class="mb-3" id="preview_image" width="200" height="200" src="" /></div>
       <input
         class="form-control mb-4"
         accept="image/jpeg,image/gif,image/png,image/jpg"
         type="file"
-        id="sample_picture"
+        id="sample_image"
         v-on:change="handleFileChange"
       />
 
