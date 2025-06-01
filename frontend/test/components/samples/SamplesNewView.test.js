@@ -103,14 +103,12 @@ describe('SamplesNewView', () => {
   describe('API通信', () => {
     describe('有効な情報を送信すると', () => {
       it('登録が成功すること', async () => {
-        const mockResponse = {
+        axios.post.mockResolvedValue({
           data: {
             id: 1,
             name: '無電解ニッケルめっき'
           }
-        }
-
-        axios.post.mockResolvedValue(mockResponse)
+        })
 
         const wrapper = mount(SamplesNewView, {
           global: {
