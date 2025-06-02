@@ -44,6 +44,6 @@ const categoryRegistration = async () => {
 
     <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">{{ errorMessage }}</p>
 
-    <RouterLink to="/categories" class="d-flex justify-content-evenly">カテゴリーリストへ</RouterLink>
+    <RouterLink to="/categories" class="d-flex justify-content-evenly" ref="linkCategories">カテゴリーリストへ</RouterLink>
   </div>
 </template>

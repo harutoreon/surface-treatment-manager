@@ -49,7 +49,17 @@ describe('CategoriesIndexView', () => {
   })
 
   describe('リンクの動作', () => {
-    it('メインメニューのリンクのto属性が/homeであること', async () => {
+    it('外部リンクが表示されること', async () => {
+      axios.get.mockResolvedValue({
+        data: [
+          { "id": 1, "item": "めっき" },
+          { "id": 2, "item": "陽極酸化" },
+          { "id": 3, "item": "化成" },
+          { "id": 4, "item": "コーティング" },
+          { "id": 5, "item": "表面硬化" }
+        ]
+      })
+
       const wrapper = mount(CategoriesIndexView, {
         global: {
           stubs: {
@@ -58,11 +68,12 @@ describe('CategoriesIndexView', () => {
         }
       })
 
-      const links = wrapper.findAllComponents(RouterLinkStub)
-      const link = links.find(element => element.text() === 'メインメニューへ')
+      await flushPromises()
 
-      expect(link).toBeDefined()
-      expect(link.props().to).toBe('/home')
+      expect(wrapper.findComponent({ ref: 'linkCategoriesNew' }).props().to).toBe('/categories/new')
+      expect(wrapper.findComponent({ ref: 'linkCategoriesNew' }).text()).toBe('カテゴリー情報の登録')
+      expect(wrapper.findComponent({ ref: 'linkHome' }).props().to).toBe('/home')
+      expect(wrapper.findComponent({ ref: 'linkHome' }).text()).toBe('メインメニューへ')
     })
   })
 

@@ -70,13 +70,13 @@ describe('CategoriesShowView', () => {
       expect(pElement.text()).toBe('カテゴリーの削除')
     })
 
-    it('RouterLinkのto属性が適切であること', async () => {
+    it('外部リンクが表示されること', async () => {
       await flushPromises()
 
-      const links = wrapper.findAllComponents(RouterLinkStub)
-
-      expect(links[0].props().to).toBe('/categories/1/edit')
-      expect(links[1].props().to).toBe('/categories')
+      expect(wrapper.findComponent({ ref: 'linkCategoriesEdit' }).props().to).toBe('/categories/1/edit')
+      expect(wrapper.findComponent({ ref: 'linkCategoriesEdit' }).text()).toBe('カテゴリー情報の編集')
+      expect(wrapper.findComponent({ ref: 'linkCategories' }).props().to).toBe('/categories')
+      expect(wrapper.findComponent({ ref: 'linkCategories' }).text()).toBe('カテゴリーリストへ')
     })
   })
 

@@ -43,12 +43,9 @@ describe('コンポーネントをレンダリングした時に、', () => {
     expect(wrapper.find('button').exists()).toBe(true)
   })
 
-  it('外部リンク「カテゴリーリストへ」が表示されること', () => {
-    expect(wrapper.findComponent(RouterLinkStub).text()).toBe('カテゴリーリストへ')
-  })
-
-  it('外部リンク「カテゴリーリストへ」のto属性は/categoriesであること', () => {
-    expect(wrapper.findComponent(RouterLinkStub).props().to).toBe('/categories')
+  it('外部リンクが表示されること', () => {
+    expect(wrapper.findComponent({ ref: 'linkCategories' }).props().to).toBe('/categories')
+    expect(wrapper.findComponent({ ref: 'linkCategories' }).text()).toBe('カテゴリーリストへ')
   })
 })
 

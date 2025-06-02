@@ -27,7 +27,7 @@ vi.mock('vue-router', async () => {
 describe('コンポーネントをレンダリングした時に、', () => {
   let wrapper
 
-  beforeEach(() => {
+  beforeEach(async () => {
     axios.get.mockResolvedValue({
       data: {
         id: 1,
@@ -43,6 +43,8 @@ describe('コンポーネントをレンダリングした時に、', () => {
         }
       }
     })
+
+    await flushPromises()
   })
   
   it('見出し「カテゴリー情報の編集」が表示されること', () => {
@@ -58,18 +60,11 @@ describe('コンポーネントをレンダリングした時に、', () => {
     expect(wrapper.find('button').exists()).toBe(true)
   })
 
-  it('外部リンク「カテゴリー情報」と「カテゴリーリストへ」が表示されること', () => {
-    const links = wrapper.findAllComponents(RouterLinkStub)
-
-    expect(links[0].text()).toBe('カテゴリー情報へ')
-    expect(links[1].text()).toBe('カテゴリーリストへ')
-  })
-
-  it('外部リンク「カテゴリーリストへ」のto属性は/categoriesであること', () => {
-    const links = wrapper.findAllComponents(RouterLinkStub)
-
-    expect(links[0].props().to).toBe('/categories/1')
-    expect(links[1].props().to).toBe('/categories')
+  it('外部リンクが表示されること', () => {
+    expect(wrapper.findComponent({ ref: 'linkCategoriesShow' }).props().to).toBe('/categories/1')
+    expect(wrapper.findComponent({ ref: 'linkCategoriesShow' }).text()).toBe('カテゴリー情報へ')
+    expect(wrapper.findComponent({ ref: 'linkCategories' }).props().to).toBe('/categories')
+    expect(wrapper.findComponent({ ref: 'linkCategories' }).text()).toBe('カテゴリーリストへ')
   })
 
   it('「カテゴリー名」と「概要」の値が表示されること', () => {
