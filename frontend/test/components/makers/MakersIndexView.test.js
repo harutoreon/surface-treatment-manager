@@ -23,35 +23,37 @@ vi.mock('vue-router', () => {
 })
 
 describe('MakersIndexView', () => {
-  let wrapper
-
-  beforeEach(() => {
-    axios.get.mockResolvedValue({ 
-      data: { 
-        makers: [
-          { "id": 1, "name": "有限会社中野銀行" },
-          { "id": 2, "name": "坂本建設有限会社" },
-          { "id": 3, "name": "合同会社中村食品" },
-          { "id": 4, "name": "合名会社武田印刷" },
-          { "id": 5, "name": "中川食品有限会社" },
-          { "id": 6, "name": "河野電気株式会社" },
-          { "id": 7, "name": "小山食品合同会社" },
-        ],
-        current_page: 1,
-        total_pages: 1
-      }
-    })
-
-    wrapper = mount(MakersIndexView, {
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
-      }
-    })
-  })
-
   describe('コンポーネントのレンダリング', () => {
+    let wrapper
+
+    beforeEach(async () => {
+      axios.get.mockResolvedValue({ 
+        data: { 
+          makers: [
+            { "id": 1, "name": "有限会社中野銀行" },
+            { "id": 2, "name": "坂本建設有限会社" },
+            { "id": 3, "name": "合同会社中村食品" },
+            { "id": 4, "name": "合名会社武田印刷" },
+            { "id": 5, "name": "中川食品有限会社" },
+            { "id": 6, "name": "河野電気株式会社" },
+            { "id": 7, "name": "小山食品合同会社" },
+          ],
+          current_page: 1,
+          total_pages: 1
+        }
+      })
+
+      wrapper = mount(MakersIndexView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
     it('見出し「メーカーリスト」が表示されること', () => {
       expect(wrapper.find('h3').text()).toBe('メーカーリスト')
     })
@@ -82,18 +84,11 @@ describe('MakersIndexView', () => {
       expect(aElement[0].text()).toBe('1')
     })
 
-    it('外部リンク「メーカー情報の登録」と「メインメニュー」が表示されること', () => {
-      const links = wrapper.findAllComponents(RouterLinkStub)
-
-      expect(links[8].text()).toBe('メーカー情報の登録')
-      expect(links[9].text()).toBe('メインメニューへ')
-    })
-
-    it('外部リンクのto属性に「#」と「/home」が設定されていること', () => {
-      const links = wrapper.findAllComponents(RouterLinkStub)
-
-      expect(links[8].props().to).toBe('/makers/new')
-      expect(links[9].props().to).toBe('/home')
+    it('外部リンクが表示されること', () => {
+      expect(wrapper.findComponent({ ref: 'linkMakersNew' }).props().to).toBe('/makers/new')
+      expect(wrapper.findComponent({ ref: 'linkMakersNew' }).text()).toBe('メーカー情報の登録')
+      expect(wrapper.findComponent({ ref: 'linkHome' }).props().to).toBe('/home')
+      expect(wrapper.findComponent({ ref: 'linkHome' }).text()).toBe('メインメニューへ')
     })
   })
   

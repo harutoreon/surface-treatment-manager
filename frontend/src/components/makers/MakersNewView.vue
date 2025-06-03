@@ -75,7 +75,7 @@ const makerRegistration = async () => {
     </form>
 
     <div class="d-flex justify-content-center">
-      <RouterLink to="/makers">メーカーリストへ</RouterLink>
+      <RouterLink to="/makers" ref="linkMakers">メーカーリストへ</RouterLink>
     </div>
   </div>
 </template>

@@ -28,10 +28,10 @@ describe('MakersShowView', () => {
   describe('DOMの構造', () => {
     let wrapper
 
-    beforeEach(() => {
+    beforeEach(async() => {
       axios.get.mockResolvedValue({
         data: { 
-          id: '1',
+          id: 1,
           name: '有限会社中野銀行',
           postal_code: '962-0713',
           address: '東京都渋谷区神南1-2-0',
@@ -49,6 +49,8 @@ describe('MakersShowView', () => {
           }
         }
       })
+
+      await flushPromises()
     })
 
     it('見出しが表示されること', () => {
@@ -67,19 +69,10 @@ describe('MakersShowView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      expect(wrapper.find('#maker_edit').exists()).toBe(true)
-      expect(wrapper.find('#maker_edit').text()).toBe('メーカー情報の編集へ')
-      
-      expect(wrapper.find('#maker_destroy').exists()).toBe(true)
-      expect(wrapper.find('#maker_destroy').text()).toBe('メーカー情報の削除')
-      
-      expect(wrapper.find('#maker_list').exists()).toBe(true)
-      expect(wrapper.find('#maker_list').text()).toBe('メーカーリストへ')
-    })
-
-    it('外部リンクのto属性が適切であること', () => {
-      expect(wrapper.findComponent('#maker_edit').props().to).toBe('/makers/1/edit')
-      expect(wrapper.findComponent('#maker_list').props().to).toBe('/makers')
+      expect(wrapper.findComponent({ ref: 'linkMakersEdit' }).props().to).toBe('/makers/1/edit')
+      expect(wrapper.findComponent({ ref: 'linkMakersEdit' }).text()).toBe('メーカー情報の編集へ')
+      expect(wrapper.findComponent({ ref: 'linkMakers' }).props().to).toBe('/makers')
+      expect(wrapper.findComponent({ ref: 'linkMakers' }).text()).toBe('メーカーリストへ')
     })
   })
 

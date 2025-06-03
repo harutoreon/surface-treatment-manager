@@ -93,11 +93,11 @@ onMounted(() => {
       </div>
 
       <div class="d-flex justify-content-evenly">
-        <RouterLink v-if="maker.id" v-bind:to="`/makers/${maker.id}/edit`" id="maker_edit">メーカー情報の編集へ</RouterLink>
+        <RouterLink v-if="maker.id" v-bind:to="`/makers/${maker.id}/edit`" ref="linkMakersEdit">メーカー情報の編集へ</RouterLink>
         <p v-on:click="handleDelete" class="text-primary text-decoration-underline" id="maker_destroy">
           メーカー情報の削除
         </p>
-        <RouterLink to="/makers" id="maker_list">メーカーリストへ</RouterLink>
+        <RouterLink to="/makers" ref="linkMakers">メーカーリストへ</RouterLink>
       </div>
     </div>
   </div>
