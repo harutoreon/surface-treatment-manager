@@ -96,7 +96,7 @@ describe('SamplesNewView', () => {
 
     it('外部リンクが存在すること', () => {
       expect(wrapper.findComponent({ ref: 'linkSamples' }).props().to).toBe('/samples')
-
+      expect(wrapper.findComponent({ ref: 'linkSamples' }).text()).toBe('表面処理リストへ')
     })
   })
 

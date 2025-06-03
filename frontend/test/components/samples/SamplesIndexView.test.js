@@ -26,7 +26,23 @@ describe('SamplesIndexView', () => {
   let wrapper
 
   describe('DOMの構造', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
+      axios.get.mockResolvedValue({
+        data: {
+          samples: [
+            { "id": 1, "name": "無電解ニッケルめっき" },
+            { "id": 2, "name": "白金めっき" },
+            { "id": 3, "name": "金めっき" },
+            { "id": 4, "name": "銀めっき" },
+            { "id": 5, "name": "銅めっき" },
+            { "id": 6, "name": "亜鉛めっき" },
+            { "id": 7, "name": "錫めっき" },
+          ],
+          curent_page: 1,
+          total_pages: 1
+        }
+      })
+      
       wrapper = mount(SamplesIndexView, {
         global: {
           stubs: {
@@ -34,6 +50,8 @@ describe('SamplesIndexView', () => {
           }
         }
       })
+
+      await flushPromises()
     })
 
     it('見出しが存在すること', () => {
@@ -53,14 +71,13 @@ describe('SamplesIndexView', () => {
     })
 
     it('外部リンクが存在すること', () => {
-      expect(wrapper.findComponent('#link_samples_new').text()).toBe('表面処理情報の登録')
-      expect(wrapper.findComponent('#link_samples_new').props().to).toBe('/samples/new')
-
-      expect(wrapper.findComponent('#link_home').text()).toBe('メインメニューへ')
-      expect(wrapper.findComponent('#link_home').props().to).toBe('/home')
+      expect(wrapper.findComponent({ ref: 'linkSamplesNew' }).text()).toBe('表面処理情報の登録')
+      expect(wrapper.findComponent({ ref: 'linkSamplesNew' }).props().to).toBe('/samples/new')
+      expect(wrapper.findComponent({ ref: 'linkHome' }).text()).toBe('メインメニューへ')
+      expect(wrapper.findComponent({ ref: 'linkHome' }).props().to).toBe('/home')
     })
   })
-
+    
   describe('API通信', () => {
     describe('表面処理リストの取得に成功した場合', () => {
       it('表面処理リストが7件表示されること', async () => {
