@@ -105,10 +105,10 @@ describe('MakersEditView', () => {
     })
 
     it('外部リンクが存在すること', () => {
-      expect(wrapper.findComponent({ref: 'linkMakersShow'}).text()).toBe('メーカー情報へ')
-      expect(wrapper.findComponent({ref: 'linkMakersShow'}).props().to).toBe('/makers/1')
-      expect(wrapper.findComponent({ref: 'linkMakers'}).text()).toBe('メーカーリストへ')
-      expect(wrapper.findComponent({ref: 'linkMakers'}).props().to).toBe('/makers')
+      expect(wrapper.findComponent({ ref: 'linkMakersShow' }).text()).toBe('メーカー情報へ')
+      expect(wrapper.findComponent({ ref: 'linkMakersShow' }).props().to).toBe('/makers/1')
+      expect(wrapper.findComponent({ ref: 'linkMakers' }).text()).toBe('メーカーリストへ')
+      expect(wrapper.findComponent({ ref: 'linkMakers' }).props().to).toBe('/makers')
     })
   })
 
