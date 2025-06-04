@@ -29,7 +29,7 @@ const submitSearch = () => {
       <button type="submit" class="btn btn-secondary form-control mb-5">検索</button>
     </form>
     <div>
-      <RouterLink to="/home">メインメニューへ</RouterLink>
+      <RouterLink to="/home" ref="linkHome">メインメニューへ</RouterLink>
     </div>
   </div>
 </template>

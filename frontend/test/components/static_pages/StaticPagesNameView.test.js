@@ -50,9 +50,9 @@ describe('StaticPagesNameView', () => {
     })
 
     it('外部リンクが存在すること', () => {
-      expect(wrapper.findComponent(RouterLinkStub).exists()).toBe(true)
-      expect(wrapper.findComponent(RouterLinkStub).text()).toBe('メインメニューへ')
-      expect(wrapper.findComponent(RouterLinkStub).props().to).toBe('/home')
+      expect(wrapper.findComponent({ ref: 'linkHome' }).exists()).toBe(true)
+      expect(wrapper.findComponent({ ref: 'linkHome' }).text()).toBe('メインメニューへ')
+      expect(wrapper.findComponent({ ref: 'linkHome' }).props().to).toBe('/home')
     })
   })
 
