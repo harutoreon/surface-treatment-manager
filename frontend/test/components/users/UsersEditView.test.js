@@ -1,4 +1,4 @@
-import UsersEditView from '@/components/UsersEditView.vue'
+import UsersEditView from '@/components/users/UsersEditView.vue'
 import { describe, it, expect, vi } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import axios from 'axios'

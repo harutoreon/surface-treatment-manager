@@ -1,4 +1,4 @@
-import UsersShowView from '@/components/UsersShowView.vue'
+import UsersShowView from '@/components/users/UsersShowView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import axios from 'axios'

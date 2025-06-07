@@ -1,4 +1,4 @@
-import UsersIndexView from '@/components/UsersIndexView.vue'
+import UsersIndexView from '@/components/users/UsersIndexView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import axios from 'axios'
