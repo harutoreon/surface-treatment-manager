@@ -4,7 +4,7 @@
 - PostgreSQL
 - RSpec
 - RuboCop
-- brakeman
+- Brakeman
 
 ## イメージの生成
 ```sh
