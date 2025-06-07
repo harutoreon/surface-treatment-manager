@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import HomeView from '@/components/HomeView.vue'
+import HomeView from '@/components/static_pages/HomeView.vue'
 import { describe, it, expect, beforeEach } from 'vitest'
 
 import experimentIcon from '@/assets/icons/experiment.svg'
