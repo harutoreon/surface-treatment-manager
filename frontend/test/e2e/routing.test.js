@@ -33,7 +33,7 @@ const routes = [
     meta: { title: "Search Results" }
   },
   { path: '/list_search_results', component: () => import('@/components/search_results/SearchResultsListView.vue'), meta: { title: 'Search Results' } },
-  { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/components/NotFound.vue'), meta: { title: 'NotFound (404)' } },
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/components/not_found/NotFound.vue'), meta: { title: 'NotFound (404)' } },
 ]
 
 function createAppRouter() {
