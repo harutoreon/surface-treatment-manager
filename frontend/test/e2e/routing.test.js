@@ -6,7 +6,7 @@ import App from '@/App.vue'
 const routes = [
   { path: '/', component: () => import('@/components/sessions/LoginView.vue'), meta: { title: 'Login' } },
   { path: '/home', component: () => import('@/components/static_pages/HomeView.vue'), meta: { title: 'Home' } },
-  { path: '/settings', component: () => import('@/components/SettingsView.vue'), meta: { title: 'Settings' }  },
+  { path: '/settings', component: () => import('@/components/settings/SettingsView.vue'), meta: { title: 'Settings' }  },
   { path: '/users', component: () => import('@/components/users/UsersIndexView.vue'), meta: { title: 'User Index' } },
   { path: '/users/:id', component: () => import('@/components/users/UsersShowView.vue'), meta: { title: 'User Show' } },
   { path: '/users/new', component: () => import('@/components/users/UsersNewView.vue'), meta: { title: 'User New' } },
