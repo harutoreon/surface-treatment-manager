@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, createMemoryHistory } from 'vue-router'
 
-import LoginForm from '@/components/LoginForm.vue'
+import LoginView from './components/sessions/LoginView.vue'
 import HomeView from '@/components/static_pages/HomeView.vue'
 import SettingsView from '@/components/SettingsView.vue'
 import UsersIndexView from '@/components/users/UsersIndexView.vue'
@@ -29,7 +29,7 @@ import NotFound from './components/NotFound.vue'
 const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : createWebHistory()
 
 const routes = [
-  { path: '/', component: LoginForm, meta: { title: 'Login' } },
+  { path: '/', component: LoginView, meta: { title: 'Login' } },
   { path: '/home', component: HomeView, meta: { title: 'Home' } },
   { path: '/settings', component: SettingsView, meta: { title: 'Settings' }  },
   { path: '/users', component: UsersIndexView, meta: { title: 'User Index' } },
