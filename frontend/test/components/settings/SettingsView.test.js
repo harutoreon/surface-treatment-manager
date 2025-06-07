@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import SettingsView from '@/components/SettingsView.vue'
+import SettingsView from '@/components/settings/SettingsView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 const context = describe

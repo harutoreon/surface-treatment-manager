@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
-import NotFound from '@/components/NotFound.vue'
+import NotFound from '@/components/not_found/NotFound.vue'
 
 const pushMock = vi.fn()
 

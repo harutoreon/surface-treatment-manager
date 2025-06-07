@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import LoginForm from '@/components/LoginForm.vue'
+import LoginView from '@/components/sessions/LoginView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import axios from 'axios'
 
@@ -24,7 +24,7 @@ describe('LoginForm.vue', () => {
       const mockUser = { id: 1, name: 'test_user' }
       axios.post.mockResolvedValue({ data: { user: mockUser } })
       
-      const wrapper = mount(LoginForm)
+      const wrapper = mount(LoginView)
       const nameInput = wrapper.find('input[type="text"]')
       const passwordInput = wrapper.find('input[type="password"]')
       
@@ -52,7 +52,7 @@ describe('LoginForm.vue', () => {
     it('ログインに失敗すること', async () => {
       axios.post.mockRejectedValue(new Error('Invalid credentials'))
       
-      const wrapper = mount(LoginForm)
+      const wrapper = mount(LoginView)
       await wrapper.find('form').trigger('submit.prevent')
       
       expect(wrapper.text()).toContain('ユーザー名またはパスワードが無効です')
@@ -63,7 +63,7 @@ describe('LoginForm.vue', () => {
     let wrapper
 
     beforeEach(() => {
-      wrapper = mount(LoginForm)
+      wrapper = mount(LoginView)
     })
 
     describe('管理者ユーザーのラジオボンタンを押した場合', () => {

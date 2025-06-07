@@ -4,13 +4,13 @@ import { describe, it, expect } from 'vitest'
 import App from '@/App.vue'
 
 const routes = [
-  { path: '/', component: () => import('@/components/LoginForm.vue'), meta: { title: 'Login' } },
-  { path: '/home', component: () => import('@/components/HomeView.vue'), meta: { title: 'Home' } },
-  { path: '/settings', component: () => import('@/components/SettingsView.vue'), meta: { title: 'Settings' }  },
-  { path: '/users', component: () => import('@/components/UsersIndexView.vue'), meta: { title: 'User Index' } },
-  { path: '/users/:id', component: () => import('@/components/UsersShowView.vue'), meta: { title: 'User Show' } },
-  { path: '/users/new', component: () => import('@/components/UsersNewView.vue'), meta: { title: 'User New' } },
-  { path: '/users/:id/edit', component: () => import('@/components/UsersEditView.vue'), meta: { title: 'User Edit' } },
+  { path: '/', component: () => import('@/components/sessions/LoginView.vue'), meta: { title: 'Login' } },
+  { path: '/home', component: () => import('@/components/static_pages/HomeView.vue'), meta: { title: 'Home' } },
+  { path: '/settings', component: () => import('@/components/settings/SettingsView.vue'), meta: { title: 'Settings' }  },
+  { path: '/users', component: () => import('@/components/users/UsersIndexView.vue'), meta: { title: 'User Index' } },
+  { path: '/users/:id', component: () => import('@/components/users/UsersShowView.vue'), meta: { title: 'User Show' } },
+  { path: '/users/new', component: () => import('@/components/users/UsersNewView.vue'), meta: { title: 'User New' } },
+  { path: '/users/:id/edit', component: () => import('@/components/users/UsersEditView.vue'), meta: { title: 'User Edit' } },
   { path: '/categories', component: () => import('@/components/categories/CategoriesIndexView.vue'), meta: { title: 'Category Index' } },
   { path: '/categories/:id', component: () => import('@/components/categories/CategoriesShowView.vue'), meta: { title: 'Category Show' } },
   { path: '/categories/new', component: () => import('@/components/categories/CategoriesNewView.vue'), meta: { title: 'Category New' } },
@@ -33,7 +33,7 @@ const routes = [
     meta: { title: "Search Results" }
   },
   { path: '/list_search_results', component: () => import('@/components/search_results/SearchResultsListView.vue'), meta: { title: 'Search Results' } },
-  { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/components/NotFound.vue'), meta: { title: 'NotFound (404)' } },
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/components/not_found/NotFound.vue'), meta: { title: 'NotFound (404)' } },
 ]
 
 function createAppRouter() {

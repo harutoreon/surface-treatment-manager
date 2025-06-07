@@ -1,5 +1,5 @@
 import { flushPromises, mount } from '@vue/test-utils'
-import UsersNewView from '@/components/UsersNewView.vue'
+import UsersNewView from '@/components/users/UsersNewView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import axios from 'axios'
 
