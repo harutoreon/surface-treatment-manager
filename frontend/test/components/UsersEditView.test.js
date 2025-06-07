@@ -50,11 +50,29 @@ describe('UsersEditView', () => {
       expect(wrapper.find('button[type="submit"]').exists()).toBe(true)
     })
 
-    it('「ユーザー情報」と「ユーザーリスト」のリンクが表示されること', () => {
-      const wrapper = mount(UsersEditView)
+    it('外部リンクが表示されること', async () => {
+      axios.get.mockResolvedValue({
+        data: {
+          id: 1,
+          name: 'test user',
+          department: '開発部'
+        }
+      })
 
-      expect(wrapper.find('routerlink[id="user_information"]').text()).toBe('ユーザー情報')
-      expect(wrapper.find('routerlink[id="user_list"]').text()).toBe('ユーザーリスト')
+      const wrapper = mount(UsersEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.findComponent({ ref: 'linkUsersShow' }).props().to).toBe('/users/1')
+      expect(wrapper.findComponent({ ref: 'linkUsersShow' }).text()).toBe('ユーザー情報')
+      expect(wrapper.findComponent({ ref: 'linkUsers' }).props().to).toBe('/users')
+      expect(wrapper.findComponent({ ref: 'linkUsers' }).text()).toBe('ユーザーリスト')
     })
   })
 

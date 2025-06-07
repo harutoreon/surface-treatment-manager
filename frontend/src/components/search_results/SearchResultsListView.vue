@@ -63,7 +63,7 @@ onMounted(() => {
     </div>
 
     <div class="d-flex justify-content-evenly mt-5 mb-5">
-      <RouterLink to="/home" id="link_home" ref="linkHome">メインメニューへ</RouterLink>
+      <RouterLink to="/home" ref="linkHome">メインメニューへ</RouterLink>
     </div>
   </div>
 </template>

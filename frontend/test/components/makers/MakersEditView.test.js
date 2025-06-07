@@ -28,7 +28,7 @@ describe('MakersEditView', () => {
   describe('DOMの構造', () => {
     let wrapper
 
-    beforeEach(() => {
+    beforeEach(async () => {
       axios.get.mockResolvedValue({
         data: {
           id: 1,
@@ -50,6 +50,8 @@ describe('MakersEditView', () => {
           }
         }
       })
+
+      await flushPromises()
     })
 
     it('見出しが存在すること', () => {
@@ -103,11 +105,10 @@ describe('MakersEditView', () => {
     })
 
     it('外部リンクが存在すること', () => {
-      expect(wrapper.findComponent('#maker_information').text()).toBe('メーカー情報へ')
-      expect(wrapper.findComponent('#maker_information').props().to).toBe('/makers/1')
-
-      expect(wrapper.findComponent('#maker_list').text()).toBe('メーカーリストへ')
-      expect(wrapper.findComponent('#maker_list').props().to).toBe('/makers')
+      expect(wrapper.findComponent({ ref: 'linkMakersShow' }).text()).toBe('メーカー情報へ')
+      expect(wrapper.findComponent({ ref: 'linkMakersShow' }).props().to).toBe('/makers/1')
+      expect(wrapper.findComponent({ ref: 'linkMakers' }).text()).toBe('メーカーリストへ')
+      expect(wrapper.findComponent({ ref: 'linkMakers' }).props().to).toBe('/makers')
     })
   })
 

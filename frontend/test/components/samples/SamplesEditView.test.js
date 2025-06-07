@@ -28,7 +28,7 @@ describe('SamplesEditView', () => {
   describe('DOMの構造', () => {
     axios.get.mockResolvedValue({
       data: {
-        id: 35,
+        id: 1,
         name: "無電解ニッケルめっき",
         category: "めっき",
         color: "コールド",
@@ -44,7 +44,7 @@ describe('SamplesEditView', () => {
 
     let wrapper
 
-    beforeEach(() => {
+    beforeEach(async () => {
       wrapper = mount(SamplesEditView, {
         global: {
           stubs: {
@@ -52,6 +52,8 @@ describe('SamplesEditView', () => {
           }
         }
       })
+
+      await flushPromises()
     })
 
     it('見出しが存在すること', () => {
@@ -105,13 +107,12 @@ describe('SamplesEditView', () => {
     })
 
     it('外部リンクが存在すること', () => {
-      expect(wrapper.find('#sample_show').exists()).toBe(true)
-      expect(wrapper.find('#sample_show').text()).toBe('表面処理情報へ')
-      expect(wrapper.findComponent('#sample_show').props().to).toBe('/samples/35')
-      
-      expect(wrapper.find('#sample_list').exists()).toBe(true)
-      expect(wrapper.find('#sample_list').text()).toBe('表面処理リストへ')
-      expect(wrapper.findComponent('#sample_list').props().to).toBe('/samples')
+      expect(wrapper.findComponent({ ref: 'linkSamplesEdit' }).exists()).toBe(true)
+      expect(wrapper.findComponent({ ref: 'linkSamplesEdit' }).text()).toBe('表面処理情報へ')
+      expect(wrapper.findComponent({ ref: 'linkSamplesEdit' }).props().to).toBe('/samples/1')      
+      expect(wrapper.findComponent({ ref: 'linkSamples' }).exists()).toBe(true)
+      expect(wrapper.findComponent({ ref: 'linkSamples' }).text()).toBe('表面処理リストへ')
+      expect(wrapper.findComponent({ ref: 'linkSamples' }).props().to).toBe('/samples')
     })    
   })
 

@@ -29,7 +29,7 @@ const submitSearch = () => {
       </button>
     </form>
     <div>
-      <RouterLink to="/home">メインメニューへ</RouterLink>
+      <RouterLink to="/home" ref="linkHome">メインメニューへ</RouterLink>
     </div>
   </div>
 </template>

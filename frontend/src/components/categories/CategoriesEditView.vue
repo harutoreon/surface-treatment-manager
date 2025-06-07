@@ -58,8 +58,8 @@ onMounted(() => {
     <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">{{ errorMessage }}</p>
 
     <div class="d-flex justify-content-evenly">
-      <RouterLink v-bind:to="`/categories/${category.id}`">カテゴリー情報へ</RouterLink>
-      <RouterLink to="/categories">カテゴリーリストへ</RouterLink>
+      <RouterLink v-bind:to="`/categories/${category.id}`" ref="linkCategoriesShow">カテゴリー情報へ</RouterLink>
+      <RouterLink to="/categories" ref="linkCategories">カテゴリーリストへ</RouterLink>
     </div>
   </div>  
 </template>

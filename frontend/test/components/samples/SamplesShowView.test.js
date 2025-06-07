@@ -28,7 +28,7 @@ describe('SamplesShowView', () => {
   describe('DOMの構造', () => {
     let wrapper
 
-    beforeEach(() => {
+    beforeEach(async () => {
       axios.get.mockReturnValue({
         data: {
           "id": 1,
@@ -52,6 +52,8 @@ describe('SamplesShowView', () => {
           }
         }
       })
+
+      await flushPromises()
     })
 
     it('見出しが表示されること', () => {
@@ -86,9 +88,10 @@ describe('SamplesShowView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      expect(wrapper.find('#link_sample_edit').text()).toBe('表面処理情報の編集')
-      expect(wrapper.find('#link_sample_destroy').text()).toBe('表面処理情報の削除')
-      expect(wrapper.find('#link_samples').text()).toBe('表面処理リストへ')
+      expect(wrapper.findComponent({ ref: 'linkSamplesEdit' }).props().to).toBe('/samples/1/edit')
+      expect(wrapper.findComponent({ ref: 'linkSamplesEdit' }).text()).toBe('表面処理情報の編集')
+      expect(wrapper.findComponent({ ref: 'linkSamples' }).props().to).toBe('/samples')
+      expect(wrapper.findComponent({ ref: 'linkSamples' }).text()).toBe('表面処理リストへ')
     })
   })
 

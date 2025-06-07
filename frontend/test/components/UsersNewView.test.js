@@ -49,8 +49,8 @@ describe('UsersNewView', () => {
       expect(wrapper.findAll('input[type="password"]').length).toBe(2)
     })
 
-    it('RouterLinkのto属性が/usersであること', () => {
-      expect(wrapper.find('a').attributes('href')).toBe('/users')
+    it('RouterLinkにto属性が設定されていること', () => {
+      expect(wrapper.findComponent({ ref: 'linkUsersNew' }).props().to).toBe('/users')
     })
   })
 

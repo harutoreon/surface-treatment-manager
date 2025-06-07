@@ -143,11 +143,11 @@ onMounted(() => {
     </div>
 
     <div class="d-flex justify-content-evenly mt-5 mb-5">
-      <RouterLink v-bind:to="`/samples/${sample.id}/edit`" id="link_sample_edit">表面処理情報の編集</RouterLink>
+      <RouterLink v-bind:to="`/samples/${sample.id}/edit`" ref="linkSamplesEdit">表面処理情報の編集</RouterLink>
       <p v-on:click="handleDelete" class="text-primary text-decoration-underline" id="link_sample_destroy">
         表面処理情報の削除
       </p>
-      <RouterLink to="/samples" id="link_samples">表面処理リストへ</RouterLink>
+      <RouterLink to="/samples" ref="linkSamples">表面処理リストへ</RouterLink>
     </div>
   </div>
 </template>
