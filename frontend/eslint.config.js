@@ -7,10 +7,6 @@ export default [
   {
     files: ['**/*.js', '**/*.vue'],
     languageOptions: {
-      // env: {
-      //   browser: true,
-      //   node: true
-      // },
       parser: vueParser,
       parserOptions: {
         parser: espree,
@@ -37,7 +33,11 @@ export default [
       'eqeqeq': ['warn', 'always'],
       'no-console': 'warn',
       'keyword-spacing': 'warn',
-      'space-before-function-paren': ['warn', 'always'],
+				"space-before-function-paren": ["warn", {
+				  "anonymous": "always",
+				  "named": "never",
+				  "asyncArrow": "always"
+				}],
       'space-infix-ops': 'warn',
       'comma-spacing': 'warn',
       'brace-style': ['warn', '1tbs'],
