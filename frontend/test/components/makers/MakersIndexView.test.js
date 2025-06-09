@@ -30,13 +30,13 @@ describe('MakersIndexView', () => {
       axios.get.mockResolvedValue({ 
         data: { 
           makers: [
-            { "id": 1, "name": "有限会社中野銀行" },
-            { "id": 2, "name": "坂本建設有限会社" },
-            { "id": 3, "name": "合同会社中村食品" },
-            { "id": 4, "name": "合名会社武田印刷" },
-            { "id": 5, "name": "中川食品有限会社" },
-            { "id": 6, "name": "河野電気株式会社" },
-            { "id": 7, "name": "小山食品合同会社" },
+            { id: 1, name: '有限会社中野銀行' },
+            { id: 2, name: '坂本建設有限会社' },
+            { id: 3, name: '合同会社中村食品' },
+            { id: 4, name: '合名会社武田印刷' },
+            { id: 5, name: '中川食品有限会社' },
+            { id: 6, name: '河野電気株式会社' },
+            { id: 7, name: '小山食品合同会社' },
           ],
           current_page: 1,
           total_pages: 1
@@ -98,13 +98,13 @@ describe('MakersIndexView', () => {
         axios.get.mockResolvedValue({
           data: {
             makers: [
-              { "id": 1, "name": "有限会社中野銀行" },
-              { "id": 2, "name": "坂本建設有限会社" },
-              { "id": 3, "name": "合同会社中村食品" },
-              { "id": 4, "name": "合名会社武田印刷" },
-              { "id": 5, "name": "中川食品有限会社" },
-              { "id": 6, "name": "河野電気株式会社" },
-              { "id": 7, "name": "小山食品合同会社" },
+              { id: 1, name: '有限会社中野銀行' },
+              { id: 2, name: '坂本建設有限会社' },
+              { id: 3, name: '合同会社中村食品' },
+              { id: 4, name: '合名会社武田印刷' },
+              { id: 5, name: '中川食品有限会社' },
+              { id: 6, name: '河野電気株式会社' },
+              { id: 7, name: '小山食品合同会社' },
             ]
           }
         })

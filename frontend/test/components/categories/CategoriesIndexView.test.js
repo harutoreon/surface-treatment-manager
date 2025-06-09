@@ -52,11 +52,11 @@ describe('CategoriesIndexView', () => {
     it('外部リンクが表示されること', async () => {
       axios.get.mockResolvedValue({
         data: [
-          { "id": 1, "item": "めっき" },
-          { "id": 2, "item": "陽極酸化" },
-          { "id": 3, "item": "化成" },
-          { "id": 4, "item": "コーティング" },
-          { "id": 5, "item": "表面硬化" }
+          { 'id': 1, 'item': 'めっき' },
+          { 'id': 2, 'item': '陽極酸化' },
+          { 'id': 3, 'item': '化成' },
+          { 'id': 4, 'item': 'コーティング' },
+          { 'id': 5, 'item': '表面硬化' }
         ]
       })
 
@@ -82,11 +82,11 @@ describe('CategoriesIndexView', () => {
       it('カテゴリーの一覧が表示されること', async () => {
         axios.get.mockResolvedValue({
           data: [
-            { "id": 1, "item": "めっき" },
-            { "id": 2, "item": "陽極酸化" },
-            { "id": 3, "item": "化成" },
-            { "id": 4, "item": "コーティング" },
-            { "id": 5, "item": "表面硬化" }
+            { 'id': 1, 'item': 'めっき' },
+            { 'id': 2, 'item': '陽極酸化' },
+            { 'id': 3, 'item': '化成' },
+            { 'id': 4, 'item': 'コーティング' },
+            { 'id': 5, 'item': '表面硬化' }
           ]
         })
 

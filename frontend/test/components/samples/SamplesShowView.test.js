@@ -31,17 +31,17 @@ describe('SamplesShowView', () => {
     beforeEach(async () => {
       axios.get.mockReturnValue({
         data: {
-          "id": 1,
-          "name": "無電解ニッケルめっき",
-          "category": "めっき",
-          "color": "イエローブラウンシルバー",
-          "maker": "小島印刷合同会社",
-          "created_at": "2025-02-23T22:15:29.815Z",
-          "updated_at": "2025-02-23T22:15:29.815Z",
-          "hardness": "析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度",
-          "film_thickness": "通常は3～5μm、厚めの場合は20～50μmまで可能",
-          "feature": "耐食性・耐摩耗性・耐薬品性・耐熱性",
-          "image_url": "http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg"
+          id: 1,
+          name: '無電解ニッケルめっき',
+          category: 'めっき',
+          color: 'イエローブラウンシルバー',
+          maker: '小島印刷合同会社',
+          created_at: '2025-02-23T22:15:29.815Z',
+          updated_at: '2025-02-23T22:15:29.815Z',
+          hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+          film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+          feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
+          image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg'
         }
       })
 
@@ -100,15 +100,15 @@ describe('SamplesShowView', () => {
       it('すべての情報が表示されること', async () => {
         axios.get.mockResolvedValue({
           data: {
-            "id": 1,
-            "name": "無電解ニッケルめっき",
-            "category": "めっき",
-            "color": "イエローブラウンシルバー",
-            "maker": "小島印刷合同会社",
-            "hardness": "析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度",
-            "film_thickness": "通常は3～5μm、厚めの場合は20～50μmまで可能",
-            "feature": "耐食性・耐摩耗性・耐薬品性・耐熱性",
-            "image_url": "http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg"
+            'id': 1,
+            'name': '無電解ニッケルめっき',
+            'category': 'めっき',
+            'color': 'イエローブラウンシルバー',
+            'maker': '小島印刷合同会社',
+            'hardness': '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+            'film_thickness': '通常は3～5μm、厚めの場合は20～50μmまで可能',
+            'feature': '耐食性・耐摩耗性・耐薬品性・耐熱性',
+            'image_url': 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg'
           }
         })
 
@@ -163,28 +163,28 @@ describe('SamplesShowView', () => {
       it('すべてのコメントが表示されること', async () => {
         const mockSampleResponse = {
           data: {
-            "id": 1,
-            "name": "無電解ニッケルめっき",
-            "category": "めっき",
-            "color": "イエローブラウンシルバー",
-            "maker": "小島印刷合同会社",
-            "hardness": "析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度",
-            "film_thickness": "通常は3～5μm、厚めの場合は20～50μmまで可能",
-            "feature": "耐食性・耐摩耗性・耐薬品性・耐熱性",
-            "image_url": "http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg"
+            'id': 1,
+            'name': '無電解ニッケルめっき',
+            'category': 'めっき',
+            'color': 'イエローブラウンシルバー',
+            'maker': '小島印刷合同会社',
+            'hardness': '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+            'film_thickness': '通常は3～5μm、厚めの場合は20～50μmまで可能',
+            'feature': '耐食性・耐摩耗性・耐薬品性・耐熱性',
+            'image_url': 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg'
           }
         }
 
         const mockSampleCommentResponse = {
           data: [
             {
-              "id": 1,
-              "commenter": "岡本 陽子",
-              "body": "表面の質感が滑らかで、触感が良好です。",
-              "sample_id": 1,
-              "created_at": "2025-02-23T22:15:30.030Z",
-              "updated_at": "2025-02-23T22:15:30.030Z",
-              "department": "営業部"
+              'id': 1,
+              'commenter': '岡本 陽子',
+              'body': '表面の質感が滑らかで、触感が良好です。',
+              'sample_id': 1,
+              'created_at': '2025-02-23T22:15:30.030Z',
+              'updated_at': '2025-02-23T22:15:30.030Z',
+              'department': '営業部'
             }
           ]
         }
