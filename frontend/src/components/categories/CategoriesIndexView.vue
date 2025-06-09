@@ -9,9 +9,9 @@ const router = useRouter()
 const categories = ref([])
 
 function replaceStringWithEllipsis() {
-  for (let i = 0; i < categories.value.length; i++) {
-    if (categories.value[i].summary.length > 10) {
-      categories.value[i].summary = categories.value[i].summary.slice(0, 10) + '...'  
+  for (const category of categories.value) {
+    if (category.summary.length > 10) {
+      category.summary = category.summary.slice(0, 10) + '...'
     }
   }
 }

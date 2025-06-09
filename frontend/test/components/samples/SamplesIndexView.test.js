@@ -30,13 +30,13 @@ describe('SamplesIndexView', () => {
       axios.get.mockResolvedValue({
         data: {
           samples: [
-            { "id": 1, "name": "無電解ニッケルめっき" },
-            { "id": 2, "name": "白金めっき" },
-            { "id": 3, "name": "金めっき" },
-            { "id": 4, "name": "銀めっき" },
-            { "id": 5, "name": "銅めっき" },
-            { "id": 6, "name": "亜鉛めっき" },
-            { "id": 7, "name": "錫めっき" },
+            { id: 1, name: '無電解ニッケルめっき' },
+            { id: 2, name: '白金めっき' },
+            { id: 3, name: '金めっき' },
+            { id: 4, name: '銀めっき' },
+            { id: 5, name: '銅めっき' },
+            { id: 6, name: '亜鉛めっき' },
+            { id: 7, name: '錫めっき' },
           ],
           curent_page: 1,
           total_pages: 1
@@ -84,13 +84,13 @@ describe('SamplesIndexView', () => {
         axios.get.mockResolvedValue({
           data: {
             samples: [
-              { "id": 1, "name": "無電解ニッケルめっき" },
-              { "id": 2, "name": "白金めっき" },
-              { "id": 3, "name": "金めっき" },
-              { "id": 4, "name": "銀めっき" },
-              { "id": 5, "name": "銅めっき" },
-              { "id": 6, "name": "亜鉛めっき" },
-              { "id": 7, "name": "錫めっき" },
+              { id: 1, name: '無電解ニッケルめっき' },
+              { id: 2, name: '白金めっき' },
+              { id: 3, name: '金めっき' },
+              { id: 4, name: '銀めっき' },
+              { id: 5, name: '銅めっき' },
+              { id: 6, name: '亜鉛めっき' },
+              { id: 7, name: '錫めっき' },
             ],
             curent_page: 1,
             total_pages: 1

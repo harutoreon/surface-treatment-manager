@@ -55,15 +55,15 @@ describe('HomeView', () => {
 
   describe('リンク要素', () => {
     it('RouterLinkにto属性が設定されていること', () => {
-      expect(wrapper.findComponent({ ref: "linkSearchName" }).props().to).toBe('/static_pages/name')
-      expect(wrapper.findComponent({ ref: "linkSearchCategory" }).props().to).toBe('/static_pages/category')
-      expect(wrapper.findComponent({ ref: "linkSearchMaker" }).props().to).toBe('/static_pages/maker')
-      expect(wrapper.findComponent({ ref: "linkSearchList" }).props().to).toBe('/list_search_results')
-      expect(wrapper.findComponent({ ref: "linkManageSamples" }).props().to).toBe('/samples')
-      expect(wrapper.findComponent({ ref: "linkManageCategories" }).props().to).toBe('/categories')
-      expect(wrapper.findComponent({ ref: "linkManageMakers" }).props().to).toBe('/makers')
-      expect(wrapper.findComponent({ ref: "linkManageUsers" }).props().to).toBe('/users')
-      expect(wrapper.findComponent({ ref: "linkSettings" }).props().to).toBe('/settings')
+      expect(wrapper.findComponent({ ref: 'linkSearchName' }).props().to).toBe('/static_pages/name')
+      expect(wrapper.findComponent({ ref: 'linkSearchCategory' }).props().to).toBe('/static_pages/category')
+      expect(wrapper.findComponent({ ref: 'linkSearchMaker' }).props().to).toBe('/static_pages/maker')
+      expect(wrapper.findComponent({ ref: 'linkSearchList' }).props().to).toBe('/list_search_results')
+      expect(wrapper.findComponent({ ref: 'linkManageSamples' }).props().to).toBe('/samples')
+      expect(wrapper.findComponent({ ref: 'linkManageCategories' }).props().to).toBe('/categories')
+      expect(wrapper.findComponent({ ref: 'linkManageMakers' }).props().to).toBe('/makers')
+      expect(wrapper.findComponent({ ref: 'linkManageUsers' }).props().to).toBe('/users')
+      expect(wrapper.findComponent({ ref: 'linkSettings' }).props().to).toBe('/settings')
     })
   })
 

@@ -28,7 +28,7 @@ describe('MakersShowView', () => {
   describe('DOMの構造', () => {
     let wrapper
 
-    beforeEach(async() => {
+    beforeEach(async () => {
       axios.get.mockResolvedValue({
         data: { 
           id: 1,

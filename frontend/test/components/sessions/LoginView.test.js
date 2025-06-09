@@ -19,7 +19,7 @@ vi.mock('vue-router', () => {
 })
 
 describe('LoginForm.vue', () => {
-  context ('有効な認証情報を入力した場合', () => {
+  context('有効な認証情報を入力した場合', () => {
     it('ログインに成功すること', async () => {
       const mockUser = { id: 1, name: 'test_user' }
       axios.post.mockResolvedValue({ data: { user: mockUser } })

@@ -30,7 +30,7 @@ const routes = [
     path: '/static_pages/:searchMethod(name|category|maker)/search_results',
     name: 'SearchResults',
     component: () => import('@/components/search_results/SearchResultsView.vue'),
-    meta: { title: "Search Results" }
+    meta: { title: 'Search Results' }
   },
   { path: '/list_search_results', component: () => import('@/components/search_results/SearchResultsListView.vue'), meta: { title: 'Search Results' } },
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/components/not_found/NotFound.vue'), meta: { title: 'NotFound (404)' } },

@@ -55,7 +55,7 @@ const routes = [
     path: '/static_pages/:searchMethod(name|category|maker)/search_results',
     name: 'SearchResults',
     component: SearchResultsView,
-    meta: { title: "Search Results" }
+    meta: { title: 'Search Results' }
   },
   { path: '/list_search_results', component: SearchResultsListView, meta: { title: 'Search Results' } },
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound, meta: { title: 'NotFound (404)' } },

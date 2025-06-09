@@ -28,7 +28,7 @@ const logout = async () => {
     await axios.delete(`${API_BASE_URL}/logout`)
     user.value = null
     router.push('/')
-  } catch (error) {
+  } catch {
     messageType.value = 'danger'
     message.value = 'ログアウト処理に失敗しました。'
   }
@@ -38,7 +38,7 @@ const checkLoginStatus = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/logged_in`)
     user.value = response.data.user || null
-  } catch (error) {
+  } catch {
     message.value = 'danger'
     message.value = 'ログイン情報の取得に失敗しました。'
   }

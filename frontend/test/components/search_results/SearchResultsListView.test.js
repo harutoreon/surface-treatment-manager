@@ -25,15 +25,15 @@ describe('SearchResultsListView', () => {
       axios.get
         .mockResolvedValueOnce({
           data: [
-            { "id": 1 }
+            { id: 1 }
           ]      
         })
   
         .mockResolvedValueOnce({
           data: {
-            "id": 1,
-            "name": "無電解ニッケルめっき",
-            "image_url": "http://localhost:3000/electroless_nickel_plating.jpeg"
+            id: 1,
+            name: '無電解ニッケルめっき',
+            image_url: 'http://localhost:3000/electroless_nickel_plating.jpeg'
           }
         })
   
@@ -90,41 +90,41 @@ describe('SearchResultsListView', () => {
 
           .mockResolvedValueOnce({
             data: {
-              "id": 1,
-              "name": "無電解ニッケルめっき",
-              "image_url": "http://localhost:3000/electroless_nickel_plating.jpeg"
+              id: 1,
+              name: '無電解ニッケルめっき',
+              image_url: 'http://localhost:3000/electroless_nickel_plating.jpeg'
             }
           })
 
           .mockResolvedValueOnce({
             data: {
-              "id": 2,
-              "name": "白金めっき",
-              "image_url": "http://localhost:3000/white_silver_plating.jpeg"
+              id: 2,
+              name: '白金めっき',
+              image_url: 'http://localhost:3000/white_silver_plating.jpeg'
             }
           })
 
           .mockResolvedValueOnce({
             data: {
-              "id": 3,
-              "name": "金めっき",
-              "image_url": "http://localhost:3000/gold_plate.jpeg"
+              id: 3,
+              name: '金めっき',
+              image_url: 'http://localhost:3000/gold_plate.jpeg'
             }
           })
 
           .mockResolvedValueOnce({
             data: {
-              "id": 4,
-              "name": "銀めっき",
-              "image_url": "http://localhost:3000/silver_plating.jpeg"
+              id: 4,
+              name: '銀めっき',
+              image_url: 'http://localhost:3000/silver_plating.jpeg'
             }
           })
 
           .mockResolvedValueOnce({
             data: {
-              "id": 5,
-              "name": "銅めっき",
-              "image_url": "http://localhost:3000/copper_plating.jpeg"
+              id: 5,
+              name: '銅めっき',
+              image_url: 'http://localhost:3000/copper_plating.jpeg'
             }
           })
           

@@ -13,11 +13,11 @@ const fetchSearchResults = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/list_search`)
     samplesWithoutImage.value = response.data
-
-    for (let i = 0; i < samplesWithoutImage.value.length; i++) {
-      const response = await axios.get(`${API_BASE_URL}/samples/${samplesWithoutImage.value[i].id}`)
+    
+    for (const sample of samplesWithoutImage.value) {
+      const response = await axios.get(`${API_BASE_URL}/samples/${sample.id}`)
       samplesWithImage.value.push(response.data)
-    }    
+    }
   } catch (error) {
     if (error.response && error.response.status === 404) {
       emit('message', { type: 'danger', text: 'サンプルの取得に失敗しました。' })

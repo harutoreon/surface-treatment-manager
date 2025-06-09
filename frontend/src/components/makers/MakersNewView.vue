@@ -34,7 +34,7 @@ const makerRegistration = async () => {
     maker.value = response.data
     emit('message', { type: 'success', text: 'メーカー情報を1件登録しました。' })
     router.push(`/makers/${maker.value.id}`)
-  } catch (error) {
+  } catch {
     errorMessage.value = '入力に不備があります。'
   }
 }

@@ -55,7 +55,7 @@ const sampleRegistration = async () => {
     sample.value = response.data
     emit('message', { type: 'success', text: '表面処理情報を1件登録しました。' })
     router.push(`/samples/${sample.value.id}`)
-  } catch (error) {
+  } catch {
     errorMessage.value = '入力に不備があります。'
   }
 }
