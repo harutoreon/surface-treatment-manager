@@ -30,7 +30,7 @@ const handleLogin = async () => {
     emit('login-success', response.data.user)
     emit('message', { type: 'success', text: 'ログインしました。' })
     router.push('/home')
-  } catch (error) {
+  } catch {
     errorMessage.value = 'ユーザー名またはパスワードが無効です'
   }
 }

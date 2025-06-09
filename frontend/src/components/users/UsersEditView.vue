@@ -43,7 +43,7 @@ const userUpdate = async () => {
     user.value = response.data
     emit('message', { type: 'success', text: 'ユーザー情報を更新しました。' })
     router.push(`/users/${user.value.id}`)
-  } catch (error) {
+  } catch {
     errorMessage.value = '入力に不備があります。'
   }
 }

@@ -31,7 +31,7 @@ const categoryUpdate = async () => {
     category.value = response.data
     emit('message', { type: 'success', text: 'カテゴリー情報を更新しました。' })
     router.push(`/categories/${category.value.id}`)
-  } catch (error) {
+  } catch {
     errorMessage.value = '入力に不備があります。'
   }
 }

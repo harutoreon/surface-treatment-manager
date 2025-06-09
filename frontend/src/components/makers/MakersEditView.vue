@@ -37,7 +37,7 @@ const makerUpdate = async () => {
     maker.value = response.data
     emit('message', { type: 'success', text: 'メーカー情報を更新しました。' })
     router.push(`/makers/${maker.value.id}`)
-  } catch (error) {
+  } catch {
     errorMessage.value = '入力に不備があります。'
   }
 }
