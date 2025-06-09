@@ -7,6 +7,10 @@ export default [
   {
     files: ['**/*.js', '**/*.vue'],
     languageOptions: {
+      // env: {
+      //   browser: true,
+      //   node: true
+      // },
       parser: vueParser,
       parserOptions: {
         parser: espree,
@@ -16,6 +20,9 @@ export default [
       globals: {
         window: 'readonly',
         document: 'readonly',
+        FormData: 'readonly',
+        FileReader: 'readonly',
+        confirm: 'readonly',
       },
     },
     plugins: {
