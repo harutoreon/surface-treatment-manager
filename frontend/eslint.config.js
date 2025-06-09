@@ -34,7 +34,7 @@ export default [
       'space-infix-ops': 'warn',
       'comma-spacing': 'warn',
       'brace-style': ['warn', '1tbs'],
-      'curly': 'warn',
+      'curly': ['warn', 'multi-line'],
       'func-call-spacing': ['warn', 'never'],
       'key-spacing': 'warn',
       'new-cap': 'warn',
