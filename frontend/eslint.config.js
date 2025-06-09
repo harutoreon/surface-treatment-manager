@@ -49,7 +49,9 @@ export default [
       'vue/valid-v-on': 'error',
       'vue/valid-v-bind': 'error',
       'vue/no-unused-vars': 'warn',
-      'vue/no-undef-components': 'warn'
+      'vue/no-undef-components': ['warn', {
+        ignorePatterns: ['RouterView', 'RouterLink']
+      }],
     },
   },
   pluginSecurity.configs.recommended
