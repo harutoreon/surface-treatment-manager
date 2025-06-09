@@ -9,7 +9,13 @@ export default [
     languageOptions: {
       parser: vueParser,
       parserOptions: {
-        parser: espree,
+        parser: {
+          parse: (code, options) => espree.parse(code, {
+            ecmaVersion: 'latest',
+            sourceType: 'module',
+            ...options,
+          })
+        },
         ecmaVersion: 'latest',
         sourceType: 'module',
       },
@@ -33,11 +39,11 @@ export default [
       'eqeqeq': ['warn', 'always'],
       'no-console': 'warn',
       'keyword-spacing': 'warn',
-				"space-before-function-paren": ["warn", {
-				  "anonymous": "always",
-				  "named": "never",
-				  "asyncArrow": "always"
-				}],
+      'space-before-function-paren': ['warn', {
+        'anonymous': 'always',
+        'named': 'never',
+        'asyncArrow': 'always'
+      }],
       'space-infix-ops': 'warn',
       'comma-spacing': 'warn',
       'brace-style': ['warn', '1tbs'],
