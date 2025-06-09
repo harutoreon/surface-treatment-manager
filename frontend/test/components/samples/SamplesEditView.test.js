@@ -1,4 +1,4 @@
-import { describe, it, expect,vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import SamplesEditView from '@/components/samples/SamplesEditView.vue'
 import axios from 'axios'
