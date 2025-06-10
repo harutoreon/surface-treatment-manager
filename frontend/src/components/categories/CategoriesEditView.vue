@@ -61,5 +61,5 @@ onMounted(() => {
       <RouterLink v-bind:to="`/categories/${category.id}`" ref="linkCategoriesShow">カテゴリー情報へ</RouterLink>
       <RouterLink to="/categories" ref="linkCategories">カテゴリーリストへ</RouterLink>
     </div>
-  </div>  
+  </div>
 </template>
