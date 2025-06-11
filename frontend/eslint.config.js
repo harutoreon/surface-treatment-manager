@@ -59,6 +59,20 @@ export default [
       'no-eval': 'warn',
       
       // Vue.js
+      'vue/html-indent': ['warn', 2],
+      'vue/max-attributes-per-line': ['warn', {
+        singleline: 6,
+        multiline: 1,
+      }],
+      'vue/singleline-html-element-content-newline': ['warn', {
+        ignoreWhenNoAttributes: true,
+        ignoreWhenEmpty: true,
+        ignores: ['pre', 'textarea'],
+      }],
+
+
+
+      
       'vue/valid-v-on': 'error',
       'vue/valid-v-bind': 'error',
       'vue/valid-v-cloak': 'error',

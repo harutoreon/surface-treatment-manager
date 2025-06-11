@@ -58,7 +58,7 @@ onMounted(() => {
           <h6>{{ sample.maker }}</h6>
         </div>
         <h6 class="text-start">{{ sample.category }}</h6>
-       </RouterLink>
+      </RouterLink>
       <h4 v-if="samples.length === 0" class="text-center m-5">該当する表面処理はありませんでした。</h4>
     </div>
 
