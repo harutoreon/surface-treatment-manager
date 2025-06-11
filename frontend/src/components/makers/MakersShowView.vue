@@ -55,49 +55,87 @@ onMounted(() => {
 <template>
   <div class="container d-flex justify-content-center">
     <div class="custom-width">
-      <h3 class="text-center mt-5 mb-5">メーカー情報</h3>
+      <h3 class="text-center mt-5 mb-5">
+        メーカー情報
+      </h3>
 
       <div class="list-group mb-5">
         <li class="d-flex justify-content-between list-group-item">
-          <div id="label-maker-name">メーカー名:</div>
-          <div id="maker-name">{{ maker.name }}</div>
+          <div id="label-maker-name">
+            メーカー名:
+          </div>
+          <div id="maker-name">
+            {{ maker.name }}
+          </div>
         </li>
         <li class="d-flex justify-content-between list-group-item">
-          <div id="label-postal-code">郵便番号:</div>
-          <div id="postal-code">{{ maker.postal_code }}</div>
+          <div id="label-postal-code">
+            郵便番号:
+          </div>
+          <div id="postal-code">
+            {{ maker.postal_code }}
+          </div>
         </li>
         <li class="d-flex justify-content-between list-group-item">
-          <div id="label-address">住所:</div>
-          <div id="address">{{ maker.address }}</div>
+          <div id="label-address">
+            住所:
+          </div>
+          <div id="address">
+            {{ maker.address }}
+          </div>
         </li>
         <li class="d-flex justify-content-between list-group-item">
-          <div id="label-phone-number">電話番号:</div>
-          <div id="phone-number">{{ maker.phone_number }}</div>
+          <div id="label-phone-number">
+            電話番号:
+          </div>
+          <div id="phone-number">
+            {{ maker.phone_number }}
+          </div>
         </li>
         <li class="d-flex justify-content-between list-group-item">
-          <div id="labal-fax-number">FAX番号:</div>
-          <div id="fax-number">{{ maker.fax_number }}</div>
+          <div id="labal-fax-number">
+            FAX番号:
+          </div>
+          <div id="fax-number">
+            {{ maker.fax_number }}
+          </div>
         </li>
         <li class="d-flex justify-content-between list-group-item">
-          <div id="label-email-address">Email:</div>
-          <div id="email-address">{{ maker.email }}</div>
+          <div id="label-email-address">
+            Email:
+          </div>
+          <div id="email-address">
+            {{ maker.email }}
+          </div>
         </li>
         <li class="d-flex justify-content-between list-group-item">
-          <div id="label-home-page-address">ホームページ:</div>
-          <div id="home-page-address">{{ maker.home_page }}</div>
+          <div id="label-home-page-address">
+            ホームページ:
+          </div>
+          <div id="home-page-address">
+            {{ maker.home_page }}
+          </div>
         </li>
         <li class="d-flex justify-content-between list-group-item">
-          <div id="label-person-in-charge">担当者:</div>
-          <div id="person-in-charge">{{ maker.manufacturer_rep }}</div>
+          <div id="label-person-in-charge">
+            担当者:
+          </div>
+          <div id="person-in-charge">
+            {{ maker.manufacturer_rep }}
+          </div>
         </li>
       </div>
 
       <div class="d-flex justify-content-evenly">
-        <RouterLink v-if="maker.id" v-bind:to="`/makers/${maker.id}/edit`" ref="linkMakersEdit">メーカー情報の編集へ</RouterLink>
+        <RouterLink v-if="maker.id" v-bind:to="`/makers/${maker.id}/edit`" ref="linkMakersEdit">
+          メーカー情報の編集へ
+        </RouterLink>
         <p v-on:click="handleDelete" class="text-primary text-decoration-underline" id="maker_destroy">
           メーカー情報の削除
         </p>
-        <RouterLink to="/makers" ref="linkMakers">メーカーリストへ</RouterLink>
+        <RouterLink to="/makers" ref="linkMakers">
+          メーカーリストへ
+        </RouterLink>
       </div>
     </div>
   </div>

@@ -63,40 +63,70 @@ const sampleRegistration = async () => {
 
 <template>
   <div class="container w-25">
-    <h3 class="text-center mt-5 mb-5">表面処理情報の登録</h3>
+    <h3 class="text-center mt-5 mb-5">
+      表面処理情報の登録
+    </h3>
 
-    <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">{{ errorMessage }}</p>
+    <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">
+      {{ errorMessage }}
+    </p>
     
     <form v-on:submit.prevent="sampleRegistration">
-      <label class="form-label" for="sample_name" id="label_sample_name">処理名</label>
+      <label class="form-label" for="sample_name" id="label_sample_name">
+        処理名
+      </label>
       <input v-model="name" class="form-control mb-3" type="text" id="sample_name" />
 
-      <label class="form-label" for="sample_category" id="label_sample_category">カテゴリー</label>
+      <label class="form-label" for="sample_category" id="label_sample_category">
+        カテゴリー
+      </label>
       <select v-model="category" class="form-select mb-3" id="sample_category">
         <option value=""></option>
-        <option value="めっき">めっき</option>
-        <option value="陽極酸化">陽極酸化</option>
-        <option value="化成">化成</option>
-        <option value="コーティング">コーティング</option>
-        <option value="表面硬化">表面硬化</option>
+        <option value="めっき">
+          めっき
+        </option>
+        <option value="陽極酸化">
+          陽極酸化
+        </option>
+        <option value="化成">
+          化成
+        </option>
+        <option value="コーティング">
+          コーティング
+        </option>
+        <option value="表面硬化">
+          表面硬化
+        </option>
       </select>
 
-      <label class="form-label" for="sample_color" id="label_sample_color">色調</label>
+      <label class="form-label" for="sample_color" id="label_sample_color">
+        色調
+      </label>
       <input v-model="color" class="form-control mb-3" type="text" id="sample_color" />
 
-      <label class="form-label" for="sample_maker" id="label_sample_maker">メーカー</label>
+      <label class="form-label" for="sample_maker" id="label_sample_maker">
+        メーカー
+      </label>
       <input v-model="maker" class="form-control mb-3" type="text" id="sample_maker" />
 
-      <label class="form-label" for="sample_hardness" id="label_sample_hardness">硬度</label>
+      <label class="form-label" for="sample_hardness" id="label_sample_hardness">
+        硬度
+      </label>
       <input v-model="hardness" class="form-control mb-3" type="text" id="sample_hardness" />
 
-      <label class="form-label" for="sample_film_thickness" id="label_sample_film_thickness">膜厚</label>
+      <label class="form-label" for="sample_film_thickness" id="label_sample_film_thickness">
+        膜厚
+      </label>
       <input v-model="filmThickness" class="form-control mb-3" type="text" id="sample_film_thickness" />
 
-      <label class="form-label" for="sample_feature" id="label_sample_feature">特徴</label>
+      <label class="form-label" for="sample_feature" id="label_sample_feature">
+        特徴
+      </label>
       <input v-model="feature" class="form-control mb-3" type="text" id="sample_feature" />
 
-      <label class="form-label" for="sample_image" id="label_sample_image">画像</label>
+      <label class="form-label" for="sample_image" id="label_sample_image">
+        画像
+      </label>
       <div><img alt="No Image" class="mb-3" id="preview_image" width="200" height="200" src="" /></div>
       <input
         class="form-control mb-4"
@@ -106,11 +136,15 @@ const sampleRegistration = async () => {
         v-on:change="handleFileChange"
       />
 
-      <button type="submit" class="form-control btn btn-primary mb-5">登録</button>
+      <button type="submit" class="form-control btn btn-primary mb-5">
+        登録
+      </button>
     </form>
 
     <div class="text-center mb-5">
-      <RouterLink to="/samples" ref="linkSamples">表面処理リストへ</RouterLink>
+      <RouterLink to="/samples" ref="linkSamples">
+        表面処理リストへ
+      </RouterLink>
     </div>
   </div>
 </template>

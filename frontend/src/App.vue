@@ -53,7 +53,9 @@ onMounted(() => {
   <header>
     <nav class="navbar bg-body-tertiary border-bottom">
       <div class="container justify-content-center">
-        <RouterLink to="/home" class="navbar-brand">Surface Treatment Manager</RouterLink>
+        <RouterLink to="/home" class="navbar-brand">
+          Surface Treatment Manager
+        </RouterLink>
       </div>
     </nav>
   </header>

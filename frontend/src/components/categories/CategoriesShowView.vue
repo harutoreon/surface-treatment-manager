@@ -45,7 +45,9 @@ onMounted(() => {
 
 <template>
   <div class="container w-50">
-    <h3 class="text-center mt-5 mb-5">カテゴリー情報</h3>
+    <h3 class="text-center mt-5 mb-5">
+      カテゴリー情報
+    </h3>
 
     <ul class="list-group mb-5">
       <li class="d-flex justify-content-between list-group-item">
@@ -59,11 +61,15 @@ onMounted(() => {
     </ul>
 
     <div class="d-flex justify-content-evenly">
-      <RouterLink v-bind:to="`/categories/${category.id}/edit`" ref="linkCategoriesEdit">カテゴリー情報の編集</RouterLink>
+      <RouterLink v-bind:to="`/categories/${category.id}/edit`" ref="linkCategoriesEdit">
+        カテゴリー情報の編集
+      </RouterLink>
       <p v-on:click="handleDelete" class="text-primary text-decoration-underline">
         カテゴリーの削除
       </p>
-      <RouterLink to="/categories" ref="linkCategories">カテゴリーリストへ</RouterLink>
+      <RouterLink to="/categories" ref="linkCategories">
+        カテゴリーリストへ
+      </RouterLink>
     </div>
   </div>
 </template>

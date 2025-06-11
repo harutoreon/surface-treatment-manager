@@ -43,23 +43,37 @@ onMounted(() => {
 
 <template>
   <div class="container w-25">
-    <h3 class="text-center mt-5 mb-5">カテゴリー情報の編集</h3>
+    <h3 class="text-center mt-5 mb-5">
+      カテゴリー情報の編集
+    </h3>
 
     <form v-on:submit.prevent="categoryUpdate">
-      <label class="form-label" for="category_item">カテゴリー名</label>
+      <label class="form-label" for="category_item">
+        カテゴリー名
+      </label>
       <input v-model="category.item" class="form-control mb-4" type="text" id="category_item" required/>
 
-      <label class="form-label" for="category_summary">概要</label>
+      <label class="form-label" for="category_summary">
+        概要
+      </label>
       <textarea v-model="category.summary" class="form-control mb-4" id="category_summary" required></textarea>
       
-      <button type="submit" class="form-control btn btn-primary mb-5">更新</button>
+      <button type="submit" class="form-control btn btn-primary mb-5">
+        更新
+      </button>
     </form>
 
-    <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">{{ errorMessage }}</p>
+    <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">
+      {{ errorMessage }}
+    </p>
 
     <div class="d-flex justify-content-evenly">
-      <RouterLink v-bind:to="`/categories/${category.id}`" ref="linkCategoriesShow">カテゴリー情報へ</RouterLink>
-      <RouterLink to="/categories" ref="linkCategories">カテゴリーリストへ</RouterLink>
+      <RouterLink v-bind:to="`/categories/${category.id}`" ref="linkCategoriesShow">
+        カテゴリー情報へ
+      </RouterLink>
+      <RouterLink to="/categories" ref="linkCategories">
+        カテゴリーリストへ
+      </RouterLink>
     </div>
   </div>
 </template>

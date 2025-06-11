@@ -36,7 +36,9 @@ onMounted(() => {
 
 <template>
   <div class="container w-25">
-    <h3 class="text-center mt-5 mb-5">カテゴリーリスト</h3>
+    <h3 class="text-center mt-5 mb-5">
+      カテゴリーリスト
+    </h3>
 
     <div class="list-group list-group-flush mb-5">
       <div class="list-group-item list-group-item-action">
@@ -60,8 +62,12 @@ onMounted(() => {
     </div>
 
     <div class="d-flex justify-content-evenly">
-      <RouterLink to="/categories/new" ref="linkCategoriesNew">カテゴリー情報の登録</RouterLink>
-      <RouterLink to="/home" ref="linkHome">メインメニューへ</RouterLink>
+      <RouterLink to="/categories/new" ref="linkCategoriesNew">
+        カテゴリー情報の登録
+      </RouterLink>
+      <RouterLink to="/home" ref="linkHome">
+        メインメニューへ
+      </RouterLink>
     </div>
   </div>
 </template>

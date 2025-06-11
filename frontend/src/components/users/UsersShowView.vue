@@ -44,7 +44,9 @@ onMounted(() => {
 
 <template>
   <div class="container w-25">
-    <h3 class="text-center mt-5 mb-5">ユーザー情報</h3>
+    <h3 class="text-center mt-5 mb-5">
+      ユーザー情報
+    </h3>
 
     <div class="list-group mb-5">
       <li class="d-flex justify-content-between list-group-item">
@@ -58,8 +60,12 @@ onMounted(() => {
     </div>
 
     <div class="d-flex justify-content-evenly">
-      <RouterLink v-bind:to="`/users/${user.id}/edit`" ref="linkUsersEdit">ユーザー情報の編集</RouterLink>
-      <RouterLink to="/users" ref="linkUsers">ユーザーリスト</RouterLink>
+      <RouterLink v-bind:to="`/users/${user.id}/edit`" ref="linkUsersEdit">
+        ユーザー情報の編集
+      </RouterLink>
+      <RouterLink to="/users" ref="linkUsers">
+        ユーザーリスト
+      </RouterLink>
       <p v-on:click="handleDelete" class="text-primary text-decoration-underline">
         ユーザーの削除
       </p>

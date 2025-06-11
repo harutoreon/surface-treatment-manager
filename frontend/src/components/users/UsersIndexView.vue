@@ -43,7 +43,9 @@ onMounted(() => {
 
 <template>
   <div class="container w-25">
-    <h3 class="text-center mt-5 mb-5">ユーザーリスト</h3>
+    <h3 class="text-center mt-5 mb-5">
+      ユーザーリスト
+    </h3>
 
     <div class="list-group list-group-flush mb-5">
       <div class="list-group-item">
@@ -63,23 +65,37 @@ onMounted(() => {
 
     <ul v-if="totalPages > 0"  class="pagination justify-content-center mb-5">
       <li class="page-item" :class="{ disabled: currentPage === 1 }">
-        <RouterLink class="page-link" v-if="currentPage > 1" v-bind:to="getPageLink(currentPage - 1)">前ページ</RouterLink>
-        <span v-else class="page-link">前ページ</span>
+        <RouterLink class="page-link" v-if="currentPage > 1" v-bind:to="getPageLink(currentPage - 1)">
+          前ページ
+        </RouterLink>
+        <span v-else class="page-link">
+          前ページ
+        </span>
       </li>
 
       <li v-for="page in totalPages" v-bind:key="page" class="page-item" v-bind:class="{ active: page === currentPage }">
-        <RouterLink class="page-link" v-bind:to="getPageLink(page)">{{ page }}</RouterLink>
+        <RouterLink class="page-link" v-bind:to="getPageLink(page)">
+          {{ page }}
+        </RouterLink>
       </li>
 
       <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-        <RouterLink class="page-link" v-if="currentPage < totalPages" v-bind:to="getPageLink(currentPage + 1)">次ページ</RouterLink>
-        <span v-else class="page-link">次ページ</span>
+        <RouterLink class="page-link" v-if="currentPage < totalPages" v-bind:to="getPageLink(currentPage + 1)">
+          次ページ
+        </RouterLink>
+        <span v-else class="page-link">
+          次ページ
+        </span>
       </li>
     </ul>
 
     <div class="d-flex justify-content-evenly">
-      <RouterLink to="/users/new" ref="linkUsersNew">ユーザー情報の登録</RouterLink>
-      <RouterLink to="/home" ref="linkHome">メインメニューへ</RouterLink>
+      <RouterLink to="/users/new" ref="linkUsersNew">
+        ユーザー情報の登録
+      </RouterLink>
+      <RouterLink to="/home" ref="linkHome">
+        メインメニューへ
+      </RouterLink>
     </div>
   </div>
 </template>

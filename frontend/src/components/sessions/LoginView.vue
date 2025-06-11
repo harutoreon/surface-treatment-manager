@@ -38,7 +38,9 @@ const handleLogin = async () => {
 
 <template>
   <div class="container w-25">
-    <h3 class="text-center mt-5 mb-5">ログイン</h3>
+    <h3 class="text-center mt-5 mb-5">
+      ログイン
+    </h3>
 
     <label>ユーザーの選択</label>
     <ul class="list-group mb-4">
@@ -51,9 +53,13 @@ const handleLogin = async () => {
             type="radio"
             id="general_user"
             value="general">
-          <label class="form-check-label" for="general_user">一般ユーザー</label>
+          <label class="form-check-label" for="general_user">
+            一般ユーザー
+          </label>
         </div>
-        <small class="ms-4">一部の機能は制限されます。</small>
+        <small class="ms-4">
+          一部の機能は制限されます。
+        </small>
       </li>
 
       <li class="list-group-item">
@@ -65,17 +71,25 @@ const handleLogin = async () => {
             type="radio"
             id="admin_user"
             value="admin">
-          <label class="form-check-label" for="admin_user">管理者ユーザー</label>
+          <label class="form-check-label" for="admin_user">
+            管理者ユーザー
+          </label>
         </div>
-        <small class="ms-4">すべての機能が利用できます。</small>
+        <small class="ms-4">
+          すべての機能が利用できます。
+        </small>
       </li>
     </ul>
 
     <form v-on:submit.prevent="handleLogin">
-      <label for="name">ユーザー名</label>
+      <label for="name">
+        ユーザー名
+      </label>
       <input v-model="name" class="form-control mb-4" type="text" id="user_name" required>
 
-      <label for="password">パスワード</label>
+      <label for="password">
+        パスワード
+      </label>
       <input v-model="password" class="form-control mb-5" type="password" id="password" required>
 
       <button type="submit" class="form-control btn btn-primary">

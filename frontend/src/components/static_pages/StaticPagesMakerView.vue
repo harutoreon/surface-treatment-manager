@@ -26,10 +26,14 @@ const submitSearch = () => {
         class="form-control mb-3"
         placeholder="キーワードをここに入力"
       />
-      <button type="submit" class="btn btn-secondary form-control mb-5">検索</button>
+      <button type="submit" class="btn btn-secondary form-control mb-5">
+        検索
+      </button>
     </form>
     <div>
-      <RouterLink to="/home" ref="linkHome">メインメニューへ</RouterLink>
+      <RouterLink to="/home" ref="linkHome">
+        メインメニューへ
+      </RouterLink>
     </div>
   </div>
 </template>
