@@ -62,7 +62,13 @@ onMounted(() => {
   
   <div v-if="message" v-bind:class="`alert alert-${messageType} alert-dismissible fade show`">
     {{ message }}
-    <button type="button" class="btn-close" v-on:click="handleMessageDelete" data-bs-dismiss="alert"></button>
+    <button
+      type="button"
+      class="btn-close"
+      v-on:click="handleMessageDelete"
+      data-bs-dismiss="alert"
+    >
+    </button>
   </div>
 
   <RouterView @login-success="setUser" @logout="logout" v-on:message="showMessage"/>

@@ -50,12 +50,23 @@ const userRegistration = async () => {
       <label class="form-label" for="user_name">
         ユーザー名
       </label>
-      <input v-model="name" class="form-control mb-3" type="text" id="user_name" required>
+      <input
+        v-model="name"
+        class="form-control mb-3"
+        type="text"
+        id="user_name"
+        required
+      >
 
       <label class="form-label" for="user_department">
         部署名
       </label>
-      <select v-model="department" class="form-select mb-3" id="user_department" required>
+      <select
+        v-model="department"
+        class="form-select mb-3"
+        id="user_department"
+        required
+      >
         <option value="" label=" "></option>
         <option v-for="option in options" v-bind:value="option.value">
           {{ option.text }}
@@ -65,12 +76,24 @@ const userRegistration = async () => {
       <label class="form-label" for="user_password">
         パスワード
       </label>
-      <input v-model="password" class="form-control mb-3" type="password" id="user_password" required>
+      <input
+        v-model="password"
+        class="form-control mb-3"
+        type="password"
+        id="user_password"
+        required
+      >
 
       <label class="form-label" for="user_password_confirmation">
         パスワードの確認
       </label>
-      <input v-model="password_confirmation" class="form-control mb-4" type="password" id="user_password_confirmation" required>
+      <input
+        v-model="password_confirmation"
+        class="form-control mb-4"
+        type="password"
+        id="user_password_confirmation"
+        required
+      >
 
       <button type="submit" class="form-control btn btn-primary mb-5">
         登録

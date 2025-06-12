@@ -171,7 +171,12 @@ onMounted(() => {
         </div>
       </div>
 
-      <div v-for="comment in sampleComments" v-bind:key="comment.id" class="list-group-item list-group-item-action" href="#">
+      <div
+        v-for="comment in sampleComments"
+        v-bind:key="comment.id"
+        class="list-group-item list-group-item-action"
+        href="#"
+      >
         <div class="d-flex w-100 justify-content-between">
           <h6>{{ comment.department }}：{{ comment.commenter }}</h6>
           <h6>{{ formatDate(comment.created_at) }}</h6>

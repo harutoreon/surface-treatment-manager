@@ -76,12 +76,23 @@ onMounted(() => {
       <label class="form-label" for="user_name">
         ユーザー名
       </label>
-      <input class="form-control mb-3" type="text" v-model="user.name" id="user_name" required />
+      <input
+        class="form-control mb-3"
+        type="text"
+        v-model="user.name"
+        id="user_name"
+        required
+      >
 
       <label class="form-label" for="user_department">
         部署名
       </label>
-      <select class="form-select mb-3" v-model="user.department" id="user_department" required>
+      <select
+        class="form-select mb-3"
+        v-model="user.department"
+        id="user_department"
+        required
+      >
         <option value="" label=" "></option>
         <option v-for="option in options" v-bind:key="option.text" v-bind:value="option.value">
           {{ option.text }}
@@ -91,12 +102,22 @@ onMounted(() => {
       <label class="form-label" for="user_password">
         パスワード
       </label>
-      <input class="form-control mb-3" type="password" v-model="password" id="user_password">
+      <input
+        class="form-control mb-3"
+        type="password"
+        v-model="password"
+        id="user_password"
+      >
 
       <label class="form-label" for="user_password_confirmation">
         パスワードの確認
       </label>
-      <input class="form-control mb-4" type="password" v-model="password_confirmation" id="user_password_confirmation">
+      <input
+        class="form-control mb-4"
+        type="password"
+        v-model="password_confirmation"
+        id="user_password_confirmation"
+      >
 
       <button type="submit" class="form-control btn btn-primary mb-5">
         更新

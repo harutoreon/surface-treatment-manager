@@ -38,12 +38,24 @@ const categoryRegistration = async () => {
       <label class="form-label" for="category_item">
         カテゴリー名
       </label>
-      <input v-model="item" class="form-control mb-4" type="text" id="category_item" required/>
+      <input
+        v-model="item"
+        class="form-control mb-4"
+        type="text"
+        id="category_item"
+        required
+      />
 
       <label class="form-label" for="category_summary">
         概要
       </label>
-      <textarea v-model="summary" class="form-control mb-4" id="category_summary" required></textarea>
+      <textarea
+        v-model="summary"
+        class="form-control mb-4"
+        id="category_summary"
+        required
+      >
+      </textarea>
       
       <button type="submit" class="form-control btn btn-primary mb-5">
         登録

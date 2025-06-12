@@ -61,7 +61,7 @@ export default [
       // Vue.js
       'vue/html-indent': ['warn', 2],
       'vue/max-attributes-per-line': ['warn', {
-        singleline: 6,
+        singleline: 3,
         multiline: 1,
       }],
       'vue/singleline-html-element-content-newline': ['warn', {
@@ -69,10 +69,10 @@ export default [
         ignoreWhenEmpty: true,
         ignores: ['pre', 'textarea'],
       }],
-
-
-
-      
+      'vue/multiline-html-element-content-newline': ['warn', {
+        ignoreWhenEmpty: true,
+        ignores: ['pre', 'textarea'],
+      }],
       'vue/valid-v-on': 'error',
       'vue/valid-v-bind': 'error',
       'vue/valid-v-cloak': 'error',
@@ -91,9 +91,11 @@ export default [
       'vue/valid-v-slot': 'error',      
       'vue/valid-v-text': 'error',      
       'vue/no-unused-vars': 'error',
+      'vue/no-template-shadow': 'error',
       'vue/no-undef-components': ['error', {
         ignorePatterns: ['RouterView', 'RouterLink']
       }],
+      'vue/no-mutating-props': 'error',
     },
   },
   pluginSecurity.configs.recommended

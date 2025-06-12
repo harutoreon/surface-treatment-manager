@@ -70,37 +70,72 @@ onMounted(() => {
       <label class="form-label" for="sample_name" id="label_sample_name">
         処理名
       </label>
-      <input v-model="sample.name" class="form-control mb-3" type="text" id="sample_name" />
+      <input
+        v-model="sample.name"
+        class="form-control mb-3"
+        type="text"
+        id="sample_name"
+      >
 
       <label class="form-label" for="sample_category" id="label_sample_category">
         カテゴリー
       </label>
-      <input v-model="sample.category" class="form-control mb-3" type="text" id="sample_category" />
+      <input
+        v-model="sample.category"
+        class="form-control mb-3"
+        type="text"
+        id="sample_category"
+      >
 
       <label class="form-label" for="sample_color" id="label_sample_color">
         色調
       </label>
-      <input v-model="sample.color" class="form-control mb-3" type="text" id="sample_color" />
+      <input
+        v-model="sample.color"
+        class="form-control mb-3"
+        type="text"
+        id="sample_color"
+      >
 
       <label class="form-label" for="sample_maker" id="label_sample_maker">
         メーカー
       </label>
-      <input v-model="sample.maker" class="form-control mb-3" type="text" id="sample_maker" />
+      <input
+        v-model="sample.maker"
+        class="form-control mb-3"
+        type="text"
+        id="sample_maker"
+      >
 
       <label class="form-label" for="sample_hardness" id="label_sample_hardness">
         硬度
       </label>
-      <input v-model="sample.hardness" class="form-control mb-3" type="text" id="sample_hardness" />
+      <input
+        v-model="sample.hardness"
+        class="form-control mb-3"
+        type="text"
+        id="sample_hardness"
+      >
 
       <label class="form-label" for="sample_film_thickness" id="label_sample_film_thickness">
         膜厚
       </label>
-      <input v-model="sample.film_thickness" class="form-control mb-3" type="text" id="sample_film_thickness" />
+      <input
+        v-model="sample.film_thickness"
+        class="form-control mb-3"
+        type="text"
+        id="sample_film_thickness"
+      >
 
       <label class="form-label" for="sample_feature" id="label_sample_feature">
         特徴
       </label>
-      <input v-model="sample.feature" class="form-control mb-3" type="text" id="sample_feature" />
+      <input
+        v-model="sample.feature"
+        class="form-control mb-3"
+        type="text"
+        id="sample_feature"
+      >
 
       <label class="form-label" for="sample_image" id="label_sample_image">
         画像

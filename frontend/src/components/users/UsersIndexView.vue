@@ -55,7 +55,12 @@ onMounted(() => {
         </div>        
       </div>
 
-      <RouterLink v-for="user in users" v-bind:key="user.id" class="list-group-item list-group-item-action" v-bind:to="`/users/${user.id}`">
+      <RouterLink
+        v-for="user in users"
+        v-bind:key="user.id"
+        class="list-group-item list-group-item-action"
+        v-bind:to="`/users/${user.id}`"
+      >
         <div class="d-flex justify-content-between">
           <div>{{ user.name }}</div>
           <div>{{ user.department }}</div>
@@ -73,7 +78,12 @@ onMounted(() => {
         </span>
       </li>
 
-      <li v-for="page in totalPages" v-bind:key="page" class="page-item" v-bind:class="{ active: page === currentPage }">
+      <li
+        v-for="page in totalPages"
+        v-bind:key="page"
+        class="page-item"
+        v-bind:class="{ active: page === currentPage }"
+      >
         <RouterLink class="page-link" v-bind:to="getPageLink(page)">
           {{ page }}
         </RouterLink>

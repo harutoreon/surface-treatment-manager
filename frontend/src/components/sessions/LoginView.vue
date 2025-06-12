@@ -85,12 +85,24 @@ const handleLogin = async () => {
       <label for="name">
         ユーザー名
       </label>
-      <input v-model="name" class="form-control mb-4" type="text" id="user_name" required>
+      <input
+        v-model="name"
+        class="form-control mb-4"
+        type="text"
+        id="user_name"
+        required
+      >
 
       <label for="password">
         パスワード
       </label>
-      <input v-model="password" class="form-control mb-5" type="password" id="password" required>
+      <input
+        v-model="password"
+        class="form-control mb-5"
+        type="password"
+        id="password"
+        required
+      >
 
       <button type="submit" class="form-control btn btn-primary">
         ログイン

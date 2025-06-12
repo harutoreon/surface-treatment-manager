@@ -86,7 +86,12 @@ onMounted(() => {
         </span>
       </li>
 
-      <li v-for="page in totalPages" v-bind:key="page" class="page-item" v-bind:class="{ active: page === currentPage }">
+      <li
+        v-for="page in totalPages"
+        v-bind:key="page"
+        class="page-item"
+        v-bind:class="{ active: page === currentPage }"
+      >
         <RouterLink class="page-link" v-bind:to="getPageLink(page)">
           {{ page }}
         </RouterLink>
