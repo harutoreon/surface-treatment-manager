@@ -36,15 +36,23 @@ onMounted(() => {
 
 <template>
   <div class="container w-25">
-    <h3 class="text-center mt-5 mb-5">表面処理の検索結果</h3>
+    <h3 class="text-center mt-5 mb-5">
+      表面処理の検索結果
+    </h3>
 
-    <h5 class="text-center mb-5">検索文字列：「{{ data.keyword }}」</h5>
+    <h5 class="text-center mb-5">
+      検索文字列：「{{ data.keyword }}」
+    </h5>
 
     <div class="list-group list-group-flush mb-3">
       <div class="list-group-item">
         <div class="d-flex w-100 justify-content-between">
-          <h6 id="label_name_category">処理名 / カテゴリー</h6>
-          <h6 id="label_maker">メーカー名</h6>
+          <h6 id="label_name_category">
+            処理名 / カテゴリー
+          </h6>
+          <h6 id="label_maker">
+            メーカー名
+          </h6>
         </div>
       </div>
       <RouterLink
@@ -57,14 +65,22 @@ onMounted(() => {
           <h6>{{ sample.name }}</h6>
           <h6>{{ sample.maker }}</h6>
         </div>
-        <h6 class="text-start">{{ sample.category }}</h6>
-       </RouterLink>
-      <h4 v-if="samples.length === 0" class="text-center m-5">該当する表面処理はありませんでした。</h4>
+        <h6 class="text-start">
+          {{ sample.category }}
+        </h6>
+      </RouterLink>
+      <h4 v-if="samples.length === 0" class="text-center m-5">
+        該当する表面処理はありませんでした。
+      </h4>
     </div>
 
     <div class="d-flex justify-content-evenly mt-5 mb-5">
-      <RouterLink v-bind:to="`/static_pages/${searchMethod}`" id="link_research" ref="linkResearch">再検索</RouterLink>
-      <RouterLink to="/home" id="link_home" ref="linkHome">メインメニューへ</RouterLink>
+      <RouterLink v-bind:to="`/static_pages/${searchMethod}`" id="link_research" ref="linkResearch">
+        再検索
+      </RouterLink>
+      <RouterLink to="/home" id="link_home" ref="linkHome">
+        メインメニューへ
+      </RouterLink>
     </div>
   </div>
 </template>

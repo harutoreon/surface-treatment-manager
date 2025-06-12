@@ -16,7 +16,9 @@ const submitSearch = () => {
 
 <template>
   <div class="container text-center w-25">
-    <h3 class="mt-5 mb-5">処理名で検索</h3>
+    <h3 class="mt-5 mb-5">
+      処理名で検索
+    </h3>
     <form v-on:submit.prevent="submitSearch">
       <input
         v-model="keyword"
@@ -29,7 +31,9 @@ const submitSearch = () => {
       </button>
     </form>
     <div>
-      <RouterLink to="/home" ref="linkHome">メインメニューへ</RouterLink>
+      <RouterLink to="/home" ref="linkHome">
+        メインメニューへ
+      </RouterLink>
     </div>
   </div>
 </template>

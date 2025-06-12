@@ -75,39 +75,71 @@ onMounted(() => {
 
 <template>
   <div class="container w-50">
-    <h3 class="text-center mt-5 mb-5">表面処理情報</h3>
+    <h3 class="text-center mt-5 mb-5">
+      表面処理情報
+    </h3>
 
     <div class="list-group mb-5">
       <li class="d-flex justify-content-between list-group-item">
-        <div id="label_sample_name">処理名：</div>
-        <div id="sample_name">{{ sample.name }}</div>
+        <div id="label_sample_name">
+          処理名：
+        </div>
+        <div id="sample_name">
+          {{ sample.name }}
+        </div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div id="label_sample_category">カテゴリー：</div>
-        <div id="sample_category">{{ sample.category }}</div>
+        <div id="label_sample_category">
+          カテゴリー：
+        </div>
+        <div id="sample_category">
+          {{ sample.category }}
+        </div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div id="label_sample_color">色調：</div>
-        <div id="sample_color">{{ sample.color }}</div>
+        <div id="label_sample_color">
+          色調：
+        </div>
+        <div id="sample_color">
+          {{ sample.color }}
+        </div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div id="label_sample_maker">メーカー：</div>
-        <div id="sample_maker">{{ sample.maker }}</div>
+        <div id="label_sample_maker">
+          メーカー：
+        </div>
+        <div id="sample_maker">
+          {{ sample.maker }}
+        </div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div id="label_sample_hardness">硬度：</div>
-        <div id="sample_hardness">{{ sample.hardness }}</div>
+        <div id="label_sample_hardness">
+          硬度：
+        </div>
+        <div id="sample_hardness">
+          {{ sample.hardness }}
+        </div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div id="label_sample_film_thickness">膜厚：</div>
-        <div id="sample_film_thickness">{{ sample.film_thickness }}</div>
+        <div id="label_sample_film_thickness">
+          膜厚：
+        </div>
+        <div id="sample_film_thickness">
+          {{ sample.film_thickness }}
+        </div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div id="label_sample_feature">特徴：</div>
-        <div id="sample_feature">{{ sample.feature }}</div>
+        <div id="label_sample_feature">
+          特徴：
+        </div>
+        <div id="sample_feature">
+          {{ sample.feature }}
+        </div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div id="label_sample_image">画像：</div>
+        <div id="label_sample_image">
+          画像：
+        </div>
         <div>
           <img
             v-if="sample.image_url"
@@ -116,22 +148,35 @@ onMounted(() => {
             id="sample_image"
             style="width: 250px; height: auto;"
           />
-          <div v-else>No Image</div>   
+          <div v-else>
+            No Image
+          </div>   
         </div>
       </li>
     </div>
 
-    <h5 class="text-center mb-3">コメントリスト</h5>
+    <h5 class="text-center mb-3">
+      コメントリスト
+    </h5>
 
     <div class="list-group list-group-flush mb-2">
       <div class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
-          <h6 id="label_commenter">部署名 / 投稿者 / コメント</h6>
-          <h6 id="label_create_at">投稿日</h6>
+          <h6 id="label_commenter">
+            部署名 / 投稿者 / コメント
+          </h6>
+          <h6 id="label_create_at">
+            投稿日
+          </h6>
         </div>
       </div>
 
-      <div v-for="comment in sampleComments" v-bind:key="comment.id" class="list-group-item list-group-item-action" href="#">
+      <div
+        v-for="comment in sampleComments"
+        v-bind:key="comment.id"
+        class="list-group-item list-group-item-action"
+        href="#"
+      >
         <div class="d-flex w-100 justify-content-between">
           <h6>{{ comment.department }}：{{ comment.commenter }}</h6>
           <h6>{{ formatDate(comment.created_at) }}</h6>
@@ -143,11 +188,15 @@ onMounted(() => {
     </div>
 
     <div class="d-flex justify-content-evenly mt-5 mb-5">
-      <RouterLink v-bind:to="`/samples/${sample.id}/edit`" ref="linkSamplesEdit">表面処理情報の編集</RouterLink>
+      <RouterLink v-bind:to="`/samples/${sample.id}/edit`" ref="linkSamplesEdit">
+        表面処理情報の編集
+      </RouterLink>
       <p v-on:click="handleDelete" class="text-primary text-decoration-underline" id="link_sample_destroy">
         表面処理情報の削除
       </p>
-      <RouterLink to="/samples" ref="linkSamples">表面処理リストへ</RouterLink>
+      <RouterLink to="/samples" ref="linkSamples">
+        表面処理リストへ
+      </RouterLink>
     </div>
   </div>
 </template>

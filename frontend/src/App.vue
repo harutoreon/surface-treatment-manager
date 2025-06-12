@@ -53,14 +53,22 @@ onMounted(() => {
   <header>
     <nav class="navbar bg-body-tertiary border-bottom">
       <div class="container justify-content-center">
-        <RouterLink to="/home" class="navbar-brand">Surface Treatment Manager</RouterLink>
+        <RouterLink to="/home" class="navbar-brand">
+          Surface Treatment Manager
+        </RouterLink>
       </div>
     </nav>
   </header>
   
   <div v-if="message" v-bind:class="`alert alert-${messageType} alert-dismissible fade show`">
     {{ message }}
-    <button type="button" class="btn-close" v-on:click="handleMessageDelete" data-bs-dismiss="alert"></button>
+    <button
+      type="button"
+      class="btn-close"
+      v-on:click="handleMessageDelete"
+      data-bs-dismiss="alert"
+    >
+    </button>
   </div>
 
   <RouterView @login-success="setUser" @logout="logout" v-on:message="showMessage"/>
