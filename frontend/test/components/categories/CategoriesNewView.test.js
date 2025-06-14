@@ -36,10 +36,10 @@ describe('コンポーネントをレンダリングした時に、', () => {
 
   it('入力フォームが表示されること。', () => {
     expect(wrapper.find('form').exists()).toBe(true)
-    expect(wrapper.find('label[for="category_item"]').text()).toBe('カテゴリー名')
-    expect(wrapper.find('label[for="category_summary"]').text()).toBe('概要')
-    expect(wrapper.find('input[id="category_item"]').exists()).toBe(true)
-    expect(wrapper.find('textarea').exists()).toBe(true)
+    expect(wrapper.find('label[for="category-item"]').text()).toBe('カテゴリー名')
+    expect(wrapper.find('label[for="category-summary"]').text()).toBe('概要')
+    expect(wrapper.find('input[id="category-item"]').exists()).toBe(true)
+    expect(wrapper.find('textarea[id="category-summary"]').exists()).toBe(true)
     expect(wrapper.find('button').exists()).toBe(true)
   })
 
@@ -62,8 +62,8 @@ describe('カテゴリー登録で', () => {
 
       axios.post.mockResolvedValue({ data: { category: mockCategory} })
 
-      const itemInput = wrapper.find('input[id="category_item"]')
-      const summaryTextArea = wrapper.find('textarea')
+      const itemInput = wrapper.find('input[id="category-item"]')
+      const summaryTextArea = wrapper.find('textarea[id="category-summary"]')
 
       await itemInput.setValue('test item')
       await summaryTextArea.setValue('test summary')

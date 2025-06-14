@@ -48,24 +48,24 @@ onMounted(() => {
     </h3>
 
     <form v-on:submit.prevent="categoryUpdate">
-      <label class="form-label" for="category_item">
+      <label class="form-label" for="category-item">
         カテゴリー名
       </label>
       <input
         v-model="category.item"
         class="form-control mb-4"
         type="text"
-        id="category_item"
+        id="category-item"
         required
-      />
+      >
 
-      <label class="form-label" for="category_summary">
+      <label class="form-label" for="category-summary">
         概要
       </label>
       <textarea
         v-model="category.summary"
         class="form-control mb-4"
-        id="category_summary"
+        id="category-summary"
         required
       >
       </textarea>
