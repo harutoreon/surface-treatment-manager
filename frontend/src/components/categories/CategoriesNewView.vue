@@ -35,24 +35,24 @@ const categoryRegistration = async () => {
     </h3>
 
     <form v-on:submit.prevent="categoryRegistration">
-      <label class="form-label" for="category_item">
+      <label class="form-label" for="category-item">
         カテゴリー名
       </label>
       <input
         v-model="item"
         class="form-control mb-4"
         type="text"
-        id="category_item"
+        id="category-item"
         required
       />
 
-      <label class="form-label" for="category_summary">
+      <label class="form-label" for="category-summary">
         概要
       </label>
       <textarea
         v-model="summary"
         class="form-control mb-4"
-        id="category_summary"
+        id="category-summary"
         required
       >
       </textarea>

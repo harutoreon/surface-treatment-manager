@@ -53,10 +53,10 @@ describe('コンポーネントをレンダリングした時に、', () => {
 
   it('入力フォームが表示されること', () => {
     expect(wrapper.find('form').exists()).toBe(true)
-    expect(wrapper.find('label[for="category_item"]').text()).toBe('カテゴリー名')
-    expect(wrapper.find('label[for="category_summary"]').text()).toBe('概要')
-    expect(wrapper.find('input[id="category_item"]').exists()).toBe(true)
-    expect(wrapper.find('textarea').exists()).toBe(true)
+    expect(wrapper.find('label[for="category-item"]').text()).toBe('カテゴリー名')
+    expect(wrapper.find('label[for="category-summary"]').text()).toBe('概要')
+    expect(wrapper.find('input[id="category-item"]').exists()).toBe(true)
+    expect(wrapper.find('textarea[id="category-summary"]').exists()).toBe(true)
     expect(wrapper.find('button').exists()).toBe(true)
   })
 
@@ -93,8 +93,8 @@ describe('カテゴリー情報の取得に成功した場合', () => {
 
     await flushPromises()
 
-    expect(wrapper.find('#category_item').element.value).toBe('sample category')
-    expect(wrapper.find('#category_summary').element.value).toBe('sample summary')
+    expect(wrapper.find('#category-item').element.value).toBe('sample category')
+    expect(wrapper.find('#category-summary').element.value).toBe('sample summary')
   })
 })
 

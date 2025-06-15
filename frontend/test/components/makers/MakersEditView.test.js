@@ -58,49 +58,31 @@ describe('MakersEditView', () => {
       expect(wrapper.find('h3').text()).toBe('メーカー情報の編集')
     })
 
-    it('フォームが存在すること', () => {
+    it('入力フォームが表示されること', () => {
+      // フォーム要素
       expect(wrapper.find('form').exists()).toBe(true)
-    })
 
-    it('ラベルが存在すること', () => {
-      expect(wrapper.find('label[for="maker_name"]').exists()).toBe(true)
-      expect(wrapper.find('label[for="maker_name"]').text()).toBe('メーカー名')
+      // ラベル要素
+      expect(wrapper.find('label[for="maker-name"]').text()).toBe('メーカー名')
+      expect(wrapper.find('label[for="maker-postal-code"]').text()).toBe('郵便番号')
+      expect(wrapper.find('label[for="maker-address"]').text()).toBe('住所')
+      expect(wrapper.find('label[for="maker-phone-number"]').text()).toBe('電話番号')
+      expect(wrapper.find('label[for="maker-fax-number"]').text()).toBe('FAX番号')
+      expect(wrapper.find('label[for="maker-email"]').text()).toBe('Email')
+      expect(wrapper.find('label[for="maker-home-page"]').text()).toBe('ホームページ')
+      expect(wrapper.find('label[for="maker-manufacturer-rep"]').text()).toBe('担当者')
 
-      expect(wrapper.find('label[for="maker_postal_code"]').exists()).toBe(true)
-      expect(wrapper.find('label[for="maker_postal_code"]').text()).toBe('郵便番号')
+      // 入力要素
+      expect(wrapper.find('#maker-name').exists()).toBe(true)
+      expect(wrapper.find('#maker-postal-code').exists()).toBe(true)
+      expect(wrapper.find('#maker-address').exists()).toBe(true)
+      expect(wrapper.find('#maker-phone-number').exists()).toBe(true)
+      expect(wrapper.find('#maker-fax-number').exists()).toBe(true)
+      expect(wrapper.find('#maker-email').exists()).toBe(true)
+      expect(wrapper.find('#maker-home-page').exists()).toBe(true)
+      expect(wrapper.find('#maker-manufacturer-rep').exists()).toBe(true)
 
-      expect(wrapper.find('label[for="maker_address"]').exists()).toBe(true)
-      expect(wrapper.find('label[for="maker_address"]').text()).toBe('住所')
-
-      expect(wrapper.find('label[for="maker_phone_number"]').exists()).toBe(true)
-      expect(wrapper.find('label[for="maker_phone_number"]').text()).toBe('電話番号')
-
-      expect(wrapper.find('label[for="maker_fax_number"]').exists()).toBe(true)
-      expect(wrapper.find('label[for="maker_fax_number"]').text()).toBe('FAX番号')
-
-      expect(wrapper.find('label[for="maker_email"]').exists()).toBe(true)
-      expect(wrapper.find('label[for="maker_email"]').text()).toBe('Email')
-
-      expect(wrapper.find('label[for="maker_home_page"]').exists()).toBe(true)
-      expect(wrapper.find('label[for="maker_home_page"]').text()).toBe('ホームページ')
-
-      expect(wrapper.find('label[for="maker_manufacturer_rep"]').exists()).toBe(true)
-      expect(wrapper.find('label[for="maker_manufacturer_rep"]').text()).toBe('担当者')
-    })
-
-    it('フォームフィールドが存在すること', () => {
-      expect(wrapper.find('#maker_name').exists()).toBe(true)
-      expect(wrapper.find('#maker_postal_code').exists()).toBe(true)
-      expect(wrapper.find('#maker_address').exists()).toBe(true)
-      expect(wrapper.find('#maker_phone_number').exists()).toBe(true)
-      expect(wrapper.find('#maker_fax_number').exists()).toBe(true)
-      expect(wrapper.find('#maker_email').exists()).toBe(true)
-      expect(wrapper.find('#maker_home_page').exists()).toBe(true)
-      expect(wrapper.find('#maker_manufacturer_rep').exists()).toBe(true)
-    })
-
-    it('ボタンが存在すること', () => {
-      expect(wrapper.find('button').exists()).toBe(true)
+      // ボタン要素
       expect(wrapper.find('button').text()).toBe('更新')
     })
 
@@ -139,14 +121,14 @@ describe('MakersEditView', () => {
 
         await flushPromises()
 
-        expect(wrapper.find('#maker_name').element.value).toBe('有限会社中野銀行')
-        expect(wrapper.find('#maker_postal_code').element.value).toBe('962-0713')
-        expect(wrapper.find('#maker_address').element.value).toBe('東京都渋谷区神南1-2-0')
-        expect(wrapper.find('#maker_phone_number').element.value).toBe('070-3288-2552')
-        expect(wrapper.find('#maker_fax_number').element.value).toBe('070-2623-8399')
-        expect(wrapper.find('#maker_email').element.value).toBe('sample_maker0@example.com')
-        expect(wrapper.find('#maker_home_page').element.value).toBe('https://example.com/sample_maker0')
-        expect(wrapper.find('#maker_manufacturer_rep').element.value).toBe('宮本 悠斗')
+        expect(wrapper.find('#maker-name').element.value).toBe('有限会社中野銀行')
+        expect(wrapper.find('#maker-postal-code').element.value).toBe('962-0713')
+        expect(wrapper.find('#maker-address').element.value).toBe('東京都渋谷区神南1-2-0')
+        expect(wrapper.find('#maker-phone-number').element.value).toBe('070-3288-2552')
+        expect(wrapper.find('#maker-fax-number').element.value).toBe('070-2623-8399')
+        expect(wrapper.find('#maker-email').element.value).toBe('sample_maker0@example.com')
+        expect(wrapper.find('#maker-home-page').element.value).toBe('https://example.com/sample_maker0')
+        expect(wrapper.find('#maker-manufacturer-rep').element.value).toBe('宮本 悠斗')
       })
     })
 
@@ -205,14 +187,14 @@ describe('MakersEditView', () => {
 
         await flushPromises()
 
-        expect(wrapper.find('#maker_name').element.value).toBe('有限会社中野銀行')
-        expect(wrapper.find('#maker_postal_code').element.value).toBe('962-0713')
-        expect(wrapper.find('#maker_address').element.value).toBe('東京都渋谷区神南1-2-0')
-        expect(wrapper.find('#maker_phone_number').element.value).toBe('070-3288-2552')
-        expect(wrapper.find('#maker_fax_number').element.value).toBe('070-2623-8399')
-        expect(wrapper.find('#maker_email').element.value).toBe('sample_maker0@example.com')
-        expect(wrapper.find('#maker_home_page').element.value).toBe('https://example.com/sample_maker0')
-        expect(wrapper.find('#maker_manufacturer_rep').element.value).toBe('宮本 悠斗')
+        expect(wrapper.find('#maker-name').element.value).toBe('有限会社中野銀行')
+        expect(wrapper.find('#maker-postal-code').element.value).toBe('962-0713')
+        expect(wrapper.find('#maker-address').element.value).toBe('東京都渋谷区神南1-2-0')
+        expect(wrapper.find('#maker-phone-number').element.value).toBe('070-3288-2552')
+        expect(wrapper.find('#maker-fax-number').element.value).toBe('070-2623-8399')
+        expect(wrapper.find('#maker-email').element.value).toBe('sample_maker0@example.com')
+        expect(wrapper.find('#maker-home-page').element.value).toBe('https://example.com/sample_maker0')
+        expect(wrapper.find('#maker-manufacturer-rep').element.value).toBe('宮本 悠斗')
 
         await wrapper.find('form').trigger('submit.prevent')
 
