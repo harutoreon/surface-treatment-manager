@@ -35,49 +35,31 @@ describe('MakersNewView', () => {
       expect(wrapper.find('h3').text()).toBe('メーカー情報の登録')
     })
 
-    it('フォームが存在すること', () => {
+    it('入力フォームが表示されること', () => {
+      // フォーム要素
       expect(wrapper.find('form').exists()).toBe(true)
-    })
 
-    it('すべてのラベルが表示されること', () => {
-      expect(wrapper.find('label[for="maker_name"]').exists()).toBe(true)
-      expect(wrapper.find('label[for="maker_name"]').text()).toBe('メーカー名')
-  
-      expect(wrapper.find('label[for="maker_postal_code"]').exists()).toBe(true)
-      expect(wrapper.find('label[for="maker_postal_code"]').text()).toBe('郵便番号')
-  
-      expect(wrapper.find('label[for="maker_address"]').exists()).toBe(true)
-      expect(wrapper.find('label[for="maker_address"]').text()).toBe('住所')
-  
-      expect(wrapper.find('label[for="maker_phone_number"]').exists()).toBe(true)
-      expect(wrapper.find('label[for="maker_phone_number"]').text()).toBe('電話番号')
-  
-      expect(wrapper.find('label[for="maker_fax_number"]').exists()).toBe(true)
-      expect(wrapper.find('label[for="maker_fax_number"]').text()).toBe('FAX番号')
-  
-      expect(wrapper.find('label[for="maker_email"]').exists()).toBe(true)
-      expect(wrapper.find('label[for="maker_email"]').text()).toBe('Email')
-  
-      expect(wrapper.find('label[for="maker_home_page"]').exists()).toBe(true)
-      expect(wrapper.find('label[for="maker_home_page"]').text()).toBe('ホームページ')
-  
-      expect(wrapper.find('label[for="maker_manufacturer_rep"]').exists()).toBe(true)
-      expect(wrapper.find('label[for="maker_manufacturer_rep"]').text()).toBe('担当者')
-    })
+      // ラベル要素
+      expect(wrapper.find('label[for="maker-name"]').text()).toBe('メーカー名')
+      expect(wrapper.find('label[for="maker-postal-code"]').text()).toBe('郵便番号')
+      expect(wrapper.find('label[for="maker-address"]').text()).toBe('住所')
+      expect(wrapper.find('label[for="maker-phone-number"]').text()).toBe('電話番号')
+      expect(wrapper.find('label[for="maker-fax-number"]').text()).toBe('FAX番号')
+      expect(wrapper.find('label[for="maker-email"]').text()).toBe('Email')
+      expect(wrapper.find('label[for="maker-home-page"]').text()).toBe('ホームページ')
+      expect(wrapper.find('label[for="maker-manufacturer-rep"]').text()).toBe('担当者')
 
-    it('すべてのフォームフィールドが表示されること', () => {
-      expect(wrapper.find('input[id="maker_name"]').exists()).toBe(true)
-      expect(wrapper.find('input[id="maker_postal_code"]').exists()).toBe(true)
-      expect(wrapper.find('input[id="maker_address"]').exists()).toBe(true)
-      expect(wrapper.find('input[id="maker_phone_number"]').exists()).toBe(true)
-      expect(wrapper.find('input[id="maker_fax_number"]').exists()).toBe(true)
-      expect(wrapper.find('input[id="maker_email"]').exists()).toBe(true)
-      expect(wrapper.find('input[id="maker_home_page"]').exists()).toBe(true)
-      expect(wrapper.find('input[id="maker_manufacturer_rep"]').exists()).toBe(true)
-    })
+      // 入力要素
+      expect(wrapper.find('#maker-name').exists()).toBe(true)
+      expect(wrapper.find('#maker-postal-code').exists()).toBe(true)
+      expect(wrapper.find('#maker-address').exists()).toBe(true)
+      expect(wrapper.find('#maker-phone-number').exists()).toBe(true)
+      expect(wrapper.find('#maker-fax-number').exists()).toBe(true)
+      expect(wrapper.find('#maker-email').exists()).toBe(true)
+      expect(wrapper.find('#maker-home-page').exists()).toBe(true)
+      expect(wrapper.find('#maker-manufacturer-rep').exists()).toBe(true)
 
-    it('登録ボタンが表示されること', () => {
-      expect(wrapper.find('button').exists()).toBe(true)
+      // ボタン要素
       expect(wrapper.find('button').text()).toBe('登録')
     })
 

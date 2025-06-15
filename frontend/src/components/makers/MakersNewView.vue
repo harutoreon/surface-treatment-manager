@@ -51,18 +51,18 @@ const makerRegistration = async () => {
     </p>
 
     <form v-on:submit.prevent="makerRegistration">
-      <label class="form-label" for="maker_name">
+      <label class="form-label" for="maker-name">
         メーカー名
       </label>
       <input
         v-model="name"
         class="form-control mb-2"
         type="text"
-        id="maker_name"
+        id="maker-name"
         required
       >
       
-      <label class="form-label" for="maker_postal_code">
+      <label class="form-label" for="maker-postal-code">
         郵便番号
       </label>
       <input
@@ -70,20 +70,20 @@ const makerRegistration = async () => {
         class="form-control mb-2"
         style="width: 10rem;"
         type="text"
-        id="maker_postal_code"
+        id="maker-postal-code"
       >
       
-      <label class="form-label" for="maker_address">
+      <label class="form-label" for="maker-address">
         住所
       </label>
       <input
         v-model="address"
         class="form-control mb-2"
         type="text"
-        id="maker_address"
+        id="maker-address"
       >
       
-      <label class="form-label" for="maker_phone_number">
+      <label class="form-label" for="maker-phone-number">
         電話番号
       </label>
       <input
@@ -91,10 +91,10 @@ const makerRegistration = async () => {
         class="form-control mb-2"
         style="width: 10rem;"
         type="tel"
-        id="maker_phone_number"
+        id="maker-phone-number"
       >
       
-      <label class="form-label" for="maker_fax_number">
+      <label class="form-label" for="maker-fax-number">
         FAX番号
       </label>
       <input
@@ -102,37 +102,37 @@ const makerRegistration = async () => {
         class="form-control mb-2"
         style="width: 10rem;"
         type="tel"
-        id="maker_fax_number"
+        id="maker-fax-number"
       >
       
-      <label class="form-label" for="maker_email">
+      <label class="form-label" for="maker-email">
         Email
       </label>
       <input
         v-model="email"
         class="form-control mb-2"
         type="email"
-        id="maker_email"
+        id="maker-email"
       >
       
-      <label class="form-label" for="maker_home_page">
+      <label class="form-label" for="maker-home-page">
         ホームページ
       </label>
       <input
         v-model="homePage"
         class="form-control mb-2"
         type="url"
-        id="maker_home_page"
+        id="maker-home-page"
       >
       
-      <label class="form-label" for="maker_manufacturer_rep">
+      <label class="form-label" for="maker-manufacturer-rep">
         担当者
       </label>
       <input
         v-model="manufacturerRep"
         class="form-control mb-3"
         type="text"
-        id="maker_manufacturer_rep"
+        id="maker-manufacturer-rep"
       >
       
       <button type="submit" class="form-control btn btn-primary mb-5">
