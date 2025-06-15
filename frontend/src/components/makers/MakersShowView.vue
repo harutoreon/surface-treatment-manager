@@ -78,9 +78,7 @@ onMounted(() => {
         </li>
         <li class="d-flex justify-content-between list-group-item">
           <div>FAX番号:</div>
-          <div>
-            {{ maker.fax_number }}
-          </div>
+          <div>{{ maker.fax_number }}</div>
         </li>
         <li class="d-flex justify-content-between list-group-item">
           <div>Email:</div>
