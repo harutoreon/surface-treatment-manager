@@ -36,61 +36,44 @@ describe('SamplesNewView', () => {
       expect(wrapper.find('h3').text()).toBe('表面処理情報の登録')
     })
 
-    it('すべてのラベルが存在すること', () => {
-      expect(wrapper.find('#label_sample_name').exists()).toBe(true)
-      expect(wrapper.find('#label_sample_name').text()).toBe('処理名')
+    it('入力フォームが表示されること', () => {
+      // フォーム要素
+      expect(wrapper.find('form').exists()).toBe(true)
 
-      expect(wrapper.find('#label_sample_category').exists()).toBe(true)
-      expect(wrapper.find('#label_sample_category').text()).toBe('カテゴリー')
+      // ラベル要素
+      expect(wrapper.find('label[for="sample-name"]').text()).toBe('処理名')
+      expect(wrapper.find('label[for="sample-category"]').text()).toBe('カテゴリー')
+      expect(wrapper.find('label[for="sample-color"]').text()).toBe('色調')
+      expect(wrapper.find('label[for="sample-maker"]').text()).toBe('メーカー')
+      expect(wrapper.find('label[for="sample-hardness"]').text()).toBe('硬度')
+      expect(wrapper.find('label[for="sample-film-thickness"]').text()).toBe('膜厚')
+      expect(wrapper.find('label[for="sample-feature"]').text()).toBe('特徴')
+      expect(wrapper.find('label[for="sample-image"]').text()).toBe('画像')
 
-      expect(wrapper.find('#label_sample_color').exists()).toBe(true)
-      expect(wrapper.find('#label_sample_color').text()).toBe('色調')
+      // 入力要素（テキスト）
+      expect(wrapper.find('#sample-name').exists()).toBe(true)
+      expect(wrapper.find('#sample-color').exists()).toBe(true)
+      expect(wrapper.find('#sample-maker').exists()).toBe(true)
+      expect(wrapper.find('#sample-hardness').exists()).toBe(true)
+      expect(wrapper.find('#sample-film-thickness').exists()).toBe(true)
+      expect(wrapper.find('#sample-feature').exists()).toBe(true)
 
-      expect(wrapper.find('#label_sample_maker').exists()).toBe(true)
-      expect(wrapper.find('#label_sample_maker').text()).toBe('メーカー')
-
-      expect(wrapper.find('#label_sample_hardness').exists()).toBe(true)
-      expect(wrapper.find('#label_sample_hardness').text()).toBe('硬度')
-
-      expect(wrapper.find('#label_sample_film_thickness').exists()).toBe(true)
-      expect(wrapper.find('#label_sample_film_thickness').text()).toBe('膜厚')
-
-      expect(wrapper.find('#label_sample_feature').exists()).toBe(true)
-      expect(wrapper.find('#label_sample_feature').text()).toBe('特徴')
-
-      expect(wrapper.find('#label_sample_image').exists()).toBe(true)
-      expect(wrapper.find('#label_sample_image').text()).toBe('画像')
-    })
-
-    it('すべてのテキスト入力が存在すること', () => {
-      expect(wrapper.find('#sample_name').exists()).toBe(true)
-      expect(wrapper.find('#sample_color').exists()).toBe(true)
-      expect(wrapper.find('#sample_maker').exists()).toBe(true)
-      expect(wrapper.find('#sample_hardness').exists()).toBe(true)
-      expect(wrapper.find('#sample_film_thickness').exists()).toBe(true)
-      expect(wrapper.find('#sample_feature').exists()).toBe(true)
-    })
-
-    it('ドロップダウンリストが存在すること', () => {
-      expect(wrapper.find('#sample_category').exists()).toBe(true)
+      // 選択要素
+      expect(wrapper.find('#sample-category').exists()).toBe(true)
       expect(wrapper.find('option[value=""]').text()).toBe('')
       expect(wrapper.find('option[value="めっき"]').text()).toBe('めっき')
       expect(wrapper.find('option[value="陽極酸化"]').text()).toBe('陽極酸化')
       expect(wrapper.find('option[value="化成"]').text()).toBe('化成')
       expect(wrapper.find('option[value="コーティング"]').text()).toBe('コーティング')
       expect(wrapper.find('option[value="表面硬化"]').text()).toBe('表面硬化')
-    })
 
-    it('画像プレビューが存在すること', () => {
-      expect(wrapper.find('#preview_image').exists()).toBe(true)
-    })
+      // 画像埋め込み要素
+      expect(wrapper.find('#preview-image').exists()).toBe(true)
 
-    it('ファイル選択が存在すること', () => {
-      expect(wrapper.find('#sample_image').exists()).toBe(true)
-    })
+      // 入力要素（ファイル）
+      expect(wrapper.find('#sample-image').exists()).toBe(true)
 
-    it('ボタンが存在すること', () => {
-      expect(wrapper.find('button').exists()).toBe(true)
+      // ボタン要素
       expect(wrapper.find('button').text()).toBe('登録')
     })
 

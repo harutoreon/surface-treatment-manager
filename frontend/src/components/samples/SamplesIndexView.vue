@@ -50,12 +50,8 @@ onMounted(() => {
     <div class="list-group list-group-flush mb-2">
       <div class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
-          <h6 id="label_name_and_category">
-            処理名 / カテゴリー
-          </h6>
-          <h6 id="label_maker_name">
-            メーカー名
-          </h6>
+          <h6>処理名 / カテゴリー</h6>
+          <h6>メーカー名</h6>
         </div>
       </div>
 

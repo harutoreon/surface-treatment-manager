@@ -81,65 +81,35 @@ onMounted(() => {
 
     <div class="list-group mb-5">
       <li class="d-flex justify-content-between list-group-item">
-        <div id="label_sample_name">
-          処理名：
-        </div>
-        <div id="sample_name">
-          {{ sample.name }}
-        </div>
+        <div>処理名：</div>
+        <div>{{ sample.name }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div id="label_sample_category">
-          カテゴリー：
-        </div>
-        <div id="sample_category">
-          {{ sample.category }}
-        </div>
+        <div>カテゴリー：</div>
+        <div>{{ sample.category }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div id="label_sample_color">
-          色調：
-        </div>
-        <div id="sample_color">
-          {{ sample.color }}
-        </div>
+        <div>色調：</div>
+        <div>{{ sample.color }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div id="label_sample_maker">
-          メーカー：
-        </div>
-        <div id="sample_maker">
-          {{ sample.maker }}
-        </div>
+        <div>メーカー：</div>
+        <div>{{ sample.maker }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div id="label_sample_hardness">
-          硬度：
-        </div>
-        <div id="sample_hardness">
-          {{ sample.hardness }}
-        </div>
+        <div>硬度：</div>
+        <div>{{ sample.hardness }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div id="label_sample_film_thickness">
-          膜厚：
-        </div>
-        <div id="sample_film_thickness">
-          {{ sample.film_thickness }}
-        </div>
+        <div>膜厚：</div>
+        <div>{{ sample.film_thickness }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div id="label_sample_feature">
-          特徴：
-        </div>
-        <div id="sample_feature">
-          {{ sample.feature }}
-        </div>
+        <div>特徴：</div>
+        <div>{{ sample.feature }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div id="label_sample_image">
-          画像：
-        </div>
+        <div>画像：</div>
         <div>
           <img
             v-if="sample.image_url"
@@ -162,12 +132,8 @@ onMounted(() => {
     <div class="list-group list-group-flush mb-2">
       <div class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
-          <h6 id="label_commenter">
-            部署名 / 投稿者 / コメント
-          </h6>
-          <h6 id="label_create_at">
-            投稿日
-          </h6>
+          <h6>部署名 / 投稿者 / コメント</h6>
+          <h6>投稿日</h6>
         </div>
       </div>
 
