@@ -47,24 +47,24 @@ const userRegistration = async () => {
     </h3>
 
     <form v-on:submit.prevent="userRegistration">
-      <label class="form-label" for="user_name">
+      <label class="form-label" for="user-name">
         ユーザー名
       </label>
       <input
         v-model="name"
         class="form-control mb-3"
         type="text"
-        id="user_name"
+        id="user-name"
         required
       >
 
-      <label class="form-label" for="user_department">
+      <label class="form-label" for="user-department">
         部署名
       </label>
       <select
         v-model="department"
         class="form-select mb-3"
-        id="user_department"
+        id="user-department"
         required
       >
         <option value="" label=" "></option>
@@ -73,25 +73,25 @@ const userRegistration = async () => {
         </option>
       </select>
 
-      <label class="form-label" for="user_password">
+      <label class="form-label" for="user-password">
         パスワード
       </label>
       <input
         v-model="password"
         class="form-control mb-3"
         type="password"
-        id="user_password"
+        id="user-password"
         required
       >
 
-      <label class="form-label" for="user_password_confirmation">
+      <label class="form-label" for="user-password-confirmation">
         パスワードの確認
       </label>
       <input
         v-model="password_confirmation"
         class="form-control mb-4"
         type="password"
-        id="user_password_confirmation"
+        id="user-password-confirmation"
         required
       >
 
