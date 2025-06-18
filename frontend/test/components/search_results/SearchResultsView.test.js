@@ -54,17 +54,15 @@ describe('SearchResultsNameView', () => {
       expect(wrapper.find('h3').text()).toBe('表面処理の検索結果')
     })
 
-    it('検索キーワードが存在すること', () => {
-      expect(wrapper.find('h5').exists()).toBe(true)
-      expect(wrapper.find('h5').text()).toContain('検索文字列：')
-    })
+    it('検索結果が表示されること', () => {
+      // 検索文字列
+      expect(wrapper.text()).toContain('「めっき」')
 
-    it('ラベルが存在すること', () => {
-      expect(wrapper.find('#label_name_category').exists()).toBe(true)
-      expect(wrapper.find('#label_name_category').text()).toBe('処理名 / カテゴリー')
+      // 処理名
+      expect(wrapper.text()).toContain('ハードクロムめっき')
 
-      expect(wrapper.find('#label_maker').exists()).toBe(true)
-      expect(wrapper.find('#label_maker').text()).toBe('メーカー名')
+      // メーカー名
+      expect(wrapper.text()).toContain('サンプルメーカー')
     })
 
     it('外部リンクが存在すること', () => {

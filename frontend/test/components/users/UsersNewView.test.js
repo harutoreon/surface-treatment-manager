@@ -43,10 +43,23 @@ describe('UsersNewView', () => {
     })
 
     it('入力フォームが表示されること', () => {
+      // フォーム要素
       expect(wrapper.find('form').exists()).toBe(true)
-      expect(wrapper.find('input[type="text"]').exists()).toBe(true)
-      expect(wrapper.find('select').exists()).toBe(true)
-      expect(wrapper.findAll('input[type="password"]').length).toBe(2)
+
+      // ラベル要素
+      expect(wrapper.find('label[for="user-name"]').text()).toBe('ユーザー名')
+      expect(wrapper.find('label[for="user-department"]').text()).toBe('部署名')
+      expect(wrapper.find('label[for="user-password"]').text()).toBe('パスワード')
+      expect(wrapper.find('label[for="user-password-confirmation"]').text()).toBe('パスワードの確認')
+
+      // 入力要素・選択要素
+      expect(wrapper.find('#user-name').exists()).toBe(true)
+      expect(wrapper.find('#user-department').exists()).toBe(true)
+      expect(wrapper.find('#user-password').exists()).toBe(true)
+      expect(wrapper.find('#user-password-confirmation').exists()).toBe(true)
+
+      // ボタン要素
+      expect(wrapper.find('button').text()).toBe('登録')
     })
 
     it('RouterLinkにto属性が設定されていること', () => {
@@ -68,10 +81,10 @@ describe('UsersNewView', () => {
         }
         axios.post.mockResolvedValue({ data: { user: mockUser } })
 
-        const nameInput = wrapper.find('input[type="text"]')
-        const departmentSelect = wrapper.find('select')
-        const passwordInput = wrapper.find('input[type="password"][id="user_password"]')
-        const passwordConfirmationInput = wrapper.find('input[type="password"][id="user_password_confirmation"]')
+        const nameInput = wrapper.find('#user-name')
+        const departmentSelect = wrapper.find('#user-department')
+        const passwordInput = wrapper.find('#user-password')
+        const passwordConfirmationInput = wrapper.find('#user-password-confirmation')
 
         await nameInput.setValue('sample user')
         await departmentSelect.setValue('開発部')

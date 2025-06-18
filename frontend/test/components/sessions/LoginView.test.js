@@ -25,8 +25,8 @@ describe('LoginForm.vue', () => {
       axios.post.mockResolvedValue({ data: { user: mockUser } })
       
       const wrapper = mount(LoginView)
-      const nameInput = wrapper.find('input[type="text"]')
-      const passwordInput = wrapper.find('input[type="password"]')
+      const nameInput = wrapper.find('#user-name')
+      const passwordInput = wrapper.find('#user-password')
       
       await nameInput.setValue('test_user')
       await passwordInput.setValue('password')
@@ -68,19 +68,19 @@ describe('LoginForm.vue', () => {
 
     describe('管理者ユーザーのラジオボンタンを押した場合', () => {
       it('管理者ユーザーの認証情報が入力フォームにセットされること', async () => {
-        await wrapper.find('#admin_user').trigger('change')
+        await wrapper.find('#admin-user').trigger('change')
 
-        expect(wrapper.find('#user_name').element.value).toBe('admin user')
-        expect(wrapper.find('#password').element.value).toBe('adminpassword')
+        expect(wrapper.find('#user-name').element.value).toBe('admin user')
+        expect(wrapper.find('#user-password').element.value).toBe('adminpassword')
       })
     })
 
     describe('一般ユーザーのラジオボンタンを押した場合', () => {
       it('一般ユーザーの認証情報が入力フォームにセットされること', async () => {
-        await wrapper.find('#general_user').trigger('change')
+        await wrapper.find('#general-user').trigger('change')
 
-        expect(wrapper.find('#user_name').element.value).toBe('general user')
-        expect(wrapper.find('#password').element.value).toBe('generalpassword')
+        expect(wrapper.find('#user-name').element.value).toBe('general user')
+        expect(wrapper.find('#user-password').element.value).toBe('generalpassword')
       })
     })
   })

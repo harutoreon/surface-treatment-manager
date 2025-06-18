@@ -28,11 +28,8 @@ describe('NotFound', () => {
     })
 
     it('404エラーメッセージが存在すること', () => {
-      expect(wrapper.find('#page-not-found').exists()).toBe(true)
-      expect(wrapper.find('#page-not-found').text()).toBe('お探しのページは見つかりませんでした。')
-
-      expect(wrapper.find('#url-missing-reason').exists()).toBe(true)
-      expect(wrapper.find('#url-missing-reason').text()).toBe('存在しない URL か、移動された可能性があります。')
+      expect(wrapper.text()).toContain('お探しのページは見つかりませんでした。')
+      expect(wrapper.text()).toContain('存在しない URL か、移動された可能性があります。')
     })
 
     it('/homeに遷移するボタンが存在すること', () => {

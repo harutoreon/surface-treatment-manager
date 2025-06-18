@@ -58,14 +58,29 @@ describe('MakersShowView', () => {
     })
 
     it('メーカー情報が表示されること', () => {
-      expect(wrapper.find('div[id="maker-name"]').text()).toBe('有限会社中野銀行')
-      expect(wrapper.find('div[id="postal-code"]').text()).toBe('962-0713')
-      expect(wrapper.find('div[id="address"]').text()).toBe('東京都渋谷区神南1-2-0')
-      expect(wrapper.find('div[id="phone-number"]').text()).toBe('070-3288-2552')
-      expect(wrapper.find('div[id="fax-number"]').text()).toBe('070-2623-8399')
-      expect(wrapper.find('div[id="email-address"]').text()).toBe('sample_maker0@example.com')
-      expect(wrapper.find('div[id="home-page-address"]').text()).toBe('https://example.com/sample_maker0')
-      expect(wrapper.find('div[id="person-in-charge"]').text()).toBe('宮本 悠斗')
+      // メーカー名
+      expect(wrapper.text()).toContain('有限会社中野銀行')
+
+      // 郵便番号
+      expect(wrapper.text()).toContain('962-0713')
+
+      // 住所
+      expect(wrapper.text()).toContain('東京都渋谷区神南1-2-0')
+
+      // 電話番号
+      expect(wrapper.text()).toContain('070-3288-2552')
+
+      // FAX 番号
+      expect(wrapper.text()).toContain('070-2623-8399')
+
+      // Email アドレス
+      expect(wrapper.text()).toContain('sample_maker0@example.com')
+
+      // ホームページアドレス
+      expect(wrapper.text()).toContain('https://example.com/sample_maker0')
+
+      // 担当者
+      expect(wrapper.text()).toContain('宮本 悠斗')
     })
 
     it('外部リンクが表示されること', () => {

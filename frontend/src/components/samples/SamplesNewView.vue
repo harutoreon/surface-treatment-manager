@@ -24,7 +24,7 @@ const handleFileChange = (event) => {
 
     const reader = new FileReader()
     reader.onload = (e) => {
-      const previewImage = document.getElementById('preview_image')
+      const previewImage = document.getElementById('preview-image')
       if (previewImage) {
         previewImage.src = e.target.result
       }
@@ -72,20 +72,20 @@ const sampleRegistration = async () => {
     </p>
     
     <form v-on:submit.prevent="sampleRegistration">
-      <label class="form-label" for="sample_name" id="label_sample_name">
+      <label class="form-label" for="sample-name">
         処理名
       </label>
       <input
         v-model="name"
         class="form-control mb-3"
         type="text"
-        id="sample_name"
+        id="sample-name"
       >
 
-      <label class="form-label" for="sample_category" id="label_sample_category">
+      <label class="form-label" for="sample-category">
         カテゴリー
       </label>
-      <select v-model="category" class="form-select mb-3" id="sample_category">
+      <select v-model="category" class="form-select mb-3" id="sample-category">
         <option value=""></option>
         <option value="めっき">
           めっき
@@ -104,64 +104,64 @@ const sampleRegistration = async () => {
         </option>
       </select>
 
-      <label class="form-label" for="sample_color" id="label_sample_color">
+      <label class="form-label" for="sample-color">
         色調
       </label>
       <input
         v-model="color"
         class="form-control mb-3"
         type="text"
-        id="sample_color"
+        id="sample-color"
       >
 
-      <label class="form-label" for="sample_maker" id="label_sample_maker">
+      <label class="form-label" for="sample-maker">
         メーカー
       </label>
       <input
         v-model="maker"
         class="form-control mb-3"
         type="text"
-        id="sample_maker"
+        id="sample-maker"
       >
 
-      <label class="form-label" for="sample_hardness" id="label_sample_hardness">
+      <label class="form-label" for="sample-hardness">
         硬度
       </label>
       <input
         v-model="hardness"
         class="form-control mb-3"
         type="text"
-        id="sample_hardness"
+        id="sample-hardness"
       >
 
-      <label class="form-label" for="sample_film_thickness" id="label_sample_film_thickness">
+      <label class="form-label" for="sample-film-thickness">
         膜厚
       </label>
       <input
         v-model="filmThickness"
         class="form-control mb-3"
         type="text"
-        id="sample_film_thickness"
+        id="sample-film-thickness"
       >
 
-      <label class="form-label" for="sample_feature" id="label_sample_feature">
+      <label class="form-label" for="sample-feature">
         特徴
       </label>
       <input
         v-model="feature"
         class="form-control mb-3"
         type="text"
-        id="sample_feature"
+        id="sample-feature"
       >
 
-      <label class="form-label" for="sample_image" id="label_sample_image">
+      <label class="form-label" for="sample-image">
         画像
       </label>
       <div>
         <img
           alt="No Image"
           class="mb-3"
-          id="preview_image"
+          id="preview-image"
           width="200"
           height="200"
           src=""
@@ -171,7 +171,7 @@ const sampleRegistration = async () => {
         class="form-control mb-4"
         accept="image/jpeg,image/gif,image/png,image/jpg"
         type="file"
-        id="sample_image"
+        id="sample-image"
         v-on:change="handleFileChange"
       />
 

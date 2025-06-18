@@ -61,48 +61,33 @@ describe('SamplesEditView', () => {
       expect(wrapper.find('h3').text()).toBe('表面処理情報の編集')
     })
 
-    it('すべてのラベルが存在すること', () => {
-      expect(wrapper.find('#label_sample_name').exists()).toBe(true)
-      expect(wrapper.find('#label_sample_name').text()).toBe('処理名')
+    it('入力フォームが表示されること', () => {
+      // フォーム要素
+      expect(wrapper.find('form').exists()).toBe(true)
 
-      expect(wrapper.find('#label_sample_category').exists()).toBe(true)
-      expect(wrapper.find('#label_sample_category').text()).toBe('カテゴリー')
+      // ラベル要素
+      expect(wrapper.find('label[for="sample-name"]').text()).toContain('処理名')
+      expect(wrapper.find('label[for="sample-category"]').text()).toContain('カテゴリー')
+      expect(wrapper.find('label[for="sample-color"]').text()).toContain('色調')
+      expect(wrapper.find('label[for="sample-maker"]').text()).toContain('メーカー')
+      expect(wrapper.find('label[for="sample-hardness"]').text()).toContain('硬度')
+      expect(wrapper.find('label[for="sample-film-thickness"]').text()).toContain('膜厚')
+      expect(wrapper.find('label[for="sample-feature"]').text()).toContain('特徴')
+      expect(wrapper.find('label[for="sample-image"]').text()).toContain('画像')
 
-      expect(wrapper.find('#label_sample_color').exists()).toBe(true)
-      expect(wrapper.find('#label_sample_color').text()).toBe('色調')
+      // 入力要素
+      expect(wrapper.find('#sample-name').exists()).toBe(true)
+      expect(wrapper.find('#sample-category').exists()).toBe(true)
+      expect(wrapper.find('#sample-color').exists()).toBe(true)
+      expect(wrapper.find('#sample-maker').exists()).toBe(true)
+      expect(wrapper.find('#sample-hardness').exists()).toBe(true)
+      expect(wrapper.find('#sample-film-thickness').exists()).toBe(true)
+      expect(wrapper.find('#sample-feature').exists()).toBe(true)
 
-      expect(wrapper.find('#label_sample_maker').exists()).toBe(true)
-      expect(wrapper.find('#label_sample_maker').text()).toBe('メーカー')
+      // 画像埋め込み要素
+      expect(wrapper.find('#sample-image').exists()).toBe(true)
 
-      expect(wrapper.find('#label_sample_hardness').exists()).toBe(true)
-      expect(wrapper.find('#label_sample_hardness').text()).toBe('硬度')
-
-      expect(wrapper.find('#label_sample_film_thickness').exists()).toBe(true)
-      expect(wrapper.find('#label_sample_film_thickness').text()).toBe('膜厚')
-
-      expect(wrapper.find('#label_sample_feature').exists()).toBe(true)
-      expect(wrapper.find('#label_sample_feature').text()).toBe('特徴')
-
-      expect(wrapper.find('#label_sample_image').exists()).toBe(true)
-      expect(wrapper.find('#label_sample_image').text()).toBe('画像')
-    })
-
-    it('すべてのテキスト入力が存在すること', () => {
-      expect(wrapper.find('#sample_name').exists()).toBe(true)
-      expect(wrapper.find('#sample_category').exists()).toBe(true)
-      expect(wrapper.find('#sample_color').exists()).toBe(true)
-      expect(wrapper.find('#sample_maker').exists()).toBe(true)
-      expect(wrapper.find('#sample_hardness').exists()).toBe(true)
-      expect(wrapper.find('#sample_film_thickness').exists()).toBe(true)
-      expect(wrapper.find('#sample_feature').exists()).toBe(true)
-    })
-
-    it('画像プレビューが存在すること', () => {
-      expect(wrapper.find('#preview_image').exists()).toBe(true)
-    })
-
-    it('ボタンが存在すること', () => {
-      expect(wrapper.find('button').exists()).toBe(true)
+      // ボタン要素
       expect(wrapper.find('button').text()).toBe('更新')
     })
 
@@ -145,14 +130,14 @@ describe('SamplesEditView', () => {
 
         await flushPromises()
 
-        expect(wrapper.find('#sample_name').element.value).toBe('無電解ニッケルめっき')
-        expect(wrapper.find('#sample_category').element.value).toBe('めっき')
-        expect(wrapper.find('#sample_color').element.value).toBe('ゴールド')
-        expect(wrapper.find('#sample_maker').element.value).toBe('サンプルメーカー')
-        expect(wrapper.find('#sample_hardness').element.value).toBe('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
-        expect(wrapper.find('#sample_film_thickness').element.value).toBe('通常は3～5μm、厚めの場合は20～50μmまで可能')
-        expect(wrapper.find('#sample_feature').element.value).toBe('耐食性・耐摩耗性・耐薬品性・耐熱性')
-        expect(wrapper.find('#preview_image').attributes('src')).toBe('http://localhost:3000/rails/active_storage/blobs/redirect/test.jpg')
+        expect(wrapper.find('#sample-name').element.value).toBe('無電解ニッケルめっき')
+        expect(wrapper.find('#sample-category').element.value).toBe('めっき')
+        expect(wrapper.find('#sample-color').element.value).toBe('ゴールド')
+        expect(wrapper.find('#sample-maker').element.value).toBe('サンプルメーカー')
+        expect(wrapper.find('#sample-hardness').element.value).toBe('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
+        expect(wrapper.find('#sample-film-thickness').element.value).toBe('通常は3～5μm、厚めの場合は20～50μmまで可能')
+        expect(wrapper.find('#sample-feature').element.value).toBe('耐食性・耐摩耗性・耐薬品性・耐熱性')
+        expect(wrapper.find('#sample-image').attributes('src')).toBe('http://localhost:3000/rails/active_storage/blobs/redirect/test.jpg')
       })
     })
 
@@ -213,14 +198,14 @@ describe('SamplesEditView', () => {
 
         await flushPromises()
 
-        expect(wrapper.find('#sample_name').element.value).toBe('無電解ニッケルめっき')
-        expect(wrapper.find('#sample_category').element.value).toBe('めっき')
-        expect(wrapper.find('#sample_color').element.value).toBe('ゴールド')
-        expect(wrapper.find('#sample_maker').element.value).toBe('サンプルメーカー')
-        expect(wrapper.find('#sample_hardness').element.value).toBe('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
-        expect(wrapper.find('#sample_film_thickness').element.value).toBe('通常は3～5μm、厚めの場合は20～50μmまで可能')
-        expect(wrapper.find('#sample_feature').element.value).toBe('耐食性・耐摩耗性・耐薬品性・耐熱性')
-        expect(wrapper.find('#preview_image').attributes('src')).toBe('http://localhost:3000/rails/active_storage/blobs/redirect/test.jpg')
+        expect(wrapper.find('#sample-name').element.value).toBe('無電解ニッケルめっき')
+        expect(wrapper.find('#sample-category').element.value).toBe('めっき')
+        expect(wrapper.find('#sample-color').element.value).toBe('ゴールド')
+        expect(wrapper.find('#sample-maker').element.value).toBe('サンプルメーカー')
+        expect(wrapper.find('#sample-hardness').element.value).toBe('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
+        expect(wrapper.find('#sample-film-thickness').element.value).toBe('通常は3～5μm、厚めの場合は20～50μmまで可能')
+        expect(wrapper.find('#sample-feature').element.value).toBe('耐食性・耐摩耗性・耐薬品性・耐熱性')
+        expect(wrapper.find('#sample-image').attributes('src')).toBe('http://localhost:3000/rails/active_storage/blobs/redirect/test.jpg')
 
         await wrapper.find('form').trigger('submit.prevent')
 

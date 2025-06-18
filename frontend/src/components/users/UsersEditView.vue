@@ -73,24 +73,24 @@ onMounted(() => {
     </h3>
 
     <form v-on:submit.prevent="userUpdate">
-      <label class="form-label" for="user_name">
+      <label class="form-label" for="user-name">
         ユーザー名
       </label>
       <input
         class="form-control mb-3"
         type="text"
         v-model="user.name"
-        id="user_name"
+        id="user-name"
         required
       >
 
-      <label class="form-label" for="user_department">
+      <label class="form-label" for="user-department">
         部署名
       </label>
       <select
         class="form-select mb-3"
         v-model="user.department"
-        id="user_department"
+        id="user-department"
         required
       >
         <option value="" label=" "></option>
@@ -99,24 +99,24 @@ onMounted(() => {
         </option>
       </select>
 
-      <label class="form-label" for="user_password">
+      <label class="form-label" for="user-password">
         パスワード
       </label>
       <input
         class="form-control mb-3"
         type="password"
         v-model="password"
-        id="user_password"
+        id="user-password"
       >
 
-      <label class="form-label" for="user_password_confirmation">
+      <label class="form-label" for="user-password-confirmation">
         パスワードの確認
       </label>
       <input
         class="form-control mb-4"
         type="password"
         v-model="password_confirmation"
-        id="user_password_confirmation"
+        id="user-password-confirmation"
       >
 
       <button type="submit" class="form-control btn btn-primary mb-5">

@@ -47,12 +47,8 @@ onMounted(() => {
     <div class="list-group list-group-flush mb-3">
       <div class="list-group-item">
         <div class="d-flex w-100 justify-content-between">
-          <h6 id="label_name_category">
-            処理名 / カテゴリー
-          </h6>
-          <h6 id="label_maker">
-            メーカー名
-          </h6>
+          <h6>処理名 / カテゴリー</h6>
+          <h6>メーカー名</h6>
         </div>
       </div>
       <RouterLink

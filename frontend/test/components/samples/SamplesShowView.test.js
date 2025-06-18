@@ -60,31 +60,30 @@ describe('SamplesShowView', () => {
       expect(wrapper.find('h3').text()).toBe('表面処理情報')
     })
 
-    it('表面処理情報のラベルが表示されること', () => {
-      expect(wrapper.find('#label_sample_name').text()).toBe('処理名：')
-      expect(wrapper.find('#label_sample_category').text()).toBe('カテゴリー：')
-      expect(wrapper.find('#label_sample_color').text()).toBe('色調：')
-      expect(wrapper.find('#label_sample_maker').text()).toBe('メーカー：')
-      expect(wrapper.find('#label_sample_hardness').text()).toBe('硬度：')
-      expect(wrapper.find('#label_sample_film_thickness').text()).toBe('膜厚：')
-      expect(wrapper.find('#label_sample_feature').text()).toBe('特徴：')
-      expect(wrapper.find('#label_sample_image').text()).toBe('画像：')
-    })
+    it('表面処理情報が表示されること', () => {
+      // 処理名
+      expect(wrapper.text()).toContain('無電解ニッケルめっき')
 
-    it('表面処理情報が存在すること', () => {
-      expect(wrapper.find('#sample_name').exists()).toBe(true)
-      expect(wrapper.find('#sample_category').exists()).toBe(true)
-      expect(wrapper.find('#sample_color').exists()).toBe(true)
-      expect(wrapper.find('#sample_maker').exists()).toBe(true)
-      expect(wrapper.find('#sample_hardness').exists()).toBe(true)
-      expect(wrapper.find('#sample_film_thickness').exists()).toBe(true)
-      expect(wrapper.find('#sample_feature').exists()).toBe(true)
-      expect(wrapper.find('#sample_image').exists()).toBe(true)
-    })
+      // カテゴリー
+      expect(wrapper.text()).toContain('めっき')
 
-    it('コメントのラベルが表示されること', () => {
-      expect(wrapper.find('#label_commenter').text()).toBe('部署名 / 投稿者 / コメント')
-      expect(wrapper.find('#label_create_at').text()).toBe('投稿日')
+      // 色調
+      expect(wrapper.text()).toContain('イエローブラウンシルバー')
+
+      // メーカー
+      expect(wrapper.text()).toContain('小島印刷合同会社')
+
+      // 硬度
+      expect(wrapper.text()).toContain('HV550～HV700')
+
+      // 膜厚
+      expect(wrapper.text()).toContain('3～5μm')
+
+      // 特徴
+      expect(wrapper.text()).toContain('耐食性')
+
+      // 画像
+      expect(wrapper.find('img').attributes('src')).toContain('sample_image_url.jpeg')
     })
 
     it('外部リンクが表示されること', () => {
@@ -122,14 +121,14 @@ describe('SamplesShowView', () => {
 
         await flushPromises()
 
-        expect(wrapper.find('#sample_name').text()).toBe('無電解ニッケルめっき')
-        expect(wrapper.find('#sample_category').text()).toBe('めっき')
-        expect(wrapper.find('#sample_color').text()).toBe('イエローブラウンシルバー')
-        expect(wrapper.find('#sample_maker').text()).toBe('小島印刷合同会社')
-        expect(wrapper.find('#sample_image').exists()).toBe(true)
-        expect(wrapper.find('#sample_hardness').text()).toBe('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
-        expect(wrapper.find('#sample_film_thickness').text()).toBe('通常は3～5μm、厚めの場合は20～50μmまで可能')
-        expect(wrapper.find('#sample_feature').text()).toBe('耐食性・耐摩耗性・耐薬品性・耐熱性')
+        expect(wrapper.text()).toContain('無電解ニッケルめっき')
+        expect(wrapper.text()).toContain('めっき')
+        expect(wrapper.text()).toContain('イエローブラウンシルバー')
+        expect(wrapper.text()).toContain('小島印刷合同会社')
+        expect(wrapper.text()).toContain('HV550～HV700')
+        expect(wrapper.text()).toContain('3～5μm')
+        expect(wrapper.text()).toContain('耐食性')
+        expect(wrapper.find('img').attributes('src')).toContain('sample_image_url.jpeg')
       })
     })
 

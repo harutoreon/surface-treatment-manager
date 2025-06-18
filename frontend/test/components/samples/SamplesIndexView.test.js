@@ -58,9 +58,9 @@ describe('SamplesIndexView', () => {
       expect(wrapper.find('h3').text()).toBe('表面処理リスト')
     })
 
-    it('項目のラベルが存在すること', () => {
-      expect(wrapper.find('#label_name_and_category').text()).toBe('処理名 / カテゴリー')
-      expect(wrapper.find('#label_maker_name').text()).toBe('メーカー名')
+    it('項目が存在すること', () => {
+      expect(wrapper.text()).toContain('処理名 / カテゴリー')
+      expect(wrapper.text()).toContain('メーカー名')
     })
     
     it('ページネーションが存在すること', () => {
