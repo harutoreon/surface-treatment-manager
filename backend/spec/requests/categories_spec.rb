@@ -3,7 +3,11 @@ require 'rails_helper'
 RSpec.describe "Categories API", type: :request do
   describe "#index" do
     before do
-      @category = FactoryBot.create(:category)
+      FactoryBot.create(:category, item: 'めっき', summary: 'めっきの概要')
+      FactoryBot.create(:category, item: '陽極酸化', summary: '陽極酸化の概要')
+      FactoryBot.create(:category, item: '化成', summary: '化成の概要')
+      FactoryBot.create(:category, item: 'コーティング', summary: 'コーティングの概要')
+      FactoryBot.create(:category, item: '表面硬化', summary: '表面硬化の概要')
     end
 
     it 'レスポンスのステータスがokであること' do
@@ -11,10 +15,20 @@ RSpec.describe "Categories API", type: :request do
       expect(response).to have_http_status(:ok)
     end
 
-    it 'カテゴリーリストが1件返ること' do
+    it 'カテゴリーリストが5件返ること' do
       get "/categories"
-      json = JSON.parse(response.body)
-      expect(json.count).to eq(1)
+      json = JSON.parse(response.body, symbolize_names: true)
+      expect(json.count).to eq(5)
+    end
+
+    it 'リストの並び順はidの昇順であること' do
+      get "/categories"
+      json = JSON.parse(response.body, symbolize_names: true)
+      expect(json[0][:item]).to eq('めっき')
+      expect(json[1][:item]).to eq('陽極酸化')
+      expect(json[2][:item]).to eq('化成')
+      expect(json[3][:item]).to eq('コーティング')
+      expect(json[4][:item]).to eq('表面硬化')
     end
   end
 

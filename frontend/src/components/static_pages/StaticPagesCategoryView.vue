@@ -1,9 +1,25 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
 import { useRouter } from 'vue-router'
 
 const keyword = ref('')
 const router = useRouter()
+const options = ref([])
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const emit = defineEmits(['message'])
+
+const fetchCategories = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/categories`)
+    options.value = response.data
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: 'カテゴリーの取得に失敗しました。' })
+      router.replace({ name: 'NotFound' })
+    }  
+  }
+}
 
 const submitSearch = () => {
   router.push({
@@ -12,6 +28,10 @@ const submitSearch = () => {
     query: { keyword: keyword.value }
   })
 }
+
+onMounted(() => {
+  fetchCategories()
+})
 </script>
 
 <template>
@@ -24,20 +44,8 @@ const submitSearch = () => {
         <option value="">
           カテゴリーを選択して下さい
         </option>
-        <option value="めっき">
-          めっき
-        </option>
-        <option value="陽極酸化">
-          陽極酸化
-        </option>
-        <option value="化成">
-          化成
-        </option>
-        <option value="コーティング">
-          コーティング
-        </option>
-        <option value="表面硬化">
-          表面硬化
+        <option v-for="option in options" v-bind:key="option.id" v-bind:value="option.item">
+          {{ option.item }}
         </option>
       </select>
       <button type="submit" class="btn btn-secondary form-control mb-5">
