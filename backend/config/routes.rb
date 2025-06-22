@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :categories
   resources :makers
   resources :users
+  resources :departments
 
   resources :samples do
     resources :comments
