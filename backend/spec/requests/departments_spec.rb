@@ -48,11 +48,11 @@ RSpec.describe "Departments", type: :request do
   end
 
   describe '#create' do
-    before do
-      @valid_department_params = { department: { name: '品質保証部'} }
-    end
-
-    context '有効な部署名で登録したとき' do
+    context '有効な情報で登録したとき' do
+      before do
+        @valid_department_params = { department: { name: '品質保証部'} }
+      end
+      
       it 'レスポンスのステータスがcreatedであること' do
         post "/departments", params: @valid_department_params
         expect(response).to have_http_status(:created)
@@ -68,9 +68,30 @@ RSpec.describe "Departments", type: :request do
         expect{ post "/departments", params: @valid_department_params }.to change{ Department.count }.from(0).to(1)
       end
     end
+
+    context '無効な情報で登録したとき' do
+      before do
+        @invalid_department_params = { department: { name: ''} }
+      end
+
+      it 'レスポンスのステータスがunprocessable_entityであること' do
+        post "/departments", params: @invalid_department_params
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'データベースに登録されないこと' do
+        expect{ post "/departments", params: @invalid_department_params }.to_not change{ Department.count }.from(0)
+      end
+
+      it '部署名が空白のエラーメッセージが返ること' do
+        post "/departments", params: @invalid_department_params
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json[:name][0]).to eq('部署名が空白です。')
+      end
+    end
   end
 
-  describe '#pudate' do
+  describe '#update' do
     before do
       @department = FactoryBot.create(:department)      
     end
@@ -85,7 +106,26 @@ RSpec.describe "Departments", type: :request do
         patch "/departments/#{@department.id}", params: { department: { name: '営業部'} }
         json = JSON.parse(response.body, symbolize_names: true)
         expect(json[:name]).to eq('営業部')
-      end      
+      end
+    end
+
+    context '無効な情報で更新したとき' do
+      it 'レスポンスのステータスがunprocessable_entityであること' do
+        patch "/departments/#{@department.id}", params: { department: { name: ''} }
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'nameが更新されず元の品質管理部のままであること' do
+        patch "/departments/#{@department.id}", params: { department: { name: ''} }
+        department = Department.last
+        expect(department.name).to eq('品質管理部')
+      end
+
+      it '部署名が空白のエラーメッセージが表示されること' do
+        patch "/departments/#{@department.id}", params: { department: { name: ''} }
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json[:name][0]).to eq('部署名が空白です。')
+      end
     end
   end
 
