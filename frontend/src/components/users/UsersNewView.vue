@@ -76,7 +76,9 @@ onMounted(() => {
         id="user-department"
         required
       >
-        <option value="" label=" "></option>
+        <option value="">
+          部署名を選択して下さい
+        </option>
         <option v-for="option in options" v-bind:key="option.id" v-bind:value="option.name">
           {{ option.name }}
         </option>
