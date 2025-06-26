@@ -1,25 +1,30 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
 const router = useRouter()
+const options = ref([])
+const user = ref('')
 const name = ref('')
 const department = ref('')
 const password = ref('')
 const password_confirmation = ref('')
 const errorMessage = ref('')
 
-const options = ref([
-  { text: '品質管理部', value: '品質管理部' },
-  { text: '製造部', value: '製造部' },
-  { text: '開発部', value: '開発部' },
-  { text: '営業部', value: '営業部' },
-])
-
-const user = ref('')
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const fetchDepartments = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/departments`)
+    options.value = response.data
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: '部署名の取得に失敗しました。' })
+      router.replace({ name: 'NotFound' })
+    }
+  }
+}
 
 const userRegistration = async () => {
   try {
@@ -38,6 +43,10 @@ const userRegistration = async () => {
     errorMessage.value = '入力に不備があります。'
   }
 }
+
+onMounted(() => {
+  fetchDepartments()
+})
 </script>
 
 <template>
@@ -67,9 +76,11 @@ const userRegistration = async () => {
         id="user-department"
         required
       >
-        <option value="" label=" "></option>
-        <option v-for="option in options" v-bind:value="option.value">
-          {{ option.text }}
+        <option value="">
+          部署名を選択して下さい
+        </option>
+        <option v-for="option in options" v-bind:key="option.id" v-bind:value="option.name">
+          {{ option.name }}
         </option>
       </select>
 
