@@ -1,8 +1,15 @@
 Faker::Config.locale = "ja"
 
+DEPARTMENTS = [
+  '品質管理部',
+  '製造部',
+  '開発部',
+  '営業部'
+]
+
 48.times do
   name = Faker::Name.name
-  department = ["品質管理部", "製造部", "開発部", "営業部"].sample
+  department = DEPARTMENTS.sample
   password = "password"
   User.create!(name: name,
                department: department,
@@ -341,7 +348,7 @@ SAMPLE_COMMENT = [
 treatment_list = Sample.all
 users = User.where(id: 1..48)  # id:49 の admin user と id:50 の general user は除く
 user_name = users.map { |user| user.name}
-department = ["品質管理部", "製造部", "開発部", "営業部"]
+department = DEPARTMENTS
 
 5.times do
   treatment_list.each do |treatment|
