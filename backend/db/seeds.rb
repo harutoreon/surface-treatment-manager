@@ -1,8 +1,24 @@
 Faker::Config.locale = "ja"
 
+# 部署名の生成
+
+DEPARTMENTS = [
+  '品質管理部',
+  '製造部',
+  '開発部',
+  '営業部'
+]
+
+DEPARTMENTS.each do |name|
+  Department.create!(name: name)
+end
+
+
+# サンプルユーザー・管理者ユーザー・一般ユーザーの生成
+
 48.times do
   name = Faker::Name.name
-  department = ["品質管理部", "製造部", "開発部", "営業部"].sample
+  department = DEPARTMENTS.sample
   password = "password"
   User.create!(name: name,
                department: department,
@@ -12,6 +28,9 @@ end
 
 User.create!(name: "admin user", department: "品質管理部", password: "adminpassword", password_confirmation: "adminpassword", admin: true)
 User.create!(name: "general user", department: "開発部", password: "generalpassword", password_confirmation: "generalpassword")
+
+
+# カテゴリーの生成
 
 CATEGORIES = {
   "めっき" => "金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。",
@@ -24,6 +43,9 @@ CATEGORIES = {
 CATEGORIES.each do |item, summary|
   Category.create!(item: item, summary: summary)
 end
+
+
+# サンプルの生成
 
 SAMPLES = [
   { name: "無電解ニッケルめっき",
@@ -294,6 +316,9 @@ SAMPLES.each do |sample|
                  image: File.open("app/assets/images/#{sample[:image_file]}.jpeg"))
 end
 
+
+# メーカーの生成
+
 100.times do |n|
   Maker.create!(name: Faker::Company.name,
                 postal_code: Faker::Address.postcode,
@@ -304,6 +329,9 @@ end
                 home_page: "https://example.com/sample_maker#{n}",
                 manufacturer_rep: Faker::Name.name)
 end
+
+
+# コメントの生成
 
 SAMPLE_COMMENT = [
   "耐摩耗性が高く、使用頻度の高い部分でも長持ちしています。",
@@ -341,7 +369,7 @@ SAMPLE_COMMENT = [
 treatment_list = Sample.all
 users = User.where(id: 1..48)  # id:49 の admin user と id:50 の general user は除く
 user_name = users.map { |user| user.name}
-department = ["品質管理部", "製造部", "開発部", "営業部"]
+department = DEPARTMENTS
 
 5.times do
   treatment_list.each do |treatment|

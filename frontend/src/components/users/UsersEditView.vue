@@ -3,26 +3,17 @@ import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-const errorMessage = ref('')
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
-
+const route = useRoute()
+const router = useRouter()
 const user = ref({
   name: '',
   department: ''
 })
 const password = ref('')
 const password_confirmation = ref('')
-
-const route = useRoute()
-const router = useRouter()
-
-const options = ref([
-  { text: '品質管理部', value: '品質管理部' },
-  { text: '製造部', value: '製造部' },
-  { text: '開発部', value: '開発部' },
-  { text: '営業部', value: '営業部' },
-])
+const errorMessage = ref('')
 
 const userUpdate = async () => {
   try {
@@ -63,7 +54,6 @@ const fetchUserInformation = async () => {
 onMounted(() => {
   fetchUserInformation()
 })
-
 </script>
 
 <template>
@@ -87,17 +77,13 @@ onMounted(() => {
       <label class="form-label" for="user-department">
         部署名
       </label>
-      <select
-        class="form-select mb-3"
+      <input
+        class="form-control mb-3"
+        type="text"
         v-model="user.department"
         id="user-department"
         required
       >
-        <option value="" label=" "></option>
-        <option v-for="option in options" v-bind:key="option.text" v-bind:value="option.value">
-          {{ option.text }}
-        </option>
-      </select>
 
       <label class="form-label" for="user-password">
         パスワード
