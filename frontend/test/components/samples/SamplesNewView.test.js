@@ -22,6 +22,16 @@ describe('SamplesNewView', () => {
     let wrapper
 
     beforeEach(() => {
+      axios.get.mockResolvedValue({
+        data: [
+          { id: 1, item: 'めっき' },
+          { id: 2, item: '陽極酸化' },
+          { id: 3, item: '化成' },
+          { id: 4, item: 'コーティング' },
+          { id: 5, item: '表面硬化' },
+        ]
+      })
+
       wrapper = mount(SamplesNewView, {
         global: {
           stubs: {
@@ -60,13 +70,13 @@ describe('SamplesNewView', () => {
 
       // 選択要素
       expect(wrapper.find('#sample-category').exists()).toBe(true)
-      expect(wrapper.find('option[value=""]').text()).toBe('')
+      expect(wrapper.find('option[value=""]').text()).toBe('カテゴリーを選択して下さい')
       expect(wrapper.find('option[value="めっき"]').text()).toBe('めっき')
       expect(wrapper.find('option[value="陽極酸化"]').text()).toBe('陽極酸化')
       expect(wrapper.find('option[value="化成"]').text()).toBe('化成')
       expect(wrapper.find('option[value="コーティング"]').text()).toBe('コーティング')
       expect(wrapper.find('option[value="表面硬化"]').text()).toBe('表面硬化')
-
+      
       // 画像埋め込み要素
       expect(wrapper.find('#preview-image').exists()).toBe(true)
 
