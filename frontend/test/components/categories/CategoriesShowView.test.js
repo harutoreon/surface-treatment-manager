@@ -1,13 +1,12 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import CategoriesShowView from '@/components/categories/CategoriesShowView.vue'
+import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import axios from 'axios'
 
-vi.mock('axios')
-
-const replaceMock = vi.fn()
 const pushMock = vi.fn()
+const replaceMock = vi.fn()
 
+vi.mock('axios')
 vi.mock('vue-router', () => {
   return {
     useRoute: () => {
@@ -25,10 +24,10 @@ vi.mock('vue-router', () => {
 })
 
 describe('CategoriesShowView', () => {
-  describe('コンポーネントのレンダリング', () => {
-    let wrapper
+  let wrapper
 
-    beforeEach(() => {
+  describe('初期レンダリングに成功した場合', () => {
+    beforeEach(async () => {
       axios.get.mockResolvedValue({
         data: {
           id: 1,
@@ -44,162 +43,133 @@ describe('CategoriesShowView', () => {
           }
         }
       })
+
+      await flushPromises()
     })
 
-    it('カテゴリー情報の見出しが表示されること', () => {
+    it('見出しが表示されること', () => {
       expect(wrapper.find('h3').text()).toBe('カテゴリー情報')
     })
 
-    it('カテゴリー名と概要のラベルと内容が表示されること', async () => {
-      await flushPromises()
+    it('カテゴリー情報が表示されること', () => {
+      // カテゴリー名
+      expect(wrapper.text()).toContain('めっき')
 
-      const liElement = wrapper.findAll('li')
-
-      expect(liElement[0].findAll('div')[0].text()).toBe('カテゴリー名 :')
-      expect(liElement[1].findAll('div')[0].text()).toBe('概要 :')
-      expect(liElement[0].findAll('div')[1].text()).toBe('めっき')
-      expect(liElement[1].findAll('div')[1].text()).toBe('金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。')
-    })
-
-    it('編集、削除、リストの外部リンクが表示されること', () => {
-      const links = wrapper.findAllComponents(RouterLinkStub)
-      const pElement = wrapper.find('p')
-
-      expect(links[0].text()).toBe('カテゴリー情報の編集')
-      expect(links[1].text()).toBe('カテゴリーリストへ')
-      expect(pElement.text()).toBe('カテゴリーの削除')
+      // 概要
+      expect(wrapper.text()).toContain('金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。')
     })
 
     it('外部リンクが表示されること', async () => {
-      await flushPromises()
+      const linkCategoriesEdit = wrapper.findComponent({ ref: 'linkCategoriesEdit' })
+      const linkCategories = wrapper.findComponent({ ref: 'linkCategories' })
 
-      expect(wrapper.findComponent({ ref: 'linkCategoriesEdit' }).props().to).toBe('/categories/1/edit')
-      expect(wrapper.findComponent({ ref: 'linkCategoriesEdit' }).text()).toBe('カテゴリー情報の編集')
-      expect(wrapper.findComponent({ ref: 'linkCategories' }).props().to).toBe('/categories')
-      expect(wrapper.findComponent({ ref: 'linkCategories' }).text()).toBe('カテゴリーリストへ')
+      // to属性
+      expect(linkCategoriesEdit.props().to).toBe('/categories/1/edit')
+      expect(linkCategories.props().to).toBe('/categories')
+
+      // テキスト
+      expect(linkCategoriesEdit.text()).toBe('カテゴリー情報の編集')
+      expect(linkCategories.text()).toBe('カテゴリーリストへ')
+    })
+
+    it('リソースの削除リンクが表示されること', () => {
+      expect(wrapper.find('p').text()).toBe('カテゴリー情報の削除')
     })
   })
 
-  describe('API通信', () => {
-    describe('カテゴリー情報の取得に成功した場合', () => {
-      it('カテゴリー名と概要が表示されること', async () => {
-        axios.get.mockResolvedValue({
-          data: {
-            id: 1,
-            item: 'めっき',
-            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
-          }
-        })
-
-        const wrapper = mount(CategoriesShowView, {
-          global: {
-            stubs: {
-              RouterLink: RouterLinkStub
-            }
-          }
-        })
-
-        await flushPromises()
-
-        expect(wrapper.text()).toContain('めっき')
-        expect(wrapper.text()).toContain('金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。')
+  describe('初期レンダリングに失敗した場合', () => {
+    it('404ページに遷移すること', async () => {
+      axios.get.mockRejectedValue({
+        response: {
+          status: 404
+        }
       })
+
+      const wrapper = mount(CategoriesShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'カテゴリーの取得に失敗しました。' }
+      ])
+      expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
     })
+  })
 
-    describe('カテゴリー情報の取得に失敗した場合', () => {
-      it('404ページに遷移すること', async () => {
-        axios.get.mockRejectedValue({
-          response: {
-            status: 404
-          }
-        })
+  describe('カテゴリー情報の削除に成功した場合', () => {
+    it('カテゴリーリストページに遷移すること', async () => {
+      vi.spyOn(window, 'confirm').mockReturnValue(true)
 
-        const wrapper = mount(CategoriesShowView, {
-          global: {
-            stubs: {
-              RouterLink: RouterLinkStub
-            }
-          }
-        })
-
-        await flushPromises()
-
-        expect(wrapper.emitted()).toHaveProperty('message')
-        expect(wrapper.emitted().message[0]).toEqual([
-          { type: 'danger', text: 'カテゴリーの取得に失敗しました。' }
-        ])
-        expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
+      axios.get.mockResolvedValue({
+        data: {
+          id: 1,
+          item: 'めっき',
+          summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+        }
       })
+
+      const wrapper = mount(CategoriesShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      await wrapper.find('p').trigger('click')
+      
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'success', text: 'カテゴリーを1件削除しました。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/categories')
     })
+  })
 
-    describe('削除処理に成功した場合', () => {
-      it('カテゴリーリストに遷移すること', async () => {
-        vi.spyOn(window, 'confirm').mockReturnValue(true)
+  describe('カテゴリー情報の削除に失敗した場合', () => {
+    it('404ページに遷移すること', async () => {
+      vi.spyOn(window, 'confirm').mockReturnValue(true)
 
-        axios.get.mockResolvedValue({
-          data: {
-            id: 1,
-            item: 'めっき',
-            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
-          }
-        })
-
-        const wrapper = mount(CategoriesShowView, {
-          global: {
-            stubs: {
-              RouterLink: RouterLinkStub
-            }
-          }
-        })
-
-        await flushPromises()
-
-        await wrapper.find('p').trigger('click')
-        
-        expect(wrapper.emitted()).toHaveProperty('message')
-        expect(wrapper.emitted().message[0]).toEqual([
-          { type: 'success', text: 'カテゴリーを1件削除しました。' }
-        ])
-        expect(pushMock).toHaveBeenCalledWith('/categories')
+      axios.get.mockResolvedValue({
+        data: {
+          id: 1,
+          item: 'めっき',
+          summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+        }
       })
-    })
 
-    describe('削除処理に成功した場合', () => {
-      it('404ページに遷移すること', async () => {
-        vi.spyOn(window, 'confirm').mockReturnValue(true)
-
-        axios.get.mockResolvedValue({
-          data: {
-            id: 1,
-            item: 'めっき',
-            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
-          }
-        })
-
-        axios.delete.mockRejectedValue({
-          response: {
-            status: 404
-          }
-        })
-
-        const wrapper = mount(CategoriesShowView, {
-          global: {
-            stubs: {
-              RouterLink: RouterLinkStub
-            }
-          }
-        })
-        
-        await flushPromises()
-        
-        await wrapper.find('p').trigger('click')
-
-        expect(wrapper.emitted()).toHaveProperty('message')
-        expect(wrapper.emitted().message[0]).toEqual([
-          { type: 'danger', text: '削除処理に失敗しました。' }
-        ])
-        expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
+      axios.delete.mockRejectedValue({
+        response: {
+          status: 404
+        }
       })
+
+      const wrapper = mount(CategoriesShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+      
+      await flushPromises()
+      
+      await wrapper.find('p').trigger('click')
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: '削除処理に失敗しました。' }
+      ])
+      expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
     })
   })
 })
