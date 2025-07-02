@@ -1,12 +1,11 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { mount, RouterLinkStub } from '@vue/test-utils'
 import CategoriesNewView from '@/components/categories/CategoriesNewView.vue'
+import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import axios from 'axios'
 
 const pushMock = vi.fn()
 
 vi.mock('axios')
-
 vi.mock('vue-router', () => {
   return {
     useRouter: () => {
@@ -17,70 +16,106 @@ vi.mock('vue-router', () => {
   }
 })
 
-let wrapper
+describe('CategoriesNewView', () => {
+  let wrapper
 
-beforeEach(() => {
-  wrapper = mount(CategoriesNewView, {
-    global: {
-      stubs: {
-        RouterLink: RouterLinkStub
-      }
-    }
+  describe('初期レンダリング', () => {  
+    beforeEach(() => {
+      wrapper = mount(CategoriesNewView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+    })
+
+    it('見出しが表示されること', () => {
+      expect(wrapper.find('h3').text()).toBe('カテゴリー情報の登録')
+    })
+
+    it('入力フォームが表示されること', () => {
+      // フォーム要素
+      expect(wrapper.find('form').exists()).toBe(true)
+
+      // ラベル要素
+      expect(wrapper.find('label[for="category-item"]').text()).toBe('カテゴリー名')
+      expect(wrapper.find('label[for="category-summary"]').text()).toBe('概要')
+
+      // 入力要素・テキストエリア要素
+      expect(wrapper.find('input[id="category-item"]').exists()).toBe(true)
+      expect(wrapper.find('textarea[id="category-summary"]').exists()).toBe(true)
+
+      // ボタン要素
+      expect(wrapper.find('button').exists()).toBe(true)
+    })
+
+    it('外部リンクが表示されること', () => {
+      const linkCategories = wrapper.findComponent({ ref: 'linkCategories' })
+
+      expect(linkCategories.props().to).toBe('/categories')
+      expect(linkCategories.text()).toBe('カテゴリーリストへ')
+    })
   })
-})
 
-describe('コンポーネントをレンダリングした時に、', () => {  
-  it('見出し「カテゴリー情報の登録」が表示されること。', () => {
-    expect(wrapper.find('h3').text()).toBe('カテゴリー情報の登録')
-  })
-
-  it('入力フォームが表示されること。', () => {
-    expect(wrapper.find('form').exists()).toBe(true)
-    expect(wrapper.find('label[for="category-item"]').text()).toBe('カテゴリー名')
-    expect(wrapper.find('label[for="category-summary"]').text()).toBe('概要')
-    expect(wrapper.find('input[id="category-item"]').exists()).toBe(true)
-    expect(wrapper.find('textarea[id="category-summary"]').exists()).toBe(true)
-    expect(wrapper.find('button').exists()).toBe(true)
-  })
-
-  it('外部リンクが表示されること', () => {
-    expect(wrapper.findComponent({ ref: 'linkCategories' }).props().to).toBe('/categories')
-    expect(wrapper.findComponent({ ref: 'linkCategories' }).text()).toBe('カテゴリーリストへ')
-  })
-})
-
-describe('カテゴリー登録で', () => {
-  describe('有効な情報を入力した場合、', () => {
-    it('登録が成功すること', async () => {
-      const mockCategory = {
+  describe('有効な情報を送信した場合', () => {
+    it('登録に成功すること', async () => {
+      axios.post.mockResolvedValue({
         data: {
           id: 1,
-          item: 'test item',
-          summary: 'test summary'
+          item: 'めっき',
+          summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
         }
-      }
+      })
 
-      axios.post.mockResolvedValue({ data: { category: mockCategory} })
+      wrapper = mount(CategoriesNewView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
 
       const itemInput = wrapper.find('input[id="category-item"]')
       const summaryTextArea = wrapper.find('textarea[id="category-summary"]')
 
-      await itemInput.setValue('test item')
-      await summaryTextArea.setValue('test summary')
+      await itemInput.setValue('めっき')
+      await summaryTextArea.setValue('金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。')
       await wrapper.find('form').trigger('submit.prevent')
 
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([
         { type: 'success', text: 'カテゴリーを1件登録しました。' }
       ])
-      expect(pushMock).toHaveBeenCalledWith(`/categories/${mockCategory.id}`)
+      expect(pushMock).toHaveBeenCalledWith('/categories/1')
     })
   })
 
-  describe('無効な情報を入力した場合、', () => {
-    it('登録が失敗すること', async () => {
-      axios.post.mockRejectedValue(new Error('Invalid credentials'))
+  describe('無効な情報を送信した場合', () => {
+    it('登録に失敗すること', async () => {
+      axios.post.mockRejectedValue({
+        response: {
+          status: 422
+        }
+      })
 
+      wrapper = mount(CategoriesNewView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+      
+      const itemInput = wrapper.find('input[id="category-item"]')
+      const summaryTextArea = wrapper.find('textarea[id="category-summary"]')
+
+      await itemInput.setValue('')
+      await summaryTextArea.setValue('金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。')
       await wrapper.find('form').trigger('submit.prevent')
 
       expect(wrapper.text()).toContain('入力に不備があります。')
