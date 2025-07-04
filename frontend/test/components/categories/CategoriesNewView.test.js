@@ -43,11 +43,11 @@ describe('CategoriesNewView', () => {
       expect(wrapper.find('label[for="category-summary"]').text()).toBe('概要')
 
       // 入力要素・テキストエリア要素
-      expect(wrapper.find('input[id="category-item"]').exists()).toBe(true)
-      expect(wrapper.find('textarea[id="category-summary"]').exists()).toBe(true)
+      expect(wrapper.find('#category-item').exists()).toBe(true)
+      expect(wrapper.find('#category-summary').exists()).toBe(true)
 
       // ボタン要素
-      expect(wrapper.find('button').exists()).toBe(true)
+      expect(wrapper.find('button').text()).toBe('登録')
     })
 
     it('外部リンクが表示されること', () => {
@@ -78,8 +78,8 @@ describe('CategoriesNewView', () => {
 
       await flushPromises()
 
-      const itemInput = wrapper.find('input[id="category-item"]')
-      const summaryTextArea = wrapper.find('textarea[id="category-summary"]')
+      const itemInput = wrapper.find('#category-item')
+      const summaryTextArea = wrapper.find('#category-summary')
 
       await itemInput.setValue('めっき')
       await summaryTextArea.setValue('金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。')
@@ -111,8 +111,8 @@ describe('CategoriesNewView', () => {
 
       await flushPromises()
       
-      const itemInput = wrapper.find('input[id="category-item"]')
-      const summaryTextArea = wrapper.find('textarea[id="category-summary"]')
+      const itemInput = wrapper.find('#category-item')
+      const summaryTextArea = wrapper.find('#category-summary')
 
       await itemInput.setValue('')
       await summaryTextArea.setValue('金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。')

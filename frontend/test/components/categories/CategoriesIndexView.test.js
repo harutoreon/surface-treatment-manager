@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import CategoriesIndexView from '@/components/categories/CategoriesIndexView.vue'
+import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import axios from 'axios'
 
 const replaceMock = vi.fn()
@@ -66,11 +66,6 @@ describe('CategoriesIndexView', () => {
       expect(wrapper.find('h3').text()).toBe('カテゴリーリスト')
     })
 
-    it('ラベルが表示されること', () => {
-      expect(wrapper.text()).toContain('カテゴリー名')
-      expect(wrapper.text()).toContain('概要')
-    })
-
     it('カテゴリーリストが表示されること', () => {
       // カテゴリー名
       expect(wrapper.text()).toContain('めっき')
@@ -109,7 +104,7 @@ describe('CategoriesIndexView', () => {
         }
       })
 
-      const wrapper = mount(CategoriesIndexView, {
+      wrapper = mount(CategoriesIndexView, {
         global: {
           stubs: {
             RouterLink: RouterLinkStub

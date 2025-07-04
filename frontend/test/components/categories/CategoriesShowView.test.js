@@ -85,7 +85,7 @@ describe('CategoriesShowView', () => {
         }
       })
 
-      const wrapper = mount(CategoriesShowView, {
+      wrapper = mount(CategoriesShowView, {
         global: {
           stubs: {
             RouterLink: RouterLinkStub
@@ -115,7 +115,7 @@ describe('CategoriesShowView', () => {
         }
       })
 
-      const wrapper = mount(CategoriesShowView, {
+      wrapper = mount(CategoriesShowView, {
         global: {
           stubs: {
             RouterLink: RouterLinkStub
@@ -153,7 +153,7 @@ describe('CategoriesShowView', () => {
         }
       })
 
-      const wrapper = mount(CategoriesShowView, {
+      wrapper = mount(CategoriesShowView, {
         global: {
           stubs: {
             RouterLink: RouterLinkStub
