@@ -65,7 +65,7 @@ onMounted(() => {
         カテゴリー情報の編集
       </RouterLink>
       <p v-on:click="handleDelete" class="text-primary text-decoration-underline">
-        カテゴリーの削除
+        カテゴリー情報の削除
       </p>
       <RouterLink to="/categories" ref="linkCategories">
         カテゴリーリストへ
