@@ -1,12 +1,11 @@
+import MakersNewView from '@/components/makers/MakersNewView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
-import MakersNewView from '@/components/makers/MakersNewView.vue'
 import axios from 'axios'
 
 const pushMock = vi.fn()
 
 vi.mock('axios')
-
 vi.mock('vue-router', () => {
   return {
     useRouter: () => {
@@ -18,9 +17,9 @@ vi.mock('vue-router', () => {
 })
 
 describe('MakersNewView', () => {
-  describe('初期レンダリング', () => {
-    let wrapper
+  let wrapper
 
+  describe('初期レンダリング', () => {
     beforeEach(() => {
       wrapper = mount(MakersNewView, {
         global: {
@@ -64,59 +63,68 @@ describe('MakersNewView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      expect(wrapper.findComponent({ ref: 'linkMakers' }).text()).toBe('メーカーリストへ')
       expect(wrapper.findComponent({ ref: 'linkMakers' }).props().to).toBe('/makers')
+      expect(wrapper.findComponent({ ref: 'linkMakers' }).text()).toBe('メーカーリストへ')
     })
   })
   
-  describe('API通信', () => {
-    describe('有効な情報を送信すると、', () => {
-      it('登録が成功すること', async () => {
-        axios.post.mockResolvedValue({
-          data: {
-            id: 1,
-            name: '株式会社テスト',
-          }
-        })
-
-        const wrapper = mount(MakersNewView, {
-          global: {
-            stubs: {
-              RouterLink: RouterLinkStub
-            }
-          }
-        })
-
-        await flushPromises()
-
-        await wrapper.find('form').trigger('submit.prevent')
-
-        expect(wrapper.emitted()).toHaveProperty('message')
-        expect(wrapper.emitted().message[0]).toEqual([
-          { type: 'success', text: 'メーカー情報を1件登録しました。' }
-        ])
-        expect(pushMock).toHaveBeenCalledWith('/makers/1')
+  describe('有効な情報を送信した場合', () => {
+    it('登録に成功すること', async () => {
+      axios.post.mockResolvedValue({
+        data: {
+          id: 1,
+          name: '有限会社中野銀行',
+          postal_code: '962-0713',
+          address: '東京都渋谷区神南1-2-0',
+          phone_number: '070-3288-2552',
+          fax_number: '070-2623-8399',
+          email: 'sample_maker0@example.com',
+          home_page: 'https://example.com/sample_maker0',
+          manufacturer_rep: '宮本 悠斗'
+        }
       })
-    })
 
-    describe('空の状態で送信すると、', () => {
-      it('登録が失敗すること', async () => {
-        axios.post.mockRejectedValue(new Error('Validation Error'))
-        
-        const wrapper = mount(MakersNewView, {
-          global: {
-            stubs: {
-              RouterLink: RouterLinkStub
-            }
+      wrapper = mount(MakersNewView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
           }
-        })
+        }
+      })
 
-        await wrapper.find('form').trigger('submit.prevent')
-        
-        await flushPromises()
+      await flushPromises()
+
+      await wrapper.find('form').trigger('submit.prevent')
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'success', text: 'メーカー情報を1件登録しました。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/makers/1')
+    })
+  })
+
+  describe('無効な情報を送信した場合', () => {
+    it('登録に失敗すること', async () => {
+      axios.post.mockRejectedValue({
+        response: {
+          status: 422
+        }
+      })
       
-        expect(wrapper.text()).toContain('入力に不備があります。')
+      wrapper = mount(MakersNewView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
       })
+
+      await wrapper.find('form').trigger('submit.prevent')
+      
+      await flushPromises()
+    
+      expect(wrapper.text()).toContain('入力に不備があります。')
     })
-  })  
+  })
 })
