@@ -130,7 +130,7 @@ const makerRegistration = async () => {
       </label>
       <input
         v-model="manufacturerRep"
-        class="form-control mb-3"
+        class="form-control mb-4"
         type="text"
         id="maker-manufacturer-rep"
       >
