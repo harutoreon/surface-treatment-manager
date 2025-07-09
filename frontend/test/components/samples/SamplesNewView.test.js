@@ -1,12 +1,11 @@
+import SamplesNewView from '@/components/samples/SamplesNewView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
-import SamplesNewView from '@/components/samples/SamplesNewView.vue'
 import axios from 'axios'
 
 const pushMock = vi.fn()
 
 vi.mock('axios')
-
 vi.mock('vue-router', () => {
   return {
     useRouter: () => {
@@ -18,9 +17,9 @@ vi.mock('vue-router', () => {
 })
 
 describe('SamplesNewView', () => { 
-  describe('DOMの構造', () => {
-    let wrapper
+  let wrapper
 
+  describe('初期レンダリング', () => {
     beforeEach(() => {
       axios.get.mockResolvedValue({
         data: [
@@ -41,8 +40,7 @@ describe('SamplesNewView', () => {
       })
     })
 
-    it('見出しが存在すること', () => {
-      expect(wrapper.find('h3').exists()).toBe(true)
+    it('見出しが表示されること', () => {
       expect(wrapper.find('h3').text()).toBe('表面処理情報の登録')
     })
 
@@ -87,59 +85,135 @@ describe('SamplesNewView', () => {
       expect(wrapper.find('button').text()).toBe('登録')
     })
 
-    it('外部リンクが存在すること', () => {
+    it('外部リンクが表示されること', () => {
       expect(wrapper.findComponent({ ref: 'linkSamples' }).props().to).toBe('/samples')
       expect(wrapper.findComponent({ ref: 'linkSamples' }).text()).toBe('表面処理リストへ')
     })
   })
 
-  describe('API通信', () => {
-    describe('有効な情報を送信すると', () => {
-      it('登録が成功すること', async () => {
-        axios.post.mockResolvedValue({
-          data: {
-            id: 1,
-            name: '無電解ニッケルめっき'
-          }
-        })
-
-        const wrapper = mount(SamplesNewView, {
-          global: {
-            stubs: {
-              RouterLink: RouterLinkStub
-            }
-          }
-        })
-
-        await wrapper.find('form').trigger('submit.prevent')
-        await flushPromises()
-
-        expect(axios.post).toHaveBeenCalled()
-        expect(wrapper.emitted()).toHaveProperty('message')
-        expect(wrapper.emitted().message[0]).toEqual([
-          { type: 'success', text: '表面処理情報を1件登録しました。' }
-        ])
-        expect(pushMock).toHaveBeenCalledWith('/samples/1')
+  describe('有効な情報を送信すると', () => {
+    it('登録に成功すること', async () => {
+      axios.post.mockResolvedValue({
+        data: {
+          id: 1,
+          name: '無電解ニッケルめっき',
+          category: 'めっき',
+          color: 'イエローブラウンシルバー',
+          maker: '合同会社小林通信',
+          hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+          film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+          feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
+          image_url: 'http://localhost:3000/electroless_nickel_plating.jpeg'
+        }
       })
+
+      wrapper = mount(SamplesNewView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      await wrapper.find('#sample-name').setValue('無電解ニッケルめっき')
+      await wrapper.find('#sample-category').setValue('めっき')
+      await wrapper.find('#sample-color').setValue('イエローブラウンシルバー')
+      await wrapper.find('#sample-maker').setValue('合同会社小林通信')
+      await wrapper.find('#sample-hardness').setValue('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
+      await wrapper.find('#sample-film-thickness').setValue('通常は3～5μm、厚めの場合は20～50μmまで可能')
+      await wrapper.find('#sample-feature').setValue('耐食性・耐摩耗性・耐薬品性・耐熱性')
+
+      await wrapper.find('form').trigger('submit.prevent')
+      
+      expect(axios.post).toHaveBeenCalled()
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'success', text: '表面処理情報を1件登録しました。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/samples/1')
+    })
+  })
+
+  describe('無効な情報で送信すると', () => {
+    it('登録に失敗すること', async () => {
+      axios.post.mockRejectedValue({
+        response: {
+          status: 422
+        }
+      })
+
+      wrapper = mount(SamplesNewView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      await wrapper.find('#sample-name').setValue('')
+      await wrapper.find('#sample-category').setValue('めっき')
+      await wrapper.find('#sample-color').setValue('イエローブラウンシルバー')
+      await wrapper.find('#sample-maker').setValue('合同会社小林通信')
+      await wrapper.find('#sample-hardness').setValue('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
+      await wrapper.find('#sample-film-thickness').setValue('通常は3～5μm、厚めの場合は20～50μmまで可能')
+      await wrapper.find('#sample-feature').setValue('耐食性・耐摩耗性・耐薬品性・耐熱性')
+
+      await wrapper.find('form').trigger('submit.prevent')
+      
+      expect(wrapper.text()).toContain('入力に不備があります。')
+    })
+  })
+
+  describe('画像添付', () => {
+    beforeEach(async () => {
+      wrapper = mount(SamplesNewView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        },
+        attachTo: document.body
+      })
+
+      await flushPromises()
     })
 
-    describe('空の状態で送信すると', () => {
-      it('登録が失敗すること', async () => {
-        axios.post.mockRejectedValue(new Error('Validation Error'))
+    it('プレビューが表示されること', async () => {
+      const file = new File(['dummy content'], 'dummy.png', { type: 'image/png' })
 
-        const wrapper = mount(SamplesNewView, {
-          global: {
-            stubs: {
-              RouterLink: RouterLinkStub
-            }
-          }
-        })
-
-        await wrapper.find('form').trigger('submit.prevent')
-        await flushPromises()
-
-        expect(wrapper.text()).toContain('入力に不備があります。')
+      const mockReadAsDataURL = vi.fn(function () {
+        this.result = 'data:image/png;base64,dummy'
+        this.onload({ target: this })
       })
+
+      vi.stubGlobal('FileReader', class {
+        constructor() {
+          this.onload = null
+        }
+        readAsDataURL = mockReadAsDataURL
+      })
+
+      const input = wrapper.find('#sample-image')
+
+      const inputEl = input.element
+
+      Object.defineProperty(inputEl, 'files', {
+        value: [file],
+        writable: false
+      })
+
+      const event = new Event('change')
+      inputEl.dispatchEvent(event)
+
+      await flushPromises()
+
+      const previewImage = wrapper.find('#preview-image')
+      expect(previewImage.attributes('src')).toBe('data:image/png;base64,dummy')
     })
   })
 })
+

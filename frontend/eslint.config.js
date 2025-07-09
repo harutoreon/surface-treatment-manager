@@ -25,6 +25,8 @@ export default [
         FormData: 'readonly',
         FileReader: 'readonly',
         confirm: 'readonly',
+        File: 'readonly',
+        Event: 'readonly',
       },
     },
     plugins: {
