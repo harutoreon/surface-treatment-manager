@@ -183,7 +183,7 @@ describe('SamplesNewView', () => {
     })
 
     it('画像プレビューが表示されること', async () => {
-      const file = new File(['dummy content'], 'dummy.png', { type: 'image/png' })
+      const file = new File(['dummy content'], 'electroless_nickel_plating.jpeg', { type: 'image/png' })
 
       const mockReadAsDataURL = vi.fn(function () {
         this.result = 'data:image/png;base64,dummy'
@@ -212,6 +212,7 @@ describe('SamplesNewView', () => {
       await flushPromises()
 
       const previewImage = wrapper.find('#preview-image')
+
       expect(previewImage.attributes('src')).toBe('data:image/png;base64,dummy')
     })
   })
