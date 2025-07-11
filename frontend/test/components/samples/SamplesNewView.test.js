@@ -182,7 +182,7 @@ describe('SamplesNewView', () => {
       await flushPromises()
     })
 
-    it('プレビューが表示されること', async () => {
+    it('画像プレビューが表示されること', async () => {
       const file = new File(['dummy content'], 'dummy.png', { type: 'image/png' })
 
       const mockReadAsDataURL = vi.fn(function () {
