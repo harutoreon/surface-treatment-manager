@@ -51,7 +51,7 @@ onMounted(() => {
       <div class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
           <h6>処理名 / カテゴリー</h6>
-          <h6>メーカー名</h6>
+          <h6>メーカー名 / 色調</h6>
         </div>
       </div>
 
