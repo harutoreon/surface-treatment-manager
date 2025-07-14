@@ -3,11 +3,10 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import axios from 'axios'
 
-vi.mock('axios')
-
 const replaceMock = vi.fn()
 const pushMock = vi.fn()
 
+vi.mock('axios')
 vi.mock('vue-router', () => {
   return {
     useRoute: () => {
@@ -25,15 +24,15 @@ vi.mock('vue-router', () => {
 })
 
 describe('UsersShowView', () => {
-  describe('コンポーネントのレンダリング', () => {
-    let wrapper
+  let wrapper
 
+  describe('初期レンダリングに成功した場合', () => {
     beforeEach(async () => {
       axios.get.mockResolvedValue({
         data: {
           id: 1,
-          name: 'test_user',
-          department: '製造部'
+          name: '渡辺 陸斗',
+          department: '開発部'
         }
       })
 
@@ -48,139 +47,121 @@ describe('UsersShowView', () => {
       await flushPromises()
     })
       
-    it('見出し「ユーザー情報」が表示されること', () => {
+    it('見出しが表示されること', () => {
       expect(wrapper.find('h3').text()).toBe('ユーザー情報')
     })
 
-    it('ユーザー名と部署名が表示されること', async () => {  
-      const elements = wrapper.findAll('.list-group-item')
-  
-      expect(elements[0].find('div:nth-child(2)').text()).toBe('test_user')
-      expect(elements[1].find('div:nth-child(2)').text()).toBe('製造部')
+    it('ユーザー情報が表示されること', async () => {  
+      // ユーザー名
+      expect(wrapper.text()).toContain('渡辺 陸斗')
+      
+      // 部署名
+      expect(wrapper.text()).toContain('開発部')
     })
 
-    it('RouterLinkにto属性が設定されていること', () => {
-      expect(wrapper.findComponent({ ref: 'linkUsersEdit' }).props().to).toBe('/users/1/edit')
-      expect(wrapper.findComponent({ ref: 'linkUsers' }).props().to).toBe('/users')
+    it('外部リンクが表示されること', () => {
+      const linkUsersEdit = wrapper.findComponent({ ref: 'linkUsersEdit' })
+      const linkUsers = wrapper.findComponent({ ref: 'linkUsers' })
+
+      // to属性
+      expect(linkUsersEdit.props().to).toBe('/users/1/edit')
+      expect(linkUsers.props().to).toBe('/users')
+
+      // テキスト
+      expect(linkUsersEdit.text()).toBe('ユーザー情報の編集')
+      expect(linkUsers.text()).toBe('ユーザーリスト')
     })
   })
 
-  describe('API通信', () => {
-    describe('ユーザー情報の取得に成功した場合', () => {
-      it('ユーザー名と部署名が表示されること', async () => {
-        axios.get.mockResolvedValue({
-          data: {
-            id: 1,
-            name: 'test user',
-            department: '製造部'
-          }
-        })
-
-        const wrapper = mount(UsersShowView, {
-          global: {
-            stubs: {
-              RouterLink: RouterLinkStub
-            }
-          }
-        })
-
-        await flushPromises()
-
-        expect(wrapper.text()).toContain('test user')
-        expect(wrapper.text()).toContain('製造部')
+  describe('初期レンダリングに失敗した場合', () => {
+    it('404ページに遷移すること', async () => {
+      axios.get.mockRejectedValue({
+        response: {
+          status: 404
+        }
       })
+
+      wrapper = mount(UsersShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'ユーザー情報の取得に失敗しました。' }
+      ])
+      expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
     })
+  })
 
-    describe('ユーザー情報の取得に失敗した場合', () => {
-      it('404ページに遷移すること', async () => {
-        axios.get.mockRejectedValue({
-          response: {
-            status: 404
-          }
-        })
+  describe('ユーザー情報の削除に成功した場合', () => {
+    it('ユーザーリストページに遷移すること', async () => {
+      vi.spyOn(window, 'confirm').mockReturnValue(true)
 
-        const wrapper = mount(UsersShowView, {
-          global: {
-            stubs: {
-              RouterLink: RouterLinkStub
-            }
-          }
-        })
-
-        await flushPromises()
-
-        expect(wrapper.emitted()).toHaveProperty('message')
-        expect(wrapper.emitted().message[0]).toEqual([
-          { type: 'danger', text: 'ユーザー情報の取得に失敗しました。' }
-        ])
-        expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
+      axios.get.mockResolvedValue({
+        data: {
+          id: 1
+        }
       })
+
+      wrapper = mount(UsersShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      await wrapper.find('p').trigger('click')
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'success', text: 'ユーザー情報を削除しました。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/users')
     })
+  })
 
-    describe('ユーザー情報の削除に成功した場合', () => {
-      it('削除成功のメッセージが表示されユーザーリストページに遷移すること', async () => {
-        vi.spyOn(window, 'confirm').mockReturnValue(true)
+  describe('ユーザー情報の削除に失敗した場合', () => {
+    it('404ページに遷移すること', async () => {
+      vi.spyOn(window, 'confirm').mockReturnValue(true)
 
-        axios.get.mockResolvedValue({
-          data: {
-            id: 1
-          }
-        })
-
-        const wrapper = mount(UsersShowView, {
-          global: {
-            stubs: {
-              RouterLink: RouterLinkStub
-            }
-          }
-        })
-
-        await flushPromises()
-
-        await wrapper.find('p').trigger('click')
-
-        expect(wrapper.emitted()).toHaveProperty('message')
-        expect(wrapper.emitted().message[0]).toEqual([
-          { type: 'success', text: 'ユーザー情報を削除しました。' }
-        ])
-        expect(pushMock).toHaveBeenCalledWith('/users')
+      axios.get.mockResolvedValue({
+        data: {
+          id: 1
+        }
       })
-    })
 
-    describe('ユーザー情報の削除に失敗した場合', () => {
-      it('404ページに遷移すること', async () => {
-        vi.spyOn(window, 'confirm').mockReturnValue(true)
-
-        axios.get.mockResolvedValue({
-          data: {
-            id: 1
-          }
-        })
-
-        axios.delete.mockRejectedValue({
-          response: {
-            status: 404
-          }
-        })
-
-        const wrapper = mount(UsersShowView, {
-          global: {
-            stubs: {
-              RouterLink: RouterLinkStub
-            }
-          }
-        })
-
-        await flushPromises()
-
-        await wrapper.find('p').trigger('click')
-
-        expect(wrapper.emitted()).toHaveProperty('message')
-        expect(wrapper.emitted().message[0]).toEqual([
-          { type: 'danger', text: 'ユーザー情報の削除に失敗しました。' }
-        ])
-        expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
+      axios.delete.mockRejectedValue({
+        response: {
+          status: 404
+        }
       })
+
+      wrapper = mount(UsersShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      await wrapper.find('p').trigger('click')
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'ユーザー情報の削除に失敗しました。' }
+      ])
+      expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
     })
   })
 })
