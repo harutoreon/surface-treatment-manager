@@ -87,8 +87,16 @@ describe('UsersIndexView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      expect(wrapper.findComponent({ ref: 'linkUsersNew' }).props().to).toBe('/users/new')
-      expect(wrapper.findComponent({ ref: 'linkHome' }).props().to).toBe('/home')
+      const linkUsersNew = wrapper.findComponent({ ref: 'linkUsersNew' })
+      const linkHome = wrapper.findComponent({ ref: 'linkHome' })
+
+      // to属性
+      expect(linkUsersNew.props().to).toBe('/users/new')
+      expect(linkHome.props().to).toBe('/home')
+
+      // テキスト
+      expect(linkUsersNew.text()).toBe('ユーザー情報の登録')
+      expect(linkHome.text()).toBe('メインメニューへ')
     })
   })
 
