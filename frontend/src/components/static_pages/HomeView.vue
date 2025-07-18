@@ -18,7 +18,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
 
     <div class="row mb-4">
       <div class="col ps-0 pe-0">
-        <div class="card pt-2" style="width: 19rem;">
+        <div class="card pt-2" id="search-name" style="width: 19rem;">
           <img
             alt="experiment icon"
             class="card-img-top w-25"
@@ -33,14 +33,14 @@ import settingsIcon from '@/assets/icons/settings.svg'
             <p class="card-text">
               処理名を入力して表面処理を検索します。
             </p>
-            <RouterLink to="/static_pages/name" class="card-link" ref="linkSearchName">
+            <RouterLink to="/static_pages/name" class="card-link">
               検索ページへ
             </RouterLink>
           </div>
         </div>
       </div>
       <div class="col ps-0 pe-0">
-        <div class="card pt-2" style="width: 19rem;">
+        <div class="card pt-2" id="search-category" style="width: 19rem;">
           <img
             alt="category icon"
             class="card-img-top w-25"
@@ -55,14 +55,14 @@ import settingsIcon from '@/assets/icons/settings.svg'
             <p class="card-text">
               カテゴリーを選択して表面処理を検索します。
             </p>
-            <RouterLink to="/static_pages/category" class="card-link" ref="linkSearchCategory">
+            <RouterLink to="/static_pages/category" class="card-link">
               検索ページへ
             </RouterLink>
           </div>
         </div>
       </div>
       <div class="col ps-0 pe-0">
-        <div class="card pt-2" style="width: 19rem;">
+        <div class="card pt-2" id="search-maker" style="width: 19rem;">
           <img
             alt="factory icon"
             class="card-img-top w-25"
@@ -77,14 +77,14 @@ import settingsIcon from '@/assets/icons/settings.svg'
             <p class="card-text">
               メーカー名を入力して表面処理を検索します。
             </p>
-            <RouterLink to="/static_pages/maker" class="card-link" ref="linkSearchMaker">
+            <RouterLink to="/static_pages/maker" class="card-link">
               検索ページへ
             </RouterLink>
           </div>
         </div>
       </div>
       <div class="col ps-0 pe-0">
-        <div class="card pt-2" style="width: 19rem;">
+        <div class="card pt-2" id="search-list" style="width: 19rem;">
           <img
             alt="list icon"
             class="card-img-top w-25"
@@ -99,7 +99,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
             <p class="card-text">
               表面処理一覧から目的の処理を検索します。
             </p>
-            <RouterLink to="/list_search_results" class="card-link" ref="linkSearchList">
+            <RouterLink to="/list_search_results" class="card-link">
               検索ページへ
             </RouterLink>
           </div>
@@ -109,7 +109,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
 
     <div class="row mb-4">
       <div class="col ps-0 pe-0">
-        <div class="card pt-2" style="width: 19rem;">
+        <div class="card pt-2" id="manage-samples" style="width: 19rem;">
           <img
             alt="library add icon"
             class="card-img-top w-25"
@@ -124,14 +124,14 @@ import settingsIcon from '@/assets/icons/settings.svg'
             <p class="card-text">
               表面処理に関する情報を一括管理します。
             </p>
-            <RouterLink to="/samples" class="card-link" ref="linkManageSamples">
+            <RouterLink to="/samples" class="card-link">
               管理ページへ
             </RouterLink>
           </div>
         </div>
       </div>
       <div class="col ps-0 pe-0">
-        <div class="card pt-2" style="width: 19rem;">
+        <div class="card pt-2" id="manage-Categories" style="width: 19rem;">
           <img
             alt="category add icon"
             class="card-img-top w-25"
@@ -146,14 +146,14 @@ import settingsIcon from '@/assets/icons/settings.svg'
             <p class="card-text">
               カテゴリーに関する情報を一括管理します。
             </p>
-            <RouterLink to="/categories" class="card-link" ref="linkManageCategories">
+            <RouterLink to="/categories" class="card-link">
               管理ページへ
             </RouterLink>
           </div>
         </div>
       </div>
       <div class="col ps-0 pe-0">
-        <div class="card pt-2" style="width: 19rem;">
+        <div class="card pt-2" id="manage-makers" style="width: 19rem;">
           <img
             alt="maker add icon"
             class="card-img-top w-25"
@@ -168,14 +168,14 @@ import settingsIcon from '@/assets/icons/settings.svg'
             <p class="card-text">
               メーカーに関する情報を一括管理します。
             </p>
-            <RouterLink to="/makers" class="card-link" ref="linkManageMakers">
+            <RouterLink to="/makers" class="card-link">
               管理ページへ
             </RouterLink>
           </div>
         </div>
       </div>
       <div class="col ps-0 pe-0">
-        <div class="card pt-2" style="width: 19rem;">
+        <div class="card pt-2" id="manage-users" style="width: 19rem;">
           <img
             alt="user add icon"
             class="card-img-top w-25"
@@ -190,7 +190,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
             <p class="card-text">
               ユーザーに関する情報を一括管理します。
             </p>
-            <RouterLink to="/users" class="card-link" ref="linkManageUsers">
+            <RouterLink to="/users" class="card-link">
               管理ページへ
             </RouterLink>
           </div>
@@ -200,7 +200,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
 
     <div class="row mb-4">
       <div class="col ps-0 pe-0">
-        <div class="card pt-2" style="width: 19rem;">
+        <div class="card pt-2" id="settings" style="width: 19rem;">
           <img
             alt="settings icon"
             class="card-img-top w-25"
@@ -215,7 +215,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
             <p class="card-text">
               アプリケーションの設定やログアウトを行います。
             </p>
-            <RouterLink to="/settings" class="card-link" ref="linkSettings">
+            <RouterLink to="/settings" class="card-link">
               管理ページへ
             </RouterLink>
           </div>
