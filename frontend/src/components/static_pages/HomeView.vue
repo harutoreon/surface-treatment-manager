@@ -131,7 +131,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
         </div>
       </div>
       <div class="col ps-0 pe-0">
-        <div class="card pt-2" id="manage-Categories" style="width: 19rem;">
+        <div class="card pt-2" id="manage-categories" style="width: 19rem;">
           <img
             alt="category add icon"
             class="card-img-top w-25"
@@ -200,7 +200,7 @@ import settingsIcon from '@/assets/icons/settings.svg'
 
     <div class="row mb-4">
       <div class="col ps-0 pe-0">
-        <div class="card pt-2" id="settings" style="width: 19rem;">
+        <div class="card pt-2" id="manage-settings" style="width: 19rem;">
           <img
             alt="settings icon"
             class="card-img-top w-25"
