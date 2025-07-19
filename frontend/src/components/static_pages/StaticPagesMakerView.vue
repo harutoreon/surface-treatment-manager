@@ -25,6 +25,7 @@ const submitSearch = () => {
         type="text"
         class="form-control mb-3"
         placeholder="キーワードをここに入力"
+        required
       />
       <button type="submit" class="btn btn-secondary form-control mb-5">
         検索
