@@ -40,7 +40,7 @@ onMounted(() => {
       カテゴリーで検索
     </h3>
     <form v-on:submit.prevent="submitSearch">
-      <select v-model="keyword" class="form-select mb-3">
+      <select v-model="keyword" class="form-select mb-3" required>
         <option value="">
           カテゴリーを選択して下さい
         </option>
