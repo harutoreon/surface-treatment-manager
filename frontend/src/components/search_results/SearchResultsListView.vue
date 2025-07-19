@@ -58,7 +58,6 @@ onMounted(() => {
               <RouterLink
                 v-bind:to="`/samples/${sample.id}`"
                 class="btn btn-primary"
-                v-bind:ref="`linkSample${sample.id}`"
               >
                 詳細へ
               </RouterLink>
