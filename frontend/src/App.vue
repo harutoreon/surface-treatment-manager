@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 
@@ -29,20 +29,6 @@ const logout = async () => {
     message.value = 'ログアウト処理に失敗しました。'
   }
 }
-
-const checkLoginStatus = async () => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/logged_in`)
-    user.value = response.data.user || null
-  } catch {
-    message.value = 'danger'
-    message.value = 'ログイン情報の取得に失敗しました。'
-  }
-}
-
-onMounted(() => {
-  checkLoginStatus()
-})
 </script>
 
 <template>
