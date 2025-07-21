@@ -1,11 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import axios from 'axios'
-import { useRouter } from 'vue-router'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-const router = useRouter()
-const user = ref(null)
 const messageType = ref('')
 const message = ref('')
 
@@ -17,17 +12,6 @@ const showMessage = (payload) => {
 const handleMessageDelete = () => {
   messageType.value = ''
   message.value = ''
-}
-
-const logout = async () => {
-  try {
-    await axios.delete(`${API_BASE_URL}/logout`)
-    user.value = null
-    router.push('/')
-  } catch {
-    messageType.value = 'danger'
-    message.value = 'ログアウト処理に失敗しました。'
-  }
 }
 </script>
 
@@ -53,5 +37,5 @@ const logout = async () => {
     </button>
   </div>
 
-  <RouterView @logout="logout" v-on:message="showMessage"/>
+  <RouterView v-on:message="showMessage"/>
 </template>
