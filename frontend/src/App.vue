@@ -9,10 +9,6 @@ const user = ref(null)
 const messageType = ref('')
 const message = ref('')
 
-const setUser = (newUser) => {
-  user.value = newUser
-}
-
 const showMessage = (payload) => {
   messageType.value = payload.type
   message.value = payload.text
@@ -71,5 +67,5 @@ onMounted(() => {
     </button>
   </div>
 
-  <RouterView @login-success="setUser" @logout="logout" v-on:message="showMessage"/>
+  <RouterView @logout="logout" v-on:message="showMessage"/>
 </template>
