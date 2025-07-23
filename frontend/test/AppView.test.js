@@ -1,6 +1,6 @@
-import App from "@/App.vue"
-import { describe, it, expect, beforeEach } from "vitest"
-import { flushPromises, mount, RouterLinkStub } from "@vue/test-utils"
+import App from '@/App.vue'
+import { describe, it, expect, beforeEach } from 'vitest'
+import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 
 describe('App.vue', () => {
   let wrapper
