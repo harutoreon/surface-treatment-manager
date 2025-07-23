@@ -1,10 +1,24 @@
 <script setup>
-const emit = defineEmits(['logout'])
+import { useRouter } from 'vue-router'
+import axios from 'axios'
 
-const handleLogout = () => {
-  if (confirm('本当にログアウトしますか？')) {
-    emit('logout')
-  }  
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const emit = defineEmits(['message'])
+const router = useRouter()
+
+const handleLogout = async () => {
+  const confirmDelete = window.confirm('本当にログアウトしますか？')
+  if (!confirmDelete) return
+
+  try {
+    await axios.delete(`${API_BASE_URL}/logout`)
+    router.push('/')
+  } catch (error){
+    if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: 'ログアウト処理に失敗しました。' })
+      router.replace({ name: 'NotFound' })
+    }
+  }
 }
 </script>
 

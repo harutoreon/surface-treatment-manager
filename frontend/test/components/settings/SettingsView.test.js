@@ -1,6 +1,26 @@
 import SettingsView from '@/components/settings/SettingsView.vue'
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
+import axios from 'axios'
+
+const replaceMock = vi.fn()
+const pushMock = vi.fn()
+
+vi.mock('axios')
+vi.mock('vue-router', () => {
+  return {
+    useRouter: () => {
+      return {
+        replace: replaceMock,
+        push: pushMock
+      }
+    }
+  }
+})
+
+afterEach(() => {
+  pushMock.mockClear()
+})
 
 describe('SettingsView', () => {
   let wrapper
@@ -37,9 +57,15 @@ describe('SettingsView', () => {
   })
 
   describe('ログアウトの選択でOKを押した場合', () => {
-    it('logoutイベントが発火すること', async () => {
+    it('ログインページに遷移すること', async () => {
       vi.spyOn(window, 'confirm').mockReturnValue(true)
-    
+
+      axios.delete.mockResolvedValue({
+        response: {
+          status: 200
+        }
+      })
+
       wrapper = mount(SettingsView, {
         global: {
           stubs: {
@@ -52,12 +78,42 @@ describe('SettingsView', () => {
 
       await wrapper.find('button').trigger('click')
 
-      expect(wrapper.emitted()).toHaveProperty('logout')
+      expect(pushMock).toHaveBeenCalledWith('/')
+    })
+  })
+
+  describe('ログアウトの選択でOKを押しかつログアウト処理に失敗した場合', () => {
+    it('404ページに遷移すること', async () => {
+      vi.spyOn(window, 'confirm').mockReturnValue(true)
+
+      axios.delete.mockRejectedValue({
+        response: {
+          status: 404
+        }
+      })
+
+      wrapper = mount(SettingsView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      await wrapper.find('button').trigger('click')
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'ログアウト処理に失敗しました。' }
+      ])
+      expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
     })
   })
 
   describe('ログアウトの選択でキャンセルを押した場合', () => {
-    it('logoutイベントが発火しないこと', async () => {
+    it('ログインページに遷移しないこと', async () => {
       vi.spyOn(window, 'confirm').mockReturnValue(false)
 
       wrapper = mount(SettingsView, {
@@ -72,7 +128,7 @@ describe('SettingsView', () => {
     
       await wrapper.find('button').trigger('click')
       
-      expect(wrapper.emitted()).not.toHaveProperty('logout')
+      expect(pushMock).not.toHaveBeenCalledWith('/')
     })
   })
 })
