@@ -76,10 +76,10 @@
 - GitHub Actions
 
 ## 開発環境
-![開発環境の構成図](./development_environment_configuration_diagram.drawio.svg)
+![開発環境の構成図](./configuration_diagram/development_environment.drawio.svg)
 
 ## 本番環境
-![本番環境の構成図](./production_environment_configuration_diagram.drawio.svg)
+![本番環境の構成図](./configuration_diagram/production_environment.drawio.svg)
 
 ## イメージの生成
 ```sh
