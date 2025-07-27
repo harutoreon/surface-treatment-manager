@@ -76,8 +76,8 @@
 - GitHub Actions
 
 ## 開発環境
-- Docker Compose
-
+<!-- - Docker Compose -->
+![開発環境の構成図](./development_environment_configuration_diagram.drawio.svg)
 ## 本番環境
 - Render
   - Frontend
