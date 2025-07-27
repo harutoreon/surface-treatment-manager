@@ -24,6 +24,8 @@ import StaticPagesCategoryView from '@/components/static_pages/StaticPagesCatego
 import StaticPagesMakerView from '@/components/static_pages/StaticPagesMakerView.vue'
 import SearchResultsView from '@/components/search_results/SearchResultsView.vue'
 import SearchResultsListView from '@/components/search_results/SearchResultsListView.vue'
+import DepartmentsIndexView from '@/components/departments/DepartmentsIndexView.vue'
+
 import NotFound from '@/components/not_found/NotFound.vue'
 
 const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : createWebHistory()
@@ -58,6 +60,8 @@ const routes = [
     meta: { title: 'Search Results' }
   },
   { path: '/list_search_results', component: SearchResultsListView, meta: { title: 'Search Results' } },
+  { path: '/departments', component: DepartmentsIndexView, meta: { title: 'Department Index' } },
+  
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound, meta: { title: 'NotFound (404)' } },
 ]
 
