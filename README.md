@@ -76,15 +76,10 @@
 - GitHub Actions
 
 ## 開発環境
-- Docker Compose
+![開発環境の構成図](./configuration_diagram/development_environment.drawio.svg)
 
 ## 本番環境
-- Render
-  - Frontend
-    - Static Site / Static
-  - Backend
-    - Web Service / Docker
-    - PostgreSQL  / PostgreSQL 16
+![本番環境の構成図](./configuration_diagram/production_environment.drawio.svg)
 
 ## イメージの生成
 ```sh
