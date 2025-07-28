@@ -1,4 +1,4 @@
-<!-- <script setup>
+<script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
@@ -12,10 +12,9 @@ const fetchDepartmentList = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/departments`)
     departments.value = response.data
-    console.log(departments.value)
   } catch (error) {
     if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: '部署名の取得に失敗しました。' })
+      emit('message', { type: 'danger', text: '部署リストの取得に失敗しました。' })
       router.replace({ name: 'NotFound' })
     }
   }
@@ -24,42 +23,40 @@ const fetchDepartmentList = async () => {
 onMounted(() => {
   fetchDepartmentList()
 })
-</script> -->
+</script>
 
 <template>
   <div class="container w-25">
     <h3 class="text-center mt-5 mb-5">
-      部署名リスト
+      部署リスト
     </h3>
 
-    <!-- <div class="list-group list-group-flush mb-5">
-      <div class="list-group-item list-group-item-action">
-        <div class="d-flex w-100 justify-content-between">
-          <h6>カテゴリー名</h6>
-          <h6>概要</h6>
+    <div class="list-group list-group-flush mb-5">
+      <div class="list-group-item">
+        <div class="d-flex justify-content-center">
+          <h6>部署名</h6>
         </div>
       </div>
 
       <RouterLink
-        v-for="category in categories"
-        v-bind:key="category.id"
+        v-for="department in departments"
+        v-bind:key="department.id"
         class="list-group-item list-group-item-action"
-        v-bind:to="`/categories/${category.id}`"
+        v-bind:to="`/departments/${department.id}`"
       >
-        <div class="d-flex w-100 justify-content-between">
-          <h6>{{ category.item }}</h6>
-          <h6>{{ category.summary }}</h6>
-        </div>        
+        <div class="d-flex justify-content-center">
+          <h6>{{ department.name }}</h6>
+        </div>
       </RouterLink>
-    </div> -->
+    </div>
 
-    <!-- <div class="d-flex justify-content-evenly">
-      <RouterLink to="/categories/new" ref="linkCategoriesNew">
-        カテゴリー情報の登録
+    <div class="d-flex justify-content-evenly">
+      <RouterLink to="/departments/new">
+        部署の登録へ
       </RouterLink>
-      <RouterLink to="/home" ref="linkHome">
+      <RouterLink to="/home">
         メインメニューへ
       </RouterLink>
-    </div> -->
+    </div>
   </div>
 </template>

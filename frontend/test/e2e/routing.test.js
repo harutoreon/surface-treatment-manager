@@ -690,7 +690,7 @@ describe('Search Results routing', () => {
 })
 
 describe('Departments routing', () => {
-  it('「部署名リスト」ページに遷移できること', async () => {
+  it('「部署リスト」ページに遷移できること', async () => {
     const router = createAppRouter()
 
     router.push('/departments')
@@ -710,7 +710,7 @@ describe('Departments routing', () => {
 
     expect(router.currentRoute.value.meta.title).toBe('department Index')
     expect(document.title).toBe('department Index')
-    expect(wrapper.find('h3').text()).toBe('部署名リスト')
+    expect(wrapper.find('h3').text()).toBe('部署リスト')
   })
 })
 
