@@ -46,7 +46,7 @@ describe('DepartmentsIndexView', () => {
     })
 
     it('部署名の一覧が表示されること', () => {
-      const links = wrapper.findAllComponents('a.list-group-item')
+      const links = wrapper.findAllComponents(RouterLinkStub)
       
       // to属性
       expect(links[0].props().to).toBe('/departments/1')
@@ -62,15 +62,15 @@ describe('DepartmentsIndexView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const links = wrapper.findAllComponents('div.d-flex a')
+      const links = wrapper.findAllComponents(RouterLinkStub)
 
       // // to属性
-      expect(links[0].props().to).toBe('/departments/new')
-      expect(links[1].props().to).toBe('/home')
+      expect(links[4].props().to).toBe('/departments/new')
+      expect(links[5].props().to).toBe('/home')
 
       // // テキスト
-      expect(links[0].text()).toBe('部署の登録へ')
-      expect(links[1].text()).toBe('メインメニューへ')
+      expect(links[4].text()).toBe('部署の登録へ')
+      expect(links[5].text()).toBe('メインメニューへ')
     })
   })
 
