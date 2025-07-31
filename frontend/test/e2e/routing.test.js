@@ -35,6 +35,7 @@ const routes = [
   { path: '/list_search_results', component: () => import('@/components/search_results/SearchResultsListView.vue'), meta: { title: 'Search Results' } },
   { path: '/departments', component: () => import('@/components/departments/DepartmentsIndexView.vue'), meta: { title: 'department Index' } },
   { path: '/departments/:id', component: () => import('@/components/departments/DepartmentsShowView.vue'), meta: { title: 'department Show' } },
+  { path: '/departments/new', component: () => import('@/components/departments/DepartmentsNewView.vue'), meta: { title: 'department New' } },
 
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/components/not_found/NotFound.vue'), meta: { title: 'NotFound (404)' } },
 ]
@@ -735,6 +736,29 @@ describe('Departments routing', () => {
     expect(router.currentRoute.value.meta.title).toBe('department Show')
     expect(document.title).toBe('department Show')
     expect(wrapper.find('h3').text()).toBe('部署情報')
+  })
+
+  it('「部署情報の登録」ページに遷移できること', async () => {
+    const router = createAppRouter()
+
+    router.push('/departments/new')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router],
+        stubs: {
+          RouterLink: RouterLinkStub
+        }
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('department New')
+    expect(document.title).toBe('department New')
+    expect(wrapper.find('h3').text()).toBe('部署情報の登録')
   })
 })
 
