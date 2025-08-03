@@ -143,7 +143,7 @@ describe('DepartmentsEditView', () => {
     })
   })
 
-  describe('有効な情報を送信した場合', () => {
+  describe('無効な情報を送信した場合', () => {
     beforeEach(async () => {
       axios.get.mockResolvedValue({
         data: {
@@ -169,7 +169,7 @@ describe('DepartmentsEditView', () => {
       await flushPromises()
     })
 
-    it('更新が成功すること', async () => {
+    it('更新が失敗すること', async () => {
       await wrapper.find('#department-name').setValue('')
       await wrapper.find('form').trigger('submit.prevent')
 
