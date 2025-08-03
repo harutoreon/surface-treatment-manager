@@ -22,6 +22,22 @@ const fetchDepartmentData = async (id) => {
   }
 }
 
+const handleDelete = async () => {
+  const confirmDelete = window.confirm('本当に削除しますか？')
+  if (!confirmDelete) return
+
+  try {
+    await axios.delete(`${API_BASE_URL}/departments/${route.params.id}`)
+    emit('message', { type: 'success', text: '部署情報を1件削除しました。' })
+    router.push('/departments')
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: '削除処理に失敗しました。' })
+      router.replace({ name: 'NotFound' })
+    }
+  }
+}
+
 onMounted(() => {
   fetchDepartmentData(route.params.id)
 })
@@ -44,6 +60,11 @@ onMounted(() => {
       <RouterLink v-bind:to="`/departments/${department.id}/edit`">
         部署情報の編集へ
       </RouterLink>
+
+      <p v-on:click="handleDelete" class="text-primary text-decoration-underline">
+        部署情報の削除
+      </p>
+
       <RouterLink to="/departments">
         部署リストへ
       </RouterLink>
