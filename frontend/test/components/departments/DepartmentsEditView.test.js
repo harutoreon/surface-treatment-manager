@@ -4,6 +4,7 @@ import { mount, flushPromises, RouterLinkStub } from '@vue/test-utils'
 import axios from 'axios'
 
 const replaceMock = vi.fn()
+const pushMock = vi.fn()
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
@@ -15,7 +16,8 @@ vi.mock('vue-router', () => {
     },
     useRouter: () => {
       return {
-        replace: replaceMock
+        replace: replaceMock,
+        push: pushMock
       }
     }
   }
@@ -99,6 +101,79 @@ describe('DepartmentsEditView', () => {
         { type: 'danger', text: '部署情報の取得に失敗しました。' }
       ])
       expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
+    })
+  })
+
+  describe('有効な情報を送信した場合', () => {
+    beforeEach(async () => {
+      axios.get.mockResolvedValue({
+        data: {
+          id: 1,
+          name: '品質管理部'
+        }
+      })
+
+      axios.patch.mockResolvedValue({
+        data: {
+          id: 1,
+          name: '人事部'
+        }
+      })
+
+      wrapper = mount(DepartmentsEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('更新が成功すること', async () => {
+      await wrapper.find('#department-name').setValue('人事部')
+      await wrapper.find('form').trigger('submit.prevent')
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'success', text: '部署情報を更新しました。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/departments/1')
+    })
+  })
+
+  describe('有効な情報を送信した場合', () => {
+    beforeEach(async () => {
+      axios.get.mockResolvedValue({
+        data: {
+          id: 1,
+          name: '品質管理部'
+        }
+      })
+
+      axios.patch.mockRejectedValue({
+        response: {
+          status: 422
+        }
+      })
+
+      wrapper = mount(DepartmentsEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('更新が成功すること', async () => {
+      await wrapper.find('#department-name').setValue('')
+      await wrapper.find('form').trigger('submit.prevent')
+
+      expect(wrapper.find('p').text()).toBe('入力に不備があります。')
     })
   })
 })

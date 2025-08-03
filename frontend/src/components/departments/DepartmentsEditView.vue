@@ -8,6 +8,7 @@ const emit = defineEmits(['message'])
 const route = useRoute()
 const router = useRouter()
 const department = ref('')
+const errorMessage = ref('')
 
 const fetchDepartmentData = async (id) => {
   try {
@@ -18,6 +19,19 @@ const fetchDepartmentData = async (id) => {
       emit('message', { type: 'danger', text: '部署情報の取得に失敗しました。' })
       router.replace({ name: 'NotFound' })
     }
+  }
+}
+
+const departmentUpdate = async () => {
+  try {
+    const response = await axios.patch(`${API_BASE_URL}/departments/${department.value.id}`, {
+      name: department.value.name,
+    })
+    department.value = response.data
+    emit('message', { type: 'success', text: '部署情報を更新しました。' })
+    router.push(`/departments/${department.value.id}`)
+  } catch {
+    errorMessage.value = '入力に不備があります。'
   }
 }
 
@@ -32,7 +46,7 @@ onMounted(() => {
       部署情報の編集
     </h3>
 
-    <form>
+    <form v-on:submit.prevent="departmentUpdate">
       <label class="form-label" for="department-name">
         部署名
       </label>
@@ -48,6 +62,10 @@ onMounted(() => {
       </button>
     </form>
 
+    <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">
+      {{ errorMessage }}
+    </p>
+    
     <div class="d-flex justify-content-evenly">
       <RouterLink v-bind:to="`/departments/${department.id}`">
         部署情報へ
