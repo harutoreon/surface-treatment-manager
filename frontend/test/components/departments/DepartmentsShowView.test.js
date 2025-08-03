@@ -2,8 +2,11 @@ import DepartmentsShowView from '@/components/departments/DepartmentsShowView.vu
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount, flushPromises, RouterLinkStub } from '@vue/test-utils'
 import axios from 'axios'
+// import { a } from 'vitest/dist/chunks/suite.d.FvehnV49'
+// import { RouterLink } from 'vue-router'
 
 const replaceMock = vi.fn()
+const pushMock = vi.fn()
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
@@ -15,7 +18,8 @@ vi.mock('vue-router', () => {
     },
     useRouter: () => {
       return {
-        replace: replaceMock
+        replace: replaceMock,
+        push: pushMock
       }
     }
   }
@@ -91,6 +95,79 @@ describe('DepartmentsShowView', () => {
         { type: 'danger', text: '部署情報の取得に失敗しました。' }
       ])
       expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
+    })
+  })
+
+  describe('削除処理に成功した場合', () => {
+    beforeEach(async () => {
+      vi.spyOn(window, 'confirm').mockReturnValue(true)
+
+      axios.get.mockResolvedValue({
+        data: {
+          id: 1,
+          name: '品質管理部'
+        }
+      })
+
+      wrapper = mount(DepartmentsShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('部署リストページに遷移すること', async () => {
+      await wrapper.find('p').trigger('click')
+      
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'success', text: '部署情報を1件削除しました。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/departments')      
+    })
+  })
+
+  describe('削除処理に失敗した場合', () => {
+    beforeEach(async () => {
+      vi.spyOn(window, 'confirm').mockReturnValue(true)
+
+      axios.get.mockResolvedValue({
+        data: {
+          id: 1,
+          name: '品質管理部'
+        }
+      })
+
+      axios.delete.mockRejectedValue({
+        response: {
+          status: 404
+        }
+      })
+
+      wrapper = mount(DepartmentsShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('404ページに遷移すること', async () => {
+      await wrapper.find('p').trigger('click')
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: '削除処理に失敗しました。' }
+      ])
+      expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
+
     })
   })
 })
