@@ -27,6 +27,7 @@ import SearchResultsListView from '@/components/search_results/SearchResultsList
 import DepartmentsIndexView from '@/components/departments/DepartmentsIndexView.vue'
 import DepartmentsShowView from '@/components/departments/DepartmentsShowView.vue'
 import DepartmentsNewView from '@/components/departments/DepartmentsNewView.vue'
+import DepartmentsEditView from '@/components/departments/DepartmentsEditView.vue'
 
 import NotFound from '@/components/not_found/NotFound.vue'
 
@@ -66,6 +67,7 @@ const routes = [
   { path: '/departments', component: DepartmentsIndexView, meta: { title: 'Department Index' } },
   { path: '/departments/:id', component: DepartmentsShowView, meta: { title: 'Department Show' } },
   { path: '/departments/new', component: DepartmentsNewView, meta: { title: 'Department New' } },
+  { path: '/departments/:id/edit', component: DepartmentsEditView, meta: { title: 'Department Edit' } },
   
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound, meta: { title: 'NotFound (404)' } },
 ]
