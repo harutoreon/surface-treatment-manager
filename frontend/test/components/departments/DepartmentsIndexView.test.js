@@ -69,7 +69,7 @@ describe('DepartmentsIndexView', () => {
       expect(links[5].props().to).toBe('/home')
 
       // // テキスト
-      expect(links[4].text()).toBe('部署の登録へ')
+      expect(links[4].text()).toBe('部署情報の登録へ')
       expect(links[5].text()).toBe('メインメニューへ')
     })
   })
