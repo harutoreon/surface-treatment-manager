@@ -7,6 +7,7 @@ import libraryAddIcon from '@/assets/icons/library_add.svg'
 import categoryAddIcon from '@/assets/icons/category_add.svg'
 import makerAddIcon from '@/assets/icons/maker_add.svg'
 import userAddIcon from '@/assets/icons/user_add.svg'
+import departmentIcon from '@/assets/icons/department.svg'
 import settingsIcon from '@/assets/icons/settings.svg'
 import { describe, it, expect, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
@@ -117,6 +118,17 @@ describe('HomeView', () => {
       expect(divManageUsers.find('div p').text()).toBe('ユーザーに関する情報を一括管理します。')
       expect(divManageUsers.findComponent('div a').text()).toBe('管理ページへ')
       expect(divManageUsers.findComponent('div a').props().to).toBe('/users')
+    })
+
+    it('「部署の管理」カードが表示されること', () => {
+      const divManageUsers = wrapper.find('#manage-departments')
+
+      expect(divManageUsers.find('img').attributes('src')).toBe(departmentIcon)
+      expect(divManageUsers.find('img').attributes('alt')).toBe('department add icon')
+      expect(divManageUsers.find('div h5').text()).toBe('部署の管理')
+      expect(divManageUsers.find('div p').text()).toBe('部署に関する情報を一括管理します。')
+      expect(divManageUsers.findComponent('div a').text()).toBe('管理ページへ')
+      expect(divManageUsers.findComponent('div a').props().to).toBe('/departments')
     })
 
     it('「アプリケーションの管理」カードが表示されること', () => {

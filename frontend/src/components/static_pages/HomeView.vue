@@ -8,6 +8,7 @@ import categoryAddIcon from '@/assets/icons/category_add.svg'
 import makerAddIcon from '@/assets/icons/maker_add.svg'
 import userAddIcon from '@/assets/icons/user_add.svg'
 import settingsIcon from '@/assets/icons/settings.svg'
+import department from '@/assets/icons/department.svg'
 </script>
 
 <template>
@@ -199,6 +200,28 @@ import settingsIcon from '@/assets/icons/settings.svg'
     </div>
 
     <div class="row mb-4">
+      <div class="col ps-0 pe-0">
+        <div class="card pt-2" id="manage-departments" style="width: 19rem;">
+          <img
+            alt="department add icon"
+            class="card-img-top w-25"
+            width="50"
+            height="50"
+            v-bind:src="department"
+          >
+          <div class="card-body">
+            <h5 class="card-title">
+              部署の管理
+            </h5>
+            <p class="card-text">
+              部署に関する情報を一括管理します。
+            </p>
+            <RouterLink to="/departments" class="card-link">
+              管理ページへ
+            </RouterLink>
+          </div>
+        </div>
+      </div>
       <div class="col ps-0 pe-0">
         <div class="card pt-2" id="manage-settings" style="width: 19rem;">
           <img
