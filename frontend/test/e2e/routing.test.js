@@ -33,10 +33,10 @@ const routes = [
     meta: { title: 'Search Results' }
   },
   { path: '/list_search_results', component: () => import('@/components/search_results/SearchResultsListView.vue'), meta: { title: 'Search Results' } },
-  { path: '/departments', component: () => import('@/components/departments/DepartmentsIndexView.vue'), meta: { title: 'department Index' } },
-  { path: '/departments/:id', component: () => import('@/components/departments/DepartmentsShowView.vue'), meta: { title: 'department Show' } },
-  { path: '/departments/new', component: () => import('@/components/departments/DepartmentsNewView.vue'), meta: { title: 'department New' } },
-  { path: '/departments/:id/edit', component: () => import('@/components/departments/DepartmentsEditView.vue'), meta: { title: 'department edit' } },
+  { path: '/departments', component: () => import('@/components/departments/DepartmentsIndexView.vue'), meta: { title: 'Department Index' } },
+  { path: '/departments/:id', component: () => import('@/components/departments/DepartmentsShowView.vue'), meta: { title: 'Department Show' } },
+  { path: '/departments/new', component: () => import('@/components/departments/DepartmentsNewView.vue'), meta: { title: 'Department New' } },
+  { path: '/departments/:id/edit', component: () => import('@/components/departments/DepartmentsEditView.vue'), meta: { title: 'Department edit' } },
 
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/components/not_found/NotFound.vue'), meta: { title: 'NotFound (404)' } },
 ]
@@ -711,8 +711,8 @@ describe('Departments routing', () => {
 
     await flushPromises()
 
-    expect(router.currentRoute.value.meta.title).toBe('department Index')
-    expect(document.title).toBe('department Index')
+    expect(router.currentRoute.value.meta.title).toBe('Department Index')
+    expect(document.title).toBe('Department Index')
     expect(wrapper.find('h3').text()).toBe('部署リスト')
   })
 
@@ -734,8 +734,8 @@ describe('Departments routing', () => {
 
     await flushPromises()
 
-    expect(router.currentRoute.value.meta.title).toBe('department Show')
-    expect(document.title).toBe('department Show')
+    expect(router.currentRoute.value.meta.title).toBe('Department Show')
+    expect(document.title).toBe('Department Show')
     expect(wrapper.find('h3').text()).toBe('部署情報')
   })
 
@@ -757,8 +757,8 @@ describe('Departments routing', () => {
 
     await flushPromises()
 
-    expect(router.currentRoute.value.meta.title).toBe('department New')
-    expect(document.title).toBe('department New')
+    expect(router.currentRoute.value.meta.title).toBe('Department New')
+    expect(document.title).toBe('Department New')
     expect(wrapper.find('h3').text()).toBe('部署情報の登録')
   })
 
@@ -780,8 +780,8 @@ describe('Departments routing', () => {
 
     await flushPromises()
 
-    expect(router.currentRoute.value.meta.title).toBe('department edit')
-    expect(document.title).toBe('department edit')
+    expect(router.currentRoute.value.meta.title).toBe('Department edit')
+    expect(document.title).toBe('Department edit')
     expect(wrapper.find('h3').text()).toBe('部署情報の編集')
   })
 })

@@ -52,7 +52,7 @@ onMounted(() => {
 
     <div class="d-flex justify-content-evenly">
       <RouterLink to="/departments/new">
-        部署の登録へ
+        部署情報の登録へ
       </RouterLink>
       <RouterLink to="/home">
         メインメニューへ
