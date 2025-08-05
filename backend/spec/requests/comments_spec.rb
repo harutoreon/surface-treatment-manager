@@ -141,4 +141,22 @@ RSpec.describe "Comments API", type: :request do
       }.to change{ Comment.count }.from(1).to(0)
     end
   end
+
+  describe '#comment_list' do
+    before do
+      FactoryBot.create(:sample)
+      FactoryBot.create_list(:comment, 10)
+    end
+
+    it 'レスポンスのステータスがokであること' do
+      get "/comment_list"
+      expect(response).to have_http_status(:ok)      
+    end
+
+    it 'コメントの件数が10件返ること' do
+      get "/comment_list"
+      json = JSON.parse(response.body)
+      expect(json.count).to eq(10)
+    end
+  end
 end

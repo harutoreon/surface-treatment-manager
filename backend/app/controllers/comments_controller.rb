@@ -43,9 +43,9 @@ class CommentsController < ApplicationController
   end
 
   def comment_list
-    comments = Comment.all
+    comments = Comment.order(:id)
 
-    render json: comments
+    render json: comments, status: :ok
   end
 
   private
