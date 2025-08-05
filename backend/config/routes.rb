@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   get '/maker_search',    to: 'searches#maker_search'
   get '/list_search',     to: 'searches#list_search'
 
+  get '/comment_list', to: 'comments#comment_list'
+  
   resources :categories
   resources :makers
   resources :users

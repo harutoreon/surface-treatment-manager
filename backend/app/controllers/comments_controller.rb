@@ -42,6 +42,12 @@ class CommentsController < ApplicationController
     head :no_content
   end
 
+  def comment_list
+    comments = Comment.all
+
+    render json: comments
+  end
+
   private
 
     def comment_params
