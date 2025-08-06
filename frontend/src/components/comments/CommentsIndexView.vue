@@ -63,7 +63,7 @@ onMounted(() => {
 
     <div class="d-flex justify-content-evenly">
       <RouterLink to="/comments/new">
-        コメントの新規登録
+        コメントの新規登録へ
       </RouterLink>
       <RouterLink to="/home">
         メインメニューへ
