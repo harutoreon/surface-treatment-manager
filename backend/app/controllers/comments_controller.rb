@@ -43,9 +43,14 @@ class CommentsController < ApplicationController
   end
 
   def comment_list
-    comments = Comment.order(:id)
+    comments = Comment.paginate(page: params[:page], per_page: 10)
 
-    render json: comments, status: :ok
+    render json: {
+      comments: comments,
+      current_page: comments.current_page,
+      total_pages: comments.total_pages
+    },
+    status: :ok
   end
 
   private

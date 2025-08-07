@@ -118,8 +118,6 @@ describe('CommentsIndexView', () => {
       )
 
       // 投稿日
-      // console.log(wrapper.text().match(/\d{4}\/\d\/\d{2}/g).length)  
-      // expect(wrapper.text().match(/2025\/7\/30/g).length).toBe(5)
       expect(wrapper.text().match(/\d{4}\/\d\/\d{2}/g).length).toBe(5)  // 2025/7/30 のような日付が対象
     })
 

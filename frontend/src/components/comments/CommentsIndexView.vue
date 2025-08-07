@@ -1,12 +1,15 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
 const router = useRouter()
+const route = useRoute()
 const comments = ref([])
+const currentPage = ref(Number(route.query.page) || 1)
+const totalPages = ref(1)
 
 const formatDate = (isoString) => {
   const date = new Date(isoString)
@@ -16,8 +19,10 @@ const formatDate = (isoString) => {
 
 const fetchCommentList = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/comment_list`)
-    comments.value = response.data
+    const response = await axios.get(`${API_BASE_URL}/comment_list?page=${currentPage.value}`)
+    comments.value = response.data.comments
+    currentPage.value = response.data.current_page
+    totalPages.value = response.data.total_pages
   } catch (error) {
     if (error.response && error.response.status === 404) {
       emit('message', { type: 'danger', text: 'コメントリストの取得に失敗しました。' })
@@ -25,6 +30,16 @@ const fetchCommentList = async () => {
     }
   }
 }
+
+const getPageLink = (page) => ({
+  path: route.path,
+  query: { page }
+})
+
+watch(() => route.query.page, (newPage) => {
+  currentPage.value = Number(newPage) || 1
+  fetchCommentList()
+}, { immediate: true })
 
 onMounted(() => {
   fetchCommentList()
@@ -60,6 +75,37 @@ onMounted(() => {
         </div>
       </RouterLink>
     </div>
+
+    <ul v-if="totalPages > 0"  class="pagination justify-content-center mb-5" id="pagination">
+      <li class="page-item" :class="{ disabled: currentPage === 1 }" id="pagination_previous_page">
+        <RouterLink class="page-link" v-if="currentPage > 1" v-bind:to="getPageLink(currentPage - 1)">
+          前ページ
+        </RouterLink>
+        <span v-else class="page-link">
+          前ページ
+        </span>
+      </li>
+
+      <li
+        v-for="page in totalPages"
+        v-bind:key="page"
+        class="page-item"
+        v-bind:class="{ active: page === currentPage }"
+      >
+        <RouterLink class="page-link" v-bind:to="getPageLink(page)">
+          {{ page }}
+        </RouterLink>
+      </li>
+
+      <li class="page-item" :class="{ disabled: currentPage === totalPages }" id="pagination_next_page">
+        <RouterLink class="page-link" v-if="currentPage < totalPages" v-bind:to="getPageLink(currentPage + 1)">
+          次ページ
+        </RouterLink>
+        <span v-else class="page-link">
+          次ページ
+        </span>
+      </li>
+    </ul>
 
     <div class="d-flex justify-content-evenly">
       <RouterLink to="/comments/new">
