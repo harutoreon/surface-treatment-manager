@@ -37,6 +37,7 @@ const routes = [
   { path: '/departments/:id', component: () => import('@/components/departments/DepartmentsShowView.vue'), meta: { title: 'Department Show' } },
   { path: '/departments/new', component: () => import('@/components/departments/DepartmentsNewView.vue'), meta: { title: 'Department New' } },
   { path: '/departments/:id/edit', component: () => import('@/components/departments/DepartmentsEditView.vue'), meta: { title: 'Department edit' } },
+  { path: '/comments', component: () => import('@/components/comments/CommentsIndexView.vue'), meta: { title: 'Comments Index' } },
 
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/components/not_found/NotFound.vue'), meta: { title: 'NotFound (404)' } },
 ]
@@ -783,6 +784,31 @@ describe('Departments routing', () => {
     expect(router.currentRoute.value.meta.title).toBe('Department edit')
     expect(document.title).toBe('Department edit')
     expect(wrapper.find('h3').text()).toBe('部署情報の編集')
+  })
+})
+
+describe('Comments routing', () => {
+  it('「コメントリスト」ページに遷移すること', async () => {
+    const router = createAppRouter()
+
+    router.push('/comments')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router],
+        stubs: {
+          RouterLink: RouterLinkStub
+        }
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('Comments Index')
+    expect(document.title).toBe('Comments Index')
+    expect(wrapper.find('h3').text()).toBe('コメントリスト') 
   })
 })
 

@@ -141,4 +141,29 @@ RSpec.describe "Comments API", type: :request do
       }.to change{ Comment.count }.from(1).to(0)
     end
   end
+
+  describe '#comment_list' do
+    before do
+      FactoryBot.create(:sample)
+      FactoryBot.create_list(:comment, 10)
+    end
+
+    it 'レスポンスのステータスがokであること' do
+      get "/comment_list"
+      expect(response).to have_http_status(:ok)      
+    end
+
+    it 'コメントの件数が10件含まれていること' do
+      get "/comment_list"
+      json = JSON.parse(response.body, symbolize_names: true)
+      expect(json[:comments].count).to eq(10)
+    end
+
+    it 'current_pageとtotal_pagesが含まれていること' do
+      get "/comment_list"
+      json = JSON.parse(response.body, symbolize_names: true)
+      expect(json[:current_page]).to eq(1)
+      expect(json[:total_pages]).to eq(1)
+    end
+  end
 end

@@ -42,6 +42,17 @@ class CommentsController < ApplicationController
     head :no_content
   end
 
+  def comment_list
+    comments = Comment.paginate(page: params[:page], per_page: 10)
+
+    render json: {
+      comments: comments,
+      current_page: comments.current_page,
+      total_pages: comments.total_pages
+    },
+    status: :ok
+  end
+
   private
 
     def comment_params
