@@ -166,4 +166,25 @@ RSpec.describe "Comments API", type: :request do
       expect(json[:total_pages]).to eq(1)
     end
   end
+
+  describe '#comment_information' do
+    before do
+      FactoryBot.create(:sample)
+      @comment = FactoryBot.create(:comment)
+    end
+
+    it 'レスポンスのステータスがokであること' do
+      get "/comments/#{@comment.id}"
+      expect(response).to have_http_status(:ok)      
+    end
+    
+    it 'コメント情報が返ること' do
+      get "/comments/#{@comment.id}"
+      json = JSON.parse(response.body, symbolize_names: true)
+      
+      expect(json[:commenter]).to eq('木下 太一')
+      expect(json[:body]).to eq('変寸量が一定ではありません。')
+      expect(json[:department]).to eq('品質管理部')
+    end
+  end
 end

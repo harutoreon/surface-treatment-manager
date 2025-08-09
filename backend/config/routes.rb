@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get '/list_search',     to: 'searches#list_search'
 
   get '/comment_list', to: 'comments#comment_list'
+  get '/comments/:id', to: 'comments#comment_information'
   
   resources :categories
   resources :makers
