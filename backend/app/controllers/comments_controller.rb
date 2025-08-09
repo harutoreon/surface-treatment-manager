@@ -53,6 +53,12 @@ class CommentsController < ApplicationController
     status: :ok
   end
 
+  def comment_information
+    comment = Comment.find(params[:id])
+    
+    render json: comment, status: :ok
+  end  
+
   private
 
     def comment_params

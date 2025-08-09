@@ -38,6 +38,7 @@ const routes = [
   { path: '/departments/new', component: () => import('@/components/departments/DepartmentsNewView.vue'), meta: { title: 'Department New' } },
   { path: '/departments/:id/edit', component: () => import('@/components/departments/DepartmentsEditView.vue'), meta: { title: 'Department edit' } },
   { path: '/comments', component: () => import('@/components/comments/CommentsIndexView.vue'), meta: { title: 'Comments Index' } },
+  { path: '/comments/:id', component: () => import('@/components/comments/CommentsShowView.vue'), meta: { title: 'Comments Show' } },
 
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/components/not_found/NotFound.vue'), meta: { title: 'NotFound (404)' } },
 ]
@@ -810,6 +811,35 @@ describe('Comments routing', () => {
     expect(document.title).toBe('Comments Index')
     expect(wrapper.find('h3').text()).toBe('コメントリスト') 
   })
+
+  it('「コメント情報」ページに遷移すること', async () => {
+    const router = createAppRouter()
+
+    router.push('/comments/1')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router],
+        stubs: {
+          RouterLink: RouterLinkStub
+        }
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('Comments Show')
+    expect(document.title).toBe('Comments Show')
+    expect(wrapper.find('h3').text()).toBe('コメント情報') 
+  })
+
+  // new・create
+
+
+  // edit・update
+
 })
 
 describe('NotFound routing', () => {
