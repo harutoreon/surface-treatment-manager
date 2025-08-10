@@ -192,4 +192,21 @@ RSpec.describe "Samples API", type: :request do
       expect { delete "/samples/#{@sample.id}" }.to change{ Comment.count }.from(1).to(0)
     end
   end
+  
+  describe '#sample_list' do
+    before do
+      FactoryBot.create_list(:sample_list, 10)      
+    end
+
+    it 'レスポンスのステータスがokであること' do
+      get "/sample_list"
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'レスポンスに10件のサンプルが含まれていること' do
+      get "/sample_list"
+      json = JSON.parse(response.body, symbolize_names: true)
+      expect(json.count).to eq(10)
+    end
+  end
 end

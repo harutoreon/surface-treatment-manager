@@ -42,6 +42,12 @@ class SamplesController < ApplicationController
     head :no_content
   end
 
+  def sample_list
+    samples = Sample.order(:id)
+
+    render json: samples, status: :ok
+  end
+
   private
 
     def sample_params
