@@ -30,7 +30,7 @@ import DepartmentsNewView from '@/components/departments/DepartmentsNewView.vue'
 import DepartmentsEditView from '@/components/departments/DepartmentsEditView.vue'
 import CommentsIndexView from '@/components/comments/CommentsIndexView.vue'
 import CommentsShowView from '@/components/comments/CommentsShowView.vue'
-import CommentsNewView from '@/components/comments/CommetsNewView.vue'
+import CommentsNewView from '@/components/comments/CommentsNewView.vue'
 
 import NotFound from '@/components/not_found/NotFound.vue'
 
