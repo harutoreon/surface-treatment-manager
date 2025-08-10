@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   get '/comment_list', to: 'comments#comment_list'
   get '/comments/:id', to: 'comments#comment_information'
   
+  get '/sample_list', to: 'samples#sample_list'
+  
   resources :categories
   resources :makers
   resources :users
