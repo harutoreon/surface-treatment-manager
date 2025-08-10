@@ -8,6 +8,20 @@ const emit = defineEmits(['message'])
 const router = useRouter()
 const departmentOptions = ref('')
 const sampleOptions = ref('')
+const commenter = ref('')
+const department = ref('')
+const body = ref('')
+const sampleName = ref('')
+const sampleId = ref('')
+const comment = ref('')
+const errorMessage = ref('')
+
+const handleSampleChange = (event) => {
+  const selected = sampleOptions.value.find(
+    option => option.name === event.target.value
+  )
+  sampleId.value = selected?.id || ''
+}
 
 const fetchDepartmentData = async () => {
   try {
@@ -33,6 +47,23 @@ const fetchSampleData = async () => {
   }
 }
 
+const commentRegistration = async () => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/samples/${sampleId.value}/comments`, {
+      comment: {
+        commenter: commenter.value,
+        department: department.value,
+        body: body.value
+      }
+    })
+    comment.value = response.data
+    emit('message', { type: 'success', text: 'コメント情報を1件登録しました。' })
+    router.push(`/comments/${comment.value.id}`)
+  } catch {
+    errorMessage.value = '入力に不備があります。'
+  }
+}
+
 onMounted(() => {
   fetchDepartmentData()
   fetchSampleData()
@@ -45,16 +76,21 @@ onMounted(() => {
       コメント情報の新規登録
     </h3>
 
-    <form>
+    <form v-on:submit.prevent="commentRegistration">
       <label class="form-label" for="commenter">
         投稿者
       </label>
-      <input class="form-control mb-4" type="text" id="commenter"/>
+      <input
+        v-model="commenter"
+        class="form-control mb-4"
+        type="text"
+        id="commenter"
+      />
 
       <label class="form-label" for="departments">
         部署名
       </label>
-      <select class="form-select mb-4" id="departments">
+      <select v-model="department" class="form-select mb-4" id="departments">
         <option value="">
           部署名を選択して下さい
         </option>
@@ -71,6 +107,7 @@ onMounted(() => {
         表面処理
       </label>
       <select
+        v-model="sampleName"
         v-on:change="handleSampleChange"
         class="form-select mb-4"
         id="samples"
@@ -90,13 +127,17 @@ onMounted(() => {
       <label class="form-label" for="body">
         コメント
       </label>
-      <textarea class="form-control mb-5" id="body">
+      <textarea v-model="body" class="form-control mb-5" id="body">
       </textarea>
       
       <button type="submit" class="form-control btn btn-primary mb-5">
         登録
       </button>
     </form>
+
+    <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">
+      {{ errorMessage }}
+    </p>
 
     <RouterLink to="/comments" class="d-flex justify-content-evenly">
       コメントリストへ

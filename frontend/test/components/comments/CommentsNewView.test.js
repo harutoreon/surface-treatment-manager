@@ -2,15 +2,18 @@ import CommentsNewView from '@/components/comments/CommentsNewView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount, flushPromises, RouterLinkStub,  } from '@vue/test-utils'
 import axios from 'axios'
+// import { RouterLink } from 'vue-router'
 
 const replaceMock = vi.fn()
+const pushMock = vi.fn()
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
   return {
     useRouter: () => {
       return {
-        replace: replaceMock
+        replace: replaceMock,
+        push: pushMock
       }
     }
   }
@@ -169,6 +172,111 @@ describe('CommentsNewView', () => {
         { type: 'danger', text: '表面処理リストの取得に失敗しました。' }
       ])
       expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
+    })
+  })
+
+  describe('コメント情報の新規登録に成功した場合', () => {
+    beforeEach(async () => {
+      axios.get.mockResolvedValueOnce({
+        data: [
+          { id: 1, name: '品質管理部' },
+          { id: 2, name: '製造部' },
+          { id: 3, name: '開発部' },
+          { id: 4, name: '営業部' },
+        ]
+      })
+
+      axios.get.mockResolvedValueOnce({
+        data: [
+          { id: 1, name: '硬質クロムめっき' },
+          { id: 2, name: '無電解ニッケルめっき' },
+          { id: 3, name: '金めっき' },
+          { id: 4, name: '窒化処理' },
+        ]
+      })
+
+      axios.post.mockResolvedValue({
+        data: {
+          id: 1,
+          commenter: '工藤 琴音',
+          department: '品質管理部',
+          body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
+        }
+      })
+
+      wrapper = mount(CommentsNewView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('コメントリストページに遷移すること', async () => {
+      await wrapper.find('#commenter').setValue('工藤 琴音')
+      await wrapper.find('#departments').setValue('品質管理部')
+      await wrapper.find('#samples').setValue('硬質クロムめっき')
+      await wrapper.find('#body').setValue('製品に高級感を与える仕上がりで、見た目も美しいです。')
+
+      await wrapper.find('form').trigger('submit.prevent')
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'success', text: 'コメント情報を1件登録しました。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/comments/1')
+    })
+  })
+
+  describe('コメント情報の新規登録に失敗した場合', () => {
+    beforeEach(async () => {
+      axios.get.mockResolvedValueOnce({
+        data: [
+          { id: 1, name: '品質管理部' },
+          { id: 2, name: '製造部' },
+          { id: 3, name: '開発部' },
+          { id: 4, name: '営業部' },
+        ]
+      })
+
+      axios.get.mockResolvedValueOnce({
+        data: [
+          { id: 1, name: '硬質クロムめっき' },
+          { id: 2, name: '無電解ニッケルめっき' },
+          { id: 3, name: '金めっき' },
+          { id: 4, name: '窒化処理' },
+        ]
+      })
+
+      axios.post.mockRejectedValue({
+        response: {
+          status: 422
+        }
+      })
+
+      wrapper = mount(CommentsNewView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('入力不備のメッセージが表示されること', async () => {
+      await wrapper.find('#commenter').setValue('')
+      await wrapper.find('#departments').setValue('品質管理部')
+      await wrapper.find('#samples').setValue('硬質クロムめっき')
+      await wrapper.find('#body').setValue('製品に高級感を与える仕上がりで、見た目も美しいです。')
+
+      await wrapper.find('form').trigger('submit.prevent')
+    
+      expect(wrapper.find('p').text()).toContain('入力に不備があります。')
     })
   })
 })
