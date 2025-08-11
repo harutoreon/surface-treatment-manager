@@ -31,9 +31,9 @@ import DepartmentsEditView from '@/components/departments/DepartmentsEditView.vu
 import CommentsIndexView from '@/components/comments/CommentsIndexView.vue'
 import CommentsShowView from '@/components/comments/CommentsShowView.vue'
 import CommentsNewView from '@/components/comments/CommentsNewView.vue'
+import CommentsEditView from '@/components/comments/CommentsEditView.vue'
 
 import NotFound from '@/components/not_found/NotFound.vue'
-
 
 const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : createWebHistory()
 
@@ -74,7 +74,8 @@ const routes = [
   { path: '/comments', component: CommentsIndexView, meta: { title: 'Comments Index' } },
   { path: '/comments/:id', component: CommentsShowView, meta: { title: 'Comments Show' } },
   { path: '/comments/new', component: CommentsNewView, meta: { title: 'Comments New' } },
-  
+  { path: '/comments/:id/edit', component: CommentsEditView, meta: { title: 'Comments Edit' } },
+
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound, meta: { title: 'NotFound (404)' } },
 ]
 

@@ -40,6 +40,7 @@ const routes = [
   { path: '/comments', component: () => import('@/components/comments/CommentsIndexView.vue'), meta: { title: 'Comments Index' } },
   { path: '/comments/:id', component: () => import('@/components/comments/CommentsShowView.vue'), meta: { title: 'Comments Show' } },
   { path: '/comments/new', component: () => import('@/components/comments/CommentsNewView.vue'), meta: { title: 'Comments New' } },
+  { path: '/comments/:id/edit', component: () => import('@/components/comments/CommentsEditView.vue'), meta: { title: 'Comments Edit' } },
 
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/components/not_found/NotFound.vue'), meta: { title: 'NotFound (404)' } },
 ]
@@ -859,8 +860,28 @@ describe('Comments routing', () => {
     expect(wrapper.find('h3').text()).toBe('コメント情報の新規登録') 
   })
 
-  // edit・update
+  it('「コメント情報の編集」ページに遷移すること', async () => {
+    const router = createAppRouter()
 
+    router.push('/comments/1/edit')
+
+    await router.isReady()
+
+    const wrapper = mount(App, {
+      global: {
+        plugins: [router],
+        stubs: {
+          RouterLink: RouterLinkStub
+        }
+      }
+    })
+
+    await flushPromises()
+
+    expect(router.currentRoute.value.meta.title).toBe('Comments Edit')
+    expect(document.title).toBe('Comments Edit')
+    expect(wrapper.find('h3').text()).toBe('コメント情報の編集') 
+  })
 })
 
 describe('NotFound routing', () => {
