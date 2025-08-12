@@ -115,4 +115,86 @@ describe('CommentsEditView', () => {
       expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
     })
   })
+
+  describe('更新に成功した場合', () => {
+    beforeEach(async () => {
+      axios.get.mockResolvedValue({
+        data: {
+          id: 1,
+          commenter: '工藤 琴音',
+          body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
+          sample_id: 16,
+          department: '品質管理部'
+        }
+      })
+
+      axios.patch.mockResolvedValue({
+        data: {
+          id: 1,
+          commenter: '工藤 琴音',
+          body: '製品に高級感を与える仕上がりで、品質も良好です。',
+          sample_id: 16,
+          department: '品質管理部'
+        }
+      })
+
+      wrapper = mount(CommentsEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('コメント情報ページに遷移すること', async () => {
+      await wrapper.find('#body').setValue('製品に高級感を与える仕上がりで、品質も良好です。')
+      await wrapper.find('form').trigger('submit.prevent')
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'success', text: 'コメント情報を更新しました。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/comments/1')
+    })
+  })
+
+  describe('更新に失敗した場合', () => {
+    beforeEach(async () => {
+      axios.get.mockResolvedValue({
+        data: {
+          id: 1,
+          commenter: '工藤 琴音',
+          body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
+          sample_id: 16,
+          department: '品質管理部'
+        }
+      })
+
+      axios.patch.mockRejectedValue({
+        response: {
+          status: 422
+        }
+      })
+
+      wrapper = mount(CommentsEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('入力不備のメッセージが表示されること', async () => {
+      await wrapper.find('#body').setValue('')
+      await wrapper.find('form').trigger('submit.prevent')
+
+      expect(wrapper.find('p').text()).toBe('入力に不備があります。')
+    })
+  })
 })
