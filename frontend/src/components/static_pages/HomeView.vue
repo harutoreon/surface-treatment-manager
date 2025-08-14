@@ -9,6 +9,7 @@ import makerAddIcon from '@/assets/icons/maker_add.svg'
 import userAddIcon from '@/assets/icons/user_add.svg'
 import settingsIcon from '@/assets/icons/settings.svg'
 import department from '@/assets/icons/department.svg'
+import commentIcon from '@/assets/icons/comment.svg'
 </script>
 
 <template>
@@ -217,6 +218,28 @@ import department from '@/assets/icons/department.svg'
               部署に関する情報を一括管理します。
             </p>
             <RouterLink to="/departments" class="card-link">
+              管理ページへ
+            </RouterLink>
+          </div>
+        </div>
+      </div>
+      <div class="col ps-0 pe-0">
+        <div class="card pt-2" id="manage-comments" style="width: 19rem;">
+          <img
+            alt="comment icon"
+            class="card-img-top w-25"
+            width="50"
+            height="50"
+            v-bind:src="commentIcon"
+          >
+          <div class="card-body">
+            <h5 class="card-title">
+              コメントの管理
+            </h5>
+            <p class="card-text">
+              コメントに関する情報を一括管理します。
+            </p>
+            <RouterLink to="/comments" class="card-link">
               管理ページへ
             </RouterLink>
           </div>
