@@ -19,7 +19,7 @@ const formatDate = (isoString) => {
 
 const fetchCommentList = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/comment_list?page=${currentPage.value}`)
+    const response = await axios.get(`${API_BASE_URL}/comments?page=${currentPage.value}`)
     comments.value = response.data.comments
     currentPage.value = response.data.current_page
     totalPages.value = response.data.total_pages
@@ -64,7 +64,7 @@ onMounted(() => {
         v-for="comment in comments"
         v-bind:key="comment.id"
         class="list-group-item list-group-item-action"
-        v-bind:to="`/samples/${comment.sample_id}/comments/${comment.id}`"
+        v-bind:to="`/comments/${comment.id}`"
       >
         <div class="d-flex justify-content-between">
           <h6>{{ comment.department }}：{{ comment.commenter }}</h6>
@@ -107,7 +107,7 @@ onMounted(() => {
       </li>
     </ul>
 
-    <div class="d-flex justify-content-evenly">
+    <div class="d-flex justify-content-evenly mb-5">
       <RouterLink to="/comments/new">
         コメントの新規登録へ
       </RouterLink>
