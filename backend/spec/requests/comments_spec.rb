@@ -149,18 +149,18 @@ RSpec.describe "Comments API", type: :request do
     end
 
     it 'レスポンスのステータスがokであること' do
-      get "/comment_list"
+      get "/comments"
       expect(response).to have_http_status(:ok)      
     end
 
     it 'コメントの件数が10件含まれていること' do
-      get "/comment_list"
+      get "/comments"
       json = JSON.parse(response.body, symbolize_names: true)
       expect(json[:comments].count).to eq(10)
     end
 
     it 'current_pageとtotal_pagesが含まれていること' do
-      get "/comment_list"
+      get "/comments"
       json = JSON.parse(response.body, symbolize_names: true)
       expect(json[:current_page]).to eq(1)
       expect(json[:total_pages]).to eq(1)
