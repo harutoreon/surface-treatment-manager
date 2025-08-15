@@ -53,7 +53,7 @@ onMounted(() => {
                 {{ sample.name }}
               </h5>
               <p class="card-text">
-                電気を使わずに化学反応を利用して金属や樹脂などの表面にニッケルの薄膜を形成する表面処理技術です。
+                {{ sample.summary }}
               </p>
               <RouterLink
                 v-bind:to="`/samples/${sample.id}`"
