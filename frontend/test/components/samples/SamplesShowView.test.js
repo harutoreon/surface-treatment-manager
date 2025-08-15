@@ -40,7 +40,8 @@ describe('SamplesShowView', () => {
           hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
           film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
           feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
-          image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg'
+          summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+          image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
         }
       })
 
@@ -80,6 +81,9 @@ describe('SamplesShowView', () => {
 
       // 特徴
       expect(wrapper.text()).toContain('耐食性')
+
+      // 概要
+      expect(wrapper.text()).toContain('電気を使わず化学反応で金属表面にニッケルを析出する技術です。')
 
       // 画像
       expect(wrapper.find('img').attributes('src')).toContain('sample_image_url.jpeg')
@@ -137,7 +141,8 @@ describe('SamplesShowView', () => {
           hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
           film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
           feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
-          image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg'
+          summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+          image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
         }
       }
 
@@ -149,7 +154,7 @@ describe('SamplesShowView', () => {
             body: '表面の質感が滑らかで、触感が良好です。',
             sample_id: 1,
             created_at: '2025-02-23T22:15:30.030Z',
-            department: '営業部'
+            department: '営業部',
           }
         ]
       }
@@ -224,6 +229,7 @@ describe('SamplesShowView', () => {
             hardness: 'HV700',
             film_thickness: '5μm',
             feature: '耐摩耗性',
+            summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
             image_url: 'http://example.com/sample.jpg',
           }
         })
@@ -235,7 +241,7 @@ describe('SamplesShowView', () => {
               body: '表面の質感が滑らかで、触感が良好です。',
               sample_id: 1,
               created_at: '2025-02-23T22:15:30.030Z',
-              department: '営業部'
+              department: '営業部',
             }
           ]
         })
@@ -275,6 +281,7 @@ describe('SamplesShowView', () => {
             hardness: 'HV700',
             film_thickness: '5μm',
             feature: '耐摩耗性',
+            summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
             image_url: 'http://example.com/sample.jpg',
           }
         })
@@ -286,7 +293,7 @@ describe('SamplesShowView', () => {
               body: '表面の質感が滑らかで、触感が良好です。',
               sample_id: 1,
               created_at: '2025-02-23T22:15:30.030Z',
-              department: '営業部'
+              department: '営業部',
             }
           ]
         })

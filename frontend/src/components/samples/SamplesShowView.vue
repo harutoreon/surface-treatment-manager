@@ -109,6 +109,10 @@ onMounted(() => {
         <div>{{ sample.feature }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
+        <div>概要：</div>
+        <div>{{ sample.summary }}</div>
+      </li>
+      <li class="d-flex justify-content-between list-group-item">
         <div>画像：</div>
         <div>
           <img
