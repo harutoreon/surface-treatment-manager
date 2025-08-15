@@ -14,6 +14,10 @@ class Sample < ApplicationRecord
   validates :film_thickness, presence: { message: '（膜厚）が空白です。' }
   validates :feature,        presence: { message: '（特徴）が空白です。' }
 
+  validates :summary,
+    presence: { message: '（概要）が空白です。' },
+    length:   { maximum: 50, message: '（概要）は50文字以内です。' }
+
   scope :name_search,     -> (keyword) { where('name LIKE ?',     "%#{keyword}%") }
   scope :category_search, -> (keyword) { where('category LIKE ?', "%#{keyword}%") }
   scope :maker_search,    -> (keyword) { where('maker LIKE ?',    "%#{keyword}%") }

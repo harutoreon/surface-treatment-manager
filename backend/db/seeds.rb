@@ -54,7 +54,8 @@ SAMPLES = [
     hardness: "析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度",
     film_thickness: "通常は3～5μm、厚めの場合は20～50μmまで可能",
     feature: "耐食性・耐摩耗性・耐薬品性・耐熱性",
-    image_file: "electroless_nickel_plating" },
+    image_file: "electroless_nickel_plating",
+    summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。' },
 
   { name: "白金めっき",
     category: "めっき",
@@ -62,7 +63,8 @@ SAMPLES = [
     hardness: "Hv300～Hv400程度",
     film_thickness: "水素水生成器用の白金電極では0.5～2.0μm、装飾品では0.1～0.5μm程度",
     feature: "耐蝕性・導電性・耐摩耗性・耐熱性",
-    image_file: "white_silver_plating" },
+    image_file: "white_silver_plating",
+    summary: '白金を電気めっきや化学めっきで表面に薄く被覆する技術です。' },
 
   { name: "金めっき",
     category: "めっき",
@@ -70,7 +72,8 @@ SAMPLES = [
     hardness: "HV60～80程度",
     film_thickness: "下地ニッケルめっきは3～5μm、金めっきは0.1～1.0μm",
     feature: "耐食性・耐酸化性・電気抵抗性",
-    image_file: "gold_plate" },
+    image_file: "gold_plate",
+    summary: '金を電気めっきや化学めっきで表面に薄く被覆する技術です。' },
 
   { name: "銀めっき",
     category: "めっき",
@@ -78,7 +81,8 @@ SAMPLES = [
     hardness: "HV60～80程度",
     film_thickness: "0.1～3μm程度",
     feature: "耐摩耗性・潤滑性・耐食性・導電性",
-    image_file: "silver_plating" },
+    image_file: "silver_plating",
+    summary: '銀を電気めっきや化学めっきで表面に薄く被覆する技術です。' },
 
   { name: "銅めっき",
     category: "めっき",
@@ -86,7 +90,8 @@ SAMPLES = [
     hardness: "無光沢でHv80～120、光沢でHv80～200程度",
     film_thickness: "0.2～2μm程度",
     feature: "抗菌性・密着性",
-    image_file: "copper_plating" },
+    image_file: "copper_plating",
+    summary: '銅を電気めっきや化学めっきで表面に薄く被覆する技術です。' },
 
   { name: "亜鉛めっき",
     category: "めっき",
@@ -94,7 +99,8 @@ SAMPLES = [
     hardness: "シアン浴でHv60～90、ジンケート浴でHv100～140、塩化浴でHv60～90",
     film_thickness: "5～20μm程度",
     feature: "耐食性・耐腐食性・密着性",
-    image_file: "zinc_plating" },
+    image_file: "zinc_plating",
+    summary: '亜鉛を電気めっきや溶融めっきで表面に被覆する技術です。' },
 
   { name: "錫めっき",
     category: "めっき",
@@ -102,7 +108,8 @@ SAMPLES = [
     hardness: "Hv9.5～10.5程度",
     film_thickness: "光沢スズめっきで3～10μm、無光沢スズめっきで5～20μm程度",
     feature: "耐食性・潤滑性・摺動性",
-    image_file: "tin_plating" },
+    image_file: "tin_plating",
+    summary: '錫を電気めっきや化学めっきで表面に薄く被覆する技術です。' },
 
   { name: "ニッケルめっき",
     category: "めっき",
@@ -110,7 +117,8 @@ SAMPLES = [
     hardness: "Hv350 ～500程度",
     film_thickness: "3～30μm程度",
     feature: "耐食性・耐薬品性・耐熱性",
-    image_file: "nickel_plating" },
+    image_file: "nickel_plating",
+    summary: 'ニッケルを電気めっきや化学めっきで表面に被覆する技術です。' },
 
   { name: "クロムめっき",
     category: "めっき",
@@ -118,7 +126,8 @@ SAMPLES = [
     hardness: "Hv700～1,000程度",
     film_thickness: "0.1～0.2μm程度",
     feature: "耐食性・耐摩耗性・耐衝撃性",
-    image_file: "chrome_plating" },
+    image_file: "chrome_plating",
+    summary: 'クロムを電気めっきで表面に薄く被覆する技術です。' },
 
   { name: "黒色クロムめっき",
     category: "めっき",
@@ -126,7 +135,8 @@ SAMPLES = [
     hardness: "装飾用でHv550～640、工業用でHv800～1,000程度",
     film_thickness: "3～8μm程度",
     feature: "低反射性・熱吸収性・導電性・耐食性",
-    image_file: "black_chrome_plating" },
+    image_file: "black_chrome_plating",
+    summary: '黒色のクロム皮膜を電気めっきで表面に形成する技術です。' },
 
   { name: "白アルマイト",
     category: "陽極酸化",
@@ -134,7 +144,8 @@ SAMPLES = [
     hardness: "Hv200程度",
     film_thickness: "6～10µm程度",
     feature: "耐摩耗性・耐電圧性",
-    image_file: "white_anodized_aluminum" },
+    image_file: "white_anodized_aluminum",
+    summary: 'アルミ表面に白色の酸化皮膜を生成する表面処理技術です。' },
 
   { name: "黒アルマイト",
     category: "陽極酸化",
@@ -142,7 +153,8 @@ SAMPLES = [
     hardness: "Hv200程度",
     film_thickness: "5～20μm程度",
     feature: "反射防止性・熱伝導性・光選択吸収性",
-    image_file: "black_anodized_aluminum" },
+    image_file: "black_anodized_aluminum",
+    summary: 'アルミ表面に黒色の酸化皮膜を生成する表面処理技術です。' },
 
   { name: "硬質アルマイト",
     category: "陽極酸化",
@@ -150,7 +162,8 @@ SAMPLES = [
     hardness: "Hv450〜500程度",
     film_thickness: "20〜30μm程度",
     feature: "耐摩耗性",
-    image_file: "hard_anodized_aluminum" },
+    image_file: "hard_anodized_aluminum",
+    summary: 'アルミ表面に硬く耐摩耗性の高い酸化皮膜を形成する技術です。' },
 
   { name: "ユニクロクロメート",
     category: "化成",
@@ -158,7 +171,8 @@ SAMPLES = [
     hardness: "Hv70～100程度",
     film_thickness: "0.1～0.3μｍ程度",
     feature: "耐食性・耐摩耗性・導電性・潤滑性",
-    image_file: "unichromate" },
+    image_file: "unichromate",
+    summary: '亜鉛めっき後に防錆性のクロメート皮膜を付与する技術です。' },
 
   { name: "有色クロメート",
     category: "化成",
@@ -166,7 +180,8 @@ SAMPLES = [
     hardness: "Hv70～100程度",
     film_thickness: "0.1～0.3μｍ程度",
     feature: "耐食性・耐摩耗性・導電性・潤滑性",
-    image_file: "colored_chromate" },
+    image_file: "colored_chromate",
+    summary: '亜鉛めっきや鋼に着色クロメート皮膜を形成する技術です。' },
 
   { name: "黒クロメート",
     category: "化成",
@@ -174,7 +189,8 @@ SAMPLES = [
     hardness: "0.1～0.3μｍ程度",
     film_thickness: "Hv70～100程度",
     feature: "耐食性・耐摩耗性・導電性・潤滑性",
-    image_file: "black_chromate" },
+    image_file: "black_chromate",
+    summary: '亜鉛めっきや鋼に黒色クロメート皮膜を形成する技術です。' },
 
   { name: "緑クロメート",
     category: "化成",
@@ -182,7 +198,8 @@ SAMPLES = [
     hardness: "Hv70～100程度",
     film_thickness: "0.1～0.3μｍ程度",
     feature: "耐食性・耐摩耗性・導電性・潤滑性",
-    image_file: "green_chromate" },
+    image_file: "green_chromate",
+    summary: '亜鉛めっきや鋼に緑色クロメート皮膜を形成する技術です。' },
 
   { name: "四三酸化鉄皮膜",
     category: "化成",
@@ -190,7 +207,8 @@ SAMPLES = [
     hardness: "対象外",
     film_thickness: "0.2〜1μm",
     feature: "装飾性・反射防止",
-    image_file: "iron_tetroxide_film" },
+    image_file: "iron_tetroxide_film",
+    summary: '鉄表面に四三酸化鉄の防錆皮膜を形成する技術です。' },
 
   { name: "パーカー",
     category: "化成",
@@ -198,7 +216,8 @@ SAMPLES = [
     hardness: "Hv400～1300程度",
     film_thickness: "1～20μm程度",
     feature: "耐摩耗性・密着性・耐食性・耐熱性",
-    image_file: "hooded sweatshirt" },
+    image_file: "hooded sweatshirt",
+    summary: '鉄鋼表面にリン酸塩皮膜を形成し防錆・塗装性向上する技術です。' },
 
   { name: "TiN",
     category: "コーティング",
@@ -206,7 +225,8 @@ SAMPLES = [
     hardness: "Hv2000程度",
     film_thickness: "2～4μm程度",
     feature: "耐摩耗性・離型性",
-    image_file: "titanium_coating" },
+    image_file: "titanium_coating",
+    summary: 'チタン窒化物の硬質薄膜を表面に形成するコーティング技術です。' },
 
   { name: "TiCN",
     category: "コーティング",
@@ -214,7 +234,8 @@ SAMPLES = [
     hardness: "Hv3000～4000程度",
     film_thickness: "2μm",
     feature: "耐摩耗性・耐食性・耐熱性",
-    image_file: "titanium_ceramic_coating" },
+    image_file: "titanium_ceramic_coating",
+    summary: 'チタン炭窒化物の硬質薄膜を表面に形成するコーティング技術です。' },
 
   { name: "TiAlN",
     category: "コーティング",
@@ -222,7 +243,8 @@ SAMPLES = [
     hardness: "Hv2400～2600程度",
     film_thickness: "2～4µm程度",
     feature: "耐熱性・耐酸化性・耐摩耗性・",
-    image_file: "titanium_aluminum_coating" },
+    image_file: "titanium_aluminum_coating",
+    summary: 'チタンアルミ窒化物の硬質薄膜を表面に形成するコーティング技術です。' },
 
   { name: "AlCrN",
     category: "コーティング",
@@ -230,7 +252,8 @@ SAMPLES = [
     hardness: "Hv2000～2500程度",
     film_thickness: "3～5μm程度",
     feature: "耐摩耗性・耐熱性",
-    image_file: "aluminum_chrome_coating" },
+    image_file: "aluminum_chrome_coating",
+    summary: 'アルミクロム窒化物の硬質薄膜を表面に形成するコーティング技術です。' },
 
   { name: "CrN",
     category: "コーティング",
@@ -238,7 +261,8 @@ SAMPLES = [
     hardness: "Hv1800程度",
     film_thickness: "2～4μm程度",
     feature: "耐摩耗性・耐食性・潤滑性・耐熱性",
-    image_file: "chromium_nitride_coating" },
+    image_file: "chromium_nitride_coating",
+    summary: 'クロム窒化物の硬質薄膜を表面に形成するコーティング技術です。' },
 
   { name: "DLC",
     category: "コーティング",
@@ -246,7 +270,8 @@ SAMPLES = [
     hardness: "Hv3000～6000程度",
     film_thickness: "1～3μm程度",
     feature: "耐摩耗性・摺動性・耐食性",
-    image_file: "diamond_like_carbon" },
+    image_file: "diamond_like_carbon",
+    summary: 'ダイヤモンドのような炭素膜を表面に形成する摩耗防止コーティング技術です。' },
 
   { name: "ブラスト",
     category: "表面硬化",
@@ -254,7 +279,8 @@ SAMPLES = [
     hardness: "対象外",
     film_thickness: "対象外",
     feature: "耐摩耗性・摺動性・潤滑性",
-    image_file: "blast" },
+    image_file: "blast",
+    summary: '研磨材を噴射して表面を清浄・粗面化する表面処理技術です。' },
 
   { name: "WPC",
     category: "表面硬化",
@@ -262,7 +288,8 @@ SAMPLES = [
     hardness: "対象外",
     film_thickness: "対象外",
     feature: "耐摩耗性・摺動性・潤滑性",
-    image_file: "wonder_process_craft" },
+    image_file: "wonder_process_craft",
+    summary: '微細衝撃加工で金属表面を強化し耐疲労性を高める技術です。' },
 
   { name: "レイデント",
     category: "めっき",
@@ -270,7 +297,8 @@ SAMPLES = [
     hardness: "Hv350程度",
     film_thickness: "1～2μm程度",
     feature: "薄膜性・防錆性・光学特性・装飾性",
-    image_file: "raident" },
+    image_file: "raident",
+    summary: '表面に微細凹凸を付与し摩擦特性や耐摩耗性を向上する技術です。' },
 
   { name: "パルソナイト",
     category: "表面硬化",
@@ -278,7 +306,8 @@ SAMPLES = [
     hardness: "表面硬度は炭素鋼Hv400〜500程度、ステンレス材でHv900程度",
     film_thickness: "3～10μm程度",
     feature: "耐食性・耐摩耗性・平滑性",
-    image_file: "palsonite" },
+    image_file: "palsonite",
+    summary: '金属表面に微細凹凸を付与し耐摩耗性を向上させる技術です。' },
 
   { name: "タフトライド",
     category: "表面硬化",
@@ -286,7 +315,8 @@ SAMPLES = [
     hardness: "Hv570前後",
     film_thickness: "0.01～0.3μm程度",
     feature: "耐摩耗性、耐疲労性、耐食性、耐かじり性",
-    image_file: "tufted_ride" },
+    image_file: "tufted_ride",
+    summary: '金属表面に硬質被膜を形成し耐摩耗性を向上させる技術です。' },
 
   { name: "キリンコートS",
     category: "表面硬化",
@@ -294,7 +324,8 @@ SAMPLES = [
     hardness: "表面硬度はHv400～1300程度",
     film_thickness: "0.01～0.04μm程度",
     feature: "平滑性・耐摩耗性・密着性",
-    image_file: "kirin_coat_s" },
+    image_file: "kirin_coat_s",
+    summary: '金属表面に耐摩耗・耐腐食性コーティングを施す技術です。' },
 
   { name: "カナック",
     category: "表面硬化",
@@ -302,7 +333,8 @@ SAMPLES = [
     hardness: "Hv800～1400程度",
     film_thickness: "寸法変化は0～5µm程度",
     feature: "耐食性・耐熱性・摺動性",
-    image_file: "canac" }
+    image_file: "canac",
+    summary: '金属表面に耐摩耗性と防錆性を付与するコーティング技術です。' }
 ]
 
 SAMPLES.each do |sample|
@@ -313,7 +345,8 @@ SAMPLES.each do |sample|
                  hardness: sample[:hardness],
                  film_thickness: sample[:film_thickness],
                  feature: sample[:feature],
-                 image: File.open("app/assets/images/#{sample[:image_file]}.jpeg"))
+                 image: File.open("app/assets/images/#{sample[:image_file]}.jpeg"),
+                 summary: sample[:summary])
 end
 
 
