@@ -32,7 +32,8 @@ describe('SearchResultsListView', () => {
           data: {
             id: 1,
             name: '無電解ニッケルめっき',
-            image_url: 'http://localhost:3000/electroless_nickel_plating.jpeg'
+            image_url: 'http://localhost:3000/electroless_nickel_plating.jpeg',
+            summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。'
           }
         })
   
@@ -68,7 +69,7 @@ describe('SearchResultsListView', () => {
 
       // 概要
       expect(cardDiv.find('div p').text()).toBe(
-        '電気を使わずに化学反応を利用して金属や樹脂などの表面にニッケルの薄膜を形成する表面処理技術です。'
+        '電気を使わず化学反応で金属表面にニッケルを析出する技術です。'
       )
 
       // リンク
