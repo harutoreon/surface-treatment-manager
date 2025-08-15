@@ -15,6 +15,7 @@ const maker = ref('')
 const hardness = ref('')
 const filmThickness = ref('')
 const feature = ref('')
+const summary = ref('')
 const image = ref(null)
 const errorMessage = ref('')
 
@@ -56,6 +57,7 @@ const sampleRegistration = async () => {
     formData.append('sample[hardness]', hardness.value)
     formData.append('sample[film_thickness]', filmThickness.value)
     formData.append('sample[feature]', feature.value)
+    formData.append('sample[summary]', summary.value)
     if (image.value) {
       formData.append('sample[image]', image.value)
     }
@@ -159,6 +161,16 @@ onMounted(() => {
         class="form-control mb-3"
         type="text"
         id="sample-feature"
+      >
+
+      <label class="form-label" for="sample-summary">
+        概要
+      </label>
+      <input
+        v-model="summary"
+        class="form-control mb-3"
+        type="text"
+        id="sample-summary"
       >
 
       <label class="form-label" for="sample-image">

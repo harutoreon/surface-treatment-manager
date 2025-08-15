@@ -56,6 +56,7 @@ describe('SamplesNewView', () => {
       expect(wrapper.find('label[for="sample-hardness"]').text()).toBe('硬度')
       expect(wrapper.find('label[for="sample-film-thickness"]').text()).toBe('膜厚')
       expect(wrapper.find('label[for="sample-feature"]').text()).toBe('特徴')
+      expect(wrapper.find('label[for="sample-summary"]').text()).toBe('概要')
       expect(wrapper.find('label[for="sample-image"]').text()).toBe('画像')
 
       // 入力要素（テキスト）
@@ -65,6 +66,7 @@ describe('SamplesNewView', () => {
       expect(wrapper.find('#sample-hardness').exists()).toBe(true)
       expect(wrapper.find('#sample-film-thickness').exists()).toBe(true)
       expect(wrapper.find('#sample-feature').exists()).toBe(true)
+      expect(wrapper.find('#sample-summary').exists()).toBe(true)
 
       // 選択要素
       expect(wrapper.find('#sample-category').exists()).toBe(true)
@@ -103,6 +105,7 @@ describe('SamplesNewView', () => {
           hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
           film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
           feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
+          summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
           image_url: 'http://localhost:3000/electroless_nickel_plating.jpeg'
         }
       })
@@ -124,6 +127,7 @@ describe('SamplesNewView', () => {
       await wrapper.find('#sample-hardness').setValue('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
       await wrapper.find('#sample-film-thickness').setValue('通常は3～5μm、厚めの場合は20～50μmまで可能')
       await wrapper.find('#sample-feature').setValue('耐食性・耐摩耗性・耐薬品性・耐熱性')
+      await wrapper.find('#sample-summary').setValue('電気を使わず化学反応で金属表面にニッケルを析出する技術です。')
 
       await wrapper.find('form').trigger('submit.prevent')
       
@@ -161,6 +165,7 @@ describe('SamplesNewView', () => {
       await wrapper.find('#sample-hardness').setValue('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
       await wrapper.find('#sample-film-thickness').setValue('通常は3～5μm、厚めの場合は20～50μmまで可能')
       await wrapper.find('#sample-feature').setValue('耐食性・耐摩耗性・耐薬品性・耐熱性')
+      await wrapper.find('#sample-summary').setValue('電気を使わず化学反応で金属表面にニッケルを析出する技術です。')
 
       await wrapper.find('form').trigger('submit.prevent')
       
@@ -217,4 +222,3 @@ describe('SamplesNewView', () => {
     })
   })
 })
-
