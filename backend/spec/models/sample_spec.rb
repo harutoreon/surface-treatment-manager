@@ -59,6 +59,18 @@ RSpec.describe Sample, type: :model do
       @sample.feature = ''
       expect(@sample).to_not be_valid
     end
+
+    it 'summaryが存在すること' do
+      @sample.summary = ''
+      expect(@sample).to_not be_valid
+    end
+
+    it 'summaryの文字数が50文字以内であること' do
+      @sample.summary = 's' * 51
+      @sample.valid?
+      expect(@sample).to_not be_valid
+      expect(@sample.errors.messages[:summary].first).to eq('（概要）は50文字以内です。')
+    end
   end
 
   describe 'Method return values' do
