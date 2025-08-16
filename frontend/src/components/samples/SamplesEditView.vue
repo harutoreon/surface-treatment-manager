@@ -33,6 +33,7 @@ const sampleUpdate = async () => {
     formData.append('sample[hardness]', sample.value.hardness)
     formData.append('sample[film_thickness]', sample.value.film_thickness)
     formData.append('sample[feature]', sample.value.feature)
+    formData.append('sample[summary]', sample.value.summary)
 
     if (image.value) {
       formData.append('sample[image]', image.value)  
@@ -135,6 +136,16 @@ onMounted(() => {
         class="form-control mb-3"
         type="text"
         id="sample-feature"
+      >
+
+      <label class="form-label" for="sample-summary">
+        概要
+      </label>
+      <input
+        v-model="sample.summary"
+        class="form-control mb-3"
+        type="text"
+        id="sample-summary"
       >
 
       <label class="form-label" for="sample-image">

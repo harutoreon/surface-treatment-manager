@@ -38,6 +38,7 @@ describe('SamplesEditView', () => {
           hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
           film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
           feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
+          summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
           image_url: 'http://localhost:3000/rails/active_storage/blobs/redirect//test.jpg'
         }
       })
@@ -69,6 +70,7 @@ describe('SamplesEditView', () => {
       expect(wrapper.find('label[for="sample-hardness"]').text()).toContain('硬度')
       expect(wrapper.find('label[for="sample-film-thickness"]').text()).toContain('膜厚')
       expect(wrapper.find('label[for="sample-feature"]').text()).toContain('特徴')
+      expect(wrapper.find('label[for="sample-summary"]').text()).toContain('概要')
       expect(wrapper.find('label[for="sample-image"]').text()).toContain('画像')
 
       // 入力要素
@@ -79,6 +81,7 @@ describe('SamplesEditView', () => {
       expect(wrapper.find('#sample-hardness').exists()).toBe(true)
       expect(wrapper.find('#sample-film-thickness').exists()).toBe(true)
       expect(wrapper.find('#sample-feature').exists()).toBe(true)
+      expect(wrapper.find('#sample-summary').exists()).toBe(true)
 
       // 入力要素の値
       expect(wrapper.find('#sample-name').element.value).toBe('無電解ニッケルめっき')
@@ -88,6 +91,7 @@ describe('SamplesEditView', () => {
       expect(wrapper.find('#sample-hardness').element.value).toBe('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
       expect(wrapper.find('#sample-film-thickness').element.value).toBe('通常は3～5μm、厚めの場合は20～50μmまで可能')
       expect(wrapper.find('#sample-feature').element.value).toBe('耐食性・耐摩耗性・耐薬品性・耐熱性')
+      expect(wrapper.find('#sample-summary').element.value).toBe('電気を使わず化学反応で金属表面にニッケルを析出する技術です。')
 
       // 画像埋め込み要素
       expect(wrapper.find('#sample-image').attributes('src')).toContain('test.jpg')
@@ -149,6 +153,7 @@ describe('SamplesEditView', () => {
           hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
           film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
           feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
+          summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
           image_url: 'http://localhost:3000/rails/active_storage/blobs/redirect/test.jpg'
         }
       }
@@ -173,6 +178,7 @@ describe('SamplesEditView', () => {
       expect(wrapper.find('#sample-hardness').element.value).toBe('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
       expect(wrapper.find('#sample-film-thickness').element.value).toBe('通常は3～5μm、厚めの場合は20～50μmまで可能')
       expect(wrapper.find('#sample-feature').element.value).toBe('耐食性・耐摩耗性・耐薬品性・耐熱性')
+      expect(wrapper.find('#sample-summary').element.value).toBe('電気を使わず化学反応で金属表面にニッケルを析出する技術です。')
       expect(wrapper.find('#sample-image').attributes('src')).toContain('test.jpg')
 
       await wrapper.find('form').trigger('submit.prevent')
@@ -200,6 +206,7 @@ describe('SamplesEditView', () => {
           hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
           film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
           feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
+          summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
           image_url: 'http://localhost:3000/rails/active_storage/blobs/redirect/test.jpg'
         }
       })
@@ -227,6 +234,7 @@ describe('SamplesEditView', () => {
       expect(wrapper.find('#sample-hardness').element.value).toBe('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
       expect(wrapper.find('#sample-film-thickness').element.value).toBe('通常は3～5μm、厚めの場合は20～50μmまで可能')
       expect(wrapper.find('#sample-feature').element.value).toBe('耐食性・耐摩耗性・耐薬品性・耐熱性')
+      expect(wrapper.find('#sample-summary').element.value).toBe('電気を使わず化学反応で金属表面にニッケルを析出する技術です。')
       expect(wrapper.find('#sample-image').attributes('src')).toContain('test.jpg')
 
       wrapper.find('#sample-name').setValue('')
