@@ -16,6 +16,12 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    silent: true
+    silent: true,
+    coverage: {
+      enabled: true,
+      reporter: ['text', 'html'],
+      include:['src/**/*.vue'],
+      exclude:['src/**/icons']
+    }
   },
 })
