@@ -19,12 +19,17 @@ $ docker compose build
 $ docker compose up --detach
 ```
 
+## コンテナの停止
+```sh
+$ docker compose down
+```
+
 ## ログのリアルタイム表示
 ```sh
 $ docker compose logs --follow app
 ```
 
-## コンテナの停止
+## テストの実行
 ```sh
-$ docker compose down
+$ npm run check  # ESlint, Audit, Vitest の実行
 ```

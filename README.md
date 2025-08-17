@@ -75,6 +75,8 @@
     - Request Spec
 
 ## カバレッジ計測
+- Frontend
+  - C8
 - Backend
   - SimpleCov
 
@@ -97,6 +99,11 @@ $ docker compose build
 $ docker compose up --detach
 ```
 
+## コンテナの停止
+```sh
+$ docker compose down
+```
+
 ## ログのリアルタイム表示
 ```sh
 $ docker compose logs --follow backend
@@ -104,7 +111,14 @@ $ docker compose logs --follow frontend
 $ docker compose logs --follow db
 ```
 
-## コンテナの停止
+## テストの実行
+- Frontend
 ```sh
-$ docker compose down
+$ cd frontend/
+$ npm run check  # ESlint, Audit, Vitest の実行
+```
+- Backend
+```sh
+$ cd backend/
+$ bin/rails rspec_test  # RuboCop, Brakeman, RSpec の実行
 ```
