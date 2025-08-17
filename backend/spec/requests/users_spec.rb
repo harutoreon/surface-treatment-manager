@@ -3,18 +3,18 @@ require 'rails_helper'
 RSpec.describe "Users API", type: :request do
   describe '#index' do
     before do
-      FactoryBot.create_list(:user_list, 10)
+      FactoryBot.create_list(:user_list, 8)
     end
 
     it 'レスポンスのステータスがokであること' do
-      get "/users.json"
+      get "/users"
       expect(response).to have_http_status(:ok)
     end
 
-    it 'レスポンスのusersは10件であること' do
+    it 'レスポンスのusersは8件であること' do
       get "/users"
       json = JSON.parse(response.body)
-      expect(json['users'].length).to eq(10)
+      expect(json['users'].length).to eq(8)
     end
 
     it 'レスポンスのcurrent_pageは1であること' do
@@ -27,6 +27,19 @@ RSpec.describe "Users API", type: :request do
       get "/users"
       json = JSON.parse(response.body)
       expect(json['total_pages']).to eq(1)
+    end
+
+    it 'レスポンスに管理者ユーザーと一般ユーザーが含まれてないこと' do
+      get "/users"
+      json = JSON.parse(response.body)
+      expect(json['users'].count).to eq(8)
+
+      FactoryBot.create(:admin_user)
+      FactoryBot.create(:general_user)
+
+      get "/users"
+      user_added_json = JSON.parse(response.body)
+      expect(json['users'] == user_added_json['users']).to eq(true)
     end
   end
 
