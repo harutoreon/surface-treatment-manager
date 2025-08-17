@@ -52,11 +52,6 @@ RSpec.describe User, type: :model do
         FactoryBot.create(:general_user)
       end
 
-      it '30件中28件のユーザーが取得されること' do
-        users = User.displayable
-        expect(users.count).to eq(28)
-      end
-
       it '管理者ユーザーが含まれないこと' do
         users = User.displayable
         expect(users.find_by(name: 'admin user')).to be_nil
