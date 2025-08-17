@@ -9,8 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint src/ && eslint test/",
     "test": "vitest",
-    "coverage": "vitest run --coverage",
-    "check": "eslint src/ && eslint test/ && npm audit --audit-level=critical && vitest"
+    "check": "eslint src/ && eslint test/ && npm audit --audit-level=critical && vitest --coverage"
   },
   "dependencies": {
     "axios": "^1.7.9",
