@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, createMemoryHistory } from 'vue-router'
-import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { describe, it, expect } from 'vitest'
 import App from '@/App.vue'
 
@@ -71,9 +71,6 @@ describe('Login routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -96,9 +93,6 @@ describe('Home routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -121,9 +115,6 @@ describe('Settings routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -146,9 +137,6 @@ describe('Users routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -169,9 +157,6 @@ describe('Users routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -192,9 +177,6 @@ describe('Users routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -215,9 +197,6 @@ describe('Users routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -240,9 +219,6 @@ describe('Categories routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -263,9 +239,6 @@ describe('Categories routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -286,9 +259,6 @@ describe('Categories routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -309,9 +279,6 @@ describe('Categories routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -334,9 +301,6 @@ describe('Makers routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -357,9 +321,6 @@ describe('Makers routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -380,9 +341,6 @@ describe('Makers routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -403,9 +361,6 @@ describe('Makers routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -428,9 +383,6 @@ describe('Samples routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -451,9 +403,6 @@ describe('Samples routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -474,9 +423,6 @@ describe('Samples routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -496,9 +442,6 @@ describe('Samples routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -521,9 +464,6 @@ describe('Static Pages routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -544,9 +484,6 @@ describe('Static Pages routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -567,9 +504,6 @@ describe('Static Pages routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -597,9 +531,6 @@ describe('Search Results routing', () => {
       const wrapper = mount(App, {
         global: {
           plugins: [router],
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
         }
       })
 
@@ -627,9 +558,6 @@ describe('Search Results routing', () => {
       const wrapper = mount(App, {
         global: {
           plugins: [router],
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
         }
       })
 
@@ -657,9 +585,6 @@ describe('Search Results routing', () => {
       const wrapper = mount(App, {
         global: {
           plugins: [router],
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
         }
       })
 
@@ -682,9 +607,6 @@ describe('Search Results routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLinkStub: RouterLinkStub
-        }
       }
     })
 
@@ -707,9 +629,6 @@ describe('Departments routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -730,9 +649,6 @@ describe('Departments routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -753,9 +669,6 @@ describe('Departments routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -776,9 +689,6 @@ describe('Departments routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -801,9 +711,6 @@ describe('Comments routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -824,9 +731,6 @@ describe('Comments routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -847,9 +751,6 @@ describe('Comments routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -870,9 +771,6 @@ describe('Comments routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
@@ -895,9 +793,6 @@ describe('NotFound routing', () => {
     const wrapper = mount(App, {
       global: {
         plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
       }
     })
 
