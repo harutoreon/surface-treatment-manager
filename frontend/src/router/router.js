@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, createMemoryHistory } from 'vue-router'
 
 import categoryRoutes from './routes/categories'
 import commentRoutes from './routes/comments'
+import departmentRoutes from './routes/departments'
 
 import LoginView from '@/components/sessions/LoginView.vue'
 import HomeView from '@/components/static_pages/HomeView.vue'
@@ -23,10 +24,6 @@ import StaticPagesCategoryView from '@/components/static_pages/StaticPagesCatego
 import StaticPagesMakerView from '@/components/static_pages/StaticPagesMakerView.vue'
 import SearchResultsView from '@/components/search_results/SearchResultsView.vue'
 import SearchResultsListView from '@/components/search_results/SearchResultsListView.vue'
-import DepartmentsIndexView from '@/components/departments/DepartmentsIndexView.vue'
-import DepartmentsShowView from '@/components/departments/DepartmentsShowView.vue'
-import DepartmentsNewView from '@/components/departments/DepartmentsNewView.vue'
-import DepartmentsEditView from '@/components/departments/DepartmentsEditView.vue'
 
 import NotFound from '@/components/not_found/NotFound.vue'
 
@@ -42,6 +39,7 @@ const routes = [
   { path: '/users/:id/edit', component: UsersEditView, meta: { title: 'User Edit' } },
   ...categoryRoutes,
   ...commentRoutes,
+  ...departmentRoutes,
   { path: '/makers', component: MakersIndexView, meta: { title: 'Maker Index' } },
   { path: '/makers/:id', component: MakersShowView, meta: { title: 'Maker Show' } },
   { path: '/makers/new', component: MakersNewView, meta: { title: 'Maker New' } },
@@ -60,10 +58,6 @@ const routes = [
     meta: { title: 'Search Results' }
   },
   { path: '/list_search_results', component: SearchResultsListView, meta: { title: 'Search Results' } },
-  { path: '/departments', component: DepartmentsIndexView, meta: { title: 'Department Index' } },
-  { path: '/departments/:id', component: DepartmentsShowView, meta: { title: 'Department Show' } },
-  { path: '/departments/new', component: DepartmentsNewView, meta: { title: 'Department New' } },
-  { path: '/departments/:id/edit', component: DepartmentsEditView, meta: { title: 'Department Edit' } },
 
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound, meta: { title: 'NotFound (404)' } },
 ]
