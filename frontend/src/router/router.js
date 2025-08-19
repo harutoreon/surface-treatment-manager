@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory, createMemoryHistory } from 'vue-router'
 
+import categoryRoutes from './routes/categories'
+
 import LoginView from '@/components/sessions/LoginView.vue'
 import HomeView from '@/components/static_pages/HomeView.vue'
 import SettingsView from '@/components/settings/SettingsView.vue'
@@ -7,10 +9,6 @@ import UsersIndexView from '@/components/users/UsersIndexView.vue'
 import UsersShowView from '@/components/users/UsersShowView.vue'
 import UsersNewView from '@/components/users/UsersNewView.vue'
 import UsersEditView from '@/components/users/UsersEditView.vue'
-import CategoriesIndexView from '@/components/categories/CategoriesIndexView.vue'
-import CategoriesShowView from '@/components/categories/CategoriesShowView.vue'
-import CategoriesNewView from '@/components/categories/CategoriesNewView.vue'
-import CategoriesEditView from '@/components/categories/CategoriesEditView.vue'
 import MakersIndexView from '@/components/makers/MakersIndexView.vue'
 import MakersShowView from '@/components/makers/MakersShowView.vue'
 import MakersNewView from '@/components/makers/MakersNewView.vue'
@@ -45,10 +43,7 @@ const routes = [
   { path: '/users/:id', component: UsersShowView, meta: { title: 'User Show' } },
   { path: '/users/new', component: UsersNewView, meta: { title: 'User New' } },
   { path: '/users/:id/edit', component: UsersEditView, meta: { title: 'User Edit' } },
-  { path: '/categories', component: CategoriesIndexView, meta: { title: 'Category Index' } },
-  { path: '/categories/:id', component: CategoriesShowView, meta: { title: 'Category Show' } },
-  { path: '/categories/new', component: CategoriesNewView, meta: { title: 'Category New' } },
-  { path: '/categories/:id/edit', component: CategoriesEditView, meta: { title: 'Category Edit' } },
+  ...categoryRoutes,
   { path: '/makers', component: MakersIndexView, meta: { title: 'Maker Index' } },
   { path: '/makers/:id', component: MakersShowView, meta: { title: 'Maker Show' } },
   { path: '/makers/new', component: MakersNewView, meta: { title: 'Maker New' } },
