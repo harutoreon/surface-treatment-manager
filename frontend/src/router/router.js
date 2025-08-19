@@ -4,6 +4,7 @@ import categoryRoutes from './routes/categories'
 import commentRoutes from './routes/comments'
 import departmentRoutes from './routes/departments'
 import makerRoutes from './routes/makers'
+import sampleRoutes from './routes/samples'
 
 import LoginView from '@/components/sessions/LoginView.vue'
 import HomeView from '@/components/static_pages/HomeView.vue'
@@ -12,10 +13,6 @@ import UsersIndexView from '@/components/users/UsersIndexView.vue'
 import UsersShowView from '@/components/users/UsersShowView.vue'
 import UsersNewView from '@/components/users/UsersNewView.vue'
 import UsersEditView from '@/components/users/UsersEditView.vue'
-import SamplesIndexView from '@/components/samples/SamplesIndexView.vue'
-import SamplesShowView from '@/components/samples/SamplesShowView.vue'
-import SamplesNewView from '@/components/samples/SamplesNewView.vue'
-import SamplesEditView from '@/components/samples/SamplesEditView.vue'
 import StaticPagesNameView from '@/components/static_pages/StaticPagesNameView.vue'
 import StaticPagesCategoryView from '@/components/static_pages/StaticPagesCategoryView.vue'
 import StaticPagesMakerView from '@/components/static_pages/StaticPagesMakerView.vue'
@@ -38,10 +35,7 @@ const routes = [
   ...commentRoutes,
   ...departmentRoutes,
   ...makerRoutes,
-  { path: '/samples', component: SamplesIndexView, meta: { title: 'Sample Index' }},
-  { path: '/samples/:id', component: SamplesShowView, meta: { title: 'Sample Show' } },
-  { path: '/samples/new', component: SamplesNewView, meta: { title: 'Sample New' } },
-  { path: '/samples/:id/edit', component: SamplesEditView, meta: { title: 'Sample Edit' } },
+  ...sampleRoutes,
   { path: '/static_pages/name', component: StaticPagesNameView, meta: { title: 'Static Pages Name' } },
   { path: '/static_pages/category', component: StaticPagesCategoryView, meta: { title: 'Static Pages Category' } },
   { path: '/static_pages/maker', component: StaticPagesMakerView, meta: { title: 'Static Pages Maker' } },
