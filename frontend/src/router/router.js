@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, createMemoryHistory } from 'vue-router'
 
 import categoryRoutes from './routes/categories'
+import commentRoutes from './routes/comments'
 
 import LoginView from '@/components/sessions/LoginView.vue'
 import HomeView from '@/components/static_pages/HomeView.vue'
@@ -26,10 +27,6 @@ import DepartmentsIndexView from '@/components/departments/DepartmentsIndexView.
 import DepartmentsShowView from '@/components/departments/DepartmentsShowView.vue'
 import DepartmentsNewView from '@/components/departments/DepartmentsNewView.vue'
 import DepartmentsEditView from '@/components/departments/DepartmentsEditView.vue'
-import CommentsIndexView from '@/components/comments/CommentsIndexView.vue'
-import CommentsShowView from '@/components/comments/CommentsShowView.vue'
-import CommentsNewView from '@/components/comments/CommentsNewView.vue'
-import CommentsEditView from '@/components/comments/CommentsEditView.vue'
 
 import NotFound from '@/components/not_found/NotFound.vue'
 
@@ -44,6 +41,7 @@ const routes = [
   { path: '/users/new', component: UsersNewView, meta: { title: 'User New' } },
   { path: '/users/:id/edit', component: UsersEditView, meta: { title: 'User Edit' } },
   ...categoryRoutes,
+  ...commentRoutes,
   { path: '/makers', component: MakersIndexView, meta: { title: 'Maker Index' } },
   { path: '/makers/:id', component: MakersShowView, meta: { title: 'Maker Show' } },
   { path: '/makers/new', component: MakersNewView, meta: { title: 'Maker New' } },
@@ -66,10 +64,6 @@ const routes = [
   { path: '/departments/:id', component: DepartmentsShowView, meta: { title: 'Department Show' } },
   { path: '/departments/new', component: DepartmentsNewView, meta: { title: 'Department New' } },
   { path: '/departments/:id/edit', component: DepartmentsEditView, meta: { title: 'Department Edit' } },
-  { path: '/comments', component: CommentsIndexView, meta: { title: 'Comments Index' } },
-  { path: '/comments/:id', component: CommentsShowView, meta: { title: 'Comments Show' } },
-  { path: '/comments/new', component: CommentsNewView, meta: { title: 'Comments New' } },
-  { path: '/comments/:id/edit', component: CommentsEditView, meta: { title: 'Comments Edit' } },
 
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound, meta: { title: 'NotFound (404)' } },
 ]
