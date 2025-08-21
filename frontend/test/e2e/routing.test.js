@@ -1,52 +1,35 @@
-import { createRouter, createWebHistory, createMemoryHistory } from 'vue-router'
-import { flushPromises, mount } from '@vue/test-utils'
-import { describe, it, expect } from 'vitest'
+import { createRouter, createMemoryHistory } from 'vue-router'
+import { describe, it, expect, beforeEach } from 'vitest'
+import { mount, flushPromises } from '@vue/test-utils'
+import categoryRoutes from '@/router/routes/categories'
+import commentRoutes from '@/router/routes/comments'
+import departmentRoutes from '@/router/routes/departments'
+import makerRoutes from '@/router/routes/makers'
+import sampleRoutes from '@/router/routes/samples'
+import userRoutes from '@/router/routes/users'
+import sessionRoutes from '@/router/routes/sessions'
+import settingsRoutes from '@/router/routes/settings'
+import searchResultRoutes from '@/router/routes/search_results'
+import staticPageRoutes from '@/router/routes/static_pages'
+import notFoundRoute from '@/router/routes/not_found'
 import App from '@/App.vue'
 
 const routes = [
-  { path: '/', component: () => import('@/components/sessions/LoginView.vue'), meta: { title: 'Login' } },
-  { path: '/home', component: () => import('@/components/static_pages/HomeView.vue'), meta: { title: 'Home' } },
-  { path: '/settings', component: () => import('@/components/settings/SettingsView.vue'), meta: { title: 'Settings' }  },
-  { path: '/users', component: () => import('@/components/users/UsersIndexView.vue'), meta: { title: 'User Index' } },
-  { path: '/users/:id', component: () => import('@/components/users/UsersShowView.vue'), meta: { title: 'User Show' } },
-  { path: '/users/new', component: () => import('@/components/users/UsersNewView.vue'), meta: { title: 'User New' } },
-  { path: '/users/:id/edit', component: () => import('@/components/users/UsersEditView.vue'), meta: { title: 'User Edit' } },
-  { path: '/categories', component: () => import('@/components/categories/CategoriesIndexView.vue'), meta: { title: 'Category Index' } },
-  { path: '/categories/:id', component: () => import('@/components/categories/CategoriesShowView.vue'), meta: { title: 'Category Show' } },
-  { path: '/categories/new', component: () => import('@/components/categories/CategoriesNewView.vue'), meta: { title: 'Category New' } },
-  { path: '/categories/:id/edit', component: () => import('@/components/categories/CategoriesEditView.vue'), meta: { title: 'Category Edit' } },
-  { path: '/makers', component: () => import('@/components/makers/MakersIndexView.vue'), meta: { title: 'Maker Index' } },
-  { path: '/makers/:id', component: () => import('@/components/makers/MakersShowView.vue'), meta: { title: 'Maker Show' } },
-  { path: '/makers/new', component: () => import('@/components/makers/MakersNewView.vue'), meta: { title: 'Maker New' } },
-  { path: '/makers/:id/edit', component: () => import('@/components/makers/MakersEditView.vue'), meta: { title: 'Maker Edit' } },
-  { path: '/samples', component: () => import('@/components/samples/SamplesIndexView.vue'), meta: { title: 'Sample Index' }},
-  { path: '/samples/:id', component: () => import('@/components/samples/SamplesShowView.vue'), meta: { title: 'Sample Show' } },
-  { path: '/samples/new', component: () => import('@/components/samples/SamplesNewView.vue'), meta: { title: 'Sample New' } },
-  { path: '/samples/:id/edit', component: () => import('@/components/samples/SamplesEditView.vue'), meta: { title: 'Sample Edit' } },
-  { path: '/static_pages/name', component: () => import('@/components/static_pages/StaticPagesNameView.vue'), meta: { title: 'Static Pages Name' } },
-  { path: '/static_pages/category', component: () => import('@/components/static_pages/StaticPagesCategoryView.vue'), meta: { title: 'Static Pages Category' } },
-  { path: '/static_pages/maker', component: () => import('@/components/static_pages/StaticPagesMakerView.vue'), meta: { title: 'Static Pages Maker' } },
-  {
-    path: '/static_pages/:searchMethod(name|category|maker)/search_results',
-    name: 'SearchResults',
-    component: () => import('@/components/search_results/SearchResultsView.vue'),
-    meta: { title: 'Search Results' }
-  },
-  { path: '/list_search_results', component: () => import('@/components/search_results/SearchResultsListView.vue'), meta: { title: 'Search Results' } },
-  { path: '/departments', component: () => import('@/components/departments/DepartmentsIndexView.vue'), meta: { title: 'Department Index' } },
-  { path: '/departments/:id', component: () => import('@/components/departments/DepartmentsShowView.vue'), meta: { title: 'Department Show' } },
-  { path: '/departments/new', component: () => import('@/components/departments/DepartmentsNewView.vue'), meta: { title: 'Department New' } },
-  { path: '/departments/:id/edit', component: () => import('@/components/departments/DepartmentsEditView.vue'), meta: { title: 'Department edit' } },
-  { path: '/comments', component: () => import('@/components/comments/CommentsIndexView.vue'), meta: { title: 'Comments Index' } },
-  { path: '/comments/:id', component: () => import('@/components/comments/CommentsShowView.vue'), meta: { title: 'Comments Show' } },
-  { path: '/comments/new', component: () => import('@/components/comments/CommentsNewView.vue'), meta: { title: 'Comments New' } },
-  { path: '/comments/:id/edit', component: () => import('@/components/comments/CommentsEditView.vue'), meta: { title: 'Comments Edit' } },
-
-  { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/components/not_found/NotFound.vue'), meta: { title: 'NotFound (404)' } },
+  ...categoryRoutes,
+  ...commentRoutes,
+  ...departmentRoutes,
+  ...makerRoutes,
+  ...sampleRoutes,
+  ...userRoutes,
+  ...sessionRoutes,
+  ...settingsRoutes,
+  ...searchResultRoutes,
+  ...staticPageRoutes,
+  ...notFoundRoute,
 ]
 
 function createAppRouter() {
-  const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : createWebHistory()
+  const history = createMemoryHistory()
   const router = createRouter({
     history,
     routes,
@@ -60,10 +43,14 @@ function createAppRouter() {
   return router
 }
 
+let router
+
+beforeEach(() => {
+  router = createAppRouter()
+})
+
 describe('Login routing', () => {
   it('「ログイン」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/')
 
     await router.isReady()
@@ -84,8 +71,6 @@ describe('Login routing', () => {
 
 describe('Home routing', () => {
   it('「メインメニュー」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/home')
 
     await router.isReady()
@@ -106,8 +91,6 @@ describe('Home routing', () => {
 
 describe('Settings routing', () => {
   it('「アプリケーションの管理」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/settings')
 
     await router.isReady()
@@ -128,8 +111,6 @@ describe('Settings routing', () => {
 
 describe('Users routing', () => {
   it('「ユーザーリスト」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/users')
 
     await router.isReady()
@@ -148,8 +129,6 @@ describe('Users routing', () => {
   })
 
   it('「ユーザー情報」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/users/1')
 
     await router.isReady()
@@ -168,8 +147,6 @@ describe('Users routing', () => {
   })
 
   it('「ユーザー情報の登録」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/users/new')
 
     await router.isReady()
@@ -188,8 +165,6 @@ describe('Users routing', () => {
   })
 
   it('「ユーザー情報の編集」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/users/1/edit')
 
     await router.isReady()
@@ -210,8 +185,6 @@ describe('Users routing', () => {
 
 describe('Categories routing', () => {
   it('「カテゴリーリスト」ページに遷移できること', async () => {
-    const router = createAppRouter()
-
     router.push('/categories')
 
     await router.isReady()
@@ -230,8 +203,6 @@ describe('Categories routing', () => {
   })
 
   it('「カテゴリー情報」ページに遷移できること', async () => {
-    const router = createAppRouter()
-
     router.push('/categories/1')
 
     await router.isReady()
@@ -250,8 +221,6 @@ describe('Categories routing', () => {
   })
 
   it('「カテゴリー情報の登録」ページに遷移できること', async () => {
-    const router = createAppRouter()
-
     router.push('/categories/new')
 
     await router.isReady()
@@ -270,8 +239,6 @@ describe('Categories routing', () => {
   })
 
   it('「カテゴリー情報の編集」ページに遷移できること', async () => {
-    const router = createAppRouter()
-
     router.push('/categories/1/edit')
 
     await router.isReady()
@@ -292,8 +259,6 @@ describe('Categories routing', () => {
 
 describe('Makers routing', () => {
   it('「メーカーリスト」ページに遷移できること', async () => {
-    const router = createAppRouter()
-
     router.push('/makers')
 
     await router.isReady()
@@ -312,8 +277,6 @@ describe('Makers routing', () => {
   })
 
   it('「メーカー情報」ページに遷移できること', async () => {
-    const router = createAppRouter()
-
     router.push('/makers/1')
 
     await router.isReady()
@@ -332,8 +295,6 @@ describe('Makers routing', () => {
   })
 
   it('「メーカー情報の登録」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/makers/new')
 
     await router.isReady()
@@ -352,8 +313,6 @@ describe('Makers routing', () => {
   })
 
   it('「メーカー情報の編集」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/makers/1/edit')
 
     await router.isReady()
@@ -374,8 +333,6 @@ describe('Makers routing', () => {
 
 describe('Samples routing', () => {
   it('「表面処理リスト」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/samples')
 
     await router.isReady()
@@ -394,8 +351,6 @@ describe('Samples routing', () => {
   })
 
   it('「表面処理情報」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/samples/1')
 
     await router.isReady()
@@ -414,8 +369,6 @@ describe('Samples routing', () => {
   })
 
   it('「表面処理情報の登録」ページに遷移すること', async () => { 
-    const router = createAppRouter()
-
     router.push('/samples/new')
 
     await router.isReady()
@@ -433,8 +386,6 @@ describe('Samples routing', () => {
   })
 
   it('「表面処理情報の編集」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/samples/1/edit')
 
     await router.isReady()
@@ -455,8 +406,6 @@ describe('Samples routing', () => {
 
 describe('Static Pages routing', () => {
   it('「処理名で検索」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/static_pages/name')
 
     await router.isReady()
@@ -475,8 +424,6 @@ describe('Static Pages routing', () => {
   })
 
   it('「カテゴリーで検索」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/static_pages/category')
 
     await router.isReady()
@@ -495,8 +442,6 @@ describe('Static Pages routing', () => {
   })
 
   it('「メーカー名で検索」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/static_pages/maker')
 
     await router.isReady()
@@ -518,8 +463,6 @@ describe('Static Pages routing', () => {
 describe('Search Results routing', () => {
   describe('パラメータにnameを指定した場合', () => {
     it('nameを含むパスの「表面処理の検索結果」ページに遷移すること', async () => {
-      const router = createAppRouter()
-
       router.push({
         name: 'SearchResults',
         params: { searchMethod: 'name' },
@@ -545,8 +488,6 @@ describe('Search Results routing', () => {
 
   describe('パラメータにcategoryを指定した場合', () => {
     it('categoryを含むパスの「表面処理の検索結果」ページに遷移すること', async () => {
-      const router = createAppRouter()
-
       router.push({
         name: 'SearchResults',
         params: { searchMethod: 'category' },
@@ -572,8 +513,6 @@ describe('Search Results routing', () => {
 
   describe('パラメータにmakerを指定した場合', () => {
     it('makerを含むパスの「表面処理の検索結果」ページに遷移すること', async () => {
-      const router = createAppRouter()
-
       router.push({
         name: 'SearchResults',
         params: { searchMethod: 'maker' },
@@ -598,8 +537,6 @@ describe('Search Results routing', () => {
   })
 
   it('「表面処理一覧」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/list_search_results')
 
     await router.isReady()
@@ -620,8 +557,6 @@ describe('Search Results routing', () => {
 
 describe('Departments routing', () => {
   it('「部署リスト」ページに遷移できること', async () => {
-    const router = createAppRouter()
-
     router.push('/departments')
 
     await router.isReady()
@@ -640,8 +575,6 @@ describe('Departments routing', () => {
   })
 
   it('「部署情報」ページに遷移できること', async () => {
-    const router = createAppRouter()
-
     router.push('/departments/1')
 
     await router.isReady()
@@ -660,8 +593,6 @@ describe('Departments routing', () => {
   })
 
   it('「部署情報の登録」ページに遷移できること', async () => {
-    const router = createAppRouter()
-
     router.push('/departments/new')
 
     await router.isReady()
@@ -680,8 +611,6 @@ describe('Departments routing', () => {
   })
 
   it('「部署情報の編集」ページに遷移できること', async () => {
-    const router = createAppRouter()
-
     router.push('/departments/1/edit')
 
     await router.isReady()
@@ -694,16 +623,14 @@ describe('Departments routing', () => {
 
     await flushPromises()
 
-    expect(router.currentRoute.value.meta.title).toBe('Department edit')
-    expect(document.title).toBe('Department edit')
+    expect(router.currentRoute.value.meta.title).toBe('Department Edit')
+    expect(document.title).toBe('Department Edit')
     expect(wrapper.find('h3').text()).toBe('部署情報の編集')
   })
 })
 
 describe('Comments routing', () => {
   it('「コメントリスト」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/comments')
 
     await router.isReady()
@@ -722,8 +649,6 @@ describe('Comments routing', () => {
   })
 
   it('「コメント情報」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/comments/1')
 
     await router.isReady()
@@ -742,8 +667,6 @@ describe('Comments routing', () => {
   })
 
   it('「コメント情報の新規登録」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/comments/new')
 
     await router.isReady()
@@ -762,8 +685,6 @@ describe('Comments routing', () => {
   })
 
   it('「コメント情報の編集」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/comments/1/edit')
 
     await router.isReady()
@@ -784,8 +705,6 @@ describe('Comments routing', () => {
 
 describe('NotFound routing', () => {
   it('「404」ページに遷移すること', async () => {
-    const router = createAppRouter()
-
     router.push('/non-existent-path')
 
     await router.isReady()
