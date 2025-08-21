@@ -8,13 +8,12 @@ import sampleRoutes from './routes/samples'
 import userRoutes from './routes/users'
 import sessionRoutes from './routes/sessions'
 import settingsRoutes from './routes/settings'
+import searchResultRoutes from './routes/search_results'
 
 import HomeView from '@/components/static_pages/HomeView.vue'
 import StaticPagesNameView from '@/components/static_pages/StaticPagesNameView.vue'
 import StaticPagesCategoryView from '@/components/static_pages/StaticPagesCategoryView.vue'
 import StaticPagesMakerView from '@/components/static_pages/StaticPagesMakerView.vue'
-import SearchResultsView from '@/components/search_results/SearchResultsView.vue'
-import SearchResultsListView from '@/components/search_results/SearchResultsListView.vue'
 
 import NotFound from '@/components/not_found/NotFound.vue'
 
@@ -30,16 +29,10 @@ const routes = [
   ...userRoutes,
   ...sessionRoutes,
   ...settingsRoutes,
+  ...searchResultRoutes,
   { path: '/static_pages/name', component: StaticPagesNameView, meta: { title: 'Static Pages Name' } },
   { path: '/static_pages/category', component: StaticPagesCategoryView, meta: { title: 'Static Pages Category' } },
   { path: '/static_pages/maker', component: StaticPagesMakerView, meta: { title: 'Static Pages Maker' } },
-  {
-    path: '/static_pages/:searchMethod(name|category|maker)/search_results',
-    name: 'SearchResults',
-    component: SearchResultsView,
-    meta: { title: 'Search Results' }
-  },
-  { path: '/list_search_results', component: SearchResultsListView, meta: { title: 'Search Results' } },
 
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound, meta: { title: 'NotFound (404)' } },
 ]
