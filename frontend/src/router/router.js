@@ -10,8 +10,7 @@ import sessionRoutes from './routes/sessions'
 import settingsRoutes from './routes/settings'
 import searchResultRoutes from './routes/search_results'
 import staticPageRoutes from './routes/static_pages'
-
-import NotFound from '@/components/not_found/NotFound.vue'
+import notFoundRoute from './routes/not_found'
 
 const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : createWebHistory()
 
@@ -26,8 +25,7 @@ const routes = [
   ...settingsRoutes,
   ...searchResultRoutes,
   ...staticPageRoutes,
-
-  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound, meta: { title: 'NotFound (404)' } },
+  ...notFoundRoute,
 ]
 
 const router = createRouter({
