@@ -13,32 +13,39 @@ router.afterEach((to) => {
 })
 
 describe('Users routing', () => {
+  describe('Index route', () => {
+    it('「ユーザーリスト」ページに遷移すること', async () => {
+      await router.push('/users')
 
-  it('「ユーザーリスト」ページに遷移すること', async () => {
-    await router.push('/users')
-
-    expect(router.currentRoute.value.meta.title).toBe('User Index')
-    expect(document.title).toBe('User Index')
+      expect(router.currentRoute.value.meta.title).toBe('User Index')
+      expect(document.title).toBe('User Index')
+    })
   })
 
-  it('「ユーザー情報」ページに遷移すること', async () => {
-    await router.push('/users/1')
+  describe('Show route', () => {
+    it('「ユーザー情報」ページに遷移すること', async () => {
+      await router.push('/users/1')
 
-    expect(router.currentRoute.value.meta.title).toBe('User Show')
-    expect(document.title).toBe('User Show')
+      expect(router.currentRoute.value.meta.title).toBe('User Show')
+      expect(document.title).toBe('User Show')
+    })
   })
 
-  it('「ユーザー情報の登録」ページに遷移すること', async () => {
-    await router.push('/users/new')
+  describe('New route', () => {
+    it('「ユーザー情報の登録」ページに遷移すること', async () => {
+      await router.push('/users/new')
 
-    expect(router.currentRoute.value.meta.title).toBe('User New')
-    expect(document.title).toBe('User New')
+      expect(router.currentRoute.value.meta.title).toBe('User New')
+      expect(document.title).toBe('User New')
+    })
   })
 
-  it('「ユーザー情報の編集」ページに遷移すること', async () => {
-    await router.push('/users/1/edit')
+  describe('Edit route', () => {
+    it('「ユーザー情報の編集」ページに遷移すること', async () => {
+      await router.push('/users/1/edit')
 
-    expect(router.currentRoute.value.meta.title).toBe('User Edit')
-    expect(document.title).toBe('User Edit')
+      expect(router.currentRoute.value.meta.title).toBe('User Edit')
+      expect(document.title).toBe('User Edit')
+    })
   })
 })
