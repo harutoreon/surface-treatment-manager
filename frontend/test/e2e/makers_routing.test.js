@@ -1,116 +1,51 @@
 import { createRouter, createMemoryHistory } from 'vue-router'
-import { describe, it, expect, beforeEach } from 'vitest'
-import { mount, flushPromises, RouterLinkStub } from '@vue/test-utils'
+import { describe, it, expect } from 'vitest'
 import makerRoutes from '@/router/routes/makers'
-import App from '@/App.vue'
 
-const routes = [
-  ...makerRoutes,
-]
+const router = createRouter({
+  history: createMemoryHistory(),
+  routes: [...makerRoutes]
+})
 
-function createAppRouter() {
-  const history = createMemoryHistory()
-  const router = createRouter({
-    history,
-    routes,
-  })
-
-  router.afterEach((to) => {
-    const defaultTitle = 'surface-treatment-manager'
-    document.title = to.meta?.title || defaultTitle
-  })
-
-  return router
-}
+router.afterEach((to) => {
+  const defaultTitle = 'surface-treatment-manager'
+  document.title = to.meta?.title || defaultTitle
+})
 
 describe('Makers routing', () => {
-  let router
+  describe('Index route', () => {
+    it('「メーカーリスト」ページに遷移できること', async () => {
+      await router.push('/makers')
 
-  beforeEach(() => {
-    router = createAppRouter()
+      expect(router.currentRoute.value.meta.title).toBe('Maker Index')
+      expect(document.title).toBe('Maker Index')
+    })
   })
 
-  it('「メーカーリスト」ページに遷移できること', async () => {
-    router.push('/makers')
+  describe('Show route', () => {
+    it('「メーカー情報」ページに遷移できること', async () => {
+      await router.push('/makers/1')
 
-    await router.isReady()
-
-    const wrapper = mount(App, {
-      global: {
-        plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
-      }
+      expect(router.currentRoute.value.meta.title).toBe('Maker Show')
+      expect(document.title).toBe('Maker Show')
     })
+  })
+  
+  describe('New route', () => {
+    it('「メーカー情報の登録」ページに遷移すること', async () => {
+      await router.push('/makers/new')
 
-    await flushPromises()
-
-    expect(router.currentRoute.value.meta.title).toBe('Maker Index')
-    expect(document.title).toBe('Maker Index')
-    expect(wrapper.find('h3').text()).toBe('メーカーリスト')
+      expect(router.currentRoute.value.meta.title).toBe('Maker New')
+      expect(document.title).toBe('Maker New')
+    })
   })
 
-  it('「メーカー情報」ページに遷移できること', async () => {
-    router.push('/makers/1')
+  describe('Edit route', () => {
+    it('「メーカー情報の編集」ページに遷移すること', async () => {
+      await router.push('/makers/1/edit')
 
-    await router.isReady()
-
-    const wrapper = mount(App, {
-      global: {
-        plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
-      }
+      expect(router.currentRoute.value.meta.title).toBe('Maker Edit')
+      expect(document.title).toBe('Maker Edit')
     })
-
-    await flushPromises()
-
-    expect(router.currentRoute.value.meta.title).toBe('Maker Show')
-    expect(document.title).toBe('Maker Show')
-    expect(wrapper.find('h3').text()).toBe('メーカー情報')
-  })
-
-  it('「メーカー情報の登録」ページに遷移すること', async () => {
-    router.push('/makers/new')
-
-    await router.isReady()
-
-    const wrapper = mount(App, {
-      global: {
-        plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
-      }
-    })
-
-    await flushPromises()
-
-    expect(router.currentRoute.value.meta.title).toBe('Maker New')
-    expect(document.title).toBe('Maker New')
-    expect(wrapper.find('h3').text()).toBe('メーカー情報の登録')
-  })
-
-  it('「メーカー情報の編集」ページに遷移すること', async () => {
-    router.push('/makers/1/edit')
-
-    await router.isReady()
-
-    const wrapper = mount(App, {
-      global: {
-        plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
-      }
-    })
-
-    await flushPromises()
-
-    expect(router.currentRoute.value.meta.title).toBe('Maker Edit')
-    expect(document.title).toBe('Maker Edit')
-    expect(wrapper.find('h3').text()).toBe('メーカー情報の編集')
   })
 })

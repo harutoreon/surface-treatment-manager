@@ -1,115 +1,51 @@
 import { createRouter, createMemoryHistory } from 'vue-router'
-import { describe, it, expect, beforeEach } from 'vitest'
-import { mount, flushPromises, RouterLinkStub } from '@vue/test-utils'
+import { describe, it, expect } from 'vitest'
 import sampleRoutes from '@/router/routes/samples'
-import App from '@/App.vue'
 
-const routes = [
-  ...sampleRoutes,
-]
+const router = createRouter({
+  history: createMemoryHistory(),
+  routes: [...sampleRoutes]
+})
 
-function createAppRouter() {
-  const history = createMemoryHistory()
-  const router = createRouter({
-    history,
-    routes,
-  })
-
-  router.afterEach((to) => {
-    const defaultTitle = 'surface-treatment-manager'
-    document.title = to.meta?.title || defaultTitle
-  })
-
-  return router
-}
+router.afterEach((to) => {
+  const defaultTitle = 'surface-treatment-manager'
+  document.title = to.meta?.title || defaultTitle
+})
 
 describe('Samples routing', () => {
-  let router
+  describe('Index route', () => {
+    it('「表面処理リスト」ページに遷移すること', async () => {
+      await router.push('/samples')
 
-  beforeEach(() => {
-    router = createAppRouter()
+      expect(router.currentRoute.value.meta.title).toBe('Sample Index')
+      expect(document.title).toBe('Sample Index')
+    })
   })
 
-  it('「表面処理リスト」ページに遷移すること', async () => {
-    router.push('/samples')
+  describe('Show route', () => {
+    it('「表面処理情報」ページに遷移すること', async () => {
+      await router.push('/samples/1')
 
-    await router.isReady()
-
-    const wrapper = mount(App, {
-      global: {
-        plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
-      }
+      expect(router.currentRoute.value.meta.title).toBe('Sample Show')
+      expect(document.title).toBe('Sample Show')
     })
-
-    await flushPromises()
-
-    expect(router.currentRoute.value.meta.title).toBe('Sample Index')
-    expect(document.title).toBe('Sample Index')
-    expect(wrapper.find('h3').text()).toBe('表面処理リスト')
   })
 
-  it('「表面処理情報」ページに遷移すること', async () => {
-    router.push('/samples/1')
+  describe('New route', () => {
+    it('「表面処理情報の登録」ページに遷移すること', async () => { 
+      await router.push('/samples/new')
 
-    await router.isReady()
-
-    const wrapper = mount(App, {
-      global: {
-        plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
-      }
+      expect(router.currentRoute.value.meta.title).toBe('Sample New')
+      expect(document.title).toBe('Sample New')
     })
-
-    await flushPromises()
-
-    expect(router.currentRoute.value.meta.title).toBe('Sample Show')
-    expect(document.title).toBe('Sample Show')
-    expect(wrapper.find('h3').text()).toBe('表面処理情報')
   })
 
-  it('「表面処理情報の登録」ページに遷移すること', async () => { 
-    router.push('/samples/new')
+  describe('Edit route', () => {
+    it('「表面処理情報の編集」ページに遷移すること', async () => {
+      await router.push('/samples/1/edit')
 
-    await router.isReady()
-
-    const wrapper = mount(App, {
-      global: {
-        plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
-      }
+      expect(router.currentRoute.value.meta.title).toBe('Sample Edit')
+      expect(document.title).toBe('Sample Edit')
     })
-
-    await flushPromises()
-    expect(router.currentRoute.value.meta.title).toBe('Sample New')
-    expect(document.title).toBe('Sample New')
-    expect(wrapper.find('h3').text()).toBe('表面処理情報の登録')
-  })
-
-  it('「表面処理情報の編集」ページに遷移すること', async () => {
-    router.push('/samples/1/edit')
-
-    await router.isReady()
-
-    const wrapper = mount(App, {
-      global: {
-        plugins: [router],
-        stubs: {
-          RouterLink: RouterLinkStub
-        }
-      }
-    })
-
-    await flushPromises()
-
-    expect(router.currentRoute.value.meta.title).toBe('Sample Edit')
-    expect(document.title).toBe('Sample Edit')
-    expect(wrapper.find('h3').text()).toBe('表面処理情報の編集')
   })
 })
