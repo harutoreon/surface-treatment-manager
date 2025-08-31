@@ -83,16 +83,16 @@ describe('CategoriesIndexView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const linkCategoriesNew = wrapper.findComponent({ ref: 'linkCategoriesNew' })
-      const linkHome = wrapper.findComponent({ ref: 'linkHome' })
-      
+      const div = wrapper.find('div[class="d-flex justify-content-evenly"]')
+      const routerLink = div.findAllComponents(RouterLinkStub)
+
       // to属性
-      expect(linkCategoriesNew.props().to).toBe('/categories/new')
-      expect(linkHome.props().to).toBe('/home')
+      expect(routerLink[0].props().to).toBe('/categories/new')
+      expect(routerLink[1].props().to).toBe('/home')
       
       // テキスト
-      expect(linkCategoriesNew.text()).toBe('カテゴリー情報の登録')
-      expect(linkHome.text()).toBe('メインメニューへ')
+      expect(routerLink[0].text()).toBe('カテゴリー情報の登録')
+      expect(routerLink[1].text()).toBe('メインメニューへ')
     })
   })
 
