@@ -70,15 +70,16 @@ describe('CommentsShowView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const routerLink = wrapper.findAllComponents(RouterLinkStub)
+      const div = wrapper.find('div[class="d-flex justify-content-evenly"]')
+      const routerLinks = div.findAllComponents(RouterLinkStub)
 
       // to属性
-      expect(routerLink[0].props().to).toBe('/comments/1/edit')
-      expect(routerLink[1].props().to).toBe('/comments')
+      expect(routerLinks[0].props().to).toBe('/comments/1/edit')
+      expect(routerLinks[1].props().to).toBe('/comments')
 
       // テキスト
-      expect(routerLink[0].text()).toBe('コメント情報の編集')
-      expect(routerLink[1].text()).toBe('コメントリストへ')
+      expect(routerLinks[0].text()).toBe('コメント情報の編集')
+      expect(routerLinks[1].text()).toBe('コメントリストへ')
     })
   })
 

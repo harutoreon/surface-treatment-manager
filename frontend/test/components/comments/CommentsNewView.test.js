@@ -2,7 +2,6 @@ import CommentsNewView from '@/components/comments/CommentsNewView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount, flushPromises, RouterLinkStub,  } from '@vue/test-utils'
 import axios from 'axios'
-// import { RouterLink } from 'vue-router'
 
 const replaceMock = vi.fn()
 const pushMock = vi.fn()
@@ -102,10 +101,7 @@ describe('CommentsNewView', () => {
     it('外部リンクが表示されること', () => {
       const routerLink = wrapper.findComponent(RouterLinkStub)
 
-      // to属性
       expect(routerLink.props().to).toBe('/comments')
-
-      // テキスト
       expect(routerLink.text()).toBe('コメントリストへ')
     })
   })
