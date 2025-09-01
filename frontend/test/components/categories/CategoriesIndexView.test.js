@@ -84,15 +84,15 @@ describe('CategoriesIndexView', () => {
 
     it('外部リンクが表示されること', () => {
       const div = wrapper.find('div[class="d-flex justify-content-evenly"]')
-      const routerLink = div.findAllComponents(RouterLinkStub)
+      const routerLinks = div.findAllComponents(RouterLinkStub)
 
       // to属性
-      expect(routerLink[0].props().to).toBe('/categories/new')
-      expect(routerLink[1].props().to).toBe('/home')
+      expect(routerLinks[0].props().to).toBe('/categories/new')
+      expect(routerLinks[1].props().to).toBe('/home')
       
       // テキスト
-      expect(routerLink[0].text()).toBe('カテゴリー情報の登録')
-      expect(routerLink[1].text()).toBe('メインメニューへ')
+      expect(routerLinks[0].text()).toBe('カテゴリー情報の登録')
+      expect(routerLinks[1].text()).toBe('メインメニューへ')
     })
   })
 
