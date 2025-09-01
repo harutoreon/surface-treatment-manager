@@ -60,16 +60,16 @@ describe('CategoriesShowView', () => {
     })
 
     it('外部リンクが表示されること', async () => {
-      const linkCategoriesEdit = wrapper.findComponent({ ref: 'linkCategoriesEdit' })
-      const linkCategories = wrapper.findComponent({ ref: 'linkCategories' })
+      const div = wrapper.find('div[class="d-flex justify-content-evenly"]')
+      const routerLinks = div.findAllComponents(RouterLinkStub)
 
       // to属性
-      expect(linkCategoriesEdit.props().to).toBe('/categories/1/edit')
-      expect(linkCategories.props().to).toBe('/categories')
+      expect(routerLinks[0].props().to).toBe('/categories/1/edit')
+      expect(routerLinks[1].props().to).toBe('/categories')
 
       // テキスト
-      expect(linkCategoriesEdit.text()).toBe('カテゴリー情報の編集')
-      expect(linkCategories.text()).toBe('カテゴリーリストへ')
+      expect(routerLinks[0].text()).toBe('カテゴリー情報の編集')
+      expect(routerLinks[1].text()).toBe('カテゴリーリストへ')
     })
 
     it('リソースの削除リンクが表示されること', () => {
