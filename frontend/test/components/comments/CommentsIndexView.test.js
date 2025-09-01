@@ -139,15 +139,16 @@ describe('CommentsIndexView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const routerLink = wrapper.findAllComponents(RouterLinkStub)
+      const div = wrapper.find('div[class="d-flex justify-content-evenly mb-5"]')
+      const routerLinks = div.findAllComponents(RouterLinkStub)
 
       // to属性
-      expect(routerLink[6].props().to).toBe('/comments/new')
-      expect(routerLink[7].props().to).toBe('/home')
+      expect(routerLinks[0].props().to).toBe('/comments/new')
+      expect(routerLinks[1].props().to).toBe('/home')
 
       // テキスト
-      expect(routerLink[6].text()).toBe('コメントの新規登録へ')
-      expect(routerLink[7].text()).toBe('メインメニューへ')
+      expect(routerLinks[0].text()).toBe('コメントの新規登録へ')
+      expect(routerLinks[1].text()).toBe('メインメニューへ')
     })
   })
 
