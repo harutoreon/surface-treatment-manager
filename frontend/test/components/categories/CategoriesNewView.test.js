@@ -51,10 +51,10 @@ describe('CategoriesNewView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const linkCategories = wrapper.findComponent({ ref: 'linkCategories' })
+      const routerLink = wrapper.findComponent(RouterLinkStub)
 
-      expect(linkCategories.props().to).toBe('/categories')
-      expect(linkCategories.text()).toBe('カテゴリーリストへ')
+      expect(routerLink.props().to).toBe('/categories')
+      expect(routerLink.text()).toBe('カテゴリーリストへ')
     })
   })
 
