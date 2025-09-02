@@ -62,15 +62,16 @@ describe('DepartmentsIndexView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const links = wrapper.findAllComponents(RouterLinkStub)
+      const div = wrapper.find('div[class="d-flex justify-content-evenly"]')
+      const routerLinks = div.findAllComponents(RouterLinkStub)
 
       // // to属性
-      expect(links[4].props().to).toBe('/departments/new')
-      expect(links[5].props().to).toBe('/home')
+      expect(routerLinks[0].props().to).toBe('/departments/new')
+      expect(routerLinks[1].props().to).toBe('/home')
 
       // // テキスト
-      expect(links[4].text()).toBe('部署情報の登録へ')
-      expect(links[5].text()).toBe('メインメニューへ')
+      expect(routerLinks[0].text()).toBe('部署情報の登録へ')
+      expect(routerLinks[1].text()).toBe('メインメニューへ')
     })
   })
 
