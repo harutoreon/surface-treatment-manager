@@ -66,15 +66,15 @@ describe('DepartmentsEditView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const routerLink = wrapper.findAllComponents(RouterLinkStub)
+      const routerLinks = wrapper.findAllComponents(RouterLinkStub)
 
       // to属性
-      expect(routerLink[0].props().to).toBe('/departments/1')
-      expect(routerLink[1].props().to).toBe('/departments')
+      expect(routerLinks[0].props().to).toBe('/departments/1')
+      expect(routerLinks[1].props().to).toBe('/departments')
 
       // テキスト
-      expect(routerLink[0].text()).toBe('部署情報へ')
-      expect(routerLink[1].text()).toBe('部署リストへ')
+      expect(routerLinks[0].text()).toBe('部署情報へ')
+      expect(routerLinks[1].text()).toBe('部署リストへ')
     })
   })
 
