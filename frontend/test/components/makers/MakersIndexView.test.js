@@ -144,16 +144,16 @@ describe('MakersIndexView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const linkMakersNew = wrapper.findComponent({ ref: 'linkMakersNew' })
-      const linkHome = wrapper.findComponent({ ref: 'linkHome' })
+      const div = wrapper.find('div[class="d-flex justify-content-evenly"]')
+      const routerLinks = div.findAllComponents(RouterLinkStub)
 
       // to属性
-      expect(linkMakersNew.props().to).toBe('/makers/new')
-      expect(linkHome.props().to).toBe('/home')
+      expect(routerLinks[0].props().to).toBe('/makers/new')
+      expect(routerLinks[1].props().to).toBe('/home')
 
       // テキスト
-      expect(linkMakersNew.text()).toBe('メーカー情報の登録')
-      expect(linkHome.text()).toBe('メインメニューへ')
+      expect(routerLinks[0].text()).toBe('メーカー情報の登録')
+      expect(routerLinks[1].text()).toBe('メインメニューへ')
     })
   })
   
