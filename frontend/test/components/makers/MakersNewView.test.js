@@ -63,8 +63,10 @@ describe('MakersNewView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      expect(wrapper.findComponent({ ref: 'linkMakers' }).props().to).toBe('/makers')
-      expect(wrapper.findComponent({ ref: 'linkMakers' }).text()).toBe('メーカーリストへ')
+      const routerLink = wrapper.findComponent(RouterLinkStub)
+
+      expect(routerLink.props().to).toBe('/makers')
+      expect(routerLink.text()).toBe('メーカーリストへ')
     })
   })
   
