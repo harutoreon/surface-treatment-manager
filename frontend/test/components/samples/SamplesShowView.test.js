@@ -90,16 +90,15 @@ describe('SamplesShowView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const linkSamplesEdit = wrapper.findComponent({ ref: 'linkSamplesEdit' })
-      const linkSamples = wrapper.findComponent({ ref: 'linkSamples' })
+      const routerLinks = wrapper.findAllComponents(RouterLinkStub)
 
       // to属性
-      expect(linkSamplesEdit.props().to).toBe('/samples/1/edit')
-      expect(linkSamples.props().to).toBe('/samples')
+      expect(routerLinks[0].props().to).toBe('/samples/1/edit')
+      expect(routerLinks[1].props().to).toBe('/samples')
 
       // テキスト
-      expect(linkSamplesEdit.text()).toBe('表面処理情報の編集')      
-      expect(linkSamples.text()).toBe('表面処理リストへ')
+      expect(routerLinks[0].text()).toBe('表面処理情報の編集')
+      expect(routerLinks[1].text()).toBe('表面処理リストへ')
     })
   })
 
