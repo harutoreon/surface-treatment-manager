@@ -87,16 +87,16 @@ describe('UsersIndexView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const linkUsersNew = wrapper.findComponent({ ref: 'linkUsersNew' })
-      const linkHome = wrapper.findComponent({ ref: 'linkHome' })
+      const div = wrapper.find('div[class="d-flex justify-content-evenly"]')
+      const routerLinks = div.findAllComponents(RouterLinkStub)
 
       // to属性
-      expect(linkUsersNew.props().to).toBe('/users/new')
-      expect(linkHome.props().to).toBe('/home')
+      expect(routerLinks[0].props().to).toBe('/users/new')
+      expect(routerLinks[1].props().to).toBe('/home')
 
       // テキスト
-      expect(linkUsersNew.text()).toBe('ユーザー情報の登録')
-      expect(linkHome.text()).toBe('メインメニューへ')
+      expect(routerLinks[0].text()).toBe('ユーザー情報の登録')
+      expect(routerLinks[1].text()).toBe('メインメニューへ')
     })
   })
 
