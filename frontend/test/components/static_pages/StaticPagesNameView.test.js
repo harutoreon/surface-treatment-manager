@@ -46,10 +46,10 @@ describe('StaticPagesNameView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const linkHome = wrapper.findComponent({ ref: 'linkHome' })
+      const routerLink = wrapper.findComponent(RouterLinkStub)
 
-      expect(linkHome.text()).toBe('メインメニューへ')
-      expect(linkHome.props().to).toBe('/home')
+      expect(routerLink.props().to).toBe('/home')
+      expect(routerLink.text()).toBe('メインメニューへ')
     })
   })
 
