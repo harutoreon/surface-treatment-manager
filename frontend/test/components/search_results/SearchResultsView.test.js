@@ -68,16 +68,16 @@ describe('SearchResultsNameView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const linkResearch = wrapper.findComponent({ ref: 'linkResearch' })
-      const linkHome = wrapper.findComponent({ ref: 'linkHome' })
+      const div = wrapper.find('div[class="d-flex justify-content-evenly mt-5 mb-5"]')
+      const routerLinks = div.findAllComponents(RouterLinkStub)
 
       // to属性
-      expect(linkResearch.text()).toBe('再検索')
-      expect(linkHome.props().to).toBe('/home')
+      expect(routerLinks[0].text()).toBe('再検索')
+      expect(routerLinks[1].props().to).toBe('/home')
 
       // テキスト
-      expect(linkResearch.props().to).toBe('/static_pages/name')
-      expect(linkHome.text()).toBe('メインメニューへ')
+      expect(routerLinks[0].props().to).toBe('/static_pages/name')
+      expect(routerLinks[1].text()).toBe('メインメニューへ')
     })
   })
     
@@ -138,7 +138,7 @@ describe('SearchResultsNameView', () => {
   })
 
   describe('ルートパラメータがnameの場合', () => {
-    it('再検索リンクのパスにnameが含まれていること', async () => {
+    beforeEach(async () => {
       useRoute.mockReturnValue({
         params: { searchMethod: 'name' },
         query: { keyword: 'めっき' }
@@ -166,13 +166,18 @@ describe('SearchResultsNameView', () => {
       })
 
       await flushPromises()
+    })
 
-      expect(wrapper.findComponent({ ref: 'linkResearch' }).props().to).toBe('/static_pages/name')
+    it('再検索リンクのパスにnameが含まれていること', async () => {
+      const div = wrapper.find('div[class="d-flex justify-content-evenly mt-5 mb-5"]')
+      const routerLink = div.findComponent(RouterLinkStub)
+
+      expect(routerLink.props().to).toBe('/static_pages/name')
     })
   })
 
   describe('ルートパラメータがcategoryの場合', () => {
-    it('再検索リンクのパスにcategoryが含まれていること', async () => {
+    beforeEach(async () => {
       useRoute.mockReturnValue({
         params: { searchMethod: 'category' },
         query: { keyword: 'めっき' }
@@ -200,13 +205,18 @@ describe('SearchResultsNameView', () => {
       })
 
       await flushPromises()
+    })
 
-      expect(wrapper.findComponent({ ref: 'linkResearch' }).props().to).toBe('/static_pages/category')
+    it('再検索リンクのパスにcategoryが含まれていること', async () => {
+      const div = wrapper.find('div[class="d-flex justify-content-evenly mt-5 mb-5"]')
+      const routerLink = div.findComponent(RouterLinkStub)
+
+      expect(routerLink.props().to).toBe('/static_pages/category')
     })
   })
 
   describe('ルートパラメータがmakerの場合', () => {
-    it('再検索リンクのパスにmakerが含まれていること', async () => {
+    beforeEach(async () => {
       useRoute.mockReturnValue({
         params: { searchMethod: 'maker' },
         query: { keyword: '株式会社' }
@@ -234,8 +244,13 @@ describe('SearchResultsNameView', () => {
       })
 
       await flushPromises()
+    })
 
-      expect(wrapper.findComponent({ ref: 'linkResearch' }).props().to).toBe('/static_pages/maker')
+    it('再検索リンクのパスにmakerが含まれていること', async () => {
+      const div = wrapper.find('div[class="d-flex justify-content-evenly mt-5 mb-5"]')
+      const routerLink = div.findComponent(RouterLinkStub)
+
+      expect(routerLink.props().to).toBe('/static_pages/maker')
     })
   })
 })

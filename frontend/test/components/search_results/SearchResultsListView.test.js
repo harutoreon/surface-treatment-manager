@@ -78,10 +78,11 @@ describe('SearchResultsListView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const linkHome = wrapper.findComponent({ ref: 'linkHome' })
+      const div = wrapper.find('div[class="d-flex justify-content-evenly mt-5 mb-5"]')
+      const routerLink = div.findComponent(RouterLinkStub)
 
-      expect(linkHome.text()).toBe('メインメニューへ')
-      expect(linkHome.props().to).toBe('/home')
+      expect(routerLink.props().to).toBe('/home')
+      expect(routerLink.text()).toBe('メインメニューへ')
     })
   })
     
