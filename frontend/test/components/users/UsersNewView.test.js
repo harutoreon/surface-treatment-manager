@@ -74,8 +74,10 @@ describe('UsersNewView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      expect(wrapper.findComponent({ ref: 'linkUsersNew' }).props().to).toBe('/users')
-      expect(wrapper.findComponent({ ref: 'linkUsersNew' }).text()).toBe('ユーザーリスト')
+      const routerLink = wrapper.findComponent(RouterLinkStub)
+
+      expect(routerLink.props().to).toBe('/users')
+      expect(routerLink.text()).toBe('ユーザーリスト')
     })
   })
 
