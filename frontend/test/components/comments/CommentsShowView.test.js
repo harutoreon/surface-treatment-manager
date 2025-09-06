@@ -70,8 +70,7 @@ describe('CommentsShowView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const div = wrapper.find('div[class="d-flex justify-content-evenly"]')
-      const routerLinks = div.findAllComponents(RouterLinkStub)
+      const routerLinks = wrapper.findAllComponents(RouterLinkStub)
 
       // to属性
       expect(routerLinks[0].props().to).toBe('/comments/1/edit')
