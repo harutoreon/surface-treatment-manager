@@ -88,8 +88,10 @@ describe('SamplesNewView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      expect(wrapper.findComponent({ ref: 'linkSamples' }).props().to).toBe('/samples')
-      expect(wrapper.findComponent({ ref: 'linkSamples' }).text()).toBe('表面処理リストへ')
+      const routerLink = wrapper.findComponent(RouterLinkStub)
+
+      expect(routerLink.props().to).toBe('/samples')
+      expect(routerLink.text()).toBe('表面処理リストへ')
     })
   })
 
