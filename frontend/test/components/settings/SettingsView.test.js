@@ -49,10 +49,10 @@ describe('SettingsView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const link = wrapper.findComponent(RouterLinkStub)
+      const routerLink = wrapper.findComponent(RouterLinkStub)
 
-      expect(link.props().to).toBe('/home')
-      expect(link.text()).toBe('メインメニューへ')
+      expect(routerLink.props().to).toBe('/home')
+      expect(routerLink.text()).toBe('メインメニューへ')
     })
   })
 
