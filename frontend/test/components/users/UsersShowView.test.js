@@ -60,16 +60,15 @@ describe('UsersShowView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const linkUsersEdit = wrapper.findComponent({ ref: 'linkUsersEdit' })
-      const linkUsers = wrapper.findComponent({ ref: 'linkUsers' })
+      const routerLinks = wrapper.findAllComponents(RouterLinkStub)
 
       // to属性
-      expect(linkUsersEdit.props().to).toBe('/users/1/edit')
-      expect(linkUsers.props().to).toBe('/users')
+      expect(routerLinks[0].props().to).toBe('/users/1/edit')
+      expect(routerLinks[1].props().to).toBe('/users')
 
       // テキスト
-      expect(linkUsersEdit.text()).toBe('ユーザー情報の編集')
-      expect(linkUsers.text()).toBe('ユーザーリスト')
+      expect(routerLinks[0].text()).toBe('ユーザー情報の編集')
+      expect(routerLinks[1].text()).toBe('ユーザーリスト')
     })
   })
 
