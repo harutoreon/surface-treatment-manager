@@ -68,16 +68,16 @@ describe('SearchResultsNameView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const linkResearch = wrapper.findComponent({ ref: 'linkResearch' })
-      const linkHome = wrapper.findComponent({ ref: 'linkHome' })
+      const div = wrapper.find('div[class="d-flex justify-content-evenly mt-5 mb-5"]')
+      const routerLinks = div.findAllComponents(RouterLinkStub)
 
       // to属性
-      expect(linkResearch.text()).toBe('再検索')
-      expect(linkHome.props().to).toBe('/home')
+      expect(routerLinks[0].text()).toBe('再検索')
+      expect(routerLinks[1].props().to).toBe('/home')
 
       // テキスト
-      expect(linkResearch.props().to).toBe('/static_pages/name')
-      expect(linkHome.text()).toBe('メインメニューへ')
+      expect(routerLinks[0].props().to).toBe('/static_pages/name')
+      expect(routerLinks[1].text()).toBe('メインメニューへ')
     })
   })
     
