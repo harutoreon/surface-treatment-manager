@@ -175,16 +175,16 @@ describe('SamplesIndexView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const linkSamplesNew = wrapper.findComponent({ ref: 'linkSamplesNew' })
-      const linkHome = wrapper.findComponent({ ref: 'linkHome' })
+      const div = wrapper.find('div[class="d-flex justify-content-evenly"]')
+      const routerLinks = div.findAllComponents(RouterLinkStub)
 
       // to属性
-      expect(linkSamplesNew.props().to).toBe('/samples/new')
-      expect(linkHome.props().to).toBe('/home')
+      expect(routerLinks[0].props().to).toBe('/samples/new')
+      expect(routerLinks[1].props().to).toBe('/home')
 
       // テキスト
-      expect(linkSamplesNew.text()).toBe('表面処理情報の登録')
-      expect(linkHome.text()).toBe('メインメニューへ')
+      expect(routerLinks[0].text()).toBe('表面処理情報の登録')
+      expect(routerLinks[1].text()).toBe('メインメニューへ')
     })
   })
     
