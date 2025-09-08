@@ -17,10 +17,9 @@ class SessionsController < ApplicationController
 
   def logged_in?
     if session[:user_id]
-      user = User.find(session[:user_id])
-      render json: { logged_in: true, user: user }, status: :ok
+      render json: { logged_in: true }, status: :ok
     else
-      render json: { logged_in: false }, status: :ok
+      render json: { logged_in: false }, status: :unauthorized
     end
   end
 end
