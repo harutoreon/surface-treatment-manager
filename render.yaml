@@ -1,14 +1,14 @@
-# Exported from Render on 2025-08-08T20:31:03Z
+# Exported from Render on 2025-09-08T10:49:51Z
 databases:
 - name: surface-treatment-manager
-  databaseName: surface_treatment_manager_tzco
-  user: surface_treatment_manager_tzco_user
+  databaseName: surface_treatment_manager_37hj
+  user: surface_treatment_manager_37hj_user
   plan: free
   region: singapore
   ipAllowList:
   - source: 0.0.0.0/0
     description: everywhere
-  postgresMajorVersion: "16"
+  postgresMajorVersion: "17"
 services:
 - type: web
   name: surface-treatment-manager-vue
