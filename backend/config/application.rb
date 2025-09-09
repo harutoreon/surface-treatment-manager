@@ -13,10 +13,10 @@ module SurfaceTreatmentManager
 
     config.api_only = true
 
-    config.session_store :cookie_store,
-      key: '_surface_treatment_manager_session',
-      same_site: :none,
-      secure: Rails.env.production?
+    # config.session_store :cookie_store,
+    #   key: '_surface_treatment_manager_session',
+    #   same_site: :none,
+    #   secure: Rails.env.production?
 
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
