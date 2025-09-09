@@ -8,6 +8,19 @@ const emit = defineEmits(['message'])
 const router = useRouter()
 const categories = ref([])
 
+const checkLoginStatus = async () => {
+  try {
+    await axios.get(`${API_BASE_URL}/logged_in`, {
+      withCredentials: true
+    })
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      emit('message', { type: 'danger', text: 'ログインが必要です。' })
+      router.push('/')
+    }
+  }
+}
+
 function replaceStringWithEllipsis() {
   for (const category of categories.value) {
     if (category.summary.length > 10) {
@@ -30,6 +43,7 @@ const fetchCategoryList = async () => {
 }
 
 onMounted(() => {
+  checkLoginStatus()
   fetchCategoryList()
 })
 </script>

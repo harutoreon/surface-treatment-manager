@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   post   '/login',     to: 'sessions#create'
   delete '/logout',    to: 'sessions#destroy'
-  get    '/logged_in', to: 'sessions#logged_in?'
+  get    '/logged_in', to: 'sessions#logged_in'
 
   get '/name_search',     to: 'searches#name_search'
   get '/category_search', to: 'searches#category_search'
