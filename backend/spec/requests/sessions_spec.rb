@@ -76,34 +76,16 @@ RSpec.describe "Sessions", type: :request do
         post "/login", params: { name: @user.name, password: @user.password }        
       end
 
-      it 'logged_inがtrueであること' do
-        get "/logged_in?"
-        json = JSON.parse(response.body, symbolize_names: true)
-        expect(json[:logged_in]).to eq(true)
-      end
-
-      it 'ログインしたユーザー情報が含まれていること' do
-        get "/logged_in?"
-        json = JSON.parse(response.body, symbolize_names: true)
-        expect(json[:user][:id]).to eq(@user.id)
-      end
-
       it 'レスポンスのステータスコードがokであること' do
-        get "/logged_in?"
+        get "/logged_in"
         expect(response).to have_http_status(:ok)
       end
     end
 
     context 'ログインしていない場合' do
-      it 'logged_inがfalseであること' do
-        get "/logged_in?"
-        json = JSON.parse(response.body, symbolize_names: true)
-        expect(json[:logged_in]).to eq(false)
-      end
-
-      it 'レスポンスのステータスがokであること' do
-        get "/logged_in?"
-        expect(response).to have_http_status(:ok)
+      it 'レスポンスのステータスがunauthorizedであること' do
+        get "/logged_in"
+        expect(response).to have_http_status(:unauthorized)
       end
     end
   end

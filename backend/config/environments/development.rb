@@ -92,4 +92,9 @@ Rails.application.configure do
 
   Rails.application.routes.default_url_options[:host] = 'localhost'
   Rails.application.routes.default_url_options[:port] = 3000
+
+  config.session_store :cookie_store,
+    key: '_surface_treatment_manager_session',
+    same_site: :none,
+    secure: false
 end
