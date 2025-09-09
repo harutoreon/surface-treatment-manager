@@ -106,8 +106,8 @@ Rails.application.configure do
   Rails.application.routes.default_url_options[:host] = 'https://surface-treatment-manager.onrender.com'
   Rails.application.routes.default_url_options[:protocol] = 'https'
 
-  # config.session_store :cookie_store,
-  #   key: '_surface_treatment_manager_session',
-  #   same_site: :none,
-  #   secure: true
+  config.session_store :cookie_store,
+    key: '_surface_treatment_manager_session',
+    same_site: :none,
+    secure: true
 end
