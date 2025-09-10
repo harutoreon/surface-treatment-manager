@@ -23,4 +23,10 @@ Rails.application.routes.draw do
   resources :samples do
     resources :comments
   end
+
+  Rails.application.routes.draw do
+    get "/debug_session", to: ->(env) {
+      [200, { "Content-Type" => "application/json" }, [ Rails.application.config.session_options.to_json ]]
+    }
+  end
 end
