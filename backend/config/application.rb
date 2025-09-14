@@ -12,7 +12,6 @@ module SurfaceTreatmentManager
 
     # Cookie と Session を有効化
     config.middleware.use ActionDispatch::Cookies
-    # config.middleware.use ActionDispatch::Session::CookieStore, key: '_surface_treatment_manager_session', same_site: :none, secure: Rails.env.production?
     config.middleware.use ActionDispatch::Session::CookieStore
 
     # Initialize configuration defaults for originally generated Rails version.
