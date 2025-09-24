@@ -3,10 +3,10 @@ class SessionsController < ApplicationController
     user = User.find_by(name: params[:name])
 
     if user && user.authenticate(params[:password])
-      session[:user_id] = user.id
-      render json: { logged_in: true, user: user }, status: :ok
+      token = JsonWebToken.encode({ user_id: user.id })
+      render json: { token: token }, status: :ok
     else
-      render json: { logged_in: false, error: 'Invalid name or password' }, status: :unprocessable_entity
+      render json: { error: 'invalid credentials' }, status: :unauthorized
     end
   end
 
