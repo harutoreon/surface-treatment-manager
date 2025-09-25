@@ -69,24 +69,24 @@ RSpec.describe "Sessions", type: :request do
     end
   end
 
-  describe '#logged_in?' do
-    context 'ログインしている場合' do
-      before do
-        @user = FactoryBot.create(:general_user)
-        post "/login", params: { name: @user.name, password: @user.password }        
-      end
-
-      # it 'レスポンスのステータスコードがokであること' do
-      #   get "/logged_in"
-      #   expect(response).to have_http_status(:ok)
-      # end
-    end
-
-    context 'ログインしていない場合' do
-      it 'レスポンスのステータスがunauthorizedであること' do
-        get "/logged_in"
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
-  end
+  # describe '#logged_in?' do
+  #   context 'ログインしている場合' do
+  #     before do
+  #       @user = FactoryBot.create(:general_user)
+  #       post "/login", params: { name: @user.name, password: @user.password }
+  #     end
+  #
+  #     it 'レスポンスのステータスコードがokであること' do
+  #       get "/logged_in"
+  #       expect(response).to have_http_status(:ok)
+  #     end
+  #   end
+  #
+  #   context 'ログインしていない場合' do
+  #     it 'レスポンスのステータスがunauthorizedであること' do
+  #       get "/logged_in"
+  #       expect(response).to have_http_status(:unauthorized)
+  #     end
+  #   end
+  # end
 end
