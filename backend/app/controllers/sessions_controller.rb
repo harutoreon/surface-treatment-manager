@@ -10,11 +10,6 @@ class SessionsController < ApplicationController
     end
   end
 
-  def destroy
-    session[:user_id] = nil
-    render json: { logged_in: false }, status: :ok
-  end
-
   def logged_in
     header = request.headers['Authorization']
     token = header.split(' ').last if header
