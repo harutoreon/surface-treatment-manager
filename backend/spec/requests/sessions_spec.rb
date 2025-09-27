@@ -69,24 +69,47 @@ RSpec.describe "Sessions", type: :request do
     end
   end
 
-  # describe '#logged_in?' do
-  #   context 'ログインしている場合' do
-  #     before do
-  #       @user = FactoryBot.create(:general_user)
-  #       post "/login", params: { name: @user.name, password: @user.password }
-  #     end
-  #
-  #     it 'レスポンスのステータスコードがokであること' do
-  #       get "/logged_in"
-  #       expect(response).to have_http_status(:ok)
-  #     end
-  #   end
-  #
-  #   context 'ログインしていない場合' do
-  #     it 'レスポンスのステータスがunauthorizedであること' do
-  #       get "/logged_in"
-  #       expect(response).to have_http_status(:unauthorized)
-  #     end
-  #   end
-  # end
+  describe '#logged_in' do
+    context 'クライアントから有効なトークンが提供された場合' do
+      before do
+        valid_token = JsonWebToken.encode(user_id: 1)
+        @headers = {
+          Authorization: "Bearer #{valid_token}",
+          Accept: 'application/json',
+        }
+      end
+
+      it 'レスポンスのステータスが ok であること' do
+        get '/logged_in', headers: @headers
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'ペイロードが返ること' do
+        get '/logged_in', headers: @headers
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json[:payload]).to eq({ :user_id => 1 })
+      end
+    end
+    
+    context 'クライアントから無効なトークンが提供された場合' do
+      before do
+        invalid_token = 'invalid.token.string'
+        @headers = {
+          Authorization: invalid_token,
+          Accept: 'application/json',
+        }
+      end
+
+      it 'レスポンスのステータスが unauthorized であること' do
+        get '/logged_in', headers: @headers
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'エラーメッセージが返ること' do
+        get '/logged_in', headers: @headers
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json[:errors]).to eq('invalid token')
+      end
+    end
+  end
 end

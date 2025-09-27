@@ -18,11 +18,12 @@ class SessionsController < ApplicationController
   def logged_in
     header = request.headers['Authorization']
     token = header.split(' ').last if header
+    payload = JsonWebToken.decode(token)
 
-    begin
-      JsonWebToken.decode(token)
-    rescue JWT::DecodeError => e
-      render json: { errors: e.message }, status: :unauthorized
+    if payload
+      render json: { payload: payload }, status: :ok
+    else
+      render json: { errors: 'invalid token' }, status: :unauthorized
     end
   end
 end
