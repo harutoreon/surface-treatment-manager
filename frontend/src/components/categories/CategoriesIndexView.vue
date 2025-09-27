@@ -11,7 +11,7 @@ const categories = ref([])
 const checkLoginStatus = async () => {
   try {
     await axios.get(`${API_BASE_URL}/logged_in`, {
-      withCredentials: true
+      // withCredentials: true
     })
   } catch (error) {
     if (error.response && error.response.status === 401) {
