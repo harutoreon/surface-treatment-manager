@@ -16,16 +16,16 @@ RSpec.describe "Sessions", type: :request do
         expect(response).to have_http_status(:ok)
       end
 
-      it 'セッションにgeneral userのidが登録されること' do
-        post "/login", params: @valid_login_params
-        expect(session[:user_id]).to eq(@general_user.id)
-      end
+      # it 'セッションにgeneral userのidが登録されること' do
+      #   post "/login", params: @valid_login_params
+      #   expect(session[:user_id]).to eq(@general_user.id)
+      # end
 
-      it 'ユーザー情報が返ること' do
-        post "/login", params: @valid_login_params
-        json = JSON.parse(response.body, symbolize_names: true)
-        expect(json[:user][:name]).to eq('general user')
-      end
+      # it 'ユーザー情報が返ること' do
+      #   post "/login", params: @valid_login_params
+      #   json = JSON.parse(response.body, symbolize_names: true)
+      #   expect(json[:user][:name]).to eq('general user')
+      # end
     end
 
     context '認証に失敗した場合' do
@@ -35,13 +35,13 @@ RSpec.describe "Sessions", type: :request do
 
       it 'レスポンスのステータスがunprocessable_entityであること' do
         post "/login", params: @invalid_login_params
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unauthorized)
       end
 
       it 'エラーメッセージが返ること' do
         post "/login", params: @invalid_login_params
         json = JSON.parse(response.body, symbolize_names: true)
-        expect(json[:error]).to eq('Invalid name or password')
+        expect(json[:error]).to eq('invalid credentials')
       end
     end
   end
@@ -69,23 +69,46 @@ RSpec.describe "Sessions", type: :request do
     end
   end
 
-  describe '#logged_in?' do
-    context 'ログインしている場合' do
+  describe '#logged_in' do
+    context 'クライアントから有効なトークンが提供された場合' do
       before do
-        @user = FactoryBot.create(:general_user)
-        post "/login", params: { name: @user.name, password: @user.password }        
+        valid_token = JsonWebToken.encode(user_id: 1)
+        @headers = {
+          Authorization: "Bearer #{valid_token}",
+          Accept: 'application/json',
+        }
       end
 
-      it 'レスポンスのステータスコードがokであること' do
-        get "/logged_in"
+      it 'レスポンスのステータスが ok であること' do
+        get '/logged_in', headers: @headers
         expect(response).to have_http_status(:ok)
       end
-    end
 
-    context 'ログインしていない場合' do
-      it 'レスポンスのステータスがunauthorizedであること' do
-        get "/logged_in"
+      it 'ペイロードが返ること' do
+        get '/logged_in', headers: @headers
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json[:payload]).to eq({ :user_id => 1 })
+      end
+    end
+    
+    context 'クライアントから無効なトークンが提供された場合' do
+      before do
+        invalid_token = 'invalid.token.string'
+        @headers = {
+          Authorization: invalid_token,
+          Accept: 'application/json',
+        }
+      end
+
+      it 'レスポンスのステータスが unauthorized であること' do
+        get '/logged_in', headers: @headers
         expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'エラーメッセージが返ること' do
+        get '/logged_in', headers: @headers
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json[:errors]).to eq('invalid token')
       end
     end
   end

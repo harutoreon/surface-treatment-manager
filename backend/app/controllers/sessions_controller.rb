@@ -3,10 +3,10 @@ class SessionsController < ApplicationController
     user = User.find_by(name: params[:name])
 
     if user && user.authenticate(params[:password])
-      session[:user_id] = user.id
-      render json: { logged_in: true, user: user }, status: :ok
+      token = JsonWebToken.encode({ user_id: user.id })
+      render json: { token: token }, status: :ok
     else
-      render json: { logged_in: false, error: 'Invalid name or password' }, status: :unprocessable_entity
+      render json: { error: 'invalid credentials' }, status: :unauthorized
     end
   end
 
@@ -16,10 +16,14 @@ class SessionsController < ApplicationController
   end
 
   def logged_in
-    if session[:user_id]
-      render json: { logged_in: true }, status: :ok
+    header = request.headers['Authorization']
+    token = header.split(' ').last if header
+    payload = JsonWebToken.decode(token)
+
+    if payload
+      render json: { payload: payload }, status: :ok
     else
-      render json: { logged_in: false }, status: :unauthorized
+      render json: { errors: 'invalid token' }, status: :unauthorized
     end
   end
 end

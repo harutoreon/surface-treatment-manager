@@ -15,6 +15,7 @@ gem 'rack-cors'
 gem 'will_paginate'
 gem "image_processing", ">= 1.2"
 gem 'cloudinary'
+gem 'jwt'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
