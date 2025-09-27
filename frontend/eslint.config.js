@@ -27,6 +27,7 @@ export default [
         confirm: 'readonly',
         File: 'readonly',
         Event: 'readonly',
+        localStorage: 'readonly',
       },
     },
     plugins: {
@@ -86,7 +87,6 @@ export default [
       'vue/valid-v-is': 'error',
       'vue/valid-v-memo': 'error',
       'vue/valid-v-model': 'error',
-      'vue/valid-v-on': 'error',
       'vue/valid-v-once': 'error',
       'vue/valid-v-pre': 'error',
       'vue/valid-v-show': 'error',

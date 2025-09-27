@@ -27,7 +27,7 @@ const handleLogin = async () => {
       name: name.value,
       password: password.value
     })
-    emit('login-success', response.data.user)
+    localStorage.setItem('token', response.data.token)
     emit('message', { type: 'success', text: 'ログインしました。' })
     router.push('/home')
   } catch {

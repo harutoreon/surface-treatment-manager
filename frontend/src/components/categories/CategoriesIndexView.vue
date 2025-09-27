@@ -9,9 +9,12 @@ const router = useRouter()
 const categories = ref([])
 
 const checkLoginStatus = async () => {
+  const token = localStorage.getItem('token')
   try {
     await axios.get(`${API_BASE_URL}/logged_in`, {
-      withCredentials: true
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     })
   } catch (error) {
     if (error.response && error.response.status === 401) {
