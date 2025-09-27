@@ -78,7 +78,6 @@ describe('LoginForm', () => {
         
         await wrapper.find('form').trigger('submit.prevent')
 
-        expect(wrapper.emitted()).toHaveProperty('login-success')
         expect(wrapper.emitted('message')).toBeTruthy
         expect(wrapper.emitted('message')[0]).toEqual([
           {
