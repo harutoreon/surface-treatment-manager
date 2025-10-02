@@ -2,27 +2,12 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import { checkLoginStatus } from '../utils.js'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
 const router = useRouter()
 const categories = ref([])
-
-const checkLoginStatus = async () => {
-  const token = localStorage.getItem('token')
-  try {
-    await axios.get(`${API_BASE_URL}/logged_in`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-  } catch (error) {
-    if (error.response && error.response.status === 401) {
-      emit('message', { type: 'danger', text: 'ログインが必要です。' })
-      router.push('/')
-    }
-  }
-}
 
 function replaceStringWithEllipsis() {
   for (const category of categories.value) {
@@ -45,9 +30,12 @@ const fetchCategoryList = async () => {
   }
 }
 
-onMounted(() => {
-  checkLoginStatus()
-  fetchCategoryList()
+onMounted(async () => {
+  await checkLoginStatus(() => {
+    emit('message', { type: 'danger', text: 'ログインが必要です。' })
+    router.push('/')
+  })
+  await fetchCategoryList()
 })
 </script>
 
