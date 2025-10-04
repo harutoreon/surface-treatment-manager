@@ -26,6 +26,62 @@ vi.mock('vue-router', async () => {
 describe('CategoriesEditView', () => {
   let wrapper
 
+  describe('ログインチェックに成功した場合', () => {
+    it('カテゴリー情報の編集ページに移動すること', async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // fetchCategoryData()
+          data: {
+            id: 1,
+            item: 'めっき',
+            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+          }
+        })
+
+      wrapper = mount(CategoriesEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.find('h3').text()).toBe('カテゴリー情報の編集')
+    })
+  })
+
+  describe('ログインチェックに失敗した場合', () => {
+    it('ログインページに移動すること', async () => {
+      axios.get.mockRejectedValue({  // checkLoginStatus()
+        response: {
+          status: 401
+        }
+      })
+
+      wrapper = mount(CategoriesEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'ログインが必要です。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/')
+    })
+  })
+
   describe('初期レンダリングに成功した場合', () => {
     beforeEach(async () => {
       axios.get.mockResolvedValue({

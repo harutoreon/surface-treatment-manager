@@ -1,7 +1,8 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { checkLoginStatus } from '../utils.js'
 
 const emit = defineEmits(['message'])
 const router = useRouter()
@@ -26,6 +27,13 @@ const categoryRegistration = async () => {
     errorMessage.value = '入力に不備があります。'
   }
 }
+
+onMounted(() => {
+  checkLoginStatus(() => {
+    emit('message', { type: 'danger', text: 'ログインが必要です。' })
+    router.push('/')
+  })
+})
 </script>
 
 <template>
