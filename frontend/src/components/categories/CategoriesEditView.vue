@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
+import { checkLoginStatus } from '../utils.js'
 
 const emit = defineEmits(['message'])
 const route = useRoute()
@@ -36,8 +37,12 @@ const categoryUpdate = async () => {
   }
 }
 
-onMounted(() => {
-  fetchCategoryData(route.params.id)
+onMounted(async () => {
+  await checkLoginStatus(() => {
+    emit('message', { type: 'danger', text: 'ログインが必要です。' })
+    router.push('/')
+  })
+  await fetchCategoryData(route.params.id)
 })
 </script>
 
