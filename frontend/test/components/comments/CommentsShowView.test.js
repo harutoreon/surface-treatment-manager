@@ -26,17 +26,81 @@ vi.mock('vue-router', () => {
 describe('CommentsShowView', () => {
   let wrapper
 
-  describe('初期レンダリングに成功した場合', () => {
-    beforeEach(async () => {
-      axios.get.mockResolvedValue({
-        data: {
-          id: 1,
-          commenter: '工藤 琴音',
-          body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
-          sample_id: 16,
-          department: '品質管理部'
+  describe('ログインチェックに成功した場合', () => {
+    it('コメント情報ページに移動すること', async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // fetchCommentData()
+          data: {
+            id: 1,
+            commenter: '工藤 琴音',
+            body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
+            sample_id: 16,
+            department: '品質管理部'
+          }
+        })
+
+      wrapper = mount(CommentsShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
         }
       })
+
+      await flushPromises()
+
+      expect(wrapper.find('h3').text()).toBe('コメント情報')
+    })
+  })
+
+  describe('ログインチェックに失敗した場合', () => {
+    it('ログインページに移動すること', async () => {
+      axios.get.mockRejectedValue({  // checkLoginStatus()
+        response: {
+          status: 401
+        }
+      })
+
+      wrapper = mount(CommentsShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'ログインが必要です。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/')
+    })
+  })
+
+  describe('初期レンダリングに成功した場合', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            commenter: '工藤 琴音',
+            body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
+            sample_id: 16,
+            department: '品質管理部'
+          }
+        })
 
       wrapper = mount(CommentsShowView, {
         global: {
@@ -84,6 +148,11 @@ describe('CommentsShowView', () => {
 
   describe('初期レンダリングに失敗した場合', () => {
     beforeEach(async () => {
+      axios.get.mockResolvedValue({  // checkLoginStatus()
+        response: {
+          status: 200
+        }
+      })
       axios.get.mockRejectedValue({
         response: {
           status: 404
@@ -114,15 +183,21 @@ describe('CommentsShowView', () => {
     beforeEach(async () => {
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
-      axios.get.mockResolvedValue({
-        data: {
-          id: 1,
-          commenter: '工藤 琴音',
-          body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
-          sample_id: 16,
-          department: '品質管理部'
-        }
-      })
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            commenter: '工藤 琴音',
+            body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
+            sample_id: 16,
+            department: '品質管理部'
+          }
+        })
 
       wrapper = mount(CommentsShowView, {
         global: {
@@ -152,6 +227,22 @@ describe('CommentsShowView', () => {
 
       vi.spyOn(window, 'confirm').mockReturnValue(false)
 
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            commenter: '工藤 琴音',
+            body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
+            sample_id: 16,
+            department: '品質管理部'
+          }
+        })
+
       wrapper = mount(CommentsShowView, {
         global: {
           stubs: {
@@ -174,15 +265,21 @@ describe('CommentsShowView', () => {
     beforeEach(async () => {
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
-      axios.get.mockResolvedValue({
-        data: {
-          id: 1,
-          commenter: '工藤 琴音',
-          body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
-          sample_id: 16,
-          department: '品質管理部'
-        }
-      })
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            commenter: '工藤 琴音',
+            body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
+            sample_id: 16,
+            department: '品質管理部'
+          }
+        })
 
       axios.delete.mockRejectedValue({
         response: {
