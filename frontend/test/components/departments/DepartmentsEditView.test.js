@@ -26,14 +26,75 @@ vi.mock('vue-router', () => {
 describe('DepartmentsEditView', () => {
   let wrapper
 
-  describe('初期レンダリングに成功した場合', () => {
-    beforeEach(async () => {
-      axios.get.mockResolvedValue({
-        data: {
-          id: 1,
-          name: '品質管理部'
+  describe('ログインチェックに成功した場合', () => {
+    it('部署情報の編集ページに移動すること', async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // fetchDepartmentData()
+          data: {
+            id: 1,
+            name: '品質管理部'
+          }
+        })
+
+      wrapper = mount(DepartmentsEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
         }
       })
+
+      await flushPromises()
+
+      expect(wrapper.find('h3').text()).toBe('部署情報の編集')
+    })
+  })
+
+  describe('ログインチェックに失敗した場合', () => {
+    it('ログインページに移動すること', async () => {
+      axios.get.mockRejectedValue({  // checkLoginStatus()
+        response: {
+          status: 401
+        }
+      })
+
+      wrapper = mount(DepartmentsEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'ログインが必要です。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/')
+    })
+  })
+
+  describe('初期レンダリングに成功した場合', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            name: '品質管理部'
+          }
+        })
 
       wrapper = mount(DepartmentsEditView, {
         global: {
@@ -80,11 +141,17 @@ describe('DepartmentsEditView', () => {
 
   describe('初期レンダリングに失敗した場合', () => {
     it('404ページに遷移すること', async () => {
-      axios.get.mockRejectedValue({
-        response: {
-          status: 404
-        }
-      })
+      axios.get
+        .mockResolvedValue({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockRejectedValue({
+          response: {
+            status: 404
+          }
+        })
 
       wrapper = mount(DepartmentsEditView, {
         global: {
@@ -106,12 +173,18 @@ describe('DepartmentsEditView', () => {
 
   describe('有効な情報を送信した場合', () => {
     beforeEach(async () => {
-      axios.get.mockResolvedValue({
-        data: {
-          id: 1,
-          name: '品質管理部'
-        }
-      })
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            name: '品質管理部'
+          }
+        })
 
       axios.patch.mockResolvedValue({
         data: {
@@ -145,12 +218,18 @@ describe('DepartmentsEditView', () => {
 
   describe('無効な情報を送信した場合', () => {
     beforeEach(async () => {
-      axios.get.mockResolvedValue({
-        data: {
-          id: 1,
-          name: '品質管理部'
-        }
-      })
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            name: '品質管理部'
+          }
+        })
 
       axios.patch.mockRejectedValue({
         response: {

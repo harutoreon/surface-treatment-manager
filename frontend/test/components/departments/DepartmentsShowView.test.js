@@ -2,8 +2,6 @@ import DepartmentsShowView from '@/components/departments/DepartmentsShowView.vu
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount, flushPromises, RouterLinkStub } from '@vue/test-utils'
 import axios from 'axios'
-// import { a } from 'vitest/dist/chunks/suite.d.FvehnV49'
-// import { RouterLink } from 'vue-router'
 
 const replaceMock = vi.fn()
 const pushMock = vi.fn()
@@ -28,14 +26,75 @@ vi.mock('vue-router', () => {
 describe('DepartmentsShowView', () => {
   let wrapper
 
-  describe('初期レンダリングに成功した場合', () => {
-    beforeEach(async () => {
-      axios.get.mockResolvedValue({
-        data: {
-          id: 1,
-          name: '品質管理部'
+  describe('ログインチェックに成功した場合', () => {
+    it('部署情報ページに移動すること', async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // fetchDepartmentData()
+          data: {
+            id: 1,
+            name: '品質管理部'
+          }
+        })
+
+      wrapper = mount(DepartmentsShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
         }
       })
+
+      await flushPromises()
+
+      expect(wrapper.find('h3').text()).toBe('部署情報')
+    })
+  })
+
+  describe('ログインチェックに失敗した場合', () => {
+    it('ログインページに移動すること', async () => {
+      axios.get.mockRejectedValue({  // checkLoginStatus()
+        response: {
+          status: 401
+        }
+      })
+
+      wrapper = mount(DepartmentsShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'ログインが必要です。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/')
+    })
+  })
+
+  describe('初期レンダリングに成功した場合', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            name: '品質管理部'
+          }
+        })
 
       wrapper = mount(DepartmentsShowView, {
         global: {
@@ -74,11 +133,17 @@ describe('DepartmentsShowView', () => {
 
   describe('初期レンダリングに失敗した場合', () => {
     it('404ページに遷移すること', async () => {
-      axios.get.mockRejectedValue({
-        response: {
-          status: 404
-        }
-      })
+      axios.get
+        .mockResolvedValue({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockRejectedValue({  // fetchDepartmentData()
+          response: {
+            status: 404
+          }
+        })
 
       wrapper = mount(DepartmentsShowView, {
         global: {
@@ -102,12 +167,18 @@ describe('DepartmentsShowView', () => {
     beforeEach(async () => {
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
-      axios.get.mockResolvedValue({
-        data: {
-          id: 1,
-          name: '品質管理部'
-        }
-      })
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            name: '品質管理部'
+          }
+        })
 
       wrapper = mount(DepartmentsShowView, {
         global: {
@@ -135,12 +206,18 @@ describe('DepartmentsShowView', () => {
     beforeEach(async () => {
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
-      axios.get.mockResolvedValue({
-        data: {
-          id: 1,
-          name: '品質管理部'
-        }
-      })
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            name: '品質管理部'
+          }
+        })
 
       axios.delete.mockRejectedValue({
         response: {
