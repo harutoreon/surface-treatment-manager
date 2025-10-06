@@ -4,6 +4,7 @@ import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import axios from 'axios'
 
 const replaceMock = vi.fn()
+const pushMock = vi.fn()
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
@@ -15,7 +16,8 @@ vi.mock('vue-router', () => {
     },
     useRouter: () => {
       return {
-        replace: replaceMock
+        replace: replaceMock,
+        push: pushMock
       }
     }
   }
@@ -24,65 +26,135 @@ vi.mock('vue-router', () => {
 describe('MakersIndexView', () => {
   let wrapper
 
-  describe('初期レンダリングに成功した場合', () => {
-    beforeEach(async () => {
-      axios.get.mockResolvedValue({ 
-        data: { 
-          makers: [
-            {
-              id: 1,
-              name: '有限会社中野銀行',
-              address: '東京都渋谷区神南1-2-0',
-              phone_number: '080-6915-6256',
-              fax_number: '野口水産合同会社'
-            },
-            {
-              id: 2,
-              name: '坂本建設有限会社',
-              address: '東京都渋谷区神南1-2-1',
-              phone_number: '090-5016-7802',
-              fax_number: '合同会社中村通信'
-            },
-            {
-              id: 3,
-              name: '合同会社中村食品',
-              address: '東京都渋谷区神南1-2-2',
-              phone_number: '090-9222-9805',
-              fax_number: '大野ガス合同会社'
-            },
-            {
-              id: 4,
-              name: '合名会社武田印刷',
-              address: '東京都渋谷区神南1-2-3',
-              phone_number: '090-9645-7735',
-              fax_number: '合名会社藤原銀行'
-            },
-            {
-              id: 5,
-              name: '中川食品有限会社',
-              address: '東京都渋谷区神南1-2-4',
-              phone_number: '080-8741-1506',
-              fax_number: '株式会社藤井運輸'
-            },
-            {
-              id: 6,
-              name: '河野電気株式会社',
-              address: '東京都渋谷区神南1-2-5',
-              phone_number: '090-4084-5101',
-              fax_number: '有限会社岡本印刷'
-            },
-            {
-              id: 7,
-              name: '小山食品合同会社',
-              address: '東京都渋谷区神南1-2-6',
-              phone_number: '090-6889-8398',
-              fax_number: '木下建設有限会社'
-            },
-          ],
-          current_page: 1,
-          total_pages: 1
+  describe('ログインチェックに成功した場合', () => {
+    it('メーカーリストページに移動すること', async () => {
+      axios.get
+        .mockResolvedValueOnce({  // watch( ... { immediate })
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // fetchMakerList()
+          response: {
+            status: 200
+          }
+        })
+
+      wrapper = mount(MakersIndexView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
         }
       })
+
+      await flushPromises()
+
+      expect(wrapper.find('h3').text()).toBe('メーカーリスト')
+    })
+  })
+
+  describe('ログインチェックに失敗した場合', () => {
+    it('ログインページに移動すること', async () => {
+      axios.get.mockRejectedValue({  // checkLoginStatus()
+        response: {
+          status: 401
+        }
+      })
+
+      wrapper = mount(MakersIndexView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'ログインが必要です。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/')
+    })
+  })
+
+  describe('初期レンダリングに成功した場合', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({  // watch( ... { immediate })
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // fetchMakerList()
+          data: {
+            makers: [
+              {
+                id: 1,
+                name: '有限会社中野銀行',
+                address: '東京都渋谷区神南1-2-0',
+                phone_number: '080-6915-6256',
+                fax_number: '野口水産合同会社'
+              },
+              {
+                id: 2,
+                name: '坂本建設有限会社',
+                address: '東京都渋谷区神南1-2-1',
+                phone_number: '090-5016-7802',
+                fax_number: '合同会社中村通信'
+              },
+              {
+                id: 3,
+                name: '合同会社中村食品',
+                address: '東京都渋谷区神南1-2-2',
+                phone_number: '090-9222-9805',
+                fax_number: '大野ガス合同会社'
+              },
+              {
+                id: 4,
+                name: '合名会社武田印刷',
+                address: '東京都渋谷区神南1-2-3',
+                phone_number: '090-9645-7735',
+                fax_number: '合名会社藤原銀行'
+              },
+              {
+                id: 5,
+                name: '中川食品有限会社',
+                address: '東京都渋谷区神南1-2-4',
+                phone_number: '080-8741-1506',
+                fax_number: '株式会社藤井運輸'
+              },
+              {
+                id: 6,
+                name: '河野電気株式会社',
+                address: '東京都渋谷区神南1-2-5',
+                phone_number: '090-4084-5101',
+                fax_number: '有限会社岡本印刷'
+              },
+              {
+                id: 7,
+                name: '小山食品合同会社',
+                address: '東京都渋谷区神南1-2-6',
+                phone_number: '090-6889-8398',
+                fax_number: '木下建設有限会社'
+              },
+            ],
+            current_page: 1,
+            total_pages: 1
+          }
+        })
 
       wrapper = mount(MakersIndexView, {
         global: {
@@ -159,11 +231,22 @@ describe('MakersIndexView', () => {
   
   describe('初期レンダリングに失敗した場合', () => {
     it('404ページに遷移すること', async () => {
-      axios.get.mockRejectedValue({
-        response: {
-          status: 404
-        }
-      })
+      axios.get
+        .mockResolvedValueOnce({  // watch( ... { immediate })
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockRejectedValue({  // fetchMakerList()
+          response: {
+            status: 404
+          }
+        })
 
       wrapper = mount(MakersIndexView, {
         global: {

@@ -19,8 +19,62 @@ vi.mock('vue-router', () => {
 describe('MakersNewView', () => {
   let wrapper
 
+  describe('ログインチェックに成功した場合', () => {
+    it('メーカー情報の登録ページに移動すること', async () => {
+      axios.get.mockResolvedValue({  // checkLoginStatus()
+        response: {
+          status: 200
+        }
+      })
+
+      wrapper = mount(MakersNewView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.find('h3').text()).toBe('メーカー情報の登録')
+    })
+  })
+
+  describe('ログインチェックに失敗した場合', () => {
+    it('ログインページに移動すること', async () => {
+      axios.get.mockRejectedValue({  // checkLoginStatus()
+        response: {
+          status: 401
+        }
+      })
+
+      wrapper = mount(MakersNewView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'ログインが必要です。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/')
+    })
+  })
+
   describe('初期レンダリング', () => {
     beforeEach(() => {
+      axios.get.mockResolvedValue({  // checkLoginStatus()
+        response: {
+          status: 200
+        }
+      })
+
       wrapper = mount(MakersNewView, {
         global: {
           stubs: {
@@ -72,6 +126,12 @@ describe('MakersNewView', () => {
   
   describe('有効な情報を送信した場合', () => {
     it('登録に成功すること', async () => {
+      axios.get.mockResolvedValue({  // checkLoginStatus()
+        response: {
+          status: 200
+        }
+      })
+
       axios.post.mockResolvedValue({
         data: {
           id: 1,
@@ -108,6 +168,12 @@ describe('MakersNewView', () => {
 
   describe('無効な情報を送信した場合', () => {
     it('登録に失敗すること', async () => {
+      axios.get.mockResolvedValue({  // checkLoginStatus()
+        response: {
+          status: 200
+        }
+      })
+
       axios.post.mockRejectedValue({
         response: {
           status: 422

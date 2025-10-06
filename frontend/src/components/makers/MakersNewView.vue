@@ -1,7 +1,8 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { checkLoginStatus } from '../utils.js'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
@@ -38,6 +39,13 @@ const makerRegistration = async () => {
     errorMessage.value = '入力に不備があります。'
   }
 }
+
+onMounted(async () => {
+  await checkLoginStatus(() => {
+    emit('message', { type: 'danger', text: 'ログインが必要です。' })
+    router.push('/')
+  })
+})
 </script>
 
 <template>
