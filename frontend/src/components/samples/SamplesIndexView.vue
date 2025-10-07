@@ -2,6 +2,7 @@
 import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
+import { checkLoginStatus } from '../utils.js'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const route = useRoute()
@@ -35,8 +36,12 @@ watch(() => route.query.page, (newPage) => {
   fetchSampleList()
 }, { immediate: true })
 
-onMounted(() => {
-  fetchSampleList()
+onMounted(async () => {
+  await checkLoginStatus(() => {
+    emit('message', { type: 'danger', text: 'ログインが必要です。' })
+    router.push('/')
+  })
+  await fetchSampleList()
 })
 </script>
 
