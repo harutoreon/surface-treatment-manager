@@ -5,6 +5,7 @@ import { useRoute } from 'vue-router'
 import axios from 'axios'
 
 const replaceMock = vi.fn()
+const pushMock = vi.fn()
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
@@ -12,7 +13,8 @@ vi.mock('vue-router', () => {
     useRoute: vi.fn(),
     useRouter: () => {
       return {
-        replace: replaceMock
+        replace: replaceMock,
+        push: pushMock
       }
     }
   }
@@ -21,25 +23,102 @@ vi.mock('vue-router', () => {
 describe('SearchResultsNameView', () => {
   let wrapper
 
+  describe('ログインチェックに成功した場合', () => {
+    it('表面処理の検索結果ページに移動すること', async () => {
+      useRoute.mockReturnValue({
+        params: { searchMethod: 'name' },
+        query: { keyword: 'めっき' }
+      })
+
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            keyword: 'めっき',
+            samples: [
+              { id: 1,
+                name: 'ハードクロムめっき',
+                maker: '谷口情報株式会社',
+                category: 'めっき'
+              },
+            ]
+          }
+        })
+
+      wrapper = mount(SearchResultsView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.find('h3').text()).toBe('表面処理の検索結果')
+    })
+  })
+
+  describe('ログインチェックに失敗した場合', () => {
+    it('ログインページに移動すること', async () => {
+      useRoute.mockReturnValue({
+        params: { searchMethod: 'name' },
+        query: { keyword: 'めっき' }
+      })
+
+      axios.get.mockRejectedValue({  // checkLoginStatus()
+        response: {
+          status: 401
+        }
+      })
+
+      wrapper = mount(SearchResultsView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'ログインが必要です。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/')
+    })
+  })
+
   describe('初期レンダリングでサンプルが存在した場合', () => {  
     beforeEach(async () => {
       useRoute.mockReturnValue({
         params: { searchMethod: 'name' },
         query: { keyword: 'めっき' }
       })
-  
-      axios.get.mockResolvedValue({
-        data: {
-          keyword: 'めっき',
-          samples: [
-            { id: 1,
-              name: 'ハードクロムめっき',
-              maker: '谷口情報株式会社',
-              category: 'めっき'
-            },
-          ]
-        }
-      })
+
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            keyword: 'めっき',
+            samples: [
+              { id: 1,
+                name: 'ハードクロムめっき',
+                maker: '谷口情報株式会社',
+                category: 'めっき'
+              },
+            ]
+          }
+        })
 
       wrapper = mount(SearchResultsView, {
         global: {
@@ -88,12 +167,18 @@ describe('SearchResultsNameView', () => {
         query: { keyword: 'めっき' }
       })
 
-      axios.get.mockRejectedValue({
-        data: {
-          keyword: 'めっき',
-          samples: []
-        }
-      })
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockRejectedValueOnce({
+          data: {
+            keyword: 'めっき',
+            samples: []
+          }
+        })
 
       wrapper = mount(SearchResultsView, {
         global: {
@@ -113,11 +198,22 @@ describe('SearchResultsNameView', () => {
 
   describe('初期レンダリングに失敗した場合', () => {
     it('404ページに遷移すること', async () => {
-      axios.get.mockRejectedValue({
-        response: {
-          status: 404
-        }
+      useRoute.mockReturnValue({
+        params: { searchMethod: 'name' },
+        query: { keyword: 'めっき' }
       })
+
+      axios.get
+        .mockResolvedValue({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockRejectedValue({
+          response: {
+            status: 404
+          }
+        })
 
       wrapper = mount(SearchResultsView, {
         global: {
@@ -144,18 +240,24 @@ describe('SearchResultsNameView', () => {
         query: { keyword: 'めっき' }
       })
 
-      axios.get.mockResolvedValue({
-        data: {
-          keyword: 'めっき',
-          samples: [
-            { id: 1,
-              name: 'ハードクロムめっき',
-              maker: '谷口情報株式会社',
-              category: 'めっき'
-            },
-          ],
-        }
-      })
+      axios.get
+        .mockResolvedValue({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValue({
+          data: {
+            keyword: 'めっき',
+            samples: [
+              { id: 1,
+                name: 'ハードクロムめっき',
+                maker: '谷口情報株式会社',
+                category: 'めっき'
+              },
+            ],
+          }
+        })
 
       wrapper = mount(SearchResultsView, {
         global: {
@@ -183,18 +285,24 @@ describe('SearchResultsNameView', () => {
         query: { keyword: 'めっき' }
       })
 
-      axios.get.mockResolvedValue({
-        data: {
-          keyword: 'めっき',
-          samples: [
-            { id: 1,
-              name: 'ハードクロムめっき',
-              maker: '谷口情報株式会社',
-              category: 'めっき'
-            },
-          ],
-        }
-      })
+      axios.get
+        .mockResolvedValue({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValue({
+          data: {
+            keyword: 'めっき',
+            samples: [
+              { id: 1,
+                name: 'ハードクロムめっき',
+                maker: '谷口情報株式会社',
+                category: 'めっき'
+              },
+            ],
+          }
+        })
 
       wrapper = mount(SearchResultsView, {
         global: {
@@ -222,18 +330,24 @@ describe('SearchResultsNameView', () => {
         query: { keyword: '株式会社' }
       })
 
-      axios.get.mockResolvedValue({
-        data: {
-          keyword: '株式会社',
-          samples: [
-            { id: 1,
-              name: 'ハードクロムめっき',
-              maker: '谷口情報株式会社',
-              category: 'めっき'
-            },
-          ],
-        }
-      })
+      axios.get
+        .mockResolvedValue({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValue({
+          data: {
+            keyword: '株式会社',
+            samples: [
+              { id: 1,
+                name: 'ハードクロムめっき',
+                maker: '谷口情報株式会社',
+                category: 'めっき'
+              },
+            ],
+          }
+        })
 
       wrapper = mount(SearchResultsView, {
         global: {
