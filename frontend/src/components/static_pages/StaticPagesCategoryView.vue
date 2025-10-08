@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { checkLoginStatus } from '../utils.js'
 
 const keyword = ref('')
 const router = useRouter()
@@ -29,8 +30,12 @@ const submitSearch = () => {
   })
 }
 
-onMounted(() => {
-  fetchCategories()
+onMounted(async () => {
+  await checkLoginStatus(() => {
+    emit('message', { type: 'danger', text: 'ログインが必要です。' })
+    router.push('/')
+  })
+  await fetchCategories()
 })
 </script>
 
