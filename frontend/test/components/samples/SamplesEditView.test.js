@@ -26,22 +26,91 @@ vi.mock('vue-router', () => {
 describe('SamplesEditView', () => {
   let wrapper
 
-  describe('初期レンダリングに成功した場合', () => {
-    beforeEach(async () => {
-      axios.get.mockResolvedValue({
-        data: {
-          id: 1,
-          name: '無電解ニッケルめっき',
-          category: 'めっき',
-          color: 'コールド',
-          maker: 'サンプルメーカー',
-          hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
-          film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
-          feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
-          summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
-          image_url: 'http://localhost:3000/rails/active_storage/blobs/redirect//test.jpg'
+  describe('ログインチェックに成功した場合', () => {
+    it('表面処理情報の編集ページに移動すること', async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // fetchSampleData()
+          data: {
+            id: 1,
+            name: '無電解ニッケルめっき',
+            category: 'めっき',
+            color: 'コールド',
+            maker: 'サンプルメーカー',
+            hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+            film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+            feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
+            summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+            image_url: 'http://localhost:3000/rails/active_storage/blobs/redirect//test.jpg'
+          }
+        })
+
+      wrapper = mount(SamplesEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
         }
       })
+
+      await flushPromises()
+
+      expect(wrapper.find('h3').text()).toBe('表面処理情報の編集')
+    })
+  })
+
+  describe('ログインチェックに失敗した場合', () => {
+    it('ログインページに移動すること', async () => {
+      axios.get.mockRejectedValue({  // checkLoginStatus()
+        response: {
+          status: 401
+        }
+      })
+
+      wrapper = mount(SamplesEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'ログインが必要です。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/')
+    })
+  })
+
+  describe('初期レンダリングに成功した場合', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            name: '無電解ニッケルめっき',
+            category: 'めっき',
+            color: 'コールド',
+            maker: 'サンプルメーカー',
+            hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+            film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+            feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
+            summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+            image_url: 'http://localhost:3000/rails/active_storage/blobs/redirect//test.jpg'
+          }
+        })
 
       wrapper = mount(SamplesEditView, {
         global: {
@@ -115,11 +184,17 @@ describe('SamplesEditView', () => {
 
   describe('初期レンダリングに失敗した場合', () => {
     it('404ページに遷移すること', async () => {
-      axios.get.mockRejectedValue({
-        response: {
-          status: 404
-        }
-      })
+      axios.get
+        .mockResolvedValue({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockRejectedValue({
+          response: {
+            status: 404
+          }
+        })
 
       wrapper = mount(SamplesEditView, {
         global: {
@@ -158,7 +233,14 @@ describe('SamplesEditView', () => {
         }
       }
 
-      axios.get.mockResolvedValue(mockResponse)
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValue(mockResponse)
+
       axios.patch.mockResolvedValue(mockResponse)
 
       wrapper = mount(SamplesEditView, {
@@ -194,22 +276,28 @@ describe('SamplesEditView', () => {
   
   describe('無効な情報を送信した場合', () => {
     it('更新に失敗すること', async () => {
-      axios.mockResolvedValue({
-        data: {
-          id: 35,
-          name: '無電解ニッケルめっき',
-          category: 'めっき',
-          color: 'ゴールド',
-          maker: 'サンプルメーカー',
-          created_at: '2025-04-29 16:56:41.915846000 +0000',
-          updated_at: '2025-04-29 16:56:41.931970000 +0000',
-          hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
-          film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
-          feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
-          summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
-          image_url: 'http://localhost:3000/rails/active_storage/blobs/redirect/test.jpg'
-        }
-      })
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 35,
+            name: '無電解ニッケルめっき',
+            category: 'めっき',
+            color: 'ゴールド',
+            maker: 'サンプルメーカー',
+            created_at: '2025-04-29 16:56:41.915846000 +0000',
+            updated_at: '2025-04-29 16:56:41.931970000 +0000',
+            hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+            film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+            feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
+            summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+            image_url: 'http://localhost:3000/rails/active_storage/blobs/redirect/test.jpg'
+          }
+        })
 
       axios.patch.mockRejectedValue({
         response: {

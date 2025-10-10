@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
+import { checkLoginStatus } from '../utils.js'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
@@ -35,8 +36,12 @@ const departmentUpdate = async () => {
   }
 }
 
-onMounted(() => {
-  fetchDepartmentData(route.params.id)
+onMounted(async () => {
+  await checkLoginStatus(() => {
+    emit('message', { type: 'danger', text: 'ログインが必要です。' })
+    router.push('/')
+  })
+  await fetchDepartmentData(route.params.id)
 })
 </script>
 

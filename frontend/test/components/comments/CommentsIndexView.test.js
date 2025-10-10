@@ -4,6 +4,7 @@ import { mount, flushPromises, RouterLinkStub } from '@vue/test-utils'
 import axios from 'axios'
 
 const replaceMock = vi.fn()
+const pushMock = vi.fn()
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
@@ -15,7 +16,8 @@ vi.mock('vue-router', () => {
     },
     useRouter: () => {
       return {
-        replace: replaceMock
+        replace: replaceMock,
+        push: pushMock
       }
     }
   }
@@ -24,56 +26,126 @@ vi.mock('vue-router', () => {
 describe('CommentsIndexView', () => {
   let wrapper
 
-  describe('初期レンダリングに成功した場合', () => {
-    beforeEach(async () => {
-      axios.get.mockResolvedValue({
-        data: {
-          comments: [
-            {
-              id: 1,
-              commenter: '工藤 琴音',
-              body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
-              sample_id: 16,
-              updated_at: '2025-07-29T18:01:08.490Z',
-              department: '品質管理部'
-            },
-            {
-              id: 2,
-              commenter: '岡田 茜',
-              body: '表面の光沢感が上品で、高級感を感じさせます。',
-              sample_id: 9,
-              updated_at: '2025-07-29T18:01:08.491Z',
-              department: '開発部'
-            },
-            {
-              id: 3,
-              commenter: '坂本 陽斗',
-              body: '処理後の色の均一性が高く、ムラがありません。',
-              sample_id: 10,
-              updated_at: '2025-07-29T18:01:08.493Z',
-              department: '製造部'
-            },
-            {
-              id: 4,
-              commenter: '池田 陽子',
-              body: '耐久性が高く、長期間の使用に耐えられる仕上がりです。',
-              sample_id: 1,
-              updated_at: '2025-07-29T18:01:08.495Z',
-              department: '営業部'
-            },
-            {
-              id: 5,
-              commenter: '原 悠人',
-              body: '環境条件に強く、屋外でも変色がほとんどありません。',
-              sample_id: 2,
-              updated_at: '2025-07-29T18:01:08.496Z',
-              department: '人事部'
-            }
-          ],
-          current_page: 1,
-          total_pages: 1
+  describe('ログインチェックに成功した場合', () => {
+    it('コメントリストページに移動すること', async () => {
+      axios.get
+        .mockResolvedValueOnce({  // watch( ... { immediate })
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // fetchCommentList()
+          response: {
+            status: 200
+          }
+        })
+
+      wrapper = mount(CommentsIndexView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
         }
       })
+
+      await flushPromises()
+
+      expect(wrapper.find('h3').text()).toBe('コメントリスト')
+    })
+  })
+
+  describe('ログインチェックに失敗した場合', () => {
+    it('ログインページに移動すること', async () => {
+      axios.get.mockRejectedValue({  // checkLoginStatus()
+        response: {
+          status: 401
+        }
+      })
+
+      wrapper = mount(CommentsIndexView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'ログインが必要です。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/')
+    })
+  })
+
+  describe('初期レンダリングに成功した場合', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({  // watch( ... { immediate })
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            comments: [
+              {
+                id: 1,
+                commenter: '工藤 琴音',
+                body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
+                sample_id: 16,
+                updated_at: '2025-07-29T18:01:08.490Z',
+                department: '品質管理部'
+              },
+              {
+                id: 2,
+                commenter: '岡田 茜',
+                body: '表面の光沢感が上品で、高級感を感じさせます。',
+                sample_id: 9,
+                updated_at: '2025-07-29T18:01:08.491Z',
+                department: '開発部'
+              },
+              {
+                id: 3,
+                commenter: '坂本 陽斗',
+                body: '処理後の色の均一性が高く、ムラがありません。',
+                sample_id: 10,
+                updated_at: '2025-07-29T18:01:08.493Z',
+                department: '製造部'
+              },
+              {
+                id: 4,
+                commenter: '池田 陽子',
+                body: '耐久性が高く、長期間の使用に耐えられる仕上がりです。',
+                sample_id: 1,
+                updated_at: '2025-07-29T18:01:08.495Z',
+                department: '営業部'
+              },
+              {
+                id: 5,
+                commenter: '原 悠人',
+                body: '環境条件に強く、屋外でも変色がほとんどありません。',
+                sample_id: 2,
+                updated_at: '2025-07-29T18:01:08.496Z',
+                department: '人事部'
+              }
+            ],
+            current_page: 1,
+            total_pages: 1
+          }
+        })
 
       wrapper = mount(CommentsIndexView, {
         global: {

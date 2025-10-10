@@ -21,25 +21,89 @@ vi.mock('vue-router', () => {
 describe('CommentsNewView', () => {
   let wrapper
 
-  describe('初期レンダリング', () => {
-    beforeEach(async () => {
-      axios.get.mockResolvedValueOnce({
-        data: [
-          { id: 1, name: '品質管理部' },
-          { id: 2, name: '製造部' },
-          { id: 3, name: '開発部' },
-          { id: 4, name: '営業部' },
-        ]
+  describe('ログインチェックに成功した場合', () => {
+    it('コメント情報の新規登録ページに移動すること', async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // fetchDepartmentData()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // fetchSampleData()
+          response: {
+            status: 200
+          }
+        })
+
+      wrapper = mount(CommentsNewView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
       })
 
-      axios.get.mockResolvedValueOnce({
-        data: [
-          { id: 1, name: '硬質クロムめっき' },
-          { id: 2, name: '無電解ニッケルめっき' },
-          { id: 3, name: '金めっき' },
-          { id: 4, name: '窒化処理' },
-        ]
+      await flushPromises()
+
+      expect(wrapper.find('h3').text()).toBe('コメント情報の新規登録')
+    })
+  })
+
+  describe('ログインチェックに失敗した場合', () => {
+    it('ログインページに移動すること', async () => {
+      axios.get.mockRejectedValue({  // checkLoginStatus()
+        response: {
+          status: 401
+        }
       })
+
+      wrapper = mount(CommentsNewView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'ログインが必要です。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/')
+    })
+  })
+
+  describe('初期レンダリング', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: [
+            { id: 1, name: '品質管理部' },
+            { id: 2, name: '製造部' },
+            { id: 3, name: '開発部' },
+            { id: 4, name: '営業部' },
+          ]
+        })
+        .mockResolvedValueOnce({
+          data: [
+            { id: 1, name: '硬質クロムめっき' },
+            { id: 2, name: '無電解ニッケルめっき' },
+            { id: 3, name: '金めっき' },
+            { id: 4, name: '窒化処理' },
+          ]
+        })
 
       wrapper = mount(CommentsNewView, {
         global: {
@@ -108,11 +172,17 @@ describe('CommentsNewView', () => {
 
   describe('部署リストの取得に失敗した場合', () => {
     beforeEach(async () => {
-      axios.get.mockRejectedValue({
-        response: {
-          status: 404
-        }
-      })
+      axios.get
+        .mockResolvedValue({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockRejectedValue({  // fetchDepartmentData()
+          response: {
+            status: 404
+          }
+        })
 
       wrapper = mount(CommentsNewView, {
         global: {
@@ -136,20 +206,22 @@ describe('CommentsNewView', () => {
 
   describe('表面処理リストの取得に失敗した場合', () => {
     beforeEach(async () => {
-      axios.get.mockResolvedValueOnce({
-        data: [
-          { id: 1, name: '品質管理部' },
-          { id: 2, name: '製造部' },
-          { id: 3, name: '開発部' },
-          { id: 4, name: '営業部' },
-        ]
-      })
-
-      axios.get.mockRejectedValue({
-        response: {
-          status: 404
-        }
-      })
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // fetchDepartmentData()
+          response: {
+            status: 200
+          }
+        })
+        .mockRejectedValue({  // fetchSampleData()
+          response: {
+            status: 404
+          }
+        })
 
       wrapper = mount(CommentsNewView, {
         global: {
@@ -173,23 +245,28 @@ describe('CommentsNewView', () => {
 
   describe('コメント情報の新規登録に成功した場合', () => {
     beforeEach(async () => {
-      axios.get.mockResolvedValueOnce({
-        data: [
-          { id: 1, name: '品質管理部' },
-          { id: 2, name: '製造部' },
-          { id: 3, name: '開発部' },
-          { id: 4, name: '営業部' },
-        ]
-      })
-
-      axios.get.mockResolvedValueOnce({
-        data: [
-          { id: 1, name: '硬質クロムめっき' },
-          { id: 2, name: '無電解ニッケルめっき' },
-          { id: 3, name: '金めっき' },
-          { id: 4, name: '窒化処理' },
-        ]
-      })
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: [
+            { id: 1, name: '品質管理部' },
+            { id: 2, name: '製造部' },
+            { id: 3, name: '開発部' },
+            { id: 4, name: '営業部' },
+          ]
+        })
+        .mockResolvedValueOnce({
+          data: [
+            { id: 1, name: '硬質クロムめっき' },
+            { id: 2, name: '無電解ニッケルめっき' },
+            { id: 3, name: '金めっき' },
+            { id: 4, name: '窒化処理' },
+          ]
+        })
 
       axios.post.mockResolvedValue({
         data: {
@@ -229,23 +306,28 @@ describe('CommentsNewView', () => {
 
   describe('コメント情報の新規登録に失敗した場合', () => {
     beforeEach(async () => {
-      axios.get.mockResolvedValueOnce({
-        data: [
-          { id: 1, name: '品質管理部' },
-          { id: 2, name: '製造部' },
-          { id: 3, name: '開発部' },
-          { id: 4, name: '営業部' },
-        ]
-      })
-
-      axios.get.mockResolvedValueOnce({
-        data: [
-          { id: 1, name: '硬質クロムめっき' },
-          { id: 2, name: '無電解ニッケルめっき' },
-          { id: 3, name: '金めっき' },
-          { id: 4, name: '窒化処理' },
-        ]
-      })
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: [
+            { id: 1, name: '品質管理部' },
+            { id: 2, name: '製造部' },
+            { id: 3, name: '開発部' },
+            { id: 4, name: '営業部' },
+          ]
+        })
+        .mockResolvedValueOnce({
+          data: [
+            { id: 1, name: '硬質クロムめっき' },
+            { id: 2, name: '無電解ニッケルめっき' },
+            { id: 3, name: '金めっき' },
+            { id: 4, name: '窒化処理' },
+          ]
+        })
 
       axios.post.mockRejectedValue({
         response: {

@@ -4,6 +4,7 @@ import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import axios from 'axios'
 
 const replaceMock = vi.fn()
+const pushMock = vi.fn()
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
@@ -15,7 +16,8 @@ vi.mock('vue-router', () => {
     },
     useRouter: () => {
       return {
-        replace: replaceMock
+        replace: replaceMock,
+        push: pushMock
       }
     }
   }
@@ -24,65 +26,135 @@ vi.mock('vue-router', () => {
 describe('SamplesIndexView', () => {
   let wrapper
 
-  describe('初期レンダリングに成功した場合', () => {
-    beforeEach(async () => {
-      axios.get.mockResolvedValue({
-        data: {
-          samples: [
-            {
-              id: 1,
-              name: 'クロムめっき',
-              category: 'めっき',
-              color: 'シルバー',
-              maker: '谷口情報株式会社',
-            },
-            {
-              id: 2,
-              name: '黒クロメート',
-              category: '化成',
-              color: 'ブラック',
-              maker: '和田印刷合名会社',
-            },
-            {
-              id: 3,
-              name: '緑クロメート',
-              category: '化成',
-              color: 'オリーブ',
-              maker: '合資会社岡本ガス',
-            },
-            {
-              id: 4,
-              name: '無電解ニッケルめっき',
-              category: 'めっき',
-              color: 'イエローブラウンシルバー',
-              maker: '合同会社小林通信',
-            },
-            {
-              id: 5,
-              name: '黒色クロムめっき',
-              category: 'めっき',
-              color: 'マットブラック',
-              maker: '合資会社青木ガス',
-            },
-            {
-              id: 6,
-              name: '白金めっき',
-              category: 'めっき',
-              color: 'シルバー',
-              maker: '石井鉱業合資会社',
-            },
-            {
-              id: 7,
-              name: '金めっき',
-              category: 'めっき',
-              color: 'ゴールド',
-              maker: '竹内電気株式会社',
-            }
-          ],
-          current_page: 1,
-          total_pages: 1
+  describe('ログインチェックに成功した場合', () => {
+    it('表面処理リストページに移動すること', async () => {
+      axios.get
+        .mockResolvedValueOnce({  // watch( ... { immediate })
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // fetchSampleList()
+          response: {
+            status: 200
+          }
+        })
+
+      wrapper = mount(SamplesIndexView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
         }
       })
+
+      await flushPromises()
+
+      expect(wrapper.find('h3').text()).toBe('表面処理リスト')
+    })
+  })
+
+  describe('ログインチェックに失敗した場合', () => {
+    it('ログインページに移動すること', async () => {
+      axios.get.mockRejectedValue({  // checkLoginStatus()
+        response: {
+          status: 401
+        }
+      })
+
+      wrapper = mount(SamplesIndexView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'ログインが必要です。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/')
+    })
+  })
+
+  describe('初期レンダリングに成功した場合', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({  // watch( ... { immediate })
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            samples: [
+              {
+                id: 1,
+                name: 'クロムめっき',
+                category: 'めっき',
+                color: 'シルバー',
+                maker: '谷口情報株式会社',
+              },
+              {
+                id: 2,
+                name: '黒クロメート',
+                category: '化成',
+                color: 'ブラック',
+                maker: '和田印刷合名会社',
+              },
+              {
+                id: 3,
+                name: '緑クロメート',
+                category: '化成',
+                color: 'オリーブ',
+                maker: '合資会社岡本ガス',
+              },
+              {
+                id: 4,
+                name: '無電解ニッケルめっき',
+                category: 'めっき',
+                color: 'イエローブラウンシルバー',
+                maker: '合同会社小林通信',
+              },
+              {
+                id: 5,
+                name: '黒色クロムめっき',
+                category: 'めっき',
+                color: 'マットブラック',
+                maker: '合資会社青木ガス',
+              },
+              {
+                id: 6,
+                name: '白金めっき',
+                category: 'めっき',
+                color: 'シルバー',
+                maker: '石井鉱業合資会社',
+              },
+              {
+                id: 7,
+                name: '金めっき',
+                category: 'めっき',
+                color: 'ゴールド',
+                maker: '竹内電気株式会社',
+              }
+            ],
+            current_page: 1,
+            total_pages: 1
+          }
+        })
       
       wrapper = mount(SamplesIndexView, {
         global: {

@@ -26,24 +26,107 @@ vi.mock('vue-router', () => {
 describe('SamplesShowView', () => {
   let wrapper
 
-  describe('初期レンダリングに成功した場合', () => {
-    beforeEach(async () => {
-      axios.get.mockReturnValue({
-        data: {
-          id: 1,
-          name: '無電解ニッケルめっき',
-          category: 'めっき',
-          color: 'イエローブラウンシルバー',
-          maker: '小島印刷合同会社',
-          created_at: '2025-02-23T22:15:29.815Z',
-          updated_at: '2025-02-23T22:15:29.815Z',
-          hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
-          film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
-          feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
-          summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
-          image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
+  describe('ログインチェックに成功した場合', () => {
+    it('表面処理情報ページに移動すること', async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // fetchSampleData()
+          data: {
+            id: 1,
+            name: '無電解ニッケルめっき',
+            category: 'めっき',
+            color: 'イエローブラウンシルバー',
+            maker: '小島印刷合同会社',
+            created_at: '2025-02-23T22:15:29.815Z',
+            updated_at: '2025-02-23T22:15:29.815Z',
+            hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+            film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+            feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
+            summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+            image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
+          }
+        })
+        .mockResolvedValueOnce({  // fetchSampleCommentsData()
+          data: [
+            {
+              id: 1,
+              commenter: '岡本 陽子',
+              body: '表面の質感が滑らかで、触感が良好です。',
+              sample_id: 1,
+              created_at: '2025-02-23T22:15:30.030Z',
+              department: '営業部',
+            }
+          ]
+        })
+
+      wrapper = mount(SamplesShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
         }
       })
+
+      await flushPromises()
+
+      expect(wrapper.find('h3').text()).toBe('表面処理情報')
+    })
+  })
+
+  describe('ログインチェックに失敗した場合', () => {
+    it('ログインページに移動すること', async () => {
+      axios.get.mockRejectedValue({  // checkLoginStatus()
+        response: {
+          status: 401
+        }
+      })
+
+      wrapper = mount(SamplesShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'ログインが必要です。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/')
+    })
+  })
+
+  describe('初期レンダリングに成功した場合', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockReturnValueOnce({
+          data: {
+            id: 1,
+            name: '無電解ニッケルめっき',
+            category: 'めっき',
+            color: 'イエローブラウンシルバー',
+            maker: '小島印刷合同会社',
+            created_at: '2025-02-23T22:15:29.815Z',
+            updated_at: '2025-02-23T22:15:29.815Z',
+            hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+            film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+            feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
+            summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+            image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
+          }
+        })
 
       wrapper = mount(SamplesShowView, {
         global: {
@@ -104,11 +187,17 @@ describe('SamplesShowView', () => {
 
   describe('初期レンダリングに失敗した場合', () => {
     it('404ページに遷移すること', async () => {
-      axios.get.mockRejectedValue({
-        response: {
-          status: 404
-        },
-      })
+      axios.get
+        .mockResolvedValue({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockRejectedValue({
+          response: {
+            status: 404
+          }
+        })
 
       wrapper = mount(SamplesShowView, {
         global: {
@@ -159,6 +248,11 @@ describe('SamplesShowView', () => {
       }
 
       axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
         .mockResolvedValueOnce(mockSampleResponse)
         .mockResolvedValueOnce(mockSampleCommentResponse)
 
@@ -192,6 +286,11 @@ describe('SamplesShowView', () => {
         }
       }
       axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
         .mockRejectedValueOnce(mockSampleResponse)
         .mockRejectedValueOnce(mockSampleCommentResponse)
 
@@ -218,6 +317,11 @@ describe('SamplesShowView', () => {
       vi.spyOn(window, 'confirm').mockReturnValue(true)
       
       axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
         .mockResolvedValueOnce({
           data: {
             id: 1,
@@ -270,6 +374,11 @@ describe('SamplesShowView', () => {
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
       axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
         .mockResolvedValueOnce({
           data: {
             id: 1,

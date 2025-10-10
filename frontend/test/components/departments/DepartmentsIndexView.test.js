@@ -4,13 +4,15 @@ import { mount, flushPromises, RouterLinkStub } from '@vue/test-utils'
 import axios from 'axios'
 
 const replaceMock = vi.fn()
+const pushMock = vi.fn()
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
   return {
     useRouter: () => {
       return {
-        replace: replaceMock
+        replace: replaceMock,
+        push: pushMock
       }
     }
   }
@@ -19,16 +21,76 @@ vi.mock('vue-router', () => {
 describe('DepartmentsIndexView', () => {
   let wrapper
 
+  describe('ログインチェックに成功した場合', () => {
+    it('部署リストページに移動すること', async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // fetchDepartmentList()
+          response: {
+            status: 200
+          }
+        })
+
+      wrapper = mount(DepartmentsIndexView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.find('h3').text()).toBe('部署リスト')
+    })
+  })
+
+  describe('ログインチェックに失敗した場合', () => {
+    it('ログインページに移動すること', async () => {
+      axios.get.mockRejectedValue({  // checkLoginStatus()
+        response: {
+          status: 401
+        }
+      })
+
+      wrapper = mount(DepartmentsIndexView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'ログインが必要です。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/')
+    })
+  })
+
   describe('初期レンダリングに成功した場合', () => {
     beforeEach(async () => {
-      axios.get.mockResolvedValue({
-        data: [
-          { id: 1, name: '品質管理部' },
-          { id: 2, name: '製造部' },
-          { id: 3, name: '開発部' },
-          { id: 4, name: '営業部' }
-        ]
-      })
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: [
+            { id: 1, name: '品質管理部' },
+            { id: 2, name: '製造部' },
+            { id: 3, name: '開発部' },
+            { id: 4, name: '営業部' }
+          ]
+        })
 
       wrapper = mount(DepartmentsIndexView, {
         global: {
@@ -77,11 +139,17 @@ describe('DepartmentsIndexView', () => {
 
   describe('初期レンダリングに失敗した場合', () => {
     beforeEach(async () => {
-      axios.get.mockRejectedValue({
-        response: {
-          status: 404
-        }
-      })
+      axios.get
+        .mockResolvedValue({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockRejectedValue({
+          response: {
+            status: 404
+          }
+        })
 
       wrapper = mount(DepartmentsIndexView, {
         global: {

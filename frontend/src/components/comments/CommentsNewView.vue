@@ -2,12 +2,13 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import { checkLoginStatus } from '../utils.js'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
 const router = useRouter()
 const departmentOptions = ref('')
-const sampleOptions = ref('')
+const sampleOptions = ref([])
 const commenter = ref('')
 const department = ref('')
 const body = ref('')
@@ -64,9 +65,13 @@ const commentRegistration = async () => {
   }
 }
 
-onMounted(() => {
-  fetchDepartmentData()
-  fetchSampleData()
+onMounted(async () => {
+  await checkLoginStatus(() => {
+    emit('message', { type: 'danger', text: 'ログインが必要です。' })
+    router.push('/')
+  })
+  await fetchDepartmentData()
+  await fetchSampleData()
 })
 </script>
 

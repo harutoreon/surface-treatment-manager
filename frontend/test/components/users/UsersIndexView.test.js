@@ -3,7 +3,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import axios from 'axios'
 
-const replacdMock = vi.fn()
+const replacMock = vi.fn()
+const pushMock = vi.fn()
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
@@ -15,7 +16,8 @@ vi.mock('vue-router', () => {
     },
     useRouter: () => {
       return {
-        replace: replacdMock
+        replace: replacMock,
+        push: pushMock
       }
     }
   }
@@ -24,26 +26,96 @@ vi.mock('vue-router', () => {
 describe('UsersIndexView', () => {
   let wrapper
 
-  describe('初期レンダリングに成功した場合', () => {
-    beforeEach(async () => {
-      axios.get.mockResolvedValue({
-        data: {
-          users: [
-            { id: 1, name: '佐藤 海翔', department: '品質管理部' },
-            { id: 1, name: '高橋 陽菜', department: '製造部' },
-            { id: 1, name: '中村 蒼真', department: '品質管理部' },
-            { id: 1, name: '伊藤 美月', department: '製造部' },
-            { id: 1, name: '山口 大和', department: '営業部' },
-            { id: 1, name: '田中 結衣', department: '開発部' },
-            { id: 1, name: '渡辺 陸斗', department: '品質管理部' },
-            { id: 1, name: '小林 桜子', department: '製造部' },
-            { id: 1, name: '加藤 拓真', department: '開発部' },
-            { id: 1, name: '山本 柚希', department: '営業部' }
-          ],
-          current_page: 1,
-          total_pages: 1
+  describe('ログインチェックに成功した場合', () => {
+    it('ユーザーページに移動すること', async () => {
+      axios.get
+        .mockResolvedValueOnce({  // watch( ... { immediate })
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // fetchUserList()
+          response: {
+            status: 200
+          }
+        })
+
+      wrapper = mount(UsersIndexView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
         }
       })
+
+      await flushPromises()
+
+      expect(wrapper.find('h3').text()).toBe('ユーザーリスト')
+    })
+  })
+
+  describe('ログインチェックに失敗した場合', () => {
+    it('ログインページに移動すること', async () => {
+      axios.get.mockRejectedValue({  // checkLoginStatus()
+        response: {
+          status: 401
+        }
+      })
+
+      wrapper = mount(UsersIndexView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'ログインが必要です。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/')
+    })
+  })
+
+  describe('初期レンダリングに成功した場合', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({  // watch( ... { immediate })
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            users: [
+              { id: 1, name: '佐藤 海翔', department: '品質管理部' },
+              { id: 1, name: '高橋 陽菜', department: '製造部' },
+              { id: 1, name: '中村 蒼真', department: '品質管理部' },
+              { id: 1, name: '伊藤 美月', department: '製造部' },
+              { id: 1, name: '山口 大和', department: '営業部' },
+              { id: 1, name: '田中 結衣', department: '開発部' },
+              { id: 1, name: '渡辺 陸斗', department: '品質管理部' },
+              { id: 1, name: '小林 桜子', department: '製造部' },
+              { id: 1, name: '加藤 拓真', department: '開発部' },
+              { id: 1, name: '山本 柚希', department: '営業部' }
+            ],
+            current_page: 1,
+            total_pages: 1
+          }
+        })
 
       wrapper = mount(UsersIndexView, {
         global: {
@@ -102,11 +174,22 @@ describe('UsersIndexView', () => {
 
   describe('初期レンダリングに失敗した場合', () => {
     it('404ページに遷移すること', async () => {
-      axios.get.mockRejectedValue({
-        response: {
-          status: 404
-        }
-      })
+      axios.get
+        .mockResolvedValueOnce({  // watch( ... { immediate })
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockRejectedValue({
+          response: {
+            status: 404
+          }
+        })
 
       wrapper = mount(UsersIndexView, {
         global: {
@@ -122,7 +205,7 @@ describe('UsersIndexView', () => {
       expect(wrapper.emitted().message[0]).toEqual([
         { type: 'danger', text: 'ユーザーリストの取得に失敗しました。' }
       ])
-      expect(replacdMock).toHaveBeenCalledWith({ name: 'NotFound' })
+      expect(replacMock).toHaveBeenCalledWith({ name: 'NotFound' })
     })
   })
 })

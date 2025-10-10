@@ -26,15 +26,77 @@ vi.mock('vue-router', () => {
 describe('CategoriesShowView', () => {
   let wrapper
 
-  describe('初期レンダリングに成功した場合', () => {
-    beforeEach(async () => {
-      axios.get.mockResolvedValue({
-        data: {
-          id: 1,
-          item: 'めっき',
-          summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+  describe('ログインチェックに成功した場合', () => {
+    it('カテゴリー情報ページに移動すること', async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            item: 'めっき',
+            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+          }
+        })
+
+      wrapper = mount(CategoriesShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
         }
       })
+
+      await flushPromises()
+
+      expect(wrapper.find('h3').text()).toBe('カテゴリー情報')
+    })
+  })
+
+  describe('ログインチェックに失敗した場合', () => {
+    it('ログインページに移動すること', async () => {
+      axios.get.mockRejectedValue({  // checkLoginStatus()
+        response: {
+          status: 401
+        }
+      })
+
+      wrapper = mount(CategoriesShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'ログインが必要です。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/')
+    })
+  })
+
+  describe('初期レンダリングに成功した場合', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            item: 'めっき',
+            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+          }
+        })
 
       wrapper = mount(CategoriesShowView, {
         global: {
@@ -78,11 +140,17 @@ describe('CategoriesShowView', () => {
 
   describe('初期レンダリングに失敗した場合', () => {
     it('404ページに遷移すること', async () => {
-      axios.get.mockRejectedValue({
-        response: {
-          status: 404
-        }
-      })
+      axios.get
+        .mockResolvedValue({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockRejectedValue({
+          response: {
+            status: 404
+          }
+        })
 
       wrapper = mount(CategoriesShowView, {
         global: {
@@ -106,13 +174,19 @@ describe('CategoriesShowView', () => {
     it('カテゴリーリストページに遷移すること', async () => {
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
-      axios.get.mockResolvedValue({
-        data: {
-          id: 1,
-          item: 'めっき',
-          summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
-        }
-      })
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            item: 'めっき',
+            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+          }
+        })
 
       wrapper = mount(CategoriesShowView, {
         global: {
@@ -138,13 +212,19 @@ describe('CategoriesShowView', () => {
     it('404ページに遷移すること', async () => {
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
-      axios.get.mockResolvedValue({
-        data: {
-          id: 1,
-          item: 'めっき',
-          summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
-        }
-      })
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            item: 'めっき',
+            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+          }
+        })
 
       axios.delete.mockRejectedValue({
         response: {

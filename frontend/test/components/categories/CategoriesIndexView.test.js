@@ -4,13 +4,15 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import axios from 'axios'
 
 const replaceMock = vi.fn()
+const pushMock = vi.fn()
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
   return {
     useRouter: () => {
       return {
-        replace: replaceMock
+        replace: replaceMock,
+        push: pushMock
       }
     }
   }
@@ -19,37 +21,101 @@ vi.mock('vue-router', () => {
 describe('CategoriesIndexView', () => {
   let wrapper
 
+  describe('ログインチェックに成功した場合', () => {
+    it('カテゴリーリストページに移動すること', async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: [
+            {
+              id: 1,
+              item: 'めっき',
+              summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+            },
+          ]
+        })
+
+      wrapper = mount(CategoriesIndexView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.find('h3').text()).toBe('カテゴリーリスト')
+    })
+  })
+
+  describe('ログインチェックに失敗した場合', () => {
+    it('ログインページに移動すること', async () => {
+      axios.get.mockRejectedValue({  // checkLoginStatus()
+        response: {
+          status: 401
+        }
+      })
+
+      wrapper = mount(CategoriesIndexView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'ログインが必要です。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/')
+    })
+  })
+
   describe('初期レンダリングに成功した場合', () => {
     beforeEach(async () => {
-      axios.get.mockResolvedValue({
-        data: [
-          {
-            id: 1,
-            item: 'めっき',
-            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
-          },
-          {
-            id: 2,
-            item: '陽極酸化',
-            summary: '人工的にアルミニウム表面に分厚い酸化アルミニウム被膜を作る処理のこと。'
-          },
-          {
-            id: 3,
-            item: '化成',
-            summary: '金属の表面に処理剤を作用させて化学反応を起こさせる処理のこと。'
-          },
-          {
-            id: 4,
-            item: 'コーティング',
-            summary: '溶射金属やセラミックスの粉末を、溶解状態にして製品表面に吹き付ける処理のこと。'
-          },
-          {
-            id: 5,
-            item: '表面硬化',
-            summary: '主に金属材料に対して行われる、加熱・冷却・雰囲気により材料の性質を変化させる処理のこと。'
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
           }
-        ]
-      })
+        })
+        .mockResolvedValueOnce({
+          data: [
+            {
+              id: 1,
+              item: 'めっき',
+              summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+            },
+            {
+              id: 2,
+              item: '陽極酸化',
+              summary: '人工的にアルミニウム表面に分厚い酸化アルミニウム被膜を作る処理のこと。'
+            },
+            {
+              id: 3,
+              item: '化成',
+              summary: '金属の表面に処理剤を作用させて化学反応を起こさせる処理のこと。'
+            },
+            {
+              id: 4,
+              item: 'コーティング',
+              summary: '溶射金属やセラミックスの粉末を、溶解状態にして製品表面に吹き付ける処理のこと。'
+            },
+            {
+              id: 5,
+              item: '表面硬化',
+              summary: '主に金属材料に対して行われる、加熱・冷却・雰囲気により材料の性質を変化させる処理のこと。'
+            }
+          ]
+        })
 
       wrapper = mount(CategoriesIndexView, {
         global: {
@@ -98,11 +164,17 @@ describe('CategoriesIndexView', () => {
 
   describe('初期レンダリングに失敗した場合', () => {
     it('404ページに遷移すること', async () => {
-      axios.get.mockRejectedValue({
-        response: {
-          status: 404
-        }
-      })
+      axios.get
+        .mockResolvedValue({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockRejectedValue({
+          response: {
+            status: 404
+          }
+        })
 
       wrapper = mount(CategoriesIndexView, {
         global: {

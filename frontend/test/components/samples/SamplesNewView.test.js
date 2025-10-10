@@ -19,16 +19,40 @@ vi.mock('vue-router', () => {
 describe('SamplesNewView', () => { 
   let wrapper
 
-  describe('初期レンダリング', () => {
-    beforeEach(() => {
-      axios.get.mockResolvedValue({
-        data: [
-          { id: 1, item: 'めっき' },
-          { id: 2, item: '陽極酸化' },
-          { id: 3, item: '化成' },
-          { id: 4, item: 'コーティング' },
-          { id: 5, item: '表面硬化' },
-        ]
+  describe('ログインチェックに成功した場合', () => {
+    it('表面処理情報の登録ページに移動すること', async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          response: {
+            status: 200
+          }
+        })
+
+      wrapper = mount(SamplesNewView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      expect(wrapper.find('h3').text()).toBe('表面処理情報の登録')
+    })
+  })
+
+  describe('ログインチェックに失敗した場合', () => {
+    it('ログインページに移動すること', async () => {
+      axios.get.mockRejectedValue({  // checkLoginStatus()
+        response: {
+          status: 401
+        }
       })
 
       wrapper = mount(SamplesNewView, {
@@ -38,6 +62,44 @@ describe('SamplesNewView', () => {
           }
         }
       })
+
+      await flushPromises()
+
+      expect(wrapper.emitted()).toHaveProperty('message')
+      expect(wrapper.emitted().message[0]).toEqual([
+        { type: 'danger', text: 'ログインが必要です。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/')
+    })
+  })
+
+  describe('初期レンダリング', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: [
+            { id: 1, item: 'めっき' },
+            { id: 2, item: '陽極酸化' },
+            { id: 3, item: '化成' },
+            { id: 4, item: 'コーティング' },
+            { id: 5, item: '表面硬化' },
+          ]
+        })
+
+      wrapper = mount(SamplesNewView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
     })
 
     it('見出しが表示されること', () => {
@@ -97,6 +159,22 @@ describe('SamplesNewView', () => {
 
   describe('有効な情報を送信すると', () => {
     it('登録に成功すること', async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: [
+            { id: 1, item: 'めっき' },
+            { id: 2, item: '陽極酸化' },
+            { id: 3, item: '化成' },
+            { id: 4, item: 'コーティング' },
+            { id: 5, item: '表面硬化' },
+          ]
+        })
+
       axios.post.mockResolvedValue({
         data: {
           id: 1,
@@ -144,6 +222,22 @@ describe('SamplesNewView', () => {
 
   describe('無効な情報で送信すると', () => {
     it('登録に失敗すること', async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: [
+            { id: 1, item: 'めっき' },
+            { id: 2, item: '陽極酸化' },
+            { id: 3, item: '化成' },
+            { id: 4, item: 'コーティング' },
+            { id: 5, item: '表面硬化' },
+          ]
+        })
+
       axios.post.mockRejectedValue({
         response: {
           status: 422
@@ -177,6 +271,22 @@ describe('SamplesNewView', () => {
 
   describe('画像添付', () => {
     beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({  // checkLoginStatus()
+          response: {
+            status: 200
+          }
+        })
+        .mockResolvedValueOnce({
+          data: [
+            { id: 1, item: 'めっき' },
+            { id: 2, item: '陽極酸化' },
+            { id: 3, item: '化成' },
+            { id: 4, item: 'コーティング' },
+            { id: 5, item: '表面硬化' },
+          ]
+        })
+
       wrapper = mount(SamplesNewView, {
         global: {
           stubs: {
