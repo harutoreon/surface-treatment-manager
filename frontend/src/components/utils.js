@@ -10,9 +10,11 @@ export const checkLoginStatus = async (onUnauthorized) => {
         Authorization: `Bearer ${token}`
       }
     })
+    return true
   } catch (error) {
     if (error.response && error.response.status === 401) {
       if (onUnauthorized) onUnauthorized()
+      return false
     }
   }
 }
