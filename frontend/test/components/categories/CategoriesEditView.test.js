@@ -29,12 +29,10 @@ describe('CategoriesEditView', () => {
   describe('ログインチェックに成功した場合', () => {
     it('カテゴリー情報の編集ページに移動すること', async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockResolvedValueOnce({  // fetchCategoryData()
+        .mockResolvedValueOnce({
           data: {
             id: 1,
             item: 'めっき',
@@ -58,7 +56,7 @@ describe('CategoriesEditView', () => {
 
   describe('ログインチェックに失敗した場合', () => {
     it('ログインページに移動すること', async () => {
-      axios.get.mockRejectedValue({  // checkLoginStatus()
+      axios.get.mockRejectedValue({
         response: {
           status: 401
         }
@@ -79,18 +77,25 @@ describe('CategoriesEditView', () => {
         { type: 'danger', text: 'ログインが必要です。' }
       ])
       expect(pushMock).toHaveBeenCalledWith('/')
+
+      const userId = 1
+      expect(pushMock).not.toHaveBeenCalledWith(`categories/${userId}`)
     })
   })
 
   describe('初期レンダリングに成功した場合', () => {
     beforeEach(async () => {
-      axios.get.mockResolvedValue({
-        data: {
-          id: 1,
-          item: 'めっき',
-          summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
-        }
-      })
+      axios.get
+        .mockResolvedValueOnce({
+          status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            item: 'めっき',
+            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+          }
+        })
 
       wrapper = mount(CategoriesEditView, {
         global: {
@@ -142,11 +147,15 @@ describe('CategoriesEditView', () => {
 
   describe('初期レンダリングに失敗した場合', () => {
     it('404ページに遷移すること', async () => {
-      axios.get.mockRejectedValue({
-        response: {
-          status: 404
-        }
-      })
+      axios.get
+        .mockResolvedValueOnce({
+          status: 200
+        })
+        .mockRejectedValueOnce({
+          response: {
+            status: 404
+          }
+        })
 
       wrapper = mount(CategoriesEditView, {
         global: {
@@ -168,13 +177,17 @@ describe('CategoriesEditView', () => {
 
   describe('有効な情報を送信した場合', () => {
     it('更新が成功すること', async () => {
-      axios.get.mockResolvedValue({
-        data: {
-          id: 1,
-          item: 'めっき',
-          summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
-        }
-      })
+      axios.get
+        .mockResolvedValueOnce({
+          status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            item: 'めっき',
+            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+          }
+        })
 
       axios.patch.mockResolvedValue({
         data: {
@@ -215,13 +228,17 @@ describe('CategoriesEditView', () => {
 
   describe('無効な情報を送信した場合', () => {
     it('更新が失敗すること', async () => {
-      axios.get.mockResolvedValue({
-        data: {
-          id: 1,
-          item: 'めっき',
-          summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
-        }
-      })
+      axios.get
+        .mockResolvedValueOnce({
+          status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            item: 'めっき',
+            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+          }
+        })
 
       axios.patch.mockRejectedValue({
         response: {

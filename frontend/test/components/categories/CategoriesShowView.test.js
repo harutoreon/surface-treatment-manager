@@ -29,10 +29,8 @@ describe('CategoriesShowView', () => {
   describe('ログインチェックに成功した場合', () => {
     it('カテゴリー情報ページに移動すること', async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: {
@@ -58,7 +56,7 @@ describe('CategoriesShowView', () => {
 
   describe('ログインチェックに失敗した場合', () => {
     it('ログインページに移動すること', async () => {
-      axios.get.mockRejectedValue({  // checkLoginStatus()
+      axios.get.mockRejectedValue({
         response: {
           status: 401
         }
@@ -79,16 +77,17 @@ describe('CategoriesShowView', () => {
         { type: 'danger', text: 'ログインが必要です。' }
       ])
       expect(pushMock).toHaveBeenCalledWith('/')
+
+      const userId = 1
+      expect(pushMock).not.toHaveBeenCalledWith(`categories/${userId}`)
     })
   })
 
   describe('初期レンダリングに成功した場合', () => {
     beforeEach(async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: {
@@ -141,12 +140,10 @@ describe('CategoriesShowView', () => {
   describe('初期レンダリングに失敗した場合', () => {
     it('404ページに遷移すること', async () => {
       axios.get
-        .mockResolvedValue({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockRejectedValue({
+        .mockRejectedValueOnce({
           response: {
             status: 404
           }
@@ -175,10 +172,8 @@ describe('CategoriesShowView', () => {
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: {
@@ -213,10 +208,8 @@ describe('CategoriesShowView', () => {
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: {

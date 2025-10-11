@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
-import { checkLoginStatus } from '../utils.js'
+import { checkLoginStatus } from '@/components/utils.js'
 
 const emit = defineEmits(['message'])
 const router = useRouter()
