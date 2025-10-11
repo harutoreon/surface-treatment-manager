@@ -29,12 +29,10 @@ describe('CommentsShowView', () => {
   describe('ログインチェックに成功した場合', () => {
     it('コメント情報ページに移動すること', async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockResolvedValueOnce({  // fetchCommentData()
+        .mockResolvedValueOnce({
           data: {
             id: 1,
             commenter: '工藤 琴音',
@@ -60,7 +58,7 @@ describe('CommentsShowView', () => {
 
   describe('ログインチェックに失敗した場合', () => {
     it('ログインページに移動すること', async () => {
-      axios.get.mockRejectedValue({  // checkLoginStatus()
+      axios.get.mockRejectedValue({
         response: {
           status: 401
         }
@@ -81,16 +79,17 @@ describe('CommentsShowView', () => {
         { type: 'danger', text: 'ログインが必要です。' }
       ])
       expect(pushMock).toHaveBeenCalledWith('/')
+
+      const userId = 1
+      expect(pushMock).not.toHaveBeenCalledWith(`/comments/${userId}`)
     })
   })
 
   describe('初期レンダリングに成功した場合', () => {
     beforeEach(async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: {
@@ -148,16 +147,15 @@ describe('CommentsShowView', () => {
 
   describe('初期レンダリングに失敗した場合', () => {
     beforeEach(async () => {
-      axios.get.mockResolvedValue({  // checkLoginStatus()
-        response: {
+      axios.get
+        .mockResolvedValueOnce({
           status: 200
-        }
-      })
-      axios.get.mockRejectedValue({
-        response: {
-          status: 404
-        }
-      })
+        })
+        .mockRejectedValueOnce({
+          response: {
+            status: 404
+          }
+        })
 
       wrapper = mount(CommentsShowView, {
         global: {
@@ -184,10 +182,8 @@ describe('CommentsShowView', () => {
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: {
@@ -228,10 +224,8 @@ describe('CommentsShowView', () => {
       vi.spyOn(window, 'confirm').mockReturnValue(false)
 
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: {
@@ -266,10 +260,8 @@ describe('CommentsShowView', () => {
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: {

@@ -79,7 +79,7 @@ describe('CategoriesEditView', () => {
       expect(pushMock).toHaveBeenCalledWith('/')
 
       const userId = 1
-      expect(pushMock).not.toHaveBeenCalledWith(`categories/${userId}`)
+      expect(pushMock).not.toHaveBeenCalledWith(`/categories/${userId}`)
     })
   })
 
