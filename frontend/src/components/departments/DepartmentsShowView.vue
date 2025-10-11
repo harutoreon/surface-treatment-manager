@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
-import { checkLoginStatus } from '../utils.js'
+import { checkLoginStatus } from '@/components/utils.js'
 
 const emit = defineEmits(['message'])
 const department = ref('')
@@ -40,10 +40,11 @@ const handleDelete = async () => {
 }
 
 onMounted(async () => {
-  await checkLoginStatus(() => {
+  const loggedIn = await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
   })
+  if (!loggedIn) return
   await fetchDepartmentData(route.params.id)
 })
 </script>

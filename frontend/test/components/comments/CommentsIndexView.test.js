@@ -33,9 +33,7 @@ describe('CommentsIndexView', () => {
           status: 200
         })
         .mockResolvedValueOnce({
-          response: {
-            status: 200
-          }
+          status: 200
         })
 
       wrapper = mount(CommentsIndexView, {
