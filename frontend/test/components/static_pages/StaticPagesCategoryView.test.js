@@ -24,15 +24,11 @@ describe('StaticPagesCategory', () => {
   describe('ログインチェックに成功した場合', () => {
     it('カテゴリーで検索ページに移動すること', async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockResolvedValueOnce({  // fetchCategories()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
 
       wrapper = mount(StaticPagesCategoryView, {
@@ -51,7 +47,7 @@ describe('StaticPagesCategory', () => {
 
   describe('ログインチェックに失敗した場合', () => {
     it('ログインページに移動すること', async () => {
-      axios.get.mockRejectedValue({  // checkLoginStatus()
+      axios.get.mockRejectedValue({
         response: {
           status: 401
         }
@@ -72,18 +68,17 @@ describe('StaticPagesCategory', () => {
         { type: 'danger', text: 'ログインが必要です。' }
       ])
       expect(pushMock).toHaveBeenCalledWith('/')
+      expect(pushMock).not.toHaveBeenCalledWith('/categories')
     })
   })
 
   describe('初期レンダリングに成功した場合', () => {
     beforeEach(async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockResolvedValue({
+        .mockResolvedValueOnce({
           data: [
             { id: 1, item: 'めっき' },
             { id: 2, item: '陽極酸化' },
@@ -135,12 +130,10 @@ describe('StaticPagesCategory', () => {
   describe('初期レンダリングに失敗した場合', () => {
     it('404ページに遷移すること', async () => {
       axios.get
-        .mockResolvedValue({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockRejectedValue({
+        .mockRejectedValueOnce({
           response: {
             status: 404
           }
@@ -167,10 +160,8 @@ describe('StaticPagesCategory', () => {
   describe('カテゴリーを選択して送信した場合', () => {
     it('/static_pages/categoryのパスが呼び出されること', async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: [
