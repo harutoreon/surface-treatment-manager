@@ -99,9 +99,9 @@ describe('SamplesShowView', () => {
       ])
       expect(pushMock).toHaveBeenCalledWith('/')
 
-      const userId = 1
-      expect(pushMock).not.toHaveBeenCalledWith(`/samples/${userId}`)
-      expect(pushMock).not.toHaveBeenCalledWith(`/samples/${userId}/comments`)
+      const id = 1
+      expect(pushMock).not.toHaveBeenCalledWith(`/samples/${id}`)
+      expect(pushMock).not.toHaveBeenCalledWith(`/samples/${id}/comments`)
     })
   })
 

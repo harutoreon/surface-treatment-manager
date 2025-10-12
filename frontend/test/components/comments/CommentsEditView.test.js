@@ -80,8 +80,8 @@ describe('CommentsEditView', () => {
       ])
       expect(pushMock).toHaveBeenCalledWith('/')
 
-      const userId = 1
-      expect(pushMock).not.toHaveBeenCalledWith(`/comments/${userId}`)
+      const id = 1
+      expect(pushMock).not.toHaveBeenCalledWith(`/comments/${id}`)
     })
   })
 

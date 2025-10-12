@@ -85,8 +85,8 @@ describe('SamplesEditView', () => {
       ])
       expect(pushMock).toHaveBeenCalledWith('/')
 
-      const userId = 1
-      expect(pushMock).not.toHaveBeenCalledWith(`/samples/${userId}`)
+      const id = 1
+      expect(pushMock).not.toHaveBeenCalledWith(`/samples/${id}`)
     })
   })
 

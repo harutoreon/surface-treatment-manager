@@ -77,8 +77,8 @@ describe('DepartmentsShowView', () => {
       ])
       expect(pushMock).toHaveBeenCalledWith('/')
 
-      const userId = 1
-      expect(pushMock).not.toHaveBeenCalledWith(`/departments/${userId}`)
+      const id = 1
+      expect(pushMock).not.toHaveBeenCalledWith(`/departments/${id}`)
     })
   })
 
