@@ -22,15 +22,11 @@ describe('SamplesNewView', () => {
   describe('ログインチェックに成功した場合', () => {
     it('表面処理情報の登録ページに移動すること', async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
-          response: {
-            status: 200
-          }
+          status: 200
         })
 
       wrapper = mount(SamplesNewView, {
@@ -49,7 +45,7 @@ describe('SamplesNewView', () => {
 
   describe('ログインチェックに失敗した場合', () => {
     it('ログインページに移動すること', async () => {
-      axios.get.mockRejectedValue({  // checkLoginStatus()
+      axios.get.mockRejectedValue({
         response: {
           status: 401
         }
@@ -70,16 +66,15 @@ describe('SamplesNewView', () => {
         { type: 'danger', text: 'ログインが必要です。' }
       ])
       expect(pushMock).toHaveBeenCalledWith('/')
+      expect(pushMock).not.toHaveBeenCalledWith('/categories')
     })
   })
 
   describe('初期レンダリング', () => {
     beforeEach(async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: [
@@ -160,10 +155,8 @@ describe('SamplesNewView', () => {
   describe('有効な情報を送信すると', () => {
     it('登録に成功すること', async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: [
@@ -223,10 +216,8 @@ describe('SamplesNewView', () => {
   describe('無効な情報で送信すると', () => {
     it('登録に失敗すること', async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: [
@@ -272,10 +263,8 @@ describe('SamplesNewView', () => {
   describe('画像添付', () => {
     beforeEach(async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: [

@@ -29,12 +29,10 @@ describe('SamplesEditView', () => {
   describe('ログインチェックに成功した場合', () => {
     it('表面処理情報の編集ページに移動すること', async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockResolvedValueOnce({  // fetchSampleData()
+        .mockResolvedValueOnce({
           data: {
             id: 1,
             name: '無電解ニッケルめっき',
@@ -65,7 +63,7 @@ describe('SamplesEditView', () => {
 
   describe('ログインチェックに失敗した場合', () => {
     it('ログインページに移動すること', async () => {
-      axios.get.mockRejectedValue({  // checkLoginStatus()
+      axios.get.mockRejectedValue({
         response: {
           status: 401
         }
@@ -86,16 +84,17 @@ describe('SamplesEditView', () => {
         { type: 'danger', text: 'ログインが必要です。' }
       ])
       expect(pushMock).toHaveBeenCalledWith('/')
+
+      const userId = 1
+      expect(pushMock).not.toHaveBeenCalledWith(`/samples/${userId}`)
     })
   })
 
   describe('初期レンダリングに成功した場合', () => {
     beforeEach(async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: {
@@ -185,12 +184,10 @@ describe('SamplesEditView', () => {
   describe('初期レンダリングに失敗した場合', () => {
     it('404ページに遷移すること', async () => {
       axios.get
-        .mockResolvedValue({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockRejectedValue({
+        .mockRejectedValueOnce({
           response: {
             status: 404
           }
@@ -234,12 +231,10 @@ describe('SamplesEditView', () => {
       }
 
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockResolvedValue(mockResponse)
+        .mockResolvedValueOnce(mockResponse)
 
       axios.patch.mockResolvedValue(mockResponse)
 
@@ -277,10 +272,8 @@ describe('SamplesEditView', () => {
   describe('無効な情報を送信した場合', () => {
     it('更新に失敗すること', async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: {
