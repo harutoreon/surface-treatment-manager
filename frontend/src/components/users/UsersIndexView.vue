@@ -2,7 +2,7 @@
 import { onMounted, ref, watch } from 'vue'
 import axios from 'axios'
 import { useRoute, useRouter } from 'vue-router'
-import { checkLoginStatus } from '../utils.js'
+import { checkLoginStatus } from '@/components/utils.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -35,13 +35,14 @@ const getPageLink = (page) => ({
 watch(() => route.query.page, (newPage) => {
   currentPage.value = Number(newPage) || 1
   fetchUserList()
-}, { immediate: true })
+})
 
 onMounted(async () => {
-  await checkLoginStatus(() => {
+  const loggedIn = await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
   })
+  if (!loggedIn) return
   await fetchUserList()
 })
 </script>

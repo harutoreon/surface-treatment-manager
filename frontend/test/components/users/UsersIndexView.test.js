@@ -29,20 +29,11 @@ describe('UsersIndexView', () => {
   describe('ログインチェックに成功した場合', () => {
     it('ユーザーページに移動すること', async () => {
       axios.get
-        .mockResolvedValueOnce({  // watch( ... { immediate })
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
-        })
-        .mockResolvedValueOnce({  // fetchUserList()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
 
       wrapper = mount(UsersIndexView, {
@@ -61,7 +52,7 @@ describe('UsersIndexView', () => {
 
   describe('ログインチェックに失敗した場合', () => {
     it('ログインページに移動すること', async () => {
-      axios.get.mockRejectedValue({  // checkLoginStatus()
+      axios.get.mockRejectedValue({
         response: {
           status: 401
         }
@@ -82,21 +73,15 @@ describe('UsersIndexView', () => {
         { type: 'danger', text: 'ログインが必要です。' }
       ])
       expect(pushMock).toHaveBeenCalledWith('/')
+      expect(pushMock).not.toHaveBeenCalledWith('/users')
     })
   })
 
   describe('初期レンダリングに成功した場合', () => {
     beforeEach(async () => {
       axios.get
-        .mockResolvedValueOnce({  // watch( ... { immediate })
-          response: {
-            status: 200
-          }
-        })
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: {
@@ -175,17 +160,10 @@ describe('UsersIndexView', () => {
   describe('初期レンダリングに失敗した場合', () => {
     it('404ページに遷移すること', async () => {
       axios.get
-        .mockResolvedValueOnce({  // watch( ... { immediate })
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
-        })
-        .mockRejectedValue({
+        .mockRejectedValueOnce({
           response: {
             status: 404
           }
