@@ -24,15 +24,11 @@ describe('UsersNewView', () => {
   describe('ログインチェックに成功した場合', () => {
     it('ユーザー情報の登録ページに移動すること', async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockResolvedValueOnce({  // fetchDepartments()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
 
       wrapper = mount(UsersNewView, {
@@ -51,7 +47,7 @@ describe('UsersNewView', () => {
 
   describe('ログインチェックに失敗した場合', () => {
     it('ログインページに移動すること', async () => {
-      axios.get.mockRejectedValue({  // checkLoginStatus()
+      axios.get.mockRejectedValue({
         response: {
           status: 401
         }
@@ -72,16 +68,15 @@ describe('UsersNewView', () => {
         { type: 'danger', text: 'ログインが必要です。' }
       ])
       expect(pushMock).toHaveBeenCalledWith('/')
+      expect(pushMock).not.toHaveBeenCalledWith('/departments')
     })
   })
 
   describe('初期レンダリング', () => {
     beforeEach(async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: [
@@ -144,10 +139,8 @@ describe('UsersNewView', () => {
   describe('部署名リストの取得に成功した場合', () => {
     it('オプション要素に部署名がセットされること', async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: [
@@ -178,12 +171,10 @@ describe('UsersNewView', () => {
   describe('部署名リストの取得に失敗した場合', () => {
     it('404ページに遷移すること', async () => {
       axios.get
-        .mockResolvedValue({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockRejectedValue({
+        .mockRejectedValueOnce({
           response: {
             status: 404
           }
@@ -210,10 +201,8 @@ describe('UsersNewView', () => {
   describe('有効な情報を送信した場合', () => {
     it('登録に成功すること', async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: [
@@ -263,12 +252,9 @@ describe('UsersNewView', () => {
   describe('無効な情報を送信した場合', () => {
     it('登録に失敗すること', async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-
         .mockResolvedValueOnce({
           data: [
             { id: 1, name: '品質管理部' },

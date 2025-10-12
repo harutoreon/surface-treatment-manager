@@ -29,20 +29,11 @@ describe('MakersIndexView', () => {
   describe('ログインチェックに成功した場合', () => {
     it('メーカーリストページに移動すること', async () => {
       axios.get
-        .mockResolvedValueOnce({  // watch( ... { immediate })
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
-        })
-        .mockResolvedValueOnce({  // fetchMakerList()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
 
       wrapper = mount(MakersIndexView, {
@@ -61,7 +52,7 @@ describe('MakersIndexView', () => {
 
   describe('ログインチェックに失敗した場合', () => {
     it('ログインページに移動すること', async () => {
-      axios.get.mockRejectedValue({  // checkLoginStatus()
+      axios.get.mockRejectedValue({
         response: {
           status: 401
         }
@@ -82,23 +73,17 @@ describe('MakersIndexView', () => {
         { type: 'danger', text: 'ログインが必要です。' }
       ])
       expect(pushMock).toHaveBeenCalledWith('/')
+      expect(pushMock).not.toHaveBeenCalledWith('/makers')
     })
   })
 
   describe('初期レンダリングに成功した場合', () => {
     beforeEach(async () => {
       axios.get
-        .mockResolvedValueOnce({  // watch( ... { immediate })
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
-        })
-        .mockResolvedValueOnce({  // fetchMakerList()
+        .mockResolvedValueOnce({
           data: {
             makers: [
               {
@@ -232,17 +217,10 @@ describe('MakersIndexView', () => {
   describe('初期レンダリングに失敗した場合', () => {
     it('404ページに遷移すること', async () => {
       axios.get
-        .mockResolvedValueOnce({  // watch( ... { immediate })
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
-        })
-        .mockRejectedValue({  // fetchMakerList()
+        .mockRejectedValueOnce({
           response: {
             status: 404
           }

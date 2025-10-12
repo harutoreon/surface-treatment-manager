@@ -29,20 +29,11 @@ describe('CommentsIndexView', () => {
   describe('ログインチェックに成功した場合', () => {
     it('コメントリストページに移動すること', async () => {
       axios.get
-        .mockResolvedValueOnce({  // watch( ... { immediate })
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
-        })
-        .mockResolvedValueOnce({  // fetchCommentList()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
 
       wrapper = mount(CommentsIndexView, {
@@ -61,7 +52,7 @@ describe('CommentsIndexView', () => {
 
   describe('ログインチェックに失敗した場合', () => {
     it('ログインページに移動すること', async () => {
-      axios.get.mockRejectedValue({  // checkLoginStatus()
+      axios.get.mockRejectedValue({
         response: {
           status: 401
         }
@@ -82,21 +73,15 @@ describe('CommentsIndexView', () => {
         { type: 'danger', text: 'ログインが必要です。' }
       ])
       expect(pushMock).toHaveBeenCalledWith('/')
+      expect(pushMock).not.toHaveBeenCalledWith('/comments')
     })
   })
 
   describe('初期レンダリングに成功した場合', () => {
     beforeEach(async () => {
       axios.get
-        .mockResolvedValueOnce({  // watch( ... { immediate })
-          response: {
-            status: 200
-          }
-        })
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: {
@@ -226,11 +211,15 @@ describe('CommentsIndexView', () => {
 
   describe('初期レンダリングに失敗した場合', () => {
     beforeEach(async () => {
-      axios.get.mockRejectedValue({
-        response: {
-          status: 404
-        }
-      })
+      axios.get
+        .mockResolvedValueOnce({
+          status: 200
+        })
+        .mockRejectedValueOnce({
+          response: {
+            status: 404
+          }
+        })
 
       wrapper = mount(CommentsIndexView, {
         global: {

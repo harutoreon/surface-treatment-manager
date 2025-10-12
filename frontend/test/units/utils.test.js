@@ -10,12 +10,10 @@ describe('checkLoginStatus', () => {
     localStorage.setItem('token', 'dummy-token')
   })
 
-  describe('レスポンスのステータスが 200 の場合', () => {
-    it('onUnauthorized が呼ばれないこと', async () => {
+  describe('レスポンスのステータスが200の場合', () => {
+    it('onUnauthorizedが呼ばれないこと', async () => {
       axios.get.mockResolvedValue({
-        response: {
-          status: 200
-        }
+        status: 200
       })
 
       const onUnauthorized = vi.fn()
@@ -29,10 +27,21 @@ describe('checkLoginStatus', () => {
       )
       expect(onUnauthorized).not.toHaveBeenCalled()
     })
+
+    it('trueが返ること', async () => {
+      axios.get.mockResolvedValue({
+        status: 200
+      })
+
+      const onUnauthorized = vi.fn()
+      const loggedIn = await checkLoginStatus(onUnauthorized)
+
+      expect(loggedIn).toBe(true)
+    })
   })
 
-  describe('レスポンスのステータスが 401 の場合', () => {
-    it('onUnauthorized が呼ばれること', async () => {
+  describe('レスポンスのステータスが401の場合', () => {
+    it('onUnauthorizedが呼ばれること', async () => {
       axios.get.mockRejectedValue({
         response: {
           status: 401
@@ -43,6 +52,19 @@ describe('checkLoginStatus', () => {
       await checkLoginStatus(onUnauthorized)
 
       expect(onUnauthorized).toHaveBeenCalled()
+    })
+
+    it('falseが返ること', async () => {
+      axios.get.mockRejectedValue({
+        response: {
+          status: 401
+        }
+      })
+
+      const onUnauthorized = vi.fn()
+      const loggedIn = await checkLoginStatus(onUnauthorized)
+
+      expect(loggedIn).toBe(false)
     })
   })
 })

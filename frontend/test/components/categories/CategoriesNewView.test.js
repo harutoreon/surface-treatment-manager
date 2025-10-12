@@ -21,10 +21,8 @@ describe('CategoriesNewView', () => {
 
   describe('ログインチェックに成功した場合', () => {
     it('カテゴリー情報の登録ページに移動すること', async () => {
-      axios.get.mockResolvedValue({  // checkLoginStatus()
-        response: {
-          status: 200
-        }
+      axios.get.mockResolvedValue({
+        status: 200
       })
 
       wrapper = mount(CategoriesNewView, {
@@ -43,7 +41,7 @@ describe('CategoriesNewView', () => {
 
   describe('ログインチェックに失敗した場合', () => {
     it('ログインページに移動すること', async () => {
-      axios.get.mockRejectedValue({  // checkLoginStatus()
+      axios.get.mockRejectedValue({
         response: {
           status: 401
         }
@@ -69,10 +67,8 @@ describe('CategoriesNewView', () => {
 
   describe('初期レンダリング', () => {  
     beforeEach(() => {
-      axios.get.mockResolvedValue({  // checkLoginStatus()
-        response: {
-          status: 200
-        }
+      axios.get.mockResolvedValue({
+        status: 200
       })
 
       wrapper = mount(CategoriesNewView, {
@@ -114,10 +110,8 @@ describe('CategoriesNewView', () => {
 
   describe('有効な情報を送信した場合', () => {
     it('登録に成功すること', async () => {
-      axios.get.mockResolvedValue({  // checkLoginStatus()
-        response: {
-          status: 200
-        }
+      axios.get.mockResolvedValue({
+        status: 200
       })
 
       axios.post.mockResolvedValue({
@@ -155,11 +149,10 @@ describe('CategoriesNewView', () => {
 
   describe('無効な情報を送信した場合', () => {
     it('登録に失敗すること', async () => {
-      axios.get.mockResolvedValue({  // checkLoginStatus()
-        response: {
-          status: 200
-        }
+      axios.get.mockResolvedValue({
+        status: 200
       })
+
       axios.post.mockRejectedValue({
         response: {
           status: 422

@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
-import { checkLoginStatus } from '../utils.js'
+import { checkLoginStatus } from '@/components/utils.js'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const router = useRouter()

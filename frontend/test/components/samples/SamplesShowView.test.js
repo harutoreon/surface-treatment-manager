@@ -29,12 +29,10 @@ describe('SamplesShowView', () => {
   describe('ログインチェックに成功した場合', () => {
     it('表面処理情報ページに移動すること', async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockResolvedValueOnce({  // fetchSampleData()
+        .mockResolvedValueOnce({
           data: {
             id: 1,
             name: '無電解ニッケルめっき',
@@ -50,7 +48,7 @@ describe('SamplesShowView', () => {
             image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
           }
         })
-        .mockResolvedValueOnce({  // fetchSampleCommentsData()
+        .mockResolvedValueOnce({
           data: [
             {
               id: 1,
@@ -79,7 +77,7 @@ describe('SamplesShowView', () => {
 
   describe('ログインチェックに失敗した場合', () => {
     it('ログインページに移動すること', async () => {
-      axios.get.mockRejectedValue({  // checkLoginStatus()
+      axios.get.mockRejectedValue({
         response: {
           status: 401
         }
@@ -100,16 +98,18 @@ describe('SamplesShowView', () => {
         { type: 'danger', text: 'ログインが必要です。' }
       ])
       expect(pushMock).toHaveBeenCalledWith('/')
+
+      const id = 1
+      expect(pushMock).not.toHaveBeenCalledWith(`/samples/${id}`)
+      expect(pushMock).not.toHaveBeenCalledWith(`/samples/${id}/comments`)
     })
   })
 
   describe('初期レンダリングに成功した場合', () => {
     beforeEach(async () => {
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockReturnValueOnce({
           data: {
@@ -188,12 +188,10 @@ describe('SamplesShowView', () => {
   describe('初期レンダリングに失敗した場合', () => {
     it('404ページに遷移すること', async () => {
       axios.get
-        .mockResolvedValue({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockRejectedValue({
+        .mockRejectedValueOnce({
           response: {
             status: 404
           }
@@ -248,10 +246,8 @@ describe('SamplesShowView', () => {
       }
 
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce(mockSampleResponse)
         .mockResolvedValueOnce(mockSampleCommentResponse)
@@ -286,10 +282,8 @@ describe('SamplesShowView', () => {
         }
       }
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockRejectedValueOnce(mockSampleResponse)
         .mockRejectedValueOnce(mockSampleCommentResponse)
@@ -317,10 +311,8 @@ describe('SamplesShowView', () => {
       vi.spyOn(window, 'confirm').mockReturnValue(true)
       
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: {
@@ -374,10 +366,8 @@ describe('SamplesShowView', () => {
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: {

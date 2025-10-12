@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
-import { checkLoginStatus } from '../utils.js'
+import { checkLoginStatus } from '@/components/utils.js'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
@@ -28,10 +28,11 @@ const fetchSearchResults = async () => {
 }
 
 onMounted(async () => {
-  await checkLoginStatus(() => {
+  const loggedIn = await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
   })
+  if (!loggedIn) return
   await fetchSearchResults()
 })
 </script>

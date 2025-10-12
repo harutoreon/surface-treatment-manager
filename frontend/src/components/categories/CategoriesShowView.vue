@@ -5,7 +5,6 @@ import axios from 'axios'
 import { checkLoginStatus } from '../utils.js'
 
 const emit = defineEmits(['message'])
-// const category = ref({ data: { item: '', summary: '' } })
 const category = ref('')
 const route = useRoute()
 const router = useRouter()
@@ -41,10 +40,11 @@ const handleDelete = async () => {
 }
 
 onMounted(async () => {
-  await checkLoginStatus(() => {
+  const loggedIn = await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
   })
+  if (!loggedIn) return
   await fetchCategoryData(route.params.id)
 })
 </script>

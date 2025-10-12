@@ -2,7 +2,7 @@
 import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
-import { checkLoginStatus } from '../utils.js'
+import { checkLoginStatus } from '@/components/utils.js'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
@@ -35,13 +35,14 @@ const getPageLink = (page) => ({
 watch(() => route.query.page, (newPage) => {
   currentPage.value = Number(newPage) || 1
   fetchMakerList()
-}, { immediate: true })
+})
 
 onMounted(async () => {
-  await checkLoginStatus(() => {
+  const loggedIn = await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
   })
+  if (!loggedIn) return
   await fetchMakerList()
 })
 </script>

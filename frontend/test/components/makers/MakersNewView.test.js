@@ -21,10 +21,8 @@ describe('MakersNewView', () => {
 
   describe('ログインチェックに成功した場合', () => {
     it('メーカー情報の登録ページに移動すること', async () => {
-      axios.get.mockResolvedValue({  // checkLoginStatus()
-        response: {
-          status: 200
-        }
+      axios.get.mockResolvedValue({
+        status: 200
       })
 
       wrapper = mount(MakersNewView, {
@@ -43,7 +41,7 @@ describe('MakersNewView', () => {
 
   describe('ログインチェックに失敗した場合', () => {
     it('ログインページに移動すること', async () => {
-      axios.get.mockRejectedValue({  // checkLoginStatus()
+      axios.get.mockRejectedValue({
         response: {
           status: 401
         }
@@ -69,10 +67,8 @@ describe('MakersNewView', () => {
 
   describe('初期レンダリング', () => {
     beforeEach(() => {
-      axios.get.mockResolvedValue({  // checkLoginStatus()
-        response: {
-          status: 200
-        }
+      axios.get.mockResolvedValue({
+        status: 200
       })
 
       wrapper = mount(MakersNewView, {
@@ -126,10 +122,8 @@ describe('MakersNewView', () => {
   
   describe('有効な情報を送信した場合', () => {
     it('登録に成功すること', async () => {
-      axios.get.mockResolvedValue({  // checkLoginStatus()
-        response: {
-          status: 200
-        }
+      axios.get.mockResolvedValue({
+        status: 200
       })
 
       axios.post.mockResolvedValue({
@@ -168,10 +162,8 @@ describe('MakersNewView', () => {
 
   describe('無効な情報を送信した場合', () => {
     it('登録に失敗すること', async () => {
-      axios.get.mockResolvedValue({  // checkLoginStatus()
-        response: {
-          status: 200
-        }
+      axios.get.mockResolvedValue({
+        status: 200
       })
 
       axios.post.mockRejectedValue({

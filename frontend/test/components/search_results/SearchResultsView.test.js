@@ -31,10 +31,8 @@ describe('SearchResultsNameView', () => {
       })
 
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: {
@@ -70,7 +68,7 @@ describe('SearchResultsNameView', () => {
         query: { keyword: 'めっき' }
       })
 
-      axios.get.mockRejectedValue({  // checkLoginStatus()
+      axios.get.mockRejectedValue({
         response: {
           status: 401
         }
@@ -91,6 +89,7 @@ describe('SearchResultsNameView', () => {
         { type: 'danger', text: 'ログインが必要です。' }
       ])
       expect(pushMock).toHaveBeenCalledWith('/')
+      expect(pushMock).not.toHaveBeenCalledWith('/name_search')
     })
   })
 
@@ -102,10 +101,8 @@ describe('SearchResultsNameView', () => {
       })
 
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockResolvedValueOnce({
           data: {
@@ -168,10 +165,8 @@ describe('SearchResultsNameView', () => {
       })
 
       axios.get
-        .mockResolvedValueOnce({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
         .mockRejectedValueOnce({
           data: {
@@ -204,12 +199,10 @@ describe('SearchResultsNameView', () => {
       })
 
       axios.get
-        .mockResolvedValue({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockRejectedValue({
+        .mockRejectedValueOnce({
           response: {
             status: 404
           }
@@ -241,12 +234,10 @@ describe('SearchResultsNameView', () => {
       })
 
       axios.get
-        .mockResolvedValue({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockResolvedValue({
+        .mockResolvedValueOnce({
           data: {
             keyword: 'めっき',
             samples: [
@@ -286,12 +277,10 @@ describe('SearchResultsNameView', () => {
       })
 
       axios.get
-        .mockResolvedValue({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockResolvedValue({
+        .mockResolvedValueOnce({
           data: {
             keyword: 'めっき',
             samples: [
@@ -331,12 +320,10 @@ describe('SearchResultsNameView', () => {
       })
 
       axios.get
-        .mockResolvedValue({  // checkLoginStatus()
-          response: {
-            status: 200
-          }
+        .mockResolvedValueOnce({
+          status: 200
         })
-        .mockResolvedValue({
+        .mockResolvedValueOnce({
           data: {
             keyword: '株式会社',
             samples: [
