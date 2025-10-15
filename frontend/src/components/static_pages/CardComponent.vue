@@ -1,5 +1,5 @@
 <script setup>
-const props = defineProps({
+defineProps({
   id: String,
   alt: String,
   icon: String,
@@ -11,23 +11,23 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="card pt-2" v-bind:id="props.id" style="width: 19rem;">
+  <div class="card pt-2" v-bind:id="id" style="width: 19rem;">
     <img
-      v-bind:alt="props.alt"
+      v-bind:alt="alt"
       class="card-img-top w-25"
       width="50"
       height="50"
-      v-bind:src="props.icon"
+      v-bind:src="icon"
     >
     <div class="card-body">
       <h5 class="card-title">
-        {{ props.cardTitle }}
+        {{ cardTitle }}
       </h5>
       <p class="card-text">
-        {{ props.cardText }}
+        {{ cardText }}
       </p>
-      <RouterLink v-bind:to="props.toAttribute" class="card-link">
-        {{ props.linkText }}
+      <RouterLink v-bind:to="toAttribute" class="card-link">
+        {{ linkText }}
       </RouterLink>
     </div>
   </div>
