@@ -1,4 +1,6 @@
 <script setup>
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
 import experimentIcon from '@/assets/icons/experiment.svg'
 import categoryIcon from '@/assets/icons/category.svg'
 import factoryIcon from '@/assets/icons/factory.svg'
@@ -11,6 +13,25 @@ import settingsIcon from '@/assets/icons/settings.svg'
 import department from '@/assets/icons/department.svg'
 import commentIcon from '@/assets/icons/comment.svg'
 import CardComponent from '@/components/static_pages/CardComponent.vue'
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const userId = ref('')
+const userName = ref('')
+
+onMounted(async () => {
+  const token = localStorage.getItem('token')
+  const response = await axios.get(`${API_BASE_URL}/logged_in`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  userId.value = response.data['payload']['user_id']  // シンボルに変更できるか？
+  if (userId.value === 49) {  // 三項演算子で簡略化できるか？
+    userName.value = 'admin user'
+  } else {
+    userName.value = 'general user'
+  }
+})
 </script>
 
 <template>
@@ -19,7 +40,9 @@ import CardComponent from '@/components/static_pages/CardComponent.vue'
       メインメニュー
     </h3>
 
-    <div class="row mb-4">
+    <!-- 一般ユーザー専用カード -->
+
+    <div v-if="userName === 'general user'" class="row mb-4">
       <div class="col ps-0 pe-0">
         <CardComponent
           id="search-name"
@@ -66,7 +89,9 @@ import CardComponent from '@/components/static_pages/CardComponent.vue'
       </div>
     </div>
 
-    <div class="row mb-4">
+    <!-- 管理者ユーザー専用カード -->
+
+    <div v-if="userName === 'admin user'" class="row mb-4">
       <div class="col ps-0 pe-0">
         <CardComponent
           id="manage-samples"
@@ -100,6 +125,9 @@ import CardComponent from '@/components/static_pages/CardComponent.vue'
           linkText="管理ページへ"
         />
       </div>
+    </div>
+
+    <div v-if="userName === 'admin user'" class="row mb-4">
       <div class="col ps-0 pe-0">
         <CardComponent
           id="manage-users"
@@ -111,9 +139,6 @@ import CardComponent from '@/components/static_pages/CardComponent.vue'
           linkText="管理ページへ"
         />
       </div>
-    </div>
-
-    <div class="row mb-4">
       <div class="col ps-0 pe-0">
         <CardComponent
           id="manage-departments"
@@ -136,6 +161,11 @@ import CardComponent from '@/components/static_pages/CardComponent.vue'
           linkText="管理ページへ"
         />
       </div>
+    </div>
+
+    <!-- ユーザー共通カード -->
+
+    <div class="row mb-4">
       <div class="col ps-0 pe-0">
         <CardComponent
           id="manage-settings"
@@ -144,8 +174,7 @@ import CardComponent from '@/components/static_pages/CardComponent.vue'
           cardTitle="アプリケーションの管理"
           cardText="アプリケーションの設定やログアウトを行います。"
           toAttribute="/settings"
-          linkText="管理ページへ"
-        />
+          linkText="管理ページへ"/>
       </div>
     </div>
   </div>

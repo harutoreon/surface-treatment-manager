@@ -1,4 +1,6 @@
 import HomeView from '@/components/static_pages/HomeView.vue'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import experimentIcon from '@/assets/icons/experiment.svg'
 import categoryIcon from '@/assets/icons/category.svg'
 import factoryIcon from '@/assets/icons/factory.svg'
@@ -10,13 +12,22 @@ import userAddIcon from '@/assets/icons/user_add.svg'
 import departmentIcon from '@/assets/icons/department.svg'
 import commentIcon from '@/assets/icons/comment.svg'
 import settingsIcon from '@/assets/icons/settings.svg'
-import { describe, it, expect, beforeEach } from 'vitest'
-import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
+import axios from 'axios'
+
+vi.mock('axios')
+vi.mock('vue-router')
 
 describe('HomeView', () => {
   let wrapper
 
   beforeEach(async () => {
+    axios.get
+      .mockResolvedValueOnce({
+        data: {
+          payload: { user_id: 50 }
+        }
+      })
+
     wrapper = mount(HomeView, {
       global: {
         stubs: {
@@ -28,9 +39,41 @@ describe('HomeView', () => {
     await flushPromises()
   })
 
-  describe('初期レンダリング', () => {
+  describe('ユーザーがログインした場合', () => {
     it('見出しが表示されること', () => {
       expect(wrapper.find('h3').text()).toBe('メインメニュー')
+    })
+
+    it('「アプリケーションの管理」カードが表示されること', () => {
+      const divManageSettings = wrapper.find('#manage-settings')
+      const routerLink = divManageSettings.findComponent(RouterLinkStub)
+
+      expect(divManageSettings.find('img').attributes('src')).toBe(settingsIcon)
+      expect(divManageSettings.find('img').attributes('alt')).toBe('settings icon')
+      expect(divManageSettings.find('div h5').text()).toBe('アプリケーションの管理')
+      expect(divManageSettings.find('div p').text()).toBe('アプリケーションの設定やログアウトを行います。')
+      expect(routerLink.props().to).toBe('/settings')
+      expect(routerLink.text()).toBe('管理ページへ')
+    })
+  })
+
+  describe('一般ユーザーでログインした場合', () => {
+    beforeEach(async () => {
+      axios.get.mockResolvedValueOnce({
+        data: {
+          payload: { user_id: 50 }
+        }
+      })
+
+      wrapper = mount(HomeView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
     })
 
     it('「処理名で検索」カードが表示されること', () => {
@@ -56,7 +99,7 @@ describe('HomeView', () => {
       expect(routerLink.props().to).toBe('/static_pages/category')
       expect(routerLink.text()).toBe('検索ページへ')
     })
-    
+
     it('「メーカー名で検索」カードが表示されること', () => {
       const divSearchMaker = wrapper.find('#search-maker')
       const routerLink = divSearchMaker.findComponent(RouterLinkStub)
@@ -79,6 +122,26 @@ describe('HomeView', () => {
       expect(divSearchList.find('div p').text()).toBe('表面処理一覧から目的の処理を検索します。')
       expect(routerLink.props().to).toBe('/list_search_results')
       expect(routerLink.text()).toBe('検索ページへ')
+    })
+  })
+
+  describe('管理者ユーザーでログインした場合', () => {
+    beforeEach(async () => {
+      axios.get.mockResolvedValueOnce({
+        data: {
+          payload: { user_id: 49 }
+        }
+      })
+
+      wrapper = mount(HomeView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
     })
 
     it('「表面処理の管理」カードが表示されること', () => {
@@ -150,18 +213,6 @@ describe('HomeView', () => {
       expect(divManageComments.find('div h5').text()).toBe('コメントの管理')
       expect(divManageComments.find('div p').text()).toBe('コメントに関する情報を一括管理します。')
       expect(routerLink.props().to).toBe('/comments')
-      expect(routerLink.text()).toBe('管理ページへ')
-    })
-
-    it('「アプリケーションの管理」カードが表示されること', () => {
-      const divManageSettings = wrapper.find('#manage-settings')
-      const routerLink = divManageSettings.findComponent(RouterLinkStub)
-
-      expect(divManageSettings.find('img').attributes('src')).toBe(settingsIcon)
-      expect(divManageSettings.find('img').attributes('alt')).toBe('settings icon')
-      expect(divManageSettings.find('div h5').text()).toBe('アプリケーションの管理')
-      expect(divManageSettings.find('div p').text()).toBe('アプリケーションの設定やログアウトを行います。')
-      expect(routerLink.props().to).toBe('/settings')
       expect(routerLink.text()).toBe('管理ページへ')
     })
   })
