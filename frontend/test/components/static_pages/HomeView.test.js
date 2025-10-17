@@ -11,9 +11,11 @@ describe('HomeView', () => {
 
   describe('ユーザーがログインした場合', () => {
     beforeEach(async () => {
+      const generalUserId = 50
+
       axios.get.mockResolvedValueOnce({
         data: {
-          payload: { user_id: 50 }
+          payload: { user_id: generalUserId }
         }
       })
 
@@ -47,9 +49,11 @@ describe('HomeView', () => {
 
   describe('一般ユーザーでログインした場合', () => {
     beforeEach(async () => {
+      const generalUserId = 50
+
       axios.get.mockResolvedValueOnce({
         data: {
-          payload: { user_id: 50 }
+          payload: { user_id: generalUserId }
         }
       })
 
@@ -115,9 +119,11 @@ describe('HomeView', () => {
 
   describe('管理者ユーザーでログインした場合', () => {
     beforeEach(async () => {
+      const adminUserId = 49
+
       axios.get.mockResolvedValueOnce({
         data: {
-          payload: { user_id: 49 }
+          payload: { user_id: adminUserId }
         }
       })
 
