@@ -4,13 +4,20 @@ import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import axios from 'axios'
 
 vi.mock('axios')
-vi.mock('vue-router')
+
+const getItemMock = vi.fn()
+
+vi.stubGlobal('localStorage', {
+  getItem: getItemMock
+})
 
 describe('HomeView', () => {
   let wrapper
 
   describe('ユーザーがログインした場合', () => {
     beforeEach(async () => {
+      getItemMock.mockReturnValue('dummy-token')
+
       const generalUserId = 50
 
       axios.get.mockResolvedValueOnce({
@@ -45,10 +52,16 @@ describe('HomeView', () => {
       expect(routerLink.props().to).toBe('/settings')
       expect(routerLink.text()).toBe('管理ページへ')
     })
+
+    it('localStorageからトークンを取得していること', () => {
+      expect(getItemMock).toHaveBeenCalledWith('token')
+    })
   })
 
   describe('一般ユーザーでログインした場合', () => {
     beforeEach(async () => {
+      getItemMock.mockReturnValue('dummy-token')
+
       const generalUserId = 50
 
       axios.get.mockResolvedValueOnce({
@@ -119,6 +132,8 @@ describe('HomeView', () => {
 
   describe('管理者ユーザーでログインした場合', () => {
     beforeEach(async () => {
+      getItemMock.mockReturnValue('dummy-token')
+
       const adminUserId = 49
 
       axios.get.mockResolvedValueOnce({
