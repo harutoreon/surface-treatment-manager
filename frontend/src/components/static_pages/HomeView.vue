@@ -1,4 +1,5 @@
 <script setup>
+import CardComponent from '@/components/static_pages/CardComponent.vue'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import experimentIcon from '@/assets/icons/experiment.svg'
@@ -12,11 +13,11 @@ import userAddIcon from '@/assets/icons/user_add.svg'
 import settingsIcon from '@/assets/icons/settings.svg'
 import department from '@/assets/icons/department.svg'
 import commentIcon from '@/assets/icons/comment.svg'
-import CardComponent from '@/components/static_pages/CardComponent.vue'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const userId = ref('')
 const userName = ref('')
+const containerSize = ref('')
 
 onMounted(async () => {
   const token = localStorage.getItem('token')
@@ -25,24 +26,26 @@ onMounted(async () => {
       Authorization: `Bearer ${token}`
     }
   })
-  userId.value = response.data['payload']['user_id']  // シンボルに変更できるか？
-  if (userId.value === 49) {  // 三項演算子で簡略化できるか？
+  userId.value = response.data['payload']['user_id']
+  if (userId.value === 49) {
     userName.value = 'admin user'
+    containerSize.value = 'container w-50'
   } else {
     userName.value = 'general user'
+    containerSize.value = 'container w-75'
   }
 })
 </script>
 
 <template>
-  <div class="container w-75">
-    <h3 class="text-center mt-5 mb-5">
-      メインメニュー
-    </h3>
+  <!-- 共通タイトル -->
+  <h3 class="text-center mt-5 mb-5">
+    メインメニュー
+  </h3>
 
-    <!-- 一般ユーザー専用カード -->
-
-    <div v-if="userName === 'general user'" class="row mb-4">
+  <!-- 一般ユーザー専用カード -->
+  <div v-if="userName === 'general user'" v-bind:class="containerSize">
+    <div class="row mb-4">
       <div class="col ps-0 pe-0">
         <CardComponent
           id="search-name"
@@ -88,10 +91,11 @@ onMounted(async () => {
         />
       </div>
     </div>
+  </div>
 
-    <!-- 管理者ユーザー専用カード -->
-
-    <div v-if="userName === 'admin user'" class="row mb-4">
+  <!-- 管理者ユーザー専用カード -->
+  <div v-if="userName === 'admin user'" v-bind:class="containerSize">
+    <div class="row mb-4">
       <div class="col ps-0 pe-0">
         <CardComponent
           id="manage-samples"
@@ -127,7 +131,7 @@ onMounted(async () => {
       </div>
     </div>
 
-    <div v-if="userName === 'admin user'" class="row mb-4">
+    <div class="row mb-4">
       <div class="col ps-0 pe-0">
         <CardComponent
           id="manage-users"
@@ -162,9 +166,10 @@ onMounted(async () => {
         />
       </div>
     </div>
+  </div>
 
-    <!-- ユーザー共通カード -->
-
+  <!-- 共通カード -->
+  <div v-bind:class="containerSize">
     <div class="row mb-4">
       <div class="col ps-0 pe-0">
         <CardComponent
@@ -174,7 +179,8 @@ onMounted(async () => {
           cardTitle="アプリケーションの管理"
           cardText="アプリケーションの設定やログアウトを行います。"
           toAttribute="/settings"
-          linkText="管理ページへ"/>
+          linkText="管理ページへ"
+        />
       </div>
     </div>
   </div>

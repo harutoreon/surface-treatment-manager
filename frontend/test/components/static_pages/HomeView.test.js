@@ -20,26 +20,25 @@ vi.mock('vue-router')
 describe('HomeView', () => {
   let wrapper
 
-  beforeEach(async () => {
-    axios.get
-      .mockResolvedValueOnce({
+  describe('ユーザーがログインした場合', () => {
+    beforeEach(async () => {
+      axios.get.mockResolvedValueOnce({
         data: {
           payload: { user_id: 50 }
         }
       })
 
-    wrapper = mount(HomeView, {
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub
+      wrapper = mount(HomeView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
         }
-      }
+      })
+
+      await flushPromises()
     })
 
-    await flushPromises()
-  })
-
-  describe('ユーザーがログインした場合', () => {
     it('見出しが表示されること', () => {
       expect(wrapper.find('h3').text()).toBe('メインメニュー')
     })
