@@ -14,9 +14,10 @@ import settingsIcon from '@/assets/icons/settings.svg'
 import department from '@/assets/icons/department.svg'
 import commentIcon from '@/assets/icons/comment.svg'
 
+defineEmits(['message'])
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-const userId = ref('')
-const userName = ref('')
+const isAdmin = ref(false)
 const containerSize = ref('')
 
 onMounted(async () => {
@@ -26,150 +27,141 @@ onMounted(async () => {
       Authorization: `Bearer ${token}`
     }
   })
-  userId.value = response.data['payload']['user_id']
-  if (userId.value === 49) {
-    userName.value = 'admin user'
-    containerSize.value = 'container w-50'
-  } else {
-    userName.value = 'general user'
-    containerSize.value = 'container w-75'
-  }
+
+  isAdmin.value = response.data.payload.user_id === 49
+  containerSize.value = isAdmin.value ? 'container w-50' : 'container w-75'
 })
 </script>
 
 <template>
-  <!-- 共通タイトル -->
-  <h3 class="text-center mt-5 mb-5">
-    メインメニュー
-  </h3>
-
-  <!-- 一般ユーザー専用カード -->
-  <div v-if="userName === 'general user'" v-bind:class="containerSize">
-    <div class="row mb-4">
-      <div class="col ps-0 pe-0">
-        <CardComponent
-          id="search-name"
-          alt="experiment icon"
-          v-bind:icon="experimentIcon"
-          cardTitle="処理名で検索"
-          cardText="処理名を入力して表面処理を検索します。"
-          toAttribute="/static_pages/name"
-          linkText="検索ページへ"
-        />
-      </div>
-      <div class="col ps-0 pe-0">
-        <CardComponent
-          id="search-category"
-          alt="category icon"
-          v-bind:icon="categoryIcon"
-          cardTitle="カテゴリーで検索"
-          cardText="カテゴリーを選択して表面処理を検索します。"
-          toAttribute="/static_pages/category"
-          linkText="検索ページへ"
-        />
-      </div>
-      <div class="col ps-0 pe-0">
-        <CardComponent
-          id="search-maker"
-          alt="factory icon"
-          v-bind:icon="factoryIcon"
-          cardTitle="メーカー名で検索"
-          cardText="メーカー名を入力して表面処理を検索します。"
-          toAttribute="/static_pages/maker"
-          linkText="検索ページへ"
-        />
-      </div>
-      <div class="col ps-0 pe-0">
-        <CardComponent
-          id="search-list"
-          alt="list icon"
-          v-bind:icon="listIcon"
-          cardTitle="処理一覧から検索"
-          cardText="表面処理一覧から目的の処理を検索します。"
-          toAttribute="/list_search_results"
-          linkText="検索ページへ"
-        />
-      </div>
-    </div>
-  </div>
-
-  <!-- 管理者ユーザー専用カード -->
-  <div v-if="userName === 'admin user'" v-bind:class="containerSize">
-    <div class="row mb-4">
-      <div class="col ps-0 pe-0">
-        <CardComponent
-          id="manage-samples"
-          alt="library add icon"
-          v-bind:icon="libraryAddIcon"
-          cardTitle="表面処理の管理"
-          cardText="表面処理に関する情報を一括管理します。"
-          toAttribute="/samples"
-          linkText="管理ページへ"
-        />
-      </div>
-      <div class="col ps-0 pe-0">
-        <CardComponent
-          id="manage-categories"
-          alt="category add icon"
-          v-bind:icon="categoryAddIcon"
-          cardTitle="カテゴリーの管理"
-          cardText="カテゴリーに関する情報を一括管理します。"
-          toAttribute="/categories"
-          linkText="管理ページへ"
-        />
-      </div>
-      <div class="col ps-0 pe-0">
-        <CardComponent
-          id="manage-makers"
-          alt="maker add icon"
-          v-bind:icon="makerAddIcon"
-          cardTitle="メーカーの管理"
-          cardText="メーカーに関する情報を一括管理します。"
-          toAttribute="/makers"
-          linkText="管理ページへ"
-        />
-      </div>
-    </div>
-
-    <div class="row mb-4">
-      <div class="col ps-0 pe-0">
-        <CardComponent
-          id="manage-users"
-          alt="user add icon"
-          v-bind:icon="userAddIcon"
-          cardTitle="ユーザーの管理"
-          cardText="ユーザーに関する情報を一括管理します。"
-          toAttribute="/users"
-          linkText="管理ページへ"
-        />
-      </div>
-      <div class="col ps-0 pe-0">
-        <CardComponent
-          id="manage-departments"
-          alt="department add icon"
-          v-bind:icon="department"
-          cardTitle="部署の管理"
-          cardText="部署に関する情報を一括管理します。"
-          toAttribute="/departments"
-          linkText="管理ページへ"
-        />
-      </div>
-      <div class="col ps-0 pe-0">
-        <CardComponent
-          id="manage-comments"
-          alt="comment icon"
-          v-bind:icon="commentIcon"
-          cardTitle="コメントの管理"
-          cardText="コメントに関する情報を一括管理します。"
-          toAttribute="/comments"
-          linkText="管理ページへ"
-        />
-      </div>
-    </div>
-  </div>
-
-  <!-- 共通カード -->
   <div v-bind:class="containerSize">
+    <h3 class="text-center mt-5 mb-5">
+      メインメニュー
+    </h3>
+
+    <div v-if="!isAdmin">
+      <div class="row mb-4">
+        <div class="col ps-0 pe-0">
+          <CardComponent
+            id="search-name"
+            alt="experiment icon"
+            v-bind:icon="experimentIcon"
+            cardTitle="処理名で検索"
+            cardText="処理名を入力して表面処理を検索します。"
+            toAttribute="/static_pages/name"
+            linkText="検索ページへ"
+          />
+        </div>
+        <div class="col ps-0 pe-0">
+          <CardComponent
+            id="search-category"
+            alt="category icon"
+            v-bind:icon="categoryIcon"
+            cardTitle="カテゴリーで検索"
+            cardText="カテゴリーを選択して表面処理を検索します。"
+            toAttribute="/static_pages/category"
+            linkText="検索ページへ"
+          />
+        </div>
+        <div class="col ps-0 pe-0">
+          <CardComponent
+            id="search-maker"
+            alt="factory icon"
+            v-bind:icon="factoryIcon"
+            cardTitle="メーカー名で検索"
+            cardText="メーカー名を入力して表面処理を検索します。"
+            toAttribute="/static_pages/maker"
+            linkText="検索ページへ"
+          />
+        </div>
+        <div class="col ps-0 pe-0">
+          <CardComponent
+            id="search-list"
+            alt="list icon"
+            v-bind:icon="listIcon"
+            cardTitle="処理一覧から検索"
+            cardText="表面処理一覧から目的の処理を検索します。"
+            toAttribute="/list_search_results"
+            linkText="検索ページへ"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div v-else>
+      <div class="row mb-4">
+        <div class="col ps-0 pe-0">
+          <CardComponent
+            id="manage-samples"
+            alt="library add icon"
+            v-bind:icon="libraryAddIcon"
+            cardTitle="表面処理の管理"
+            cardText="表面処理に関する情報を一括管理します。"
+            toAttribute="/samples"
+            linkText="管理ページへ"
+          />
+        </div>
+        <div class="col ps-0 pe-0">
+          <CardComponent
+            id="manage-categories"
+            alt="category add icon"
+            v-bind:icon="categoryAddIcon"
+            cardTitle="カテゴリーの管理"
+            cardText="カテゴリーに関する情報を一括管理します。"
+            toAttribute="/categories"
+            linkText="管理ページへ"
+          />
+        </div>
+        <div class="col ps-0 pe-0">
+          <CardComponent
+            id="manage-makers"
+            alt="maker add icon"
+            v-bind:icon="makerAddIcon"
+            cardTitle="メーカーの管理"
+            cardText="メーカーに関する情報を一括管理します。"
+            toAttribute="/makers"
+            linkText="管理ページへ"
+          />
+        </div>
+      </div>
+
+      <div class="row mb-4">
+        <div class="col ps-0 pe-0">
+          <CardComponent
+            id="manage-users"
+            alt="user add icon"
+            v-bind:icon="userAddIcon"
+            cardTitle="ユーザーの管理"
+            cardText="ユーザーに関する情報を一括管理します。"
+            toAttribute="/users"
+            linkText="管理ページへ"
+          />
+        </div>
+        <div class="col ps-0 pe-0">
+          <CardComponent
+            id="manage-departments"
+            alt="department add icon"
+            v-bind:icon="department"
+            cardTitle="部署の管理"
+            cardText="部署に関する情報を一括管理します。"
+            toAttribute="/departments"
+            linkText="管理ページへ"
+          />
+        </div>
+        <div class="col ps-0 pe-0">
+          <CardComponent
+            id="manage-comments"
+            alt="comment icon"
+            v-bind:icon="commentIcon"
+            cardTitle="コメントの管理"
+            cardText="コメントに関する情報を一括管理します。"
+            toAttribute="/comments"
+            linkText="管理ページへ"
+          />
+        </div>
+      </div>
+    </div>
+
     <div class="row mb-4">
       <div class="col ps-0 pe-0">
         <CardComponent
