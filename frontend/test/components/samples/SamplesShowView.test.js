@@ -28,9 +28,16 @@ describe('SamplesShowView', () => {
 
   describe('ログインチェックに成功した場合', () => {
     it('表面処理情報ページに移動すること', async () => {
+      const adminUserId = 49
+
       axios.get
         .mockResolvedValueOnce({
           status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: adminUserId }
+          }
         })
         .mockResolvedValueOnce({
           data: {
@@ -107,9 +114,16 @@ describe('SamplesShowView', () => {
 
   describe('初期レンダリングに成功した場合', () => {
     beforeEach(async () => {
+      const adminUserId = 49
+
       axios.get
         .mockResolvedValueOnce({
           status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: adminUserId }
+          }
         })
         .mockReturnValueOnce({
           data: {
@@ -187,9 +201,16 @@ describe('SamplesShowView', () => {
 
   describe('初期レンダリングに失敗した場合', () => {
     it('404ページに遷移すること', async () => {
+      const adminUserId = 49
+
       axios.get
         .mockResolvedValueOnce({
           status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: adminUserId }
+          }
         })
         .mockRejectedValueOnce({
           response: {
@@ -217,6 +238,8 @@ describe('SamplesShowView', () => {
 
   describe('コメントの取得に成功した場合', () => {
     it('コメントが表示されること', async () => {
+      const adminUserId = 49
+
       const mockSampleResponse = {
         data: {
           id: 1,
@@ -249,6 +272,11 @@ describe('SamplesShowView', () => {
         .mockResolvedValueOnce({
           status: 200
         })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: adminUserId }
+          }
+        })
         .mockResolvedValueOnce(mockSampleResponse)
         .mockResolvedValueOnce(mockSampleCommentResponse)
 
@@ -270,6 +298,8 @@ describe('SamplesShowView', () => {
 
   describe('コメントの取得に失敗した場合', () => {
     it('404ページに遷移すること', async () => {
+      const adminUserId = 49
+
       const mockSampleResponse = {
         response: {
           status: 404
@@ -284,6 +314,11 @@ describe('SamplesShowView', () => {
       axios.get
         .mockResolvedValueOnce({
           status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: adminUserId }
+          }
         })
         .mockRejectedValueOnce(mockSampleResponse)
         .mockRejectedValueOnce(mockSampleCommentResponse)
@@ -309,10 +344,17 @@ describe('SamplesShowView', () => {
   describe('表面処理の削除処理に成功した場合', () => {
     it('表面処理リストページに遷移する', async () => {
       vi.spyOn(window, 'confirm').mockReturnValue(true)
-      
+
+      const adminUserId = 49
+
       axios.get
         .mockResolvedValueOnce({
           status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: adminUserId }
+          }
         })
         .mockResolvedValueOnce({
           data: {
@@ -351,7 +393,7 @@ describe('SamplesShowView', () => {
 
       await flushPromises()
 
-      await wrapper.find('#link_sample_destroy').trigger('click')
+      await wrapper.find('p').trigger('click')
 
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([
@@ -365,9 +407,16 @@ describe('SamplesShowView', () => {
     it('404ページに遷移すること', async () => {
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
+      const adminUserId = 49
+
       axios.get
         .mockResolvedValueOnce({
           status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: adminUserId }
+          }
         })
         .mockResolvedValueOnce({
           data: {
@@ -412,13 +461,59 @@ describe('SamplesShowView', () => {
 
       await flushPromises()
 
-      await wrapper.find('#link_sample_destroy').trigger('click')
+      await wrapper.find('p').trigger('click')
 
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([
         { type: 'danger', text: '表面処理情報の削除処理に失敗しました。' }
       ])
       expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
+    })
+  })
+
+  describe('一般ユーザーでログインした場合', () => {
+    beforeEach(async () => {
+      const generalUserId = 50
+
+      axios.get
+        .mockResolvedValueOnce({
+          status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: generalUserId }
+          }
+        })
+        .mockReturnValueOnce({
+          data: {
+            id: 1,
+            name: '無電解ニッケルめっき',
+            category: 'めっき',
+            color: 'イエローブラウンシルバー',
+            maker: '小島印刷合同会社',
+            created_at: '2025-02-23T22:15:29.815Z',
+            updated_at: '2025-02-23T22:15:29.815Z',
+            hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+            film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+            feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
+            summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+            image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
+          }
+        })
+
+      wrapper = mount(SamplesShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('表面処理情報の削除リンクが表示されないこと', () => {
+      expect(wrapper.find('p').attributes('style')).toBe('display: none;')
     })
   })
 })
