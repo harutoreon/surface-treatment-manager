@@ -21,8 +21,18 @@ const sample = ref({
 })
 
 const sampleComments = ref([])
+const isAdmin = ref(false)
 
 const fetchSampleData = async (id) => {
+  const token = localStorage.getItem('token')
+  const response = await axios.get(`${API_BASE_URL}/logged_in`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  isAdmin.value = response.data.payload.user_id === 49
+
   try {
     const response = await axios.get(`${API_BASE_URL}/samples/${id}`)
     sample.value = response.data
@@ -167,7 +177,7 @@ onMounted(async () => {
       <RouterLink v-bind:to="`/samples/${sample.id}/edit`" ref="linkSamplesEdit">
         表面処理情報の編集
       </RouterLink>
-      <p v-on:click="handleDelete" class="text-primary text-decoration-underline" id="link_sample_destroy">
+      <p v-show="isAdmin" v-on:click="handleDelete" class="text-primary text-decoration-underline">
         表面処理情報の削除
       </p>
       <RouterLink to="/samples" ref="linkSamples">

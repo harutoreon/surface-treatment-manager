@@ -28,9 +28,16 @@ describe('SamplesShowView', () => {
 
   describe('ログインチェックに成功した場合', () => {
     it('表面処理情報ページに移動すること', async () => {
+      const adminUserId = 49
+
       axios.get
         .mockResolvedValueOnce({
           status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: adminUserId }
+          }
         })
         .mockResolvedValueOnce({
           data: {
@@ -107,9 +114,16 @@ describe('SamplesShowView', () => {
 
   describe('初期レンダリングに成功した場合', () => {
     beforeEach(async () => {
+      const adminUserId = 49
+
       axios.get
         .mockResolvedValueOnce({
           status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: adminUserId }
+          }
         })
         .mockReturnValueOnce({
           data: {
@@ -187,9 +201,16 @@ describe('SamplesShowView', () => {
 
   describe('初期レンダリングに失敗した場合', () => {
     it('404ページに遷移すること', async () => {
+      const adminUserId = 49
+
       axios.get
         .mockResolvedValueOnce({
           status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: adminUserId }
+          }
         })
         .mockRejectedValueOnce({
           response: {
@@ -217,6 +238,8 @@ describe('SamplesShowView', () => {
 
   describe('コメントの取得に成功した場合', () => {
     it('コメントが表示されること', async () => {
+      const adminUserId = 49
+
       const mockSampleResponse = {
         data: {
           id: 1,
@@ -249,6 +272,11 @@ describe('SamplesShowView', () => {
         .mockResolvedValueOnce({
           status: 200
         })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: adminUserId }
+          }
+        })
         .mockResolvedValueOnce(mockSampleResponse)
         .mockResolvedValueOnce(mockSampleCommentResponse)
 
@@ -270,6 +298,8 @@ describe('SamplesShowView', () => {
 
   describe('コメントの取得に失敗した場合', () => {
     it('404ページに遷移すること', async () => {
+      const adminUserId = 49
+
       const mockSampleResponse = {
         response: {
           status: 404
@@ -284,6 +314,11 @@ describe('SamplesShowView', () => {
       axios.get
         .mockResolvedValueOnce({
           status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: adminUserId }
+          }
         })
         .mockRejectedValueOnce(mockSampleResponse)
         .mockRejectedValueOnce(mockSampleCommentResponse)
@@ -309,10 +344,17 @@ describe('SamplesShowView', () => {
   describe('表面処理の削除処理に成功した場合', () => {
     it('表面処理リストページに遷移する', async () => {
       vi.spyOn(window, 'confirm').mockReturnValue(true)
-      
+
+      const adminUserId = 49
+
       axios.get
         .mockResolvedValueOnce({
           status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: adminUserId }
+          }
         })
         .mockResolvedValueOnce({
           data: {
@@ -351,7 +393,7 @@ describe('SamplesShowView', () => {
 
       await flushPromises()
 
-      await wrapper.find('#link_sample_destroy').trigger('click')
+      await wrapper.find('p').trigger('click')
 
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([
@@ -365,9 +407,16 @@ describe('SamplesShowView', () => {
     it('404ページに遷移すること', async () => {
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
+      const adminUserId = 49
+
       axios.get
         .mockResolvedValueOnce({
           status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: adminUserId }
+          }
         })
         .mockResolvedValueOnce({
           data: {
@@ -412,7 +461,7 @@ describe('SamplesShowView', () => {
 
       await flushPromises()
 
-      await wrapper.find('#link_sample_destroy').trigger('click')
+      await wrapper.find('p').trigger('click')
 
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([
