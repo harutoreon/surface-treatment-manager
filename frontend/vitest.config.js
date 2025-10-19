@@ -17,11 +17,11 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     silent: true,
-    coverage: {
-      enabled: true,
-      reporter: ['text', 'html'],
-      include:['src/**/*.vue'],
-      exclude:['src/**/icons']
-    }
+    // coverage: {
+    //   enabled: true,
+    //   reporter: ['text', 'html'],
+    //   include:['src/**/*.vue'],
+    //   exclude:['src/**/icons']
+    // }
   },
 })
