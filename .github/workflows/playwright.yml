@@ -1,10 +1,11 @@
 name: Playwright Tests
 
 on:
+  pull_request:
+    branches: [opened, synchronize, reopened]
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ opened, synchronize, reopened ]
+
 jobs:
   test:
     timeout-minutes: 60
