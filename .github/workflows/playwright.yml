@@ -40,13 +40,15 @@ jobs:
         run: bundle install
         working-directory: backend/
 
-      - name: execution database create and schema load
+      - name: start rails api server
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://sample_user:sample_password@127.0.0.1:5432/sample_test_db
         run: |
           bin/rails db:create
           bin/rails db:schema:load
+          bin/rails server -p 3000 -e test &
+          sleep 10
         working-directory: backend/
 
       - name: setup node.js
