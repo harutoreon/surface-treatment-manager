@@ -47,6 +47,7 @@ jobs:
         run: |
           bin/rails db:create
           bin/rails db:schema:load
+          bin/rails db:seed
           bin/rails server -p 3000 -e test &
           sleep 10
         working-directory: backend/
