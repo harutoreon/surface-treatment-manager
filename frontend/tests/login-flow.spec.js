@@ -8,6 +8,10 @@ test.describe('一般ユーザーでログインした場合', () => {
     await page.getByRole('radio', { name: '一般ユーザー' }).check()
     await page.getByRole('button', { name: 'ログイン' }).click()
 
+    await page.waitForResponse(response =>
+      response.url().includes('/login') && response.status() === 200
+    )
+
     await expect(page).toHaveURL('http://localhost:5173/home')
     await expect(page.getByRole('heading', { name: 'メインメニュー' })).toBeVisible()
     await expect(page.getByRole('heading', { name: '処理名で検索' })).toBeVisible()
