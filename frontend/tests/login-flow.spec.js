@@ -60,3 +60,19 @@ test.describe('有効なユーザー名とパスワードを入力してログ�
     await page.getByRole('button').click()
   })
 })
+
+test.describe('無効なユーザー名とパスワードを入力してログインした場合', () => {
+  test('ログインに失敗すること', async ({ page }) => {
+    await page.goto('http://localhost:5173/')
+    await expect(page.getByRole('heading', { name: 'ログイン' })).toBeVisible()
+
+    await page.getByRole('textbox', { name: 'ユーザー名' }).fill('invalid user')
+    await page.getByRole('textbox', { name: 'パスワード' }).fill('invalidpassword')
+    await page.getByRole('button', { name: 'ログイン' }).click()
+
+    await expect(page).toHaveURL('http://localhost:5173/')
+    await expect(page.getByRole('heading', { name: 'ログイン' })).toBeVisible()
+
+    await expect(page.getByText('ユーザー名またはパスワードが無効です')).toBeVisible()
+  })
+})
