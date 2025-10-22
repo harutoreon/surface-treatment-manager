@@ -17,7 +17,7 @@ test.describe('一般ユーザーでログインした場合', () => {
     await expect(page.getByRole('heading', { name: 'アプリケーションの管理' })).toBeVisible()
 
     await expect(page.getByText('ログインしました。')).toBeVisible()
-    await page.getByRole('button').click()  // 通知を閉じる
+    await page.getByRole('button').click()
   })
 })
 
@@ -40,7 +40,7 @@ test.describe('管理者ユーザーでログインした場合', () => {
     await expect(page.getByRole('heading', { name: 'アプリケーションの管理' })).toBeVisible()
 
     await expect(page.getByText('ログインしました。')).toBeVisible()
-    await page.getByRole('button').click()  // 通知を閉じる
+    await page.getByRole('button').click()
   })
 })
 
@@ -68,6 +68,36 @@ test.describe('無効なユーザー名とパスワードを入力してログ�
 
     await page.getByRole('textbox', { name: 'ユーザー名' }).fill('invalid user')
     await page.getByRole('textbox', { name: 'パスワード' }).fill('invalidpassword')
+    await page.getByRole('button', { name: 'ログイン' }).click()
+
+    await expect(page).toHaveURL('http://localhost:5173/')
+    await expect(page.getByRole('heading', { name: 'ログイン' })).toBeVisible()
+
+    await expect(page.getByText('ユーザー名またはパスワードが無効です')).toBeVisible()
+  })
+})
+
+test.describe('ユーザー名のみ入力してログインした場合', () => {
+  test('ログインに失敗すること', async ({ page }) => {
+    await page.goto('http://localhost:5173/')
+    await expect(page.getByRole('heading', { name: 'ログイン' })).toBeVisible()
+
+    await page.getByRole('textbox', { name: 'ユーザー名' }).fill('general user')
+    await page.getByRole('button', { name: 'ログイン' }).click()
+
+    await expect(page).toHaveURL('http://localhost:5173/')
+    await expect(page.getByRole('heading', { name: 'ログイン' })).toBeVisible()
+
+    await expect(page.getByText('ユーザー名またはパスワードが無効です')).toBeVisible()
+  })
+})
+
+test.describe('パスワードのみ入力してログインした場合', () => {
+  test('ログインに失敗すること', async ({ page }) => {
+    await page.goto('http://localhost:5173/')
+    await expect(page.getByRole('heading', { name: 'ログイン' })).toBeVisible()
+
+    await page.getByRole('textbox', { name: 'パスワード' }).fill('generalpassword')
     await page.getByRole('button', { name: 'ログイン' }).click()
 
     await expect(page).toHaveURL('http://localhost:5173/')
