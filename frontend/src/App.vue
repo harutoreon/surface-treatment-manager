@@ -31,6 +31,7 @@ const handleMessageDelete = () => {
     <button
       type="button"
       class="btn-close"
+      aria-label="通知を閉じる"
       v-on:click="handleMessageDelete"
       data-bs-dismiss="alert"
     >
