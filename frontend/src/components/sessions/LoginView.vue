@@ -90,7 +90,6 @@ const handleLogin = async () => {
         class="form-control mb-4"
         type="text"
         id="user-name"
-        required
       >
 
       <label for="user-password">
@@ -101,7 +100,6 @@ const handleLogin = async () => {
         class="form-control mb-5"
         type="password"
         id="user-password"
-        required
       >
 
       <button type="submit" class="form-control btn btn-primary">

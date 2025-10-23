@@ -10,10 +10,60 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v5
+    services:
+      postgresql:
+        image: postgres
+        env:
+          POSTGRES_USER: sample_user
+          POSTGRES_PASSWORD: sample_password
+          POSTGRES_DB: sample_test_db
+        ports:
+          - 5432:5432
+        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: install packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y google-chrome-stable curl libjemalloc2 libvips postgresql-client
+
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.6
+
+      - name: install dependencies
+        run: bundle install
+        working-directory: backend/
+
+      - name: start rails api server
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: postgres://sample_user:sample_password@127.0.0.1:5432/sample_test_db
+        run: |
+          bin/rails db:create
+          bin/rails db:schema:load
+          bin/rails db:seed
+          bin/rails server -p 3000 -e test &
+        working-directory: backend/
+
+      - name: wait for rails api
+        run: npx wait-on http://localhost:3000
+        working-directory: backend/
+
+      - name: check rails server
+        run: curl -X GET http://localhost:3000
+
+      - name: debug api base url
+        run: echo "VITE_API_BASE_URL=$VITE_API_BASE_URL"
+        working-directory: frontend/
+
+      - name: setup node.js
+        uses: actions/setup-node@v5
         with:
           node-version: lts/*
 
