@@ -17,7 +17,7 @@ test.describe('メーカー名で検索', () => {
 
       await expect(page).toHaveURL('/static_pages/maker/search_results?keyword=株式会社')
       await expect(page.getByRole('heading', { name: '表面処理の検索結果' })).toBeVisible()
-      await expect(page.getByRole('heading', { name: /株式会社$/ }).first()).toBeVisible()
+      await expect(page.getByRole('heading', { name: /^株式会社|株式会社$/ }).first()).toBeVisible()
     })
   })
 })
