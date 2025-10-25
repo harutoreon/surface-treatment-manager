@@ -20,4 +20,16 @@ test.describe('メーカー名で検索', () => {
       await expect(page.getByRole('heading', { name: /^株式会社|株式会社$/ }).first()).toBeVisible()
     })
   })
+
+  test.describe('キーワードを未入力で検索した場合', () => {
+    test('キーワード入力を促すメッセージが表示されること', async ({ page }) => {
+      await page.getByRole('textbox', { name: 'キーワードをここに入力' }).fill('')
+      await page.getByRole('button', { name: '検索' }).click()
+
+      await expect(page).toHaveURL('/static_pages/maker')
+      await expect(page.getByRole('heading', { name: 'メーカー名で検索' })).toBeVisible()
+      await expect(page.getByRole('alert')).toHaveText('キーワードが未入力です')
+    })
+  })
+
 })
