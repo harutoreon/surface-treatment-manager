@@ -20,4 +20,15 @@ test.describe('カテゴリーで検索', () => {
       await expect(page.getByRole('link', { name: /.+めっき/ }).first()).toBeVisible()
     })
   })
+
+  test.describe('カテゴリーを未選択で検索した場合', () => {
+    test('カテゴリー選択を促すメッセージが表示されること', async ({ page }) => {
+      await page.getByRole('combobox').selectOption('')
+      await page.getByRole('button', { name: '検索' }).click()
+
+      await expect(page).toHaveURL('/static_pages/category')
+      await expect(page.getByRole('heading', { name: 'カテゴリーで検索' })).toBeVisible()
+      await expect(page.getByRole('alert')).toHaveText('リスト内の項目を選択して下さい')
+    })
+  })
 })
