@@ -9,6 +9,7 @@ const router = useRouter()
 const options = ref([])
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
+const errorMessage = ref('')
 
 const fetchCategories = async () => {
   try {
@@ -23,6 +24,10 @@ const fetchCategories = async () => {
 }
 
 const submitSearch = () => {
+  if (!keyword.value) {
+    errorMessage.value = 'リスト内の項目を選択して下さい'
+    return
+  }
   router.push({
     name: 'SearchResults',
     params: { searchMethod: 'category' },
@@ -45,8 +50,11 @@ onMounted(async () => {
     <h3 class="mt-5 mb-5">
       カテゴリーで検索
     </h3>
+    <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">
+      {{ errorMessage }}
+    </p>
     <form v-on:submit.prevent="submitSearch">
-      <select v-model="keyword" class="form-select mb-3" required>
+      <select v-model="keyword" class="form-select mb-3">
         <option value="">
           カテゴリーを選択して下さい
         </option>
