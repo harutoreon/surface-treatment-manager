@@ -31,5 +31,4 @@ test.describe('メーカー名で検索', () => {
       await expect(page.getByRole('alert')).toHaveText('キーワードが未入力です')
     })
   })
-
 })
