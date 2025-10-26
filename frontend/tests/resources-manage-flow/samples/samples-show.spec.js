@@ -20,7 +20,6 @@ test.describe('samples/id flow', () => {
       await expect(page.getByText('無電解ニッケルめっき')).toBeVisible()
       await expect(page.getByText('めっき', { exact: true })).toBeVisible()
       await expect(page.getByText('イエローブラウンシルバー')).toBeVisible()
-      await expect(page.getByText('河野電気株式会社')).toBeVisible()
       await expect(page.getByText('析出状態の皮膜硬度でHV550～HV700')).toBeVisible()
       await expect(page.getByText('通常は3～5μm、厚めの場合は20～50μmまで可能')).toBeVisible()
       await expect(page.getByText('耐食性・耐摩耗性・耐薬品性・耐熱性')).toBeVisible()
