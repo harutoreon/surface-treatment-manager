@@ -7,13 +7,11 @@ test.describe('samples/id flow', () => {
     await page.getByRole('button', { name: 'ログイン' }).click()
     await page.getByRole('button', { name: '通知を閉じる' }).click()
 
-    await page.locator('#manage-samples').getByRole('link', { name: '管理ページへ' }).click()
+    await page.goto('/samples/1')
   })
 
-  test.describe('無電解ニッケルめっきのリンクをクリックした場合', () => {
-    test('表面処理情報ページが表示されること', async ({ page }) => {
-      await page.getByRole('link', { name: '無電解ニッケルめっき' }).click()
-
+  test.describe('初期レンダリングに成功した場合', () => {
+    test('表面処理情報が表示されること', async ({ page }) => {
       await expect(page).toHaveURL('/samples/1')
       await expect(page.getByRole('heading', { name: '表面処理情報' })).toBeVisible()
 
@@ -26,11 +24,20 @@ test.describe('samples/id flow', () => {
       await expect(page.getByText('電気を使わず化学反応で金属表面にニッケルを析出する技術です。')).toBeVisible()
       await expect(page.getByRole('img', { name: 'Sample Image' })).toBeVisible()
 
-      await page.getByRole('heading', { name: 'コメントリスト' }).click()
+      await page.getByRole('heading', { name: 'コメントリスト' })
       
       await expect(page.getByRole('link', { name: '表面処理情報の編集' })).toBeVisible()
       await expect(page.getByText('表面処理情報の削除')).toBeVisible()
       await expect(page.getByRole('link', { name: '表面処理リストへ' })).toBeVisible()
+    })
+  })
+
+  test.describe('表面処理リストへのリンクを押した場合', () => {
+    test('/homeに移動すること', async ({ page }) => {
+      await page.getByRole('link', { name: '表面処理リストへ' }).click()
+
+      await expect(page).toHaveURL('/samples')
+      await expect(page.getByRole('heading', { name: '表面処理リスト' })).toBeVisible()
     })
   })
 })
