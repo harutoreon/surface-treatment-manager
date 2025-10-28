@@ -46,4 +46,12 @@ test.describe('samples flow', () => {
       await expect(page.getByRole('heading', { name: 'メインメニュー' })).toBeVisible()
     })
   })
+
+  test.describe('次ページのリンクをクリックした場合', () => {
+    test('2ページ目が表示されること', async ({ page }) => {
+      await page.getByRole('link', { name: '次ページ' }).click()
+
+      await expect(page).toHaveURL('http://localhost:5173/samples?page=2')
+    })
+  })
 })
