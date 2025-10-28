@@ -8,11 +8,11 @@ test.describe('samples/id/edit flow', () => {
     await page.getByRole('button', { name: '通知を閉じる' }).click()
   })
 
-  test.describe('/samples/id/editをリクエストした場合', () => {
+  test.describe('初期レンダリングに成功した場合', () => {
     test('表面処理情報の編集ページが表示されること', async ({ page }) => {
       await page.goto('/samples/32/edit')
-      await expect(page.getByRole('heading', { name: '表面処理情報の編集' })).toBeVisible()
 
+      await expect(page.getByRole('heading', { name: '表面処理情報の編集' })).toBeVisible()
       await expect(page.locator('#sample-name')).toHaveValue('カナック')
       await expect(page.locator('#sample-category')).toHaveValue('表面硬化')
       await expect(page.locator('#sample-color')).toHaveValue('ブラウン')
@@ -25,6 +25,17 @@ test.describe('samples/id/edit flow', () => {
 
       await expect(page.getByRole('link', { name: '表面処理情報へ' })).toBeVisible()
       await expect(page.getByRole('link', { name: '表面処理リストへ' })).toBeVisible()
+    })
+  })
+
+  test.describe('表面処理リストへのリンクをクリックした場合', () => {
+    test('/samplesへ移動すること', async ({ page }) => {
+      await page.goto('/samples/1/edit')
+
+      await page.getByRole('link', { name: '表面処理リストへ' }).click()
+
+      await expect(page).toHaveURL('/samples')
+      await expect(page.getByRole('heading', { name: '表面処理リスト' })).toBeVisible()
     })
   })
 })
