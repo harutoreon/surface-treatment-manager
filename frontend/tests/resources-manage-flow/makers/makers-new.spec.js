@@ -28,4 +28,13 @@ test.describe('makers new flow', () => {
       await expect(page.getByRole('link', { name: 'メーカーリストへ' })).toBeVisible()
     })
   })
+
+  test.describe('メーカーリストへのリンクをクリックした場合', () => {
+    test('/makersへ移動すること', async ({ page }) => {
+      await page.getByRole('link', { name: 'メーカーリストへ' }).click()
+
+      await expect(page).toHaveURL('/makers')
+      await expect(page.getByRole('heading', { name: 'メーカーリスト' })).toBeVisible()
+    })
+  })
 })
