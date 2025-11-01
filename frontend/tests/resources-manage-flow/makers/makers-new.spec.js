@@ -1,0 +1,40 @@
+import { test, expect } from '@playwright/test'
+
+test.describe('makers new flow', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/')
+    await page.getByRole('radio', { name: '管理者ユーザー' }).check()
+    await page.getByRole('button', { name: 'ログイン' }).click()
+    await page.getByRole('button', { name: '通知を閉じる' }).click()
+
+    await page.goto('/makers/new')
+  })
+
+  test.describe('初期レンダリングに成功した場合', () => {
+    test('メーカー情報の登録ページが表示されること', async ({ page }) => {
+      await expect(page.getByRole('heading', { name: 'メーカー情報の登録' })).toBeVisible()
+
+      await expect(page.locator('#maker-name')).toBeVisible()
+      await expect(page.locator('#maker-postal-code')).toBeVisible()
+      await expect(page.locator('#maker-address')).toBeVisible()
+      await expect(page.locator('#maker-phone-number')).toBeVisible()
+      await expect(page.locator('#maker-fax-number')).toBeVisible()
+      await expect(page.locator('#maker-email')).toBeVisible()
+      await expect(page.locator('#maker-home-page')).toBeVisible()
+      await expect(page.locator('#maker-manufacturer-rep')).toBeVisible()
+
+      await expect(page.getByRole('button', { name: '登録' })).toBeVisible()
+
+      await expect(page.getByRole('link', { name: 'メーカーリストへ' })).toBeVisible()
+    })
+  })
+
+  test.describe('メーカーリストへのリンクをクリックした場合', () => {
+    test('/makersへ移動すること', async ({ page }) => {
+      await page.getByRole('link', { name: 'メーカーリストへ' }).click()
+
+      await expect(page).toHaveURL('/makers')
+      await expect(page.getByRole('heading', { name: 'メーカーリスト' })).toBeVisible()
+    })
+  })
+})
