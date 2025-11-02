@@ -28,6 +28,15 @@ test.describe('users show flow', () => {
     })
   })
 
+  test.describe('ユーザー情報の編集リンクをクリックした時', () => {
+    test('/users/1/editに移動すること', async ({ page }) => {
+      await page.getByRole('link', { name: 'ユーザー情報の編集' }).click()
+
+      await expect(page).toHaveURL('/users/1/edit')
+      await expect(page.getByRole('heading', { name: 'ユーザー情報の編集' })).toBeVisible()
+    })
+  })
+
   test.describe('ユーザーリストのリンクをクリックした時', () => {
     test('/usersに移動すること', async ({ page }) => {
       await page.getByRole('link', { name: 'ユーザーリスト' }).click()
