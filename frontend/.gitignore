@@ -31,7 +31,6 @@ coverage
 # vite api base url
 .env.development
 .env.production
-.env.test
 
 # Playwright
 /test-results/
