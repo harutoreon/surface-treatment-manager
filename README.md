@@ -73,6 +73,8 @@
   - Vitest
     - Component テスト
     - E2E テスト（Routing のみ）
+  - Playwright
+    - E2E テスト
 - Backend
   - RSpec
     - Model Spec
