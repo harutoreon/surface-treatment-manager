@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('users show flow', () => {
+test.describe('departments show flow', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
     await page.getByRole('radio', { name: '管理者ユーザー' }).check()
