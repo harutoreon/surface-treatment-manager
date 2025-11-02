@@ -86,7 +86,7 @@ onMounted(async () => {
     </p>
 
     <div class="d-flex justify-content-evenly">
-      <RouterLink v-bind:to="`/categories/${category.id}`" ref="linkCategoriesShow">
+      <RouterLink v-if="category.id" v-bind:to="`/categories/${category.id}`" ref="linkCategoriesShow">
         カテゴリー情報へ
       </RouterLink>
       <RouterLink to="/categories" ref="linkCategories">
