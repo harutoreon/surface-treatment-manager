@@ -21,6 +21,15 @@ test.describe('categories show flow', () => {
     })
   })
 
+  test.describe('カテゴリー情報の編集リンクをクリックした場合', () => {
+    test('/categories/1/editに移動すること', async ({ page }) => {
+      await page.getByRole('link', { name: 'カテゴリー情報の編集' }).click()
+
+      await expect(page).toHaveURL('/categories/1/edit')
+      await expect(page.getByRole('heading', { name: 'カテゴリー情報の編集' })).toBeVisible()
+    })
+  })
+
   test.describe('カテゴリーリストへのリンクをクリックした場合', () => {
     test('/categoriesに移動すること', async ({ page }) => {
       await page.getByRole('link', { name: 'カテゴリーリストへ' }).click()
