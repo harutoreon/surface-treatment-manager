@@ -63,7 +63,7 @@ onMounted(async () => {
     </ul>
 
     <div class="d-flex justify-content-evenly">
-      <RouterLink v-bind:to="`/departments/${department.id}/edit`">
+      <RouterLink v-if="department.id" v-bind:to="`/departments/${department.id}/edit`">
         部署情報の編集へ
       </RouterLink>
 
