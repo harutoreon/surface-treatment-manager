@@ -72,7 +72,7 @@ onMounted(async () => {
     </ul>
 
     <div class="d-flex justify-content-evenly">
-      <RouterLink v-bind:to="`/comments/${comment.id}/edit`">
+      <RouterLink v-if="comment.id" v-bind:to="`/comments/${comment.id}/edit`">
         コメント情報の編集
       </RouterLink>
       <p v-on:click="handleDelete" class="text-primary text-decoration-underline">

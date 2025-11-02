@@ -174,7 +174,7 @@ onMounted(async () => {
     </div>
 
     <div class="d-flex justify-content-evenly mt-5 mb-5">
-      <RouterLink v-bind:to="`/samples/${sample.id}/edit`" ref="linkSamplesEdit">
+      <RouterLink v-if="sample.id" v-bind:to="`/samples/${sample.id}/edit`" ref="linkSamplesEdit">
         表面処理情報の編集
       </RouterLink>
       <p v-show="isAdmin" v-on:click="handleDelete" class="text-primary text-decoration-underline">

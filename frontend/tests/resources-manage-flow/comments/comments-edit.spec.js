@@ -25,6 +25,15 @@ test.describe('comments edit flow', () => {
     })
   })
 
+  test.describe('コメント情報へのリンクをクリックした時', () => {
+    test('/comments/1に移動すること', async ({ page }) => {
+      await page.getByRole('link', { name: 'コメント情報へ' }).click()
+
+      await expect(page).toHaveURL('/comments/1')
+      await expect(page.getByRole('heading', { name: 'コメント情報' })).toBeVisible()
+    })
+  })
+
   test.describe('コメントリストへのリンクをクリックした時', () => {
     test('/commentsに移動すること', async ({ page }) => {
       await page.getByRole('link', { name: 'コメントリストへ' }).click()

@@ -66,7 +66,7 @@ onMounted(async () => {
     </div>
 
     <div class="d-flex justify-content-evenly">
-      <RouterLink v-bind:to="`/users/${user.id}/edit`" ref="linkUsersEdit">
+      <RouterLink v-if="user.id" v-bind:to="`/users/${user.id}/edit`" ref="linkUsersEdit">
         ユーザー情報の編集
       </RouterLink>
       <RouterLink to="/users" ref="linkUsers">

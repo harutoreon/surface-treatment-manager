@@ -27,6 +27,15 @@ test.describe('departments show flow', () => {
     })
   })
 
+  test.describe('部署情報の編集へのリンクをクリックした時', () => {
+    test('/departments/1/editに移動すること', async ({ page }) => {
+      await page.getByRole('link', { name: '部署情報の編集へ' }).click()
+
+      await expect(page).toHaveURL('/departments/1/edit')
+      await expect(page.getByRole('heading', { name: '部署情報の編集' })).toBeVisible()
+    })
+  })
+
   test.describe('部署リストへのリンクをクリックした時', () => {
     test('/departmentsに移動すること', async ({ page }) => {
       await page.getByRole('link', { name: '部署リストへ' }).click()

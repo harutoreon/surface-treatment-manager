@@ -95,7 +95,7 @@ onMounted(async () => {
     </p>
 
     <div class="d-flex justify-content-evenly">
-      <RouterLink v-bind:to="`/comments/${comment.id}`">
+      <RouterLink v-if="comment.id" v-bind:to="`/comments/${comment.id}`">
         コメント情報へ
       </RouterLink>
       <RouterLink to="/comments">

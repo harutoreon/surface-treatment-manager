@@ -32,8 +32,17 @@ test.describe('samples/id flow', () => {
     })
   })
 
+  test.describe('表面処理情報の編集リンクを押した場合', () => {
+    test('/samples/1/editに移動すること', async ({ page }) => {
+      await page.getByRole('link', { name: '表面処理情報の編集' }).click()
+
+      await expect(page).toHaveURL('/samples/1/edit')
+      await expect(page.getByRole('heading', { name: '表面処理情報の編集' })).toBeVisible()
+    })
+  })
+
   test.describe('表面処理リストへのリンクを押した場合', () => {
-    test('/homeに移動すること', async ({ page }) => {
+    test('/samplesに移動すること', async ({ page }) => {
       await page.getByRole('link', { name: '表面処理リストへ' }).click()
 
       await expect(page).toHaveURL('/samples')

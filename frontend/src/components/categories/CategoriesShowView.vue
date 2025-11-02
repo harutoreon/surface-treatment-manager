@@ -67,7 +67,7 @@ onMounted(async () => {
     </ul>
 
     <div class="d-flex justify-content-evenly">
-      <RouterLink v-bind:to="`/categories/${category.id}/edit`" ref="linkCategoriesEdit">
+      <RouterLink v-if="category.id" v-bind:to="`/categories/${category.id}/edit`" ref="linkCategoriesEdit">
         カテゴリー情報の編集
       </RouterLink>
       <p v-on:click="handleDelete" class="text-primary text-decoration-underline">
