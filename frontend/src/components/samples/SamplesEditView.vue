@@ -175,7 +175,7 @@ onMounted(async () => {
     </form>
 
     <div class="d-flex justify-content-evenly mb-5">
-      <RouterLink v-bind:to="`/samples/${sample.id}`" ref="linkSamplesEdit">
+      <RouterLink v-if="sample.id" v-bind:to="`/samples/${sample.id}`" ref="linkSamplesEdit">
         表面処理情報へ
       </RouterLink>
       <RouterLink to="/samples" ref="linkSamples">
