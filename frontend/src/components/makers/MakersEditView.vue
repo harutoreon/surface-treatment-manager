@@ -153,7 +153,7 @@ onMounted(async () => {
     </form>
 
     <div class="d-flex justify-content-evenly">
-      <RouterLink v-bind:to="`/makers/${maker.id}`" ref="linkMakersShow">
+      <RouterLink v-if="maker.id" v-bind:to="`/makers/${maker.id}`" ref="linkMakersShow">
         メーカー情報へ
       </RouterLink>
       <RouterLink to="/makers" ref="linkMakers">

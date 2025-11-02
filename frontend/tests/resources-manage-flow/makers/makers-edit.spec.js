@@ -31,6 +31,15 @@ test.describe('makers edit flow', () => {
     })
   })
 
+  test.describe('メーカー情報へのリンクをクリックした時', () => {
+    test('/makers/1に移動すること', async ({ page }) => {
+      await page.getByRole('link', { name: 'メーカー情報へ' }).click()
+
+      await expect(page).toHaveURL('/makers/1')
+      await expect(page.getByRole('heading', { name: 'メーカー情報' })).toBeVisible()
+    })
+  })
+
   test.describe('メーカーリストへのリンクをクリックした時', () => {
     test('/categoriesに移動すること', async ({ page }) => {
       await page.getByRole('link', { name: 'メーカーリストへ' }).click()
