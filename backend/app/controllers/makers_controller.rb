@@ -1,6 +1,6 @@
 class MakersController < ApplicationController
   def index
-    makers = Maker.paginate(page: params[:page], per_page: 7)
+    makers = Maker.order(:id).paginate(page: params[:page], per_page: 7)
 
     render json: {
       makers: makers,
