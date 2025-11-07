@@ -43,7 +43,7 @@ class CommentsController < ApplicationController
   end
 
   def comment_list
-    comments = Comment.paginate(page: params[:page], per_page: 10)
+    comments = Comment.order(:id).paginate(page: params[:page], per_page: 10)
 
     render json: {
       comments: comments,

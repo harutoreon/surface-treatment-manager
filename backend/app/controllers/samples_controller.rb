@@ -1,6 +1,6 @@
 class SamplesController < ApplicationController
   def index
-    samples = Sample.paginate(page: params[:page], per_page: 7)
+    samples = Sample.order(:id).paginate(page: params[:page], per_page: 7)
 
     render json: {
       samples: samples,
