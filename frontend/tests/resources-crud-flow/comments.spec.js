@@ -68,8 +68,8 @@ test.describe('comments crud flow', () => {
 
     // /commentsページの検証
     await expect(page.getByRole('heading', { name: 'コメントリスト' })).toBeVisible()
+    await page.goto('/comments?page=16')
     await expect(page.locator('a[href="/comments?page=16"]')).toBeVisible()
     await expect(page.locator('a[href="/comments?page=17"]')).not.toBeVisible()
-    await page.getByRole('button', { name: '通知を閉じる' }).click()
   })
 })

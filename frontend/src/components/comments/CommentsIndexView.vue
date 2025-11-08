@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import { checkLoginStatus } from '@/components/utils.js'
@@ -35,6 +35,27 @@ const fetchCommentList = async () => {
 const getPageLink = (page) => ({
   path: route.path,
   query: { page }
+})
+
+const visiblePages = computed(() => {
+  const total = totalPages.value
+  const current = currentPage.value
+  const maxVisible = 10
+  const half = Math.floor(maxVisible / 2)
+
+  let start = Math.max(1, current - half)
+  let end = Math.min(total, start + maxVisible - 1)
+
+  // 終端で10個未満になる場合の調整
+  if (end - start < maxVisible - 1) {
+    start = Math.max(1, end - maxVisible + 1)
+  }
+
+  const pages = []
+  for (let pageNumber = start; pageNumber <= end; pageNumber++) {
+    pages.push(pageNumber)
+  }
+  return pages
 })
 
 watch(() => route.query.page, (newPage) => {
@@ -93,7 +114,7 @@ onMounted(async () => {
       </li>
 
       <li
-        v-for="page in totalPages"
+        v-for="page in visiblePages"
         v-bind:key="page"
         class="page-item"
         v-bind:class="{ active: page === currentPage }"
