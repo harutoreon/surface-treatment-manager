@@ -97,4 +97,18 @@ test.describe('samples crud flow', () => {
     await expect(page.getByText('テフロンコーティング')).not.toBeVisible()
     await page.getByRole('button', { name: '通知を閉じる' }).click()
   })
+
+  test.describe('ファイル容量が5MB未満の場合', () => {
+    test('容量エラーのメッセージが表示されないこと', async ({ page }) => {
+      await page.locator('#sample-image').setInputFiles('./tests/assets/valid_image.jpg')
+      await expect(page.getByText('5MB未満のファイルに変更して下さい。')).not.toBeVisible()
+    })
+  })
+
+  test.describe('ファイル容量が5MBを超える場合', () => {
+    test('容量エラーのメッセージが表示されること', async ({ page }) => {
+      await page.locator('#sample-image').setInputFiles('./tests/assets/invalid_image.jpg')
+      await expect(page.getByText('5MB未満のファイルに変更して下さい。')).toBeVisible()
+    })
+  })
 })

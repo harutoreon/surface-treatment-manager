@@ -25,7 +25,7 @@ const handleMessageDelete = () => {
       </div>
     </nav>
   </header>
-  
+
   <div v-if="message" v-bind:class="`alert alert-${messageType} alert-dismissible fade show`">
     {{ message }}
     <button
