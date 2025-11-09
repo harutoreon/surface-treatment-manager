@@ -8,7 +8,6 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
 const router = useRouter()
 const options = ref([])
-const sample = ref('')
 const name = ref('')
 const category = ref('')
 const color = ref('')
@@ -19,6 +18,8 @@ const feature = ref('')
 const summary = ref('')
 const image = ref(null)
 const errorMessage = ref('')
+const imageSizeErrorMessage = ref('')
+const previewImage = ref('')
 
 const fetchCategories = async () => {
   try {
@@ -34,18 +35,23 @@ const fetchCategories = async () => {
 
 const handleFileChange = (event) => {
   const file = event.target.files[0]
-  if (file) {
-    image.value = file
+  if (!file) return
+  const imageSize = file.size
 
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      const previewImage = document.getElementById('preview-image')
-      if (previewImage) {
-        previewImage.src = e.target.result
-      }
-    }
-    reader.readAsDataURL(file)
+  if (imageSize > 5000000) {
+    imageSizeErrorMessage.value = '5MB以下のファイルに変更して下さい。'
+    previewImage.value = ''
+    image.value = null
+    return
   }
+
+  imageSizeErrorMessage.value = ''
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    previewImage.value = e.target.result
+  }
+  image.value = file
+  reader.readAsDataURL(file)
 }
 
 const sampleRegistration = async () => {
@@ -68,9 +74,8 @@ const sampleRegistration = async () => {
         'Content-Type': 'multipart/form-data'
       }
     })
-    sample.value = response.data
     emit('message', { type: 'success', text: '表面処理情報を1件登録しました。' })
-    router.push(`/samples/${sample.value.id}`)
+    router.push(`/samples/${response.data.id}`)
   } catch {
     errorMessage.value = '入力に不備があります。'
   }
@@ -189,7 +194,7 @@ onMounted(async () => {
           id="preview-image"
           width="200"
           height="200"
-          src=""
+          v-bind:src="previewImage || ''"
         >
       </div>
       <input
@@ -199,6 +204,10 @@ onMounted(async () => {
         id="sample-image"
         v-on:change="handleFileChange"
       />
+
+      <p v-if="imageSizeErrorMessage" class="text-danger mt-4">
+        {{ imageSizeErrorMessage }}
+      </p>
 
       <button type="submit" class="form-control btn btn-primary mb-5">
         登録
