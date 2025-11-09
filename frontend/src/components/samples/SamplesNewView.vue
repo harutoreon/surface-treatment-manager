@@ -39,7 +39,7 @@ const handleFileChange = (event) => {
   const imageSize = file.size
 
   if (imageSize > 5000000) {
-    imageSizeErrorMessage.value = '5MB以下のファイルに変更して下さい。'
+    imageSizeErrorMessage.value = '5MB未満のファイルに変更して下さい。'
     previewImage.value = ''
     image.value = null
     return

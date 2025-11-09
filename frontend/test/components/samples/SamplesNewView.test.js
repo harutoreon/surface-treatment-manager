@@ -288,38 +288,45 @@ describe('SamplesNewView', () => {
       await flushPromises()
     })
 
-    it('画像プレビューが表示されること', async () => {
-      const file = new File(['dummy content'], 'electroless_nickel_plating.jpeg', { type: 'image/png' })
+    describe('ファイルの容量が5MB未満の場合', () => {
+      it('プレビューが表示されること', async () => {
+        const file = new File(['a'.repeat(4_000_000)], 'small.jpg', { type: 'image/jpeg' })
+        const inputEl = wrapper.find('#sample-image').element
 
-      const mockReadAsDataURL = vi.fn(function () {
-        this.result = 'data:image/png;base64,dummy'
-        this.onload({ target: this })
+        const mockReadAsDataURL = vi.fn(function () {
+          this.result = 'data:image/jpeg;base64,preview'
+          this.onload({ target: this })
+        })
+        vi.stubGlobal('FileReader', class {
+          constructor() {
+            this.onload = null
+          }
+          readAsDataURL = mockReadAsDataURL
+        })
+
+        Object.defineProperty(inputEl, 'files', { value: [file], writable: false })
+        inputEl.dispatchEvent(new Event('change'))
+
+        await flushPromises()
+
+        expect(wrapper.text()).not.toContain('5MB未満のファイルに変更して下さい。')
+        expect(wrapper.find('#preview-image').attributes('src')).toBe('data:image/jpeg;base64,preview')
       })
+    })
 
-      vi.stubGlobal('FileReader', class {
-        constructor() {
-          this.onload = null
-        }
-        readAsDataURL = mockReadAsDataURL
+    describe('ファイルの容量が5MBを超える場合', () => {
+      it('エラーメッセージを表示してプレビューが表示されないこと', async () => {
+        const file = new File(['a'.repeat(6_000_000)], 'large.jpg', { type: 'image/jpeg' })
+        const inputEl = wrapper.find('#sample-image').element
+
+        Object.defineProperty(inputEl, 'files', { value: [file], writable: false })
+        inputEl.dispatchEvent(new Event('change'))
+
+        await flushPromises()
+
+        expect(wrapper.text()).toContain('5MB未満のファイルに変更して下さい。')
+        expect(wrapper.find('#preview-image').attributes('src')).toBe('')
       })
-
-      const input = wrapper.find('#sample-image')
-
-      const inputEl = input.element
-
-      Object.defineProperty(inputEl, 'files', {
-        value: [file],
-        writable: false
-      })
-
-      const event = new Event('change')
-      inputEl.dispatchEvent(event)
-
-      await flushPromises()
-
-      const previewImage = wrapper.find('#preview-image')
-
-      expect(previewImage.attributes('src')).toBe('data:image/png;base64,dummy')
     })
   })
 })
