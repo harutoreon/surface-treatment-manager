@@ -1,8 +1,10 @@
 <script setup>
 import { ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 const messageType = ref('')
 const message = ref('')
+const route = useRoute()
 
 const showMessage = (payload) => {
   messageType.value = payload.type
@@ -16,7 +18,7 @@ const handleMessageDelete = () => {
 </script>
 
 <template>
-  <header>
+  <header v-if="route.path !== '/'">
     <nav class="navbar bg-body-tertiary border-bottom">
       <div class="container justify-content-center">
         <RouterLink to="/home" class="navbar-brand">

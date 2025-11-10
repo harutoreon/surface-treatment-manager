@@ -1,6 +1,16 @@
 import App from '@/App.vue'
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
+
+vi.mock('vue-router', () => {
+  return {
+    useRoute: () => {
+      return {
+        path: '/home'
+      }
+    }
+  }
+})
 
 describe('App.vue', () => {
   let wrapper
