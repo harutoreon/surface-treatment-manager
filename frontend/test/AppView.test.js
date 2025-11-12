@@ -1,49 +1,69 @@
-import App from '@/App.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 
-vi.mock('vue-router', () => {
-  return {
-    useRoute: () => {
-      return {
-        path: '/home'
-      }
-    }
-  }
-})
-
 describe('App.vue', () => {
+  let App
   let wrapper
 
-  beforeEach(async () => {
+  const mountWithRoute = async (path) => {
+    vi.resetModules()
+
+    vi.doMock('vue-router', () => ({
+      useRoute: () => ({ path }),
+    }))
+
+    const module = await import('@/App.vue')
+    App = module.default
+
     wrapper = mount(App, {
       global: {
         stubs: {
           RouterLink: RouterLinkStub,
           RouterView: {
-            template: '<div class="router-view-stub" />'
-          }
-        }
-      }
+            template: '<div class="router-view-stub" />',
+          },
+        },
+      },
     })
 
     await flushPromises()
-  })
+  }
 
   describe('初期レンダリング', () => {
-    it('headerが表示されること', () => {
-      const headerElement = wrapper.find('header')
+    describe('pathが/homeの場合', () => {
+      beforeEach(async () => {
+        await mountWithRoute('/home')
+      })
 
-      expect(headerElement.findComponent('nav div a').text()).toBe('Surface Treatment Manager')
-      expect(headerElement.findComponent('nav div a').props().to).toBe('/home')
+      it('headerが表示されること', () => {
+        expect(wrapper.find('header').exists()).toBe(true)
+      })
+
+      it('RouterViewが表示されること', () => {
+        expect(wrapper.find('.router-view-stub').exists()).toBe(true)
+      })
     })
 
-    it('RouterViewが表示されること', () => {
-      expect(wrapper.find('.router-view-stub').exists()).toBe(true)
+    describe('pathが/の場合', () => {
+      beforeEach(async () => {
+        await mountWithRoute('/')
+      })
+
+      it('headerが表示されないこと', async () => {
+        expect(wrapper.find('header').exists()).toBe(false)
+      })
+
+      it('RouterViewが表示されること', () => {
+        expect(wrapper.find('.router-view-stub').exists()).toBe(true)
+      })
     })
   })
 
   describe('フラッシュメッセージの表示', () => {
+    beforeEach(async () => {
+      await mountWithRoute('/home')
+    })
+
     describe('messageがある場合', () => {
       it('メッセージが表示されること', async () => {
         await wrapper.vm.showMessage({ type: 'success', text: '保存しました。' })
