@@ -4,17 +4,19 @@
     type="button"
     class="btn btn-primary"
     data-bs-toggle="modal"
-    data-bs-target="#exampleModal"
+    data-bs-target="#staticBackdrop"
   >
-    Launch demo modal
+    Launch static backdrop modal
   </button>
 
   <!-- Modal -->
   <div
     class="modal fade"
-    id="exampleModal"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
     tabindex="-1"
-    aria-labelledby="exampleModalLabel"
+    aria-labelledby="staticBackdropLabel"
     aria-hidden="true"
   >
     <div class="modal-dialog">
@@ -22,7 +24,7 @@
         <div class="modal-header">
           <h1
             class="modal-title fs-5"
-            id="exampleModalLabel"
+            id="staticBackdropLabel"
           >
             Modal title
           </h1>
@@ -49,7 +51,7 @@
             type="button"
             class="btn btn-primary"
           >
-            Save changes
+            Understood
           </button>
         </div>
       </div>
