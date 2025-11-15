@@ -12,7 +12,7 @@ import searchResultRoutes from './routes/search_results'
 import staticPageRoutes from './routes/static_pages'
 import notFoundRoute from './routes/not_found'
 
-import ModalTraining from '@/modal-training.vue'
+import commentPostForm from '@/prototype-post-form.vue'
 
 const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : createWebHistory()
 
@@ -29,9 +29,9 @@ const routes = [
   ...staticPageRoutes,
   ...notFoundRoute,
   {
-    path: '/modal-training',
-    component: ModalTraining,
-    meta: { title: 'Modal Training' }
+    path: '/comment-post',
+    component: commentPostForm,
+    meta: { title: 'Comment Post' }
   }
 ]
 
