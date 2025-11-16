@@ -28,6 +28,7 @@ export default [
         File: 'readonly',
         Event: 'readonly',
         localStorage: 'readonly',
+        alert: 'readonly',
       },
     },
     plugins: {
