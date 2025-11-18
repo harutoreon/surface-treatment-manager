@@ -25,7 +25,6 @@ const sampleComments = ref([])
 const isAdmin = ref(false)
 const department = ref('')
 const commenter = ref('')
-const commentInput = ref('')
 const body = ref('')
 const sampleId = ref(route.params.id)
 const comment = ref('')
@@ -33,10 +32,6 @@ const errorMessage = ref('')
 
 const handleCommentAdd = async () => {
   try {
-    commenter.value = '佐藤 太郎'
-    department.value = '営業部'
-    body.value = commentInput.value
-
     const response = await axios.post(`${API_BASE_URL}/samples/${sampleId.value}/comments`, {
       comment: {
         commenter: commenter.value,
@@ -238,8 +233,20 @@ onMounted(async () => {
             </h1>
           </div>
           <div class="modal-body">
+            <input
+              v-model="commenter"
+              class="form-control mb-3"
+              type="text"
+              id="commenter"
+            />
+            <input
+              v-model="department"
+              class="form-control mb-3"
+              type="text"
+              id="department"
+            />
             <textarea
-              v-model="commentInput"
+              v-model="body"
               class="form-control"
               id="comment-post"
               placeholder="コメントはここに入力して下さい。"></textarea>
