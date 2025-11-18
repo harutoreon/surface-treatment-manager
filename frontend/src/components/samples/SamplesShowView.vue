@@ -48,7 +48,7 @@ const handleCommentAdd = async () => {
 
     alert('コメントを1件追加しました。')
   } catch {
-    errorMessage.value = 'コメントを入力して下さい。'
+    errorMessage.value = '入力に不備があります。'
   }
 }
 

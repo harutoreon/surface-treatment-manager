@@ -618,7 +618,7 @@ describe('SamplesShowView', () => {
 
       await addToListButton.trigger('click')
 
-      expect(wrapper.find('div.text-danger.ms-3').text()).toBe('コメントを入力して下さい。')
+      expect(wrapper.find('div.text-danger.ms-3').text()).toBe('入力に不備があります。')
     })
   })
 
