@@ -186,6 +186,27 @@ describe('SamplesShowView', () => {
       expect(wrapper.find('img').attributes('src')).toContain('sample_image_url.jpeg')
     })
 
+    it('コメントリストの見出しが表示されること', () => {
+      expect(wrapper.find('h5').text()).toBe('コメントリスト')
+    })
+
+    it('コメントの新規作成ボタンが表示されること', () => {
+      expect(wrapper.find('button').text()).toBe('コメントの新規作成')
+      expect(wrapper.find('button').attributes('data-bs-toggle')).toBe('modal')
+    })
+
+    it('モーダルが表示が存在すること', () => {
+      expect(wrapper.find('#commentPostForm').exists()).toBe(true)
+      expect(wrapper.find('#commentPostFormLabel').text()).toBe('コメントの新規作成')
+      expect(wrapper.find('#commenter').exists()).toBe(true)
+      expect(wrapper.find('#department').exists()).toBe(true)
+      expect(wrapper.find('#comment-post').exists()).toBe(true)
+
+      const modalFooterButtons = wrapper.findAll('div[class="modal-footer"] button')
+      expect(modalFooterButtons[0].text()).toBe('閉じる')
+      expect(modalFooterButtons[1].text()).toBe('リストに追加')
+    })
+
     it('外部リンクが表示されること', () => {
       const routerLinks = wrapper.findAllComponents(RouterLinkStub)
 
@@ -468,6 +489,138 @@ describe('SamplesShowView', () => {
         { type: 'danger', text: '表面処理情報の削除処理に失敗しました。' }
       ])
       expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
+    })
+  })
+
+  describe('コメントの新規作成に成功した場合', () => {
+    it('コメントリストに追加されること', async () => {
+      const generalUserId = 50
+
+      axios.get
+        .mockResolvedValueOnce({
+          status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: generalUserId }
+          }
+        })
+        .mockReturnValueOnce({
+          data: {
+            id: 1,
+            name: '無電解ニッケルめっき',
+            category: 'めっき',
+            color: 'イエローブラウンシルバー',
+            maker: '小島印刷合同会社',
+            created_at: '2025-02-23T22:15:29.815Z',
+            updated_at: '2025-02-23T22:15:29.815Z',
+            hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+            film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+            feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
+            summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+            image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
+          }
+        })
+        .mockResolvedValueOnce({
+          data: [
+            {
+              id: 1,
+              commenter: '佐藤 太郎',
+              body: 'このめっきの膜厚は均一です。',
+              sample_id: 1,
+              created_at: '2025-02-23T22:15:30.030Z',
+              department: '営業部',
+            }
+          ]
+        })
+
+      axios.post
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            commenter: '佐藤 太郎',
+            body: 'このめっきの膜厚は均一です。',
+            sample_id: 1,
+            created_at: '2025-02-23T22:15:30.030Z',
+            department: '営業部',
+          }
+        })
+
+      wrapper = mount(SamplesShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      const modalFooterButtons = wrapper.findAll('div[class="modal-footer"] button')
+      const addToListButton = modalFooterButtons[1]
+
+      await addToListButton.trigger('click')
+
+      expect(axios.post).toHaveBeenCalled()
+      expect(wrapper.html()).toContain('営業部：佐藤 太郎')
+      expect(wrapper.html()).toMatch(/\d{4}\/\d{1,2}\/\d{1,2}/)
+      expect(wrapper.html()).toContain('このめっきの膜厚は均一です。')
+    })
+  })
+
+  describe('コメントの新規作成に失敗した場合', () => {
+    it('コメント入力を促すメッセージが表示されること', async () => {
+      const generalUserId = 50
+
+      axios.get
+        .mockResolvedValueOnce({
+          status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: generalUserId }
+          }
+        })
+        .mockReturnValueOnce({
+          data: {
+            id: 1,
+            name: '無電解ニッケルめっき',
+            category: 'めっき',
+            color: 'イエローブラウンシルバー',
+            maker: '小島印刷合同会社',
+            created_at: '2025-02-23T22:15:29.815Z',
+            updated_at: '2025-02-23T22:15:29.815Z',
+            hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+            film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+            feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
+            summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+            image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
+          }
+        })
+
+      axios.post
+        .mockRejectedValueOnce({
+          response: {
+            status: 422
+          }
+        })
+
+      wrapper = mount(SamplesShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+
+      const modalFooterButtons = wrapper.findAll('div[class="modal-footer"] button')
+      const addToListButton = modalFooterButtons[1]
+
+      await addToListButton.trigger('click')
+
+      expect(wrapper.find('div.text-danger.ms-3').text()).toBe('入力に不備があります。')
     })
   })
 

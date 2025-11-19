@@ -3,6 +3,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { checkLoginStatus } from '@/components/utils.js'
+import { Modal } from 'bootstrap'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
@@ -22,6 +23,41 @@ const sample = ref({
 
 const sampleComments = ref([])
 const isAdmin = ref(false)
+const department = ref('')
+const commenter = ref('')
+const body = ref('')
+const sampleId = ref(route.params.id)
+const comment = ref('')
+const errorMessage = ref('')
+
+const modalReset = () => {
+  commenter.value = ''
+  department.value = ''
+  body.value = ''
+  errorMessage.value = ''
+}
+
+const handleCommentAdd = async () => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/samples/${sampleId.value}/comments`, {
+      comment: {
+        commenter: commenter.value,
+        department: department.value,
+        body: body.value
+      }
+    })
+    comment.value = response.data
+    errorMessage.value = ''
+    await fetchSampleCommentsData(route.params.id)
+
+    const modal = Modal.getInstance('#commentPostForm')
+    modal.hide()
+
+    alert('コメントを1件追加しました。')
+  } catch {
+    errorMessage.value = '入力に不備があります。'
+  }
+}
 
 const fetchSampleData = async (id) => {
   const token = localStorage.getItem('token')
@@ -158,17 +194,107 @@ onMounted(async () => {
       </div>
 
       <div
-        v-for="comment in sampleComments"
-        v-bind:key="comment.id"
+        v-for="sampleComment in sampleComments"
+        v-bind:key="sampleComment.id"
         class="list-group-item list-group-item-action"
         href="#"
       >
         <div class="d-flex w-100 justify-content-between">
-          <h6>{{ comment.department }}：{{ comment.commenter }}</h6>
-          <h6>{{ formatDate(comment.created_at) }}</h6>
+          <h6>{{ sampleComment.department }}：{{ sampleComment.commenter }}</h6>
+          <h6>{{ formatDate(sampleComment.created_at) }}</h6>
         </div>
         <div class="d-flex w-100 justify-content-between">
-          <h6>{{ comment.body }}</h6>
+          <h6>{{ sampleComment.body }}</h6>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end mb-3">
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#commentPostForm"
+        v-on:click="modalReset"
+      >
+        コメントの新規作成
+      </button>
+    </div>
+
+    <div
+      class="modal fade"
+      id="commentPostForm"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="commentPostFormLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1
+              class="modal-title fs-5"
+              id="commentPostFormLabel"
+            >
+              コメントの新規作成
+            </h1>
+          </div>
+          <div class="modal-body">
+            <div class="form-floating">
+              <input
+                v-model="commenter"
+                class="form-control mb-3"
+                type="text"
+                id="commenter"
+                placeholder="ここに氏名を入力して下さい。"
+              />
+              <label for="commenter">
+                氏名
+              </label>
+            </div>
+            <div class="form-floating">
+              <input
+                v-model="department"
+                class="form-control mb-3"
+                type="text"
+                id="department"
+                placeholder="ここに部署名を入力して下さい。"
+              />
+              <label for="department">
+                部署名
+              </label>
+            </div>
+            <div class="form-floating">
+              <textarea
+                v-model="body"
+                class="form-control"
+                id="comment-post"
+                placeholder="コメントはここに入力して下さい。"></textarea>
+              <label for="comment-post">
+                コメント
+              </label>
+            </div>
+          </div>
+          <div v-if="errorMessage" class="text-danger ms-3">
+            {{ errorMessage }}
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              閉じる
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              v-on:click="handleCommentAdd"
+            >
+              リストに追加
+            </button>
+          </div>
         </div>
       </div>
     </div>
