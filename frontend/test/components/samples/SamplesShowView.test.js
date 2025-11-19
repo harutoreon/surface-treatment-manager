@@ -198,6 +198,8 @@ describe('SamplesShowView', () => {
     it('モーダルが表示が存在すること', () => {
       expect(wrapper.find('#commentPostForm').exists()).toBe(true)
       expect(wrapper.find('#commentPostFormLabel').text()).toBe('コメントの新規作成')
+      expect(wrapper.find('#commenter').exists()).toBe(true)
+      expect(wrapper.find('#department').exists()).toBe(true)
       expect(wrapper.find('#comment-post').exists()).toBe(true)
 
       const modalFooterButtons = wrapper.findAll('div[class="modal-footer"] button')

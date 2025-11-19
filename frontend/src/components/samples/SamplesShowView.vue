@@ -30,6 +30,13 @@ const sampleId = ref(route.params.id)
 const comment = ref('')
 const errorMessage = ref('')
 
+const modalReset = () => {
+  commenter.value = ''
+  department.value = ''
+  body.value = ''
+  errorMessage.value = ''
+}
+
 const handleCommentAdd = async () => {
   try {
     const response = await axios.post(`${API_BASE_URL}/samples/${sampleId.value}/comments`, {
@@ -208,6 +215,7 @@ onMounted(async () => {
         class="btn btn-primary"
         data-bs-toggle="modal"
         data-bs-target="#commentPostForm"
+        v-on:click="modalReset"
       >
         コメントの新規作成
       </button>
@@ -233,23 +241,40 @@ onMounted(async () => {
             </h1>
           </div>
           <div class="modal-body">
-            <input
-              v-model="commenter"
-              class="form-control mb-3"
-              type="text"
-              id="commenter"
-            />
-            <input
-              v-model="department"
-              class="form-control mb-3"
-              type="text"
-              id="department"
-            />
-            <textarea
-              v-model="body"
-              class="form-control"
-              id="comment-post"
-              placeholder="コメントはここに入力して下さい。"></textarea>
+            <div class="form-floating">
+              <input
+                v-model="commenter"
+                class="form-control mb-3"
+                type="text"
+                id="commenter"
+                placeholder="ここに氏名を入力して下さい。"
+              />
+              <label for="commenter">
+                氏名
+              </label>
+            </div>
+            <div class="form-floating">
+              <input
+                v-model="department"
+                class="form-control mb-3"
+                type="text"
+                id="department"
+                placeholder="ここに部署名を入力して下さい。"
+              />
+              <label for="department">
+                部署名
+              </label>
+            </div>
+            <div class="form-floating">
+              <textarea
+                v-model="body"
+                class="form-control"
+                id="comment-post"
+                placeholder="コメントはここに入力して下さい。"></textarea>
+              <label for="comment-post">
+                コメント
+              </label>
+            </div>
           </div>
           <div v-if="errorMessage" class="text-danger ms-3">
             {{ errorMessage }}
