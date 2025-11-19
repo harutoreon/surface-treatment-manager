@@ -12,8 +12,6 @@ import searchResultRoutes from './routes/search_results'
 import staticPageRoutes from './routes/static_pages'
 import notFoundRoute from './routes/not_found'
 
-import commentPostForm from '@/prototype-post-form.vue'
-
 const history = import.meta.env.MODE === 'test' ? createMemoryHistory() : createWebHistory()
 
 const routes = [
@@ -28,11 +26,6 @@ const routes = [
   ...searchResultRoutes,
   ...staticPageRoutes,
   ...notFoundRoute,
-  {
-    path: '/comment-post',
-    component: commentPostForm,
-    meta: { title: 'Comment Post' }
-  }
 ]
 
 const router = createRouter({
