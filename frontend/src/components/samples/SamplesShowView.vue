@@ -193,11 +193,11 @@ onMounted(async () => {
         </div>
       </div>
 
-      <div
+      <RouterLink
         v-for="sampleComment in sampleComments"
         v-bind:key="sampleComment.id"
         class="list-group-item list-group-item-action"
-        href="#"
+        v-bind:to="`/comments/${sampleComment.id}`"
       >
         <div class="d-flex w-100 justify-content-between">
           <h6>{{ sampleComment.department }}：{{ sampleComment.commenter }}</h6>
@@ -206,7 +206,7 @@ onMounted(async () => {
         <div class="d-flex w-100 justify-content-between">
           <h6>{{ sampleComment.body }}</h6>
         </div>
-      </div>
+      </RouterLink>
     </div>
 
     <div class="d-flex justify-content-end mb-3">
