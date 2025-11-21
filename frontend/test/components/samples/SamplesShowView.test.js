@@ -141,6 +141,18 @@ describe('SamplesShowView', () => {
             image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
           }
         })
+        .mockReturnValueOnce({
+          data: [
+            {
+              id: 1,
+              commenter: '岡本 陽子',
+              body: '表面の質感が滑らかで、触感が良好です。',
+              sample_id: 1,
+              created_at: '2025-02-23T22:15:30.030Z',
+              department: '営業部',
+            }
+          ]
+        })
 
       wrapper = mount(SamplesShowView, {
         global: {
@@ -190,6 +202,16 @@ describe('SamplesShowView', () => {
       expect(wrapper.find('h5').text()).toBe('コメントリスト')
     })
 
+    it('コメントが表示されること', () => {
+      const routerLinks = wrapper.findAllComponents(RouterLinkStub)
+      const divElement = routerLinks[0].findAll('div')
+
+      expect(divElement[0].text()).toMatch(/営業部：岡本 陽子/)
+      expect(divElement[0].text()).toMatch(/\d{4}\/\d{1,2}\/\d{1,2}/)
+      expect(divElement[1].text()).toBe('表面の質感が滑らかで、触感が良好です。')
+      expect(routerLinks[0].props().to).toBe('/comments/1')
+    })
+
     it('コメントの新規作成ボタンが表示されること', () => {
       expect(wrapper.find('button').text()).toBe('コメントの新規作成')
       expect(wrapper.find('button').attributes('data-bs-toggle')).toBe('modal')
@@ -211,12 +233,12 @@ describe('SamplesShowView', () => {
       const routerLinks = wrapper.findAllComponents(RouterLinkStub)
 
       // to属性
-      expect(routerLinks[0].props().to).toBe('/samples/1/edit')
-      expect(routerLinks[1].props().to).toBe('/samples')
+      expect(routerLinks[1].props().to).toBe('/samples/1/edit')
+      expect(routerLinks[2].props().to).toBe('/samples')
 
       // テキスト
-      expect(routerLinks[0].text()).toBe('表面処理情報の編集')
-      expect(routerLinks[1].text()).toBe('表面処理リストへ')
+      expect(routerLinks[1].text()).toBe('表面処理情報の編集')
+      expect(routerLinks[2].text()).toBe('表面処理リストへ')
     })
   })
 
