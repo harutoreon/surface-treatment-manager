@@ -87,9 +87,16 @@ describe('CommentsShowView', () => {
 
   describe('初期レンダリングに成功した場合', () => {
     beforeEach(async () => {
+      const adminUserId = 49
+
       axios.get
         .mockResolvedValueOnce({
           status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: adminUserId }
+          }
         })
         .mockResolvedValueOnce({
           data: {
@@ -147,9 +154,16 @@ describe('CommentsShowView', () => {
 
   describe('初期レンダリングに失敗した場合', () => {
     beforeEach(async () => {
+      const adminUserId = 49
+
       axios.get
         .mockResolvedValueOnce({
           status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: adminUserId }
+          }
         })
         .mockRejectedValueOnce({
           response: {
@@ -298,6 +312,58 @@ describe('CommentsShowView', () => {
         { type: 'danger', text: '削除処理に失敗しました。' }
       ])
       expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
+    })
+  })
+
+  describe('一般ユーザーでログインした場合', () => {
+    beforeEach(async () => {
+      const generalUserId = 50
+
+      axios.get
+        .mockResolvedValueOnce({
+          status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: generalUserId }
+          }
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            commenter: '工藤 琴音',
+            body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
+            sample_id: 16,
+            department: '品質管理部'
+          }
+        })
+
+      wrapper = mount(CommentsShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('表面処理情報のリンクが表示されること', async () => {
+      const routerLinks = wrapper.findAllComponents(RouterLinkStub)
+      expect(routerLinks[2].text()).toBe('表面処理情報へ')
+      expect(routerLinks[2].props().to).toBe('/samples/16')
+    })
+
+    it('コメントリストのリンクは表示されないこと', async () => {
+      const routerLinks = wrapper.findAllComponents(RouterLinkStub)
+      expect(routerLinks[1].text()).toBe('コメントリストへ')
+      expect(routerLinks[1].attributes('style')).toBe('display: none;')
+    })
+
+    it('コメント情報の削除リンクは表示されないこと', async () => {
+      expect(wrapper.find('p').text()).toBe('コメント情報の削除')
+      expect(wrapper.find('p').attributes('style')).toBe('display: none;')
     })
   })
 })
