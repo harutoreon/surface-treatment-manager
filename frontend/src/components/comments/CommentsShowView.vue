@@ -10,8 +10,18 @@ const router = useRouter()
 const route = useRoute()
 const comment = ref({})
 const sampleId = ref('')
+const isAdmin = ref(false)
 
 const fetchCommentData = async (id) => {
+  const token = localStorage.getItem('token')
+  const response = await axios.get(`${API_BASE_URL}/logged_in`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  isAdmin.value = response.data.payload?.user_id === 49
+
   try {
     const response = await axios.get(`${API_BASE_URL}/comments/${id}`)
     comment.value = response.data
@@ -75,11 +85,14 @@ onMounted(async () => {
       <RouterLink v-if="comment.id" v-bind:to="`/comments/${comment.id}/edit`">
         コメント情報の編集
       </RouterLink>
-      <p v-on:click="handleDelete" class="text-primary text-decoration-underline">
+      <p v-show="isAdmin" v-on:click="handleDelete" class="text-primary text-decoration-underline">
         コメント情報の削除
       </p>
-      <RouterLink to="/comments">
+      <RouterLink v-show="isAdmin" to="/comments">
         コメントリストへ
+      </RouterLink>
+      <RouterLink v-show="!isAdmin" v-bind:to="`/samples/${sampleId}`">
+        表面処理情報へ
       </RouterLink>
     </div>
   </div>
