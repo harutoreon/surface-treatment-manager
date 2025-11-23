@@ -135,19 +135,9 @@ describe('CommentsEditView', () => {
       )
 
       // ボタン要素
-      expect(wrapper.find('button').text()).toBe('更新')
-    })
-
-    it('外部リンクが表示されること', () => {
-      const routerLinks = wrapper.findAllComponents(RouterLinkStub)
-
-      // to属性
-      expect(routerLinks[0].props().to).toBe('/comments/1')
-      expect(routerLinks[1].props().to).toBe('/comments')
-
-      // テキスト
-      expect(routerLinks[0].text()).toBe('コメント情報へ')
-      expect(routerLinks[1].text()).toBe('コメントリストへ')
+      const buttons = wrapper.findAll('button')
+      expect(buttons[0].text()).toBe('更新')
+      expect(buttons[1].text()).toBe('キャンセル')
     })
   })
 
@@ -270,6 +260,44 @@ describe('CommentsEditView', () => {
       await wrapper.find('form').trigger('submit.prevent')
 
       expect(wrapper.find('p').text()).toBe('入力に不備があります。')
+    })
+  })
+
+  describe('キャンセルボタンを押した場合', () => {
+    beforeEach(async () => {
+      pushMock.mockClear()
+
+      axios.get
+        .mockResolvedValueOnce({
+          status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            commenter: '工藤 琴音',
+            body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
+            sample_id: 16,
+            department: '品質管理部'
+          }
+        })
+
+      wrapper = mount(CommentsEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('/comments/1が呼び出されること', async () => {
+      const cancelButton = wrapper.find('button[type="button"]')
+
+      await cancelButton.trigger('click')
+
+      expect(pushMock).toHaveBeenCalledWith('/comments/1')
     })
   })
 })

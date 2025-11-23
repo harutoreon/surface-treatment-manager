@@ -19,27 +19,18 @@ test.describe('comments edit flow', () => {
       await expect(page.locator('#body')).toBeVisible()
 
       await expect(page.getByRole('button', { name: '更新' })).toBeVisible()
-
-      await expect(page.getByRole('link', { name: 'コメント情報へ' })).toBeVisible()
-      await expect(page.getByRole('link', { name: 'コメントリストへ' })).toBeVisible()
+      await expect(page.getByRole('button', { name: 'キャンセル' })).toBeVisible()
     })
   })
 
-  test.describe('コメント情報へのリンクをクリックした時', () => {
-    test('/comments/1に移動すること', async ({ page }) => {
-      await page.getByRole('link', { name: 'コメント情報へ' }).click()
+  test.describe('キャンセルボタンを押した場合', () => {
+    test('コメント情報ページに移動すること', async ({ page }) => {
+      await expect(page.getByRole('button', { name: 'キャンセル' })).toBeVisible()
+
+      await page.getByRole('button', { name: 'キャンセル' }).click()
 
       await expect(page).toHaveURL('/comments/1')
       await expect(page.getByRole('heading', { name: 'コメント情報' })).toBeVisible()
-    })
-  })
-
-  test.describe('コメントリストへのリンクをクリックした時', () => {
-    test('/commentsに移動すること', async ({ page }) => {
-      await page.getByRole('link', { name: 'コメントリストへ' }).click()
-
-      await expect(page).toHaveURL('/comments')
-      await expect(page.getByRole('heading', { name: 'コメントリスト' })).toBeVisible()
     })
   })
 })

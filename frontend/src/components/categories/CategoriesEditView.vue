@@ -84,7 +84,12 @@ onMounted(async () => {
         <button type="submit" class="btn btn-primary me-md-2">
           更新
         </button>
-        <button v-on:click="cancel" type="button" class="btn btn-outline-secondary">
+        <button
+          v-if="category.id"
+          v-on:click="cancel"
+          type="button"
+          class="btn btn-outline-secondary"
+        >
           キャンセル
         </button>
       </div>
