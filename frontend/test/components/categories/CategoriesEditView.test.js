@@ -260,4 +260,38 @@ describe('CategoriesEditView', () => {
       expect(wrapper.text()).toContain('入力に不備があります。')
     })
   })
+
+  describe('キャンセルボタンを押した場合', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({
+          status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            item: 'めっき',
+            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+          }
+        })
+
+      wrapper = mount(CategoriesEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('/categories/1が呼び出されること', async () => {
+      const cancelButton = wrapper.find('button[type="button"]')
+
+      await cancelButton.trigger('click')
+
+      expect(pushMock).toHaveBeenCalledWith('/categories/1')
+    })
+  })
 })
