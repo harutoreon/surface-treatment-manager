@@ -122,19 +122,9 @@ describe('DepartmentsEditView', () => {
       expect(wrapper.find('#department-name').element.value).toBe('品質管理部')
 
       // ボタン要素
-      expect(wrapper.find('button').text()).toBe('更新')
-    })
-
-    it('外部リンクが表示されること', () => {
-      const routerLinks = wrapper.findAllComponents(RouterLinkStub)
-
-      // to属性
-      expect(routerLinks[0].props().to).toBe('/departments/1')
-      expect(routerLinks[1].props().to).toBe('/departments')
-
-      // テキスト
-      expect(routerLinks[0].text()).toBe('部署情報へ')
-      expect(routerLinks[1].text()).toBe('部署リストへ')
+      const buttons = wrapper.findAll('button')
+      expect(buttons[0].text()).toBe('更新')
+      expect(buttons[1].text()).toBe('キャンセル')
     })
   })
 
@@ -246,6 +236,39 @@ describe('DepartmentsEditView', () => {
       await wrapper.find('form').trigger('submit.prevent')
 
       expect(wrapper.find('p').text()).toBe('入力に不備があります。')
+    })
+  })
+
+  describe('キャンセルボタンを押した場合', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({
+          status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            name: '品質管理部'
+          }
+        })
+
+      wrapper = mount(DepartmentsEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('departments/1が呼び出されること', async () => {
+      const cancelButton = wrapper.find('button[type="button"]')
+
+      await cancelButton.trigger('click')
+
+      expect(pushMock).toHaveBeenCalledWith('/departments/1')
     })
   })
 })
