@@ -40,6 +40,10 @@ const commentUpdate = async () => {
   }
 }
 
+const cancel = () => {
+  router.push(`/comments/${comment.value.id}`)
+}
+
 onMounted(async () => {
   const loggedIn = await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
@@ -84,23 +88,24 @@ onMounted(async () => {
       </label>
       <textarea v-model="comment.body" class="form-control mb-5" id="body">
       </textarea>
-      
-      <button type="submit" class="form-control btn btn-primary mb-5">
-        更新
-      </button>
+
+      <div class="d-grid gap-2 d-md-block">
+        <button type="submit" class="btn btn-primary me-md-2">
+          更新
+        </button>
+        <button
+          v-if="comment.id"
+          v-on:click="cancel"
+          type="button"
+          class="btn btn-outline-secondary"
+        >
+          キャンセル
+        </button>
+      </div>
     </form>
 
     <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">
       {{ errorMessage }}
     </p>
-
-    <div class="d-flex justify-content-evenly">
-      <RouterLink v-if="comment.id" v-bind:to="`/comments/${comment.id}`">
-        コメント情報へ
-      </RouterLink>
-      <RouterLink to="/comments">
-        コメントリストへ
-      </RouterLink>
-    </div>
   </div>
 </template>
