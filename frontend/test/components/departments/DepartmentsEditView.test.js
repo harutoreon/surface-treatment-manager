@@ -122,19 +122,9 @@ describe('DepartmentsEditView', () => {
       expect(wrapper.find('#department-name').element.value).toBe('品質管理部')
 
       // ボタン要素
-      expect(wrapper.find('button').text()).toBe('更新')
-    })
-
-    it('外部リンクが表示されること', () => {
-      const routerLinks = wrapper.findAllComponents(RouterLinkStub)
-
-      // to属性
-      expect(routerLinks[0].props().to).toBe('/departments/1')
-      expect(routerLinks[1].props().to).toBe('/departments')
-
-      // テキスト
-      expect(routerLinks[0].text()).toBe('部署情報へ')
-      expect(routerLinks[1].text()).toBe('部署リストへ')
+      const buttons = wrapper.findAll('button')
+      expect(buttons[0].text()).toBe('更新')
+      expect(buttons[1].text()).toBe('キャンセル')
     })
   })
 

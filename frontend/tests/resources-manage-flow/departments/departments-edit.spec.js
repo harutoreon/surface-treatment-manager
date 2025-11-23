@@ -17,27 +17,7 @@ test.describe('departments edit flow', () => {
       await expect(page.locator('#department-name')).toBeVisible()
 
       await expect(page.getByRole('button', { name: '更新' })).toBeVisible()
-
-      await expect(page.getByRole('link', { name: '部署情報へ' })).toBeVisible()
-      await expect(page.getByRole('link', { name: '部署リストへ' })).toBeVisible()
-    })
-  })
-
-  test.describe('部署情報へのリンクをクリックした時', () => {
-    test('/departments/1に移動すること', async ({ page }) => {
-      await page.getByRole('link', { name: '部署情報へ' }).click()
-
-      await expect(page).toHaveURL('/departments/1')
-      await expect(page.getByRole('heading', { name: '部署情報' })).toBeVisible()
-    })
-  })
-
-  test.describe('部署リストへのリンクをクリックした時', () => {
-    test('/departmentsに移動すること', async ({ page }) => {
-      await page.getByRole('link', { name: '部署リストへ' }).click()
-
-      await expect(page).toHaveURL('/departments')
-      await expect(page.getByRole('heading', { name: '部署リスト' })).toBeVisible()
+      await expect(page.getByRole('button', { name: 'キャンセル' })).toBeVisible()
     })
   })
 })
