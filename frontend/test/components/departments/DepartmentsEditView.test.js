@@ -238,4 +238,37 @@ describe('DepartmentsEditView', () => {
       expect(wrapper.find('p').text()).toBe('入力に不備があります。')
     })
   })
+
+  describe('キャンセルボタンを押した場合', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({
+          status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            name: '品質管理部'
+          }
+        })
+
+      wrapper = mount(DepartmentsEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('departments/1が呼び出されること', async () => {
+      const cancelButton = wrapper.find('button[type="button"]')
+
+      await cancelButton.trigger('click')
+
+      expect(pushMock).toHaveBeenCalledWith('/departments/1')
+    })
+  })
 })

@@ -20,4 +20,15 @@ test.describe('departments edit flow', () => {
       await expect(page.getByRole('button', { name: 'キャンセル' })).toBeVisible()
     })
   })
+
+  test.describe('キャンセルボタンを押した場合', () => {
+    test('部署情報ページに移動すること', async ({ page }) => {
+      await expect(page.getByRole('button', { name: 'キャンセル' })).toBeVisible()
+
+      await page.getByRole('button', { name: 'キャンセル' }).click()
+
+      await expect(page).toHaveURL('/departments/1')
+      await expect(page.getByRole('heading', { name: '部署情報' })).toBeVisible()
+    })
+  })
 })

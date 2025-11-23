@@ -36,6 +36,10 @@ const departmentUpdate = async () => {
   }
 }
 
+const cancel = () => {
+  router.push(`/departments/${department.value.id}`)
+}
+
 onMounted(async () => {
   const loggedIn = await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
@@ -68,6 +72,8 @@ onMounted(async () => {
           更新
         </button>
         <button
+          v-if="department.id"
+          v-on:click="cancel"
           type="button"
           class="btn btn-outline-secondary"
         >
