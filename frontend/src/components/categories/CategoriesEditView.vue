@@ -37,6 +37,10 @@ const categoryUpdate = async () => {
   }
 }
 
+const cancel = () => {
+  router.push(`/categories/${category.value.id}`)
+}
+
 onMounted(async () => {
   const loggedIn = await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
@@ -75,23 +79,19 @@ onMounted(async () => {
         required
       >
       </textarea>
-      
-      <button type="submit" class="form-control btn btn-primary mb-5">
-        更新
-      </button>
+
+      <div class="d-grid gap-2 d-md-block">
+        <button type="submit" class="btn btn-primary me-md-2">
+          更新
+        </button>
+        <button v-on:click="cancel" type="button" class="btn btn-outline-secondary">
+          キャンセル
+        </button>
+      </div>
     </form>
 
     <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">
       {{ errorMessage }}
     </p>
-
-    <div class="d-flex justify-content-evenly">
-      <RouterLink v-if="category.id" v-bind:to="`/categories/${category.id}`" ref="linkCategoriesShow">
-        カテゴリー情報へ
-      </RouterLink>
-      <RouterLink to="/categories" ref="linkCategories">
-        カテゴリーリストへ
-      </RouterLink>
-    </div>
   </div>
 </template>
