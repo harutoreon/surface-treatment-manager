@@ -21,27 +21,7 @@ test.describe('categories edit flow', () => {
       )
 
       await expect(page.getByRole('button', { name: '更新' })).toBeVisible()
-
-      await expect(page.getByRole('link', { name: 'カテゴリー情報へ' })).toBeVisible()
-      await expect(page.getByRole('link', { name: 'カテゴリーリストへ' })).toBeVisible()
-    })
-  })
-
-  test.describe('カテゴリー情報へのリンクをクリックした時', () => {
-    test('/categories/1に移動すること', async ({ page }) => {
-      await page.getByRole('link', { name: 'カテゴリー情報へ' }).click()
-
-      await expect(page).toHaveURL('/categories/1')
-      await expect(page.getByRole('heading', { name: 'カテゴリー情報' })).toBeVisible()
-    })
-  })
-
-  test.describe('カテゴリーリストへのリンクをクリックした時', () => {
-    test('/categoriesに移動すること', async ({ page }) => {
-      await page.getByRole('link', { name: 'カテゴリーリストへ' }).click()
-
-      await expect(page).toHaveURL('/categories')
-      await expect(page.getByRole('heading', { name: 'カテゴリーリスト' })).toBeVisible()
+      await expect(page.getByRole('button', { name: 'キャンセル' })).toBeVisible()
     })
   })
 })
