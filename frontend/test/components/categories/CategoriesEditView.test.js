@@ -129,19 +129,9 @@ describe('CategoriesEditView', () => {
       expect(wrapper.find('#category-summary').element.value).toBe('金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。')
 
       // ボタン要素
-      expect(wrapper.find('button').text()).toBe('更新')
-    })
-
-    it('外部リンクが表示されること', () => {
-      const routerLinks = wrapper.findAllComponents(RouterLinkStub)
-
-      // to属性
-      expect(routerLinks[0].props().to).toBe('/categories/1')
-      expect(routerLinks[1].props().to).toBe('/categories')
-
-      // テキスト
-      expect(routerLinks[0].text()).toBe('カテゴリー情報へ')
-      expect(routerLinks[1].text()).toBe('カテゴリーリストへ')
+      const buttons = wrapper.findAll('button')
+      expect(buttons[0].text()).toBe('更新')
+      expect(buttons[1].text()).toBe('キャンセル')
     })
   })
 
