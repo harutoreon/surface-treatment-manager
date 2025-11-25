@@ -23,26 +23,8 @@ test.describe('samples/id/edit flow', () => {
       await expect(page.locator('#sample-summary')).toHaveValue('金属表面に耐摩耗性と防錆性を付与するコーティング技術です。')
       await expect(page.locator('#sample-image')).toBeVisible()
 
-      await expect(page.getByRole('link', { name: '表面処理情報へ' })).toBeVisible()
-      await expect(page.getByRole('link', { name: '表面処理リストへ' })).toBeVisible()
-    })
-  })
-
-  test.describe('表面処理情報へのリンクをクリックした場合', () => {
-    test('/samples/1へ移動すること', async ({ page }) => {
-      await page.getByRole('link', { name: '表面処理情報へ' }).click()
-
-      await expect(page).toHaveURL('/samples/32')
-      await expect(page.getByRole('heading', { name: '表面処理情報' })).toBeVisible()
-    })
-  })
-
-  test.describe('表面処理リストへのリンクをクリックした場合', () => {
-    test('/samplesへ移動すること', async ({ page }) => {
-      await page.getByRole('link', { name: '表面処理リストへ' }).click()
-
-      await expect(page).toHaveURL('/samples')
-      await expect(page.getByRole('heading', { name: '表面処理リスト' })).toBeVisible()
+      await expect(page.getByRole('button', { name: '更新' })).toBeVisible()
+      await expect(page.getByRole('button', { name: 'キャンセル' })).toBeVisible()
     })
   })
 })

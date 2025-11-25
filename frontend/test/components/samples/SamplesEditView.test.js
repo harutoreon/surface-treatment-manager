@@ -165,20 +165,10 @@ describe('SamplesEditView', () => {
       expect(wrapper.find('#sample-image').attributes('src')).toContain('test.jpg')
 
       // ボタン要素
-      expect(wrapper.find('button').text()).toBe('更新')
+      const buttons = wrapper.findAll('button')
+      expect(buttons[0].text()).toBe('更新')
+      expect(buttons[1].text()).toBe('キャンセル')
     })
-
-    it('外部リンクが表示されること', () => {
-      const routerLinks = wrapper.findAllComponents(RouterLinkStub)
-
-      // to属性
-      expect(routerLinks[0].props().to).toBe('/samples/1')
-      expect(routerLinks[1].props().to).toBe('/samples')
-
-      // テキスト
-      expect(routerLinks[0].text()).toBe('表面処理情報へ')
-      expect(routerLinks[1].text()).toBe('表面処理リストへ')
-    })    
   })
 
   describe('初期レンダリングに失敗した場合', () => {

@@ -169,18 +169,17 @@ onMounted(async () => {
         />
       </div>
 
-      <button type="submit" class="form-control btn btn-primary mb-5">
-        更新
-      </button>
+      <div class="d-grid gap-2 d-md-block">
+        <button type="submit" class="btn btn-primary me-md-2">
+          更新
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+        >
+          キャンセル
+        </button>
+      </div>
     </form>
-
-    <div class="d-flex justify-content-evenly mb-5">
-      <RouterLink v-if="sample.id" v-bind:to="`/samples/${sample.id}`" ref="linkSamplesEdit">
-        表面処理情報へ
-      </RouterLink>
-      <RouterLink to="/samples" ref="linkSamples">
-        表面処理リストへ
-      </RouterLink>
-    </div>
   </div>
 </template>
