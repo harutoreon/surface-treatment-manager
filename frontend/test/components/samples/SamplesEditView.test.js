@@ -165,20 +165,10 @@ describe('SamplesEditView', () => {
       expect(wrapper.find('#sample-image').attributes('src')).toContain('test.jpg')
 
       // ボタン要素
-      expect(wrapper.find('button').text()).toBe('更新')
+      const buttons = wrapper.findAll('button')
+      expect(buttons[0].text()).toBe('更新')
+      expect(buttons[1].text()).toBe('キャンセル')
     })
-
-    it('外部リンクが表示されること', () => {
-      const routerLinks = wrapper.findAllComponents(RouterLinkStub)
-
-      // to属性
-      expect(routerLinks[0].props().to).toBe('/samples/1')
-      expect(routerLinks[1].props().to).toBe('/samples')
-
-      // テキスト
-      expect(routerLinks[0].text()).toBe('表面処理情報へ')
-      expect(routerLinks[1].text()).toBe('表面処理リストへ')
-    })    
   })
 
   describe('初期レンダリングに失敗した場合', () => {
@@ -323,6 +313,49 @@ describe('SamplesEditView', () => {
       await wrapper.find('form').trigger('submit.prevent')
 
       expect(wrapper.text()).toContain('入力に不備があります。')
+    })
+  })
+
+  describe('キャンセルボタンを押した場合', () => {
+    beforeEach(async () => {
+      pushMock.mockClear()
+
+      axios.get
+        .mockResolvedValueOnce({
+          status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            name: '無電解ニッケルめっき',
+            category: 'めっき',
+            color: 'コールド',
+            maker: 'サンプルメーカー',
+            hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+            film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+            feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
+            summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+            image_url: 'http://localhost:3000/rails/active_storage/blobs/redirect//test.jpg'
+          }
+        })
+
+      wrapper = mount(SamplesEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('表面処理情報ページに移動すること', () => {
+      const cancelButton = wrapper.find('button[type="button"]')
+
+      cancelButton.trigger('click')
+
+      expect(pushMock).toHaveBeenCalledWith('/samples/1')
     })
   })
 })
