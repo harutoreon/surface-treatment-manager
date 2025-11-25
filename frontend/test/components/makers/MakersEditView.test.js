@@ -278,4 +278,44 @@ describe('MakersEditView', () => {
       expect(wrapper.text()).toContain('入力に不備があります。')
     })
   })
+
+  describe('キャンセルボタンを押した場合', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({
+          status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            name: '有限会社中野銀行',
+            postal_code: '962-0713',
+            address: '東京都渋谷区神南1-2-0',
+            phone_number: '070-3288-2552',
+            fax_number: '070-2623-8399',
+            email: 'sample_maker0@example.com',
+            home_page: 'https://example.com/sample_maker0',
+            manufacturer_rep: '宮本 悠斗'
+          }
+        })
+
+      wrapper = mount(MakersEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('メーカー情報ページに移動すること', async () => {
+      const cancelButton = wrapper.find('button[type="button"]')
+
+      await cancelButton.trigger('click')
+
+      expect(pushMock).toHaveBeenCalledWith('/makers/1')
+    })
+  })
 })

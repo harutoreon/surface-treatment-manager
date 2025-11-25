@@ -28,4 +28,15 @@ test.describe('makers edit flow', () => {
       await expect(page.getByRole('button', { name: 'キャンセル' })).toBeVisible()
     })
   })
+
+  test.describe('キャンセルボタンを押した場合', () => {
+    test('メーカー情報ページに移動すること', async ({ page }) => {
+      await expect(page.getByRole('button', { name: 'キャンセル' })).toBeVisible()
+
+      await page.getByRole('button', { name: 'キャンセル' }).click()
+
+      await expect(page).toHaveURL('/makers/1')
+      await expect(page.getByRole('heading', { name: 'メーカー情報' })).toBeVisible()
+    })
+  })
 })

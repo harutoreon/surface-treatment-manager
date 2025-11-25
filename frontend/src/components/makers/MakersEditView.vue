@@ -43,6 +43,10 @@ const makerUpdate = async () => {
   }
 }
 
+const cancel = () => {
+  router.push(`/makers/${maker.value.id}`)
+}
+
 onMounted(async () => {
   const loggedIn = await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
@@ -152,6 +156,8 @@ onMounted(async () => {
           更新
         </button>
         <button
+          v-if="maker.id"
+          v-on:click="cancel"
           type="button"
           class="btn btn-outline-secondary"
         >
