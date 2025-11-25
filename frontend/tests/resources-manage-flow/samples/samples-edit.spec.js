@@ -27,4 +27,15 @@ test.describe('samples/id/edit flow', () => {
       await expect(page.getByRole('button', { name: 'キャンセル' })).toBeVisible()
     })
   })
+
+  test.describe('キャンセルボタンを押した場合', () => {
+    test('表面処理情報ページに移動すること', async ({ page }) => {
+      await expect(page.getByRole('button', { name: 'キャンセル' })).toBeVisible()
+
+      await page.getByRole('button', { name: 'キャンセル' }).click()
+
+      await expect(page).toHaveURL('/samples/32')
+      await expect(page.getByRole('heading', { name: '表面処理情報' })).toBeVisible()
+    })
+  })
 })
