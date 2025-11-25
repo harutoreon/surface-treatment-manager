@@ -25,27 +25,7 @@ test.describe('makers edit flow', () => {
       await expect(page.locator('#maker-manufacturer-rep')).toBeVisible()
 
       await expect(page.getByRole('button', { name: '更新' })).toBeVisible()
-
-      await expect(page.getByRole('link', { name: 'メーカー情報へ' })).toBeVisible()
-      await expect(page.getByRole('link', { name: 'メーカーリストへ' })).toBeVisible()
-    })
-  })
-
-  test.describe('メーカー情報へのリンクをクリックした時', () => {
-    test('/makers/1に移動すること', async ({ page }) => {
-      await page.getByRole('link', { name: 'メーカー情報へ' }).click()
-
-      await expect(page).toHaveURL('/makers/1')
-      await expect(page.getByRole('heading', { name: 'メーカー情報' })).toBeVisible()
-    })
-  })
-
-  test.describe('メーカーリストへのリンクをクリックした時', () => {
-    test('/categoriesに移動すること', async ({ page }) => {
-      await page.getByRole('link', { name: 'メーカーリストへ' }).click()
-
-      await expect(page).toHaveURL('/makers')
-      await expect(page.getByRole('heading', { name: 'メーカーリスト' })).toBeVisible()
+      await expect(page.getByRole('button', { name: 'キャンセル' })).toBeVisible()
     })
   })
 })

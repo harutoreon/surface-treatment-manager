@@ -149,19 +149,9 @@ describe('MakersEditView', () => {
       expect(wrapper.find('#maker-manufacturer-rep').exists()).toBe(true)
 
       // ボタン要素
-      expect(wrapper.find('button').text()).toBe('更新')
-    })
-
-    it('外部リンクが存在すること', () => {
-      const routerLinks = wrapper.findAllComponents(RouterLinkStub)
-
-      // to属性
-      expect(routerLinks[0].props().to).toBe('/makers/1')
-      expect(routerLinks[1].props().to).toBe('/makers')
-
-      // テキスト
-      expect(routerLinks[0].text()).toBe('メーカー情報へ')
-      expect(routerLinks[1].text()).toBe('メーカーリストへ')
+      const buttons = wrapper.findAll('button')
+      expect(buttons[0].text()).toBe('更新')
+      expect(buttons[1].text()).toBe('キャンセル')
     })
   })
 
