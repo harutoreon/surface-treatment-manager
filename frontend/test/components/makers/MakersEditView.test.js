@@ -149,19 +149,9 @@ describe('MakersEditView', () => {
       expect(wrapper.find('#maker-manufacturer-rep').exists()).toBe(true)
 
       // ボタン要素
-      expect(wrapper.find('button').text()).toBe('更新')
-    })
-
-    it('外部リンクが存在すること', () => {
-      const routerLinks = wrapper.findAllComponents(RouterLinkStub)
-
-      // to属性
-      expect(routerLinks[0].props().to).toBe('/makers/1')
-      expect(routerLinks[1].props().to).toBe('/makers')
-
-      // テキスト
-      expect(routerLinks[0].text()).toBe('メーカー情報へ')
-      expect(routerLinks[1].text()).toBe('メーカーリストへ')
+      const buttons = wrapper.findAll('button')
+      expect(buttons[0].text()).toBe('更新')
+      expect(buttons[1].text()).toBe('キャンセル')
     })
   })
 
@@ -286,6 +276,46 @@ describe('MakersEditView', () => {
       await wrapper.find('form').trigger('submit.prevent')
 
       expect(wrapper.text()).toContain('入力に不備があります。')
+    })
+  })
+
+  describe('キャンセルボタンを押した場合', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({
+          status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            name: '有限会社中野銀行',
+            postal_code: '962-0713',
+            address: '東京都渋谷区神南1-2-0',
+            phone_number: '070-3288-2552',
+            fax_number: '070-2623-8399',
+            email: 'sample_maker0@example.com',
+            home_page: 'https://example.com/sample_maker0',
+            manufacturer_rep: '宮本 悠斗'
+          }
+        })
+
+      wrapper = mount(MakersEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('メーカー情報ページに移動すること', async () => {
+      const cancelButton = wrapper.find('button[type="button"]')
+
+      await cancelButton.trigger('click')
+
+      expect(pushMock).toHaveBeenCalledWith('/makers/1')
     })
   })
 })
