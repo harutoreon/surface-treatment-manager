@@ -129,19 +129,9 @@ describe('UsersEditView', () => {
       expect(wrapper.find('#user-password-confirmation').exists()).toBe(true)
 
       // ボタン要素
-      expect(wrapper.find('button').text()).toBe('更新')
-    })
-
-    it('外部リンクが表示されること', async () => {
-      const routerLinks = wrapper.findAllComponents(RouterLinkStub)
-
-      // to属性
-      expect(routerLinks[0].props().to).toBe('/users/1')
-      expect(routerLinks[1].props().to).toBe('/users')
-
-      // テキスト
-      expect(routerLinks[0].text()).toBe('ユーザー情報')
-      expect(routerLinks[1].text()).toBe('ユーザーリスト')
+      const buttons = wrapper.findAll('button')
+      expect(buttons[0].text()).toBe('更新')
+      expect(buttons[1].text()).toBe('キャンセル')
     })
   })
 

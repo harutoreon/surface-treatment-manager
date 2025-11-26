@@ -21,27 +21,7 @@ test.describe('users edit flow', () => {
       await expect(page.locator('#user-password-confirmation')).toBeVisible()
 
       await expect(page.getByRole('button', { name: '更新' })).toBeVisible()
-
-      await expect(page.getByRole('link', { name: 'ユーザー情報' })).toBeVisible()
-      await expect(page.getByRole('link', { name: 'ユーザーリスト' })).toBeVisible()
-    })
-  })
-
-  test.describe('ユーザー情報のリンクをクリックした時', () => {
-    test('/users/1に移動すること', async ({ page }) => {
-      await page.getByRole('link', { name: 'ユーザー情報' }).click()
-
-      await expect(page).toHaveURL('/users/1')
-      await expect(page.getByRole('heading', { name: 'ユーザー情報' })).toBeVisible()
-    })
-  })
-
-  test.describe('ユーザーリストへのリンクをクリックした時', () => {
-    test('/usersに移動すること', async ({ page }) => {
-      await page.getByRole('link', { name: 'ユーザーリスト' }).click()
-
-      await expect(page).toHaveURL('/users')
-      await expect(page.getByRole('heading', { name: 'ユーザーリスト' })).toBeVisible()
+      await expect(page.getByRole('button', { name: 'キャンセル' })).toBeVisible()
     })
   })
 })
