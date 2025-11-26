@@ -129,19 +129,9 @@ describe('UsersEditView', () => {
       expect(wrapper.find('#user-password-confirmation').exists()).toBe(true)
 
       // ボタン要素
-      expect(wrapper.find('button').text()).toBe('更新')
-    })
-
-    it('外部リンクが表示されること', async () => {
-      const routerLinks = wrapper.findAllComponents(RouterLinkStub)
-
-      // to属性
-      expect(routerLinks[0].props().to).toBe('/users/1')
-      expect(routerLinks[1].props().to).toBe('/users')
-
-      // テキスト
-      expect(routerLinks[0].text()).toBe('ユーザー情報')
-      expect(routerLinks[1].text()).toBe('ユーザーリスト')
+      const buttons = wrapper.findAll('button')
+      expect(buttons[0].text()).toBe('更新')
+      expect(buttons[1].text()).toBe('キャンセル')
     })
   })
 
@@ -252,6 +242,40 @@ describe('UsersEditView', () => {
       await wrapper.find('button').trigger('submit.prevent')
       
       expect(wrapper.text()).toContain('入力に不備があります。')
+    })
+  })
+
+  describe('キャンセルボタンを押した場合', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({
+          status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            name: '渡辺 陸斗',
+            department: '開発部'
+          }
+        })
+
+      wrapper = mount(UsersEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('ユーザー情報ページに移動すること', async () => {
+      const cancelButton = wrapper.find('button[type="button"]')
+
+      await cancelButton.trigger('click')
+
+      expect(pushMock).toHaveBeenCalledWith('/users/1')
     })
   })
 })
