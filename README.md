@@ -72,7 +72,7 @@
 - Frontend
   - Vitest
     - Component テスト
-    - E2E テスト（Routing のみ）
+    - Unit テスト
   - Playwright
     - E2E テスト
 - Backend
