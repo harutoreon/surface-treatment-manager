@@ -7,6 +7,7 @@
   - Vue Router
   - ESLint
   - Vitest
+  - Playwright
   - Bootstrap
 
 ## イメージの生成
@@ -31,5 +32,5 @@ $ docker compose logs --follow app
 
 ## テストの実行
 ```sh
-$ npm run check  # ESlint, Audit, Vitest の実行
+$ npm run check  # ESlint, Audit, Vitest, Playwright の実行
 ```

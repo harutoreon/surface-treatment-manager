@@ -121,7 +121,7 @@ $ docker compose logs --follow db
 - Frontend
 ```sh
 $ cd frontend/
-$ npm run check  # ESlint, Audit, Vitest の実行
+$ npm run check  # ESlint, Audit, Vitest, Playwright の実行
 ```
 - Backend
 ```sh
