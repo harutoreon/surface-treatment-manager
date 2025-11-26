@@ -244,4 +244,38 @@ describe('UsersEditView', () => {
       expect(wrapper.text()).toContain('入力に不備があります。')
     })
   })
+
+  describe('キャンセルボタンを押した場合', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({
+          status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            id: 1,
+            name: '渡辺 陸斗',
+            department: '開発部'
+          }
+        })
+
+      wrapper = mount(UsersEditView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('ユーザー情報ページに移動すること', async () => {
+      const cancelButton = wrapper.find('button[type="button"]')
+
+      await cancelButton.trigger('click')
+
+      expect(pushMock).toHaveBeenCalledWith('/users/1')
+    })
+  })
 })

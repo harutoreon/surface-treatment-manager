@@ -52,6 +52,10 @@ const fetchUserInformation = async () => {
   }
 }
 
+const cancel = () => {
+  router.push(`/users/${user.value.id}`)
+}
+
 onMounted(async () => {
   const loggedIn = await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
@@ -116,6 +120,7 @@ onMounted(async () => {
           更新
         </button>
         <button
+          v-on:click="cancel"
           type="button"
           class="btn btn-outline-secondary"
         >
