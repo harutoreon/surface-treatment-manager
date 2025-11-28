@@ -133,7 +133,7 @@ describe('CategoriesShowView', () => {
     })
 
     it('リソースの削除リンクが表示されること', () => {
-      expect(wrapper.find('p').text()).toBe('カテゴリー情報の削除')
+      expect(wrapper.find('button').text()).toBe('カテゴリー情報の削除')
     })
   })
 
@@ -193,7 +193,7 @@ describe('CategoriesShowView', () => {
 
       await flushPromises()
 
-      await wrapper.find('p').trigger('click')
+      await wrapper.find('button').trigger('click')
       
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([
@@ -235,7 +235,7 @@ describe('CategoriesShowView', () => {
       
       await flushPromises()
       
-      await wrapper.find('p').trigger('click')
+      await wrapper.find('button').trigger('click')
 
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([

@@ -66,22 +66,27 @@ onMounted(async () => {
       </li>
     </ul>
 
-    <div class="d-flex justify-content-evenly">
-      <RouterLink v-if="category.id" v-bind:to="`/categories/${category.id}/edit`" ref="linkCategoriesEdit">
-        カテゴリー情報の編集
-      </RouterLink>
-      <p v-on:click="handleDelete" class="text-primary text-decoration-underline">
+    <ul class="nav justify-content-evenly">
+      <li class="nav-item">
+        <RouterLink v-if="category.id" v-bind:to="`/categories/${category.id}/edit`">
+          カテゴリー情報の編集
+        </RouterLink>
+      </li>
+      <li class="nav-item">
+        <RouterLink to="/categories">
+          カテゴリーリストへ
+        </RouterLink>
+      </li>
+    </ul>
+
+    <div class="d-flex justify-content-end mt-5">
+      <button
+        v-on:click="handleDelete"
+        class="btn btn-outline-danger"
+        type="button"
+      >
         カテゴリー情報の削除
-      </p>
-      <RouterLink to="/categories" ref="linkCategories">
-        カテゴリーリストへ
-      </RouterLink>
+      </button>
     </div>
   </div>
 </template>
-
-<style>
-p {
-  cursor: pointer;
-}
-</style>

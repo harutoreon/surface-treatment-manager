@@ -16,7 +16,12 @@ test.describe('categories show flow', () => {
       await expect(page.getByRole('heading', { name: 'カテゴリー情報' })).toBeVisible()
 
       await expect(page.getByRole('listitem')).toHaveText(
-        ['カテゴリー名 :めっき', '概要 :金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。']
+        [
+          'カテゴリー名 :めっき',
+          '概要 :金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。',
+          ' カテゴリー情報の編集 ',
+          ' カテゴリーリストへ ',
+        ]
       )
     })
   })
