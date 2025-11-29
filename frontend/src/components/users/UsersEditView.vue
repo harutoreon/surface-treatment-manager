@@ -120,6 +120,7 @@ onMounted(async () => {
           更新
         </button>
         <button
+          v-if="user.id"
           v-on:click="cancel"
           type="button"
           class="btn btn-outline-secondary"

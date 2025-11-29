@@ -146,8 +146,8 @@ describe('CategoriesIndexView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const div = wrapper.find('div[class="d-flex justify-content-evenly"]')
-      const routerLinks = div.findAllComponents(RouterLinkStub)
+      const ul = wrapper.find('ul')
+      const routerLinks = ul.findAllComponents(RouterLinkStub)
 
       // to属性
       expect(routerLinks[0].props().to).toBe('/categories/new')

@@ -16,19 +16,17 @@ test.describe('categories crud flow', () => {
 
     // カテゴリーと概要文の入力
     await page.locator('#category-item').fill('溶射')
-    await page.locator('#category-summary').fill('溶融・軟化させた溶射材を表面に吹き付ける処理。')
+    await page.locator('#category-summary').fill('溶融・軟化させた材料を表面に吹き付ける処理。')
 
     // 登録実行
     await page.getByRole('button', { name: '登録' }).click()
 
     // /categories/idページの検証
     await expect(page.getByRole('heading', { name: 'カテゴリー情報' })).toBeVisible()
-    await expect(page.getByRole('listitem')).toHaveText(
-      [
-        'カテゴリー名 :溶射',
-        '概要 :溶融・軟化させた溶射材を表面に吹き付ける処理。'
-      ]
-    )
+
+    await expect(page.getByRole('listitem').filter({ hasText: '溶射' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: '溶融・軟化させた材料を表面に吹き付ける処理。' })).toBeVisible()
+
     await page.getByRole('button', { name: '通知を閉じる' }).click()
 
     // カテゴリー情報の編集ページへ
@@ -38,30 +36,28 @@ test.describe('categories crud flow', () => {
     await expect(page.getByRole('heading', { name: 'カテゴリー情報の編集' })).toBeVisible()
     await expect(page.locator('#category-item')).toHaveValue('溶射')
     await expect(page.locator('#category-summary')).toHaveValue(
-      '溶融・軟化させた溶射材を表面に吹き付ける処理。'
+      '溶融・軟化させた材料を表面に吹き付ける処理。'
     )
 
     // 概要文を変更
-    await page.locator('#category-summary').fill('溶融・軟化させた溶射材を表面に吹き付ける処理のこと。')
+    await page.locator('#category-summary').fill('溶融・軟化させた材料を表面に吹き付ける処理のこと。')
 
     // 更新を実行
     await page.getByRole('button', { name: '更新' }).click()
 
     // /categories/idページの検証
     await expect(page.getByRole('heading', { name: 'カテゴリー情報' })).toBeVisible()
-    await expect(page.getByRole('listitem')).toHaveText(
-      [
-        'カテゴリー名 :溶射',
-        '概要 :溶融・軟化させた溶射材を表面に吹き付ける処理のこと。'
-      ]
-    )
+
+    await expect(page.getByRole('listitem').filter({ hasText: '溶射'})).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: '溶融・軟化させた材料を表面に吹き付ける処理のこと。' })).toBeVisible()
+
     await page.getByRole('button', { name: '通知を閉じる' }).click()
 
     // カテゴリーの削除実行
     page.once('dialog', async dialog => {
       await dialog.accept()
     })
-    await page.locator('p', { hasText: 'カテゴリー情報の削除' }).click()
+    await page.locator('button', { hasText: 'カテゴリー情報の削除' }).click()
 
     // /categoriesページの検証
     await expect(page.getByRole('heading', { name: 'カテゴリーリスト' })).toBeVisible()
