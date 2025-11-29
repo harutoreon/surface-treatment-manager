@@ -14,17 +14,13 @@ test.describe('comments show flow', () => {
     test('コメント情報ページが表示されること', async ({ page }) => {
       await expect(page.getByRole('heading', { name: 'コメント情報' })).toBeVisible()
 
-      await expect(page.getByRole('listitem')).toHaveText(
-        [
-          /部署名 :/,
-          /投稿者 :/,
-          /コメント :/,
-        ]
-      )
+      await expect(page.getByRole('listitem').filter({ hasText: '営業部' })).toBeVisible()
+      await expect(page.getByRole('listitem').filter({ hasText: '岡田 翼' })).toBeVisible()
+      await expect(page.getByRole('listitem').filter({ hasText: '処理後の色の均一性が高く、ムラがありません。' })).toBeVisible()
 
       await expect(page.getByRole('link', { name: 'コメント情報の編集' })).toBeVisible()
-      await expect(page.locator('p', { hasText: 'コメント情報の削除' })).toBeVisible()
       await expect(page.getByRole('link', { name: 'コメントリストへ' })).toBeVisible()
+      await expect(page.getByRole('link', { name: '表面処理情報へ' })).toBeVisible()
     })
   })
 
@@ -43,6 +39,15 @@ test.describe('comments show flow', () => {
 
       await expect(page).toHaveURL('/comments')
       await expect(page.getByRole('heading', { name: 'コメントリスト' })).toBeVisible()
+    })
+  })
+
+  test.describe('表面処理情報へのリンクをクリックした時', () => {
+    test('表面処理情報ページに移動すること', async ({ page }) => {
+      await page.getByRole('link', { name: '表面処理情報へ' }).click()
+
+      await expect(page).toHaveURL('/samples/22')
+      await expect(page.getByRole('heading', { name: '表面処理情報' })).toBeVisible()
     })
   })
 })

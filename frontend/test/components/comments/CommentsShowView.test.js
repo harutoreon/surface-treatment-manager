@@ -145,10 +145,16 @@ describe('CommentsShowView', () => {
       // to属性
       expect(routerLinks[0].props().to).toBe('/comments/1/edit')
       expect(routerLinks[1].props().to).toBe('/comments')
+      expect(routerLinks[2].props().to).toBe('/samples/16')
 
       // テキスト
       expect(routerLinks[0].text()).toBe('コメント情報の編集')
       expect(routerLinks[1].text()).toBe('コメントリストへ')
+      expect(routerLinks[2].text()).toBe('表面処理情報へ')
+    })
+
+    it('コメント情報の削除ボタンが表示されること', () => {
+      expect(wrapper.find('button').text()).toBe('コメント情報の削除')
     })
   })
 
@@ -221,7 +227,7 @@ describe('CommentsShowView', () => {
     })
 
     it('削除処理が実行されること', async () => {
-      await wrapper.find('p').trigger('click')
+      await wrapper.find('button').trigger('click')
       
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([
@@ -263,7 +269,7 @@ describe('CommentsShowView', () => {
     })
 
     it('削除処理がキャンセルされること', async () => {
-      await wrapper.find('p').trigger('click')
+      await wrapper.find('button').trigger('click')
 
       expect(pushMock).not.toHaveBeenCalledWith('/comments')
     })
@@ -305,7 +311,7 @@ describe('CommentsShowView', () => {
     })
 
     it('404ページに遷移すること', async () => {
-      await wrapper.find('p').trigger('click')
+      await wrapper.find('button').trigger('click')
 
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([
@@ -349,12 +355,6 @@ describe('CommentsShowView', () => {
       await flushPromises()
     })
 
-    it('表面処理情報のリンクが表示されること', async () => {
-      const routerLinks = wrapper.findAllComponents(RouterLinkStub)
-      expect(routerLinks[2].text()).toBe('表面処理情報へ')
-      expect(routerLinks[2].props().to).toBe('/samples/16')
-    })
-
     it('コメントリストのリンクは表示されないこと', async () => {
       const routerLinks = wrapper.findAllComponents(RouterLinkStub)
       expect(routerLinks[1].text()).toBe('コメントリストへ')
@@ -362,8 +362,8 @@ describe('CommentsShowView', () => {
     })
 
     it('コメント情報の削除リンクは表示されないこと', async () => {
-      expect(wrapper.find('p').text()).toBe('コメント情報の削除')
-      expect(wrapper.find('p').attributes('style')).toBe('display: none;')
+      expect(wrapper.find('button').text()).toBe('コメント情報の削除')
+      expect(wrapper.find('button').attributes('style')).toBe('display: none;')
     })
   })
 })
