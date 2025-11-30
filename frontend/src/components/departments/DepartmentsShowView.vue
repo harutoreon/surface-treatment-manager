@@ -62,18 +62,27 @@ onMounted(async () => {
       </li>
     </ul>
 
-    <div class="d-flex justify-content-evenly">
-      <RouterLink v-if="department.id" v-bind:to="`/departments/${department.id}/edit`">
-        部署情報の編集へ
-      </RouterLink>
+    <ul class="nav justify-content-evenly">
+      <li class="nav-item">
+        <RouterLink v-if="department.id" v-bind:to="`/departments/${department.id}/edit`">
+          部署情報の編集へ
+        </RouterLink>
+      </li>
+      <li class="nav-item">
+        <RouterLink to="/departments">
+          部署リストへ
+        </RouterLink>
+      </li>
+    </ul>
 
-      <p v-on:click="handleDelete" class="text-primary text-decoration-underline">
+    <div class="d-flex justify-content-end mt-5">
+      <button
+        v-on:click="handleDelete"
+        class="btn btn-outline-danger"
+        type="button"
+      >
         部署情報の削除
-      </p>
-
-      <RouterLink to="/departments">
-        部署リストへ
-      </RouterLink>
+      </button>
     </div>
   </div>
 </template>

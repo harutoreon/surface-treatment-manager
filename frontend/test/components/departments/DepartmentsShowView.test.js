@@ -187,7 +187,7 @@ describe('DepartmentsShowView', () => {
     })
 
     it('部署リストページに遷移すること', async () => {
-      await wrapper.find('p').trigger('click')
+      await wrapper.find('button').trigger('click')
       
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([
@@ -230,7 +230,7 @@ describe('DepartmentsShowView', () => {
     })
 
     it('404ページに遷移すること', async () => {
-      await wrapper.find('p').trigger('click')
+      await wrapper.find('button').trigger('click')
 
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([

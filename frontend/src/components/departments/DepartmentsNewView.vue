@@ -61,8 +61,12 @@ onMounted(() => {
       {{ errorMessage }}
     </p>
 
-    <RouterLink to="/departments" class="d-flex justify-content-evenly">
-      部署リストへ
-    </RouterLink>
+    <ul class="nav justify-content-center">
+      <li class="nav-item">
+        <RouterLink to="/departments" class="d-flex justify-content-evenly">
+          部署リストへ
+        </RouterLink>
+      </li>
+    </ul>
   </div>
 </template>
