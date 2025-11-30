@@ -134,13 +134,17 @@ onMounted(async () => {
       </li>
     </ul>
 
-    <div class="d-flex justify-content-evenly mb-5">
-      <RouterLink to="/comments/new">
-        コメントの新規登録へ
-      </RouterLink>
-      <RouterLink to="/home">
-        メインメニューへ
-      </RouterLink>
-    </div>
+    <ul class="nav justify-content-evenly mb-5">
+      <li class="nav-item">
+        <RouterLink to="/comments/new">
+          コメントの新規登録へ
+        </RouterLink>
+      </li>
+      <li class="nav-item">
+        <RouterLink to="/home">
+          メインメニューへ
+        </RouterLink>
+      </li>
+    </ul>
   </div>
 </template>

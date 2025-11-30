@@ -26,7 +26,7 @@ test.describe('comments new flow', () => {
   })
 
   test.describe('コメントリストのリンクをクリックした場合', () => {
-    test('/commentsへ移動すること', async ({ page }) => {
+    test('コメントリストページへ移動すること', async ({ page }) => {
       await page.getByRole('link', { name: 'コメントリストへ' }).click()
 
       await expect(page).toHaveURL('/comments')

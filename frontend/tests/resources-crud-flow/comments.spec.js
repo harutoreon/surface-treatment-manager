@@ -25,14 +25,10 @@ test.describe('comments crud flow', () => {
 
     // /comments/idページの検証
     await expect(page.getByRole('heading', { name: 'コメント情報' })).toBeVisible()
-    await expect(page.getByRole('listitem')).toHaveText(
-      [
-        /部署名 :製造部/,
-        /投稿者 :宮崎 彩/,
-        /コメント :表面処理により耐熱性が向上し、高温環境でも問題ありません。/,
-      ]
-    )
-    await page.getByRole('button', { name: '通知を閉じる' }).click()
+
+    await expect(page.getByRole('listitem').filter({ hasText: '製造部' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: '宮崎 彩' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: '表面処理により耐熱性が向上し、高温環境でも問題ありません。' })).toBeVisible()
 
     // コメント情報の編集ページへ
     await page.getByRole('link', { name: 'コメント情報の編集' }).click()
@@ -51,20 +47,18 @@ test.describe('comments crud flow', () => {
 
     // /comments/idページの検証
     await expect(page.getByRole('heading', { name: 'コメント情報' })).toBeVisible()
-    await expect(page.getByRole('listitem')).toHaveText(
-      [
-        /部署名 :製造部/,
-        /投稿者 :宮崎 彩/,
-        /コメント :表面が非常に硬く、傷がつきにくいです。/,
-      ]
-    )
+
+    await expect(page.getByRole('listitem').filter({ hasText: '製造部' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: '宮崎 彩' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: '表面が非常に硬く、傷がつきにくいです。' })).toBeVisible()
+
     await page.getByRole('button', { name: '通知を閉じる' }).click()
 
     // コメント情報の削除を実行
     page.once('dialog', async dialog => {
       await dialog.accept()
     })
-    await page.locator('p', { hasText: 'コメント情報の削除' }).click()
+    await page.locator('button', { hasText: 'コメント情報の削除' }).click()
 
     // /commentsページの検証
     await expect(page.getByRole('heading', { name: 'コメントリスト' })).toBeVisible()

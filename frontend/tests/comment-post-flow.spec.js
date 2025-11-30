@@ -53,7 +53,7 @@ test.describe('comment post flow', () => {
       page.once('dialog', async dialog => {
         await dialog.accept()
       })
-      await page.locator('p', { hasText: 'コメント情報の削除' }).click()
+      await page.locator('button', { hasText: 'コメント情報の削除' }).click()
 
       // コメントの削除検証
       await page.goto('/samples/1')

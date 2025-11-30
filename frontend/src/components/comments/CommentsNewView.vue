@@ -145,8 +145,12 @@ onMounted(async () => {
       {{ errorMessage }}
     </p>
 
-    <RouterLink to="/comments" class="d-flex justify-content-evenly">
-      コメントリストへ
-    </RouterLink>
+    <ul class="nav justify-content-center">
+      <li class="nav-item">
+        <RouterLink to="/comments" class="d-flex justify-content-evenly">
+          コメントリストへ
+        </RouterLink>
+      </li>
+    </ul>
   </div>
 </template>
