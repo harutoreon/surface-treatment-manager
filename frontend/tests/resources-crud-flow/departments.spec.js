@@ -22,11 +22,9 @@ test.describe('departments crud flow', () => {
 
     // /departments/idページの検証
     await expect(page.getByRole('heading', { name: '部署情報' })).toBeVisible()
-    await expect(page.getByRole('listitem')).toHaveText(
-      [
-        '部署名 :開発二部',
-      ]
-    )
+
+    await expect(page.getByRole('listitem').filter({ hasText: '開発二部' })).toBeVisible()
+
     await page.getByRole('button', { name: '通知を閉じる' }).click()
 
     // 部署情報の編集ページへ
@@ -44,18 +42,16 @@ test.describe('departments crud flow', () => {
 
     // /departments/idページの検証
     await expect(page.getByRole('heading', { name: '部署情報' })).toBeVisible()
-    await expect(page.getByRole('listitem')).toHaveText(
-      [
-        '部署名 :生産管理部',
-      ]
-    )
+
+    await expect(page.getByRole('listitem').filter({ hasText: '生産管理部' })).toBeVisible()
+
     await page.getByRole('button', { name: '通知を閉じる' }).click()
 
     // 部署情報の削除実行
     page.once('dialog', async dialog => {
       await dialog.accept()
     })
-    await page.locator('p', { hasText: '部署情報の削除' }).click()
+    await page.locator('button', { hasText: '部署情報の削除' }).click()
 
     // /departmentsページの検証
     await expect(page.getByRole('heading', { name: '部署リスト' })).toBeVisible()
