@@ -201,8 +201,8 @@ describe('MakersIndexView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const div = wrapper.find('div[class="d-flex justify-content-evenly"]')
-      const routerLinks = div.findAllComponents(RouterLinkStub)
+      const ulElements = wrapper.findAll('ul')
+      const routerLinks = ulElements[1].findAllComponents(RouterLinkStub)
 
       // to属性
       expect(routerLinks[0].props().to).toBe('/makers/new')
