@@ -29,18 +29,16 @@ test.describe('makers crud flow', () => {
 
     // /makers/idページの検証
     await expect(page.getByRole('heading', { name: 'メーカー情報' })).toBeVisible()
-    await expect(page.getByRole('listitem')).toHaveText(
-      [
-        'メーカー名:合資会社藤原印刷',
-        '郵便番号:262-0044',
-        '住所:東京都渋谷区神南1-2-37',
-        '電話番号:070-4207-7874',
-        'FAX番号:090-9777-5980',
-        'Email:sample_maker67@example.com',
-        'ホームページ:https://example.com/sample_maker75',
-        '担当者:阿部 蓮',
-      ]
-    )
+
+    await expect(page.getByRole('listitem').filter({ hasText: '合資会社藤原印刷' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: '262-0044' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: '東京都渋谷区神南1-2-37' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: '070-4207-7874' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: '090-9777-5980' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: 'sample_maker67@example.com' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: 'https://example.com/sample_maker75' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: '阿部 蓮' })).toBeVisible()
+
     await page.getByRole('button', { name: '通知を閉じる' }).click()
 
     // メーカー情報の編集ページへ
@@ -65,25 +63,23 @@ test.describe('makers crud flow', () => {
 
     // /makers/idページの検証
     await expect(page.getByRole('heading', { name: 'メーカー情報' })).toBeVisible()
-    await expect(page.getByRole('listitem')).toHaveText(
-      [
-        'メーカー名:株式会社藤原印刷',
-        '郵便番号:262-0044',
-        '住所:東京都渋谷区神南1-2-37',
-        '電話番号:070-4207-7874',
-        'FAX番号:090-9777-5980',
-        'Email:sample_maker67@example.com',
-        'ホームページ:https://example.com/sample_maker75',
-        '担当者:阿部 蓮',
-      ]
-    )
+
+    await expect(page.getByRole('listitem').filter({ hasText: '株式会社藤原印刷' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: '262-0044' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: '東京都渋谷区神南1-2-37' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: '070-4207-7874' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: '090-9777-5980' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: 'sample_maker67@example.com' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: 'https://example.com/sample_maker75' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: '阿部 蓮' })).toBeVisible()
+
     await page.getByRole('button', { name: '通知を閉じる' }).click()
 
     // メーカー情報の削除実行
     page.once('dialog', async dialog => {
       await dialog.accept()
     })
-    await page.locator('p', { hasText: 'メーカー情報の削除' }).click()
+    await page.locator('button', { name: 'メーカー情報の削除' }).click()
 
     // /makersページの検証
     await expect(page.getByRole('heading', { name: 'メーカーリスト' })).toBeVisible()

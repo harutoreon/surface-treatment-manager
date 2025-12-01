@@ -161,6 +161,10 @@ describe('MakersShowView', () => {
       expect(routerLinks[0].text()).toBe('メーカー情報の編集へ')
       expect(routerLinks[1].text()).toBe('メーカーリストへ')
     })
+
+    it('メーカー情報の削除ボタンが表示されること', () => {
+      expect(wrapper.find('button').text()).toBe('メーカー情報の削除')
+    })
   })
 
   describe('初期レンダリングに失敗した場合', () => {
@@ -225,7 +229,7 @@ describe('MakersShowView', () => {
 
       await flushPromises()
 
-      await wrapper.find('p').trigger('click')
+      await wrapper.find('button').trigger('click')
   
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([
@@ -273,7 +277,7 @@ describe('MakersShowView', () => {
 
       await flushPromises()
 
-      await wrapper.find('p').trigger('click')
+      await wrapper.find('button').trigger('click')
   
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([
