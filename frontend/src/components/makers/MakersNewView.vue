@@ -148,10 +148,12 @@ onMounted(() => {
       </button>
     </form>
 
-    <div class="d-flex justify-content-center">
-      <RouterLink to="/makers" ref="linkMakers">
-        メーカーリストへ
-      </RouterLink>
-    </div>
+    <ul class="nav justify-content-center mb-5">
+      <li class="nav-item">
+        <RouterLink to="/makers">
+          メーカーリストへ
+        </RouterLink>
+      </li>
+    </ul>
   </div>
 </template>

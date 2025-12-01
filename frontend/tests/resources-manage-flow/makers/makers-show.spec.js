@@ -15,22 +15,19 @@ test.describe('makers show flow', () => {
       await expect(page).toHaveURL('/makers/1')
       await expect(page.getByRole('heading', { name: 'メーカー情報' })).toBeVisible()
 
-      await expect(page.getByRole('listitem')).toHaveText(
-        [
-          /メーカー名:/,
-          /郵便番号:/,
-          /住所:/,
-          /電話番号:/,
-          /FAX番号:/,
-          /Email:/,
-          /ホームページ:/,
-          /担当者:/,
-        ]
-      )
+      await expect(page.getByRole('listitem').filter({ hasText: /メーカー名:.*会社/ })).toBeVisible()
+      await expect(page.getByRole('listitem').filter({ hasText: /郵便番号:\d{3}-\d{4}/ })).toBeVisible()
+      await expect(page.getByRole('listitem').filter({ hasText: /住所:東京都渋谷区神南1-2-\d{1,2}/ })).toBeVisible()
+      await expect(page.getByRole('listitem').filter({ hasText: /電話番号:\d{3}-\d{4}-\d{4}/ })).toBeVisible()
+      await expect(page.getByRole('listitem').filter({ hasText: /FAX番号:\d{3}-\d{4}-\d{4}/ })).toBeVisible()
+      await expect(page.getByRole('listitem').filter({ hasText: /Email:sample_maker\d{1,2}@example.com/ })).toBeVisible()
+      await expect(page.getByRole('listitem').filter({ hasText: /ホームページ:https:\/\/example.com\/sample_maker\d{1,2}/ })).toBeVisible()
+      await expect(page.getByRole('listitem').filter({ hasText: /担当者:\p{Script=Han}{1,3} \p{Script=Han}{1,3}/u })).toBeVisible()
 
       await expect(page.getByRole('link', { name: 'メーカー情報の編集へ' })).toBeVisible()
-      await expect(page.locator('#maker_destroy')).toBeVisible()
       await expect(page.getByRole('link', { name: 'メーカーリストへ' })).toBeVisible()
+
+      await expect(page.getByRole('button', { name: 'メーカー情報の削除' })).toBeVisible()
     })
   })
 

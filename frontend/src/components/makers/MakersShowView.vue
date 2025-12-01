@@ -59,67 +59,67 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="container d-flex justify-content-center">
-    <div class="custom-width">
-      <h3 class="text-center mt-5 mb-5">
-        メーカー情報
-      </h3>
+  <div class="container w-50">
+    <h3 class="text-center mt-5 mb-5">
+      メーカー情報
+    </h3>
 
-      <div class="list-group mb-5">
-        <li class="d-flex justify-content-between list-group-item">
-          <div>メーカー名:</div>
-          <div>{{ maker.name }}</div>
-        </li>
-        <li class="d-flex justify-content-between list-group-item">
-          <div>郵便番号:</div>
-          <div>{{ maker.postal_code }}</div>
-        </li>
-        <li class="d-flex justify-content-between list-group-item">
-          <div>住所:</div>
-          <div>{{ maker.address }}</div>
-        </li>
-        <li class="d-flex justify-content-between list-group-item">
-          <div>電話番号:</div>
-          <div>{{ maker.phone_number }}</div>
-        </li>
-        <li class="d-flex justify-content-between list-group-item">
-          <div>FAX番号:</div>
-          <div>{{ maker.fax_number }}</div>
-        </li>
-        <li class="d-flex justify-content-between list-group-item">
-          <div>Email:</div>
-          <div>{{ maker.email }}</div>
-        </li>
-        <li class="d-flex justify-content-between list-group-item">
-          <div>ホームページ:</div>
-          <div>{{ maker.home_page }}</div>
-        </li>
-        <li class="d-flex justify-content-between list-group-item">
-          <div>担当者:</div>
-          <div>{{ maker.manufacturer_rep }}</div>
-        </li>
-      </div>
+    <div class="list-group mb-5">
+      <li class="d-flex justify-content-between list-group-item">
+        <div>メーカー名:</div>
+        <div>{{ maker.name }}</div>
+      </li>
+      <li class="d-flex justify-content-between list-group-item">
+        <div>郵便番号:</div>
+        <div>{{ maker.postal_code }}</div>
+      </li>
+      <li class="d-flex justify-content-between list-group-item">
+        <div>住所:</div>
+        <div>{{ maker.address }}</div>
+      </li>
+      <li class="d-flex justify-content-between list-group-item">
+        <div>電話番号:</div>
+        <div>{{ maker.phone_number }}</div>
+      </li>
+      <li class="d-flex justify-content-between list-group-item">
+        <div>FAX番号:</div>
+        <div>{{ maker.fax_number }}</div>
+      </li>
+      <li class="d-flex justify-content-between list-group-item">
+        <div>Email:</div>
+        <div>{{ maker.email }}</div>
+      </li>
+      <li class="d-flex justify-content-between list-group-item">
+        <div>ホームページ:</div>
+        <div>{{ maker.home_page }}</div>
+      </li>
+      <li class="d-flex justify-content-between list-group-item">
+        <div>担当者:</div>
+        <div>{{ maker.manufacturer_rep }}</div>
+      </li>
+    </div>
 
-      <div class="d-flex justify-content-evenly">
-        <RouterLink v-if="maker.id" v-bind:to="`/makers/${maker.id}/edit`" ref="linkMakersEdit">
+    <ul class="nav justify-content-evenly">
+      <li class="nav-item">
+        <RouterLink v-if="maker.id" v-bind:to="`/makers/${maker.id}/edit`">
           メーカー情報の編集へ
         </RouterLink>
-        <p v-on:click="handleDelete" class="text-primary text-decoration-underline" id="maker_destroy">
-          メーカー情報の削除
-        </p>
-        <RouterLink to="/makers" ref="linkMakers">
+      </li>
+      <li class="nav-item">
+        <RouterLink to="/makers">
           メーカーリストへ
         </RouterLink>
-      </div>
+      </li>
+    </ul>
+
+    <div class="d-flex justify-content-end mt-5">
+      <button
+        v-on:click="handleDelete"
+        class="btn btn-outline-danger"
+        type="button"
+      >
+        メーカー情報の削除
+      </button>
     </div>
   </div>
 </template>
-
-<style>
-p {
-  cursor: pointer;
-}
-.custom-width {
-  width: 45%;
-}
-</style>
