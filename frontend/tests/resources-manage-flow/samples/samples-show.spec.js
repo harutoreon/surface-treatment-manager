@@ -25,10 +25,12 @@ test.describe('samples/id flow', () => {
       await expect(page.getByRole('img', { name: 'Sample Image' })).toBeVisible()
 
       await page.getByRole('heading', { name: 'コメントリスト' })
-      
+      await expect(page.getByRole('button', { name: 'コメントの新規作成' })).toBeVisible()
+
       await expect(page.getByRole('link', { name: '表面処理情報の編集' })).toBeVisible()
-      await expect(page.getByText('表面処理情報の削除')).toBeVisible()
       await expect(page.getByRole('link', { name: '表面処理リストへ' })).toBeVisible()
+
+      await expect(page.getByRole('button', { name: '表面処理情報の削除' })).toBeVisible()
     })
   })
 

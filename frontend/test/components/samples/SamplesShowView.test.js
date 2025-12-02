@@ -240,6 +240,11 @@ describe('SamplesShowView', () => {
       expect(routerLinks[1].text()).toBe('表面処理情報の編集')
       expect(routerLinks[2].text()).toBe('表面処理リストへ')
     })
+
+    it('表面処理情報の削除ボタンが表示されること', () => {
+      const buttons = wrapper.findAll('button')
+      expect(buttons[3].text()).toBe('表面処理情報の削除')
+    })
   })
 
   describe('初期レンダリングに失敗した場合', () => {
@@ -436,7 +441,8 @@ describe('SamplesShowView', () => {
 
       await flushPromises()
 
-      await wrapper.find('p').trigger('click')
+      const buttons = wrapper.findAll('button')
+      await buttons[3].trigger('click')
 
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([
@@ -504,7 +510,8 @@ describe('SamplesShowView', () => {
 
       await flushPromises()
 
-      await wrapper.find('p').trigger('click')
+      const buttons = wrapper.findAll('button')
+      await buttons[3].trigger('click')
 
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([
@@ -687,8 +694,9 @@ describe('SamplesShowView', () => {
       await flushPromises()
     })
 
-    it('表面処理情報の削除リンクが表示されないこと', () => {
-      expect(wrapper.find('p').attributes('style')).toBe('display: none;')
+    it('表面処理情報の削除ボタンが表示されないこと', () => {
+      const buttons = wrapper.findAll('button')
+      expect(buttons[3].attributes('style')).toBe('display: none;')
     })
   })
 })
