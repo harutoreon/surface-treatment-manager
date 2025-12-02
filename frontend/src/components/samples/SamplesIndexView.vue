@@ -109,13 +109,17 @@ onMounted(async () => {
       </li>
     </ul>
 
-    <div class="d-flex justify-content-evenly">
-      <RouterLink to="/samples/new" ref="linkSamplesNew">
-        表面処理情報の登録
-      </RouterLink>
-      <RouterLink to="/home" ref="linkHome">
-        メインメニューへ
-      </RouterLink>
-    </div>
+    <ul class="nav justify-content-evenly">
+      <li class="nav-item">
+        <RouterLink to="/samples/new">
+          表面処理情報の登録
+        </RouterLink>
+      </li>
+      <li class="nav-item">
+        <RouterLink to="/home">
+          メインメニューへ
+        </RouterLink>
+      </li>
+    </ul>
   </div>
 </template>

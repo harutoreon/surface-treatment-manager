@@ -185,7 +185,19 @@ onMounted(async () => {
       コメントリスト
     </h5>
 
-    <div class="list-group list-group-flush mb-2">
+    <div class="d-flex justify-content-end mb-4">
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#commentPostForm"
+        v-on:click="modalReset"
+      >
+        コメントの新規作成
+      </button>
+    </div>
+
+    <div class="list-group list-group-flush mb-5">
       <div class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
           <h6>部署名 / 投稿者 / コメント</h6>
@@ -207,18 +219,6 @@ onMounted(async () => {
           <h6>{{ sampleComment.body }}</h6>
         </div>
       </RouterLink>
-    </div>
-
-    <div class="d-flex justify-content-end mb-3">
-      <button
-        type="button"
-        class="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#commentPostForm"
-        v-on:click="modalReset"
-      >
-        コメントの新規作成
-      </button>
     </div>
 
     <div
@@ -299,22 +299,28 @@ onMounted(async () => {
       </div>
     </div>
 
-    <div class="d-flex justify-content-evenly mt-5 mb-5">
-      <RouterLink v-if="sample.id" v-bind:to="`/samples/${sample.id}/edit`" ref="linkSamplesEdit">
-        表面処理情報の編集
-      </RouterLink>
-      <p v-show="isAdmin" v-on:click="handleDelete" class="text-primary text-decoration-underline">
+    <ul class="nav justify-content-evenly mb-5">
+      <li class="nav-item">
+        <RouterLink v-if="sample.id" v-bind:to="`/samples/${sample.id}/edit`">
+          表面処理情報の編集
+        </RouterLink>
+      </li>
+      <li class="nav-item">
+        <RouterLink to="/samples">
+          表面処理リストへ
+        </RouterLink>
+      </li>
+    </ul>
+
+    <div class="d-flex justify-content-end mb-5">
+      <button
+        v-show="isAdmin"
+        v-on:click="handleDelete"
+        class="btn btn-outline-danger"
+        type="button"
+      >
         表面処理情報の削除
-      </p>
-      <RouterLink to="/samples" ref="linkSamples">
-        表面処理リストへ
-      </RouterLink>
+      </button>
     </div>
   </div>
 </template>
-
-<style>
-p {
-  cursor: pointer;
-}
-</style>

@@ -214,10 +214,12 @@ onMounted(async () => {
       </button>
     </form>
 
-    <div class="text-center mb-5">
-      <RouterLink to="/samples" ref="linkSamples">
-        表面処理リストへ
-      </RouterLink>
-    </div>
+    <ul class="nav justify-content-center mb-5">
+      <li class="nav-item">
+        <RouterLink to="/samples">
+          表面処理リストへ
+        </RouterLink>
+      </li>
+    </ul>
   </div>
 </template>
