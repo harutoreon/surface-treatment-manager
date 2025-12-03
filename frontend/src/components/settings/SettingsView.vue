@@ -27,10 +27,12 @@ const handleLogout = async () => {
       </button>
     </div>
 
-    <div class="d-flex justify-content-center">
-      <RouterLink to="/home" class="me-5">
-        メインメニューへ
-      </RouterLink>
-    </div>
+    <ul class="nav justify-content-center">
+      <li class="nav-item">
+        <RouterLink to="/home">
+          メインメニューへ
+        </RouterLink>
+      </li>
+    </ul>
   </div>
 </template>
