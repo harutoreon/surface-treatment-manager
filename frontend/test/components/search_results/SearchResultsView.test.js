@@ -144,8 +144,8 @@ describe('SearchResultsNameView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const div = wrapper.find('div[class="d-flex justify-content-evenly mt-5 mb-5"]')
-      const routerLinks = div.findAllComponents(RouterLinkStub)
+      const ulElements = wrapper.find('ul')
+      const routerLinks = ulElements.findAllComponents(RouterLinkStub)
 
       // to属性
       expect(routerLinks[0].text()).toBe('再検索')
@@ -262,10 +262,10 @@ describe('SearchResultsNameView', () => {
     })
 
     it('再検索リンクのパスにnameが含まれていること', async () => {
-      const div = wrapper.find('div[class="d-flex justify-content-evenly mt-5 mb-5"]')
-      const routerLink = div.findComponent(RouterLinkStub)
+      const ulElements = wrapper.find('ul')
+      const routerLinks = ulElements.findAllComponents(RouterLinkStub)
 
-      expect(routerLink.props().to).toBe('/static_pages/name')
+      expect(routerLinks[0].props().to).toBe('/static_pages/name')
     })
   })
 
@@ -305,10 +305,10 @@ describe('SearchResultsNameView', () => {
     })
 
     it('再検索リンクのパスにcategoryが含まれていること', async () => {
-      const div = wrapper.find('div[class="d-flex justify-content-evenly mt-5 mb-5"]')
-      const routerLink = div.findComponent(RouterLinkStub)
+      const ulElements = wrapper.find('ul')
+      const routerLinks = ulElements.findAllComponents(RouterLinkStub)
 
-      expect(routerLink.props().to).toBe('/static_pages/category')
+      expect(routerLinks[0].props().to).toBe('/static_pages/category')
     })
   })
 
@@ -348,10 +348,10 @@ describe('SearchResultsNameView', () => {
     })
 
     it('再検索リンクのパスにmakerが含まれていること', async () => {
-      const div = wrapper.find('div[class="d-flex justify-content-evenly mt-5 mb-5"]')
-      const routerLink = div.findComponent(RouterLinkStub)
+      const ulElements = wrapper.find('ul')
+      const routerLinks = ulElements.findAllComponents(RouterLinkStub)
 
-      expect(routerLink.props().to).toBe('/static_pages/maker')
+      expect(routerLinks[0].props().to).toBe('/static_pages/maker')
     })
   })
 })

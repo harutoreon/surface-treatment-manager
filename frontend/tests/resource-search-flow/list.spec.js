@@ -19,4 +19,13 @@ test.describe('表面処理一覧で検索', () => {
     await expect(page.getByRole('heading', { name: '銀めっき' })).toBeVisible()
     await expect(page.getByRole('heading', { name: '銅めっき' })).toBeVisible()
   })
+
+  test.describe('メインメニューへのリンクをクリックした場合', () => {
+    test('メインメニューページに移動すること', async ({ page }) => {
+      await page.getByRole('link', { name: 'メインメニューへ' }).click()
+
+      await expect(page).toHaveURL('/home')
+      await expect(page.getByRole('heading', { name: 'メインメニュー' })).toBeVisible()
+    })
+  })
 })

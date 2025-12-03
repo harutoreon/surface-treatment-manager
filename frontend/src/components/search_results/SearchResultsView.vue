@@ -50,7 +50,7 @@ onMounted(async () => {
       検索文字列：「{{ data.keyword }}」
     </h5>
 
-    <div class="list-group list-group-flush mb-3">
+    <div class="list-group list-group-flush mb-5">
       <div class="list-group-item">
         <div class="d-flex w-100 justify-content-between">
           <h6>処理名 / カテゴリー</h6>
@@ -76,13 +76,17 @@ onMounted(async () => {
       </h4>
     </div>
 
-    <div class="d-flex justify-content-evenly mt-5 mb-5">
-      <RouterLink v-bind:to="`/static_pages/${searchMethod}`" id="link_research" ref="linkResearch">
-        再検索
-      </RouterLink>
-      <RouterLink to="/home" id="link_home" ref="linkHome">
-        メインメニューへ
-      </RouterLink>
-    </div>
+    <ul class="nav justify-content-evenly mb-5">
+      <li class="nav-item">
+        <RouterLink v-bind:to="`/static_pages/${searchMethod}`">
+          再検索
+        </RouterLink>
+      </li>
+      <li class="nav-item">
+        <RouterLink to="/home">
+          メインメニューへ
+        </RouterLink>
+      </li>
+    </ul>
   </div>
 </template>
