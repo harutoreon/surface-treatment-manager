@@ -136,8 +136,10 @@ describe('SearchResultsListView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      const div = wrapper.find('div[class="d-flex justify-content-evenly mt-5 mb-5"]')
-      const routerLink = div.findComponent(RouterLinkStub)
+      // const div = wrapper.find('div[class="d-flex justify-content-evenly mt-5 mb-5"]')
+
+      const ul = wrapper.find('ul')
+      const routerLink = ul.findComponent(RouterLinkStub)
 
       expect(routerLink.props().to).toBe('/home')
       expect(routerLink.text()).toBe('メインメニューへ')

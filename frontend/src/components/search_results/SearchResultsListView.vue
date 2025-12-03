@@ -73,10 +73,12 @@ onMounted(async () => {
       </div>
     </div>
 
-    <div class="d-flex justify-content-evenly mt-5 mb-5">
-      <RouterLink to="/home" ref="linkHome">
-        メインメニューへ
-      </RouterLink>
-    </div>
+    <ul class="nav justify-content-center mb-5">
+      <li class="nav-item">
+        <RouterLink to="/home">
+          メインメニューへ
+        </RouterLink>
+      </li>
+    </ul>
   </div>
 </template>
