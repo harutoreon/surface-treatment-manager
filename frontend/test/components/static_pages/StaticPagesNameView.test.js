@@ -53,8 +53,8 @@ describe('StaticPagesNameView', () => {
     })
   })
 
-  describe('有効なキーワードを入力して送信した場合', () => {
-    it('検索結果のページに遷移すること', async () => {
+  describe('キーワードを入力して送信した場合', () => {
+    it('検索結果ページに遷移すること', async () => {
       await wrapper.find('input').setValue('めっき')
       await wrapper.find('form').trigger('submit.prevent')
       
