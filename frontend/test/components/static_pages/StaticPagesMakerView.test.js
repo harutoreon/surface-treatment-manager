@@ -53,7 +53,7 @@ describe('StaticPagesMakerView', () => {
     })
   })
 
-  describe('有効なキーワードを入力して送信した場合', () => {
+  describe('キーワードを入力して送信した場合', () => {
     it('検索結果のページに遷移されること', async () => {
       await wrapper.find('input').setValue('株式会社')
       await wrapper.find('form').trigger('submit.prevent')
