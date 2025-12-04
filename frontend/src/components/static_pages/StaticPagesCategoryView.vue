@@ -50,9 +50,11 @@ onMounted(async () => {
     <h3 class="mt-5 mb-5">
       カテゴリーで検索
     </h3>
+
     <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">
       {{ errorMessage }}
     </p>
+
     <form v-on:submit.prevent="submitSearch">
       <select v-model="keyword" class="form-select mb-3">
         <option value="">
@@ -66,11 +68,14 @@ onMounted(async () => {
         検索
       </button>
     </form>
-    <div>
-      <RouterLink to="/home" ref="linkHome">
-        メインメニューへ
-      </RouterLink>
-    </div>
+
+    <ul class="nav justify-content-center">
+      <li class="nav-item">
+        <RouterLink to="/home">
+          メインメニューへ
+        </RouterLink>
+      </li>
+    </ul>
   </div>
 </template>
 
