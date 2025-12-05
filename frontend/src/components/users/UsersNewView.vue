@@ -120,8 +120,12 @@ onMounted(async () => {
       {{ errorMessage }}
     </p>
     
-    <RouterLink to="/users" class="d-flex justify-content-evenly" ref="linkUsersNew">
-      ユーザーリスト
-    </RouterLink>
+    <ul class="nav justify-content-center">
+      <li class="nav-item">
+        <RouterLink to="/users">
+          ユーザーリスト
+        </RouterLink>
+      </li>
+    </ul>
   </div>
 </template>
