@@ -131,6 +131,10 @@ describe('UsersShowView', () => {
       expect(routerLinks[0].text()).toBe('ユーザー情報の編集')
       expect(routerLinks[1].text()).toBe('ユーザーリスト')
     })
+
+    it('ユーザーの削除ボタンが表示されること', () => {
+      expect(wrapper.find('button').text()).toBe('ユーザーの削除')
+    })
   })
 
   describe('初期レンダリングに失敗した場合', () => {
@@ -187,7 +191,7 @@ describe('UsersShowView', () => {
 
       await flushPromises()
 
-      await wrapper.find('p').trigger('click')
+      await wrapper.find('button').trigger('click')
 
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([
@@ -227,7 +231,7 @@ describe('UsersShowView', () => {
 
       await flushPromises()
 
-      await wrapper.find('p').trigger('click')
+      await wrapper.find('button').trigger('click')
 
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([

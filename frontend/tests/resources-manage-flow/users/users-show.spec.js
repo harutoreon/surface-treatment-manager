@@ -15,16 +15,13 @@ test.describe('users show flow', () => {
       await expect(page).toHaveURL('/users/1')
       await expect(page.getByRole('heading', { name: 'ユーザー情報' })).toBeVisible()
 
-      await expect(page.getByRole('listitem')).toHaveText(
-        [
-          /ユーザー名：/,
-          /部署名：/,
-        ]
-      )
+      await expect(page.getByRole('listitem').filter({ hasText: /ユーザー名：\p{Script=Han}{1,3} \p{Script=Han}{1,3}/u })).toBeVisible()
+      await expect(page.getByRole('listitem').filter({ hasText: /部署名：.+部/ })).toBeVisible()
 
       await expect(page.getByRole('link', { name: 'ユーザー情報の編集' })).toBeVisible()
       await expect(page.getByRole('link', { name: 'ユーザーリスト' })).toBeVisible()
-      await expect(page.locator('p', { hasText: 'ユーザーの削除' })).toBeVisible()
+
+      await expect(page.getByRole('button', { name: 'ユーザーの削除' })).toBeVisible()
     })
   })
 
