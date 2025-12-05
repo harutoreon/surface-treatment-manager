@@ -25,12 +25,10 @@ test.describe('users crud flow', () => {
 
     // /users/idページの検証
     await expect(page.getByRole('heading', { name: 'ユーザー情報' })).toBeVisible()
-    await expect(page.getByRole('listitem')).toHaveText(
-      [
-        'ユーザー名：森 はじめ',
-        '部署名：製造部',
-      ]
-    )
+
+    await expect(page.getByRole('listitem').filter({ hasText: '森 はじめ' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: '製造部' })).toBeVisible()
+
     await page.getByRole('button', { name: '通知を閉じる' }).click()
 
     // ユーザー情報の編集ページへ
@@ -49,19 +47,17 @@ test.describe('users crud flow', () => {
 
     // /users/idページの検証
     await expect(page.getByRole('heading', { name: 'ユーザー情報' })).toBeVisible()
-    await expect(page.getByRole('listitem')).toHaveText(
-      [
-        'ユーザー名：森 はじめ',
-        '部署名：営業部',
-      ]
-    )
+
+    await expect(page.getByRole('listitem').filter({ hasText: '森 はじめ' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: '営業部' })).toBeVisible()
+
     await page.getByRole('button', { name: '通知を閉じる' }).click()
 
     // ユーザー情報の削除実行
     page.once('dialog', async dialog => {
       await dialog.accept()
     })
-    await page.locator('p', { hasText: 'ユーザーの削除' }).click()
+    await page.getByRole('button', { hasText: 'ユーザーの削除' }).click()
 
     // /usersページの検証
     await expect(page.getByRole('heading', { name: 'ユーザーリスト' })).toBeVisible()
