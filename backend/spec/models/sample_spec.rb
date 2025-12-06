@@ -168,5 +168,20 @@ RSpec.describe Sample, type: :model do
         end
       end
     end
+
+    describe '.with_image_url' do
+      it 'id/name/summary/image_urlの属性が含まれていること' do
+        sample = FactoryBot.create(:sample)
+        samples = Sample.with_image_url
+        json = samples.last
+
+        expect(json.keys).to match_array(%w(id name summary image_url))
+        expect(json['id']).to eq(sample.id)
+        expect(json['name']).to eq(sample.name)
+        expect(json['summary']).to eq(sample.summary)
+        expect(json['image_url']).to eq(sample.image_url)
+        expect(json['image_url']).to include("/rails/active_storage/blobs/")
+      end
+    end
   end
 end
