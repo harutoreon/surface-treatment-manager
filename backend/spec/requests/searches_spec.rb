@@ -77,13 +77,13 @@ RSpec.describe "Searches", type: :request do
 
     it 'jsonにサンプルが5件含まれていること' do
       get '/new_list_search'
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       expect(json.count).to eq(5)
     end
 
     it 'jsonにid/name/summary/image_urlの属性が含まれていること' do
       get '/new_list_search'
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       expect(json.first.keys).to match_array(%w(id name summary image_url))
     end
   end
