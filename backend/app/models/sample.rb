@@ -25,4 +25,11 @@ class Sample < ApplicationRecord
   def image_url
     image.attached? ? url_for(image) : nil  
   end
+
+  def self.with_image_url
+    samples = Sample.order(:id).select(:id, :name, :summary)
+    samples.map do |sample|
+      sample.as_json(methods: :image_url)
+    end
+  end
 end

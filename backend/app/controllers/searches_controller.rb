@@ -37,4 +37,10 @@ class SearchesController < ApplicationController
 
     render json: samples, status: :ok
   end
+
+  def new_list_search
+    samples = Sample.with_image_url
+
+    render json: samples, status: :ok
+  end
 end
