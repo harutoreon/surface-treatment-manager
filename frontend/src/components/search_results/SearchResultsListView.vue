@@ -7,18 +7,12 @@ import { checkLoginStatus } from '@/components/utils.js'
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
 const router = useRouter()
-const samplesWithImage = ref([])
-const samplesWithoutImage = ref([])
+const samples = ref([])
 
 const fetchSearchResults = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/list_search`)
-    samplesWithoutImage.value = response.data
-    
-    for (const sample of samplesWithoutImage.value) {
-      const response = await axios.get(`${API_BASE_URL}/samples/${sample.id}`)
-      samplesWithImage.value.push(response.data)
-    }
+    const response = await axios.get(`${API_BASE_URL}/new_list_search`)
+    samples.value = response.data
   } catch (error) {
     if (error.response && error.response.status === 404) {
       emit('message', { type: 'danger', text: 'サンプルの取得に失敗しました。' })
@@ -45,7 +39,7 @@ onMounted(async () => {
 
     <div class="album">
       <div class="row row-cols-5 g-3">
-        <div v-for="sample in samplesWithImage" v-bind:key="sample.id" class="col">
+        <div v-for="sample in samples" v-bind:key="sample.id" class="col">
           <div class="card">
             <img
               v-bind:src="sample.image_url"

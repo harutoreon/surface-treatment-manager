@@ -83,16 +83,13 @@ describe('SearchResultsListView', () => {
         })
         .mockResolvedValueOnce({
           data: [
-            { id: 1 }
+            {
+              id: 1,
+              name: '無電解ニッケルめっき',
+              image_url: 'http://localhost:3000/electroless_nickel_plating.jpeg',
+              summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。'
+            }
           ]
-        })
-        .mockResolvedValueOnce({
-          data: {
-            id: 1,
-            name: '無電解ニッケルめっき',
-            image_url: 'http://localhost:3000/electroless_nickel_plating.jpeg',
-            summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。'
-          }
         })
   
       wrapper = mount(SearchResultsListView, {
@@ -136,8 +133,6 @@ describe('SearchResultsListView', () => {
     })
 
     it('外部リンクが表示されること', () => {
-      // const div = wrapper.find('div[class="d-flex justify-content-evenly mt-5 mb-5"]')
-
       const ul = wrapper.find('ul')
       const routerLink = ul.findComponent(RouterLinkStub)
 
