@@ -11,7 +11,7 @@ const samples = ref([])
 
 const fetchSearchResults = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/new_list_search`)
+    const response = await axios.get(`${API_BASE_URL}/list_search`)
     samples.value = response.data
   } catch (error) {
     if (error.response && error.response.status === 404) {

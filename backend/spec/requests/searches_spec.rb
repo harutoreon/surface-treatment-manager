@@ -61,28 +61,14 @@ RSpec.describe "Searches", type: :request do
       expect(response).to have_http_status(:ok)
     end
 
-    it 'レスポンスのjsonにサンプルが5件含まれていること' do
-      get '/list_search'
-      json = JSON.parse(response.body)
-
-      expect(json.count).to eq(5)
-    end
-  end
-
-  describe '#new_list_search' do
-    it 'レスポンスのステータスがokであること' do
-      get '/new_list_search'
-      expect(response).to have_http_status(:ok)
-    end
-
     it 'jsonにサンプルが5件含まれていること' do
-      get '/new_list_search'
+      get '/list_search'
       json = response.parsed_body
       expect(json.count).to eq(5)
     end
 
     it 'jsonにid/name/summary/image_urlの属性が含まれていること' do
-      get '/new_list_search'
+      get '/list_search'
       json = response.parsed_body
       expect(json.first.keys).to match_array(%w(id name summary image_url))
     end

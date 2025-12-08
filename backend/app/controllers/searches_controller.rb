@@ -33,12 +33,6 @@ class SearchesController < ApplicationController
   end
 
   def list_search
-    samples = Sample.order(:id)
-
-    render json: samples, status: :ok
-  end
-
-  def new_list_search
     samples = Sample.with_image_url
 
     render json: samples, status: :ok
