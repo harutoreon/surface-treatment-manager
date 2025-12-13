@@ -4,6 +4,7 @@ RSpec.describe Sample, type: :model do
   describe 'Association' do
     describe 'has_one_attached' do
       it '画像を添付できること' do
+        FactoryBot.create(:maker)
         sample = FactoryBot.create(:sample)
 
         expect(sample.image).to be_attached
@@ -13,6 +14,7 @@ RSpec.describe Sample, type: :model do
 
   describe 'Validation' do
     before do
+      FactoryBot.create(:maker)
       @sample = FactoryBot.build(:sample)
     end
 
@@ -32,11 +34,6 @@ RSpec.describe Sample, type: :model do
 
     it 'colorが存在すること' do
       @sample.color = ''
-      expect(@sample).to_not be_valid
-    end
-
-    it 'makerが存在すること' do
-      @sample.maker = ''
       expect(@sample).to_not be_valid
     end
 
@@ -76,6 +73,7 @@ RSpec.describe Sample, type: :model do
   describe 'Method return values' do
     describe '.name_search' do
       before do
+        FactoryBot.create(:maker)
         FactoryBot.create_list(:anodised_aluminium, 9)
         FactoryBot.create(:chromate)
       end
@@ -101,6 +99,7 @@ RSpec.describe Sample, type: :model do
 
     describe '.category_search' do
       before do
+        FactoryBot.create(:maker)
         FactoryBot.create_list(:anodised_aluminium, 9)
         FactoryBot.create(:chromate)
       end
@@ -124,34 +123,36 @@ RSpec.describe Sample, type: :model do
       end
     end
 
-    describe '.maker_search' do
-      before do
-        FactoryBot.create_list(:anodised_aluminium, 9)
-        FactoryBot.create(:chromate)
-      end
-
-      context '引数が「有限会社」の場合' do
-        it 'サンプルが9件返ること' do
-          expect(Sample.maker_search('有限会社').count).to eq(9)
-        end
-      end
-
-      context '引数が「株式会社」の場合' do
-        it 'サンプルが1件返ること' do
-          expect(Sample.maker_search('株式会社').count).to eq(1)
-        end
-      end
-
-      context '引数が「合同会社」の場合' do
-        it '空の配列が返ること' do
-          expect(Sample.maker_search('合同会社')).to eq([])
-        end
-      end
-    end
+    # describe '.maker_search' do
+    #   before do
+    #     FactoryBot.create(:maker)
+    #     FactoryBot.create_list(:anodised_aluminium, 9)
+    #     FactoryBot.create(:chromate)
+    #   end
+    #
+    #   context '引数が「有限会社」の場合' do
+    #     it 'サンプルが9件返ること' do
+    #       expect(Sample.maker_search('有限会社').count).to eq(9)
+    #     end
+    #   end
+    #
+    #   context '引数が「株式会社」の場合' do
+    #     it 'サンプルが1件返ること' do
+    #       expect(Sample.maker_search('株式会社').count).to eq(1)
+    #     end
+    #   end
+    #
+    #   context '引数が「合同会社」の場合' do
+    #     it '空の配列が返ること' do
+    #       expect(Sample.maker_search('合同会社')).to eq([])
+    #     end
+    #   end
+    # end
 
     describe '#image_url' do
       context '画像が添付されている場合' do
         it '画像のURLを返すこと' do
+          FactoryBot.create(:maker)
           sample = FactoryBot.create(:sample)
 
           expect(sample.image_url).to be_present
@@ -161,6 +162,7 @@ RSpec.describe Sample, type: :model do
 
       context '画像が添付されていない場合' do
         it 'nilを返すこと' do
+          FactoryBot.create(:maker)
           sample = FactoryBot.create(:sample)
           sample.image.purge
 
@@ -171,6 +173,7 @@ RSpec.describe Sample, type: :model do
 
     describe '.with_image_url' do
       it 'id/name/summary/image_urlの属性が含まれていること' do
+        FactoryBot.create(:maker)
         sample = FactoryBot.create(:sample)
         samples = Sample.with_image_url
         json = samples.last

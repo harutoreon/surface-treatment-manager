@@ -21,7 +21,7 @@ class Sample < ApplicationRecord
 
   scope :name_search,     -> (keyword) { where('name LIKE ?',     "%#{keyword}%") }
   scope :category_search, -> (keyword) { where('category LIKE ?', "%#{keyword}%") }
-  scope :maker_search,    -> (keyword) { where('maker LIKE ?',    "%#{keyword}%") }
+  # scope :maker_search,    -> (keyword) { where('maker LIKE ?',    "%#{keyword}%") }
 
   def image_url
     image.attached? ? url_for(image) : nil  

@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Comment, type: :model do
   describe 'validation' do
     before do
+      FactoryBot.create(:maker)
       FactoryBot.create(:sample)      
       @comment = FactoryBot.build(:comment)
     end
