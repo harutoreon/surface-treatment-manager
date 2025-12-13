@@ -3,18 +3,19 @@ require 'rails_helper'
 RSpec.describe "Comments API", type: :request do
   describe '#index' do
     before do
-      FactoryBot.create(:sample)
+      FactoryBot.create(:maker)
+      @sample = FactoryBot.create(:sample)
       FactoryBot.create_list(:comment, 10)
       @comment = Comment.first
     end
 
     it 'レスポンスのステータスがokであること' do
-      get "/samples/#{@comment.sample_id}/comments"
+      get "/makers/#{@sample.maker_id}/samples/#{@comment.sample_id}/comments"
       expect(response).to have_http_status(:ok)
     end
 
     it 'コメントの件数が10件返ること' do
-      get "/samples/#{@comment.sample_id}/comments"
+      get "/makers/#{@sample.maker_id}/samples/#{@comment.sample_id}/comments"
       json = JSON.parse(response.body)
       expect(json.count).to eq(10)
     end
@@ -22,17 +23,18 @@ RSpec.describe "Comments API", type: :request do
 
   describe '#show' do
     before do
-      FactoryBot.create(:sample)
+      FactoryBot.create(:maker)
+      @sample = FactoryBot.create(:sample)
       @comment = FactoryBot.create(:comment)
     end
 
     it 'レスポンスのステータスがokであること' do
-      get "/samples/#{@comment.sample_id}/comments/#{@comment.id}"
+      get "/makers/#{@sample.maker_id}/samples/#{@comment.sample_id}/comments/#{@comment.id}"
       expect(response).to have_http_status(:ok)
     end
 
     it 'コメントの詳細が返ること' do
-      get "/samples/#{@comment.sample_id}/comments/#{@comment.id}"
+      get "/makers/#{@sample.maker_id}/samples/#{@comment.sample_id}/comments/#{@comment.id}"
       json = JSON.parse(response.body, symbolize_names: true)
       expect(json[:commenter]).to eq("木下 太一")
       expect(json[:department]).to eq("品質管理部")
@@ -42,6 +44,7 @@ RSpec.describe "Comments API", type: :request do
 
   describe "#create" do
     before do
+      FactoryBot.create(:maker)
       @sample = FactoryBot.create(:sample)
     end
 
@@ -53,18 +56,18 @@ RSpec.describe "Comments API", type: :request do
       end
 
       it 'レスポンスのステータスがcreatedであること' do
-        post "/samples/#{@sample.id}/comments", params: @valid_comment_params
+        post "/makers/#{@sample.maker_id}/samples/#{@sample.id}/comments", params: @valid_comment_params
         expect(response).to have_http_status(:created)
       end
 
       it 'headerのlocationが登録したコメントを参照していること' do
-        post "/samples/#{@sample.id}/comments", params: @valid_comment_params
+        post "/makers/#{@sample.maker_id}/samples/#{@sample.id}/comments", params: @valid_comment_params
         comment = Comment.last
-        expect(response.header["Location"]).to eq("http://www.example.com/samples/#{comment.sample_id}/comments/#{comment.id}")
+        expect(response.header["Location"]).to eq("http://www.example.com/makers/#{@sample.maker_id}/samples/#{comment.sample_id}/comments/#{comment.id}")
       end
 
       it 'データベースのコメント数が1件増えること' do
-        expect { post "/samples/#{@sample.id}/comments", params: @valid_comment_params }.to change{ Comment.count }.from(0).to(1)
+        expect { post "/makers/#{@sample.maker_id}/samples/#{@sample.id}/comments", params: @valid_comment_params }.to change{ Comment.count }.from(0).to(1)
       end
     end
 
@@ -76,30 +79,31 @@ RSpec.describe "Comments API", type: :request do
       end
 
       it 'レスポンスのステータスがunprocessable_entityであること' do
-        post "/samples/#{@sample.id}/comments", params: @invalid_comment_params
+        post "/makers/#{@sample.maker_id}/samples/#{@sample.id}/comments", params: @invalid_comment_params
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'データベースに登録されないこと' do
-        expect { post "/samples/#{@sample.id}/comments", params: @invalid_comment_params }.to_not change{ Comment.count }.from(0)
+        expect { post "/makers/#{@sample.maker_id}/samples/#{@sample.id}/comments", params: @invalid_comment_params }.to_not change{ Comment.count }.from(0)
       end
     end
   end
 
   describe '#update' do
     before do
-      FactoryBot.create(:sample)
+      FactoryBot.create(:maker)
+      @sample = FactoryBot.create(:sample)
       @comment = FactoryBot.create(:comment)
     end
 
     context '有効なコメント情報で更新したとき' do
       it 'レスポンスのステータスがokであること' do
-        patch "/samples/#{@comment.sample_id}/comments/#{@comment.id}",params: { comment: { commenter: 'sample user' } }
+        patch "/makers/#{@sample.maker_id}/samples/#{@comment.sample_id}/comments/#{@comment.id}", params: { comment: { commenter: 'sample user' } }
         expect(response).to have_http_status(:ok)
       end
 
       it 'commenterがsample userで更新されること' do
-        patch "/samples/#{@comment.sample_id}/comments/#{@comment.id}",params: { comment: { commenter: 'sample user' } }
+        patch "/makers/#{@sample.maker_id}/samples/#{@comment.sample_id}/comments/#{@comment.id}", params: { comment: { commenter: 'sample user' } }
         json = JSON.parse(response.body, symbolize_names: true)
         expect(json[:commenter]).to eq("sample user")
       end
@@ -107,12 +111,12 @@ RSpec.describe "Comments API", type: :request do
 
     context '無効なコメント情報で更新したとき' do
       it 'レスポンスがunprocessable_entityであること' do
-        patch "/samples/#{@comment.sample_id}/comments/#{@comment.id}",params: { comment: { commenter: '' } }
+        patch "/makers/#{@sample.maker_id}/samples/#{@comment.sample_id}/comments/#{@comment.id}", params: { comment: { commenter: '' } }
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'commenterが空白で更新できないこと' do
-        patch "/samples/#{@comment.sample_id}/comments/#{@comment.id}",params: { comment: { commenter: '' } }
+        patch "/makers/#{@sample.maker_id}/samples/#{@comment.sample_id}/comments/#{@comment.id}", params: { comment: { commenter: '' } }
         json = JSON.parse(response.body, symbolize_names: true)
         expect(json[:commenter]).to eq(["（投稿者名）が空白です。"])
       end
@@ -121,29 +125,31 @@ RSpec.describe "Comments API", type: :request do
 
   describe '#destroy' do
     before do
-      FactoryBot.create(:sample)
+      FactoryBot.create(:maker)
+      @sample = FactoryBot.create(:sample)
       @comment = FactoryBot.create(:comment)
     end
 
     it 'レスポンスのステータスがno_contentであること' do
-      delete "/samples/#{@comment.sample_id}/comments/#{@comment.id}"
+      delete "/makers/#{@sample.maker_id}/samples/#{@comment.sample_id}/comments/#{@comment.id}"
       expect(response).to have_http_status(:no_content)
     end
 
     it 'レスポンスのbodyが空であること' do
-      delete "/samples/#{@comment.sample_id}/comments/#{@comment.id}"
+      delete "/makers/#{@sample.maker_id}/samples/#{@comment.sample_id}/comments/#{@comment.id}"
       expect(response.body).to be_blank
     end
 
     it 'コメントが1件削除されること' do
       expect {
-        delete "/samples/#{@comment.sample_id}/comments/#{@comment.id}"
+        delete "/makers/#{@sample.maker_id}/samples/#{@comment.sample_id}/comments/#{@comment.id}"
       }.to change{ Comment.count }.from(1).to(0)
     end
   end
 
   describe '#comment_list' do
     before do
+      FactoryBot.create(:maker)
       FactoryBot.create(:sample)
       FactoryBot.create_list(:comment, 10)
     end
@@ -169,6 +175,7 @@ RSpec.describe "Comments API", type: :request do
 
   describe '#comment_information' do
     before do
+      FactoryBot.create(:maker)
       FactoryBot.create(:sample)
       @comment = FactoryBot.create(:comment)
     end
