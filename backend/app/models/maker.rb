@@ -1,4 +1,6 @@
 class Maker < ApplicationRecord
+  has_many :samples, dependent: :destroy
+
   VALID_POSTAL_CODE  = /\A\d{3}-\d{4}\z/
   VALID_PHONE_NUMBER = /\A\d{3}-\d{4}-\d{4}\z/
   VALID_FAX_NUMBER   = /\A\d{3}-\d{4}-\d{4}\z/
