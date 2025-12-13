@@ -16,11 +16,12 @@ Rails.application.routes.draw do
   get '/sample_list', to: 'samples#sample_list'
   
   resources :categories
-  resources :makers
   resources :users
   resources :departments
 
-  resources :samples do
-    resources :comments
+  resources :makers do
+    resources :samples do
+      resources :comments
+    end
   end
 end

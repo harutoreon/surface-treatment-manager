@@ -1,6 +1,7 @@
 class SamplesController < ApplicationController
   def index
-    samples = Sample.order(:id).paginate(page: params[:page], per_page: 7)
+    maker = Maker.find(params[:maker_id])
+    samples = maker.samples.order(:id).paginate(page: params[:page], per_page: 7)
 
     render json: {
       samples: samples,
@@ -11,23 +12,26 @@ class SamplesController < ApplicationController
   end
 
   def show
-    sample = Sample.find(params[:id])
+    maker = Maker.find(params[:maker_id])
+    sample = maker.samples.find(params[:id])
 
     render json: sample, status: :ok, methods: [:image_url]
   end
 
   def create
-    sample = Sample.new(sample_params)
+    maker = Maker.find(params[:maker_id])
+    sample = maker.samples.build(sample_params)
 
     if sample.save
-      render json: sample, status: :created, location: sample
+      render json: sample, status: :created, location: maker_sample_url(maker, sample)
     else
       render json: sample.errors, status: :unprocessable_entity
     end
   end
 
   def update
-    sample = Sample.find(params[:id])
+    maker = Maker.find(params[:maker_id])
+    sample = maker.samples.find(params[:id])
 
     if sample.update(sample_params)
       render json: sample, status: :ok
@@ -37,7 +41,8 @@ class SamplesController < ApplicationController
   end
 
   def destroy
-    sample = Sample.find(params[:id])
+    maker = Maker.find(params[:maker_id])
+    sample = maker.samples.find(params[:id])
     sample.destroy
     head :no_content
   end
