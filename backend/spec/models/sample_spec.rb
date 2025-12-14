@@ -123,32 +123,6 @@ RSpec.describe Sample, type: :model do
       end
     end
 
-    # describe '.maker_search' do
-    #   before do
-    #     FactoryBot.create(:maker)
-    #     FactoryBot.create_list(:anodised_aluminium, 9)
-    #     FactoryBot.create(:chromate)
-    #   end
-    #
-    #   context '引数が「有限会社」の場合' do
-    #     it 'サンプルが9件返ること' do
-    #       expect(Sample.maker_search('有限会社').count).to eq(9)
-    #     end
-    #   end
-    #
-    #   context '引数が「株式会社」の場合' do
-    #     it 'サンプルが1件返ること' do
-    #       expect(Sample.maker_search('株式会社').count).to eq(1)
-    #     end
-    #   end
-    #
-    #   context '引数が「合同会社」の場合' do
-    #     it '空の配列が返ること' do
-    #       expect(Sample.maker_search('合同会社')).to eq([])
-    #     end
-    #   end
-    # end
-
     describe '#image_url' do
       context '画像が添付されている場合' do
         it '画像のURLを返すこと' do

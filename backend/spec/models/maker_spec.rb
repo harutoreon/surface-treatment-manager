@@ -75,4 +75,25 @@ RSpec.describe Maker, type: :model do
       expect(@maker).to_not be_valid
     end
   end
+
+  describe 'scope' do
+    describe '.maker_search' do
+      before do
+        FactoryBot.create(:maker)
+        FactoryBot.create(:sample)
+      end
+
+      context '有効な引数の場合' do
+        it 'サンプルが1件返ること' do
+          expect(Maker.maker_search('合名会社').count).to eq(1)
+        end
+      end
+
+      context '無効な引数の場合' do
+        it '配列が空で返ること' do
+          expect(Maker.maker_search('株式会社').count).to eq(0)
+        end
+      end
+    end
+  end
 end
