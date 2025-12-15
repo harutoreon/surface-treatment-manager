@@ -22,11 +22,11 @@ class SearchesController < ApplicationController
   end
 
   def maker_search
-    samples = Sample.maker_search(params[:keyword])
+    makers = Maker.maker_search(params[:keyword])
     keyword = params[:keyword]
 
     render json: {
-      samples: samples,
+      makers: makers,
       keyword: keyword
     },
     status: :ok

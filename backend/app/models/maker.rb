@@ -1,4 +1,6 @@
 class Maker < ApplicationRecord
+  has_many :samples, dependent: :destroy
+
   VALID_POSTAL_CODE  = /\A\d{3}-\d{4}\z/
   VALID_PHONE_NUMBER = /\A\d{3}-\d{4}-\d{4}\z/
   VALID_FAX_NUMBER   = /\A\d{3}-\d{4}-\d{4}\z/
@@ -19,6 +21,8 @@ class Maker < ApplicationRecord
   validate :fax_number_format
   validate :email_address_format
   validate :url_format
+
+  scope :maker_search, -> (keyword) { where('name LIKE ?', "%#{keyword}%") }
 
   private
 

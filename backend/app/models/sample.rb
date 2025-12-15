@@ -1,6 +1,7 @@
 class Sample < ApplicationRecord
   include Rails.application.routes.url_helpers
-  
+
+  belongs_to :maker
   has_many :comments, dependent: :destroy
   has_one_attached :image
 
@@ -20,7 +21,6 @@ class Sample < ApplicationRecord
 
   scope :name_search,     -> (keyword) { where('name LIKE ?',     "%#{keyword}%") }
   scope :category_search, -> (keyword) { where('category LIKE ?', "%#{keyword}%") }
-  scope :maker_search,    -> (keyword) { where('maker LIKE ?',    "%#{keyword}%") }
 
   def image_url
     image.attached? ? url_for(image) : nil  
