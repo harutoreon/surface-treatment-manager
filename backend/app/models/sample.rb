@@ -8,7 +8,6 @@ class Sample < ApplicationRecord
   validates :name,     presence: { message: '（処理名）が空白です。' }
   validates :category, presence: { message: '（カテゴリー）が空白です。' }
   validates :color,    presence: { message: '（色調）が空白です。' }
-  validates :maker,    presence: { message: '（メーカー）が空白です。' }
   validates :image,    presence: { message: '（画像）がありません。' }
 
   validates :hardness,       presence: { message: '（硬度）が空白です。' }
