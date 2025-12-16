@@ -57,7 +57,7 @@ class SamplesController < ApplicationController
 
     def sample_params
       params.require(:sample).permit(
-        :name, :category, :color, :maker, :hardness, :film_thickness, :feature, :image, :summary
+        :name, :category, :color, :hardness, :film_thickness, :feature, :image, :summary
       )
     end
 end

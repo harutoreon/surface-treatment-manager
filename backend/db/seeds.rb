@@ -45,6 +45,123 @@ CATEGORIES.each do |item, summary|
 end
 
 
+# メーカーの生成
+
+MAKERS = [
+  {
+    name: "東亜電化工業株式会社",
+    postal_code: "910-0845",
+    address: "山口県西悠斗町1-2-1",
+    phone_number: "070-8007-8335",
+    fax_number: "080-4377-8360",
+    email: "sample_maker1@example.com",
+    home_page: "https://touadenka.example.com/",
+    manufacturer_rep: "橋本 愛",
+  },
+  {
+    name: "新星コーティングス",
+    postal_code: "602-8016",
+    address: "千葉県岡田郡1-2-2",
+    phone_number: "090-1965-9056",
+    fax_number: "070-1054-2902",
+    email: "sample_maker2@example.com",
+    home_page: "https://sinsei.example.com/",
+    manufacturer_rep: "上野 美穂",
+  },
+  {
+    name: "大和表面技術研究所",
+    postal_code: "350-1145",
+    address: "沖縄県南山本郡1-2-3",
+    phone_number: "070-7325-6366",
+    fax_number: "070-8648-5423",
+    email: "sample_maker3@example.com",
+    home_page: "https://yamato.example.com/",
+    manufacturer_rep: "大野 裕子",
+  },
+  {
+    name: "中央メッキ技研",
+    postal_code: "100-6928",
+    address: "栃木県小斉藤村1-2-4",
+    phone_number: "070-9841-8413",
+    fax_number: "090-3111-6425",
+    email: "sample_maker4@example.com",
+    home_page: "https://tyuoumeki.example.com/",
+    manufacturer_rep: "小川 裕子",
+  },
+  {
+    name: "サンエース・フィニッシュ",
+    postal_code: "558-0022",
+    address: "福井県西愛美市1-2-5",
+    phone_number: "080-4293-1186",
+    fax_number: "080-2807-8946",
+    email: "sample_maker5@example.com",
+    home_page: "https://sane-su.example.com/",
+    manufacturer_rep: "山口 彩",
+  },
+  {
+    name: "瑞穂皮膜加工",
+    postal_code: "481-0037",
+    address: "鹿児島県中颯村1-2-6",
+    phone_number: "070-7419-9965",
+    fax_number: "090-6092-6283",
+    email: "sample_maker6@example.com",
+    home_page: "https://mizuho.example.com/",
+    manufacturer_rep: "安藤 さくら",
+  },
+  {
+    name: "アストロ産業",
+    postal_code: "879-7143",
+    address: "東京都結菜市1-2-7",
+    phone_number: "080-4979-5274",
+    fax_number: "090-9973-2745",
+    email: "sample_maker7@example.com",
+    home_page: "https://astoro.example.com/",
+    manufacturer_rep: "石田 彩乃",
+  },
+  {
+    name: "明和サーフェス",
+    postal_code: "460-0006",
+    address: "  北海道南樹市1-2-8",
+    phone_number: "090-1998-7298",
+    fax_number: "070-5905-6674",
+    email: "sample_maker8@example.com",
+    home_page: "https://meiwa.example.com/",
+    manufacturer_rep: "内田 樹",
+  },
+  {
+    name: "富士理化研磨株式会社",
+    postal_code: "378-0051",
+    address: "岩手県東石田村1-2-9",
+    phone_number: "070-1963-1060",
+    fax_number: "070-2031-1932",
+    email: "sample_maker9@example.com",
+    home_page: "https://fuzirika.example.com/",
+    manufacturer_rep: "中島 大和",
+  },
+  {
+    name: "高周波サーマル工業",
+    postal_code: "616-8286",
+    address: "埼玉県新恵郡1-2-10",
+    phone_number: "080-9785-1973",
+    fax_number: "080-6435-2250",
+    email: "sample_maker10@example.com",
+    home_page: "https://sa-maru.example.com/",
+    manufacturer_rep: "岡本 優斗",
+  },
+]
+
+MAKERS.each do |maker|
+  Maker.create!(name: maker[:name],
+                postal_code: maker[:postal_code],
+                address: maker[:address],
+                phone_number: maker[:phone_number],
+                fax_number: maker[:fax_number],
+                email: maker[:email],
+                home_page: maker[:home_page],
+                manufacturer_rep: maker[:manufacturer_rep])
+end
+
+
 # サンプルの生成
 
 SAMPLES = [
@@ -337,30 +454,57 @@ SAMPLES = [
     summary: '金属表面に耐摩耗性と防錆性を付与するコーティング技術です。' }
 ]
 
-SAMPLES.each do |sample|
-  Sample.create!(name: sample[:name],
-                 category: sample[:category],
-                 color: sample[:color],
-                 maker: Faker::Company.name,
-                 hardness: sample[:hardness],
-                 film_thickness: sample[:film_thickness],
-                 feature: sample[:feature],
-                 image: File.open("app/assets/images/#{sample[:image_file]}.jpeg"),
-                 summary: sample[:summary])
+def create_sample(id, sample)
+  Maker.find(id).samples.create!(
+    name: sample[:name],
+    category: sample[:category],
+    color: sample[:color],
+    hardness: sample[:hardness],
+    film_thickness: sample[:film_thickness],
+    feature: sample[:feature],
+    image: File.open("app/assets/images/#{sample[:image_file]}.jpeg"),
+    summary: sample[:summary]
+  )
 end
 
+SAMPLES[0..2].each do |sample|
+  create_sample(1, sample)
+end
 
-# メーカーの生成
+SAMPLES[3..5].each do |sample|
+  create_sample(2, sample)
+end
 
-100.times do |n|
-  Maker.create!(name: Faker::Company.name,
-                postal_code: Faker::Address.postcode,
-                address: "東京都渋谷区神南1-2-#{n}",
-                phone_number: Faker::PhoneNumber.cell_phone,
-                fax_number: Faker::PhoneNumber.cell_phone,
-                email: "sample_maker#{n}@example.com",
-                home_page: "https://example.com/sample_maker#{n}",
-                manufacturer_rep: Faker::Name.name)
+SAMPLES[6..8].each do |sample|
+  create_sample(3, sample)
+end
+
+SAMPLES[9..11].each do |sample|
+  create_sample(4, sample)
+end
+
+SAMPLES[12..14].each do |sample|
+  create_sample(5, sample)
+end
+
+SAMPLES[15..17].each do |sample|
+  create_sample(6, sample)
+end
+
+SAMPLES[18..20].each do |sample|
+  create_sample(7, sample)
+end
+
+SAMPLES[21..23].each do |sample|
+  create_sample(8, sample)
+end
+
+SAMPLES[24..26].each do |sample|
+  create_sample(9, sample)
+end
+
+SAMPLES[27..32].each do |sample|
+  create_sample(10, sample)
 end
 
 
@@ -399,7 +543,7 @@ SAMPLE_COMMENT = [
   "コーティングの透明度が高く、基材の色が映える仕上がりです。"
 ]
 
-treatment_list = Sample.all
+treatment_list = Sample.order(:id)
 users = User.where(id: 1..48)  # id:49 の admin user と id:50 の general user は除く
 user_name = users.map { |user| user.name}
 department = DEPARTMENTS
