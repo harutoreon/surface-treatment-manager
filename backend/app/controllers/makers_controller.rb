@@ -42,6 +42,11 @@ class MakersController < ApplicationController
     head :no_content
   end
 
+  def maker_list
+    maker = Maker.order(:id)
+    render json: maker, status: :ok
+  end
+
   private
 
     def maker_params
