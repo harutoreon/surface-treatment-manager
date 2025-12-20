@@ -9,14 +9,16 @@ const emit = defineEmits(['message'])
 const route = useRoute()
 const router = useRouter()
 const comment = ref('')
-const sampleId = ref('')
+const sampleId = ref(null)
 const errorMessage = ref('')
+const makerId = ref(null)
 
 const fetchCommentData = async (id) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/comments/${id}`)
-    comment.value = response.data
+    comment.value = response.data.comment
     sampleId.value = comment.value.sample_id
+    makerId.value = response.data.maker_id
   } catch (error) {
     if (error.response && error.response.status === 404) {
       emit('message', { type: 'danger', text: 'コメント情報の取得に失敗しました。' })
@@ -27,7 +29,7 @@ const fetchCommentData = async (id) => {
 
 const commentUpdate = async () => {
   try {
-    const response = await axios.patch(`${API_BASE_URL}/samples/${sampleId.value}/comments/${comment.value.id}`, {
+    const response = await axios.patch(`${API_BASE_URL}//makers/${makerId.value}/samples/${sampleId.value}/comments/${comment.value.id}`, {
       commenter: comment.value.commenter,
       department: comment.value.department,
       body: comment.value.body
