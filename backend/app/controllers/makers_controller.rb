@@ -43,8 +43,8 @@ class MakersController < ApplicationController
   end
 
   def maker_list
-    maker = Maker.order(:id)
-    render json: maker, status: :ok
+    makers = Maker.order(:id).select(:id, :name)
+    render json: makers, status: :ok
   end
 
   private

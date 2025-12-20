@@ -150,4 +150,30 @@ RSpec.describe "Makers API", type: :request do
       expect { delete "/makers/#{@maker.id}" }.to change{ Maker.count }.from(1).to(0)
     end
   end
+
+  describe '#maker_list' do
+    before do
+      FactoryBot.create_list(:maker_list, 10)
+    end
+
+    it 'レスポンスのステータスがokであること' do
+      get "/maker_list"
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'jsonに10件のデータが含まれていること' do
+      get "/maker_list"
+      expect(response.parsed_body.count).to eq(10)
+    end
+
+    it 'id/nameの属性が含まれていること' do
+      get "/maker_list"
+      maker = Maker.first
+      json = response.parsed_body.first
+
+      expect(json.keys).to match_array(%w(id name))
+      expect(json['id']).to eq(maker.id)
+      expect(json['name']).to eq(maker.name)
+    end
+  end
 end
