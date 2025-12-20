@@ -25,7 +25,6 @@ const handleMakerChange = (event) => {
     option => option.name === event.target.value
   )
   makerId.value = selected?.id || null
-  console.log(`makerId: ${makerId.value}`)
 }
 
 const fetchMakerData = async () => {
@@ -38,7 +37,6 @@ const handleSampleChange = (event) => {
     option => option.name === event.target.value
   )
   sampleId.value = selected?.id || null
-  console.log(`sampleId: ${sampleId.value}`)
 }
 
 const fetchDepartmentData = async () => {
@@ -57,7 +55,6 @@ const fetchSampleData = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/makers/${makerId.value}/samples`)
     sampleOptions.value = response.data.samples
-    console.log(sampleOptions.value)
   } catch (error) {
     if (error.response && error.response.status === 404) {
       emit('message', { type: 'danger', text: '表面処理リストの取得に失敗しました。' })
