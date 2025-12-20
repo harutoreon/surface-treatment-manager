@@ -216,4 +216,24 @@ RSpec.describe "Samples API", type: :request do
       expect(json.count).to eq(10)
     end
   end
+
+  describe '#sample_list_with_pagination' do
+    before do
+      @maker = FactoryBot.create(:maker)
+      FactoryBot.create_list(:sample_list, 10)
+    end
+
+    it 'レスポンスのステータスがokであること' do
+      get "/sample_list_with_pagination"
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'jsonにsamples/current_page/total_pagesが含まれていること' do
+      get "/sample_list_with_pagination"
+      json = response.parsed_body
+      expect(json['samples'].count).to eq(7)
+      expect(json['current_page']).to eq(1)
+      expect(json['total_pages']).to eq(2)
+    end
+  end
 end

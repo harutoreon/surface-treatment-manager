@@ -91,49 +91,49 @@ describe('SamplesIndexView', () => {
                 name: 'クロムめっき',
                 category: 'めっき',
                 color: 'シルバー',
-                maker: '谷口情報株式会社',
+                feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
               },
               {
                 id: 2,
                 name: '黒クロメート',
                 category: '化成',
                 color: 'ブラック',
-                maker: '和田印刷合名会社',
+                feature: '耐蝕性・導電性・耐摩耗性・耐熱性',
               },
               {
                 id: 3,
                 name: '緑クロメート',
                 category: '化成',
                 color: 'オリーブ',
-                maker: '合資会社岡本ガス',
+                feature: '耐食性・耐酸化性・電気抵抗性',
               },
               {
                 id: 4,
                 name: '無電解ニッケルめっき',
                 category: 'めっき',
                 color: 'イエローブラウンシルバー',
-                maker: '合同会社小林通信',
+                feature: '耐摩耗性・潤滑性・耐食性・導電性',
               },
               {
                 id: 5,
                 name: '黒色クロムめっき',
                 category: 'めっき',
                 color: 'マットブラック',
-                maker: '合資会社青木ガス',
+                feature: '抗菌性・密着性',
               },
               {
                 id: 6,
                 name: '白金めっき',
                 category: 'めっき',
                 color: 'シルバー',
-                maker: '石井鉱業合資会社',
+                feature: '耐食性・耐腐食性・密着性',
               },
               {
                 id: 7,
                 name: '金めっき',
                 category: 'めっき',
                 color: 'ゴールド',
-                maker: '竹内電気株式会社',
+                feature: '耐食性・潤滑性・摺動性',
               }
             ],
             current_page: 1,
@@ -166,14 +166,14 @@ describe('SamplesIndexView', () => {
       expect(wrapper.text()).toContain('白金めっき')
       expect(wrapper.text()).toContain('金めっき')
       
-      // メーカー
-      expect(wrapper.text()).toContain('谷口情報株式会社')
-      expect(wrapper.text()).toContain('和田印刷合名会社')
-      expect(wrapper.text()).toContain('合資会社岡本ガス')
-      expect(wrapper.text()).toContain('合同会社小林通信')
-      expect(wrapper.text()).toContain('合資会社青木ガス')
-      expect(wrapper.text()).toContain('石井鉱業合資会社')
-      expect(wrapper.text()).toContain('竹内電気株式会社')
+      // 主な機能
+      expect(wrapper.text()).toContain('耐食性・耐摩耗性・耐薬品性・耐熱性')
+      expect(wrapper.text()).toContain('耐蝕性・導電性・耐摩耗性・耐熱性')
+      expect(wrapper.text()).toContain('耐食性・耐酸化性・電気抵抗性')
+      expect(wrapper.text()).toContain('耐摩耗性・潤滑性・耐食性・導電性')
+      expect(wrapper.text()).toContain('抗菌性・密着性')
+      expect(wrapper.text()).toContain('耐食性・耐腐食性・密着性')
+      expect(wrapper.text()).toContain('耐食性・潤滑性・摺動性')
 
       const links = wrapper.findAll('h6')
 
@@ -198,7 +198,7 @@ describe('SamplesIndexView', () => {
       expect(conversion.length).toBe(2)  // 「化成」が2件表示されること
 
 
-      // 色調
+      // 色
       const silver = []
       
       for (const link of links) {

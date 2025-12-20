@@ -13,7 +13,8 @@ Rails.application.routes.draw do
   get '/comments', to: 'comments#comment_list'
   get '/comments/:id', to: 'comments#comment_information'
   
-  get '/sample_list', to: 'samples#sample_list'
+  get '/sample_list',                 to: 'samples#sample_list'
+  get '/sample_list_with_pagination', to: 'samples#sample_list_with_pagination'
 
   get '/maker_list', to: 'makers#maker_list'
 
