@@ -34,11 +34,14 @@ describe('CommentsEditView', () => {
         })
         .mockResolvedValueOnce({
           data: {
-            id: 1,
-            commenter: '工藤 琴音',
-            body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
-            sample_id: 16,
-            department: '品質管理部'
+            comment: {
+              id: 1,
+              commenter: '高木 優花',
+              body: 'めっき処理が均一で、気泡や不純物がありません。',
+              sample_id: 1,
+              department: '営業部'
+            },
+            maker_id: 1
           }
         })
 
@@ -93,11 +96,14 @@ describe('CommentsEditView', () => {
         })
         .mockResolvedValueOnce({
           data: {
-            id: 1,
-            commenter: '工藤 琴音',
-            body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
-            sample_id: 16,
-            department: '品質管理部'
+            comment: {
+              id: 1,
+              commenter: '高木 優花',
+              body: 'めっき処理が均一で、気泡や不純物がありません。',
+              sample_id: 1,
+              department: '営業部'
+            },
+            maker_id: 1
           }
         })
 
@@ -126,12 +132,12 @@ describe('CommentsEditView', () => {
       expect(wrapper.find('label[for="body"]').text()).toBe('コメント')
 
       // 入力要素
-      expect(wrapper.find('#commenter').element.value).toBe('工藤 琴音')
-      expect(wrapper.find('#department').element.value).toBe('品質管理部')
+      expect(wrapper.find('#commenter').element.value).toBe('高木 優花')
+      expect(wrapper.find('#department').element.value).toBe('営業部')
       
       // テキストエリア要素
       expect(wrapper.find('#body').element.value).toBe(
-        '製品に高級感を与える仕上がりで、見た目も美しいです。'
+        'めっき処理が均一で、気泡や不純物がありません。'
       )
 
       // ボタン要素
@@ -181,21 +187,24 @@ describe('CommentsEditView', () => {
         })
         .mockResolvedValueOnce({
           data: {
-            id: 1,
-            commenter: '工藤 琴音',
-            body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
-            sample_id: 16,
-            department: '品質管理部'
+            comment: {
+              id: 1,
+              commenter: '高木 優花',
+              body: 'めっき処理が均一で、気泡や不純物がありません。',
+              sample_id: 1,
+              department: '営業部'
+            },
+            maker_id: 1
           }
         })
 
       axios.patch.mockResolvedValue({
         data: {
           id: 1,
-          commenter: '工藤 琴音',
-          body: '製品に高級感を与える仕上がりで、品質も良好です。',
-          sample_id: 16,
-          department: '品質管理部'
+          commenter: '高木 優花',
+          body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
+          sample_id: 1,
+          department: '営業部'
         }
       })
 
@@ -230,11 +239,14 @@ describe('CommentsEditView', () => {
         })
         .mockResolvedValueOnce({
           data: {
-            id: 1,
-            commenter: '工藤 琴音',
-            body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
-            sample_id: 16,
-            department: '品質管理部'
+            comment: {
+              id: 1,
+              commenter: '高木 優花',
+              body: 'めっき処理が均一で、気泡や不純物がありません。',
+              sample_id: 1,
+              department: '営業部'
+            },
+            maker_id: 1
           }
         })
 
@@ -273,11 +285,14 @@ describe('CommentsEditView', () => {
         })
         .mockResolvedValueOnce({
           data: {
-            id: 1,
-            commenter: '工藤 琴音',
-            body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
-            sample_id: 16,
-            department: '品質管理部'
+            comment: {
+              id: 1,
+              commenter: '高木 優花',
+              body: 'めっき処理が均一で、気泡や不純物がありません。',
+              sample_id: 1,
+              department: '営業部'
+            },
+            maker_id: 1
           }
         })
 

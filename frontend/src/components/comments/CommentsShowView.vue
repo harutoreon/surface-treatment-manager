@@ -10,6 +10,7 @@ const router = useRouter()
 const route = useRoute()
 const comment = ref({})
 const sampleId = ref('')
+const makerId = ref('')
 const isAdmin = ref(false)
 
 const fetchCommentData = async (id) => {
@@ -24,8 +25,9 @@ const fetchCommentData = async (id) => {
 
   try {
     const response = await axios.get(`${API_BASE_URL}/comments/${id}`)
-    comment.value = response.data
+    comment.value = response.data.comment
     sampleId.value = comment.value.sample_id
+    makerId.value = response.data.maker_id
   } catch (error) {
     if (error.response && error.response.status === 404) {
       emit('message', { type: 'danger', text: 'コメント情報の取得に失敗しました。' })
@@ -39,7 +41,7 @@ const handleDelete = async () => {
   if (!confirmDelete) return
 
   try {
-    await axios.delete(`${API_BASE_URL}/samples/${sampleId.value}/comments/${route.params.id}`)
+    await axios.delete(`${API_BASE_URL}/makers/${makerId.value}/samples/${sampleId.value}/comments/${comment.value.id}`)
     emit('message', { type: 'success', text: 'コメント情報を1件削除しました。' })
     router.push('/comments')
   } catch (error) {

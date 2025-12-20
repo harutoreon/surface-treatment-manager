@@ -14,7 +14,9 @@ Rails.application.routes.draw do
   get '/comments/:id', to: 'comments#comment_information'
   
   get '/sample_list', to: 'samples#sample_list'
-  
+
+  get '/maker_list', to: 'makers#maker_list'
+
   resources :categories
   resources :users
   resources :departments

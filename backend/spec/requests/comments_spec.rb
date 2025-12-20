@@ -189,9 +189,9 @@ RSpec.describe "Comments API", type: :request do
       get "/comments/#{@comment.id}"
       json = JSON.parse(response.body, symbolize_names: true)
       
-      expect(json[:commenter]).to eq('木下 太一')
-      expect(json[:body]).to eq('変寸量が一定ではありません。')
-      expect(json[:department]).to eq('品質管理部')
+      expect(json[:comment][:commenter]).to eq('木下 太一')
+      expect(json[:comment][:body]).to eq('変寸量が一定ではありません。')
+      expect(json[:comment][:department]).to eq('品質管理部')
     end
   end
 end

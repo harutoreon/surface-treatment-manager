@@ -34,11 +34,14 @@ describe('CommentsShowView', () => {
         })
         .mockResolvedValueOnce({
           data: {
-            id: 1,
-            commenter: '工藤 琴音',
-            body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
-            sample_id: 16,
-            department: '品質管理部'
+            comment: {
+              id: 1,
+              commenter: '工藤 琴音',
+              body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
+              sample_id: 16,
+              department: '品質管理部'
+            },
+            maker_id: 1
           }
         })
 
@@ -100,11 +103,14 @@ describe('CommentsShowView', () => {
         })
         .mockResolvedValueOnce({
           data: {
-            id: 1,
-            commenter: '工藤 琴音',
-            body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
-            sample_id: 16,
-            department: '品質管理部'
+            comment: {
+              id: 1,
+              commenter: '工藤 琴音',
+              body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
+              sample_id: 16,
+              department: '品質管理部'
+            },
+            maker_id: 1
           }
         })
 
@@ -207,11 +213,14 @@ describe('CommentsShowView', () => {
         })
         .mockResolvedValueOnce({
           data: {
-            id: 1,
-            commenter: '工藤 琴音',
-            body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
-            sample_id: 16,
-            department: '品質管理部'
+            comment: {
+              id: 1,
+              commenter: '工藤 琴音',
+              body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
+              sample_id: 16,
+              department: '品質管理部'
+            },
+            maker_id: 1
           }
         })
 
@@ -249,11 +258,14 @@ describe('CommentsShowView', () => {
         })
         .mockResolvedValueOnce({
           data: {
-            id: 1,
-            commenter: '工藤 琴音',
-            body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
-            sample_id: 16,
-            department: '品質管理部'
+            comment: {
+              id: 1,
+              commenter: '工藤 琴音',
+              body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
+              sample_id: 16,
+              department: '品質管理部'
+            },
+            maker_id: 1
           }
         })
 
@@ -285,11 +297,14 @@ describe('CommentsShowView', () => {
         })
         .mockResolvedValueOnce({
           data: {
-            id: 1,
-            commenter: '工藤 琴音',
-            body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
-            sample_id: 16,
-            department: '品質管理部'
+            comment: {
+              id: 1,
+              commenter: '工藤 琴音',
+              body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
+              sample_id: 16,
+              department: '品質管理部'
+            },
+            maker_id: 1
           }
         })
 
@@ -336,11 +351,14 @@ describe('CommentsShowView', () => {
         })
         .mockResolvedValueOnce({
           data: {
-            id: 1,
-            commenter: '工藤 琴音',
-            body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
-            sample_id: 16,
-            department: '品質管理部'
+            comment: {
+              id: 1,
+              commenter: '工藤 琴音',
+              body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
+              sample_id: 16,
+              department: '品質管理部'
+            },
+            maker_id: 1
           }
         })
 

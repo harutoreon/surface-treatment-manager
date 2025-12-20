@@ -60,9 +60,14 @@ class CommentsController < ApplicationController
 
   def comment_information
     comment = Comment.find(params[:id])
-    
-    render json: comment, status: :ok
-  end  
+    sample = Sample.find(comment.sample_id)
+
+    render json: {
+      comment: comment,
+      maker_id: sample.maker_id,
+    },
+    status: :ok
+  end
 
   private
 
