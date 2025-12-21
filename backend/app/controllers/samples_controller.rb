@@ -64,6 +64,12 @@ class SamplesController < ApplicationController
     status: :ok
   end
 
+  def sample_information
+    sample = Sample.find(params[:id])
+
+    render json: sample, status: :ok, methods: [:image_url]
+  end
+
   private
 
     def sample_params

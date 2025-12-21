@@ -39,7 +39,7 @@ const modalReset = () => {
 
 const handleCommentAdd = async () => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/samples/${sampleId.value}/comments`, {
+    const response = await axios.post(`${API_BASE_URL}/makers/${sample.value.maker_id}/samples/${sampleId.value}/comments`, {
       comment: {
         commenter: commenter.value,
         department: department.value,
@@ -82,7 +82,7 @@ const fetchSampleData = async (id) => {
 
 const fetchSampleCommentsData = async (id) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/samples/${id}/comments`)
+    const response = await axios.get(`${API_BASE_URL}/makers/${sample.value.maker_id}/samples/${id}/comments`)
     sampleComments.value = response.data
   } catch (error) {
     if (error.response && error.response.status === 404) {
@@ -143,10 +143,6 @@ onMounted(async () => {
       <li class="d-flex justify-content-between list-group-item">
         <div>色調：</div>
         <div>{{ sample.color }}</div>
-      </li>
-      <li class="d-flex justify-content-between list-group-item">
-        <div>メーカー：</div>
-        <div>{{ sample.maker }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
         <div>硬度：</div>

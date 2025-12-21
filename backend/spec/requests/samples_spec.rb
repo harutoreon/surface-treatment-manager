@@ -236,4 +236,32 @@ RSpec.describe "Samples API", type: :request do
       expect(json['total_pages']).to eq(2)
     end
   end
+
+  describe 'sample_information' do
+    before do
+      FactoryBot.create(:maker)
+      @sample = FactoryBot.create(:sample)
+    end
+
+    it 'レスポンスのステータスがokであること' do
+      get "/samples/#{@sample.id}"
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'jsonに主要な属性がすべて含まれていること' do
+      get "/samples/#{@sample.id}"
+      json = response.parsed_body
+      sample = Sample.last
+
+      expect(json['id']).to eq(sample.id)
+      expect(json['name']).to eq(sample.name)
+      expect(json['color']).to eq(sample.color)
+      expect(json['hardness']).to eq(sample.hardness)
+      expect(json['film_thickness']).to eq(sample.film_thickness)
+      expect(json['feature']).to eq(sample.feature)
+      expect(json['summary']).to eq(sample.summary)
+      expect(json['maker_id']).to eq(sample.maker_id)
+      expect(json['image_url']).to eq(sample.image_url)
+    end
+  end
 end

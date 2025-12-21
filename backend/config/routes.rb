@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   
   get '/sample_list',                 to: 'samples#sample_list'
   get '/sample_list_with_pagination', to: 'samples#sample_list_with_pagination'
+  get '/samples/:id',                 to: 'samples#sample_information'
 
   get '/maker_list', to: 'makers#maker_list'
 
