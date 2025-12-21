@@ -172,7 +172,7 @@ describe('SamplesShowView', () => {
       // カテゴリー
       expect(wrapper.text()).toContain('めっき')
 
-      // 色調
+      // 色
       expect(wrapper.text()).toContain('イエローブラウンシルバー')
 
       // 硬度

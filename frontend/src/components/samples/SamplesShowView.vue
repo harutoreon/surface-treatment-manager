@@ -141,7 +141,7 @@ onMounted(async () => {
         <div>{{ sample.category }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div>色調：</div>
+        <div>色：</div>
         <div>{{ sample.color }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
