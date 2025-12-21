@@ -14,7 +14,7 @@ const emit = defineEmits(['message'])
 
 const fetchSampleList = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/samples?page=${currentPage.value}`)
+    const response = await axios.get(`${API_BASE_URL}/sample_list_with_pagination?page=${currentPage.value}`)
     samples.value = response.data.samples
     currentPage.value = response.data.current_page
     totalPages.value = response.data.total_pages
@@ -48,7 +48,7 @@ onMounted(async () => {
 
 
 <template>
-  <div class="container text-center w-25">
+  <div class="container text-center w-50">
     <h3 class="mt-5 mb-5">
       表面処理リスト
     </h3>
@@ -57,7 +57,7 @@ onMounted(async () => {
       <div class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
           <h6>処理名 / カテゴリー</h6>
-          <h6>メーカー名 / 色調</h6>
+          <h6>主な機能 / 色</h6>
         </div>
       </div>
 
@@ -69,7 +69,7 @@ onMounted(async () => {
       >
         <div class="d-flex w-100 justify-content-between">
           <h6>{{ sample.name }}</h6>
-          <h6>{{ sample.maker }}</h6>
+          <h6>{{ sample.feature }}</h6>
         </div>
         <div class="d-flex w-100 justify-content-between">
           <h6>{{ sample.category }}</h6>

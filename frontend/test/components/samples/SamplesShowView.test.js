@@ -45,13 +45,11 @@ describe('SamplesShowView', () => {
             name: '無電解ニッケルめっき',
             category: 'めっき',
             color: 'イエローブラウンシルバー',
-            maker: '小島印刷合同会社',
-            created_at: '2025-02-23T22:15:29.815Z',
-            updated_at: '2025-02-23T22:15:29.815Z',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+            maker_id: 1,
             image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
           }
         })
@@ -131,13 +129,11 @@ describe('SamplesShowView', () => {
             name: '無電解ニッケルめっき',
             category: 'めっき',
             color: 'イエローブラウンシルバー',
-            maker: '小島印刷合同会社',
-            created_at: '2025-02-23T22:15:29.815Z',
-            updated_at: '2025-02-23T22:15:29.815Z',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+            maker_id: 1,
             image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
           }
         })
@@ -176,11 +172,8 @@ describe('SamplesShowView', () => {
       // カテゴリー
       expect(wrapper.text()).toContain('めっき')
 
-      // 色調
+      // 色
       expect(wrapper.text()).toContain('イエローブラウンシルバー')
-
-      // メーカー
-      expect(wrapper.text()).toContain('小島印刷合同会社')
 
       // 硬度
       expect(wrapper.text()).toContain('HV550～HV700')
@@ -294,11 +287,11 @@ describe('SamplesShowView', () => {
           name: '無電解ニッケルめっき',
           category: 'めっき',
           color: 'イエローブラウンシルバー',
-          maker: '小島印刷合同会社',
           hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
           film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
           feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
           summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+          maker_id: 1,
           image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
         }
       }
@@ -410,12 +403,12 @@ describe('SamplesShowView', () => {
             name: '無電解ニッケルめっき',
             category: 'めっき',
             color: 'イエローブラウンシルバー',
-            maker: '小島印刷合同会社',
-            hardness: 'HV700',
-            film_thickness: '5μm',
-            feature: '耐摩耗性',
+            hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+            film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+            feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
-            image_url: 'http://example.com/sample.jpg',
+            maker_id: 1,
+            image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
           }
         })
         .mockResolvedValueOnce({ 
@@ -473,12 +466,12 @@ describe('SamplesShowView', () => {
             name: '無電解ニッケルめっき',
             category: 'めっき',
             color: 'イエローブラウンシルバー',
-            maker: '小島印刷合同会社',
-            hardness: 'HV700',
-            film_thickness: '5μm',
-            feature: '耐摩耗性',
+            hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+            film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+            feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
-            image_url: 'http://example.com/sample.jpg',
+            maker_id: 1,
+            image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
           }
         })
         .mockResolvedValueOnce({ 
@@ -494,7 +487,7 @@ describe('SamplesShowView', () => {
           ]
         })
 
-      axios.delete = vi.fn().mockRejectedValue({
+      axios.delete.mockRejectedValue({
         response: {
           status: 404
         }
@@ -540,13 +533,11 @@ describe('SamplesShowView', () => {
             name: '無電解ニッケルめっき',
             category: 'めっき',
             color: 'イエローブラウンシルバー',
-            maker: '小島印刷合同会社',
-            created_at: '2025-02-23T22:15:29.815Z',
-            updated_at: '2025-02-23T22:15:29.815Z',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+            maker_id: 1,
             image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
           }
         })
@@ -616,13 +607,11 @@ describe('SamplesShowView', () => {
             name: '無電解ニッケルめっき',
             category: 'めっき',
             color: 'イエローブラウンシルバー',
-            maker: '小島印刷合同会社',
-            created_at: '2025-02-23T22:15:29.815Z',
-            updated_at: '2025-02-23T22:15:29.815Z',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+            maker_id: 1,
             image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
           }
         })
@@ -672,13 +661,11 @@ describe('SamplesShowView', () => {
             name: '無電解ニッケルめっき',
             category: 'めっき',
             color: 'イエローブラウンシルバー',
-            maker: '小島印刷合同会社',
-            created_at: '2025-02-23T22:15:29.815Z',
-            updated_at: '2025-02-23T22:15:29.815Z',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+            maker_id: 1,
             image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
           }
         })

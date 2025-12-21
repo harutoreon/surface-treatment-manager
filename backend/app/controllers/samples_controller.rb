@@ -53,6 +53,23 @@ class SamplesController < ApplicationController
     render json: samples, status: :ok
   end
 
+  def sample_list_with_pagination
+    samples = Sample.order(:id).paginate(page: params[:page], per_page: 7)
+
+    render json: {
+      samples: samples,
+      current_page: samples.current_page,
+      total_pages: samples.total_pages
+    },
+    status: :ok
+  end
+
+  def sample_information
+    sample = Sample.find(params[:id])
+
+    render json: sample, status: :ok, methods: [:image_url]
+  end
+
   private
 
     def sample_params

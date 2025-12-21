@@ -216,4 +216,52 @@ RSpec.describe "Samples API", type: :request do
       expect(json.count).to eq(10)
     end
   end
+
+  describe '#sample_list_with_pagination' do
+    before do
+      @maker = FactoryBot.create(:maker)
+      FactoryBot.create_list(:sample_list, 10)
+    end
+
+    it 'レスポンスのステータスがokであること' do
+      get "/sample_list_with_pagination"
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'jsonにsamples/current_page/total_pagesが含まれていること' do
+      get "/sample_list_with_pagination"
+      json = response.parsed_body
+      expect(json['samples'].count).to eq(7)
+      expect(json['current_page']).to eq(1)
+      expect(json['total_pages']).to eq(2)
+    end
+  end
+
+  describe 'sample_information' do
+    before do
+      FactoryBot.create(:maker)
+      @sample = FactoryBot.create(:sample)
+    end
+
+    it 'レスポンスのステータスがokであること' do
+      get "/samples/#{@sample.id}"
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'jsonに主要な属性がすべて含まれていること' do
+      get "/samples/#{@sample.id}"
+      json = response.parsed_body
+      sample = Sample.last
+
+      expect(json['id']).to eq(sample.id)
+      expect(json['name']).to eq(sample.name)
+      expect(json['color']).to eq(sample.color)
+      expect(json['hardness']).to eq(sample.hardness)
+      expect(json['film_thickness']).to eq(sample.film_thickness)
+      expect(json['feature']).to eq(sample.feature)
+      expect(json['summary']).to eq(sample.summary)
+      expect(json['maker_id']).to eq(sample.maker_id)
+      expect(json['image_url']).to eq(sample.image_url)
+    end
+  end
 end
