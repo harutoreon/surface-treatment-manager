@@ -487,7 +487,7 @@ describe('SamplesShowView', () => {
           ]
         })
 
-      axios.delete = vi.fn().mockRejectedValue({
+      axios.delete.mockRejectedValue({
         response: {
           status: 404
         }

@@ -103,7 +103,7 @@ const handleDelete = async () => {
   if (!confirmDelete) return
 
   try {
-    await axios.delete(`${API_BASE_URL}/samples/${route.params.id}`)
+    await axios.delete(`${API_BASE_URL}/makers/${sample.value.maker_id}/samples/${sample.value.id}`)
     emit('message', { type: 'success', text: '表面処理情報を削除しました。' })
     router.push('/samples')
   } catch (error) {
