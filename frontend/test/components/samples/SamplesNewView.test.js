@@ -28,6 +28,9 @@ describe('SamplesNewView', () => {
         .mockResolvedValueOnce({
           status: 200
         })
+        .mockResolvedValueOnce({
+          status: 200
+        })
 
       wrapper = mount(SamplesNewView, {
         global: {
@@ -85,6 +88,20 @@ describe('SamplesNewView', () => {
             { id: 5, item: '表面硬化' },
           ]
         })
+        .mockResolvedValueOnce({
+          data: [
+            { id: 1, name: '東亜電化工業株式会社' },
+            { id: 2, name: '新星コーティングス' },
+            { id: 3, name: '大和表面技術研究所' },
+            { id: 4, name: '中央メッキ技研' },
+            { id: 5, name: 'サンエース・フィニッシュ' },
+            { id: 6, name: '瑞穂皮膜加工' },
+            { id: 7, name: 'アストロ産業' },
+            { id: 8, name: '明和サーフェス' },
+            { id: 9, name: '富士理化研磨株式会社' },
+            { id: 10, name: '高周波サーマル工業' },
+          ]
+        })
 
       wrapper = mount(SamplesNewView, {
         global: {
@@ -108,8 +125,8 @@ describe('SamplesNewView', () => {
       // ラベル要素
       expect(wrapper.find('label[for="sample-name"]').text()).toBe('処理名')
       expect(wrapper.find('label[for="sample-category"]').text()).toBe('カテゴリー')
-      expect(wrapper.find('label[for="sample-color"]').text()).toBe('色調')
-      expect(wrapper.find('label[for="sample-maker"]').text()).toBe('メーカー')
+      expect(wrapper.find('label[for="sample-color"]').text()).toBe('色')
+      expect(wrapper.find('label[for="makers"]').text()).toBe('メーカー')
       expect(wrapper.find('label[for="sample-hardness"]').text()).toBe('硬度')
       expect(wrapper.find('label[for="sample-film-thickness"]').text()).toBe('膜厚')
       expect(wrapper.find('label[for="sample-feature"]').text()).toBe('特徴')
@@ -119,7 +136,6 @@ describe('SamplesNewView', () => {
       // 入力要素（テキスト）
       expect(wrapper.find('#sample-name').exists()).toBe(true)
       expect(wrapper.find('#sample-color').exists()).toBe(true)
-      expect(wrapper.find('#sample-maker').exists()).toBe(true)
       expect(wrapper.find('#sample-hardness').exists()).toBe(true)
       expect(wrapper.find('#sample-film-thickness').exists()).toBe(true)
       expect(wrapper.find('#sample-feature').exists()).toBe(true)
@@ -133,7 +149,23 @@ describe('SamplesNewView', () => {
       expect(wrapper.find('option[value="化成"]').text()).toBe('化成')
       expect(wrapper.find('option[value="コーティング"]').text()).toBe('コーティング')
       expect(wrapper.find('option[value="表面硬化"]').text()).toBe('表面硬化')
-      
+
+      const makerSelect = wrapper.find('#makers')
+      const makerSelectOptions = makerSelect.findAll('option')
+
+      expect(makerSelect.exists()).toBe(true)
+      expect(makerSelectOptions[0].text()).toBe('メーカーを選択して下さい')
+      expect(makerSelectOptions[1].text()).toBe('東亜電化工業株式会社')
+      expect(makerSelectOptions[2].text()).toBe('新星コーティングス')
+      expect(makerSelectOptions[3].text()).toBe('大和表面技術研究所')
+      expect(makerSelectOptions[4].text()).toBe('中央メッキ技研')
+      expect(makerSelectOptions[5].text()).toBe('サンエース・フィニッシュ')
+      expect(makerSelectOptions[6].text()).toBe('瑞穂皮膜加工')
+      expect(makerSelectOptions[7].text()).toBe('アストロ産業')
+      expect(makerSelectOptions[8].text()).toBe('明和サーフェス')
+      expect(makerSelectOptions[9].text()).toBe('富士理化研磨株式会社')
+      expect(makerSelectOptions[10].text()).toBe('高周波サーマル工業')
+
       // 画像埋め込み要素
       expect(wrapper.find('#preview-image').exists()).toBe(true)
 
@@ -167,6 +199,20 @@ describe('SamplesNewView', () => {
             { id: 5, item: '表面硬化' },
           ]
         })
+        .mockResolvedValueOnce({
+          data: [
+            { id: 1, name: '東亜電化工業株式会社' },
+            { id: 2, name: '新星コーティングス' },
+            { id: 3, name: '大和表面技術研究所' },
+            { id: 4, name: '中央メッキ技研' },
+            { id: 5, name: 'サンエース・フィニッシュ' },
+            { id: 6, name: '瑞穂皮膜加工' },
+            { id: 7, name: 'アストロ産業' },
+            { id: 8, name: '明和サーフェス' },
+            { id: 9, name: '富士理化研磨株式会社' },
+            { id: 10, name: '高周波サーマル工業' },
+          ]
+        })
 
       axios.post.mockResolvedValue({
         data: {
@@ -174,7 +220,7 @@ describe('SamplesNewView', () => {
           name: '無電解ニッケルめっき',
           category: 'めっき',
           color: 'イエローブラウンシルバー',
-          maker: '合同会社小林通信',
+          maker: '東亜電化工業株式会社',
           hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
           film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
           feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
@@ -196,7 +242,7 @@ describe('SamplesNewView', () => {
       await wrapper.find('#sample-name').setValue('無電解ニッケルめっき')
       await wrapper.find('#sample-category').setValue('めっき')
       await wrapper.find('#sample-color').setValue('イエローブラウンシルバー')
-      await wrapper.find('#sample-maker').setValue('合同会社小林通信')
+      await wrapper.find('#makers').setValue('東亜電化工業株式会社')
       await wrapper.find('#sample-hardness').setValue('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
       await wrapper.find('#sample-film-thickness').setValue('通常は3～5μm、厚めの場合は20～50μmまで可能')
       await wrapper.find('#sample-feature').setValue('耐食性・耐摩耗性・耐薬品性・耐熱性')
@@ -228,6 +274,20 @@ describe('SamplesNewView', () => {
             { id: 5, item: '表面硬化' },
           ]
         })
+        .mockResolvedValueOnce({
+          data: [
+            { id: 1, name: '東亜電化工業株式会社' },
+            { id: 2, name: '新星コーティングス' },
+            { id: 3, name: '大和表面技術研究所' },
+            { id: 4, name: '中央メッキ技研' },
+            { id: 5, name: 'サンエース・フィニッシュ' },
+            { id: 6, name: '瑞穂皮膜加工' },
+            { id: 7, name: 'アストロ産業' },
+            { id: 8, name: '明和サーフェス' },
+            { id: 9, name: '富士理化研磨株式会社' },
+            { id: 10, name: '高周波サーマル工業' },
+          ]
+        })
 
       axios.post.mockRejectedValue({
         response: {
@@ -248,7 +308,7 @@ describe('SamplesNewView', () => {
       await wrapper.find('#sample-name').setValue('')
       await wrapper.find('#sample-category').setValue('めっき')
       await wrapper.find('#sample-color').setValue('イエローブラウンシルバー')
-      await wrapper.find('#sample-maker').setValue('合同会社小林通信')
+      await wrapper.find('#makers').setValue('東亜電化工業株式会社')
       await wrapper.find('#sample-hardness').setValue('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
       await wrapper.find('#sample-film-thickness').setValue('通常は3～5μm、厚めの場合は20～50μmまで可能')
       await wrapper.find('#sample-feature').setValue('耐食性・耐摩耗性・耐薬品性・耐熱性')
@@ -273,6 +333,20 @@ describe('SamplesNewView', () => {
             { id: 3, item: '化成' },
             { id: 4, item: 'コーティング' },
             { id: 5, item: '表面硬化' },
+          ]
+        })
+        .mockResolvedValueOnce({
+          data: [
+            { id: 1, name: '東亜電化工業株式会社' },
+            { id: 2, name: '新星コーティングス' },
+            { id: 3, name: '大和表面技術研究所' },
+            { id: 4, name: '中央メッキ技研' },
+            { id: 5, name: 'サンエース・フィニッシュ' },
+            { id: 6, name: '瑞穂皮膜加工' },
+            { id: 7, name: 'アストロ産業' },
+            { id: 8, name: '明和サーフェス' },
+            { id: 9, name: '富士理化研磨株式会社' },
+            { id: 10, name: '高周波サーマル工業' },
           ]
         })
 

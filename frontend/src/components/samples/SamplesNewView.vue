@@ -20,6 +20,20 @@ const image = ref(null)
 const errorMessage = ref('')
 const imageSizeErrorMessage = ref('')
 const previewImage = ref('')
+const makerOptions = ref('')
+const makerId = ref(null)
+
+const handleMakerChange = (event) => {
+  const selected = makerOptions.value.find(
+    option => option.name === event.target.value
+  )
+  makerId.value = selected?.id || null
+}
+
+const fetchMakerData = async () => {
+  const response = await axios.get(`${API_BASE_URL}/maker_list`)
+  makerOptions.value = response.data
+}
 
 const fetchCategories = async () => {
   try {
@@ -69,7 +83,7 @@ const sampleRegistration = async () => {
       formData.append('sample[image]', image.value)
     }
 
-    const response = await axios.post(`${API_BASE_URL}/samples`, formData, {
+    const response = await axios.post(`${API_BASE_URL}/makers/${makerId.value}/samples`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -88,6 +102,7 @@ onMounted(async () => {
   })
   if (!loggedIn) return
   await fetchCategories()
+  await fetchMakerData()
 })
 </script>
 
@@ -125,7 +140,7 @@ onMounted(async () => {
       </select>
 
       <label class="form-label" for="sample-color">
-        色調
+        色
       </label>
       <input
         v-model="color"
@@ -134,15 +149,26 @@ onMounted(async () => {
         id="sample-color"
       >
 
-      <label class="form-label" for="sample-maker">
+      <label class="form-label" for="makers">
         メーカー
       </label>
-      <input
+      <select
         v-model="maker"
-        class="form-control mb-3"
-        type="text"
-        id="sample-maker"
+        v-on:change="handleMakerChange"
+        class="form-select mb-4"
+        id="makers"
       >
+        <option value="">
+          メーカーを選択して下さい
+        </option>
+        <option
+          v-for="option in makerOptions"
+          v-bind:key="option.id"
+          v-bind:value="option.name"
+        >
+          {{ option.name }}
+        </option>
+      </select>
 
       <label class="form-label" for="sample-hardness">
         硬度
