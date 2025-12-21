@@ -38,7 +38,6 @@ describe('SamplesEditView', () => {
             name: '無電解ニッケルめっき',
             category: 'めっき',
             color: 'コールド',
-            maker: 'サンプルメーカー',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
@@ -102,7 +101,6 @@ describe('SamplesEditView', () => {
             name: '無電解ニッケルめっき',
             category: 'めっき',
             color: 'コールド',
-            maker: 'サンプルメーカー',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
@@ -133,8 +131,7 @@ describe('SamplesEditView', () => {
       // ラベル要素
       expect(wrapper.find('label[for="sample-name"]').text()).toContain('処理名')
       expect(wrapper.find('label[for="sample-category"]').text()).toContain('カテゴリー')
-      expect(wrapper.find('label[for="sample-color"]').text()).toContain('色調')
-      expect(wrapper.find('label[for="sample-maker"]').text()).toContain('メーカー')
+      expect(wrapper.find('label[for="sample-color"]').text()).toContain('色')
       expect(wrapper.find('label[for="sample-hardness"]').text()).toContain('硬度')
       expect(wrapper.find('label[for="sample-film-thickness"]').text()).toContain('膜厚')
       expect(wrapper.find('label[for="sample-feature"]').text()).toContain('特徴')
@@ -145,7 +142,6 @@ describe('SamplesEditView', () => {
       expect(wrapper.find('#sample-name').exists()).toBe(true)
       expect(wrapper.find('#sample-category').exists()).toBe(true)
       expect(wrapper.find('#sample-color').exists()).toBe(true)
-      expect(wrapper.find('#sample-maker').exists()).toBe(true)
       expect(wrapper.find('#sample-hardness').exists()).toBe(true)
       expect(wrapper.find('#sample-film-thickness').exists()).toBe(true)
       expect(wrapper.find('#sample-feature').exists()).toBe(true)
@@ -155,7 +151,6 @@ describe('SamplesEditView', () => {
       expect(wrapper.find('#sample-name').element.value).toBe('無電解ニッケルめっき')
       expect(wrapper.find('#sample-category').element.value).toBe('めっき')
       expect(wrapper.find('#sample-color').element.value).toBe('コールド')
-      expect(wrapper.find('#sample-maker').element.value).toBe('サンプルメーカー')
       expect(wrapper.find('#sample-hardness').element.value).toBe('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
       expect(wrapper.find('#sample-film-thickness').element.value).toBe('通常は3～5μm、厚めの場合は20～50μmまで可能')
       expect(wrapper.find('#sample-feature').element.value).toBe('耐食性・耐摩耗性・耐薬品性・耐熱性')
@@ -209,9 +204,6 @@ describe('SamplesEditView', () => {
           name: '無電解ニッケルめっき',
           category: 'めっき',
           color: 'ゴールド',
-          maker: 'サンプルメーカー',
-          created_at: '2025-04-29 16:56:41.915846000 +0000',
-          updated_at: '2025-04-29 16:56:41.931970000 +0000',
           hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
           film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
           feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
@@ -241,7 +233,6 @@ describe('SamplesEditView', () => {
       expect(wrapper.find('#sample-name').element.value).toBe('無電解ニッケルめっき')
       expect(wrapper.find('#sample-category').element.value).toBe('めっき')
       expect(wrapper.find('#sample-color').element.value).toBe('ゴールド')
-      expect(wrapper.find('#sample-maker').element.value).toBe('サンプルメーカー')
       expect(wrapper.find('#sample-hardness').element.value).toBe('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
       expect(wrapper.find('#sample-film-thickness').element.value).toBe('通常は3～5μm、厚めの場合は20～50μmまで可能')
       expect(wrapper.find('#sample-feature').element.value).toBe('耐食性・耐摩耗性・耐薬品性・耐熱性')
@@ -271,9 +262,6 @@ describe('SamplesEditView', () => {
             name: '無電解ニッケルめっき',
             category: 'めっき',
             color: 'ゴールド',
-            maker: 'サンプルメーカー',
-            created_at: '2025-04-29 16:56:41.915846000 +0000',
-            updated_at: '2025-04-29 16:56:41.931970000 +0000',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
@@ -301,7 +289,6 @@ describe('SamplesEditView', () => {
       expect(wrapper.find('#sample-name').element.value).toBe('無電解ニッケルめっき')
       expect(wrapper.find('#sample-category').element.value).toBe('めっき')
       expect(wrapper.find('#sample-color').element.value).toBe('ゴールド')
-      expect(wrapper.find('#sample-maker').element.value).toBe('サンプルメーカー')
       expect(wrapper.find('#sample-hardness').element.value).toBe('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
       expect(wrapper.find('#sample-film-thickness').element.value).toBe('通常は3～5μm、厚めの場合は20～50μmまで可能')
       expect(wrapper.find('#sample-feature').element.value).toBe('耐食性・耐摩耗性・耐薬品性・耐熱性')
@@ -330,7 +317,6 @@ describe('SamplesEditView', () => {
             name: '無電解ニッケルめっき',
             category: 'めっき',
             color: 'コールド',
-            maker: 'サンプルメーカー',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',

@@ -30,7 +30,6 @@ const sampleUpdate = async () => {
     formData.append('sample[name]', sample.value.name)
     formData.append('sample[category]', sample.value.category)
     formData.append('sample[color]', sample.value.color)
-    formData.append('sample[maker]', sample.value.maker)
     formData.append('sample[hardness]', sample.value.hardness)
     formData.append('sample[film_thickness]', sample.value.film_thickness)
     formData.append('sample[feature]', sample.value.feature)
@@ -40,7 +39,7 @@ const sampleUpdate = async () => {
       formData.append('sample[image]', image.value)  
     }
 
-    const response = await axios.patch(`${API_BASE_URL}/samples/${route.params.id}`, formData, {
+    const response = await axios.patch(`${API_BASE_URL}/makers/${sample.value.maker_id}/samples/${sample.value.id}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -99,23 +98,13 @@ onMounted(async () => {
       >
 
       <label class="form-label" for="sample-color">
-        色調
+        色
       </label>
       <input
         v-model="sample.color"
         class="form-control mb-3"
         type="text"
         id="sample-color"
-      >
-
-      <label class="form-label" for="sample-maker">
-        メーカー
-      </label>
-      <input
-        v-model="sample.maker"
-        class="form-control mb-3"
-        type="text"
-        id="sample-maker"
       >
 
       <label class="form-label" for="sample-hardness">
@@ -173,7 +162,7 @@ onMounted(async () => {
         />
       </div>
 
-      <div class="d-grid gap-2 d-md-block">
+      <div class="d-grid gap-2 d-md-block mb-5">
         <button type="submit" class="btn btn-primary me-md-2">
           更新
         </button>
