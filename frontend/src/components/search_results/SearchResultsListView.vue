@@ -67,7 +67,7 @@ onMounted(async () => {
       </div>
     </div>
 
-    <ul class="nav justify-content-center mb-5">
+    <ul class="nav justify-content-center mt-5 mb-5">
       <li class="nav-item">
         <RouterLink to="/home">
           メインメニューへ
