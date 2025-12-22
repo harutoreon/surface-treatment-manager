@@ -38,10 +38,16 @@ describe('SearchResultsNameView', () => {
           data: {
             keyword: 'めっき',
             samples: [
-              { id: 1,
-                name: 'ハードクロムめっき',
-                maker: '谷口情報株式会社',
-                category: 'めっき'
+              {
+                id: 7,
+                name: '錫めっき',
+                category: 'めっき',
+                color: 'ホワイトシルバー',
+                hardness: 'Hv9.5～10.5程度',
+                film_thickness: '光沢スズめっきで3～10μm、無光沢スズめっきで5～20μm程度',
+                feature: '耐食性・潤滑性・摺動性',
+                summary: '錫を電気めっきや化学めっきで表面に薄く被覆する技術です。',
+                maker_id: 3
               },
             ]
           }
@@ -108,10 +114,16 @@ describe('SearchResultsNameView', () => {
           data: {
             keyword: 'めっき',
             samples: [
-              { id: 1,
-                name: 'ハードクロムめっき',
-                maker: '谷口情報株式会社',
-                category: 'めっき'
+              {
+                id: 7,
+                name: '錫めっき',
+                category: 'めっき',
+                color: 'ホワイトシルバー',
+                hardness: 'Hv9.5～10.5程度',
+                film_thickness: '光沢スズめっきで3～10μm、無光沢スズめっきで5～20μm程度',
+                feature: '耐食性・潤滑性・摺動性',
+                summary: '錫を電気めっきや化学めっきで表面に薄く被覆する技術です。',
+                maker_id: 3
               },
             ]
           }
@@ -137,10 +149,13 @@ describe('SearchResultsNameView', () => {
       expect(wrapper.text()).toContain('「めっき」')
 
       // 処理名
-      expect(wrapper.text()).toContain('ハードクロムめっき')
+      expect(wrapper.text()).toContain('錫めっき')
 
-      // メーカー名
-      expect(wrapper.text()).toContain('谷口情報株式会社')
+      // 主な機能
+      expect(wrapper.text()).toContain('耐食性・潤滑性・摺動性')
+
+      // 色
+      expect(wrapper.text()).toContain('ホワイトシルバー')
     })
 
     it('外部リンクが表示されること', () => {
@@ -241,12 +256,18 @@ describe('SearchResultsNameView', () => {
           data: {
             keyword: 'めっき',
             samples: [
-              { id: 1,
-                name: 'ハードクロムめっき',
-                maker: '谷口情報株式会社',
-                category: 'めっき'
+              {
+                id: 7,
+                name: '錫めっき',
+                category: 'めっき',
+                color: 'ホワイトシルバー',
+                hardness: 'Hv9.5～10.5程度',
+                film_thickness: '光沢スズめっきで3～10μm、無光沢スズめっきで5～20μm程度',
+                feature: '耐食性・潤滑性・摺動性',
+                summary: '錫を電気めっきや化学めっきで表面に薄く被覆する技術です。',
+                maker_id: 3
               },
-            ],
+            ]
           }
         })
 
@@ -284,12 +305,18 @@ describe('SearchResultsNameView', () => {
           data: {
             keyword: 'めっき',
             samples: [
-              { id: 1,
-                name: 'ハードクロムめっき',
-                maker: '谷口情報株式会社',
-                category: 'めっき'
+              {
+                id: 7,
+                name: '錫めっき',
+                category: 'めっき',
+                color: 'ホワイトシルバー',
+                hardness: 'Hv9.5～10.5程度',
+                film_thickness: '光沢スズめっきで3～10μm、無光沢スズめっきで5～20μm程度',
+                feature: '耐食性・潤滑性・摺動性',
+                summary: '錫を電気めっきや化学めっきで表面に薄く被覆する技術です。',
+                maker_id: 3
               },
-            ],
+            ]
           }
         })
 
@@ -325,14 +352,20 @@ describe('SearchResultsNameView', () => {
         })
         .mockResolvedValueOnce({
           data: {
-            keyword: '株式会社',
+            keyword: 'めっき',
             samples: [
-              { id: 1,
-                name: 'ハードクロムめっき',
-                maker: '谷口情報株式会社',
-                category: 'めっき'
+              {
+                id: 7,
+                name: '錫めっき',
+                category: 'めっき',
+                color: 'ホワイトシルバー',
+                hardness: 'Hv9.5～10.5程度',
+                film_thickness: '光沢スズめっきで3～10μm、無光沢スズめっきで5～20μm程度',
+                feature: '耐食性・潤滑性・摺動性',
+                summary: '錫を電気めっきや化学めっきで表面に薄く被覆する技術です。',
+                maker_id: 3
               },
-            ],
+            ]
           }
         })
 

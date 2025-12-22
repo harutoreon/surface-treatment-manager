@@ -41,7 +41,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="container w-25">
+  <div class="container w-50">
     <h3 class="text-center mt-5 mb-5">
       表面処理の検索結果
     </h3>
@@ -54,7 +54,7 @@ onMounted(async () => {
       <div class="list-group-item">
         <div class="d-flex w-100 justify-content-between">
           <h6>処理名 / カテゴリー</h6>
-          <h6>メーカー名</h6>
+          <h6>主な機能 / 色</h6>
         </div>
       </div>
       <RouterLink
@@ -65,11 +65,12 @@ onMounted(async () => {
       >
         <div class="d-flex justify-content-between">
           <h6>{{ sample.name }}</h6>
-          <h6>{{ sample.maker }}</h6>
+          <h6>{{ sample.feature }}</h6>
         </div>
-        <h6 class="text-start">
-          {{ sample.category }}
-        </h6>
+        <div class="d-flex justify-content-between">
+          <h6>{{ sample.category }}</h6>
+          <h6>{{ sample.color }}</h6>
+        </div>
       </RouterLink>
       <h4 v-if="samples.length === 0" class="text-center m-5">
         該当する表面処理はありませんでした。
