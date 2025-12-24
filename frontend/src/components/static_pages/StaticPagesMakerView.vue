@@ -2,20 +2,20 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import { checkLoginStatus } from '@/components/utils.js'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const emit = defineEmits(['message'])
 const keyword = ref('')
 const router = useRouter()
 const errorMessage = ref('')
 const isOpen = ref(false)
-const makers = []
+const makers = ref([])
 
 const fetchMakerList = async () => {
   const response = await axios.get(`${API_BASE_URL}/maker_list`)
   const makerList = response.data
-  for (const makerListElement of makerList) {
-    makers.push(makerListElement.name)
-  }
+  makers.value = makerList.map(maker => maker.name)
 }
 
 const close = () => {
@@ -28,7 +28,7 @@ const filteredList = computed(() => {
   if (!keyword.value) return []
   const word = keyword.value.toLowerCase()
 
-  return makers.filter( maker =>
+  return makers.value.filter( maker =>
     maker.toLowerCase().includes(word)
   )
 })
@@ -51,6 +51,11 @@ const submitSearch = () => {
 }
 
 onMounted(async () => {
+  const loggedIn = await checkLoginStatus(() => {
+    emit('message', { type: 'danger', text: 'ログインが必要です。' })
+    router.push('/')
+  })
+  if (!loggedIn) return
   await fetchMakerList()
 })
 </script>
