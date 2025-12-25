@@ -22,7 +22,7 @@ class Maker < ApplicationRecord
   validate :email_address_format
   validate :url_format
 
-  scope :maker_search, -> (keyword) { where('name LIKE ?', "%#{keyword}%") }
+  scope :maker_search, -> (keyword) { where(name: keyword).take.samples }
 
   private
 

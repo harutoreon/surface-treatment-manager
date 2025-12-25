@@ -81,17 +81,18 @@ RSpec.describe Maker, type: :model do
       before do
         FactoryBot.create(:maker)
         FactoryBot.create(:sample)
+        FactoryBot.create(:maker, name: 'invalid-maker-name')
       end
 
-      context '有効な引数の場合' do
-        it 'サンプルが1件返ること' do
-          expect(Maker.maker_search('合名会社').count).to eq(1)
+      context 'サンプルを持っているメーカーの場合' do
+        it '配列にサンプルが含まれていること' do
+          expect(Maker.maker_search('松本情報合名会社').count).to eq(1)
         end
       end
 
-      context '無効な引数の場合' do
-        it '配列が空で返ること' do
-          expect(Maker.maker_search('株式会社').count).to eq(0)
+      context 'サンプルを持っていないメーカーの場合' do
+        it '空の配列が返ること' do
+          expect(Maker.maker_search('invalid-maker-name').count).to eq(0)
         end
       end
     end
