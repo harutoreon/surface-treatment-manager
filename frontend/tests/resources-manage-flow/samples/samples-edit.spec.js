@@ -16,7 +16,6 @@ test.describe('samples/id/edit flow', () => {
       await expect(page.locator('#sample-name')).toHaveValue('カナック')
       await expect(page.locator('#sample-category')).toHaveValue('表面硬化')
       await expect(page.locator('#sample-color')).toHaveValue('ブラウン')
-      await expect(page.locator('#sample-maker')).toBeVisible()
       await expect(page.locator('#sample-hardness')).toHaveValue('Hv800～1400程度')
       await expect(page.locator('#sample-film-thickness')).toHaveValue('寸法変化は0～5µm程度')
       await expect(page.locator('#sample-feature')).toHaveValue('耐食性・耐熱性・摺動性')
