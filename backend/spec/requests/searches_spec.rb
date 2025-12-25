@@ -41,18 +41,18 @@ RSpec.describe "Searches", type: :request do
 
   describe '#maker_search' do
     it 'レスポンスのステータスがokであること' do
-      get '/maker_search'
+      get '/maker_search', params: { keyword: '松本情報合名会社' }
       expect(response).to have_http_status(:ok)
     end
 
-    it 'レスポンスのjsonに:makersと:keywordが含まれていること' do
-      get '/maker_search', params: { keyword: '合名会社' }
-      json = JSON.parse(response.body, symbolize_names: true)
+    it 'レスポンスのjsonに:samplesと:keywordが含まれていること' do
+      get '/maker_search', params: { keyword: '松本情報合名会社' }
+      json = response.parsed_body
 
-      expect(json.include?(:makers)).to be(true)
-      expect(json.include?(:keyword)).to be(true)
-      expect(json[:makers].count).to eq(1)
-      expect(json[:keyword]).to eq('合名会社')
+      expect(json.include?('samples')).to be(true)
+      expect(json.include?('keyword')).to be(true)
+      expect(json['samples'].count).to eq(5)
+      expect(json['keyword']).to eq('松本情報合名会社')
     end
   end
 
