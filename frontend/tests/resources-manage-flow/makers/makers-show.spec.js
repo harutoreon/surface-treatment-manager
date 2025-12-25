@@ -17,11 +17,11 @@ test.describe('makers show flow', () => {
 
       await expect(page.getByRole('listitem').filter({ hasText: /メーカー名:.*会社/ })).toBeVisible()
       await expect(page.getByRole('listitem').filter({ hasText: /郵便番号:\d{3}-\d{4}/ })).toBeVisible()
-      await expect(page.getByRole('listitem').filter({ hasText: /住所:東京都渋谷区神南1-2-\d{1,2}/ })).toBeVisible()
+      await expect(page.getByRole('listitem').filter({ hasText: /住所:山口県西悠斗町1-2-\d{1,2}/ })).toBeVisible()
       await expect(page.getByRole('listitem').filter({ hasText: /電話番号:\d{3}-\d{4}-\d{4}/ })).toBeVisible()
       await expect(page.getByRole('listitem').filter({ hasText: /FAX番号:\d{3}-\d{4}-\d{4}/ })).toBeVisible()
       await expect(page.getByRole('listitem').filter({ hasText: /Email:sample_maker\d{1,2}@example.com/ })).toBeVisible()
-      await expect(page.getByRole('listitem').filter({ hasText: /ホームページ:https:\/\/example.com\/sample_maker\d{1,2}/ })).toBeVisible()
+      await expect(page.getByRole('listitem').filter({ hasText: /ホームページ:https:\/\/touadenka.example.com\// })).toBeVisible()
       await expect(page.getByRole('listitem').filter({ hasText: /担当者:\p{Script=Han}{1,3} \p{Script=Han}{1,3}/u })).toBeVisible()
 
       await expect(page.getByRole('link', { name: 'メーカー情報の編集へ' })).toBeVisible()
