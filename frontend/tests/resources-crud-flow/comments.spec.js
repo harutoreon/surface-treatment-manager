@@ -17,6 +17,7 @@ test.describe('comments crud flow', () => {
     // コメント情報の入力
     await page.locator('#commenter').fill('宮崎 彩')
     await page.locator('#departments').selectOption('製造部')
+    await page.locator('#makers').selectOption('東亜電化工業株式会社')
     await page.locator('#samples').selectOption('無電解ニッケルめっき')
     await page.locator('#body').fill('表面処理により耐熱性が向上し、高温環境でも問題ありません。')
 
