@@ -17,7 +17,7 @@ test.describe('samples new flow', () => {
       await expect(page.locator('#sample-name')).toBeVisible()
       await expect(page.locator('#sample-category')).toBeVisible()
       await expect(page.locator('#sample-color')).toBeVisible()
-      await expect(page.locator('#sample-maker')).toBeVisible()
+      await expect(page.locator('#makers')).toBeVisible()
       await expect(page.locator('#sample-hardness')).toBeVisible()
       await expect(page.locator('#sample-film-thickness')).toBeVisible()
       await expect(page.locator('#sample-feature')).toBeVisible()

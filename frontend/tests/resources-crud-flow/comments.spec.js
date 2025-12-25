@@ -17,6 +17,7 @@ test.describe('comments crud flow', () => {
     // コメント情報の入力
     await page.locator('#commenter').fill('宮崎 彩')
     await page.locator('#departments').selectOption('製造部')
+    await page.locator('#makers').selectOption('東亜電化工業株式会社')
     await page.locator('#samples').selectOption('無電解ニッケルめっき')
     await page.locator('#body').fill('表面処理により耐熱性が向上し、高温環境でも問題ありません。')
 
@@ -61,9 +62,9 @@ test.describe('comments crud flow', () => {
     await page.locator('button', { hasText: 'コメント情報の削除' }).click()
 
     // /commentsページの検証
-    await expect(page.getByRole('heading', { name: 'コメントリスト' })).toBeVisible()
     await page.goto('/comments?page=16')
-    await expect(page.locator('a[href="/comments?page=16"]')).toBeVisible()
-    await expect(page.locator('a[href="/comments?page=17"]')).not.toBeVisible()
+
+    await expect(page.getByRole('heading', { name: 'コメントリスト' })).toBeVisible()
+    await expect(page.getByRole('link').filter({ hasText: '宮崎 彩' })).not.toBeVisible()
   })
 })

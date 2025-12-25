@@ -83,8 +83,9 @@ test.describe('makers crud flow', () => {
 
     // /makersページの検証
     await expect(page.getByRole('heading', { name: 'メーカーリスト' })).toBeVisible()
-    await expect(page.locator('a[href="/makers?page=15"]')).toBeVisible()
-    await expect(page.locator('a[href="/makers?page=16"]')).not.toBeVisible()
     await page.getByRole('button', { name: '通知を閉じる' }).click()
+
+    await page.goto('/makers?page=2')
+    await expect(page.getByRole('link').filter({ hasText: '株式会社藤原印刷' })).not.toBeVisible()
   })
 })

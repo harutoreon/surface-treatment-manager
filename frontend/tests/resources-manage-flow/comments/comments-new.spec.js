@@ -16,6 +16,10 @@ test.describe('comments new flow', () => {
 
       await expect(page.locator('#commenter')).toBeVisible()
       await expect(page.locator('#departments')).toBeVisible()
+      await expect(page.locator('#makers')).toBeVisible()
+
+      await page.locator('#makers').selectOption('東亜電化工業株式会社')
+
       await expect(page.locator('#samples')).toBeVisible()
       await expect(page.locator('#body')).toBeVisible()
 
