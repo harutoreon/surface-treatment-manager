@@ -24,7 +24,7 @@ test.describe('comment post flow', () => {
     await expect(page.getByRole('button', { name: '閉じる' })).toBeVisible()
     await expect(page.getByRole('button', { name: 'リストに追加' })).toBeVisible()
   })
-  //
+
   test.describe('コメントの新規作成に成功した場合', () => {
     test('コメントリストに反映されること', async ({ page }) => {
       // samples/idページの表示検証
@@ -46,9 +46,9 @@ test.describe('comment post flow', () => {
       await expect(page.getByRole('heading', { name: 'このめっきの膜厚は均一です。' })).toBeVisible()
 
       // コメントの削除処理
-      await page.goto('/comments?page=16')
-
-      await page.getByRole('link', { name: '営業部：佐藤 太郎' }).click()
+      // await page.goto('/comments?page=16')
+      await page.getByRole('link').filter({ hasText: '佐藤 太郎' }).click()
+      // await page.getByRole('link', { name: '営業部：佐藤 太郎' }).click()
 
       page.once('dialog', async dialog => {
         await dialog.accept()
