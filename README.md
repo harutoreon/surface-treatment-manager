@@ -96,6 +96,9 @@
 ## 本番環境
 ![本番環境の構成図](./configuration_diagram/production_environment.drawio.svg)
 
+## ER図
+![ER図](./entity_relationship_diagram/er_diagram.drawio.svg)
+
 ## イメージの生成
 ```sh
 $ docker compose build
