@@ -21,9 +21,6 @@ test.describe('comments index flow', () => {
       await expect(page.locator('a[href="/comments/5"]')).toBeVisible()
       await expect(page.locator('a[href="/comments/6"]')).toBeVisible()
       await expect(page.locator('a[href="/comments/7"]')).toBeVisible()
-      await expect(page.locator('a[href="/comments/8"]')).toBeVisible()
-      await expect(page.locator('a[href="/comments/9"]')).toBeVisible()
-      await expect(page.locator('a[href="/comments/10"]')).toBeVisible()
 
       await expect(page.getByRole('listitem').filter({ hasText: '前ページ' })).toBeVisible()
       await expect(page.getByRole('listitem').filter({ hasText: '次ページ' })).toBeVisible()
@@ -37,8 +34,8 @@ test.describe('comments index flow', () => {
     test('2ページ目のコメントリストが表示されること', async ({ page }) => {
       await page.getByRole('link', { name: '次ページ' }).click()
 
-      await expect(page.locator('a[href="/comments/11"]')).toBeVisible()
-      await expect(page.locator('a[href="/comments/20"]')).toBeVisible()
+      await expect(page.locator('a[href="/comments/8"]')).toBeVisible()
+      await expect(page.locator('a[href="/comments/14"]')).toBeVisible()
     })
   })
 
