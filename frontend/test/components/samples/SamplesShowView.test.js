@@ -669,6 +669,18 @@ describe('SamplesShowView', () => {
             image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
           }
         })
+        .mockResolvedValueOnce({
+          data: [
+            {
+              id: 1,
+              commenter: '岡本 陽子',
+              body: '表面の質感が滑らかで、触感が良好です。',
+              sample_id: 1,
+              created_at: '2025-02-23T22:15:30.030Z',
+              department: '営業部',
+            }
+          ]
+        })
 
       wrapper = mount(SamplesShowView, {
         global: {
@@ -684,6 +696,11 @@ describe('SamplesShowView', () => {
     it('表面処理情報の削除ボタンが表示されないこと', () => {
       const buttons = wrapper.findAll('button')
       expect(buttons[3].attributes('style')).toBe('display: none;')
+    })
+
+    it('表面処理リストへのリンクが表示されないこと', () => {
+      const liElements = wrapper.findAll('ul li')
+      expect(liElements[1].attributes('style')).toBe('display: none;')
     })
   })
 })

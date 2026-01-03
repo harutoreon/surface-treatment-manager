@@ -301,7 +301,7 @@ onMounted(async () => {
           表面処理情報の編集
         </RouterLink>
       </li>
-      <li class="nav-item">
+      <li v-show="isAdmin" class="nav-item">
         <RouterLink to="/samples">
           表面処理リストへ
         </RouterLink>
