@@ -16,3 +16,4 @@
 /public/assets
 /config/master.key
 /coverage
+.DS_Store
