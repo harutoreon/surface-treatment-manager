@@ -40,7 +40,7 @@ jobs:
         working-directory: backend/
 
       - name: execution brakeman
-        run: bundle exec brakeman --no-pager
+        run: bundle exec brakeman -q -w2
         working-directory: backend/
 
       - name: execution rubocop

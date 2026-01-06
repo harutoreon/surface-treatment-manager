@@ -86,7 +86,7 @@ GEM
       debug_inspector (>= 1.2.0)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
-    brakeman (7.0.0)
+    brakeman (7.1.1)
       racc
     builder (3.3.0)
     bullet (8.0.1)
@@ -355,7 +355,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootsnap
-  brakeman
+  brakeman (= 7.1.1)
   bullet
   bundler
   cloudinary
