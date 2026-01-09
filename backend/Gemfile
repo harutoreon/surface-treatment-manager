@@ -30,7 +30,7 @@ group :development do
   gem "binding_of_caller"
   gem "rubocop", '1.82.1', require: false
   gem 'rubocop-performance', '1.26.1', require: false
-  gem 'rubocop-rails', '2.33.0', require: false
+  gem 'rubocop-rails', '2.34.0', require: false
   gem 'rubocop-rspec', '3.9.0', require: false
   gem 'bullet'
   gem 'brakeman', '7.1.1'
