@@ -77,6 +77,12 @@ Rails/HasManyOrHasOneDependent:
 Rails/Validation:
   Enabled: true
 
+Rails/FindByOrAssignmentMemoization:
+  Enabled: true
+
+Rails/OrderArguments:
+  Enabled: true
+
 #################### RSpec ####################
 
 RSpec:
