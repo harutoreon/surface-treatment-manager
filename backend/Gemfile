@@ -3,15 +3,15 @@ source "https://rubygems.org"
 ruby "3.2.6"
 
 gem "rails", "7.2.2"
-gem "puma"
-gem "bcrypt"
-gem "bootsnap", require: false
-gem "pg"
-gem "rack-cors"
-gem "will_paginate"
-gem "image_processing", ">= 1.2"
-gem "cloudinary"
-gem "jwt"
+gem "puma", "7.1.0"
+gem "bcrypt", "3.1.21"
+gem "bootsnap", "1.20.1", require: false
+gem "pg", "1.6.3"
+gem "rack-cors", "3.0.0"
+gem "will_paginate", "4.0.1"
+gem "image_processing", "1.14.0"
+gem "cloudinary", "2.4.3"
+gem "jwt", "3.1.2"
 
 group :development do
   gem "debug", "1.11.1"
