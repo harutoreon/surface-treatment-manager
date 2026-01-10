@@ -18,10 +18,10 @@ gem 'cloudinary'
 gem 'jwt'
 
 group :development, :test do
-  gem "debug", platforms: %i[ mri windows ]
+  gem "debug", '1.11.1'
   gem "rspec-rails", '8.0.2'
   gem "factory_bot_rails", '6.5.1'
-  gem 'simplecov', require: false
+  gem 'simplecov', '0.22.0', require: false
 end
 
 group :development do
