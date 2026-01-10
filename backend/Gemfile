@@ -10,8 +10,8 @@ gem "pg"
 gem "rack-cors"
 gem "will_paginate"
 gem "image_processing", ">= 1.2"
-gem "cloudinary"
-gem "jwt"
+gem "cloudinary", "2.4.3"
+gem "jwt", "3.1.2"
 
 group :development do
   gem "debug", "1.11.1"
