@@ -7,9 +7,9 @@ gem "puma"
 gem "bcrypt"
 gem "bootsnap", require: false
 gem "pg"
-gem "rack-cors"
-gem "will_paginate"
-gem "image_processing", ">= 1.2"
+gem "rack-cors", "3.0.0"
+gem "will_paginate", "4.0.1"
+gem "image_processing", "1.14.0"
 gem "cloudinary", "2.4.3"
 gem "jwt", "3.1.2"
 

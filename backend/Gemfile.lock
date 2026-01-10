@@ -205,8 +205,9 @@ GEM
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.1.15)
-    rack-cors (2.0.2)
-      rack (>= 2.0.0)
+    rack-cors (3.0.0)
+      logger
+      rack (>= 3.0.14)
     rack-session (2.1.0)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -342,11 +343,11 @@ DEPENDENCIES
   debug (= 1.11.1)
   factory_bot_rails (= 6.5.1)
   faker (= 3.5.3)
-  image_processing (>= 1.2)
+  image_processing (= 1.14.0)
   jwt (= 3.1.2)
   pg
   puma
-  rack-cors
+  rack-cors (= 3.0.0)
   rails (= 7.2.2)
   rspec-rails (= 8.0.2)
   rubocop (= 1.82.1)
@@ -354,7 +355,7 @@ DEPENDENCIES
   rubocop-rails (= 2.34.3)
   rubocop-rspec (= 3.9.0)
   simplecov (= 0.22.0)
-  will_paginate
+  will_paginate (= 4.0.1)
 
 RUBY VERSION
    ruby 3.2.6p234
