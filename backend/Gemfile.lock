@@ -354,7 +354,6 @@ DEPENDENCIES
   rubocop-rails (= 2.34.3)
   rubocop-rspec (= 3.9.0)
   simplecov (= 0.22.0)
-  tzinfo-data
   will_paginate
 
 RUBY VERSION
