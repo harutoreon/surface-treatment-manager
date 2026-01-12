@@ -4,6 +4,7 @@ plugins:
   - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
+  - rubocop-factory_bot
 
 AllCops:
   SuggestExtensions: false
@@ -12,13 +13,11 @@ AllCops:
     - "bin/**/*"
     - "config/**/*"
     - "db/**/*"
-#    - "lib/**/*"
     - "log/**/*"
     - 'tmp/**/*'
     - "vendor/**/*"
     - "spec/rails_helper.rb"
     - "spec/spec_helper.rb"
-    - "spec/factories/**/*"
     - "Gemfile"
 
 #################### Bundler ####################
@@ -108,4 +107,18 @@ RSpec/HookArgument:
   Enabled: true
 
 RSpec/LetBeforeExamples:
+  Enabled: true
+
+#################### FactoryBot ####################
+
+# クラス属性を明示的に設定する際は文字列値を使用する
+FactoryBot/FactoryClassName:
+  Enabled: false
+
+# モジュール名：FactoryBotの記述を省略する
+FactoryBot/SyntaxMethods:
+  Enabled: false
+
+# リスト内で作成されるモデルの数を制限する (デフォルト値：10)
+FactoryBot/ExcessiveCreateList:
   Enabled: true
