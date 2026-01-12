@@ -17,7 +17,7 @@ class DepartmentsController < ApplicationController
     if department.save
       render json: department, status: :created, location: department
     else
-      render json: department.errors, status: :unprocessable_entity
+      render json: department.errors, status: :unprocessable_content
     end
   end
 
@@ -27,7 +27,7 @@ class DepartmentsController < ApplicationController
     if department.update(department_params) 
       render json: department, status: :ok
     else
-      render json: department.errors, status: :unprocessable_entity
+      render json: department.errors, status: :unprocessable_content
     end
   end
 

@@ -74,9 +74,9 @@ RSpec.describe "Departments", type: :request do
         @invalid_department_params = { department: { name: ''} }
       end
 
-      it 'レスポンスのステータスがunprocessable_entityであること' do
+      it 'レスポンスのステータスがunprocessable_contentであること' do
         post "/departments", params: @invalid_department_params
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'データベースに登録されないこと' do
@@ -110,9 +110,9 @@ RSpec.describe "Departments", type: :request do
     end
 
     context '無効な情報で更新したとき' do
-      it 'レスポンスのステータスがunprocessable_entityであること' do
+      it 'レスポンスのステータスがunprocessable_contentであること' do
         patch "/departments/#{@department.id}", params: { department: { name: ''} }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'nameが更新されず元の品質管理部のままであること' do

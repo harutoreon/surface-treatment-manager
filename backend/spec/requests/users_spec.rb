@@ -94,9 +94,9 @@ RSpec.describe "Users API", type: :request do
                                          password_confirmation: 'password' } }
       end
 
-      it 'レスポンスのステータスがunprocessable_entityであること' do
+      it 'レスポンスのステータスがunprocessable_contentであること' do
         post "/users", params: @invalid_user_params
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'データベースに登録されないこと' do
@@ -124,9 +124,9 @@ RSpec.describe "Users API", type: :request do
     end
 
     context '無効なユーザー情報で更新したとき' do
-      it 'レスポンスがunprocessable_entityであること' do
+      it 'レスポンスがunprocessable_contentであること' do
         patch "/users/#{@user.id}", params: { user: { name: '' } }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'ユーザー名が空白で更新できないこと' do

@@ -22,7 +22,7 @@ class MakersController < ApplicationController
     if maker.save
       render json: maker, status: :created, location: maker
     else
-      render json: maker.errors, status: :unprocessable_entity
+      render json: maker.errors, status: :unprocessable_content
     end
   end
 
@@ -32,7 +32,7 @@ class MakersController < ApplicationController
     if maker.update(maker_params)
       render json: maker, status: :ok
     else
-      render json: maker.errors, status: :unprocessable_entity
+      render json: maker.errors, status: :unprocessable_content
     end
   end
 

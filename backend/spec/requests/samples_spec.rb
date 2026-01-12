@@ -127,9 +127,9 @@ RSpec.describe "Samples API", type: :request do
                                              summary: '銅を電気めっきや化学めっきで表面に薄く被覆する技術です。' } }
       end
 
-      it 'レスポンスのステータスがunprocessable_entityであること' do
+      it 'レスポンスのステータスがunprocessable_contentであること' do
         post "/makers/#{@maker.id}/samples", params: @invalid_sample_params
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'データベースに登録されないこと' do
@@ -159,9 +159,9 @@ RSpec.describe "Samples API", type: :request do
     end
 
     context '無効な表面処理情報で更新したとき' do
-      it 'レスポンスがunprocessable_entityであること' do
+      it 'レスポンスがunprocessable_contentであること' do
         patch "/makers/#{@maker.id}/samples/#{@sample.id}", params: { sample: { name: '' } }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it '表面処理名が空白で更新できないこと' do
