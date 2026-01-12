@@ -88,9 +88,9 @@ RSpec.describe "Makers API", type: :request do
                                            manufacturer_rep: '池田 彩花' } }
       end
 
-      it 'レスポンスのステータスがunprocessable_entityであること' do
+      it 'レスポンスのステータスがunprocessable_contentであること' do
         post "/makers", params: @invalid_maker_params
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'データベースに登録されないこと' do
@@ -118,9 +118,9 @@ RSpec.describe "Makers API", type: :request do
     end
 
     context '無効なメーカー情報で更新した場合' do
-      it 'レスポンスのステータスがunprocessable_entityであること' do
+      it 'レスポンスのステータスがunprocessable_contentであること' do
         patch "/makers/#{@maker.id}", params: { maker: { name: '' } }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'メーカー名が空白で更新できないこと' do

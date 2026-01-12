@@ -79,9 +79,9 @@ RSpec.describe "Categories API", type: :request do
                                                  summary: '溶射金属やセラミックスなどの粉末を、溶解状態にして製品表面に吹き付ける処理のこと。' } }
       end
 
-      it 'レスポンスのステータスがunprocessable_entityであること' do
+      it 'レスポンスのステータスがunprocessable_contentであること' do
         post "/categories", params: @invalid_category_params
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'データベースに登録されないこと' do
@@ -109,9 +109,9 @@ RSpec.describe "Categories API", type: :request do
     end
 
     context '無効なカテゴリー情報で更新したとき' do
-      it 'レスポンスのステータスがunprocessable_entityであること' do
+      it 'レスポンスのステータスがunprocessable_contentであること' do
         patch "/categories/#{@category.id}", params: { category: { item: '' } }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'カテゴリー名が空白で更新できないこと' do

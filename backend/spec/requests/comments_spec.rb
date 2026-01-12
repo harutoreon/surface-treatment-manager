@@ -78,9 +78,9 @@ RSpec.describe "Comments API", type: :request do
                                                body: 'sample comment.' } }
       end
 
-      it 'レスポンスのステータスがunprocessable_entityであること' do
+      it 'レスポンスのステータスがunprocessable_contentであること' do
         post "/makers/#{@sample.maker_id}/samples/#{@sample.id}/comments", params: @invalid_comment_params
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'データベースに登録されないこと' do
@@ -110,9 +110,9 @@ RSpec.describe "Comments API", type: :request do
     end
 
     context '無効なコメント情報で更新したとき' do
-      it 'レスポンスがunprocessable_entityであること' do
+      it 'レスポンスがunprocessable_contentであること' do
         patch "/makers/#{@sample.maker_id}/samples/#{@comment.sample_id}/comments/#{@comment.id}", params: { comment: { commenter: '' } }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'commenterが空白で更新できないこと' do

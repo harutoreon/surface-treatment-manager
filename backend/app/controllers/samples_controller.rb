@@ -25,7 +25,7 @@ class SamplesController < ApplicationController
     if sample.save
       render json: sample, status: :created, location: maker_sample_url(maker, sample)
     else
-      render json: sample.errors, status: :unprocessable_entity
+      render json: sample.errors, status: :unprocessable_content
     end
   end
 
@@ -36,7 +36,7 @@ class SamplesController < ApplicationController
     if sample.update(sample_params)
       render json: sample, status: :ok
     else
-      render json: sample.errors, status: :unprocessable_entity
+      render json: sample.errors, status: :unprocessable_content
     end
   end
 

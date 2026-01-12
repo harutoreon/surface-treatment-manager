@@ -47,7 +47,7 @@ RSpec.describe User, type: :model do
   describe 'scope' do
     describe '.displayable' do
       before do
-        FactoryBot.create_list(:user_list, 28)
+        FactoryBot.create(:user)
         FactoryBot.create(:admin_user)
         FactoryBot.create(:general_user)
       end

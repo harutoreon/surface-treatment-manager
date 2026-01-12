@@ -17,7 +17,7 @@ class CategoriesController < ApplicationController
     if category.save
       render json: category, status: :created, location: category
     else
-      render json: category.errors, status: :unprocessable_entity
+      render json: category.errors, status: :unprocessable_content
     end
   end
 
@@ -27,7 +27,7 @@ class CategoriesController < ApplicationController
     if category.update(category_params)
       render json: category, status: :ok
     else
-      render json: category.errors, status: :unprocessable_entity
+      render json: category.errors, status: :unprocessable_content
     end
   end
 

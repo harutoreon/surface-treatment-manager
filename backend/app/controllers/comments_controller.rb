@@ -23,7 +23,7 @@ class CommentsController < ApplicationController
     if comment.save
       render json: comment, status: :created, location: maker_sample_comment_url(maker, sample, comment)
     else
-      render json: comment.errors, status: :unprocessable_entity
+      render json: comment.errors, status: :unprocessable_content
     end
   end
 
@@ -35,7 +35,7 @@ class CommentsController < ApplicationController
     if comment.update(comment_params)
       render json: comment, status: :ok
     else
-      render json: comment.errors, status: :unprocessable_entity
+      render json: comment.errors, status: :unprocessable_content
     end
   end
 
