@@ -51,7 +51,33 @@ Layout:
 
 #################### Security ####################
 
-# without
+# パフォーマンスの低下や脆弱性 (DoS 攻撃) につながる可能性のあるハッシュ値の計算方法を検知する
+Security/CompoundHash:
+  Enabled: true
+
+# リモートコード実行のリスクがある eval メソッドの使用を禁止する
+Security/Eval:
+  Enabled: true
+
+# コマンドインジェクションのリスクがある IO メソッドの使用を禁止する
+Security/IoMethods:
+  Enabled: true
+
+# 任意のオブジェクトを復元できるリスクがある JSON.load の使用を禁止する
+Security/JSONLoad:
+  Enabled: true
+
+# 任意のコードが実行されるリスクがある Marshal.load の使用を禁止する
+Security/MarshalLoad:
+  Enabled: true
+
+# コマンドインジェクションのリスクがある Kernel.open または open の使用を禁止する
+Security/Open:
+  Enabled: true
+
+# 任意のオブジェクトを復元できるリスクがある YAML.load の使用を禁止する
+Security/YAMLLoad:
+  Enabled: true
 
 #################### Style ####################
 
