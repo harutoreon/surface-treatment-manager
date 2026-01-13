@@ -65,6 +65,7 @@
   - npm audit
 - Backend
   - Brakeman
+  - RuboCop - Security
 
 ## SQL N + 1 対策
 - Bullet
