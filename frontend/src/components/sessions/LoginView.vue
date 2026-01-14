@@ -58,7 +58,7 @@ const handleLogin = async () => {
           </label>
         </div>
         <small class="ms-4">
-          一部の機能は制限されます。
+          表面処理情報の検索ができます。
         </small>
       </li>
 
@@ -76,7 +76,7 @@ const handleLogin = async () => {
           </label>
         </div>
         <small class="ms-4">
-          すべての機能が利用できます。
+          表面処理情報やメーカー情報を含むリソースを管理します。
         </small>
       </li>
     </ul>
