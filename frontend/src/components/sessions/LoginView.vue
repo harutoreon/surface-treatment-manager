@@ -3,8 +3,8 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['login-success', 'message'])
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const router = useRouter()
 const name = ref('')
 const password = ref('')
@@ -43,6 +43,7 @@ const handleLogin = async () => {
     </h3>
 
     <div>ユーザーの選択</div>
+
     <ul class="list-group mb-4">
       <li class="list-group-item">
         <div class="form-check">
@@ -53,15 +54,17 @@ const handleLogin = async () => {
             type="radio"
             id="general-user"
             value="general">
-          <label class="form-check-label" for="general-user">
+          <label
+            class="form-check-label"
+            for="general-user"
+          >
             一般ユーザー
           </label>
         </div>
         <small class="ms-4">
-          一部の機能は制限されます。
+          表面処理情報の検索ができます。
         </small>
       </li>
-
       <li class="list-group-item">
         <div class="form-check">
           <input
@@ -71,12 +74,15 @@ const handleLogin = async () => {
             type="radio"
             id="admin-user"
             value="admin">
-          <label class="form-check-label" for="admin-user">
+          <label
+            class="form-check-label"
+            for="admin-user"
+          >
             管理者ユーザー
           </label>
         </div>
         <small class="ms-4">
-          すべての機能が利用できます。
+          表面処理情報やメーカー情報を含むリソースを管理します。
         </small>
       </li>
     </ul>
@@ -91,7 +97,6 @@ const handleLogin = async () => {
         type="text"
         id="user-name"
       >
-
       <label for="user-password">
         パスワード
       </label>
@@ -101,13 +106,19 @@ const handleLogin = async () => {
         type="password"
         id="user-password"
       >
-
-      <button type="submit" class="form-control btn btn-primary">
+      <button
+        type="submit"
+        class="form-control btn btn-primary"
+      >
         ログイン
       </button>
     </form>
 
-    <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">
+    <p
+      v-if="errorMessage"
+      class="alert alert-danger mt-4"
+      role="alert"
+    >
       {{ errorMessage }}
     </p>
   </div>

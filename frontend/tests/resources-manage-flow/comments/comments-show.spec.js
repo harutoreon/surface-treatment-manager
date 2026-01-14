@@ -14,7 +14,7 @@ test.describe('comments show flow', () => {
     test('コメント情報ページが表示されること', async ({ page }) => {
       await expect(page.getByRole('heading', { name: 'コメント情報' })).toBeVisible()
 
-      await expect(page.getByRole('listitem').filter({ hasText: /.{1,4}部/ })).toBeVisible()
+      await expect(page.getByRole('listitem').filter({ hasText: /.{1,4}部$/ })).toBeVisible()
       await expect(page.getByRole('listitem').filter({ hasText: /\p{Script=Han}{1,3} \p{Script=Han}{1,3}/u})).toBeVisible()
       await expect(page.getByRole('listitem').filter({ hasText: /.+。/ })).toBeVisible()
 

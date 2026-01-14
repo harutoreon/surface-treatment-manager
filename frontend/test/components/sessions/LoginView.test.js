@@ -39,9 +39,10 @@ describe('LoginForm', () => {
       expect(wrapper.find('label[for="general-user"]').text()).toBe('一般ユーザー')
       expect(wrapper.find('label[for="admin-user"]').text()).toBe('管理者ユーザー')
 
-      // 説明
-      expect(wrapper.text()).toContain('一部の機能は制限されます。')
-      expect(wrapper.text()).toContain('すべての機能が利用できます。')
+      // 説明文
+      const li = wrapper.findAll('ul li')
+      expect(li[0].find('small').text()).toBe('表面処理情報の検索ができます。')
+      expect(li[1].find('small').text()).toBe('表面処理情報やメーカー情報を含むリソースを管理します。')
     })
 
     it('入力フォームが表示されること', () => {
