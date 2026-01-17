@@ -169,6 +169,7 @@ describe('CategoriesShowView', () => {
 
   describe('カテゴリー情報の削除に成功した場合', () => {
     it('カテゴリーリストページに遷移すること', async () => {
+      window.confirm = vi.fn()
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
       axios.get

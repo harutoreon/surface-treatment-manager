@@ -384,6 +384,7 @@ describe('SamplesShowView', () => {
 
   describe('表面処理の削除処理に成功した場合', () => {
     it('表面処理リストページに遷移する', async () => {
+      window.confirm = vi.fn()
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
       const adminUserId = 49
@@ -447,6 +448,7 @@ describe('SamplesShowView', () => {
   
   describe('表面処理の削除処理に失敗した場合', () => {
     it('404ページに遷移すること', async () => {
+      window.confirm = vi.fn()
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
       const adminUserId = 49

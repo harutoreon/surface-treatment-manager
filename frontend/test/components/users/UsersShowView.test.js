@@ -169,6 +169,7 @@ describe('UsersShowView', () => {
 
   describe('ユーザー情報の削除に成功した場合', () => {
     it('ユーザーリストページに遷移すること', async () => {
+      window.confirm = vi.fn()
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
       axios.get
@@ -203,6 +204,7 @@ describe('UsersShowView', () => {
 
   describe('ユーザー情報の削除に失敗した場合', () => {
     it('404ページに遷移すること', async () => {
+      window.confirm = vi.fn()
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
       axios.get

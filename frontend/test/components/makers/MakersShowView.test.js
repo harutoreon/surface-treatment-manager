@@ -199,6 +199,7 @@ describe('MakersShowView', () => {
 
   describe('メーカー情報の削除に成功した場合', () => {
     it('メーカーリストページに遷移すること', async () => {
+      window.confirm = vi.fn()
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
       axios.get
@@ -241,6 +242,7 @@ describe('MakersShowView', () => {
 
   describe('メーカー情報の削除に失敗した場合', () => {
     it('404ページに遷移すること', async () => {
+      window.confirm = vi.fn()
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
       axios.get
@@ -287,3 +289,4 @@ describe('MakersShowView', () => {
     })
   })
 })
+
