@@ -8,12 +8,6 @@ const __dirname = path.dirname(__filename)
 
 dotenv.config({ path: path.resolve(__dirname, '.env.test') })
 
-// dotenv のログを非表示にする
-// dotenv.config({
-//   path: path.resolve(__dirname, '.env.test'),
-//   quiet: true
-// })
-
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
@@ -31,16 +25,6 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
-    //
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
   ],
 
   webServer: {
