@@ -162,6 +162,7 @@ describe('DepartmentsShowView', () => {
 
   describe('削除処理に成功した場合', () => {
     beforeEach(async () => {
+      window.confirm = vi.fn()
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
       axios.get

@@ -205,6 +205,7 @@ describe('CommentsShowView', () => {
 
   describe('コメント情報の削除で「はい」を押した場合', () => {
     beforeEach(async () => {
+      window.confirm = vi.fn()
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
       axios.get
@@ -250,6 +251,7 @@ describe('CommentsShowView', () => {
     beforeEach(async () => {
       pushMock.mockClear()
 
+      window.confirm = vi.fn()
       vi.spyOn(window, 'confirm').mockReturnValue(false)
 
       axios.get

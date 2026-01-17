@@ -57,6 +57,7 @@ describe('SettingsView', () => {
 
   describe('ログアウトの選択でOKを押した場合', () => {
     it('ログインページに遷移すること', async () => {
+      window.confirm = vi.fn()
       vi.spyOn(window, 'confirm').mockReturnValue(true)
 
       wrapper = mount(SettingsView, {
@@ -77,6 +78,7 @@ describe('SettingsView', () => {
 
   describe('ログアウトの選択でキャンセルを押した場合', () => {
     it('ログインページに遷移しないこと', async () => {
+      window.confirm = vi.fn()
       vi.spyOn(window, 'confirm').mockReturnValue(false)
 
       wrapper = mount(SettingsView, {
