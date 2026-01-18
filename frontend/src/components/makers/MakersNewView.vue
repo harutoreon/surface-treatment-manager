@@ -58,90 +58,90 @@ onMounted(() => {
       {{ errorMessage }}
     </p>
 
-    <form v-on:submit.prevent="makerRegistration">
+    <form @submit.prevent="makerRegistration">
       <label class="form-label" for="maker-name">
         メーカー名
       </label>
       <input
+        id="maker-name"
         v-model="name"
         class="form-control mb-2"
         type="text"
-        id="maker-name"
         required
-      >
+      />
       
       <label class="form-label" for="maker-postal-code">
         郵便番号
       </label>
       <input
+        id="maker-postal-code"
         v-model="postalCode"
         class="form-control mb-2"
         style="width: 10rem;"
         type="text"
-        id="maker-postal-code"
-      >
+      />
       
       <label class="form-label" for="maker-address">
         住所
       </label>
       <input
+        id="maker-address"
         v-model="address"
         class="form-control mb-2"
         type="text"
-        id="maker-address"
-      >
+      />
       
       <label class="form-label" for="maker-phone-number">
         電話番号
       </label>
       <input
+        id="maker-phone-number"
         v-model="phoneNumber"
         class="form-control mb-2"
         style="width: 10rem;"
         type="tel"
-        id="maker-phone-number"
-      >
+      />
       
       <label class="form-label" for="maker-fax-number">
         FAX番号
       </label>
       <input
+        id="maker-fax-number"
         v-model="faxNumber"
         class="form-control mb-2"
         style="width: 10rem;"
         type="tel"
-        id="maker-fax-number"
-      >
+      />
       
       <label class="form-label" for="maker-email">
         Email
       </label>
       <input
+        id="maker-email"
         v-model="email"
         class="form-control mb-2"
         type="email"
-        id="maker-email"
-      >
+      />
       
       <label class="form-label" for="maker-home-page">
         ホームページ
       </label>
       <input
+        id="maker-home-page"
         v-model="homePage"
         class="form-control mb-2"
         type="url"
-        id="maker-home-page"
-      >
+      />
       
       <label class="form-label" for="maker-manufacturer-rep">
         担当者
       </label>
       <input
+        id="maker-manufacturer-rep"
         v-model="manufacturerRep"
         class="form-control mb-4"
         type="text"
-        id="maker-manufacturer-rep"
-      >
+      />
       
       <button type="submit" class="form-control btn btn-primary mb-5">
         登録
