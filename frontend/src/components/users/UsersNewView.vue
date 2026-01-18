@@ -61,31 +61,31 @@ onMounted(async () => {
       ユーザー情報の登録
     </h3>
 
-    <form v-on:submit.prevent="userRegistration">
+    <form @submit.prevent="userRegistration">
       <label class="form-label" for="user-name">
         ユーザー名
       </label>
       <input
+        id="user-name"
         v-model="name"
         class="form-control mb-3"
         type="text"
-        id="user-name"
         required
-      >
+      />
 
       <label class="form-label" for="user-department">
         部署名
       </label>
       <select
+        id="user-department"
         v-model="department"
         class="form-select mb-3"
-        id="user-department"
         required
       >
         <option value="">
           部署名を選択して下さい
         </option>
-        <option v-for="option in options" v-bind:key="option.id" v-bind:value="option.name">
+        <option v-for="option in options" :key="option.id" :value="option.name">
           {{ option.name }}
         </option>
       </select>
@@ -94,23 +94,23 @@ onMounted(async () => {
         パスワード
       </label>
       <input
+        id="user-password"
         v-model="password"
         class="form-control mb-3"
         type="password"
-        id="user-password"
         required
-      >
+      />
 
       <label class="form-label" for="user-password-confirmation">
         パスワードの確認
       </label>
       <input
+        id="user-password-confirmation"
         v-model="password_confirmation"
         class="form-control mb-4"
         type="password"
-        id="user-password-confirmation"
         required
-      >
+      />
 
       <button type="submit" class="form-control btn btn-primary mb-5">
         登録
