@@ -72,48 +72,48 @@ onMounted(async () => {
       ユーザー情報の編集
     </h3>
 
-    <form v-on:submit.prevent="userUpdate">
+    <form @submit.prevent="userUpdate">
       <label class="form-label" for="user-name">
         ユーザー名
       </label>
       <input
+        id="user-name"
+        v-model="user.name"
         class="form-control mb-3"
         type="text"
-        v-model="user.name"
-        id="user-name"
         required
-      >
+      />
 
       <label class="form-label" for="user-department">
         部署名
       </label>
       <input
+        id="user-department"
+        v-model="user.department"
         class="form-control mb-3"
         type="text"
-        v-model="user.department"
-        id="user-department"
         required
-      >
+      />
 
       <label class="form-label" for="user-password">
         パスワード
       </label>
       <input
+        id="user-password"
+        v-model="password"
         class="form-control mb-3"
         type="password"
-        v-model="password"
-        id="user-password"
-      >
+      />
 
       <label class="form-label" for="user-password-confirmation">
         パスワードの確認
       </label>
       <input
+        id="user-password-confirmation"
+        v-model="password_confirmation"
         class="form-control mb-4"
         type="password"
-        v-model="password_confirmation"
-        id="user-password-confirmation"
-      >
+      />
 
       <div class="d-grid gap-2 d-md-block">
         <button type="submit" class="btn btn-primary me-md-2">
@@ -121,9 +121,9 @@ onMounted(async () => {
         </button>
         <button
           v-if="user.id"
-          v-on:click="cancel"
           type="button"
           class="btn btn-outline-secondary"
+          @click="cancel"
         >
           キャンセル
         </button>
