@@ -57,15 +57,15 @@ onMounted(async () => {
       カテゴリー情報の編集
     </h3>
 
-    <form v-on:submit.prevent="categoryUpdate">
+    <form @submit.prevent="categoryUpdate">
       <label class="form-label" for="category-item">
         カテゴリー名
       </label>
       <input
+        id="category-item"
         v-model="category.item"
         class="form-control mb-4"
         type="text"
-        id="category-item"
         required
       >
 
@@ -73,12 +73,11 @@ onMounted(async () => {
         概要
       </label>
       <textarea
+        id="category-summary"
         v-model="category.summary"
         class="form-control mb-4"
-        id="category-summary"
         required
-      >
-      </textarea>
+      />
 
       <div class="d-grid gap-2 d-md-block">
         <button type="submit" class="btn btn-primary me-md-2">
@@ -86,9 +85,9 @@ onMounted(async () => {
         </button>
         <button
           v-if="category.id"
-          v-on:click="cancel"
           type="button"
           class="btn btn-outline-secondary"
+          @click="cancel"
         >
           キャンセル
         </button>
