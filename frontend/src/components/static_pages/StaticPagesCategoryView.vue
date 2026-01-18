@@ -55,12 +55,12 @@ onMounted(async () => {
       {{ errorMessage }}
     </p>
 
-    <form v-on:submit.prevent="submitSearch">
+    <form @submit.prevent="submitSearch">
       <select v-model="keyword" class="form-select mb-3">
         <option value="">
           カテゴリーを選択して下さい
         </option>
-        <option v-for="option in options" v-bind:key="option.id" v-bind:value="option.item">
+        <option v-for="option in options" :key="option.id" :value="option.item">
           {{ option.item }}
         </option>
       </select>
