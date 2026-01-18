@@ -103,28 +103,28 @@ onMounted(async () => {
       {{ errorMessage }}
     </p>
 
-    <form v-on:submit.prevent="commentRegistration">
+    <form @submit.prevent="commentRegistration">
       <label class="form-label" for="commenter">
         投稿者
       </label>
       <input
+        id="commenter"
         v-model="commenter"
         class="form-control mb-4"
         type="text"
-        id="commenter"
       />
 
       <label class="form-label" for="departments">
         部署名
       </label>
-      <select v-model="department" class="form-select mb-4" id="departments">
+      <select id="departments" v-model="department" class="form-select mb-4">
         <option value="">
           部署名を選択して下さい
         </option>
         <option
           v-for="option in departmentOptions"
-          v-bind:key="option.id"
-          v-bind:value="option.name"
+          :key="option.id"
+          :value="option.name"
         >
           {{ option.name }}
         </option>
@@ -134,18 +134,18 @@ onMounted(async () => {
         メーカー
       </label>
       <select
-        v-model="maker"
-        v-on:change="handleMakerChange"
-        class="form-select mb-4"
         id="makers"
+        v-model="maker"
+        class="form-select mb-4"
+        @change="handleMakerChange"
       >
         <option value="">
           メーカーを選択して下さい
         </option>
         <option
           v-for="option in makerOptions"
-          v-bind:key="option.id"
-          v-bind:value="option.name"
+          :key="option.id"
+          :value="option.name"
         >
           {{ option.name }}
         </option>
@@ -156,18 +156,18 @@ onMounted(async () => {
       </label>
       <select
         v-if="makerId"
-        v-model="sampleName"
-        v-on:change="handleSampleChange"
-        class="form-select mb-4"
         id="samples"
+        v-model="sampleName"
+        class="form-select mb-4"
+        @change="handleSampleChange"
       >
         <option value="">
           表面処理を選択して下さい
         </option>
         <option
           v-for="option in sampleOptions"
-          v-bind:key="option.id"
-          v-bind:value="option.name"
+          :key="option.id"
+          :value="option.name"
         >
           {{ option.name }}
         </option>
@@ -176,9 +176,8 @@ onMounted(async () => {
       <label class="form-label" for="body">
         コメント
       </label>
-      <textarea v-model="body" class="form-control mb-5" id="body">
-      </textarea>
-      
+      <textarea id="body" v-model="body" class="form-control mb-5" />
+
       <button type="submit" class="form-control btn btn-primary mb-5">
         登録
       </button>
