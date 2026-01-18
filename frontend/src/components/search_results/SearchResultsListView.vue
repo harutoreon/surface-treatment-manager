@@ -39,15 +39,15 @@ onMounted(async () => {
 
     <div class="album">
       <div class="row row-cols-5 g-3">
-        <div v-for="sample in samples" v-bind:key="sample.id" class="col">
+        <div v-for="sample in samples" :key="sample.id" class="col">
           <div class="card">
             <img
-              v-bind:src="sample.image_url"
+              :src="sample.image_url"
               class="card-img-top"
               alt="Sample Image"
               width="100%"
               height="225"
-            >
+            />
             <div class="card-body">
               <h5 class="card-title mb-3">
                 {{ sample.name }}
@@ -56,7 +56,7 @@ onMounted(async () => {
                 {{ sample.summary }}
               </p>
               <RouterLink
-                v-bind:to="`/samples/${sample.id}`"
+                :to="`/samples/${sample.id}`"
                 class="btn btn-primary"
               >
                 詳細へ
