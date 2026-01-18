@@ -24,7 +24,7 @@ test.describe('ログアウトフロー', () => {
       await page.getByRole('button', { name: 'ログアウト' }).click()
 
       await expect(page).toHaveURL('http://localhost:5173')
-      await expect(page.getByRole('heading', { name: 'ログイン' })).toBeVisible()
+      await expect(page.locator('p', { name: 'ログイン' })).toBeVisible()
     })
   })
 

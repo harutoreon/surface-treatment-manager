@@ -38,9 +38,9 @@ const handleLogin = async () => {
 
 <template>
   <div class="container w-25">
-    <h3 class="text-center mt-5 mb-5">
+    <p class="fs-3 text-center mt-5 mb-5">
       ログイン
-    </h3>
+    </p>
 
     <div>ユーザーの選択</div>
 

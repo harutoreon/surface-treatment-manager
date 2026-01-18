@@ -5,7 +5,7 @@ test.describe('header display flow', () => {
     await page.goto('http://localhost:5173/')
 
     await expect(page).toHaveURL('http://localhost:5173/')
-    await expect(page.getByRole('heading', { name: 'ログイン' })).toBeVisible()
+    await expect(page.locator('p', { name: 'ログイン' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Surface Treatment Manager' })).not.toBeVisible()
   })
 
