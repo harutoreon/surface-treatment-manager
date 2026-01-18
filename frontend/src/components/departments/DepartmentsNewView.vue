@@ -41,15 +41,15 @@ onMounted(() => {
       部署情報の登録
     </h3>
 
-    <form v-on:submit.prevent="departmentRegistration">
+    <form @submit.prevent="departmentRegistration">
       <label class="form-label" for="department-name">
         部署名
       </label>
       <input
+        id="department-name"
         v-model="name"
         class="form-control mb-4"
         type="text"
-        id="department-name"
       />
       
       <button type="submit" class="form-control btn btn-primary mb-5">
