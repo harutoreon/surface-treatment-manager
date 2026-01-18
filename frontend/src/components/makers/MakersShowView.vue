@@ -101,7 +101,7 @@ onMounted(async () => {
 
     <ul class="nav justify-content-evenly">
       <li class="nav-item">
-        <RouterLink v-if="maker.id" v-bind:to="`/makers/${maker.id}/edit`">
+        <RouterLink v-if="maker.id" :to="`/makers/${maker.id}/edit`">
           メーカー情報の編集へ
         </RouterLink>
       </li>
@@ -113,11 +113,7 @@ onMounted(async () => {
     </ul>
 
     <div class="d-flex justify-content-end mt-5">
-      <button
-        v-on:click="handleDelete"
-        class="btn btn-outline-danger"
-        type="button"
-      >
+      <button class="btn btn-outline-danger" type="button" @click="handleDelete">
         メーカー情報の削除
       </button>
     </div>
