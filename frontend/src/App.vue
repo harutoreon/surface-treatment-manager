@@ -28,17 +28,16 @@ const handleMessageDelete = () => {
     </nav>
   </header>
 
-  <div v-if="message" v-bind:class="`alert alert-${messageType} alert-dismissible fade show`">
+  <div v-if="message" :class="`alert alert-${messageType} alert-dismissible fade show`">
     {{ message }}
     <button
       type="button"
       class="btn-close"
       aria-label="通知を閉じる"
-      v-on:click="handleMessageDelete"
       data-bs-dismiss="alert"
-    >
-    </button>
+      @click="handleMessageDelete"
+    />
   </div>
 
-  <RouterView v-on:message="showMessage"/>
+  <RouterView @message="showMessage" />
 </template>

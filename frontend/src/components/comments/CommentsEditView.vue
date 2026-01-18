@@ -62,15 +62,15 @@ onMounted(async () => {
       コメント情報の編集
     </h3>
 
-    <form v-on:submit.prevent="commentUpdate">
+    <form @submit.prevent="commentUpdate">
       <label class="form-label" for="department">
         部署名
       </label>
       <input
+        id="department"
         v-model="comment.department"
         class="form-control mb-4"
         type="text"
-        id="department"
         disabled
       />
       
@@ -78,18 +78,21 @@ onMounted(async () => {
         投稿者
       </label>
       <input
+        id="commenter"
         v-model="comment.commenter"
         class="form-control mb-4"
         type="text"
-        id="commenter"
         disabled
       />
 
       <label class="form-label" for="body">
         コメント
       </label>
-      <textarea v-model="comment.body" class="form-control mb-5" id="body">
-      </textarea>
+      <textarea
+        id="body"
+        v-model="comment.body"
+        class="form-control mb-5"
+      />
 
       <div class="d-grid gap-2 d-md-block">
         <button type="submit" class="btn btn-primary me-md-2">
@@ -97,9 +100,9 @@ onMounted(async () => {
         </button>
         <button
           v-if="comment.id"
-          v-on:click="cancel"
           type="button"
           class="btn btn-outline-secondary"
+          @click="cancel"
         >
           キャンセル
         </button>

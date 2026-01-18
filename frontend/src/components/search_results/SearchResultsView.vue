@@ -59,8 +59,8 @@ onMounted(async () => {
       </div>
       <RouterLink
         v-for="sample in samples"
-        v-bind:key="sample.id"
-        v-bind:to="`/samples/${sample.id}`"
+        :key="sample.id"
+        :to="`/samples/${sample.id}`"
         class="list-group-item list-group-item-action"
       >
         <div class="d-flex justify-content-between">
@@ -79,7 +79,7 @@ onMounted(async () => {
 
     <ul class="nav justify-content-evenly mb-5">
       <li class="nav-item">
-        <RouterLink v-bind:to="`/static_pages/${searchMethod}`">
+        <RouterLink :to="`/static_pages/${searchMethod}`">
           再検索
         </RouterLink>
       </li>

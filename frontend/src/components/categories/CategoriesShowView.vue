@@ -68,7 +68,7 @@ onMounted(async () => {
 
     <ul class="nav justify-content-evenly">
       <li class="nav-item">
-        <RouterLink v-if="category.id" v-bind:to="`/categories/${category.id}/edit`">
+        <RouterLink v-if="category.id" :to="`/categories/${category.id}/edit`">
           カテゴリー情報の編集
         </RouterLink>
       </li>
@@ -81,9 +81,9 @@ onMounted(async () => {
 
     <div class="d-flex justify-content-end mt-5">
       <button
-        v-on:click="handleDelete"
         class="btn btn-outline-danger"
         type="button"
+        @click="handleDelete"
       >
         カテゴリー情報の削除
       </button>

@@ -19,7 +19,7 @@ const handleLogout = async () => {
     </h3>
 
     <div class="list-group list-group-flush border-top border-bottom mb-5">
-      <button v-on:click="handleLogout" class="list-group-item list-group-item-action pt-4 pb-4">
+      <button class="list-group-item list-group-item-action pt-4 pb-4" @click="handleLogout">
         <h6 class="fw-bold text-primary">
           ログアウト
         </h6>

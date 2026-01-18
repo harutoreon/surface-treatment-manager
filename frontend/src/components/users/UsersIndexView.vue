@@ -63,9 +63,9 @@ onMounted(async () => {
 
       <RouterLink
         v-for="user in users"
-        v-bind:key="user.id"
+        :key="user.id"
         class="list-group-item list-group-item-action"
-        v-bind:to="`/users/${user.id}`"
+        :to="`/users/${user.id}`"
       >
         <div class="d-flex justify-content-between">
           <div>{{ user.name }}</div>
@@ -74,9 +74,9 @@ onMounted(async () => {
       </RouterLink>
     </div>
 
-    <ul v-if="totalPages > 0"  class="pagination justify-content-center mb-5">
+    <ul v-if="totalPages > 0" class="pagination justify-content-center mb-5">
       <li class="page-item" :class="{ disabled: currentPage === 1 }">
-        <RouterLink class="page-link" v-if="currentPage > 1" v-bind:to="getPageLink(currentPage - 1)">
+        <RouterLink v-if="currentPage > 1" class="page-link" :to="getPageLink(currentPage - 1)">
           前ページ
         </RouterLink>
         <span v-else class="page-link">
@@ -86,17 +86,17 @@ onMounted(async () => {
 
       <li
         v-for="page in totalPages"
-        v-bind:key="page"
+        :key="page"
         class="page-item"
-        v-bind:class="{ active: page === currentPage }"
+        :class="{ active: page === currentPage }"
       >
-        <RouterLink class="page-link" v-bind:to="getPageLink(page)">
+        <RouterLink class="page-link" :to="getPageLink(page)">
           {{ page }}
         </RouterLink>
       </li>
 
       <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-        <RouterLink class="page-link" v-if="currentPage < totalPages" v-bind:to="getPageLink(currentPage + 1)">
+        <RouterLink v-if="currentPage < totalPages" class="page-link" :to="getPageLink(currentPage + 1)">
           次ページ
         </RouterLink>
         <span v-else class="page-link">

@@ -116,25 +116,25 @@ onMounted(async () => {
       {{ errorMessage }}
     </p>
     
-    <form v-on:submit.prevent="sampleRegistration">
+    <form @submit.prevent="sampleRegistration">
       <label class="form-label" for="sample-name">
         処理名
       </label>
       <input
+        id="sample-name"
         v-model="name"
         class="form-control mb-3"
         type="text"
-        id="sample-name"
-      >
+      />
 
       <label class="form-label" for="sample-category">
         カテゴリー
       </label>
-      <select v-model="category" class="form-select mb-3" id="sample-category">
+      <select id="sample-category" v-model="category" class="form-select mb-3">
         <option value="">
           カテゴリーを選択して下さい
         </option>
-        <option v-for="option in options" v-bind:key="option.id" v-bind:value="option.item">
+        <option v-for="option in options" :key="option.id" :value="option.item">
           {{ option.item }}
         </option>
       </select>
@@ -143,28 +143,28 @@ onMounted(async () => {
         色
       </label>
       <input
+        id="sample-color"
         v-model="color"
         class="form-control mb-3"
         type="text"
-        id="sample-color"
-      >
+      />
 
       <label class="form-label" for="makers">
         メーカー
       </label>
       <select
-        v-model="maker"
-        v-on:change="handleMakerChange"
-        class="form-select mb-4"
         id="makers"
+        v-model="maker"
+        class="form-select mb-4"
+        @change="handleMakerChange"
       >
         <option value="">
           メーカーを選択して下さい
         </option>
         <option
           v-for="option in makerOptions"
-          v-bind:key="option.id"
-          v-bind:value="option.name"
+          :key="option.id"
+          :value="option.name"
         >
           {{ option.name }}
         </option>
@@ -174,61 +174,61 @@ onMounted(async () => {
         硬度
       </label>
       <input
+        id="sample-hardness"
         v-model="hardness"
         class="form-control mb-3"
         type="text"
-        id="sample-hardness"
-      >
+      />
 
       <label class="form-label" for="sample-film-thickness">
         膜厚
       </label>
       <input
+        id="sample-film-thickness"
         v-model="filmThickness"
         class="form-control mb-3"
         type="text"
-        id="sample-film-thickness"
-      >
+      />
 
       <label class="form-label" for="sample-feature">
         特徴
       </label>
       <input
+        id="sample-feature"
         v-model="feature"
         class="form-control mb-3"
         type="text"
-        id="sample-feature"
-      >
+      />
 
       <label class="form-label" for="sample-summary">
         概要
       </label>
       <input
+        id="sample-summary"
         v-model="summary"
         class="form-control mb-3"
         type="text"
-        id="sample-summary"
-      >
+      />
 
       <label class="form-label" for="sample-image">
         画像
       </label>
       <div>
         <img
+          id="preview-image"
           alt="No Image"
           class="mb-3"
-          id="preview-image"
           width="200"
           height="200"
-          v-bind:src="previewImage || ''"
-        >
+          :src="previewImage || ''"
+        />
       </div>
       <input
+        id="sample-image"
         class="form-control mb-4"
         accept="image/jpeg,image/gif,image/png,image/jpg"
         type="file"
-        id="sample-image"
-        v-on:change="handleFileChange"
+        @change="handleFileChange"
       />
 
       <p v-if="imageSizeErrorMessage" class="text-danger mt-4">

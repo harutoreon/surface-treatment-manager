@@ -74,16 +74,16 @@ onMounted(async () => {
       {{ errorMessage }}
     </p>
 
-    <form v-on:submit.prevent="submitSearch">
+    <form @submit.prevent="submitSearch">
       <div class="position-relative mb-3">
         <input
           v-model="keyword"
           type="text"
-          v-on:focus="isOpen = true"
-          v-on:blur="close"
           class="form-control mb-3"
           placeholder="キーワードをここに入力"
           autocomplete="off"
+          @focus="isOpen = true"
+          @blur="close"
         />
 
         <ul
@@ -93,9 +93,9 @@ onMounted(async () => {
         >
           <li
             v-for="item in filteredList"
-            v-bind:key="item"
-            v-on:mousedown.prevent="select(item)"
+            :key="item"
             class="list-group-item list-group-item-action text-start"
+            @mousedown.prevent="select(item)"
           >
             {{ item }}
           </li>

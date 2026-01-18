@@ -46,9 +46,9 @@ onMounted(async () => {
 
       <RouterLink
         v-for="department in departments"
-        v-bind:key="department.id"
+        :key="department.id"
         class="list-group-item list-group-item-action"
-        v-bind:to="`/departments/${department.id}`"
+        :to="`/departments/${department.id}`"
       >
         <div class="d-flex justify-content-center">
           <h6>{{ department.name }}</h6>

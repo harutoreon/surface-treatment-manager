@@ -67,7 +67,7 @@ onMounted(async () => {
 
     <ul class="nav justify-content-evenly">
       <li class="nav-item">
-        <RouterLink v-if="user.id" v-bind:to="`/users/${user.id}/edit`">
+        <RouterLink v-if="user.id" :to="`/users/${user.id}/edit`">
           ユーザー情報の編集
         </RouterLink>
       </li>
@@ -80,9 +80,9 @@ onMounted(async () => {
 
     <div class="d-flex justify-content-end mt-5">
       <button
-        v-on:click="handleDelete"
         class="btn btn-outline-danger"
         type="button"
+        @click="handleDelete"
       >
         ユーザーの削除
       </button>

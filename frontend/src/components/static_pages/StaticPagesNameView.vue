@@ -29,7 +29,7 @@ const submitSearch = () => {
       {{ errorMessage }}
     </p>
 
-    <form v-on:submit.prevent="submitSearch">
+    <form @submit.prevent="submitSearch">
       <input
         v-model="keyword"
         type="text"
