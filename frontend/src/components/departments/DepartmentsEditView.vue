@@ -56,16 +56,16 @@ onMounted(async () => {
       部署情報の編集
     </h3>
 
-    <form v-on:submit.prevent="departmentUpdate">
+    <form @submit.prevent="departmentUpdate">
       <label class="form-label" for="department-name">
         部署名
       </label>
       <input
+        id="department-name"
         v-model="department.name"
         class="form-control mb-4"
         type="text"
-        id="department-name"
-      >
+      />
 
       <div class="d-grid gap-2 d-md-block">
         <button type="submit" class="btn btn-primary me-md-2">
@@ -73,9 +73,9 @@ onMounted(async () => {
         </button>
         <button
           v-if="department.id"
-          v-on:click="cancel"
           type="button"
           class="btn btn-outline-secondary"
+          @click="cancel"
         >
           キャンセル
         </button>
