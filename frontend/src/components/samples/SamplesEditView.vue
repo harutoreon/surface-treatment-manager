@@ -76,76 +76,76 @@ onMounted(async () => {
       {{ errorMessage }}
     </p>
     
-    <form v-on:submit.prevent="sampleUpdate">
+    <form @submit.prevent="sampleUpdate">
       <label class="form-label" for="sample-name">
         処理名
       </label>
       <input
+        id="sample-name"
         v-model="sample.name"
         class="form-control mb-3"
         type="text"
-        id="sample-name"
-      >
+      />
 
       <label class="form-label" for="sample-category">
         カテゴリー
       </label>
       <input
+        id="sample-category"
         v-model="sample.category"
         class="form-control mb-3"
         type="text"
-        id="sample-category"
-      >
+      />
 
       <label class="form-label" for="sample-color">
         色
       </label>
       <input
+        id="sample-color"
         v-model="sample.color"
         class="form-control mb-3"
         type="text"
-        id="sample-color"
-      >
+      />
 
       <label class="form-label" for="sample-hardness">
         硬度
       </label>
       <input
+        id="sample-hardness"
         v-model="sample.hardness"
         class="form-control mb-3"
         type="text"
-        id="sample-hardness"
-      >
+      />
 
       <label class="form-label" for="sample-film-thickness">
         膜厚
       </label>
       <input
+        id="sample-film-thickness"
         v-model="sample.film_thickness"
         class="form-control mb-3"
         type="text"
-        id="sample-film-thickness"
-      >
+      />
 
       <label class="form-label" for="sample-feature">
         特徴
       </label>
       <input
+        id="sample-feature"
         v-model="sample.feature"
         class="form-control mb-3"
         type="text"
-        id="sample-feature"
-      >
+      />
 
       <label class="form-label" for="sample-summary">
         概要
       </label>
       <input
+        id="sample-summary"
         v-model="sample.summary"
         class="form-control mb-3"
         type="text"
-        id="sample-summary"
-      >
+      />
 
       <label class="form-label" for="sample-image">
         画像
@@ -153,10 +153,10 @@ onMounted(async () => {
       <div>
         <img
           v-if="sample.image_url"
-          v-bind:src="sample.image_url"
+          id="sample-image"
+          :src="sample.image_url"
           alt="No Image"
           class="mb-3"
-          id="sample-image"
           width="200"
           height="200"
         />
@@ -168,9 +168,9 @@ onMounted(async () => {
         </button>
         <button
           v-if="sample.id"
-          v-on:click="cancel"
           type="button"
           class="btn btn-outline-secondary"
+          @click="cancel"
         >
           キャンセル
         </button>
