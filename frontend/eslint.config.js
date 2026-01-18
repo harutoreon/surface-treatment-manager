@@ -59,6 +59,7 @@ export default [
           void: 'always',
         }
       }],
+      'vue/require-default-prop': 'off'
     },
   },
 
