@@ -165,9 +165,9 @@ onMounted(async () => {
         <div>
           <img
             v-if="sample.image_url"
-            v-bind:src="sample.image_url"
-            alt="Sample Image"
             id="sample_image"
+            :src="sample.image_url"
+            alt="Sample Image"
             style="width: 250px; height: auto;"
           />
           <div v-else>
@@ -187,7 +187,7 @@ onMounted(async () => {
         class="btn btn-primary"
         data-bs-toggle="modal"
         data-bs-target="#commentPostForm"
-        v-on:click="modalReset"
+        @click="modalReset"
       >
         コメントの新規作成
       </button>
@@ -203,9 +203,9 @@ onMounted(async () => {
 
       <RouterLink
         v-for="sampleComment in sampleComments"
-        v-bind:key="sampleComment.id"
+        :key="sampleComment.id"
         class="list-group-item list-group-item-action"
-        v-bind:to="`/comments/${sampleComment.id}`"
+        :to="`/comments/${sampleComment.id}`"
       >
         <div class="d-flex w-100 justify-content-between">
           <h6>{{ sampleComment.department }}：{{ sampleComment.commenter }}</h6>
@@ -218,8 +218,8 @@ onMounted(async () => {
     </div>
 
     <div
-      class="modal fade"
       id="commentPostForm"
+      class="modal fade"
       data-bs-backdrop="static"
       data-bs-keyboard="false"
       tabindex="-1"
@@ -229,20 +229,17 @@ onMounted(async () => {
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h1
-              class="modal-title fs-5"
-              id="commentPostFormLabel"
-            >
+            <h1 id="commentPostFormLabel" class="modal-title fs-5">
               コメントの新規作成
             </h1>
           </div>
           <div class="modal-body">
             <div class="form-floating">
               <input
+                id="commenter"
                 v-model="commenter"
                 class="form-control mb-3"
                 type="text"
-                id="commenter"
                 placeholder="ここに氏名を入力して下さい。"
               />
               <label for="commenter">
@@ -251,10 +248,10 @@ onMounted(async () => {
             </div>
             <div class="form-floating">
               <input
+                id="department"
                 v-model="department"
                 class="form-control mb-3"
                 type="text"
-                id="department"
                 placeholder="ここに部署名を入力して下さい。"
               />
               <label for="department">
@@ -263,10 +260,11 @@ onMounted(async () => {
             </div>
             <div class="form-floating">
               <textarea
+                id="comment-post"
                 v-model="body"
                 class="form-control"
-                id="comment-post"
-                placeholder="コメントはここに入力して下さい。"></textarea>
+                placeholder="コメントはここに入力して下さい。"
+              />
               <label for="comment-post">
                 コメント
               </label>
@@ -286,7 +284,7 @@ onMounted(async () => {
             <button
               type="button"
               class="btn btn-primary"
-              v-on:click="handleCommentAdd"
+              @click="handleCommentAdd"
             >
               リストに追加
             </button>
@@ -297,7 +295,7 @@ onMounted(async () => {
 
     <ul class="nav justify-content-evenly mb-5">
       <li class="nav-item">
-        <RouterLink v-if="sample.id" v-bind:to="`/samples/${sample.id}/edit`">
+        <RouterLink v-if="sample.id" :to="`/samples/${sample.id}/edit`">
           表面処理情報の編集
         </RouterLink>
       </li>
@@ -311,9 +309,9 @@ onMounted(async () => {
     <div class="d-flex justify-content-end mb-5">
       <button
         v-show="isAdmin"
-        v-on:click="handleDelete"
         class="btn btn-outline-danger"
         type="button"
+        @click="handleDelete"
       >
         表面処理情報の削除
       </button>
