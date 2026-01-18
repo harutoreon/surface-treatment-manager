@@ -34,7 +34,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-bind:class="containerSize">
+  <div :class="containerSize">
     <h3 class="text-center mt-5 mb-5">
       メインメニュー
     </h3>
@@ -45,44 +45,44 @@ onMounted(async () => {
           <CardComponent
             id="search-name"
             alt="experiment icon"
-            v-bind:icon="experimentIcon"
-            cardTitle="処理名で検索"
-            cardText="処理名を入力して表面処理を検索します。"
-            toAttribute="/static_pages/name"
-            linkText="検索ページへ"
+            :icon="experimentIcon"
+            card-title="処理名で検索"
+            card-text="処理名を入力して表面処理を検索します。"
+            to-attribute="/static_pages/name"
+            link-text="検索ページへ"
           />
         </div>
         <div class="col ps-0 pe-0">
           <CardComponent
             id="search-category"
             alt="category icon"
-            v-bind:icon="categoryIcon"
-            cardTitle="カテゴリーで検索"
-            cardText="カテゴリーを選択して表面処理を検索します。"
-            toAttribute="/static_pages/category"
-            linkText="検索ページへ"
+            :icon="categoryIcon"
+            card-title="カテゴリーで検索"
+            card-text="カテゴリーを選択して表面処理を検索します。"
+            to-attribute="/static_pages/category"
+            link-text="検索ページへ"
           />
         </div>
         <div class="col ps-0 pe-0">
           <CardComponent
             id="search-maker"
             alt="factory icon"
-            v-bind:icon="factoryIcon"
-            cardTitle="メーカー名で検索"
-            cardText="メーカー名を入力して表面処理を検索します。"
-            toAttribute="/static_pages/maker"
-            linkText="検索ページへ"
+            :icon="factoryIcon"
+            card-title="メーカー名で検索"
+            card-text="メーカー名を入力して表面処理を検索します。"
+            to-attribute="/static_pages/maker"
+            link-text="検索ページへ"
           />
         </div>
         <div class="col ps-0 pe-0">
           <CardComponent
             id="search-list"
             alt="list icon"
-            v-bind:icon="listIcon"
-            cardTitle="処理一覧から検索"
-            cardText="表面処理一覧から目的の処理を検索します。"
-            toAttribute="/list_search_results"
-            linkText="検索ページへ"
+            :icon="listIcon"
+            card-title="処理一覧から検索"
+            card-text="表面処理一覧から目的の処理を検索します。"
+            to-attribute="/list_search_results"
+            link-text="検索ページへ"
           />
         </div>
       </div>
@@ -94,33 +94,33 @@ onMounted(async () => {
           <CardComponent
             id="manage-samples"
             alt="library add icon"
-            v-bind:icon="libraryAddIcon"
-            cardTitle="表面処理の管理"
-            cardText="表面処理に関する情報を一括管理します。"
-            toAttribute="/samples"
-            linkText="管理ページへ"
+            :icon="libraryAddIcon"
+            card-title="表面処理の管理"
+            card-text="表面処理に関する情報を一括管理します。"
+            to-attribute="/samples"
+            link-text="管理ページへ"
           />
         </div>
         <div class="col ps-0 pe-0">
           <CardComponent
             id="manage-categories"
             alt="category add icon"
-            v-bind:icon="categoryAddIcon"
-            cardTitle="カテゴリーの管理"
-            cardText="カテゴリーに関する情報を一括管理します。"
-            toAttribute="/categories"
-            linkText="管理ページへ"
+            :icon="categoryAddIcon"
+            card-title="カテゴリーの管理"
+            card-text="カテゴリーに関する情報を一括管理します。"
+            to-attribute="/categories"
+            link-text="管理ページへ"
           />
         </div>
         <div class="col ps-0 pe-0">
           <CardComponent
             id="manage-makers"
             alt="maker add icon"
-            v-bind:icon="makerAddIcon"
-            cardTitle="メーカーの管理"
-            cardText="メーカーに関する情報を一括管理します。"
-            toAttribute="/makers"
-            linkText="管理ページへ"
+            :icon="makerAddIcon"
+            card-title="メーカーの管理"
+            card-text="メーカーに関する情報を一括管理します。"
+            to-attribute="/makers"
+            link-text="管理ページへ"
           />
         </div>
       </div>
@@ -130,33 +130,33 @@ onMounted(async () => {
           <CardComponent
             id="manage-users"
             alt="user add icon"
-            v-bind:icon="userAddIcon"
-            cardTitle="ユーザーの管理"
-            cardText="ユーザーに関する情報を一括管理します。"
-            toAttribute="/users"
-            linkText="管理ページへ"
+            :icon="userAddIcon"
+            card-title="ユーザーの管理"
+            card-text="ユーザーに関する情報を一括管理します。"
+            to-attribute="/users"
+            link-text="管理ページへ"
           />
         </div>
         <div class="col ps-0 pe-0">
           <CardComponent
             id="manage-departments"
             alt="department add icon"
-            v-bind:icon="department"
-            cardTitle="部署の管理"
-            cardText="部署に関する情報を一括管理します。"
-            toAttribute="/departments"
-            linkText="管理ページへ"
+            :icon="department"
+            card-title="部署の管理"
+            card-text="部署に関する情報を一括管理します。"
+            to-attribute="/departments"
+            link-text="管理ページへ"
           />
         </div>
         <div class="col ps-0 pe-0">
           <CardComponent
             id="manage-comments"
             alt="comment icon"
-            v-bind:icon="commentIcon"
-            cardTitle="コメントの管理"
-            cardText="コメントに関する情報を一括管理します。"
-            toAttribute="/comments"
-            linkText="管理ページへ"
+            :icon="commentIcon"
+            card-title="コメントの管理"
+            card-text="コメントに関する情報を一括管理します。"
+            to-attribute="/comments"
+            link-text="管理ページへ"
           />
         </div>
       </div>
@@ -167,11 +167,11 @@ onMounted(async () => {
         <CardComponent
           id="manage-settings"
           alt="settings icon"
-          v-bind:icon="settingsIcon"
-          cardTitle="アプリケーションの管理"
-          cardText="アプリケーションの設定やログアウトを行います。"
-          toAttribute="/settings"
-          linkText="管理ページへ"
+          :icon="settingsIcon"
+          card-title="アプリケーションの管理"
+          card-text="アプリケーションの設定やログアウトを行います。"
+          to-attribute="/settings"
+          link-text="管理ページへ"
         />
       </div>
     </div>
