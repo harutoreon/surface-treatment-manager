@@ -67,7 +67,7 @@ onMounted(async () => {
         class="form-control mb-4"
         type="text"
         required
-      >
+      />
 
       <label class="form-label" for="category-summary">
         概要
