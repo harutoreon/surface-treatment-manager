@@ -48,12 +48,13 @@ const handleLogin = async () => {
       <li class="list-group-item">
         <div class="form-check">
           <input
+            id="general-user"
             v-model="selectedUserType"
-            v-on:change="changeToGeneralUserData"
             class="form-check-input"
             type="radio"
-            id="general-user"
-            value="general">
+            value="general"
+            @change="changeToGeneralUserData"
+          />
           <label
             class="form-check-label"
             for="general-user"
@@ -68,12 +69,13 @@ const handleLogin = async () => {
       <li class="list-group-item">
         <div class="form-check">
           <input
+            id="admin-user"
             v-model="selectedUserType"
-            v-on:change="changeToAdminUserData"
             class="form-check-input"
             type="radio"
-            id="admin-user"
-            value="admin">
+            value="admin"
+            @change="changeToAdminUserData"
+          />
           <label
             class="form-check-label"
             for="admin-user"
@@ -87,25 +89,25 @@ const handleLogin = async () => {
       </li>
     </ul>
 
-    <form v-on:submit.prevent="handleLogin">
+    <form @submit.prevent="handleLogin">
       <label for="user-name">
         ユーザー名
       </label>
       <input
+        id="user-name"
         v-model="name"
         class="form-control mb-4"
         type="text"
-        id="user-name"
-      >
+      />
       <label for="user-password">
         パスワード
       </label>
       <input
+        id="user-password"
         v-model="password"
         class="form-control mb-5"
         type="password"
-        id="user-password"
-      >
+      />
       <button
         type="submit"
         class="form-control btn btn-primary"
