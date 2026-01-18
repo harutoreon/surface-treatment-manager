@@ -67,88 +67,88 @@ onMounted(async () => {
       {{ errorMessage }}
     </p>
 
-    <form v-on:submit.prevent="makerUpdate">
+    <form @submit.prevent="makerUpdate">
       <label class="form-label" for="maker-name">
         メーカー名
       </label>
       <input
+        id="maker-name"
         v-model="maker.name"
         class="form-control mb-2"
         type="text"
-        id="maker-name"
       />
       
       <label class="form-label" for="maker-postal-code">
         郵便番号
       </label>
       <input
+        id="maker-postal-code"
         v-model="maker.postal_code"
         class="form-control mb-2"
         style="width: 10rem;"
         type="text"
-        id="maker-postal-code"
       />
       
       <label class="form-label" for="maker-address">
         住所
       </label>
       <input
+        id="maker-address"
         v-model="maker.address"
         class="form-control mb-2"
         type="text"
-        id="maker-address"
       />
       
       <label class="form-label" for="maker-phone-number">
         電話番号
       </label>
       <input
+        id="maker-phone-number"
         v-model="maker.phone_number"
         class="form-control mb-2"
         style="width: 10rem;"
         type="tel"
-        id="maker-phone-number"
       />
       
       <label class="form-label" for="maker-fax-number">
         FAX番号
       </label>
       <input
+        id="maker-fax-number"
         v-model="maker.fax_number"
         class="form-control mb-2"
         style="width: 10rem;"
         type="tel"
-        id="maker-fax-number"
       />
       
       <label class="form-label" for="maker-email">
         Email
       </label>
       <input
+        id="maker-email"
         v-model="maker.email"
         class="form-control mb-2"
         type="email"
-        id="maker-email"
       />
       
       <label class="form-label" for="maker-home-page">
         ホームページ
       </label>
       <input
+        id="maker-home-page"
         v-model="maker.home_page"
         class="form-control mb-2"
         type="url"
-        id="maker-home-page"
       />
       
       <label class="form-label" for="maker-manufacturer-rep">
         担当者
       </label>
       <input
+        id="maker-manufacturer-rep"
         v-model="maker.manufacturer_rep"
         class="form-control mb-3"
         type="text"
-        id="maker-manufacturer-rep"
       />
 
       <div class="d-grid gap-2 d-md-block">
@@ -157,9 +157,9 @@ onMounted(async () => {
         </button>
         <button
           v-if="maker.id"
-          v-on:click="cancel"
           type="button"
           class="btn btn-outline-secondary"
+          @click="cancel"
         >
           キャンセル
         </button>
