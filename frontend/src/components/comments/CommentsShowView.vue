@@ -85,7 +85,7 @@ onMounted(async () => {
 
     <ul class="nav justify-content-evenly">
       <li class="nav-item">
-        <RouterLink v-if="comment.id" v-bind:to="`/comments/${comment.id}/edit`">
+        <RouterLink v-if="comment.id" :to="`/comments/${comment.id}/edit`">
           コメント情報の編集
         </RouterLink>
       </li>
@@ -95,7 +95,7 @@ onMounted(async () => {
         </RouterLink>
       </li>
       <li class="nav-item">
-        <RouterLink v-if="sampleId" v-bind:to="`/samples/${sampleId}`">
+        <RouterLink v-if="sampleId" :to="`/samples/${sampleId}`">
           表面処理情報へ
         </RouterLink>
       </li>
@@ -104,9 +104,9 @@ onMounted(async () => {
     <div class="d-flex justify-content-end mt-5">
       <button
         v-show="isAdmin"
-        v-on:click="handleDelete"
         class="btn btn-outline-danger"
         type="button"
+        @click="handleDelete"
       >
         コメント情報の削除
       </button>
