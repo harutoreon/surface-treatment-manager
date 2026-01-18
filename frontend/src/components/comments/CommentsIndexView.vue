@@ -89,9 +89,9 @@ onMounted(async () => {
 
       <RouterLink
         v-for="comment in comments"
-        v-bind:key="comment.id"
+        :key="comment.id"
         class="list-group-item list-group-item-action"
-        v-bind:to="`/comments/${comment.id}`"
+        :to="`/comments/${comment.id}`"
       >
         <div class="d-flex justify-content-between">
           <h6>{{ comment.department }}：{{ comment.commenter }}</h6>
@@ -103,9 +103,21 @@ onMounted(async () => {
       </RouterLink>
     </div>
 
-    <ul v-if="totalPages > 0"  class="pagination justify-content-center mb-5" id="pagination">
-      <li class="page-item" :class="{ disabled: currentPage === 1 }" id="pagination_previous_page">
-        <RouterLink class="page-link" v-if="currentPage > 1" v-bind:to="getPageLink(currentPage - 1)">
+    <ul
+      v-if="totalPages > 0"
+      id="pagination"
+      class="pagination justify-content-center mb-5"
+    >
+      <li
+        id="pagination_previous_page"
+        class="page-item"
+        :class="{ disabled: currentPage === 1 }"
+      >
+        <RouterLink
+          v-if="currentPage > 1"
+          class="page-link"
+          :to="getPageLink(currentPage - 1)"
+        >
           前ページ
         </RouterLink>
         <span v-else class="page-link">
@@ -115,17 +127,25 @@ onMounted(async () => {
 
       <li
         v-for="page in visiblePages"
-        v-bind:key="page"
+        :key="page"
         class="page-item"
-        v-bind:class="{ active: page === currentPage }"
+        :class="{ active: page === currentPage }"
       >
-        <RouterLink class="page-link" v-bind:to="getPageLink(page)">
+        <RouterLink class="page-link" :to="getPageLink(page)">
           {{ page }}
         </RouterLink>
       </li>
 
-      <li class="page-item" :class="{ disabled: currentPage === totalPages }" id="pagination_next_page">
-        <RouterLink class="page-link" v-if="currentPage < totalPages" v-bind:to="getPageLink(currentPage + 1)">
+      <li
+        id="pagination_next_page"
+        class="page-item"
+        :class="{ disabled: currentPage === totalPages }"
+      >
+        <RouterLink
+          v-if="currentPage < totalPages"
+          class="page-link"
+          :to="getPageLink(currentPage + 1)"
+        >
           次ページ
         </RouterLink>
         <span v-else class="page-link">
