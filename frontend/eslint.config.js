@@ -54,6 +54,11 @@ export default [
         ignorePatterns: ['RouterView', 'RouterLink']
       }],
       'vue/multi-word-component-names': 'off',
+      'vue/html-self-closing': ['warn', {
+        html: {
+          void: 'always',
+        }
+      }],
     },
   },
 

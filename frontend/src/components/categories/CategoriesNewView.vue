@@ -42,15 +42,15 @@ onMounted(() => {
       カテゴリー情報の登録
     </h3>
 
-    <form v-on:submit.prevent="categoryRegistration">
+    <form @submit.prevent="categoryRegistration">
       <label class="form-label" for="category-item">
         カテゴリー名
       </label>
       <input
+        id="category-item"
         v-model="item"
         class="form-control mb-4"
         type="text"
-        id="category-item"
         required
       />
 
@@ -58,12 +58,11 @@ onMounted(() => {
         概要
       </label>
       <textarea
+        id="category-summary"
         v-model="summary"
         class="form-control mb-4"
-        id="category-summary"
         required
-      >
-      </textarea>
+      />
       
       <button type="submit" class="form-control btn btn-primary mb-5">
         登録
