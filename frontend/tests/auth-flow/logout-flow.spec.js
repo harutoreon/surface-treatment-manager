@@ -15,7 +15,7 @@ test.describe('ログアウトフロー', () => {
       await page.getByRole('link', { name: '管理ページへ' }).click()
 
       await expect(page).toHaveURL('http://localhost:5173/settings')
-      await expect(page.getByRole('heading', { name: 'アプリケーションの管理' })).toBeVisible()
+      await expect(page.locator('p', { name: 'アプリケーションの管理' })).toBeVisible()
 
       page.once('dialog', async dialog => {
         await dialog.accept()
@@ -33,7 +33,7 @@ test.describe('ログアウトフロー', () => {
       await page.getByRole('link', { name: '管理ページへ' }).click()
 
       await expect(page).toHaveURL('http://localhost:5173/settings')
-      await expect(page.getByRole('heading', { name: 'アプリケーションの管理' })).toBeVisible()
+      await expect(page.locator('p', { name: 'アプリケーションの管理' })).toBeVisible()
 
       page.once('dialog', async dialog => {
         await dialog.dismiss()
@@ -42,7 +42,7 @@ test.describe('ログアウトフロー', () => {
       await page.getByRole('button', { name: 'ログアウト' }).click()
 
       await expect(page).toHaveURL('http://localhost:5173/settings')
-      await expect(page.getByRole('heading', { name: 'アプリケーションの管理' })).toBeVisible()
+      await expect(page.locator('p', { name: 'アプリケーションの管理' })).toBeVisible()
     })
   })
 })

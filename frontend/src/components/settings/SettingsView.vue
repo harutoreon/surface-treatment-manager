@@ -14,15 +14,15 @@ const handleLogout = async () => {
 
 <template>
   <div class="container w-25">
-    <h3 class="text-center mt-5 mb-5">
+    <p class="fs-3 text-center m-5">
       アプリケーションの管理
-    </h3>
+    </p>
 
     <div class="list-group list-group-flush border-top border-bottom mb-5">
       <button class="list-group-item list-group-item-action pt-4 pb-4" @click="handleLogout">
-        <h6 class="fw-bold text-primary">
+        <div class="fw-bold text-primary mb-1">
           ログアウト
-        </h6>
+        </div>
         <small>アプリケーションからログアウトします。</small>
       </button>
     </div>
