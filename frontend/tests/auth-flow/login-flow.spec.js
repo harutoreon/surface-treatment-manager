@@ -9,7 +9,7 @@ test.describe('一般ユーザーでログインした場合', () => {
     await page.getByRole('button', { name: 'ログイン' }).click()
 
     await expect(page).toHaveURL('http://localhost:5173/home')
-    await expect(page.getByRole('heading', { name: 'メインメニュー' })).toBeVisible()
+    await expect(page.locator('p', { hasText: 'メインメニュー' })).toBeVisible()
     await expect(page.getByRole('heading', { name: '処理名で検索' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'カテゴリーで検索' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'メーカー名で検索' })).toBeVisible()
@@ -30,7 +30,7 @@ test.describe('管理者ユーザーでログインした場合', () => {
     await page.getByRole('button', { name: 'ログイン' }).click()
 
     await expect(page).toHaveURL('http://localhost:5173/home')
-    await expect(page.getByRole('heading', { name: 'メインメニュー' })).toBeVisible()
+    await expect(page.locator('p', { hasText: 'メインメニュー' })).toBeVisible()
     await expect(page.getByRole('heading', { name: '表面処理の管理' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'カテゴリーの管理' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'メーカーの管理' })).toBeVisible()
@@ -54,7 +54,7 @@ test.describe('有効なユーザー名とパスワードを入力してログ�
     await page.getByRole('button', { name: 'ログイン' }).click()
 
     await expect(page).toHaveURL('http://localhost:5173/home')
-    await expect(page.getByRole('heading', { name: 'メインメニュー' })).toBeVisible()
+    await expect(page.locator('p', { hasText: 'メインメニュー' })).toBeVisible()
 
     await expect(page.getByText('ログインしました。')).toBeVisible()
     await page.getByRole('button').click()

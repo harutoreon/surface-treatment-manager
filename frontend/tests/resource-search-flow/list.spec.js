@@ -25,7 +25,7 @@ test.describe('表面処理一覧で検索', () => {
       await page.getByRole('link', { name: 'メインメニューへ' }).click()
 
       await expect(page).toHaveURL('/home')
-      await expect(page.getByRole('heading', { name: 'メインメニュー' })).toBeVisible()
+      await expect(page.locator('p', { hasText: 'メインメニュー' })).toBeVisible()
     })
   })
 })

@@ -38,7 +38,7 @@ describe('HomeView', () => {
     })
 
     it('見出しが表示されること', () => {
-      expect(wrapper.find('h3').text()).toBe('メインメニュー')
+      expect(wrapper.find('p.fs-3').text()).toBe('メインメニュー')
     })
 
     it('「アプリケーションの管理」カードが表示されること', () => {
