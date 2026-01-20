@@ -38,12 +38,12 @@ describe('SettingsView', () => {
     })
 
     it('見出しが表示されること', () => {
-      expect(wrapper.find('h3').text()).toBe('アプリケーションの管理')
+      expect(wrapper.find('p.fs-3').text()).toBe('アプリケーションの管理')
     })
 
     it('ログアウトボタンが表示されること', () => {
       expect(wrapper.find('button').exists()).toBe(true)
-      expect(wrapper.find('h6').text()).toBe('ログアウト')
+      expect(wrapper.find('div.fw-bold').text()).toBe('ログアウト')
       expect(wrapper.find('small').text()).toBe('アプリケーションからログアウトします。')
     })
 
