@@ -38,7 +38,7 @@ test.describe('表面処理名で検索', () => {
       await page.getByRole('button', { name: '検索' }).click()
 
       await expect(page).toHaveURL('/static_pages/name')
-      await expect(page.getByRole('heading', { name: '処理名で検索' })).toBeVisible()
+      await expect(page.locator('p', { hasText: '処理名で検索' })).toBeVisible()
       await expect(page.getByRole('alert')).toHaveText('キーワードが未入力です')
     })
   })

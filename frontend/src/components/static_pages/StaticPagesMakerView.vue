@@ -62,9 +62,9 @@ onMounted(async () => {
 
 <template>
   <div class="container text-center w-25">
-    <h3 class="mt-5 mb-5">
+    <p class="fs-3 m-5">
       メーカー名で検索
-    </h3>
+    </p>
 
     <p
       v-if="errorMessage"

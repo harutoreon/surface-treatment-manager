@@ -41,7 +41,7 @@ describe('StaticPagesCategory', () => {
 
       await flushPromises()
 
-      expect(wrapper.find('h3').text()).toBe('カテゴリーで検索')
+      expect(wrapper.find('p.fs-3').text()).toBe('カテゴリーで検索')
     })
   })
 
@@ -100,7 +100,7 @@ describe('StaticPagesCategory', () => {
     })
 
     it('見出しが表示されること', () => {
-      expect(wrapper.find('h3').text()).toBe('カテゴリーで検索')
+      expect(wrapper.find('p.fs-3').text()).toBe('カテゴリーで検索')
     })
 
     it('検索フォームが表示されること', () => {

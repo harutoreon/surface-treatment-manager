@@ -53,7 +53,7 @@ describe('StaticPagesMakerView', () => {
     })
 
     it('メーカーリストページに移動すること', async () => {
-      expect(wrapper.find('h3').text()).toBe('メーカー名で検索')
+      expect(wrapper.find('p.fs-3').text()).toBe('メーカー名で検索')
     })
   })
 
@@ -118,7 +118,7 @@ describe('StaticPagesMakerView', () => {
     })
 
     it('見出し表示されること', () => {
-      expect(wrapper.find('h3').text()).toBe('メーカー名で検索')
+      expect(wrapper.find('p.fs-3').text()).toBe('メーカー名で検索')
     })
 
     it('検索フォームが表示されること', () => {
@@ -221,12 +221,12 @@ describe('StaticPagesMakerView', () => {
     })
 
     it('エラーメッセージが表示されること', async () => {
-      expect(wrapper.find('p').exists()).toBe(false)
+      expect(wrapper.find('p.alert').exists()).toBe(false)
 
       await wrapper.find('form').trigger('submit.prevent')
 
-      expect(wrapper.find('p').exists()).toBe(true)
-      expect(wrapper.find('p').text()).toBe('キーワードが未入力です')
+      expect(wrapper.find('p.alert').exists()).toBe(true)
+      expect(wrapper.find('p.alert').text()).toBe('キーワードが未入力です')
     })
   })
 })

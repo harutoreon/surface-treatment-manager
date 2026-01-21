@@ -20,9 +20,9 @@ defineProps({
       :src="icon"
     />
     <div class="card-body">
-      <h5 class="card-title">
+      <p class="fs-5 card-title">
         {{ cardTitle }}
-      </h5>
+      </p>
       <p class="card-text">
         {{ cardText }}
       </p>

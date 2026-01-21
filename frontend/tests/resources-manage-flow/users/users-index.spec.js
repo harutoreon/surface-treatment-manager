@@ -57,7 +57,7 @@ test.describe('users index flow', () => {
       await page.getByRole('link', { name: 'メインメニューへ' }).click()
 
       await expect(page).toHaveURL('/home')
-      await expect(page.getByRole('heading', { name: 'メインメニュー' })).toBeVisible()
+      await expect(page.locator('p', { hasText: 'メインメニュー' })).toBeVisible()
     })
   })
 })
