@@ -47,7 +47,7 @@ onMounted(async () => {
 
 <template>
   <div class="container text-center w-25">
-    <p class="fs-3 mt-5 mb-5">
+    <p class="fs-3 m-5">
       カテゴリーで検索
     </p>
 
