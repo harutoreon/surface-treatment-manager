@@ -31,7 +31,7 @@ describe('StaticPagesNameView', () => {
 
   describe('初期レンダリング', () => {
     it('見出しが表示されること', () => {
-      expect(wrapper.find('h3').text()).toBe('処理名で検索')
+      expect(wrapper.find('p.fs-3').text()).toBe('処理名で検索')
     })
   
     it('検索フォームが表示されること', () => {

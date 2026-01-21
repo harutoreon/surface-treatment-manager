@@ -21,9 +21,9 @@ const submitSearch = () => {
 
 <template>
   <div class="container text-center w-25">
-    <h3 class="mt-5 mb-5">
+    <p class="fs-3 mt-5 mb-5">
       処理名で検索
-    </h3>
+    </p>
 
     <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">
       {{ errorMessage }}
