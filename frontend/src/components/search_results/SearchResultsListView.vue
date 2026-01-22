@@ -33,9 +33,9 @@ onMounted(async () => {
 
 <template>
   <div class="container">
-    <h3 class="text-center mt-5 mb-5">
+    <p class="fs-3 text-center m-5">
       表面処理一覧
-    </h3>
+    </p>
 
     <div class="album">
       <div class="row row-cols-5 g-3">
@@ -49,9 +49,9 @@ onMounted(async () => {
               height="225"
             />
             <div class="card-body">
-              <h5 class="card-title mb-3">
+              <p class="fs-5 card-title mb-3">
                 {{ sample.name }}
-              </h5>
+              </p>
               <p class="card-text">
                 {{ sample.summary }}
               </p>
