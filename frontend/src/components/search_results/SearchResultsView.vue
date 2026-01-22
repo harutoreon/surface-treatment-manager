@@ -42,19 +42,23 @@ onMounted(async () => {
 
 <template>
   <div class="container w-50">
-    <h3 class="text-center mt-5 mb-5">
+    <p class="fs-3 text-center m-5">
       表面処理の検索結果
-    </h3>
+    </p>
 
-    <h5 class="text-center mb-5">
+    <p class="fs-5 text-center mb-5">
       検索文字列：「{{ data.keyword }}」
-    </h5>
+    </p>
 
     <div class="list-group list-group-flush mb-5">
       <div class="list-group-item">
         <div class="d-flex w-100 justify-content-between">
-          <h6>処理名 / カテゴリー</h6>
-          <h6>主な機能 / 色</h6>
+          <p class="fs-6 mb-1">
+            処理名 / カテゴリー
+          </p>
+          <p class="fs-6 mb-1">
+            主な機能 / 色
+          </p>
         </div>
       </div>
       <RouterLink
@@ -64,17 +68,25 @@ onMounted(async () => {
         class="list-group-item list-group-item-action"
       >
         <div class="d-flex justify-content-between">
-          <h6>{{ sample.name }}</h6>
-          <h6>{{ sample.feature }}</h6>
+          <p class="fs-6 mb-2">
+            {{ sample.name }}
+          </p>
+          <p class="fs-6 mb-2">
+            {{ sample.feature }}
+          </p>
         </div>
         <div class="d-flex justify-content-between">
-          <h6>{{ sample.category }}</h6>
-          <h6>{{ sample.color }}</h6>
+          <p class="fs-6 mb-1">
+            {{ sample.category }}
+          </p>
+          <p class="fs-6 mb-1">
+            {{ sample.color }}
+          </p>
         </div>
       </RouterLink>
-      <h4 v-if="samples.length === 0" class="text-center m-5">
+      <p v-if="samples.length === 0" class="fs-4 text-center m-5">
         該当する表面処理はありませんでした。
-      </h4>
+      </p>
     </div>
 
     <ul class="nav justify-content-evenly mb-5">

@@ -17,19 +17,19 @@ test.describe('メーカー名で検索', () => {
       await page.getByRole('button', { name: '検索' }).click()
 
       await expect(page).toHaveURL('/static_pages/maker/search_results?keyword=東亜電化工業株式会社')
-      await expect(page.getByRole('heading', { name: '表面処理の検索結果' })).toBeVisible()
-      await expect(page.getByRole('heading', { name: '東亜電化工業株式会社' })).toBeVisible()
+      await expect(page.locator('p', { hasText: '表面処理の検索結果' })).toBeVisible()
+      await expect(page.locator('p', { hasText: '東亜電化工業株式会社' })).toBeVisible()
     })
   })
 
-  // test.describe('キーワードを未入力で検索した場合', () => {
-  //   test('キーワード入力を促すメッセージが表示されること', async ({ page }) => {
-  //     await page.getByRole('textbox', { name: 'キーワードをここに入力' }).fill('')
-  //     await page.getByRole('button', { name: '検索' }).click()
-  //
-  //     await expect(page).toHaveURL('/static_pages/maker')
-  //     await expect(page.getByRole('heading', { name: 'メーカー名で検索' })).toBeVisible()
-  //     await expect(page.getByRole('alert')).toHaveText('キーワードが未入力です')
-  //   })
-  // })
+  test.describe('キーワードを未入力で検索した場合', () => {
+    test('キーワード入力を促すメッセージが表示されること', async ({ page }) => {
+      await page.getByRole('textbox', { name: 'キーワードをここに入力' }).fill('')
+      await page.getByRole('button', { name: '検索' }).click()
+
+      await expect(page).toHaveURL('/static_pages/maker')
+      await expect(page.locator('p', { hasText: 'メーカー名で検索' })).toBeVisible()
+      await expect(page.getByRole('alert')).toHaveText('キーワードが未入力です')
+    })
+  })
 })
