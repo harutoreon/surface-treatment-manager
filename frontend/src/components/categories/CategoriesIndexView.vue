@@ -42,15 +42,19 @@ onMounted(async () => {
 
 <template>
   <div class="container w-25">
-    <h3 class="text-center mt-5 mb-5">
+    <p class="fs-3 text-center m-5">
       カテゴリーリスト
-    </h3>
+    </p>
 
     <div class="list-group list-group-flush mb-5">
       <div class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
-          <h6>カテゴリー名</h6>
-          <h6>概要</h6>
+          <p class="fs-6 mb-1">
+            カテゴリー名
+          </p>
+          <p class="fs-6 mb-1">
+            概要
+          </p>
         </div>
       </div>
 
@@ -61,8 +65,12 @@ onMounted(async () => {
         :to="`/categories/${category.id}`"
       >
         <div class="d-flex w-100 justify-content-between">
-          <h6>{{ category.item }}</h6>
-          <h6>{{ category.summary }}</h6>
+          <p class="fs-6 mb-0">
+            {{ category.item }}
+          </p>
+          <p class="fs-6 mb-0">
+            {{ category.summary }}
+          </p>
         </div>        
       </RouterLink>
     </div>

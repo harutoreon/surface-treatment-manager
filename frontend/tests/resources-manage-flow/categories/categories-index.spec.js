@@ -13,7 +13,7 @@ test.describe('categories index flow', () => {
   test.describe('初期レンダリングに成功した場合', () => {
     test('カテゴリーリストページが表示されること', async ({ page }) => {
       await expect(page).toHaveURL('/categories')
-      await expect(page.getByRole('heading', { name: 'カテゴリーリスト' })).toBeVisible()
+      await expect(page.locator('p', { hasText: 'カテゴリーリスト' })).toBeVisible()
 
       await expect(page.getByRole('link', { name: 'めっき' })).toBeVisible()
       await expect(page.getByRole('link', { name: '陽極酸化' })).toBeVisible()
