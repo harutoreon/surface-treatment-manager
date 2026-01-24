@@ -16,7 +16,6 @@ export default defineConfig({
   test: {
     environment: 'happy-dom',
     globals: true,
-    silent: true,
     coverage: {
       enabled: true,
       reporter: ['text', 'html'],
