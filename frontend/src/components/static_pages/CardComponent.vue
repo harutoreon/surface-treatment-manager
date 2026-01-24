@@ -20,12 +20,12 @@ defineProps({
       :src="icon"
     />
     <div class="card-body">
-      <p class="fs-5 card-title">
+      <h5 class="card-title">
         {{ cardTitle }}
-      </p>
-      <p class="card-text">
+      </h5>
+      <div class="card-text mb-3">
         {{ cardText }}
-      </p>
+      </div>
       <RouterLink :to="toAttribute" class="card-link">
         {{ linkText }}
       </RouterLink>
