@@ -60,7 +60,7 @@ test.describe('categories crud flow', () => {
     await page.locator('button', { hasText: 'カテゴリー情報の削除' }).click()
 
     // /categoriesページの検証
-    await expect(page.locator('p', { hasText: 'カテゴリーリスト' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'カテゴリーリスト' })).toBeVisible()
     await expect(page.getByText('溶射', { exact: true })).not.toBeVisible()
     await page.getByRole('button', { name: '通知を閉じる' }).click()
   })

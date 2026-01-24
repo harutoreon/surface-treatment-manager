@@ -47,7 +47,7 @@ describe('CategoriesIndexView', () => {
 
       await flushPromises()
 
-      expect(wrapper.find('p.fs-3').text()).toBe('カテゴリーリスト')
+      expect(wrapper.find('h3').text()).toBe('カテゴリーリスト')
     })
   })
 
@@ -126,7 +126,7 @@ describe('CategoriesIndexView', () => {
     })
 
     it('見出しが表示されること', () => {
-      expect(wrapper.find('p.fs-3').text()).toBe('カテゴリーリスト')
+      expect(wrapper.find('h3').text()).toBe('カテゴリーリスト')
     })
 
     it('カテゴリーリストが表示されること', () => {

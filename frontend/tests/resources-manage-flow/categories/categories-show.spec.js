@@ -34,7 +34,7 @@ test.describe('categories show flow', () => {
       await page.getByRole('link', { name: 'カテゴリーリストへ' }).click()
 
       await expect(page).toHaveURL('/categories')
-      await expect(page.locator('p', { hasText: 'カテゴリーリスト' })).toBeVisible()
+      await expect(page.getByRole('heading', { name: 'カテゴリーリスト' })).toBeVisible()
     })
   })
 })
