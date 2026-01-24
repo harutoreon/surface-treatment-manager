@@ -28,7 +28,7 @@ test.describe('メーカー名で検索', () => {
       await page.getByRole('button', { name: '検索' }).click()
 
       await expect(page).toHaveURL('/static_pages/maker')
-      await expect(page.locator('p', { hasText: 'メーカー名で検索' })).toBeVisible()
+      await expect(page.getByRole('heading', { name: 'メーカー名で検索' })).toBeVisible()
       await expect(page.getByRole('alert')).toHaveText('キーワードが未入力です')
     })
   })
