@@ -47,9 +47,9 @@ onMounted(async () => {
 
 <template>
   <div class="container text-center w-25">
-    <p class="fs-3 m-5">
+    <h3 class="m-5">
       カテゴリーで検索
-    </p>
+    </h3>
 
     <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">
       {{ errorMessage }}
