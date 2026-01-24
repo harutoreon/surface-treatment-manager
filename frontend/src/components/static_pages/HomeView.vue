@@ -35,9 +35,9 @@ onMounted(async () => {
 
 <template>
   <div :class="containerSize">
-    <p class="fs-3 text-center m-5">
+    <h3 class="text-center m-5">
       メインメニュー
-    </p>
+    </h3>
 
     <div v-if="!isAdmin">
       <div class="row mb-4">

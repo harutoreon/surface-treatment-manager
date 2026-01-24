@@ -53,7 +53,7 @@ test.describe('comments index flow', () => {
       await page.getByRole('link', { name: 'メインメニューへ' }).click()
 
       await expect(page).toHaveURL('/home')
-      await expect(page.locator('p', { hasText: 'メインメニュー' })).toBeVisible()
+      await expect(page.getByRole('heading', { name: 'メインメニュー' })).toBeVisible()
     })
   })
 })
