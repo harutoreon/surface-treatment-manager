@@ -25,7 +25,7 @@ describe('NotFound', () => {
     })
 
     it('見出しが表示されること', () => {
-      expect(wrapper.find('p.fs-1').text()).toBe('404')
+      expect(wrapper.find('h1').text()).toBe('404')
     })
 
     it('404エラーメッセージが表示されること', () => {
