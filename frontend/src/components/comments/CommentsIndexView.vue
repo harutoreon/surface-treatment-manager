@@ -75,15 +75,19 @@ onMounted(async () => {
 
 <template>
   <div class="container w-50">
-    <h3 class="text-center mt-5 mb-5">
+    <h3 class="text-center m-5">
       コメントリスト
     </h3>
 
     <div class="list-group list-group-flush mb-5">
       <div class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
-          <h6>部署名 / 投稿者 / コメント</h6>
-          <h6>投稿日</h6>
+          <div class="fs-6">
+            部署名 / 投稿者 / コメント
+          </div>
+          <h6 class="fs-6">
+            投稿日
+          </h6>
         </div>
       </div>
 
@@ -94,11 +98,11 @@ onMounted(async () => {
         :to="`/comments/${comment.id}`"
       >
         <div class="d-flex justify-content-between">
-          <h6>{{ comment.department }}：{{ comment.commenter }}</h6>
-          <h6>{{ formatDate(comment.updated_at) }}</h6>
+          <div>{{ comment.department }}：{{ comment.commenter }}</div>
+          <div>{{ formatDate(comment.updated_at) }}</div>
         </div>
-        <div class="d-flex justify-content-between">
-          <h6>{{ comment.body }}</h6>
+        <div class="d-flex justify-content-between mt-2">
+          <div>{{ comment.body }}</div>
         </div>
       </RouterLink>
     </div>
