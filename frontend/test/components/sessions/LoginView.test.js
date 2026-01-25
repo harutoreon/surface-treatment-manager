@@ -27,7 +27,7 @@ describe('LoginForm', () => {
     })
 
     it('見出しが表示されること', () => {
-      expect(wrapper.find('p.fs-3').text()).toBe('ログイン')
+      expect(wrapper.find('h3').text()).toBe('ログイン')
     })
 
     it('ユーザー選択のラジオボタンが表示されること', () => {

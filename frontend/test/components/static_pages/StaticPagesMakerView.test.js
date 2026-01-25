@@ -53,7 +53,7 @@ describe('StaticPagesMakerView', () => {
     })
 
     it('メーカーリストページに移動すること', async () => {
-      expect(wrapper.find('p.fs-3').text()).toBe('メーカー名で検索')
+      expect(wrapper.find('h3').text()).toBe('メーカー名で検索')
     })
   })
 
@@ -118,7 +118,7 @@ describe('StaticPagesMakerView', () => {
     })
 
     it('見出し表示されること', () => {
-      expect(wrapper.find('p.fs-3').text()).toBe('メーカー名で検索')
+      expect(wrapper.find('h3').text()).toBe('メーカー名で検索')
     })
 
     it('検索フォームが表示されること', () => {

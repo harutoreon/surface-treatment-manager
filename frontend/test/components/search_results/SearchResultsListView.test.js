@@ -41,7 +41,7 @@ describe('SearchResultsListView', () => {
 
       await flushPromises()
 
-      expect(wrapper.find('p.fs-3').text()).toBe('表面処理一覧')
+      expect(wrapper.find('h3').text()).toBe('表面処理一覧')
     })
   })
 
@@ -104,7 +104,7 @@ describe('SearchResultsListView', () => {
     })
 
     it('見出しが表示されること', () => {
-      expect(wrapper.find('p.fs-3').text()).toBe('表面処理一覧')
+      expect(wrapper.find('h3').text()).toBe('表面処理一覧')
     })
 
     it('アルバムが表示されること', () => {
@@ -120,10 +120,10 @@ describe('SearchResultsListView', () => {
       expect(cardDiv.find('img').attributes('src')).toBe('http://localhost:3000/electroless_nickel_plating.jpeg')
 
       // タイトル
-      expect(cardDiv.find('div p.card-title').text()).toBe('無電解ニッケルめっき')
+      expect(cardDiv.find('div.card-title').text()).toBe('無電解ニッケルめっき')
 
       // 概要
-      expect(cardDiv.find('div p.card-text').text()).toBe(
+      expect(cardDiv.find('div.card-text').text()).toBe(
         '電気を使わず化学反応で金属表面にニッケルを析出する技術です。'
       )
 

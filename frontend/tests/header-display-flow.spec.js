@@ -5,7 +5,7 @@ test.describe('header display flow', () => {
     await page.goto('http://localhost:5173/')
 
     await expect(page).toHaveURL('http://localhost:5173/')
-    await expect(page.locator('p', { name: 'ログイン' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'ログイン' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Surface Treatment Manager' })).not.toBeVisible()
   })
 
@@ -16,7 +16,7 @@ test.describe('header display flow', () => {
     await page.getByRole('button', { name: 'ログイン' }).click()
 
     await expect(page).toHaveURL('http://localhost:5173/home')
-    await expect(page.locator('p', { hasText: 'メインメニュー' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'メインメニュー' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Surface Treatment Manager' })).toBeVisible()
   })
 })
