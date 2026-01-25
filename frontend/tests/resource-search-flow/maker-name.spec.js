@@ -17,8 +17,8 @@ test.describe('メーカー名で検索', () => {
       await page.getByRole('button', { name: '検索' }).click()
 
       await expect(page).toHaveURL('/static_pages/maker/search_results?keyword=東亜電化工業株式会社')
-      await expect(page.locator('p', { hasText: '表面処理の検索結果' })).toBeVisible()
-      await expect(page.locator('p', { hasText: '東亜電化工業株式会社' })).toBeVisible()
+      await expect(page.getByRole('heading', { name: '表面処理の検索結果' })).toBeVisible()
+      await expect(page.locator('div.fs-5', { hasText: '東亜電化工業株式会社' })).toBeVisible()
     })
   })
 

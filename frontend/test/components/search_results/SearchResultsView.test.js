@@ -63,7 +63,7 @@ describe('SearchResultsNameView', () => {
 
       await flushPromises()
 
-      expect(wrapper.find('p.fs-3').text()).toBe('表面処理の検索結果')
+      expect(wrapper.find('h3').text()).toBe('表面処理の検索結果')
     })
   })
 
@@ -141,7 +141,7 @@ describe('SearchResultsNameView', () => {
     })
 
     it('見出しが表示されること', () => {
-      expect(wrapper.find('p.fs-3').text()).toBe('表面処理の検索結果')
+      expect(wrapper.find('h3').text()).toBe('表面処理の検索結果')
     })
 
     it('サンプルの検索結果が表示されること', () => {
@@ -202,7 +202,7 @@ describe('SearchResultsNameView', () => {
     })
 
     it('サンプルが表示されること', () => {
-      expect(wrapper.find('p.fs-4').text()).toBe('該当する表面処理はありませんでした。')
+      expect(wrapper.find('div.fs-4').text()).toBe('該当する表面処理はありませんでした。')
     })
   })
 

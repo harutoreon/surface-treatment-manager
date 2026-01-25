@@ -16,7 +16,7 @@ test.describe('表面処理名で検索', () => {
       await page.getByRole('button', { name: '検索' }).click()
 
       await expect(page).toHaveURL('/static_pages/name/search_results?keyword=めっき')
-      await expect(page.locator('p', { hasText: '表面処理の検索結果' })).toBeVisible()
+      await expect(page.getByRole('heading', { name: '表面処理の検索結果' })).toBeVisible()
       await expect(page.getByRole('link', { name: /.+めっき/ }).first()).toBeVisible()
     })
   })
@@ -27,8 +27,8 @@ test.describe('表面処理名で検索', () => {
       await page.getByRole('button', { name: '検索' }).click()
 
       await expect(page).toHaveURL('/static_pages/name/search_results?keyword=無効な検索文字列')
-      await expect(page.locator('p', { hasText: '表面処理の検索結果' })).toBeVisible()
-      await expect(page.locator('p', { hasText: '該当する表面処理はありませんでした。' })).toBeVisible()
+      await expect(page.getByRole('heading', { name: '表面処理の検索結果' })).toBeVisible()
+      await expect(page.locator('div.fs-4', { hasText: '該当する表面処理はありませんでした。' })).toBeVisible()
     })
   })
 
