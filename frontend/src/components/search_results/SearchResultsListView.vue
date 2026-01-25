@@ -33,9 +33,9 @@ onMounted(async () => {
 
 <template>
   <div class="container">
-    <p class="fs-3 text-center m-5">
+    <h3 class="text-center m-5">
       表面処理一覧
-    </p>
+    </h3>
 
     <div class="album">
       <div class="row row-cols-5 g-3">
@@ -49,12 +49,12 @@ onMounted(async () => {
               height="225"
             />
             <div class="card-body">
-              <p class="fs-5 card-title mb-3">
+              <div class="fs-5 card-title mb-3">
                 {{ sample.name }}
-              </p>
-              <p class="card-text">
+              </div>
+              <div class="card-text mb-3">
                 {{ sample.summary }}
-              </p>
+              </div>
               <RouterLink
                 :to="`/samples/${sample.id}`"
                 class="btn btn-primary"

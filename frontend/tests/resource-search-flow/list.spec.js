@@ -12,12 +12,12 @@ test.describe('表面処理一覧で検索', () => {
 
   test('表面処理が複数表示される', async ({ page }) => {
     await expect(page).toHaveURL('/list_search_results')
-    await expect(page.locator('p', { hasText: '表面処理一覧' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: '表面処理一覧' })).toBeVisible()
 
-    await expect(page.locator('p', { hasText: '無電解ニッケルめっき' })).toBeVisible()
-    await expect(page.locator('p', { hasText: '白金めっき' })).toBeVisible()
-    await expect(page.locator('p', { hasText: '銀めっき' })).toBeVisible()
-    await expect(page.locator('p', { hasText: '銅めっき' })).toBeVisible()
+    await expect(page.locator('div.card-title', { hasText: '無電解ニッケルめっき' })).toBeVisible()
+    await expect(page.locator('div.card-title', { hasText: '白金めっき' })).toBeVisible()
+    await expect(page.locator('div.card-title', { hasText: '銀めっき' })).toBeVisible()
+    await expect(page.locator('div.card-title', { hasText: '銅めっき' })).toBeVisible()
   })
 
   test.describe('メインメニューへのリンクをクリックした場合', () => {
