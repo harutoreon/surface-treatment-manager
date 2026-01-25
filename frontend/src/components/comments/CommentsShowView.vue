@@ -70,15 +70,15 @@ onMounted(async () => {
 
     <ul class="list-group mb-5">
       <li class="d-flex justify-content-between list-group-item">
-        <div>部署名 :</div>
+        <span>部署名 :</span>
         <div>{{ comment.department }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div>投稿者 :</div>
+        <span>投稿者 :</span>
         <div>{{ comment.commenter }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div>コメント :</div>
+        <span>コメント :</span>
         <div>{{ comment.body }}</div>
       </li>
     </ul>

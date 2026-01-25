@@ -82,12 +82,8 @@ onMounted(async () => {
     <div class="list-group list-group-flush mb-5">
       <div class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
-          <div class="fs-6">
-            部署名 / 投稿者 / コメント
-          </div>
-          <h6 class="fs-6">
-            投稿日
-          </h6>
+          <span>部署名 / 投稿者 / コメント</span>
+          <span>投稿日</span>
         </div>
       </div>
 
