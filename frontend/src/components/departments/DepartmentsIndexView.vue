@@ -33,14 +33,14 @@ onMounted(async () => {
 
 <template>
   <div class="container w-25">
-    <h3 class="text-center mt-5 mb-5">
+    <h3 class="text-center m-5">
       部署リスト
     </h3>
 
     <div class="list-group list-group-flush mb-5">
       <div class="list-group-item">
         <div class="d-flex justify-content-center">
-          <h6>部署名</h6>
+          <span class="mb-1">部署名</span>
         </div>
       </div>
 
@@ -51,7 +51,7 @@ onMounted(async () => {
         :to="`/departments/${department.id}`"
       >
         <div class="d-flex justify-content-center">
-          <h6>{{ department.name }}</h6>
+          <div>{{ department.name }}</div>
         </div>
       </RouterLink>
     </div>
