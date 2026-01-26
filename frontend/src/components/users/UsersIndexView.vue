@@ -49,15 +49,15 @@ onMounted(async () => {
 
 <template>
   <div class="container w-25">
-    <h3 class="text-center mt-5 mb-5">
+    <h3 class="text-center m-5">
       ユーザーリスト
     </h3>
 
     <div class="list-group list-group-flush mb-5">
       <div class="list-group-item">
         <div class="d-flex justify-content-between">
-          <small>ユーザー名</small>
-          <small>部署名</small>
+          <span>ユーザー名</span>
+          <span>部署名</span>
         </div>        
       </div>
 

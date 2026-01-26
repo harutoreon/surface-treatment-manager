@@ -50,17 +50,17 @@ onMounted(async () => {
 
 <template>
   <div class="container w-25">
-    <h3 class="text-center mt-5 mb-5">
+    <h3 class="text-center m-5">
       ユーザー情報
     </h3>
 
     <div class="list-group mb-5">
       <li class="d-flex justify-content-between list-group-item">
-        <div>ユーザー名：</div>
+        <span>ユーザー名：</span>
         <div>{{ user.name }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div>部署名：</div>
+        <span>部署名：</span>
         <div>{{ user.department }}</div>
       </li>
     </div>
