@@ -57,7 +57,7 @@ onMounted(async () => {
 
 <template>
   <div class="container w-25">
-    <h3 class="text-center mt-5 mb-5">
+    <h3 class="text-center m-5">
       ユーザー情報の登録
     </h3>
 
@@ -116,6 +116,7 @@ onMounted(async () => {
         登録
       </button>
     </form>
+
     <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">
       {{ errorMessage }}
     </p>
