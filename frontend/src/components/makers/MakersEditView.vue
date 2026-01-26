@@ -59,7 +59,7 @@ onMounted(async () => {
 
 <template>
   <div class="container w-25">
-    <h3 class="text-center mt-5 mb-5">
+    <h3 class="text-center m-5">
       メーカー情報の編集
     </h3>
 

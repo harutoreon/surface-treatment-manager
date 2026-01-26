@@ -49,15 +49,15 @@ onMounted(async () => {
 
 <template>
   <div class="container w-50">
-    <h3 class="text-center mt-5 mb-5">
+    <h3 class="text-center m-5">
       メーカーリスト
     </h3>
 
     <div class="list-group list-group-flush mb-5">
       <div class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
-          <h6>メーカー名 / 住所</h6>
-          <h6>電話番号 / FAX番号</h6>
+          <span class="mb-1">メーカー名 / 住所</span>
+          <span class="mb-1">電話番号 / FAX番号</span>
         </div>
       </div>
 
@@ -68,12 +68,12 @@ onMounted(async () => {
         :to="`/makers/${maker.id}`"
       >
         <div class="d-flex justify-content-between">
-          <h6>{{ maker.name }}</h6>
-          <small>{{ maker.phone_number }}</small>
+          <span class="mb-2">{{ maker.name }}</span>
+          <span class="mb-2">{{ maker.phone_number }}</span>
         </div>
         <div class="d-flex justify-content-between">
-          <small>{{ maker.address }}</small>
-          <small>{{ maker.fax_number }}</small>
+          <span>{{ maker.address }}</span>
+          <span>{{ maker.fax_number }}</span>
         </div>
       </RouterLink>
     </div>

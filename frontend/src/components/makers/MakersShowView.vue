@@ -60,41 +60,41 @@ onMounted(async () => {
 
 <template>
   <div class="container w-50">
-    <h3 class="text-center mt-5 mb-5">
+    <h3 class="text-center m-5">
       メーカー情報
     </h3>
 
     <div class="list-group mb-5">
       <li class="d-flex justify-content-between list-group-item">
-        <div>メーカー名:</div>
+        <span>メーカー名:</span>
         <div>{{ maker.name }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div>郵便番号:</div>
+        <span>郵便番号:</span>
         <div>{{ maker.postal_code }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div>住所:</div>
+        <span>住所:</span>
         <div>{{ maker.address }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div>電話番号:</div>
+        <span>電話番号:</span>
         <div>{{ maker.phone_number }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div>FAX番号:</div>
+        <span>FAX番号:</span>
         <div>{{ maker.fax_number }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div>Email:</div>
+        <span>Email:</span>
         <div>{{ maker.email }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div>ホームページ:</div>
+        <span>ホームページ:</span>
         <div>{{ maker.home_page }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div>担当者:</div>
+        <span>担当者:</span>
         <div>{{ maker.manufacturer_rep }}</div>
       </li>
     </div>
