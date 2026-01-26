@@ -64,21 +64,21 @@ onMounted(async () => {
 
 <template>
   <div class="container w-50">
-    <h3 class="text-center mt-5 mb-5">
+    <h3 class="text-center m-5">
       コメント情報
     </h3>
 
     <ul class="list-group mb-5">
       <li class="d-flex justify-content-between list-group-item">
-        <div>部署名 :</div>
+        <span>部署名 :</span>
         <div>{{ comment.department }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div>投稿者 :</div>
+        <span>投稿者 :</span>
         <div>{{ comment.commenter }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div>コメント :</div>
+        <span>コメント :</span>
         <div>{{ comment.body }}</div>
       </li>
     </ul>
