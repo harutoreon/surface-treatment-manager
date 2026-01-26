@@ -51,13 +51,13 @@ onMounted(async () => {
 
 <template>
   <div class="container w-25">
-    <h3 class="text-center mt-5 mb-5">
+    <h3 class="text-center m-5">
       部署情報
     </h3>
 
     <ul class="list-group mb-5">
       <li class="d-flex justify-content-between list-group-item">
-        <div>部署名 :</div>
+        <span>部署名 :</span>
         <div>{{ department.name }}</div>
       </li>
     </ul>
