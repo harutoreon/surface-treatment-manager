@@ -127,41 +127,41 @@ onMounted(async () => {
 
 <template>
   <div class="container w-50">
-    <h3 class="text-center mt-5 mb-5">
+    <h3 class="text-center m-5">
       表面処理情報
     </h3>
 
     <div class="list-group mb-5">
       <li class="d-flex justify-content-between list-group-item">
-        <div>処理名：</div>
+        <span>処理名：</span>
         <div>{{ sample.name }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div>カテゴリー：</div>
+        <span>カテゴリー：</span>
         <div>{{ sample.category }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div>色：</div>
+        <span>色：</span>
         <div>{{ sample.color }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div>硬度：</div>
+        <span>硬度：</span>
         <div>{{ sample.hardness }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div>膜厚：</div>
+        <span>膜厚：</span>
         <div>{{ sample.film_thickness }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div>特徴：</div>
+        <span>特徴：</span>
         <div>{{ sample.feature }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div>概要：</div>
+        <span>概要：</span>
         <div>{{ sample.summary }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
-        <div>画像：</div>
+        <span>画像：</span>
         <div>
           <img
             v-if="sample.image_url"
@@ -196,8 +196,8 @@ onMounted(async () => {
     <div class="list-group list-group-flush mb-5">
       <div class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
-          <h6>部署名 / 投稿者 / コメント</h6>
-          <h6>投稿日</h6>
+          <span class="mb-1">部署名 / 投稿者 / コメント</span>
+          <span class="mb-1">投稿日</span>
         </div>
       </div>
 
@@ -208,11 +208,17 @@ onMounted(async () => {
         :to="`/comments/${sampleComment.id}`"
       >
         <div class="d-flex w-100 justify-content-between">
-          <h6>{{ sampleComment.department }}：{{ sampleComment.commenter }}</h6>
-          <h6>{{ formatDate(sampleComment.created_at) }}</h6>
+          <div id="comment-department-commenter" class="mb-2">
+            {{ sampleComment.department }}：{{ sampleComment.commenter }}
+          </div>
+          <div id="comment-created-at" class="mb-2">
+            {{ formatDate(sampleComment.created_at) }}
+          </div>
         </div>
         <div class="d-flex w-100 justify-content-between">
-          <h6>{{ sampleComment.body }}</h6>
+          <div id="comment-body">
+            {{ sampleComment.body }}
+          </div>
         </div>
       </RouterLink>
     </div>
@@ -229,9 +235,9 @@ onMounted(async () => {
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 id="commentPostFormLabel" class="modal-title fs-5">
+            <h5 id="commentPostFormLabel" class="modal-title">
               コメントの新規作成
-            </h1>
+            </h5>
           </div>
           <div class="modal-body">
             <div class="form-floating">

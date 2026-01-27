@@ -42,8 +42,8 @@ test.describe('comment post flow', () => {
       await expect(page.locator('.modal-header')).not.toBeVisible()
 
       // コメントリストへの反映検証
-      await expect(page.getByRole('heading', { name: '営業部：佐藤 太郎' })).toBeVisible()
-      await expect(page.getByRole('heading', { name: 'このめっきの膜厚は均一です。' })).toBeVisible()
+      await expect(page.locator('#comment-department-commenter', { hasText: '営業部：佐藤 太郎' })).toBeVisible()
+      await expect(page.locator('#comment-body', { hasText: 'このめっきの膜厚は均一です。' })).toBeVisible()
 
       // コメントの削除処理
       // await page.goto('/comments?page=16')
