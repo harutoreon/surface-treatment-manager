@@ -49,15 +49,15 @@ onMounted(async () => {
 
 <template>
   <div class="container text-center w-50">
-    <h3 class="mt-5 mb-5">
+    <h3 class="m-5">
       表面処理リスト
     </h3>
 
     <div class="list-group list-group-flush mb-2">
       <div class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
-          <h6>処理名 / カテゴリー</h6>
-          <h6>主な機能 / 色</h6>
+          <span class="mb-1">処理名 / カテゴリー</span>
+          <span class="mb-1">主な機能 / 色</span>
         </div>
       </div>
 
@@ -68,12 +68,20 @@ onMounted(async () => {
         :to="`/samples/${sample.id}`"
       >
         <div class="d-flex w-100 justify-content-between">
-          <h6>{{ sample.name }}</h6>
-          <h6>{{ sample.feature }}</h6>
+          <div :id="`sample-name-${sample.id}`" class="mb-1">
+            {{ sample.name }}
+          </div>
+          <div :id="`sample-feature-${sample.id}`" class="mb-1">
+            {{ sample.feature }}
+          </div>
         </div>
         <div class="d-flex w-100 justify-content-between">
-          <h6>{{ sample.category }}</h6>
-          <h6>{{ sample.color }}</h6>
+          <div :id="`sample-category-${sample.id}`">
+            {{ sample.category }}
+          </div>
+          <div :id="`sample-color-${sample.id}`">
+            {{ sample.color }}
+          </div>
         </div>
       </RouterLink>
     </div>

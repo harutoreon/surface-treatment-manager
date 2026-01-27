@@ -158,71 +158,40 @@ describe('SamplesIndexView', () => {
     
     it('表面処理リストが表示されること', () => {
       // 処理名
-      expect(wrapper.text()).toContain('クロムめっき')
-      expect(wrapper.text()).toContain('黒クロメート')
-      expect(wrapper.text()).toContain('緑クロメート')
-      expect(wrapper.text()).toContain('無電解ニッケルめっき')
-      expect(wrapper.text()).toContain('黒色クロムめっき')
-      expect(wrapper.text()).toContain('白金めっき')
-      expect(wrapper.text()).toContain('金めっき')
+      expect(wrapper.find('#sample-name-1').text()).toBe('クロムめっき')
+      expect(wrapper.find('#sample-name-2').text()).toBe('黒クロメート')
+      expect(wrapper.find('#sample-name-3').text()).toBe('緑クロメート')
+      expect(wrapper.find('#sample-name-4').text()).toBe('無電解ニッケルめっき')
+      expect(wrapper.find('#sample-name-5').text()).toBe('黒色クロムめっき')
+      expect(wrapper.find('#sample-name-6').text()).toBe('白金めっき')
+      expect(wrapper.find('#sample-name-7').text()).toBe('金めっき')
       
       // 主な機能
-      expect(wrapper.text()).toContain('耐食性・耐摩耗性・耐薬品性・耐熱性')
-      expect(wrapper.text()).toContain('耐蝕性・導電性・耐摩耗性・耐熱性')
-      expect(wrapper.text()).toContain('耐食性・耐酸化性・電気抵抗性')
-      expect(wrapper.text()).toContain('耐摩耗性・潤滑性・耐食性・導電性')
-      expect(wrapper.text()).toContain('抗菌性・密着性')
-      expect(wrapper.text()).toContain('耐食性・耐腐食性・密着性')
-      expect(wrapper.text()).toContain('耐食性・潤滑性・摺動性')
-
-      const links = wrapper.findAll('h6')
+      expect(wrapper.find('#sample-feature-1').text()).toBe('耐食性・耐摩耗性・耐薬品性・耐熱性')
+      expect(wrapper.find('#sample-feature-2').text()).toBe('耐蝕性・導電性・耐摩耗性・耐熱性')
+      expect(wrapper.find('#sample-feature-3').text()).toBe('耐食性・耐酸化性・電気抵抗性')
+      expect(wrapper.find('#sample-feature-4').text()).toBe('耐摩耗性・潤滑性・耐食性・導電性')
+      expect(wrapper.find('#sample-feature-5').text()).toBe('抗菌性・密着性')
+      expect(wrapper.find('#sample-feature-6').text()).toBe('耐食性・耐腐食性・密着性')
+      expect(wrapper.find('#sample-feature-7').text()).toBe('耐食性・潤滑性・摺動性')
 
       // カテゴリー
-      const plating = []
-      
-      for (const link of links) {
-        if (link.text() === 'めっき') {
-          plating.push(link.text())
-        }
-      }
-
-      const conversion = []
-
-      for (const link of links) {
-        if (link.text() === '化成') {
-          conversion.push(link.text())
-        }
-      }
-
-      expect(plating.length).toBe(5)     // 「めっき」が5件表示されること
-      expect(conversion.length).toBe(2)  // 「化成」が2件表示されること
-
+      expect(wrapper.find('#sample-category-1').text()).toBe('めっき')
+      expect(wrapper.find('#sample-category-2').text()).toBe('化成')
+      expect(wrapper.find('#sample-category-3').text()).toBe('化成')
+      expect(wrapper.find('#sample-category-4').text()).toBe('めっき')
+      expect(wrapper.find('#sample-category-5').text()).toBe('めっき')
+      expect(wrapper.find('#sample-category-6').text()).toBe('めっき')
+      expect(wrapper.find('#sample-category-7').text()).toBe('めっき')
 
       // 色
-      const silver = []
-      
-      for (const link of links) {
-        if (link.text() === 'シルバー') {
-          silver.push(link.text())
-        }
-      }
-
-      expect(silver.length).toBe(2)  // シルバーが2件
-
-      const black = []
-
-      for (const link of links) {
-        if (link.text() === 'ブラック') {
-          black.push(link.text())
-        }
-      }
-
-      expect(black.length).toBe(1)  // ブラックが1件
-
-      expect(wrapper.text()).toContain('オリーブ')
-      expect(wrapper.text()).toContain('マットブラック')
-      expect(wrapper.text()).toContain('イエローブラウンシルバー')
-      expect(wrapper.text()).toContain('ゴールド')
+      expect(wrapper.find('#sample-color-1').text()).toBe('シルバー')
+      expect(wrapper.find('#sample-color-2').text()).toBe('ブラック')
+      expect(wrapper.find('#sample-color-3').text()).toBe('オリーブ')
+      expect(wrapper.find('#sample-color-4').text()).toBe('イエローブラウンシルバー')
+      expect(wrapper.find('#sample-color-5').text()).toBe('マットブラック')
+      expect(wrapper.find('#sample-color-6').text()).toBe('シルバー')
+      expect(wrapper.find('#sample-color-7').text()).toBe('ゴールド')
     })
 
     it('ページネーションが表示されること', () => {
