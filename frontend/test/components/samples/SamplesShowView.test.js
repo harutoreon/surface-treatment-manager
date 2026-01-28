@@ -196,12 +196,11 @@ describe('SamplesShowView', () => {
     })
 
     it('コメントが表示されること', () => {
-      const routerLinks = wrapper.findAllComponents(RouterLinkStub)
-      const divElement = routerLinks[0].findAll('div')
+      expect(wrapper.find('#comment-department-commenter').text()).toMatch(/営業部：岡本 陽子/)
+      expect(wrapper.find('#comment-created-at').text()).toMatch(/\d{4}\/\d{1,2}\/\d{1,2}/)
+      expect(wrapper.find('#comment-body').text()).toBe('表面の質感が滑らかで、触感が良好です。')
 
-      expect(divElement[0].text()).toMatch(/営業部：岡本 陽子/)
-      expect(divElement[0].text()).toMatch(/\d{4}\/\d{1,2}\/\d{1,2}/)
-      expect(divElement[1].text()).toBe('表面の質感が滑らかで、触感が良好です。')
+      const routerLinks = wrapper.findAllComponents(RouterLinkStub)
       expect(routerLinks[0].props().to).toBe('/comments/1')
     })
 

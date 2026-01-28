@@ -68,7 +68,7 @@ onMounted(async () => {
 
 <template>
   <div class="container w-25">
-    <h3 class="text-center mt-5 mb-5">
+    <h3 class="text-center m-5">
       表面処理情報の編集
     </h3>
 
