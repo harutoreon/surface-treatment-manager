@@ -46,14 +46,14 @@ const sampleUpdate = async () => {
     })
     sample.value = response.data
     emit('message', { type: 'success', text: '表面処理情報を更新しました。' })
-    router.push(`/samples/${sample.value.id}`)
+    router.replace(`/samples/${sample.value.id}`)
   } catch {
     errorMessage.value = '入力に不備があります。'
   }
 }
 
 const cancel = () => {
-  router.push(`/samples/${sample.value.id}`)
+  router.replace(`/samples/${sample.value.id}`)
 }
 
 onMounted(async () => {

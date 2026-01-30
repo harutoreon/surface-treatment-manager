@@ -37,6 +37,10 @@ const modalReset = () => {
   errorMessage.value = ''
 }
 
+const goBack = () => {
+  router.back()
+}
+
 const handleCommentAdd = async () => {
   try {
     const response = await axios.post(`${API_BASE_URL}/makers/${sample.value.maker_id}/samples/${sampleId.value}/comments`, {
@@ -301,7 +305,12 @@ onMounted(async () => {
 
     <ul class="nav justify-content-evenly mb-5">
       <li class="nav-item">
-        <RouterLink v-if="sample.id" :to="`/samples/${sample.id}/edit`">
+        <button v-show="!isAdmin" @click="goBack">
+          検索結果に戻る
+        </button>
+      </li>
+      <li class="nav-item">
+        <RouterLink v-if="sample.id" :to="`/samples/${sample.id}/edit`" replace>
           表面処理情報の編集
         </RouterLink>
       </li>
