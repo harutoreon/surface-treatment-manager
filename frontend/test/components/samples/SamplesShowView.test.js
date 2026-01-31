@@ -5,6 +5,7 @@ import axios from 'axios'
 
 const replaceMock = vi.fn()
 const pushMock = vi.fn()
+const backMock = vi.fn()
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
@@ -17,7 +18,8 @@ vi.mock('vue-router', () => {
     useRouter: () => {
       return {
         replace: replaceMock,
-        push: pushMock
+        push: pushMock,
+        back: backMock
       }
     }
   }
@@ -234,8 +236,8 @@ describe('SamplesShowView', () => {
     })
 
     it('表面処理情報の削除ボタンが表示されること', () => {
-      const buttons = wrapper.findAll('button')
-      expect(buttons[3].text()).toBe('表面処理情報の削除')
+      const deleteButton = wrapper.find('#handle-delete')
+      expect(deleteButton.text()).toBe('表面処理情報の削除')
     })
   })
 
@@ -434,8 +436,8 @@ describe('SamplesShowView', () => {
 
       await flushPromises()
 
-      const buttons = wrapper.findAll('button')
-      await buttons[3].trigger('click')
+      const deleteButton = wrapper.find('#handle-delete')
+      await deleteButton.trigger('click')
 
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([
@@ -504,8 +506,8 @@ describe('SamplesShowView', () => {
 
       await flushPromises()
 
-      const buttons = wrapper.findAll('button')
-      await buttons[3].trigger('click')
+      const deleteButton = wrapper.find('#handle-delete')
+      await deleteButton.trigger('click')
 
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([
@@ -694,14 +696,81 @@ describe('SamplesShowView', () => {
       await flushPromises()
     })
 
+    it('検索結果に戻るボタン (リンク) が表示されること', () => {
+      const goBackButton = wrapper.findAll('ul li')
+      expect(goBackButton[0].text('検索結果に戻る'))
+    })
+
     it('表面処理情報の削除ボタンが表示されないこと', () => {
-      const buttons = wrapper.findAll('button')
-      expect(buttons[3].attributes('style')).toBe('display: none;')
+      const removeButton = wrapper.find('#handle-delete')
+      expect(removeButton.attributes('style')).toBe('display: none;')
     })
 
     it('表面処理リストへのリンクが表示されないこと', () => {
       const liElements = wrapper.findAll('ul li')
-      expect(liElements[1].attributes('style')).toBe('display: none;')
+      expect(liElements[2].attributes('style')).toBe('display: none;')
+    })
+  })
+
+  describe('検索結果に戻るボタン（リンク）を押した場合', () => {
+    beforeEach(async () => {
+      const generalUserId = 50
+
+      axios.get
+        .mockResolvedValueOnce({
+          status: 200
+        })
+        .mockResolvedValueOnce({
+          data: {
+            payload: { user_id: generalUserId }
+          }
+        })
+        .mockReturnValueOnce({
+          data: {
+            id: 1,
+            name: '無電解ニッケルめっき',
+            category: 'めっき',
+            color: 'イエローブラウンシルバー',
+            hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+            film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+            feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
+            summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+            maker_id: 1,
+            image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
+          }
+        })
+        .mockResolvedValueOnce({
+          data: [
+            {
+              id: 1,
+              commenter: '岡本 陽子',
+              body: '表面の質感が滑らかで、触感が良好です。',
+              sample_id: 1,
+              created_at: '2025-02-23T22:15:30.030Z',
+              department: '営業部',
+            }
+          ]
+        })
+
+      wrapper = mount(SamplesShowView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('router.back()が呼び出されること', async () => {
+      const goBackButton = wrapper.find('ul li button')
+
+      expect(goBackButton.exists()).toBe(true)
+
+      await goBackButton.trigger('click')
+
+      expect(backMock).toHaveBeenCalledTimes(1)
     })
   })
 })

@@ -324,6 +324,7 @@ onMounted(async () => {
     <div class="d-flex justify-content-end mb-5">
       <button
         v-show="isAdmin"
+        id="handle-delete"
         class="btn btn-outline-danger"
         type="button"
         @click="handleDelete"
