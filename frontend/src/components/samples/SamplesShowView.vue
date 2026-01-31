@@ -305,7 +305,12 @@ onMounted(async () => {
 
     <ul class="nav justify-content-evenly mb-5">
       <li class="nav-item">
-        <button v-show="!isAdmin" @click="goBack">
+        <button
+          v-show="!isAdmin"
+          type="button"
+          class="btn btn-link p-0 text-decoration-underline"
+          @click="goBack"
+        >
           検索結果に戻る
         </button>
       </li>
