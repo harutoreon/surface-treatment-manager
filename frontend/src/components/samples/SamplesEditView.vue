@@ -67,7 +67,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="container w-25">
+  <div class="container w-50">
     <h3 class="text-center m-5">
       表面処理情報の編集
     </h3>
@@ -77,45 +77,55 @@ onMounted(async () => {
     </p>
     
     <form @submit.prevent="sampleUpdate">
-      <label class="form-label" for="sample-name">
-        処理名
-      </label>
-      <input
-        id="sample-name"
-        v-model="sample.name"
-        class="form-control mb-3"
-        type="text"
-      />
+      <div class="row">
+        <div class="col">
+          <label class="form-label" for="sample-name">
+            処理名
+          </label>
+          <input
+            id="sample-name"
+            v-model="sample.name"
+            class="form-control mb-3"
+            type="text"
+          />
+        </div>
+        <div class="col">
+          <label class="form-label" for="sample-category">
+            カテゴリー
+          </label>
+          <input
+            id="sample-category"
+            v-model="sample.category"
+            class="form-control mb-3"
+            type="text"
+          />
+        </div>
+      </div>
 
-      <label class="form-label" for="sample-category">
-        カテゴリー
-      </label>
-      <input
-        id="sample-category"
-        v-model="sample.category"
-        class="form-control mb-3"
-        type="text"
-      />
-
-      <label class="form-label" for="sample-color">
-        色
-      </label>
-      <input
-        id="sample-color"
-        v-model="sample.color"
-        class="form-control mb-3"
-        type="text"
-      />
-
-      <label class="form-label" for="sample-hardness">
-        硬度
-      </label>
-      <input
-        id="sample-hardness"
-        v-model="sample.hardness"
-        class="form-control mb-3"
-        type="text"
-      />
+      <div class="row">
+        <div class="col">
+          <label class="form-label" for="sample-color">
+            色
+          </label>
+          <input
+            id="sample-color"
+            v-model="sample.color"
+            class="form-control mb-3"
+            type="text"
+          />
+        </div>
+        <div class="col">
+          <label class="form-label" for="sample-hardness">
+            硬度
+          </label>
+          <input
+            id="sample-hardness"
+            v-model="sample.hardness"
+            class="form-control mb-3"
+            type="text"
+          />
+        </div>
+      </div>
 
       <label class="form-label" for="sample-film-thickness">
         膜厚
