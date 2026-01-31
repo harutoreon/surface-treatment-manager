@@ -107,7 +107,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="container w-25">
+  <div class="container w-50">
     <h3 class="text-center m-5">
       表面処理情報の登録
     </h3>
@@ -117,98 +117,118 @@ onMounted(async () => {
     </p>
     
     <form @submit.prevent="sampleRegistration">
-      <label class="form-label" for="sample-name">
-        処理名
-      </label>
-      <input
-        id="sample-name"
-        v-model="name"
-        class="form-control mb-3"
-        type="text"
-      />
+      <div class="row">
+        <div class="col">
+          <label class="form-label" for="sample-name">
+            処理名
+          </label>
+          <input
+            id="sample-name"
+            v-model="name"
+            class="form-control mb-3"
+            type="text"
+          />
+        </div>
+        <div class="col">
+          <label class="form-label" for="sample-category">
+            カテゴリー
+          </label>
+          <select id="sample-category" v-model="category" class="form-select mb-3">
+            <option value="">
+              カテゴリーを選択して下さい
+            </option>
+            <option v-for="option in options" :key="option.id" :value="option.item">
+              {{ option.item }}
+            </option>
+          </select>
+        </div>
+      </div>
 
-      <label class="form-label" for="sample-category">
-        カテゴリー
-      </label>
-      <select id="sample-category" v-model="category" class="form-select mb-3">
-        <option value="">
-          カテゴリーを選択して下さい
-        </option>
-        <option v-for="option in options" :key="option.id" :value="option.item">
-          {{ option.item }}
-        </option>
-      </select>
+      <div class="row">
+        <div class="col">
+          <label class="form-label" for="sample-color">
+            色
+          </label>
+          <input
+            id="sample-color"
+            v-model="color"
+            class="form-control mb-3"
+            type="text"
+          />
+        </div>
+        <div class="col">
+          <label class="form-label" for="makers">
+            メーカー
+          </label>
+          <select
+            id="makers"
+            v-model="maker"
+            class="form-select mb-4"
+            @change="handleMakerChange"
+          >
+            <option value="">
+              メーカーを選択して下さい
+            </option>
+            <option
+              v-for="option in makerOptions"
+              :key="option.id"
+              :value="option.name"
+            >
+              {{ option.name }}
+            </option>
+          </select>
+        </div>
+      </div>
 
-      <label class="form-label" for="sample-color">
-        色
-      </label>
-      <input
-        id="sample-color"
-        v-model="color"
-        class="form-control mb-3"
-        type="text"
-      />
+      <div class="row">
+        <div class="col">
+          <label class="form-label" for="sample-hardness">
+            硬度
+          </label>
+          <input
+            id="sample-hardness"
+            v-model="hardness"
+            class="form-control mb-3"
+            type="text"
+          />
+        </div>
+        <div class="col">
+          <label class="form-label" for="sample-film-thickness">
+            膜厚
+          </label>
+          <input
+            id="sample-film-thickness"
+            v-model="filmThickness"
+            class="form-control mb-3"
+            type="text"
+          />
+        </div>
+      </div>
 
-      <label class="form-label" for="makers">
-        メーカー
-      </label>
-      <select
-        id="makers"
-        v-model="maker"
-        class="form-select mb-4"
-        @change="handleMakerChange"
-      >
-        <option value="">
-          メーカーを選択して下さい
-        </option>
-        <option
-          v-for="option in makerOptions"
-          :key="option.id"
-          :value="option.name"
-        >
-          {{ option.name }}
-        </option>
-      </select>
-
-      <label class="form-label" for="sample-hardness">
-        硬度
-      </label>
-      <input
-        id="sample-hardness"
-        v-model="hardness"
-        class="form-control mb-3"
-        type="text"
-      />
-
-      <label class="form-label" for="sample-film-thickness">
-        膜厚
-      </label>
-      <input
-        id="sample-film-thickness"
-        v-model="filmThickness"
-        class="form-control mb-3"
-        type="text"
-      />
-
-      <label class="form-label" for="sample-feature">
-        特徴
-      </label>
-      <input
-        id="sample-feature"
-        v-model="feature"
-        class="form-control mb-3"
-        type="text"
-      />
-
-      <label class="form-label" for="sample-summary">
-        概要
-      </label>
-      <input
-        id="sample-summary"
-        v-model="summary"
-        class="form-control mb-3"
-        type="text"
-      />
+      <div class="row">
+        <div class="col">
+          <label class="form-label" for="sample-feature">
+            特徴
+          </label>
+          <input
+            id="sample-feature"
+            v-model="feature"
+            class="form-control mb-3"
+            type="text"
+          />
+        </div>
+        <div class="col">
+          <label class="form-label" for="sample-summary">
+            概要
+          </label>
+          <input
+            id="sample-summary"
+            v-model="summary"
+            class="form-control mb-3"
+            type="text"
+          />
+        </div>
+      </div>
 
       <label class="form-label" for="sample-image">
         画像
