@@ -246,7 +246,7 @@ describe('SamplesEditView', () => {
       expect(wrapper.emitted().message[0]).toEqual([
         { type: 'success', text: '表面処理情報を更新しました。' }
       ])
-      expect(pushMock).toHaveBeenCalledWith('/samples/35')
+      expect(replaceMock).toHaveBeenCalledWith('/samples/35')
     })
   })
   
@@ -341,7 +341,7 @@ describe('SamplesEditView', () => {
 
       cancelButton.trigger('click')
 
-      expect(pushMock).toHaveBeenCalledWith('/samples/1')
+      expect(replaceMock).toHaveBeenCalledWith('/samples/1')
     })
   })
 })
