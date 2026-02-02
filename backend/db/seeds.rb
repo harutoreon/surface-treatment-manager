@@ -543,13 +543,14 @@ SAMPLE_COMMENT = [
   "コーティングの透明度が高く、基材の色が映える仕上がりです。"
 ]
 
+# コメントの新規作成
+
 treatment_list = Sample.order(:id)
-users = User.where(id: 1..48)  # id:49 の admin user と id:50 の general user は除く
-user_name = users.map { |user| user.name}
-department = DEPARTMENTS
+users = User.where(id: 1..48)  # id:49 の admin user と id:50 の general user は取得対象外
 
 5.times do
   treatment_list.each do |treatment|
-    treatment.comments.create!(commenter: user_name.sample, department: department.sample, body: SAMPLE_COMMENT.sample)
+    user = users.sample
+    treatment.comments.create!(commenter: user.name, department: user.department, body: SAMPLE_COMMENT.sample, user_id: user.id)
   end
 end
