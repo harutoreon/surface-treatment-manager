@@ -55,7 +55,8 @@ RSpec.describe "Comments API", type: :request do
       before do
         @valid_comment_params = { comment: { commenter: 'sample user',
                                              department: 'department',
-                                             body: 'sample comment.' } }
+                                             body: 'sample comment.',
+                                             user_id: @user.id } }
       end
 
       it 'レスポンスのステータスがcreatedであること' do
