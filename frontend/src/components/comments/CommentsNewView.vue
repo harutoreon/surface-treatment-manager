@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import {ref, onMounted, watch, computed} from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import { checkLoginStatus } from '@/components/utils.js'
@@ -19,6 +19,34 @@ const errorMessage = ref('')
 const maker = ref('')
 const makerOptions = ref('')
 const makerId = ref(null)
+const isOpen = ref(false)
+const users = ref([])
+
+const fetchUserList = async () => {
+  const response = await axios.get(`${API_BASE_URL}/user_list`)
+  const userList = response.data
+  users.value = userList.map(user => user.name)
+}
+
+const close = () => {
+  window.setTimeout(() => {
+    isOpen.value = false
+  }, 100)
+}
+
+const filteredList = computed(() => {
+  if (!commenter.value) return []
+  const word = commenter.value.toLowerCase()
+
+  return users.value.filter( user =>
+    user.toLowerCase().includes(word)
+  )
+})
+
+const select = (item) => {
+  commenter.value = item
+  isOpen.value = false
+}
 
 const handleMakerChange = (event) => {
   const selected = makerOptions.value.find(
@@ -90,6 +118,7 @@ onMounted(async () => {
   if (!loggedIn) return
   await fetchDepartmentData()
   await fetchMakerData()
+  await fetchUserList()
 })
 </script>
 
@@ -107,12 +136,44 @@ onMounted(async () => {
       <label class="form-label" for="commenter">
         投稿者
       </label>
-      <input
-        id="commenter"
-        v-model="commenter"
-        class="form-control mb-4"
-        type="text"
-      />
+
+      <!-- サジェスト機能 -->
+      <!-- サジェスト機能で投稿者は取れるようになったが、色々問題あり -->
+      <!-- ・jsonの中にパスワードがある（普通パスワードは除外されるはず。なんで？？？） -->
+      <!-- ・jsonから部署名を抽出してdepartmentに代入するのがまだ未実装 -->
+
+      <div class="position-relative mb-4">
+        <input
+          v-model="commenter"
+          type="text"
+          class="form-control mb-3"
+          placeholder="投稿者名の一部をここに入力して下さい"
+          autocomplete="off"
+          @focus="isOpen = true"
+          @blur="close"
+        />
+
+        <ul
+          v-if="isOpen && filteredList.length"
+          class="list-group position-absolute w-100 shadow"
+          style="z-index: 1000;"
+        >
+          <li
+            v-for="item in filteredList"
+            :key="item"
+            class="list-group-item list-group-item-action text-start"
+            @mousedown.prevent="select(item)"
+          >
+            {{ item }}
+          </li>
+        </ul>
+      </div>
+
+
+
+
+
+
 
       <label class="form-label" for="departments">
         部署名
