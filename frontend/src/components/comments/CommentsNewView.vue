@@ -1,5 +1,5 @@
 <script setup>
-import {ref, onMounted, watch, computed} from 'vue'
+import {ref, reactive, onMounted, watch, computed} from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import { checkLoginStatus } from '@/components/utils.js'
@@ -20,12 +20,15 @@ const maker = ref('')
 const makerOptions = ref('')
 const makerId = ref(null)
 const isOpen = ref(false)
-const users = ref([])
+const users = reactive([])
 
 const fetchUserList = async () => {
   const response = await axios.get(`${API_BASE_URL}/user_list`)
   const userList = response.data
-  users.value = userList.map(user => user.name)
+  users.value = userList.map(user => reactive({
+    userName: user.name,
+    userDepartment: user.department
+  }))
 }
 
 const close = () => {
@@ -39,12 +42,13 @@ const filteredList = computed(() => {
   const word = commenter.value.toLowerCase()
 
   return users.value.filter( user =>
-    user.toLowerCase().includes(word)
+    user.userName.toLowerCase().includes(word)
   )
 })
 
 const select = (item) => {
   commenter.value = item
+  department.value = users.value.filter(user => user.userName === item)[0].userDepartment
   isOpen.value = false
 }
 
@@ -136,12 +140,6 @@ onMounted(async () => {
       <label class="form-label" for="commenter">
         投稿者
       </label>
-
-      <!-- サジェスト機能 -->
-      <!-- サジェスト機能で投稿者は取れるようになったが、色々問題あり -->
-      <!-- ・jsonの中にパスワードがある（普通パスワードは除外されるはず。なんで？？？） -->
-      <!-- ・jsonから部署名を抽出してdepartmentに代入するのがまだ未実装 -->
-
       <div class="position-relative mb-4">
         <input
           v-model="commenter"
@@ -152,7 +150,6 @@ onMounted(async () => {
           @focus="isOpen = true"
           @blur="close"
         />
-
         <ul
           v-if="isOpen && filteredList.length"
           class="list-group position-absolute w-100 shadow"
@@ -162,34 +159,22 @@ onMounted(async () => {
             v-for="item in filteredList"
             :key="item"
             class="list-group-item list-group-item-action text-start"
-            @mousedown.prevent="select(item)"
+            @mousedown.prevent="select(item.userName)"
           >
-            {{ item }}
+            {{ item.userName }}
           </li>
         </ul>
       </div>
 
-
-
-
-
-
-
       <label class="form-label" for="departments">
         部署名
       </label>
-      <select id="departments" v-model="department" class="form-select mb-4">
-        <option value="">
-          部署名を選択して下さい
-        </option>
-        <option
-          v-for="option in departmentOptions"
-          :key="option.id"
-          :value="option.name"
-        >
-          {{ option.name }}
-        </option>
-      </select>
+      <input
+        id="departments"
+        v-model="department"
+        class="form-control mb-4"
+        type="text"
+      />
 
       <label class="form-label" for="makers">
         メーカー
