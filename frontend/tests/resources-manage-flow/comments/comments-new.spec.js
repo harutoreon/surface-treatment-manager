@@ -15,7 +15,7 @@ test.describe('comments new flow', () => {
       await expect(page.getByRole('heading', { name: 'コメント情報の新規登録' })).toBeVisible()
 
       await expect(page.locator('#commenter')).toBeVisible()
-      await expect(page.locator('#departments')).toBeVisible()
+      await expect(page.locator('#department')).toBeVisible()
       await expect(page.locator('#makers')).toBeVisible()
 
       await page.locator('#makers').selectOption('東亜電化工業株式会社')
