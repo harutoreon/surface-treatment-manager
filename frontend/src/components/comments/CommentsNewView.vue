@@ -1,5 +1,5 @@
 <script setup>
-import {ref, reactive, onMounted, watch, computed} from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import { checkLoginStatus } from '@/components/utils.js'
@@ -7,25 +7,26 @@ import { checkLoginStatus } from '@/components/utils.js'
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
 const router = useRouter()
-const departmentOptions = ref('')
-const sampleOptions = ref([])
 const commenter = ref('')
+const users = ref([])
+const userId = ref('')
+const isOpen = ref(false)
 const department = ref('')
-const body = ref('')
+const maker = ref('')
+const makerOptions = ref([])
+const makerId = ref(null)
+const sampleOptions = ref([])
 const sampleName = ref('')
 const sampleId = ref(null)
+const body = ref('')
 const comment = ref('')
 const errorMessage = ref('')
-const maker = ref('')
-const makerOptions = ref('')
-const makerId = ref(null)
-const isOpen = ref(false)
-const users = reactive([])
 
 const fetchUserList = async () => {
   const response = await axios.get(`${API_BASE_URL}/user_list`)
-  const userList = response.data
-  users.value = userList.map(user => reactive({
+  const userList = response.data || []
+  users.value = userList.map(user => ({
+    userId: user.id,
     userName: user.name,
     userDepartment: user.department
   }))
@@ -46,9 +47,15 @@ const filteredList = computed(() => {
   )
 })
 
-const select = (item) => {
-  commenter.value = item
-  department.value = users.value.filter(user => user.userName === item)[0].userDepartment
+const select = (userName) => {
+  const selectedUser = users.value.find(user => user.userName === userName)
+
+  if (selectedUser) {
+    commenter.value = selectedUser.userName
+    department.value = selectedUser.userDepartment
+    userId.value = selectedUser.userId
+  }
+
   isOpen.value = false
 }
 
@@ -71,18 +78,6 @@ const handleSampleChange = (event) => {
   sampleId.value = selected?.id || null
 }
 
-const fetchDepartmentData = async () => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/departments`)
-    departmentOptions.value = response.data
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: '部署リストの取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
-}
-
 const fetchSampleData = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/makers/${makerId.value}/samples`)
@@ -101,7 +96,8 @@ const commentRegistration = async () => {
       comment: {
         commenter: commenter.value,
         department: department.value,
-        body: body.value
+        body: body.value,
+        user_id: userId.value
       }
     })
     comment.value = response.data
@@ -120,7 +116,6 @@ onMounted(async () => {
     router.push('/')
   })
   if (!loggedIn) return
-  await fetchDepartmentData()
   await fetchMakerData()
   await fetchUserList()
 })
@@ -142,6 +137,7 @@ onMounted(async () => {
       </label>
       <div class="position-relative mb-4">
         <input
+          id="commenter"
           v-model="commenter"
           type="text"
           class="form-control mb-3"
@@ -157,7 +153,7 @@ onMounted(async () => {
         >
           <li
             v-for="item in filteredList"
-            :key="item"
+            :key="item.userId"
             class="list-group-item list-group-item-action text-start"
             @mousedown.prevent="select(item.userName)"
           >
@@ -170,9 +166,10 @@ onMounted(async () => {
         部署名
       </label>
       <input
-        id="departments"
+        id="department"
         v-model="department"
         class="form-control mb-4"
+        placeholder="ユーザー入力は不要です"
         type="text"
       />
 
