@@ -11,8 +11,8 @@ test.describe('comments crud flow', () => {
   })
 
   test('コメントの新規登録・更新・削除ができること', async ({ page }) => {
-    const commenter = '岩崎 颯太'
-    const department = '品質管理部'
+    const commenter = 'general user'
+    const department = '開発部'
     const newComment = '表面処理により耐熱性が向上し、高温環境でも問題ありません。'
     const editedComment = '表面が非常に硬く、傷がつきにくいです。'
 
@@ -20,7 +20,7 @@ test.describe('comments crud flow', () => {
     await expect(page.getByRole('heading', { name: 'コメント情報の新規登録' })).toBeVisible()
 
     // コメント情報の入力
-    await page.locator('#commenter').fill('岩崎')
+    await page.locator('#commenter').fill('general')
     await page.getByText(commenter).click()
     await page.locator('#makers').selectOption('東亜電化工業株式会社')
     await page.locator('#samples').selectOption('無電解ニッケルめっき')
