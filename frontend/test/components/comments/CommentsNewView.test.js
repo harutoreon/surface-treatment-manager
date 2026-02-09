@@ -395,4 +395,74 @@ describe('CommentsNewView', () => {
       expect(wrapper.find('p').text()).toContain('入力に不備があります。')
     })
   })
+
+  describe('投稿者の入力要素に氏名の一部を入力したとき', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({  // ログインチェック
+          status: 200
+        })
+        .mockResolvedValueOnce({  // メーカーリストの取得
+          data: [
+            { id: 1, name: '東亜電化工業株式会社' },
+            { id: 2, name: '新星コーティングス' },
+            { id: 3, name: '大和表面技術研究所' },
+            { id: 4, name: '中央メッキ技研' },
+            { id: 5, name: 'サンエース・フィニッシュ' },
+            { id: 6, name: '瑞穂皮膜加工' },
+            { id: 7, name: 'アストロ産業' },
+            { id: 8, name: '明和サーフェス' },
+            { id: 9, name: '富士理化研磨株式会社' },
+            { id: 10, name: '高周波サーマル工業' },
+          ]
+        })
+        .mockResolvedValueOnce({  // ユーザーリストの取得
+          data: [
+            { id: 31, name: '村上 奏太', department: '営業部' },
+            { id: 13, name: '内田 大樹', department: '品質管理部' },
+            { id: 10, name: '坂本 智子', department: '品質管理部' },
+            { id: 4, name: '大塚 裕子', department: '開発部' },
+            { id: 47, name: '内田 美緒', department: '営業部' }
+          ]
+        })
+
+      wrapper = mount(CommentsNewView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('候補があれば氏名リストが表示され選択できること', async () => {
+      const input = wrapper.find('#commenter')
+
+      await input.trigger('focus')
+      await input.setValue('子')
+
+      const listItems = wrapper.findAll('.list-group-item')
+
+      expect(listItems.length).toBe(2)
+      expect(listItems[0].text()).toBe('坂本 智子')
+      expect(listItems[1].text()).toBe('大塚 裕子')
+
+      await listItems[0].trigger('mousedown')
+
+      expect(input.element.value).toBe('坂本 智子')
+    })
+
+    it('候補が無ければ氏名リストが表示されないこと', async () => {
+      const input = wrapper.find('#commenter')
+
+      await input.trigger('focus')
+      await input.setValue('村山')
+
+      const list = wrapper.find('.list-group')
+
+      expect(list.exists()).toBe(false)
+    })
+  })
 })
