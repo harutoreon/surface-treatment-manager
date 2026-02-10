@@ -5,6 +5,7 @@ RSpec.describe "Comments API", type: :request do
     before do
       FactoryBot.create(:maker)
       @sample = FactoryBot.create(:sample)
+      FactoryBot.create(:user)
       FactoryBot.create_list(:comment, 10)
       @comment = Comment.first
     end
@@ -25,6 +26,7 @@ RSpec.describe "Comments API", type: :request do
     before do
       FactoryBot.create(:maker)
       @sample = FactoryBot.create(:sample)
+      FactoryBot.create(:user)
       @comment = FactoryBot.create(:comment)
     end
 
@@ -46,13 +48,15 @@ RSpec.describe "Comments API", type: :request do
     before do
       FactoryBot.create(:maker)
       @sample = FactoryBot.create(:sample)
+      @user = FactoryBot.create(:user)
     end
 
     context '有効なコメント情報で登録したとき' do
       before do
         @valid_comment_params = { comment: { commenter: 'sample user',
                                              department: 'department',
-                                             body: 'sample comment.' } }
+                                             body: 'sample comment.',
+                                             user_id: @user.id } }
       end
 
       it 'レスポンスのステータスがcreatedであること' do
@@ -93,6 +97,7 @@ RSpec.describe "Comments API", type: :request do
     before do
       FactoryBot.create(:maker)
       @sample = FactoryBot.create(:sample)
+      FactoryBot.create(:user)
       @comment = FactoryBot.create(:comment)
     end
 
@@ -127,6 +132,7 @@ RSpec.describe "Comments API", type: :request do
     before do
       FactoryBot.create(:maker)
       @sample = FactoryBot.create(:sample)
+      FactoryBot.create(:user)
       @comment = FactoryBot.create(:comment)
     end
 
@@ -151,6 +157,7 @@ RSpec.describe "Comments API", type: :request do
     before do
       FactoryBot.create(:maker)
       FactoryBot.create(:sample)
+      FactoryBot.create(:user)
       FactoryBot.create_list(:comment, 10)
     end
 
@@ -177,6 +184,7 @@ RSpec.describe "Comments API", type: :request do
     before do
       FactoryBot.create(:maker)
       FactoryBot.create(:sample)
+      FactoryBot.create(:user)
       @comment = FactoryBot.create(:comment)
     end
 

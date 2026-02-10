@@ -40,6 +40,11 @@ class UsersController < ApplicationController
     head :no_content
   end
 
+  def user_list
+    users = User.order(:id)
+    render json: users, status: :ok
+  end
+
   private
 
     def user_params

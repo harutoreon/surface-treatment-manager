@@ -156,4 +156,30 @@ RSpec.describe "Users API", type: :request do
       expect { delete "/users/#{@user.id}" }.to change{ User.count }.from(1).to(0)
     end
   end
+
+  describe '#user_list' do
+    before do
+      FactoryBot.create_list(:user_list, 10)
+    end
+
+    it 'レスポンスのステータスがokであること' do
+      get "/user_list"
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'jsonに10件のユーザーが含まれていること' do
+      get "/user_list"
+      json = response.parsed_body
+      expect(json.count).to eq(10)
+    end
+
+    it 'name属性とdepartment属性が含まれていること' do
+      get "/user_list"
+      user = User.first
+      json = response.parsed_body.first
+      expect(json).to include(:name, :department)
+      expect(json[:name]).to eq(user.name)
+      expect(json[:department]).to eq(user.department)
+    end
+  end
 end

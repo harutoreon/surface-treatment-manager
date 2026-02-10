@@ -177,7 +177,8 @@ RSpec.describe "Samples API", type: :request do
     before do
       @maker = FactoryBot.create(:maker)
       @sample = FactoryBot.create(:sample)
-      @sample.comments.create(commenter: 'sample user', department: 'department', body: 'sample comment.')
+      user = FactoryBot.create(:user)
+      @sample.comments.create(commenter: 'sample user', department: 'department', body: 'sample comment.', user_id: user.id)
     end
 
     it 'レスポンスのステータスがno_contentであること' do

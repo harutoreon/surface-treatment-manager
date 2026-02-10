@@ -24,13 +24,13 @@ describe('CommentsNewView', () => {
   describe('ログインチェックに成功した場合', () => {
     it('コメント情報の新規登録ページに移動すること', async () => {
       axios.get
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ログインチェック
           status: 200
         })
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // メーカーリストの取得
           status: 200
         })
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ユーザーリストの取得
           status: 200
         })
 
@@ -79,16 +79,8 @@ describe('CommentsNewView', () => {
   describe('初期レンダリング', () => {
     beforeEach(async () => {
       axios.get
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ログインチェック
           status: 200
-        })
-        .mockResolvedValueOnce({
-          data: [
-            { id: 1, name: '品質管理部' },
-            { id: 2, name: '製造部' },
-            { id: 3, name: '開発部' },
-            { id: 4, name: '営業部' },
-          ]
         })
         .mockResolvedValueOnce({
           data: [
@@ -102,6 +94,11 @@ describe('CommentsNewView', () => {
             { id: 8, name: '明和サーフェス' },
             { id: 9, name: '富士理化研磨株式会社' },
             { id: 10, name: '高周波サーマル工業' },
+          ]
+        })
+        .mockResolvedValueOnce({
+          data: [
+            { id: 1, name: '岩崎 颯太', department: '品質管理部' },
           ]
         })
 
@@ -132,17 +129,8 @@ describe('CommentsNewView', () => {
 
       // 入力要素
       expect(wrapper.find('#commenter').exists()).toBe(true)
+      expect(wrapper.find('#department').exists()).toBe(true)
 
-      // 部署名の選択要素
-      const departmentSelect = wrapper.find('#departments')
-      const departmentSelectOptions = departmentSelect.findAll('option')
-
-      expect(departmentSelect.exists()).toBe(true)
-      expect(departmentSelectOptions[0].text()).toBe('部署名を選択して下さい')
-      expect(departmentSelectOptions[1].text()).toBe('品質管理部')
-      expect(departmentSelectOptions[2].text()).toBe('製造部')
-      expect(departmentSelectOptions[3].text()).toBe('開発部')
-      expect(departmentSelectOptions[4].text()).toBe('営業部')
 
       // メーカーの選択要素
       const makerSelect = wrapper.find('#makers')
@@ -176,65 +164,11 @@ describe('CommentsNewView', () => {
     })
   })
 
-  describe('部署リストの取得に失敗した場合', () => {
-    beforeEach(async () => {
-      axios.get
-        .mockResolvedValueOnce({
-          status: 200
-        })
-        .mockRejectedValueOnce({
-          response: {
-            status: 404
-          }
-        })
-        .mockResolvedValueOnce({
-          data: [
-            { id: 1, name: '東亜電化工業株式会社' },
-            { id: 2, name: '新星コーティングス' },
-            { id: 3, name: '大和表面技術研究所' },
-            { id: 4, name: '中央メッキ技研' },
-            { id: 5, name: 'サンエース・フィニッシュ' },
-            { id: 6, name: '瑞穂皮膜加工' },
-            { id: 7, name: 'アストロ産業' },
-            { id: 8, name: '明和サーフェス' },
-            { id: 9, name: '富士理化研磨株式会社' },
-            { id: 10, name: '高周波サーマル工業' },
-          ]
-        })
-
-      wrapper = mount(CommentsNewView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-        
-      await flushPromises()
-    })
-
-    it('404ページに遷移すること', () => {
-      expect(wrapper.emitted()).toHaveProperty('message')
-      expect(wrapper.emitted().message[0]).toEqual([
-        { type: 'danger', text: '部署リストの取得に失敗しました。' }
-      ])
-      expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
-    })
-  })
-
   describe('表面処理リストの取得に失敗した場合', () => {
     beforeEach(async () => {
       axios.get
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ログインチェック
           status: 200
-        })
-        .mockResolvedValueOnce({
-          data: [
-            { id: 1, name: '品質管理部' },
-            { id: 2, name: '製造部' },
-            { id: 3, name: '開発部' },
-            { id: 4, name: '営業部' },
-          ]
         })
         .mockResolvedValueOnce({
           data: [
@@ -248,6 +182,11 @@ describe('CommentsNewView', () => {
             { id: 8, name: '明和サーフェス' },
             { id: 9, name: '富士理化研磨株式会社' },
             { id: 10, name: '高周波サーマル工業' },
+          ]
+        })
+        .mockResolvedValueOnce({
+          data: [
+            { id: 1, name: '岩崎 颯太', department: '品質管理部' },
           ]
         })
         .mockRejectedValueOnce({
@@ -281,16 +220,8 @@ describe('CommentsNewView', () => {
   describe('メーカーを選択した場合', () => {
     beforeEach(async () => {
       axios.get
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ログインチェック
           status: 200
-        })
-        .mockResolvedValueOnce({
-          data: [
-            { id: 1, name: '品質管理部' },
-            { id: 2, name: '製造部' },
-            { id: 3, name: '開発部' },
-            { id: 4, name: '営業部' },
-          ]
         })
         .mockResolvedValueOnce({
           data: [
@@ -304,6 +235,11 @@ describe('CommentsNewView', () => {
             { id: 8, name: '明和サーフェス' },
             { id: 9, name: '富士理化研磨株式会社' },
             { id: 10, name: '高周波サーマル工業' },
+          ]
+        })
+        .mockResolvedValueOnce({
+          data: [
+            { id: 1, name: '岩崎 颯太', department: '品質管理部' },
           ]
         })
         .mockResolvedValueOnce({
@@ -343,16 +279,8 @@ describe('CommentsNewView', () => {
   describe('コメント情報の新規登録に成功した場合', () => {
     beforeEach(async () => {
       axios.get
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ログインチェック
           status: 200
-        })
-        .mockResolvedValueOnce({
-          data: [
-            { id: 1, name: '品質管理部' },
-            { id: 2, name: '製造部' },
-            { id: 3, name: '開発部' },
-            { id: 4, name: '営業部' },
-          ]
         })
         .mockResolvedValueOnce({
           data: [
@@ -368,6 +296,11 @@ describe('CommentsNewView', () => {
             { id: 10, name: '高周波サーマル工業' },
           ]
         })
+        .mockResolvedValueOnce({
+          data: [
+            { id: 1, name: '岩崎 颯太', department: '品質管理部' },
+          ]
+        })
 
       axios.post.mockResolvedValue({
         data: {
@@ -375,6 +308,7 @@ describe('CommentsNewView', () => {
           commenter: '工藤 琴音',
           department: '品質管理部',
           body: '製品に高級感を与える仕上がりで、見た目も美しいです。',
+          user_id: 1
         }
       })
 
@@ -391,7 +325,7 @@ describe('CommentsNewView', () => {
 
     it('コメント情報ページに遷移すること', async () => {
       await wrapper.find('#commenter').setValue('工藤 琴音')
-      await wrapper.find('#departments').setValue('品質管理部')
+      await wrapper.find('#department').setValue('品質管理部')
       await wrapper.find('#makers').setValue('東亜電化工業株式会社')
       await wrapper.find('#samples').setValue('無電解ニッケルめっき')
       await wrapper.find('#body').setValue('製品に高級感を与える仕上がりで、見た目も美しいです。')
@@ -409,16 +343,8 @@ describe('CommentsNewView', () => {
   describe('コメント情報の新規登録に失敗した場合', () => {
     beforeEach(async () => {
       axios.get
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ログインチェック
           status: 200
-        })
-        .mockResolvedValueOnce({
-          data: [
-            { id: 1, name: '品質管理部' },
-            { id: 2, name: '製造部' },
-            { id: 3, name: '開発部' },
-            { id: 4, name: '営業部' },
-          ]
         })
         .mockResolvedValueOnce({
           data: [
@@ -432,6 +358,11 @@ describe('CommentsNewView', () => {
             { id: 8, name: '明和サーフェス' },
             { id: 9, name: '富士理化研磨株式会社' },
             { id: 10, name: '高周波サーマル工業' },
+          ]
+        })
+        .mockResolvedValueOnce({
+          data: [
+            { id: 1, name: '岩崎 颯太', department: '品質管理部' },
           ]
         })
 
@@ -454,7 +385,7 @@ describe('CommentsNewView', () => {
 
     it('入力不備のメッセージが表示されること', async () => {
       await wrapper.find('#commenter').setValue('')
-      await wrapper.find('#departments').setValue('品質管理部')
+      await wrapper.find('#department').setValue('品質管理部')
       await wrapper.find('#makers').setValue('東亜電化工業株式会社')
       await wrapper.find('#samples').setValue('無電解ニッケルめっき')
       await wrapper.find('#body').setValue('製品に高級感を与える仕上がりで、見た目も美しいです。')
@@ -462,6 +393,76 @@ describe('CommentsNewView', () => {
       await wrapper.find('form').trigger('submit.prevent')
     
       expect(wrapper.find('p').text()).toContain('入力に不備があります。')
+    })
+  })
+
+  describe('投稿者の入力要素に氏名の一部を入力したとき', () => {
+    beforeEach(async () => {
+      axios.get
+        .mockResolvedValueOnce({  // ログインチェック
+          status: 200
+        })
+        .mockResolvedValueOnce({  // メーカーリストの取得
+          data: [
+            { id: 1, name: '東亜電化工業株式会社' },
+            { id: 2, name: '新星コーティングス' },
+            { id: 3, name: '大和表面技術研究所' },
+            { id: 4, name: '中央メッキ技研' },
+            { id: 5, name: 'サンエース・フィニッシュ' },
+            { id: 6, name: '瑞穂皮膜加工' },
+            { id: 7, name: 'アストロ産業' },
+            { id: 8, name: '明和サーフェス' },
+            { id: 9, name: '富士理化研磨株式会社' },
+            { id: 10, name: '高周波サーマル工業' },
+          ]
+        })
+        .mockResolvedValueOnce({  // ユーザーリストの取得
+          data: [
+            { id: 31, name: '村上 奏太', department: '営業部' },
+            { id: 13, name: '内田 大樹', department: '品質管理部' },
+            { id: 10, name: '坂本 智子', department: '品質管理部' },
+            { id: 4, name: '大塚 裕子', department: '開発部' },
+            { id: 47, name: '内田 美緒', department: '営業部' }
+          ]
+        })
+
+      wrapper = mount(CommentsNewView, {
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub
+          }
+        }
+      })
+
+      await flushPromises()
+    })
+
+    it('候補があれば氏名リストが表示され選択できること', async () => {
+      const input = wrapper.find('#commenter')
+
+      await input.trigger('focus')
+      await input.setValue('子')
+
+      const listItems = wrapper.findAll('.list-group-item')
+
+      expect(listItems.length).toBe(2)
+      expect(listItems[0].text()).toBe('坂本 智子')
+      expect(listItems[1].text()).toBe('大塚 裕子')
+
+      await listItems[0].trigger('mousedown')
+
+      expect(input.element.value).toBe('坂本 智子')
+    })
+
+    it('候補が無ければ氏名リストが表示されないこと', async () => {
+      const input = wrapper.find('#commenter')
+
+      await input.trigger('focus')
+      await input.setValue('村山')
+
+      const list = wrapper.find('.list-group')
+
+      expect(list.exists()).toBe(false)
     })
   })
 })

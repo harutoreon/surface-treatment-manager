@@ -33,12 +33,19 @@ describe('SamplesShowView', () => {
       const adminUserId = 49
 
       axios.get
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ログインチェック
           status: 200
         })
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ユーザーID取得のため再度ログインチェック
           data: {
             payload: { user_id: adminUserId }
+          }
+        })
+        .mockResolvedValueOnce({  // ユーザー情報取得
+          data: {
+            id: 49,
+            name: 'admin user',
+            department: '品質管理部'
           }
         })
         .mockResolvedValueOnce({
@@ -117,12 +124,19 @@ describe('SamplesShowView', () => {
       const adminUserId = 49
 
       axios.get
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ログインチェック
           status: 200
         })
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ユーザーID取得のため再度ログインチェック
           data: {
             payload: { user_id: adminUserId }
+          }
+        })
+        .mockResolvedValueOnce({  // ユーザー情報取得
+          data: {
+            id: 49,
+            name: 'admin user',
+            department: '品質管理部'
           }
         })
         .mockReturnValueOnce({
@@ -246,12 +260,19 @@ describe('SamplesShowView', () => {
       const adminUserId = 49
 
       axios.get
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ログインチェック
           status: 200
         })
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ユーザーID取得のため再度ログインチェック
           data: {
             payload: { user_id: adminUserId }
+          }
+        })
+        .mockResolvedValueOnce({  // ユーザー情報取得
+          data: {
+            id: 49,
+            name: 'admin user',
+            department: '品質管理部'
           }
         })
         .mockRejectedValueOnce({
@@ -311,12 +332,19 @@ describe('SamplesShowView', () => {
       }
 
       axios.get
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ログインチェック
           status: 200
         })
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ユーザーID取得のため再度ログインチェック
           data: {
             payload: { user_id: adminUserId }
+          }
+        })
+        .mockResolvedValueOnce({  // ユーザー情報取得
+          data: {
+            id: 49,
+            name: 'admin user',
+            department: '品質管理部'
           }
         })
         .mockResolvedValueOnce(mockSampleResponse)
@@ -343,8 +371,17 @@ describe('SamplesShowView', () => {
       const adminUserId = 49
 
       const mockSampleResponse = {
-        response: {
-          status: 404
+        data: {
+          id: 1,
+          name: '無電解ニッケルめっき',
+          category: 'めっき',
+          color: 'イエローブラウンシルバー',
+          hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+          film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+          feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
+          summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+          maker_id: 1,
+          image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
         }
       }
 
@@ -353,16 +390,24 @@ describe('SamplesShowView', () => {
           status: 404
         }
       }
+
       axios.get
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ログインチェック
           status: 200
         })
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ユーザーID取得のため再度ログインチェック
           data: {
             payload: { user_id: adminUserId }
           }
         })
-        .mockRejectedValueOnce(mockSampleResponse)
+        .mockResolvedValueOnce({  // ユーザー情報取得
+          data: {
+            id: 49,
+            name: 'admin user',
+            department: '品質管理部'
+          }
+        })
+        .mockResolvedValueOnce(mockSampleResponse)
         .mockRejectedValueOnce(mockSampleCommentResponse)
 
       wrapper = mount(SamplesShowView, {
@@ -376,7 +421,7 @@ describe('SamplesShowView', () => {
       await flushPromises()
 
       expect(wrapper.emitted()).toHaveProperty('message')
-      expect(wrapper.emitted().message[1]).toEqual([
+      expect(wrapper.emitted().message[0]).toEqual([
         { type: 'danger', text: 'コメントの取得に失敗しました。' }
       ])
       expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
@@ -391,12 +436,19 @@ describe('SamplesShowView', () => {
       const adminUserId = 49
 
       axios.get
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ログインチェック
           status: 200
         })
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ユーザーID取得のため再度ログインチェック
           data: {
             payload: { user_id: adminUserId }
+          }
+        })
+        .mockResolvedValueOnce({  // ユーザー情報取得
+          data: {
+            id: 49,
+            name: 'admin user',
+            department: '品質管理部'
           }
         })
         .mockResolvedValueOnce({
@@ -455,12 +507,19 @@ describe('SamplesShowView', () => {
       const adminUserId = 49
 
       axios.get
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ログインチェック
           status: 200
         })
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ユーザーID取得のため再度ログインチェック
           data: {
             payload: { user_id: adminUserId }
+          }
+        })
+        .mockResolvedValueOnce({  // ユーザー情報取得
+          data: {
+            id: 49,
+            name: 'admin user',
+            department: '品質管理部'
           }
         })
         .mockResolvedValueOnce({
@@ -522,12 +581,19 @@ describe('SamplesShowView', () => {
       const generalUserId = 50
 
       axios.get
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ログインチェック
           status: 200
         })
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ユーザーID取得のため再度ログインチェック
           data: {
             payload: { user_id: generalUserId }
+          }
+        })
+        .mockResolvedValueOnce({  // ユーザー情報取得
+          data: {
+            id: 49,
+            name: 'admin user',
+            department: '品質管理部'
           }
         })
         .mockReturnValueOnce({
@@ -596,12 +662,19 @@ describe('SamplesShowView', () => {
       const generalUserId = 50
 
       axios.get
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ログインチェック
           status: 200
         })
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ユーザーID取得のため再度ログインチェック
           data: {
             payload: { user_id: generalUserId }
+          }
+        })
+        .mockResolvedValueOnce({  // ユーザー情報取得
+          data: {
+            id: 50,
+            name: 'general user',
+            department: '開発部'
           }
         })
         .mockReturnValueOnce({
@@ -650,12 +723,19 @@ describe('SamplesShowView', () => {
       const generalUserId = 50
 
       axios.get
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ログインチェック
           status: 200
         })
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ユーザーID取得のため再度ログインチェック
           data: {
             payload: { user_id: generalUserId }
+          }
+        })
+        .mockResolvedValueOnce({  // ユーザー情報取得
+          data: {
+            id: 50,
+            name: 'general user',
+            department: '開発部'
           }
         })
         .mockReturnValueOnce({
@@ -717,12 +797,19 @@ describe('SamplesShowView', () => {
       const generalUserId = 50
 
       axios.get
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ログインチェック
           status: 200
         })
-        .mockResolvedValueOnce({
+        .mockResolvedValueOnce({  // ユーザーID取得のため再度ログインチェック
           data: {
             payload: { user_id: generalUserId }
+          }
+        })
+        .mockResolvedValueOnce({  // ユーザー情報取得
+          data: {
+            id: 50,
+            name: 'general user',
+            department: '開発部'
           }
         })
         .mockReturnValueOnce({

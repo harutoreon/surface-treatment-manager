@@ -19,6 +19,8 @@ Rails.application.routes.draw do
 
   get '/maker_list', to: 'makers#maker_list'
 
+  get '/user_list', to: 'users#user_list'
+
   resources :categories
   resources :users
   resources :departments

@@ -29,6 +29,7 @@ const body = ref('')
 const sampleId = ref(route.params.id)
 const comment = ref('')
 const errorMessage = ref('')
+const user = ref('')
 
 const modalReset = () => {
   commenter.value = ''
@@ -45,9 +46,10 @@ const handleCommentAdd = async () => {
   try {
     const response = await axios.post(`${API_BASE_URL}/makers/${sample.value.maker_id}/samples/${sampleId.value}/comments`, {
       comment: {
-        commenter: commenter.value,
-        department: department.value,
-        body: body.value
+        commenter: user.value.name,
+        department: user.value.department,
+        body: body.value,
+        user_id: user.value.id,
       }
     })
     comment.value = response.data
@@ -71,7 +73,10 @@ const fetchSampleData = async (id) => {
     }
   })
 
-  isAdmin.value = response.data.payload.user_id === 49
+  const userResponse = await axios.get(`${API_BASE_URL}/users/${response.data.payload.user_id}`)
+  user.value = userResponse.data
+
+  isAdmin.value = user.value.admin
 
   try {
     const response = await axios.get(`${API_BASE_URL}/samples/${id}`)
@@ -247,7 +252,7 @@ onMounted(async () => {
             <div class="form-floating">
               <input
                 id="commenter"
-                v-model="commenter"
+                v-model="user.name"
                 class="form-control mb-3"
                 type="text"
                 placeholder="ここに氏名を入力して下さい。"
@@ -259,7 +264,7 @@ onMounted(async () => {
             <div class="form-floating">
               <input
                 id="department"
-                v-model="department"
+                v-model="user.department"
                 class="form-control mb-3"
                 type="text"
                 placeholder="ここに部署名を入力して下さい。"

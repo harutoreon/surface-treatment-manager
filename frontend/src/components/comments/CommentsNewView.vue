@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import { checkLoginStatus } from '@/components/utils.js'
@@ -7,18 +7,57 @@ import { checkLoginStatus } from '@/components/utils.js'
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
 const router = useRouter()
-const departmentOptions = ref('')
-const sampleOptions = ref([])
 const commenter = ref('')
+const users = ref([])
+const userId = ref('')
+const isOpen = ref(false)
 const department = ref('')
-const body = ref('')
+const maker = ref('')
+const makerOptions = ref([])
+const makerId = ref(null)
+const sampleOptions = ref([])
 const sampleName = ref('')
 const sampleId = ref(null)
+const body = ref('')
 const comment = ref('')
 const errorMessage = ref('')
-const maker = ref('')
-const makerOptions = ref('')
-const makerId = ref(null)
+
+const fetchUserList = async () => {
+  const response = await axios.get(`${API_BASE_URL}/user_list`)
+  const userList = response.data || []
+  users.value = userList.map(user => ({
+    userId: user.id,
+    userName: user.name,
+    userDepartment: user.department
+  }))
+}
+
+const close = () => {
+  window.setTimeout(() => {
+    isOpen.value = false
+  }, 100)
+}
+
+const filteredList = computed(() => {
+  if (!commenter.value) return []
+  const word = commenter.value.toLowerCase()
+
+  return users.value.filter( user =>
+    user.userName.toLowerCase().includes(word)
+  )
+})
+
+const select = (userName) => {
+  const selectedUser = users.value.find(user => user.userName === userName)
+
+  if (selectedUser) {
+    commenter.value = selectedUser.userName
+    department.value = selectedUser.userDepartment
+    userId.value = selectedUser.userId
+  }
+
+  isOpen.value = false
+}
 
 const handleMakerChange = (event) => {
   const selected = makerOptions.value.find(
@@ -39,18 +78,6 @@ const handleSampleChange = (event) => {
   sampleId.value = selected?.id || null
 }
 
-const fetchDepartmentData = async () => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/departments`)
-    departmentOptions.value = response.data
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: '部署リストの取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
-}
-
 const fetchSampleData = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/makers/${makerId.value}/samples`)
@@ -69,7 +96,8 @@ const commentRegistration = async () => {
       comment: {
         commenter: commenter.value,
         department: department.value,
-        body: body.value
+        body: body.value,
+        user_id: userId.value
       }
     })
     comment.value = response.data
@@ -88,8 +116,8 @@ onMounted(async () => {
     router.push('/')
   })
   if (!loggedIn) return
-  await fetchDepartmentData()
   await fetchMakerData()
+  await fetchUserList()
 })
 </script>
 
@@ -107,28 +135,43 @@ onMounted(async () => {
       <label class="form-label" for="commenter">
         投稿者
       </label>
-      <input
-        id="commenter"
-        v-model="commenter"
-        class="form-control mb-4"
-        type="text"
-      />
+      <div class="position-relative mb-4">
+        <input
+          id="commenter"
+          v-model="commenter"
+          type="text"
+          class="form-control mb-3"
+          placeholder="投稿者名の一部をここに入力して下さい"
+          autocomplete="off"
+          @focus="isOpen = true"
+          @blur="close"
+        />
+        <ul
+          v-if="isOpen && filteredList.length"
+          class="list-group position-absolute w-100 shadow"
+          style="z-index: 1000;"
+        >
+          <li
+            v-for="item in filteredList"
+            :key="item.userId"
+            class="list-group-item list-group-item-action text-start"
+            @mousedown.prevent="select(item.userName)"
+          >
+            {{ item.userName }}
+          </li>
+        </ul>
+      </div>
 
       <label class="form-label" for="departments">
         部署名
       </label>
-      <select id="departments" v-model="department" class="form-select mb-4">
-        <option value="">
-          部署名を選択して下さい
-        </option>
-        <option
-          v-for="option in departmentOptions"
-          :key="option.id"
-          :value="option.name"
-        >
-          {{ option.name }}
-        </option>
-      </select>
+      <input
+        id="department"
+        v-model="department"
+        class="form-control mb-4"
+        placeholder="ユーザー入力は不要です"
+        type="text"
+      />
 
       <label class="form-label" for="makers">
         メーカー
