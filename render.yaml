@@ -1,4 +1,4 @@
-# Exported from Render on 2025-12-09T17:11:22Z
+# Exported from Render on 2026-02-13
 version: "1"
 services:
   - type: web
@@ -42,8 +42,8 @@ services:
     rootDir: ./frontend
 databases:
   - name: surface-treatment-manager
-    databaseName: surface_treatment_manager_yzl2
-    user: surface_treatment_manager_yzl2_user
+    databaseName: surface_treatment_manager_vr4e
+    user: surface_treatment_manager_vr4e_user
     plan: free
     region: singapore
     ipAllowList:
