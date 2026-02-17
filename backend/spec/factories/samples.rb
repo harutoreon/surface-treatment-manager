@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :sample do
     name { "無電解ニッケルめっき" }
-    category { "めっき" }
     color { "コールド" }
     image { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')) }
     hardness { '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度' }
@@ -9,11 +8,11 @@ FactoryBot.define do
     feature { '耐食性・耐摩耗性・耐薬品性・耐熱性' }
     summary { '電気を使わず化学反応で金属表面にニッケルを析出する技術です。' }
     maker { Maker.first }
+    category { Category.first }
   end
 
   factory :sample_list, class: Sample do
     name { "無電解ニッケルめっき" }
-    category { "めっき" }
     color { "ゴールド" }
     image { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')) }
     hardness { '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度' }
@@ -21,11 +20,11 @@ FactoryBot.define do
     feature { '耐食性・耐摩耗性・耐薬品性・耐熱性' }
     summary { '電気を使わず化学反応で金属表面にニッケルを析出する技術です。' }
     maker { Maker.first }
+    category { Category.first }
   end
 
   factory :anodised_aluminium, class: Sample do
     name { "白アルマイト" }
-    category { "陽極酸化" }
     color { "ホワイト" }
     image { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')) }
     hardness { 'Hv200程度' }
@@ -33,11 +32,11 @@ FactoryBot.define do
     feature { '電気絶縁性・耐食性・耐摩耗性' }
     summary { 'アルミ表面に白色の酸化皮膜を生成する表面処理技術です。' }
     maker { Maker.first }
+    category { Category.first }
   end
 
   factory :chromate, class: Sample do
     name { "黒クロメート" }
-    category { "化成" }
     color { "ブラック" }
     image { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')) }
     hardness { 'Hv200～350程度' }
@@ -45,5 +44,6 @@ FactoryBot.define do
     feature { '導電性・耐傷性・絶縁性・耐食性' }
     summary { '亜鉛めっきや鋼に黒色クロメート皮膜を形成する技術です。' }
     maker { Maker.first }
+    category { Category.first }
   end
 end
