@@ -2,6 +2,7 @@ class Sample < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   belongs_to :maker
+  belongs_to :category
   has_many :comments, dependent: :destroy
   has_one_attached :image
 
