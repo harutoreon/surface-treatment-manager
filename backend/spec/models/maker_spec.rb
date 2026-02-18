@@ -80,6 +80,7 @@ RSpec.describe Maker, type: :model do
     describe '.maker_search' do
       before do
         FactoryBot.create(:maker)
+        FactoryBot.create(:category)
         FactoryBot.create(:sample)
         FactoryBot.create(:maker, name: 'invalid-maker-name')
       end

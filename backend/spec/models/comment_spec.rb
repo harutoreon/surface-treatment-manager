@@ -4,6 +4,7 @@ RSpec.describe Comment, type: :model do
   describe 'validation' do
     before do
       FactoryBot.create(:maker)
+      FactoryBot.create(:category)
       FactoryBot.create(:sample)
       FactoryBot.create(:user)
       @comment = FactoryBot.build(:comment)
