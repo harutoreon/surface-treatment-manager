@@ -4,6 +4,7 @@ RSpec.describe "Samples API", type: :request do
   describe '#index' do
     before do
       @maker = FactoryBot.create(:maker)
+      FactoryBot.create(:category)
       FactoryBot.create_list(:sample_list, 10)
     end
 
@@ -37,6 +38,7 @@ RSpec.describe "Samples API", type: :request do
   describe "#show" do
     before do
       @maker = FactoryBot.create(:maker)
+      FactoryBot.create(:category)
       @sample = FactoryBot.create(:sample)
     end
 
@@ -52,15 +54,17 @@ RSpec.describe "Samples API", type: :request do
     it 'レスポンスに主要な属性がすべて含まれていること' do
       get "/makers/#{@maker.id}/samples/#{@sample.id}"
       json = JSON.parse(response.body, symbolize_names: true)
+      sample = Sample.last
 
-      expect(json).to include(:name)
-      expect(json).to include(:category)
-      expect(json).to include(:color)
-      expect(json).to include(:hardness)
-      expect(json).to include(:film_thickness)
-      expect(json).to include(:feature)
-      expect(json).to include(:image_url)
-      expect(json).to include(:summary)
+      expect(json[:name]).to eq(sample.name)
+      expect(json[:color]).to eq(sample.color)
+      expect(json[:hardness]).to eq(sample.hardness)
+      expect(json[:film_thickness]).to eq(sample.film_thickness)
+      expect(json[:feature]).to eq(sample.feature)
+      expect(json[:summary]).to eq(sample.summary)
+      expect(json[:maker_id]).to eq(sample.maker_id)
+      expect(json[:category_id]).to eq(sample.category_id)
+      expect(json[:image_url]).to eq(sample.image_url)
     end
 
     context '画像が添付済の場合' do
@@ -88,14 +92,15 @@ RSpec.describe "Samples API", type: :request do
     context '有効な表面処理情報で登録したとき' do
       before do
         @maker = FactoryBot.create(:maker)
+        category = FactoryBot.create(:category)
         @valid_sample_params = { sample: { name: "銅めっき",
-                                           category: "表面硬化",
                                            color: "マゼンタ",
                                            image: Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')),
                                            hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
                                            film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
                                            feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
-                                           summary: '銅を電気めっきや化学めっきで表面に薄く被覆する技術です。' } }
+                                           summary: '銅を電気めっきや化学めっきで表面に薄く被覆する技術です。',
+                                           category_id: category.id } }
       end
 
       it 'レスポンスのステータスがcreatedであること' do
@@ -117,14 +122,15 @@ RSpec.describe "Samples API", type: :request do
     context '無効な表面処理情報で登録したとき' do
       before do
         @maker = FactoryBot.create(:maker)
+        category = FactoryBot.create(:category)
         @invalid_sample_params = { sample: { name: "",
-                                             category: "表面硬化",
                                              color: "マゼンタ",
                                              image: nil,
                                              hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
                                              film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
                                              feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
-                                             summary: '銅を電気めっきや化学めっきで表面に薄く被覆する技術です。' } }
+                                             summary: '銅を電気めっきや化学めっきで表面に薄く被覆する技術です。',
+                                             category_id: category.id } }
       end
 
       it 'レスポンスのステータスがunprocessable_contentであること' do
@@ -141,6 +147,7 @@ RSpec.describe "Samples API", type: :request do
   describe '#update' do
     before do
       @maker = FactoryBot.create(:maker)
+      FactoryBot.create(:category)
       @sample = FactoryBot.create(:sample)
     end
 
@@ -176,6 +183,7 @@ RSpec.describe "Samples API", type: :request do
   describe '#destroy' do
     before do
       @maker = FactoryBot.create(:maker)
+      FactoryBot.create(:category)
       @sample = FactoryBot.create(:sample)
       user = FactoryBot.create(:user)
       @sample.comments.create(commenter: 'sample user', department: 'department', body: 'sample comment.', user_id: user.id)
@@ -203,6 +211,7 @@ RSpec.describe "Samples API", type: :request do
   describe '#sample_list' do
     before do
       @maker = FactoryBot.create(:maker)
+      FactoryBot.create(:category)
       FactoryBot.create_list(:sample_list, 10)      
     end
 
@@ -221,6 +230,7 @@ RSpec.describe "Samples API", type: :request do
   describe '#sample_list_with_pagination' do
     before do
       @maker = FactoryBot.create(:maker)
+      FactoryBot.create(:category)
       FactoryBot.create_list(:sample_list, 10)
     end
 
@@ -241,6 +251,7 @@ RSpec.describe "Samples API", type: :request do
   describe 'sample_information' do
     before do
       FactoryBot.create(:maker)
+      FactoryBot.create(:category)
       @sample = FactoryBot.create(:sample)
     end
 
@@ -262,6 +273,7 @@ RSpec.describe "Samples API", type: :request do
       expect(json['feature']).to eq(sample.feature)
       expect(json['summary']).to eq(sample.summary)
       expect(json['maker_id']).to eq(sample.maker_id)
+      expect(json['category_id']).to eq(sample.category_id)
       expect(json['image_url']).to eq(sample.image_url)
     end
   end

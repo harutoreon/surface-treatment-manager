@@ -3,12 +3,13 @@ require 'rails_helper'
 RSpec.describe "Searches", type: :request do
   before do
     FactoryBot.create(:maker)
+    FactoryBot.create(:category)
     FactoryBot.create_list(:sample_list, 5)
   end
 
   describe '#name_search' do
     it 'レスポンスのステータスがokであること' do
-      get '/name_search'
+      get '/name_search', params: { keyword: 'めっき' }
       expect(response).to have_http_status(:ok)
     end
 
@@ -24,7 +25,7 @@ RSpec.describe "Searches", type: :request do
 
   describe '#category_search' do
     it 'レスポンスのステータスがokであること' do
-      get '/category_search'
+      get '/category_search', params: { keyword: 'めっき' }
       expect(response).to have_http_status(:ok)
     end
 
