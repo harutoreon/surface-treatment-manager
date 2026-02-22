@@ -12,7 +12,6 @@ const router = useRouter()
 const sample = ref({
   id: '',
   name: '',
-  category: '',
   color: '',
   maker: '',
   hardness: '',
@@ -144,10 +143,6 @@ onMounted(async () => {
       <li class="d-flex justify-content-between list-group-item">
         <span>処理名：</span>
         <div>{{ sample.name }}</div>
-      </li>
-      <li class="d-flex justify-content-between list-group-item">
-        <span>カテゴリー：</span>
-        <div>{{ sample.category }}</div>
       </li>
       <li class="d-flex justify-content-between list-group-item">
         <span>色：</span>

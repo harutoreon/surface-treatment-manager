@@ -1,4 +1,6 @@
 class Category < ApplicationRecord
+  has_many :samples
+
   validates :item, presence: { message: "（カテゴリー名）が空白です。" },
                    uniqueness: { message: "（カテゴリー名）が重複しています。" }
 

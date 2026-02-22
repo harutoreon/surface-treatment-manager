@@ -89,49 +89,42 @@ describe('SamplesIndexView', () => {
               {
                 id: 1,
                 name: 'クロムめっき',
-                category: 'めっき',
                 color: 'シルバー',
                 feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
               },
               {
                 id: 2,
                 name: '黒クロメート',
-                category: '化成',
                 color: 'ブラック',
                 feature: '耐蝕性・導電性・耐摩耗性・耐熱性',
               },
               {
                 id: 3,
                 name: '緑クロメート',
-                category: '化成',
                 color: 'オリーブ',
                 feature: '耐食性・耐酸化性・電気抵抗性',
               },
               {
                 id: 4,
                 name: '無電解ニッケルめっき',
-                category: 'めっき',
                 color: 'イエローブラウンシルバー',
                 feature: '耐摩耗性・潤滑性・耐食性・導電性',
               },
               {
                 id: 5,
                 name: '黒色クロムめっき',
-                category: 'めっき',
                 color: 'マットブラック',
                 feature: '抗菌性・密着性',
               },
               {
                 id: 6,
                 name: '白金めっき',
-                category: 'めっき',
                 color: 'シルバー',
                 feature: '耐食性・耐腐食性・密着性',
               },
               {
                 id: 7,
                 name: '金めっき',
-                category: 'めっき',
                 color: 'ゴールド',
                 feature: '耐食性・潤滑性・摺動性',
               }
@@ -174,15 +167,6 @@ describe('SamplesIndexView', () => {
       expect(wrapper.find('#sample-feature-5').text()).toBe('抗菌性・密着性')
       expect(wrapper.find('#sample-feature-6').text()).toBe('耐食性・耐腐食性・密着性')
       expect(wrapper.find('#sample-feature-7').text()).toBe('耐食性・潤滑性・摺動性')
-
-      // カテゴリー
-      expect(wrapper.find('#sample-category-1').text()).toBe('めっき')
-      expect(wrapper.find('#sample-category-2').text()).toBe('化成')
-      expect(wrapper.find('#sample-category-3').text()).toBe('化成')
-      expect(wrapper.find('#sample-category-4').text()).toBe('めっき')
-      expect(wrapper.find('#sample-category-5').text()).toBe('めっき')
-      expect(wrapper.find('#sample-category-6').text()).toBe('めっき')
-      expect(wrapper.find('#sample-category-7').text()).toBe('めっき')
 
       // 色
       expect(wrapper.find('#sample-color-1').text()).toBe('シルバー')

@@ -4,6 +4,7 @@ RSpec.describe "Comments API", type: :request do
   describe '#index' do
     before do
       FactoryBot.create(:maker)
+      FactoryBot.create(:category)
       @sample = FactoryBot.create(:sample)
       FactoryBot.create(:user)
       FactoryBot.create_list(:comment, 10)
@@ -25,6 +26,7 @@ RSpec.describe "Comments API", type: :request do
   describe '#show' do
     before do
       FactoryBot.create(:maker)
+      FactoryBot.create(:category)
       @sample = FactoryBot.create(:sample)
       FactoryBot.create(:user)
       @comment = FactoryBot.create(:comment)
@@ -47,6 +49,7 @@ RSpec.describe "Comments API", type: :request do
   describe "#create" do
     before do
       FactoryBot.create(:maker)
+      FactoryBot.create(:category)
       @sample = FactoryBot.create(:sample)
       @user = FactoryBot.create(:user)
     end
@@ -96,6 +99,7 @@ RSpec.describe "Comments API", type: :request do
   describe '#update' do
     before do
       FactoryBot.create(:maker)
+      FactoryBot.create(:category)
       @sample = FactoryBot.create(:sample)
       FactoryBot.create(:user)
       @comment = FactoryBot.create(:comment)
@@ -131,6 +135,7 @@ RSpec.describe "Comments API", type: :request do
   describe '#destroy' do
     before do
       FactoryBot.create(:maker)
+      FactoryBot.create(:category)
       @sample = FactoryBot.create(:sample)
       FactoryBot.create(:user)
       @comment = FactoryBot.create(:comment)
@@ -156,6 +161,7 @@ RSpec.describe "Comments API", type: :request do
   describe '#comment_list' do
     before do
       FactoryBot.create(:maker)
+      FactoryBot.create(:category)
       FactoryBot.create(:sample)
       FactoryBot.create(:user)
       FactoryBot.create_list(:comment, 10)
@@ -183,6 +189,7 @@ RSpec.describe "Comments API", type: :request do
   describe '#comment_information' do
     before do
       FactoryBot.create(:maker)
+      FactoryBot.create(:category)
       FactoryBot.create(:sample)
       FactoryBot.create(:user)
       @comment = FactoryBot.create(:comment)

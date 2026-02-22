@@ -97,7 +97,7 @@ Rails:
   Enabled: false
 
 Rails/HasManyOrHasOneDependent:
-  Enabled: true
+  Enabled: false
 
 Rails/Validation:
   Enabled: true

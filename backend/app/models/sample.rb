@@ -2,11 +2,11 @@ class Sample < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   belongs_to :maker
+  belongs_to :category
   has_many :comments, dependent: :destroy
   has_one_attached :image
 
   validates :name,     presence: { message: '（処理名）が空白です。' }
-  validates :category, presence: { message: '（カテゴリー）が空白です。' }
   validates :color,    presence: { message: '（色調）が空白です。' }
   validates :image,    presence: { message: '（画像）がありません。' }
 
@@ -19,7 +19,6 @@ class Sample < ApplicationRecord
     length:   { maximum: 50, message: '（概要）は50文字以内です。' }
 
   scope :name_search,     -> (keyword) { where('name LIKE ?',     "%#{keyword}%") }
-  scope :category_search, -> (keyword) { where('category LIKE ?', "%#{keyword}%") }
 
   def image_url
     image.attached? ? url_for(image) : nil  

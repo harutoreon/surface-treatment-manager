@@ -11,7 +11,8 @@ class SearchesController < ApplicationController
   end
 
   def category_search
-    samples = Sample.category_search(params[:keyword])
+    category = Category.find_by(item: params[:keyword])
+    samples = category.samples
     keyword = params[:keyword]
 
     render json: {

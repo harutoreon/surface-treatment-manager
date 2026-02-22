@@ -5,6 +5,7 @@ RSpec.describe Sample, type: :model do
     describe 'has_one_attached' do
       it '画像を添付できること' do
         FactoryBot.create(:maker)
+        FactoryBot.create(:category)
         sample = FactoryBot.create(:sample)
 
         expect(sample.image).to be_attached
@@ -15,6 +16,7 @@ RSpec.describe Sample, type: :model do
   describe 'Validation' do
     before do
       FactoryBot.create(:maker)
+      FactoryBot.create(:category)
       @sample = FactoryBot.build(:sample)
     end
 
@@ -27,10 +29,10 @@ RSpec.describe Sample, type: :model do
       expect(@sample).to_not be_valid
     end
 
-    it 'categoryが存在すること' do
-      @sample.category = ''
-      expect(@sample).to_not be_valid
-    end
+    # it 'categoryが存在すること' do
+    #   @sample.category = ''
+    #   expect(@sample).to_not be_valid
+    # end
 
     it 'colorが存在すること' do
       @sample.color = ''
@@ -74,6 +76,7 @@ RSpec.describe Sample, type: :model do
     describe '.name_search' do
       before do
         FactoryBot.create(:maker)
+        FactoryBot.create(:category)
         FactoryBot.create_list(:anodised_aluminium, 9)
         FactoryBot.create(:chromate)
       end
@@ -97,36 +100,11 @@ RSpec.describe Sample, type: :model do
       end
     end
 
-    describe '.category_search' do
-      before do
-        FactoryBot.create(:maker)
-        FactoryBot.create_list(:anodised_aluminium, 9)
-        FactoryBot.create(:chromate)
-      end
-
-      context '引数が「陽極酸化」の場合' do
-        it 'サンプルが9件返ること' do
-          expect(Sample.category_search('陽極酸化').count).to eq(9)
-        end
-      end
-
-      context '引数が「化成」の場合' do
-        it 'サンプルが1件返ること' do
-          expect(Sample.category_search('化成').count).to eq(1)
-        end
-      end
-
-      context '引数が「表面硬化」の場合' do
-        it '空の配列が返ること' do
-          expect(Sample.category_search('表面硬化')).to eq([])
-        end
-      end
-    end
-
     describe '#image_url' do
       context '画像が添付されている場合' do
         it '画像のURLを返すこと' do
           FactoryBot.create(:maker)
+          FactoryBot.create(:category)
           sample = FactoryBot.create(:sample)
 
           expect(sample.image_url).to be_present
@@ -137,6 +115,7 @@ RSpec.describe Sample, type: :model do
       context '画像が添付されていない場合' do
         it 'nilを返すこと' do
           FactoryBot.create(:maker)
+          FactoryBot.create(:category)
           sample = FactoryBot.create(:sample)
           sample.image.purge
 
@@ -148,6 +127,7 @@ RSpec.describe Sample, type: :model do
     describe '.with_image_url' do
       it 'id/name/summary/image_urlの属性が含まれていること' do
         FactoryBot.create(:maker)
+        FactoryBot.create(:category)
         sample = FactoryBot.create(:sample)
         samples = Sample.with_image_url
         json = samples.last

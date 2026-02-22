@@ -56,8 +56,8 @@ onMounted(async () => {
     <div class="list-group list-group-flush mb-2">
       <div class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
-          <span class="mb-1">処理名 / カテゴリー</span>
-          <span class="mb-1">主な機能 / 色</span>
+          <span class="mb-1">処理名 / 色</span>
+          <span class="mb-1">主な機能</span>
         </div>
       </div>
 
@@ -76,9 +76,6 @@ onMounted(async () => {
           </div>
         </div>
         <div class="d-flex w-100 justify-content-between">
-          <div :id="`sample-category-${sample.id}`">
-            {{ sample.category }}
-          </div>
           <div :id="`sample-color-${sample.id}`">
             {{ sample.color }}
           </div>
