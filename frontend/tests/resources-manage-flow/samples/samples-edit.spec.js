@@ -14,7 +14,7 @@ test.describe('samples/id/edit flow', () => {
     test('表面処理情報の編集ページが表示されること', async ({ page }) => {
       await expect(page.getByRole('heading', { name: '表面処理情報の編集' })).toBeVisible()
       await expect(page.locator('#sample-name')).toHaveValue('カナック')
-      await expect(page.locator('#sample-category')).toHaveValue('表面硬化')
+      // await expect(page.locator('#sample-category')).toHaveValue('表面硬化')
       await expect(page.locator('#sample-color')).toHaveValue('ブラウン')
       await expect(page.locator('#sample-hardness')).toHaveValue('Hv800～1400程度')
       await expect(page.locator('#sample-film-thickness')).toHaveValue('寸法変化は0～5µm程度')

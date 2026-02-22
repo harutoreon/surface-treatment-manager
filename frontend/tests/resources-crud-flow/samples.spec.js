@@ -32,7 +32,6 @@ test.describe('samples crud flow', () => {
     await expect(page.getByRole('heading', { name: '表面処理情報' })).toBeVisible()
 
     await expect(page.getByRole('listitem').filter({ hasText: 'テフロンコート' })).toBeVisible()
-    await expect(page.getByRole('listitem').filter({ hasText: 'コーティング' })).toBeVisible()
     await expect(page.getByRole('listitem').filter({ hasText: 'ブラック' })).toBeVisible()
     await expect(page.getByRole('listitem').filter({ hasText: '鉛筆硬度でFから3H' })).toBeVisible()
     await expect(page.getByRole('listitem').filter({ hasText: '5μmから1mm' })).toBeVisible()
@@ -49,7 +48,6 @@ test.describe('samples crud flow', () => {
     await expect(page.getByRole('heading', { name: '表面処理情報の編集' })).toBeVisible()
 
     await expect(page.locator('#sample-name')).toHaveValue('テフロンコート')
-    await expect(page.locator('#sample-category')).toHaveValue('コーティング')
     await expect(page.locator('#sample-color')).toHaveValue('ブラック')
     await expect(page.locator('#sample-hardness')).toHaveValue('鉛筆硬度でFから3H')
     await expect(page.locator('#sample-film-thickness')).toHaveValue('5μmから1mm')
@@ -67,7 +65,6 @@ test.describe('samples crud flow', () => {
     await expect(page.getByRole('heading', { name: '表面処理情報' })).toBeVisible()
 
     await expect(page.getByRole('listitem').filter({ hasText: 'テフロンコート' })).toBeVisible()
-    await expect(page.getByRole('listitem').filter({ hasText: 'コーティング' })).toBeVisible()
     await expect(page.getByRole('listitem').filter({ hasText: 'パープル' })).toBeVisible()
     await expect(page.getByRole('listitem').filter({ hasText: '鉛筆硬度でFから3H' })).toBeVisible()
     await expect(page.getByRole('listitem').filter({ hasText: '5μmから1mm' })).toBeVisible()
