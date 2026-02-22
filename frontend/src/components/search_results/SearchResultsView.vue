@@ -54,10 +54,10 @@ onMounted(async () => {
       <div class="list-group-item">
         <div class="d-flex w-100 justify-content-between">
           <div class="fs-6 mb-1">
-            処理名 / カテゴリー
+            処理名 / 色
           </div>
           <div class="fs-6 mb-1">
-            主な機能 / 色
+            主な機能
           </div>
         </div>
       </div>
@@ -76,9 +76,6 @@ onMounted(async () => {
           </div>
         </div>
         <div class="d-flex justify-content-between">
-          <div class="fs-6 mb-1">
-            {{ sample.category }}
-          </div>
           <div class="fs-6 mb-1">
             {{ sample.color }}
           </div>
