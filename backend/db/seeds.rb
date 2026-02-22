@@ -249,7 +249,7 @@ SAMPLES = [
     film_thickness: "0.1～0.2μm程度",
     feature: "耐食性・耐摩耗性・耐衝撃性",
     image_file: "chrome_plating",
-    summary: 'クロムを電気めっきで表面に薄く被覆する技術です。',
+    summary: 'クロムを電気めっきで表面に薄く被覆する表面処理技術です。',
     category_id: plating.id },
 
   { name: "黒色クロムめっき",
@@ -339,7 +339,7 @@ SAMPLES = [
     film_thickness: "0.2〜1μm",
     feature: "装飾性・反射防止",
     image_file: "iron_tetroxide_film",
-    summary: '鉄表面に四三酸化鉄の防錆皮膜を形成する技術です。',
+    summary: '鉄表面に四三酸化鉄の防錆皮膜を形成する表面処理技術です。',
     category_id: conversion_coating.id },
 
   { name: "パーカー",

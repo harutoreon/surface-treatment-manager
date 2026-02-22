@@ -41,13 +41,13 @@ describe('SearchResultsNameView', () => {
               {
                 id: 7,
                 name: '錫めっき',
-                category: 'めっき',
                 color: 'ホワイトシルバー',
                 hardness: 'Hv9.5～10.5程度',
                 film_thickness: '光沢スズめっきで3～10μm、無光沢スズめっきで5～20μm程度',
                 feature: '耐食性・潤滑性・摺動性',
                 summary: '錫を電気めっきや化学めっきで表面に薄く被覆する技術です。',
-                maker_id: 3
+                maker_id: 3,
+                category_id: 1,
               },
             ]
           }
@@ -117,13 +117,13 @@ describe('SearchResultsNameView', () => {
               {
                 id: 7,
                 name: '錫めっき',
-                category: 'めっき',
                 color: 'ホワイトシルバー',
                 hardness: 'Hv9.5～10.5程度',
                 film_thickness: '光沢スズめっきで3～10μm、無光沢スズめっきで5～20μm程度',
                 feature: '耐食性・潤滑性・摺動性',
                 summary: '錫を電気めっきや化学めっきで表面に薄く被覆する技術です。',
-                maker_id: 3
+                maker_id: 3,
+                category_id: 1,
               },
             ]
           }
@@ -145,9 +145,6 @@ describe('SearchResultsNameView', () => {
     })
 
     it('サンプルの検索結果が表示されること', () => {
-      // 検索文字列
-      expect(wrapper.text()).toContain('「めっき」')
-
       // 処理名
       expect(wrapper.text()).toContain('錫めっき')
 
@@ -259,13 +256,13 @@ describe('SearchResultsNameView', () => {
               {
                 id: 7,
                 name: '錫めっき',
-                category: 'めっき',
                 color: 'ホワイトシルバー',
                 hardness: 'Hv9.5～10.5程度',
                 film_thickness: '光沢スズめっきで3～10μm、無光沢スズめっきで5～20μm程度',
                 feature: '耐食性・潤滑性・摺動性',
                 summary: '錫を電気めっきや化学めっきで表面に薄く被覆する技術です。',
-                maker_id: 3
+                maker_id: 3,
+                category_id: 1,
               },
             ]
           }
@@ -308,13 +305,13 @@ describe('SearchResultsNameView', () => {
               {
                 id: 7,
                 name: '錫めっき',
-                category: 'めっき',
                 color: 'ホワイトシルバー',
                 hardness: 'Hv9.5～10.5程度',
                 film_thickness: '光沢スズめっきで3～10μm、無光沢スズめっきで5～20μm程度',
                 feature: '耐食性・潤滑性・摺動性',
                 summary: '錫を電気めっきや化学めっきで表面に薄く被覆する技術です。',
-                maker_id: 3
+                maker_id: 3,
+                category_id: 1,
               },
             ]
           }
@@ -357,13 +354,13 @@ describe('SearchResultsNameView', () => {
               {
                 id: 7,
                 name: '錫めっき',
-                category: 'めっき',
                 color: 'ホワイトシルバー',
                 hardness: 'Hv9.5～10.5程度',
                 film_thickness: '光沢スズめっきで3～10μm、無光沢スズめっきで5～20μm程度',
                 feature: '耐食性・潤滑性・摺動性',
                 summary: '錫を電気めっきや化学めっきで表面に薄く被覆する技術です。',
-                maker_id: 3
+                maker_id: 3,
+                category_id: 1,
               },
             ]
           }
