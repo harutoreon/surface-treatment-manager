@@ -225,7 +225,8 @@ describe('SamplesNewView', () => {
           film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
           feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
           summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
-          image_url: 'http://localhost:3000/electroless_nickel_plating.jpeg'
+          image_url: 'http://localhost:3000/electroless_nickel_plating.jpeg',
+          category_id: 1,
         }
       })
 

@@ -52,13 +52,13 @@ describe('SamplesShowView', () => {
           data: {
             id: 1,
             name: '無電解ニッケルめっき',
-            category: 'めっき',
             color: 'イエローブラウンシルバー',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
             maker_id: 1,
+            category_id: 1,
             image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
           }
         })
@@ -143,13 +143,13 @@ describe('SamplesShowView', () => {
           data: {
             id: 1,
             name: '無電解ニッケルめっき',
-            category: 'めっき',
             color: 'イエローブラウンシルバー',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
             maker_id: 1,
+            category_id: 1,
             image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
           }
         })
@@ -184,9 +184,6 @@ describe('SamplesShowView', () => {
     it('表面処理情報が表示されること', () => {
       // 処理名
       expect(wrapper.text()).toContain('無電解ニッケルめっき')
-
-      // カテゴリー
-      expect(wrapper.text()).toContain('めっき')
 
       // 色
       expect(wrapper.text()).toContain('イエローブラウンシルバー')
@@ -307,13 +304,13 @@ describe('SamplesShowView', () => {
         data: {
           id: 1,
           name: '無電解ニッケルめっき',
-          category: 'めっき',
           color: 'イエローブラウンシルバー',
           hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
           film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
           feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
           summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
           maker_id: 1,
+          category_id: 1,
           image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
         }
       }
@@ -374,13 +371,13 @@ describe('SamplesShowView', () => {
         data: {
           id: 1,
           name: '無電解ニッケルめっき',
-          category: 'めっき',
           color: 'イエローブラウンシルバー',
           hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
           film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
           feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
           summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
           maker_id: 1,
+          category_id: 1,
           image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
         }
       }
@@ -455,13 +452,13 @@ describe('SamplesShowView', () => {
           data: {
             id: 1,
             name: '無電解ニッケルめっき',
-            category: 'めっき',
             color: 'イエローブラウンシルバー',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
             maker_id: 1,
+            category_id: 1,
             image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
           }
         })
@@ -526,13 +523,13 @@ describe('SamplesShowView', () => {
           data: {
             id: 1,
             name: '無電解ニッケルめっき',
-            category: 'めっき',
             color: 'イエローブラウンシルバー',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
             maker_id: 1,
+            category_id: 1,
             image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
           }
         })
@@ -600,13 +597,13 @@ describe('SamplesShowView', () => {
           data: {
             id: 1,
             name: '無電解ニッケルめっき',
-            category: 'めっき',
             color: 'イエローブラウンシルバー',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
             maker_id: 1,
+            category_id: 1,
             image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
           }
         })
@@ -681,13 +678,13 @@ describe('SamplesShowView', () => {
           data: {
             id: 1,
             name: '無電解ニッケルめっき',
-            category: 'めっき',
             color: 'イエローブラウンシルバー',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
             maker_id: 1,
+            category_id: 1,
             image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
           }
         })
@@ -742,13 +739,13 @@ describe('SamplesShowView', () => {
           data: {
             id: 1,
             name: '無電解ニッケルめっき',
-            category: 'めっき',
             color: 'イエローブラウンシルバー',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
             maker_id: 1,
+            category_id: 1,
             image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
           }
         })
@@ -816,13 +813,13 @@ describe('SamplesShowView', () => {
           data: {
             id: 1,
             name: '無電解ニッケルめっき',
-            category: 'めっき',
             color: 'イエローブラウンシルバー',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
             maker_id: 1,
+            category_id: 1,
             image_url: 'http://localhost:3000/rails/active_storage/blobs/sample_image_url.jpeg',
           }
         })

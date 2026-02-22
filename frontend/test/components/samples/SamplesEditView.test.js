@@ -36,12 +36,12 @@ describe('SamplesEditView', () => {
           data: {
             id: 1,
             name: '無電解ニッケルめっき',
-            category: 'めっき',
             color: 'コールド',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+            category_id: 1,
             image_url: 'http://localhost:3000/rails/active_storage/blobs/redirect//test.jpg'
           }
         })
@@ -99,12 +99,12 @@ describe('SamplesEditView', () => {
           data: {
             id: 1,
             name: '無電解ニッケルめっき',
-            category: 'めっき',
             color: 'コールド',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+            category_id: 1,
             image_url: 'http://localhost:3000/rails/active_storage/blobs/redirect//test.jpg'
           }
         })
@@ -130,7 +130,6 @@ describe('SamplesEditView', () => {
 
       // ラベル要素
       expect(wrapper.find('label[for="sample-name"]').text()).toContain('処理名')
-      expect(wrapper.find('label[for="sample-category"]').text()).toContain('カテゴリー')
       expect(wrapper.find('label[for="sample-color"]').text()).toContain('色')
       expect(wrapper.find('label[for="sample-hardness"]').text()).toContain('硬度')
       expect(wrapper.find('label[for="sample-film-thickness"]').text()).toContain('膜厚')
@@ -140,7 +139,6 @@ describe('SamplesEditView', () => {
 
       // 入力要素
       expect(wrapper.find('#sample-name').exists()).toBe(true)
-      expect(wrapper.find('#sample-category').exists()).toBe(true)
       expect(wrapper.find('#sample-color').exists()).toBe(true)
       expect(wrapper.find('#sample-hardness').exists()).toBe(true)
       expect(wrapper.find('#sample-film-thickness').exists()).toBe(true)
@@ -149,7 +147,6 @@ describe('SamplesEditView', () => {
 
       // 入力要素の値
       expect(wrapper.find('#sample-name').element.value).toBe('無電解ニッケルめっき')
-      expect(wrapper.find('#sample-category').element.value).toBe('めっき')
       expect(wrapper.find('#sample-color').element.value).toBe('コールド')
       expect(wrapper.find('#sample-hardness').element.value).toBe('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
       expect(wrapper.find('#sample-film-thickness').element.value).toBe('通常は3～5μm、厚めの場合は20～50μmまで可能')
@@ -202,12 +199,12 @@ describe('SamplesEditView', () => {
         data: {
           id: 35,
           name: '無電解ニッケルめっき',
-          category: 'めっき',
           color: 'ゴールド',
           hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
           film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
           feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
           summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+          category_id: 1,
           image_url: 'http://localhost:3000/rails/active_storage/blobs/redirect/test.jpg'
         }
       }
@@ -231,7 +228,6 @@ describe('SamplesEditView', () => {
       await flushPromises()
 
       expect(wrapper.find('#sample-name').element.value).toBe('無電解ニッケルめっき')
-      expect(wrapper.find('#sample-category').element.value).toBe('めっき')
       expect(wrapper.find('#sample-color').element.value).toBe('ゴールド')
       expect(wrapper.find('#sample-hardness').element.value).toBe('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
       expect(wrapper.find('#sample-film-thickness').element.value).toBe('通常は3～5μm、厚めの場合は20～50μmまで可能')
@@ -260,12 +256,12 @@ describe('SamplesEditView', () => {
           data: {
             id: 35,
             name: '無電解ニッケルめっき',
-            category: 'めっき',
             color: 'ゴールド',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+            category_id: 1,
             image_url: 'http://localhost:3000/rails/active_storage/blobs/redirect/test.jpg'
           }
         })
@@ -287,7 +283,6 @@ describe('SamplesEditView', () => {
       await flushPromises()
 
       expect(wrapper.find('#sample-name').element.value).toBe('無電解ニッケルめっき')
-      expect(wrapper.find('#sample-category').element.value).toBe('めっき')
       expect(wrapper.find('#sample-color').element.value).toBe('ゴールド')
       expect(wrapper.find('#sample-hardness').element.value).toBe('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
       expect(wrapper.find('#sample-film-thickness').element.value).toBe('通常は3～5μm、厚めの場合は20～50μmまで可能')
@@ -315,12 +310,12 @@ describe('SamplesEditView', () => {
           data: {
             id: 1,
             name: '無電解ニッケルめっき',
-            category: 'めっき',
             color: 'コールド',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
+            category_id: 1,
             image_url: 'http://localhost:3000/rails/active_storage/blobs/redirect//test.jpg'
           }
         })

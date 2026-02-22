@@ -7,7 +7,7 @@ import { checkLoginStatus } from '@/components/utils.js'
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
 const router = useRouter()
-const options = ref([])
+const categoryOptions = ref([])
 const name = ref('')
 const category = ref('')
 const color = ref('')
@@ -22,6 +22,14 @@ const imageSizeErrorMessage = ref('')
 const previewImage = ref('')
 const makerOptions = ref('')
 const makerId = ref(null)
+const categoryId = ref(null)
+
+const handleCategoryChange = (event) => {
+  const selected = categoryOptions.value.find(
+    option => option.item === event.target.value
+  )
+  categoryId.value = selected?.id || null
+}
 
 const handleMakerChange = (event) => {
   const selected = makerOptions.value.find(
@@ -38,7 +46,7 @@ const fetchMakerData = async () => {
 const fetchCategories = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/categories`)
-    options.value = response.data
+    categoryOptions.value = response.data
   } catch (error) {
     if (error.response && error.response.status === 404) {
       emit('message', { type: 'danger', text: 'カテゴリーの取得に失敗しました。' })
@@ -72,13 +80,13 @@ const sampleRegistration = async () => {
   try {
     const formData = new FormData()
     formData.append('sample[name]', name.value)
-    formData.append('sample[category]', category.value)
     formData.append('sample[color]', color.value)
     formData.append('sample[maker]', maker.value)
     formData.append('sample[hardness]', hardness.value)
     formData.append('sample[film_thickness]', filmThickness.value)
     formData.append('sample[feature]', feature.value)
     formData.append('sample[summary]', summary.value)
+    formData.append('sample[category_id]', categoryId.value)
     if (image.value) {
       formData.append('sample[image]', image.value)
     }
@@ -133,11 +141,20 @@ onMounted(async () => {
           <label class="form-label" for="sample-category">
             カテゴリー
           </label>
-          <select id="sample-category" v-model="category" class="form-select mb-3">
+          <select
+            id="sample-category"
+            v-model="category"
+            class="form-select mb-3"
+            @change="handleCategoryChange"
+          >
             <option value="">
               カテゴリーを選択して下さい
             </option>
-            <option v-for="option in options" :key="option.id" :value="option.item">
+            <option
+              v-for="option in categoryOptions"
+              :key="option.id"
+              :value="option.item"
+            >
               {{ option.item }}
             </option>
           </select>

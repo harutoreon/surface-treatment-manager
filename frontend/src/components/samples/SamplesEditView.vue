@@ -28,12 +28,12 @@ const sampleUpdate = async () => {
   try {
     const formData = new FormData()
     formData.append('sample[name]', sample.value.name)
-    formData.append('sample[category]', sample.value.category)
     formData.append('sample[color]', sample.value.color)
     formData.append('sample[hardness]', sample.value.hardness)
     formData.append('sample[film_thickness]', sample.value.film_thickness)
     formData.append('sample[feature]', sample.value.feature)
     formData.append('sample[summary]', sample.value.summary)
+    formData.append('sample[category_id]', sample.value.category_id)
 
     if (image.value) {
       formData.append('sample[image]', image.value)  
@@ -90,20 +90,6 @@ onMounted(async () => {
           />
         </div>
         <div class="col">
-          <label class="form-label" for="sample-category">
-            カテゴリー
-          </label>
-          <input
-            id="sample-category"
-            v-model="sample.category"
-            class="form-control mb-3"
-            type="text"
-          />
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col">
           <label class="form-label" for="sample-color">
             色
           </label>
@@ -114,6 +100,9 @@ onMounted(async () => {
             type="text"
           />
         </div>
+      </div>
+
+      <div class="row">
         <div class="col">
           <label class="form-label" for="sample-hardness">
             硬度
@@ -125,37 +114,43 @@ onMounted(async () => {
             type="text"
           />
         </div>
+        <div class="col">
+          <label class="form-label" for="sample-film-thickness">
+            膜厚
+          </label>
+          <input
+            id="sample-film-thickness"
+            v-model="sample.film_thickness"
+            class="form-control mb-3"
+            type="text"
+          />
+        </div>
       </div>
 
-      <label class="form-label" for="sample-film-thickness">
-        膜厚
-      </label>
-      <input
-        id="sample-film-thickness"
-        v-model="sample.film_thickness"
-        class="form-control mb-3"
-        type="text"
-      />
-
-      <label class="form-label" for="sample-feature">
-        特徴
-      </label>
-      <input
-        id="sample-feature"
-        v-model="sample.feature"
-        class="form-control mb-3"
-        type="text"
-      />
-
-      <label class="form-label" for="sample-summary">
-        概要
-      </label>
-      <input
-        id="sample-summary"
-        v-model="sample.summary"
-        class="form-control mb-3"
-        type="text"
-      />
+      <div class="row">
+        <div class="col">
+          <label class="form-label" for="sample-feature">
+            特徴
+          </label>
+          <input
+            id="sample-feature"
+            v-model="sample.feature"
+            class="form-control mb-3"
+            type="text"
+          />
+        </div>
+        <div class="col">
+          <label class="form-label" for="sample-summary">
+            概要
+          </label>
+          <input
+            id="sample-summary"
+            v-model="sample.summary"
+            class="form-control mb-3"
+            type="text"
+          />
+        </div>
+      </div>
 
       <label class="form-label" for="sample-image">
         画像
