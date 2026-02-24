@@ -44,7 +44,7 @@ const handleLogin = async () => {
 
     <div>ユーザーの選択</div>
 
-    <ul class="list-group mb-4">
+    <ul class="list-group mb-4 shadow-sm">
       <li class="list-group-item">
         <div class="form-check">
           <input
@@ -96,7 +96,7 @@ const handleLogin = async () => {
       <input
         id="user-name"
         v-model="name"
-        class="form-control mb-4"
+        class="form-control mb-4 shadow-sm"
         type="text"
       />
       <label for="user-password">
@@ -105,12 +105,12 @@ const handleLogin = async () => {
       <input
         id="user-password"
         v-model="password"
-        class="form-control mb-5"
+        class="form-control mb-5 shadow-sm"
         type="password"
       />
       <button
         type="submit"
-        class="form-control btn btn-primary"
+        class="form-control btn btn-primary shadow-lg"
       >
         ログイン
       </button>
