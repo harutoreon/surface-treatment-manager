@@ -15,7 +15,7 @@ const goHome = () => {
     </h1>
     <p>お探しのページは見つかりませんでした。</p>
     <p>存在しない URL か、移動された可能性があります。</p>
-    <button class="btn btn-outline-primary mt-5" @click="goHome">
+    <button class="btn btn-outline-primary mt-5 shadow-sm" @click="goHome">
       ホームに戻る
     </button>
   </div>
