@@ -40,7 +40,7 @@ onMounted(async () => {
     <div class="album">
       <div class="row row-cols-5 g-3">
         <div v-for="sample in samples" :key="sample.id" class="col">
-          <div class="card">
+          <div class="card shadow">
             <img
               :src="sample.image_url"
               class="card-img-top"
@@ -57,7 +57,7 @@ onMounted(async () => {
               </div>
               <RouterLink
                 :to="`/samples/${sample.id}`"
-                class="btn btn-primary"
+                class="btn btn-primary shadow-lg"
               >
                 詳細へ
               </RouterLink>
