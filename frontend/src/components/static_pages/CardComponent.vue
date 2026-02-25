@@ -11,7 +11,7 @@ defineProps({
 </script>
 
 <template>
-  <div :id="id" class="card pt-2" style="width: 19rem;">
+  <div :id="id" class="card pt-2 shadow-sm" style="width: 19rem;">
     <img
       :alt="alt"
       class="card-img-top w-25"
