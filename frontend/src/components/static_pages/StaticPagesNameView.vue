@@ -33,10 +33,10 @@ const submitSearch = () => {
       <input
         v-model="keyword"
         type="text"
-        class="form-control mb-3"
+        class="form-control mb-3 shadow-sm"
         placeholder="キーワードをここに入力"
       />
-      <button type="submit" class="btn btn-secondary form-control mb-5">
+      <button type="submit" class="btn btn-secondary form-control mb-5 shadow">
         検索
       </button>
     </form>

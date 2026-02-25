@@ -56,7 +56,7 @@ onMounted(async () => {
     </p>
 
     <form @submit.prevent="submitSearch">
-      <select v-model="keyword" class="form-select mb-3">
+      <select v-model="keyword" class="form-select mb-3 shadow-sm">
         <option value="">
           カテゴリーを選択して下さい
         </option>
@@ -64,7 +64,7 @@ onMounted(async () => {
           {{ option.item }}
         </option>
       </select>
-      <button type="submit" class="btn btn-secondary form-control mb-5">
+      <button type="submit" class="btn btn-secondary form-control mb-5 shadow">
         検索
       </button>
     </form>
