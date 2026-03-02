@@ -55,7 +55,7 @@ onMounted(async () => {
       部署情報
     </h3>
 
-    <ul class="list-group mb-5">
+    <ul class="list-group mb-5 shadow-sm">
       <li class="d-flex justify-content-between list-group-item">
         <span>部署名 :</span>
         <div>{{ department.name }}</div>
@@ -76,7 +76,7 @@ onMounted(async () => {
     </ul>
 
     <div class="d-flex justify-content-end mt-5">
-      <button class="btn btn-outline-danger" type="button" @click="handleDelete">
+      <button class="btn btn-outline-danger shadow-sm" type="button" @click="handleDelete">
         部署情報の削除
       </button>
     </div>
