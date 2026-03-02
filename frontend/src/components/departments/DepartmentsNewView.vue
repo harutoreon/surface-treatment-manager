@@ -48,11 +48,11 @@ onMounted(() => {
       <input
         id="department-name"
         v-model="name"
-        class="form-control mb-4"
+        class="form-control mb-4 shadow-sm"
         type="text"
       />
       
-      <button type="submit" class="form-control btn btn-primary mb-5">
+      <button type="submit" class="form-control btn btn-primary mb-5 shadow">
         登録
       </button>
     </form>
