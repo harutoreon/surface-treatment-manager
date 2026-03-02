@@ -64,7 +64,7 @@ onMounted(async () => {
       <input
         id="category-item"
         v-model="category.item"
-        class="form-control mb-4"
+        class="form-control mb-4 shadow-sm"
         type="text"
         required
       />
@@ -75,18 +75,18 @@ onMounted(async () => {
       <textarea
         id="category-summary"
         v-model="category.summary"
-        class="form-control mb-4"
+        class="form-control mb-4 shadow-sm"
         required
       />
 
       <div class="d-grid gap-2 d-md-block">
-        <button type="submit" class="btn btn-primary me-md-2">
+        <button type="submit" class="btn btn-primary me-md-2 shadow">
           更新
         </button>
         <button
           v-if="category.id"
           type="button"
-          class="btn btn-outline-secondary"
+          class="btn btn-outline-secondary shadow-sm"
           @click="cancel"
         >
           キャンセル

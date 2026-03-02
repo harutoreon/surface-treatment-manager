@@ -55,7 +55,7 @@ onMounted(async () => {
       カテゴリー情報
     </h3>
 
-    <ul class="list-group mb-5">
+    <ul class="list-group mb-5 shadow-sm">
       <li class="d-flex justify-content-between list-group-item">
         <div>カテゴリー名 :</div>
         <div>{{ category.item }}</div>
@@ -81,7 +81,7 @@ onMounted(async () => {
 
     <div class="d-flex justify-content-end mt-5">
       <button
-        class="btn btn-outline-danger"
+        class="btn btn-outline-danger shadow-sm"
         type="button"
         @click="handleDelete"
       >
