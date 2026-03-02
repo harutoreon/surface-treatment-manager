@@ -49,7 +49,7 @@ onMounted(() => {
       <input
         id="category-item"
         v-model="item"
-        class="form-control mb-4"
+        class="form-control mb-4 shadow-sm"
         type="text"
         required
       />
@@ -60,11 +60,11 @@ onMounted(() => {
       <textarea
         id="category-summary"
         v-model="summary"
-        class="form-control mb-4"
+        class="form-control mb-4 shadow-sm"
         required
       />
       
-      <button type="submit" class="form-control btn btn-primary mb-5">
+      <button type="submit" class="form-control btn btn-primary mb-5 shadow">
         登録
       </button>
     </form>
