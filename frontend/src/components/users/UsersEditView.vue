@@ -79,7 +79,7 @@ onMounted(async () => {
       <input
         id="user-name"
         v-model="user.name"
-        class="form-control mb-3"
+        class="form-control mb-3 shadow-sm"
         type="text"
         required
       />
@@ -90,7 +90,7 @@ onMounted(async () => {
       <input
         id="user-department"
         v-model="user.department"
-        class="form-control mb-3"
+        class="form-control mb-3 shadow-sm"
         type="text"
         required
       />
@@ -101,7 +101,7 @@ onMounted(async () => {
       <input
         id="user-password"
         v-model="password"
-        class="form-control mb-3"
+        class="form-control mb-3 shadow-sm"
         type="password"
       />
 
@@ -111,18 +111,18 @@ onMounted(async () => {
       <input
         id="user-password-confirmation"
         v-model="password_confirmation"
-        class="form-control mb-4"
+        class="form-control mb-4 shadow-sm"
         type="password"
       />
 
       <div class="d-grid gap-2 d-md-block">
-        <button type="submit" class="btn btn-primary me-md-2">
+        <button type="submit" class="btn btn-primary me-md-2 shadow">
           更新
         </button>
         <button
           v-if="user.id"
           type="button"
-          class="btn btn-outline-secondary"
+          class="btn btn-outline-secondary shadow-sm"
           @click="cancel"
         >
           キャンセル
