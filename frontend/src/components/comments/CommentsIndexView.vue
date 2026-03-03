@@ -110,7 +110,7 @@ onMounted(async () => {
     >
       <li
         id="pagination_previous_page"
-        class="page-item"
+        class="page-item shadow-sm"
         :class="{ disabled: currentPage === 1 }"
       >
         <RouterLink
@@ -128,7 +128,7 @@ onMounted(async () => {
       <li
         v-for="page in visiblePages"
         :key="page"
-        class="page-item"
+        class="page-item shadow-sm"
         :class="{ active: page === currentPage }"
       >
         <RouterLink class="page-link" :to="getPageLink(page)">
@@ -138,7 +138,7 @@ onMounted(async () => {
 
       <li
         id="pagination_next_page"
-        class="page-item"
+        class="page-item shadow-sm"
         :class="{ disabled: currentPage === totalPages }"
       >
         <RouterLink
