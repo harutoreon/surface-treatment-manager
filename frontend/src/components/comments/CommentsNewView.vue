@@ -140,7 +140,7 @@ onMounted(async () => {
           id="commenter"
           v-model="commenter"
           type="text"
-          class="form-control mb-3"
+          class="form-control mb-3 shadow-sm"
           placeholder="投稿者名の一部をここに入力して下さい"
           autocomplete="off"
           @focus="isOpen = true"
@@ -168,7 +168,7 @@ onMounted(async () => {
       <input
         id="department"
         v-model="department"
-        class="form-control mb-4"
+        class="form-control mb-4 shadow-sm"
         placeholder="ユーザー入力は不要です"
         type="text"
       />
@@ -179,7 +179,7 @@ onMounted(async () => {
       <select
         id="makers"
         v-model="maker"
-        class="form-select mb-4"
+        class="form-select mb-4 shadow-sm"
         @change="handleMakerChange"
       >
         <option value="">
@@ -201,7 +201,7 @@ onMounted(async () => {
         v-if="makerId"
         id="samples"
         v-model="sampleName"
-        class="form-select mb-4"
+        class="form-select mb-4 shadow-sm"
         @change="handleSampleChange"
       >
         <option value="">
@@ -219,9 +219,9 @@ onMounted(async () => {
       <label class="form-label" for="body">
         コメント
       </label>
-      <textarea id="body" v-model="body" class="form-control mb-5" />
+      <textarea id="body" v-model="body" class="form-control mb-5 shadow-sm" />
 
-      <button type="submit" class="form-control btn btn-primary mb-5">
+      <button type="submit" class="form-control btn btn-primary mb-5 shadow">
         登録
       </button>
     </form>

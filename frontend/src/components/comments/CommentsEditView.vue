@@ -69,7 +69,7 @@ onMounted(async () => {
       <input
         id="department"
         v-model="comment.department"
-        class="form-control mb-4"
+        class="form-control mb-4 shadow-sm"
         type="text"
         disabled
       />
@@ -80,7 +80,7 @@ onMounted(async () => {
       <input
         id="commenter"
         v-model="comment.commenter"
-        class="form-control mb-4"
+        class="form-control mb-4 shadow-sm"
         type="text"
         disabled
       />
@@ -91,17 +91,17 @@ onMounted(async () => {
       <textarea
         id="body"
         v-model="comment.body"
-        class="form-control mb-5"
+        class="form-control mb-5 shadow-sm"
       />
 
       <div class="d-grid gap-2 d-md-block">
-        <button type="submit" class="btn btn-primary me-md-2">
+        <button type="submit" class="btn btn-primary me-md-2 shadow">
           更新
         </button>
         <button
           v-if="comment.id"
           type="button"
-          class="btn btn-outline-secondary"
+          class="btn btn-outline-secondary shadow"
           @click="cancel"
         >
           キャンセル
