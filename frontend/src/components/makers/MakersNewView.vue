@@ -67,7 +67,7 @@ onMounted(() => {
           <input
             id="maker-name"
             v-model="name"
-            class="form-control mb-2"
+            class="form-control mb-2 shadow-sm"
             type="text"
             required
           />
@@ -79,7 +79,7 @@ onMounted(() => {
           <input
             id="maker-postal-code"
             v-model="postalCode"
-            class="form-control mb-2"
+            class="form-control mb-2 shadow-sm"
             type="text"
           />
         </div>
@@ -93,7 +93,7 @@ onMounted(() => {
           <input
             id="maker-address"
             v-model="address"
-            class="form-control mb-2"
+            class="form-control mb-2 shadow-sm"
             type="text"
           />
         </div>
@@ -104,7 +104,7 @@ onMounted(() => {
           <input
             id="maker-phone-number"
             v-model="phoneNumber"
-            class="form-control mb-2"
+            class="form-control mb-2 shadow-sm"
             type="tel"
           />
         </div>
@@ -118,7 +118,7 @@ onMounted(() => {
           <input
             id="maker-fax-number"
             v-model="faxNumber"
-            class="form-control mb-2"
+            class="form-control mb-2 shadow-sm"
             type="tel"
           />
         </div>
@@ -129,7 +129,7 @@ onMounted(() => {
           <input
             id="maker-email"
             v-model="email"
-            class="form-control mb-2"
+            class="form-control mb-2 shadow-sm"
             type="email"
           />
         </div>
@@ -143,7 +143,7 @@ onMounted(() => {
           <input
             id="maker-home-page"
             v-model="homePage"
-            class="form-control mb-2"
+            class="form-control mb-2 shadow-sm"
             type="url"
           />
         </div>
@@ -154,13 +154,13 @@ onMounted(() => {
           <input
             id="maker-manufacturer-rep"
             v-model="manufacturerRep"
-            class="form-control mb-4"
+            class="form-control mb-4 shadow-sm"
             type="text"
           />
         </div>
       </div>
 
-      <button type="submit" class="form-control btn btn-primary mb-5">
+      <button type="submit" class="form-control btn btn-primary mb-5 shadow">
         登録
       </button>
     </form>

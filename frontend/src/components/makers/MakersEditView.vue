@@ -76,7 +76,7 @@ onMounted(async () => {
           <input
             id="maker-name"
             v-model="maker.name"
-            class="form-control mb-2"
+            class="form-control mb-2 shadow-sm"
             type="text"
           />
         </div>
@@ -87,7 +87,7 @@ onMounted(async () => {
           <input
             id="maker-postal-code"
             v-model="maker.postal_code"
-            class="form-control mb-2"
+            class="form-control mb-2 shadow-sm"
             type="text"
           />
         </div>
@@ -101,7 +101,7 @@ onMounted(async () => {
           <input
             id="maker-address"
             v-model="maker.address"
-            class="form-control mb-2"
+            class="form-control mb-2 shadow-sm"
             type="text"
           />
         </div>
@@ -112,7 +112,7 @@ onMounted(async () => {
           <input
             id="maker-phone-number"
             v-model="maker.phone_number"
-            class="form-control mb-2"
+            class="form-control mb-2 shadow-sm"
             type="tel"
           />
         </div>
@@ -126,7 +126,7 @@ onMounted(async () => {
           <input
             id="maker-fax-number"
             v-model="maker.fax_number"
-            class="form-control mb-2"
+            class="form-control mb-2 shadow-sm"
             type="tel"
           />
         </div>
@@ -137,7 +137,7 @@ onMounted(async () => {
           <input
             id="maker-email"
             v-model="maker.email"
-            class="form-control mb-2"
+            class="form-control mb-2 shadow-sm"
             type="email"
           />
         </div>
@@ -150,7 +150,7 @@ onMounted(async () => {
           <input
             id="maker-home-page"
             v-model="maker.home_page"
-            class="form-control mb-2"
+            class="form-control mb-2 shadow-sm"
             type="url"
           />
         </div>
@@ -161,20 +161,20 @@ onMounted(async () => {
           <input
             id="maker-manufacturer-rep"
             v-model="maker.manufacturer_rep"
-            class="form-control mb-3"
+            class="form-control mb-3 shadow-sm"
             type="text"
           />
         </div>
       </div>
 
       <div class="d-grid gap-2 d-md-block">
-        <button type="submit" class="btn btn-primary me-md-2">
+        <button type="submit" class="btn btn-primary me-md-2 shadow">
           更新
         </button>
         <button
           v-if="maker.id"
           type="button"
-          class="btn btn-outline-secondary"
+          class="btn btn-outline-secondary shadow-sm"
           @click="cancel"
         >
           キャンセル
