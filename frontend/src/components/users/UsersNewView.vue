@@ -68,7 +68,7 @@ onMounted(async () => {
       <input
         id="user-name"
         v-model="name"
-        class="form-control mb-3"
+        class="form-control mb-3 shadow-sm"
         type="text"
         required
       />
@@ -79,7 +79,7 @@ onMounted(async () => {
       <select
         id="user-department"
         v-model="department"
-        class="form-select mb-3"
+        class="form-select mb-3 shadow-sm"
         required
       >
         <option value="">
@@ -96,7 +96,7 @@ onMounted(async () => {
       <input
         id="user-password"
         v-model="password"
-        class="form-control mb-3"
+        class="form-control mb-3 shadow-sm"
         type="password"
         required
       />
@@ -107,12 +107,12 @@ onMounted(async () => {
       <input
         id="user-password-confirmation"
         v-model="password_confirmation"
-        class="form-control mb-4"
+        class="form-control mb-4 shadow-sm"
         type="password"
         required
       />
 
-      <button type="submit" class="form-control btn btn-primary mb-5">
+      <button type="submit" class="form-control btn btn-primary mb-5 shadow">
         登録
       </button>
     </form>
