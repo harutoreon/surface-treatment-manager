@@ -133,7 +133,7 @@ onMounted(async () => {
           <input
             id="sample-name"
             v-model="name"
-            class="form-control mb-3"
+            class="form-control mb-3 shadow-sm"
             type="text"
           />
         </div>
@@ -144,7 +144,7 @@ onMounted(async () => {
           <select
             id="sample-category"
             v-model="category"
-            class="form-select mb-3"
+            class="form-select mb-3 shadow-sm"
             @change="handleCategoryChange"
           >
             <option value="">
@@ -169,7 +169,7 @@ onMounted(async () => {
           <input
             id="sample-color"
             v-model="color"
-            class="form-control mb-3"
+            class="form-control mb-3 shadow-sm"
             type="text"
           />
         </div>
@@ -180,7 +180,7 @@ onMounted(async () => {
           <select
             id="makers"
             v-model="maker"
-            class="form-select mb-4"
+            class="form-select mb-4 shadow-sm"
             @change="handleMakerChange"
           >
             <option value="">
@@ -205,7 +205,7 @@ onMounted(async () => {
           <input
             id="sample-hardness"
             v-model="hardness"
-            class="form-control mb-3"
+            class="form-control mb-3 shadow-sm"
             type="text"
           />
         </div>
@@ -216,7 +216,7 @@ onMounted(async () => {
           <input
             id="sample-film-thickness"
             v-model="filmThickness"
-            class="form-control mb-3"
+            class="form-control mb-3 shadow-sm"
             type="text"
           />
         </div>
@@ -230,7 +230,7 @@ onMounted(async () => {
           <input
             id="sample-feature"
             v-model="feature"
-            class="form-control mb-3"
+            class="form-control mb-3 shadow-sm"
             type="text"
           />
         </div>
@@ -241,7 +241,7 @@ onMounted(async () => {
           <input
             id="sample-summary"
             v-model="summary"
-            class="form-control mb-3"
+            class="form-control mb-3 shadow-sm"
             type="text"
           />
         </div>
@@ -254,7 +254,7 @@ onMounted(async () => {
         <img
           id="preview-image"
           alt="No Image"
-          class="mb-3"
+          class="rounded-4 mb-3 shadow-sm"
           width="200"
           height="200"
           :src="previewImage || ''"
@@ -262,7 +262,7 @@ onMounted(async () => {
       </div>
       <input
         id="sample-image"
-        class="form-control mb-4"
+        class="form-control mb-4 shadow-sm"
         accept="image/jpeg,image/gif,image/png,image/jpg"
         type="file"
         @change="handleFileChange"
@@ -272,7 +272,7 @@ onMounted(async () => {
         {{ imageSizeErrorMessage }}
       </p>
 
-      <button type="submit" class="form-control btn btn-primary mb-5">
+      <button type="submit" class="form-control btn btn-primary mb-5 shadow">
         登録
       </button>
     </form>

@@ -84,7 +84,7 @@ onMounted(async () => {
     </div>
 
     <ul v-if="totalPages > 0" id="pagination" class="pagination justify-content-center mb-5">
-      <li id="pagination_previous_page" class="page-item" :class="{ disabled: currentPage === 1 }">
+      <li id="pagination_previous_page" class="page-item shadow-sm" :class="{ disabled: currentPage === 1 }">
         <RouterLink v-if="currentPage > 1" class="page-link" :to="getPageLink(currentPage - 1)">
           前ページ
         </RouterLink>
@@ -96,7 +96,7 @@ onMounted(async () => {
       <li
         v-for="page in totalPages"
         :key="page"
-        class="page-item"
+        class="page-item shadow-sm"
         :class="{ active: page === currentPage }"
       >
         <RouterLink class="page-link" :to="getPageLink(page)">
@@ -104,7 +104,7 @@ onMounted(async () => {
         </RouterLink>
       </li>
 
-      <li id="pagination_next_page" class="page-item" :class="{ disabled: currentPage === totalPages }">
+      <li id="pagination_next_page" class="page-item shadow-sm" :class="{ disabled: currentPage === totalPages }">
         <RouterLink v-if="currentPage < totalPages" class="page-link" :to="getPageLink(currentPage + 1)">
           次ページ
         </RouterLink>

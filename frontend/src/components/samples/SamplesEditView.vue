@@ -85,7 +85,7 @@ onMounted(async () => {
           <input
             id="sample-name"
             v-model="sample.name"
-            class="form-control mb-3"
+            class="form-control mb-3 shadow-sm"
             type="text"
           />
         </div>
@@ -96,7 +96,7 @@ onMounted(async () => {
           <input
             id="sample-color"
             v-model="sample.color"
-            class="form-control mb-3"
+            class="form-control mb-3 shadow-sm"
             type="text"
           />
         </div>
@@ -110,7 +110,7 @@ onMounted(async () => {
           <input
             id="sample-hardness"
             v-model="sample.hardness"
-            class="form-control mb-3"
+            class="form-control mb-3 shadow-sm"
             type="text"
           />
         </div>
@@ -121,7 +121,7 @@ onMounted(async () => {
           <input
             id="sample-film-thickness"
             v-model="sample.film_thickness"
-            class="form-control mb-3"
+            class="form-control mb-3 shadow-sm"
             type="text"
           />
         </div>
@@ -135,7 +135,7 @@ onMounted(async () => {
           <input
             id="sample-feature"
             v-model="sample.feature"
-            class="form-control mb-3"
+            class="form-control mb-3 shadow-sm"
             type="text"
           />
         </div>
@@ -146,7 +146,7 @@ onMounted(async () => {
           <input
             id="sample-summary"
             v-model="sample.summary"
-            class="form-control mb-3"
+            class="form-control mb-3 shadow-sm"
             type="text"
           />
         </div>
@@ -161,20 +161,20 @@ onMounted(async () => {
           id="sample-image"
           :src="sample.image_url"
           alt="No Image"
-          class="mb-3"
+          class="rounded-4 mb-3 shadow"
           width="200"
           height="200"
         />
       </div>
 
       <div class="d-grid gap-2 d-md-block mb-5">
-        <button type="submit" class="btn btn-primary me-md-2">
+        <button type="submit" class="btn btn-primary me-md-2 shadow">
           更新
         </button>
         <button
           v-if="sample.id"
           type="button"
-          class="btn btn-outline-secondary"
+          class="btn btn-outline-secondary shadow-sm"
           @click="cancel"
         >
           キャンセル

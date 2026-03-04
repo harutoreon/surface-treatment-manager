@@ -139,7 +139,7 @@ onMounted(async () => {
       表面処理情報
     </h3>
 
-    <div class="list-group mb-5">
+    <div class="list-group mb-5 shadow-sm">
       <li class="d-flex justify-content-between list-group-item">
         <span>処理名：</span>
         <div>{{ sample.name }}</div>
@@ -170,6 +170,7 @@ onMounted(async () => {
           <img
             v-if="sample.image_url"
             id="sample_image"
+            class="rounded-4 shadow"
             :src="sample.image_url"
             alt="Sample Image"
             style="width: 250px; height: auto;"
@@ -188,7 +189,7 @@ onMounted(async () => {
     <div class="d-flex justify-content-end mb-4">
       <button
         type="button"
-        class="btn btn-primary"
+        class="btn btn-primary shadow"
         data-bs-toggle="modal"
         data-bs-target="#commentPostForm"
         @click="modalReset"
@@ -330,7 +331,7 @@ onMounted(async () => {
       <button
         v-show="isAdmin"
         id="handle-delete"
-        class="btn btn-outline-danger"
+        class="btn btn-outline-danger shadow-sm"
         type="button"
         @click="handleDelete"
       >
