@@ -41,7 +41,7 @@ jobs:
         working-directory: backend/
 
       - name: execution bundler-audit
-        run: bundle exec bundle-audit check
+        run: bundle exec bundle-audit check --update
         working-directory: backend/
 
       - name: execution brakeman
