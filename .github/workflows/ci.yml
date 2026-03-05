@@ -40,6 +40,10 @@ jobs:
         run: bundle install
         working-directory: backend/
 
+      - name: execution bundler-audit
+        run: bundle exec bundle-audit check
+        working-directory: backend/
+
       - name: execution brakeman
         run: bundle exec brakeman -q -w2
         working-directory: backend/
