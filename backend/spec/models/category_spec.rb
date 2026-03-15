@@ -1,34 +1,50 @@
 require 'rails_helper'
 
 RSpec.describe Category, type: :model do
-  describe 'validation' do
-    before do
-      @category = FactoryBot.build(:category)
+  let(:category) { FactoryBot.build(:thermal_spraying) }
+
+  describe '有効性の検証' do
+    it 'オブジェクトが有効であること' do
+      expect(category).to be_valid
+    end
+  end
+
+  describe '存在性の検証' do
+    it 'itemが空文字だと無効であること' do
+      category.item = ''
+      expect(category).to be_invalid
+      expect(category.errors[:item]).to include('（カテゴリー名）が空白です。')
     end
 
-    it 'カテゴリが有効であること' do
-      expect(@category).to be_valid
+    it 'summaryが空文字だと無効であること' do
+      category.summary = ''
+      expect(category).to be_invalid
+      expect(category.errors[:summary]).to include('（概要）が空白です。')
+    end
+  end
+
+  describe '長さの検証' do
+    context '文字数が60文字以下の場合' do
+      it '有効であること' do
+        category.summary = 's' * 60
+        expect(category).to be_valid
+      end
     end
 
-    it 'itemが存在すること' do
-      @category.item = ''
-      expect(@category).to_not be_valid
+    context '文字数が60文字を超える場合' do
+      it '無効であること' do
+        category.summary = 's' * 61
+        expect(category).to be_invalid
+        expect(category.errors[:summary]).to include('（概要）が60文字を超えています。')
+      end
     end
+  end
 
-    it 'summaryが存在すること' do
-      @category.summary = ''
-      expect(@category).to_not be_valid
-    end
-
-    it 'itemの重複がないこと' do
-      @category.save
-      duplicate_category = @category.dup
-      expect(duplicate_category).to_not be_valid
-    end
-
-    it 'summaryの長さが60文字以内であること' do
-      @category.summary = 's' * 61
-      expect(@category).to_not be_valid
+  describe '一意性の検証' do
+    it 'itemが重複した場合、無効であること' do
+      category.save
+      duplicate = FactoryBot.build(:thermal_spraying, item: category.item)
+      expect(duplicate).to be_invalid
     end
   end
 end
