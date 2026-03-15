@@ -1,20 +1,28 @@
 require 'rails_helper'
 
 RSpec.describe Department, type: :model do
-  describe 'validation' do
-    before do
-      @department = FactoryBot.build(:department)
-    end
+  let(:department) { FactoryBot.build(:department, name: '生産管理部') }
 
-    it 'nameが存在すること' do
-      @department.name = ''
-      expect(@department).to_not be_valid
+  describe '有効性の検証' do
+    it 'オブジェクトが有効であること' do
+      expect(department).to be_valid
     end
+  end
 
-    it 'nameの重複がないこと' do
-      @department.save
-      duplicate_department = @department.dup
-      expect(duplicate_department).to_not be_valid
+  describe '存在性の検証' do
+    it 'nameが空文字だと無効であること' do
+      department.name = ''
+      expect(department).to be_invalid
+      expect(department.errors[:name]).to include('部署名が空白です。')
+    end
+  end
+
+  describe '一意性の検証' do
+    it 'nameが重複した場合、無効であること' do
+      department.save
+      duplicate = FactoryBot.build(:department, name: department.name)
+      expect(duplicate).to be_invalid
+      expect(duplicate.errors[:name]).to include('部署名が重複しています。')
     end
   end
 end
