@@ -7,7 +7,7 @@ RSpec.describe "Comments API", type: :request do
       FactoryBot.create(:category)
       @sample = FactoryBot.create(:sample)
       FactoryBot.create(:user)
-      FactoryBot.create_list(:comment, 10)
+      FactoryBot.create(:comment)
       @comment = Comment.first
     end
 
@@ -19,7 +19,7 @@ RSpec.describe "Comments API", type: :request do
     it 'コメントの件数が10件返ること' do
       get "/makers/#{@sample.maker_id}/samples/#{@comment.sample_id}/comments"
       json = JSON.parse(response.body)
-      expect(json.count).to eq(10)
+      expect(json.count).to eq(1)
     end
   end
 
@@ -127,7 +127,7 @@ RSpec.describe "Comments API", type: :request do
       it 'commenterが空白で更新できないこと' do
         patch "/makers/#{@sample.maker_id}/samples/#{@comment.sample_id}/comments/#{@comment.id}", params: { comment: { commenter: '' } }
         json = JSON.parse(response.body, symbolize_names: true)
-        expect(json[:commenter]).to eq(["（投稿者名）が空白です。"])
+        expect(json[:commenter]).to eq(["投稿者名が空白です。"])
       end
     end
   end

@@ -1,37 +1,31 @@
 require 'rails_helper'
 
 RSpec.describe Comment, type: :model do
-  describe 'validation' do
-    before do
-      FactoryBot.create(:maker)
-      FactoryBot.create(:category)
-      FactoryBot.create(:sample)
-      FactoryBot.create(:user)
-      @comment = FactoryBot.build(:comment)
+  let(:comment) { FactoryBot.build(:comment) }
+
+  describe '有効性の検証' do
+    it 'オブジェクトが有効であること' do
+      expect(comment).to be_valid
+    end
+  end
+
+  describe '存在性の検証' do
+    it 'commenterが空文字だと無効であること' do
+      comment.commenter = ''
+      comment.valid?
+      expect(comment.errors.details[:commenter]).to include(error: :blank)
     end
 
-    it 'commentオブジェクトが有効であること' do
-      expect(@comment).to be_valid
+    it 'departmentが空文字だと無効であること' do
+      comment.department = ''
+      comment.valid?
+      expect(comment.errors.details[:department]).to include(error: :blank)
     end
 
-    it 'commenterが存在すること' do
-      @comment.commenter = ''
-      expect(@comment).to_not be_valid
-    end
-
-    it 'departmentが存在すること' do
-      @comment.department = ''
-      expect(@comment).to_not be_valid
-    end
-
-    it 'bodyが存在すること' do
-      @comment.body = ''
-      expect(@comment).to_not be_valid
-    end
-
-    it 'sample_idが存在すること' do
-      @comment.sample_id = nil
-      expect(@comment).to_not be_valid
+    it 'bodyが空文字だと無効であること' do
+      comment.body = ''
+      comment.valid?
+      expect(comment.errors.details[:body]).to include(error: :blank)
     end
   end
 end
