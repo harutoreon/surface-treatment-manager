@@ -1,66 +1,78 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  describe 'validation' do
-    before do
-      @user = FactoryBot.build(:user)
-    end
+  let(:user) { FactoryBot.build(:user) }
 
-    it 'userが有効であること' do
-      expect(@user).to be_valid
-    end
-
-    it 'nameが存在すること' do
-      @user.name = ''
-      expect(@user).to_not be_valid
-    end
-
-    it 'nameは50文字以下であること' do
-      @user.name = 's' * 51
-      expect(@user).to_not be_valid
-    end
-
-    it 'departmentが存在すること' do
-      @user.department = ''
-      expect(@user).to_not be_valid
-    end
-
-    it 'パスワードが空白でないこと' do
-      @user.password = ''
-      @user.password_confirmation = ''
-      expect(@user).to_not be_valid
-    end
-
-    it 'パスワードが6文字以上であること' do
-      @user.password = 's' * 5
-      @user.password_confirmation = 's' * 5
-      expect(@user).to_not be_valid
-    end
-
-    it 'パスワードの組み合わせが正常であること' do
-      @user.password = 'foobar'
-      @user.password_confirmation = 'foobaz'
-      expect(@user).to_not be_valid
+  describe '有効性の検証' do
+    it 'オブジェクトが有効であること' do
+      expect(user).to be_valid
     end
   end
 
-  describe 'scope' do
-    describe '.displayable' do
-      before do
-        FactoryBot.create(:user)
-        FactoryBot.create(:admin_user)
-        FactoryBot.create(:general_user)
-      end
+  describe '存在性の検証' do
+    it 'nameが空文字だと無効であること' do
+      user.name = ''
+      user.valid?
+      expect(user.errors.details[:name]).to include(error: :blank)
+    end
 
-      it '管理者ユーザーが含まれないこと' do
-        users = User.displayable
-        expect(users.find_by(name: 'admin user')).to be_nil
-      end
+    it 'departmentが空文字だと無効であること' do
+      user.department = ''
+      user.valid?
+      expect(user.errors.details[:department]).to include(error: :blank)
+    end
+  end
 
-      it '一般ユーザーが含まれないこと' do
-        users = User.displayable
-        expect(users.find_by(name: 'general user')).to be_nil
+  describe '長さの検証' do
+    context 'nameの文字数が50文字以下の場合' do
+      it '有効であること' do
+        user.name = 's' * 50
+        user.valid?
+        expect(user).to be_valid
       end
+    end
+
+    context 'nameの文字数が50文字を超える場合' do
+      it '無効であること' do
+        user.name = 's' * 51
+        user.valid?
+        expect(user.errors.details[:name]).to include(count: 50, error: :too_long)
+      end
+    end
+
+    context 'passwordの文字数が6文字以下の場合' do
+      it '無効であること' do
+        user.password = user.password_confirmation = 's' * 5
+        user.valid?
+        expect(user.errors.details[:password]).to include(count: 6, error: :too_short)
+      end
+    end
+
+    context 'passwordの文字数が6文字を超える場合' do
+      it '有効であること' do
+        user.password = user.password_confirmation = 's' * 6
+        user.valid?
+        expect(user).to be_valid
+      end
+    end
+  end
+
+  describe '一致の検証' do
+    it 'パスワードと確認用パスワードが一致しない場合は無効であること' do
+      user.password, user.password_confirmation = 'foobar', 'foobaz'
+      expect(user).to be_invalid
+    end
+  end
+
+  describe '.displayable' do
+    let!(:target_user) { FactoryBot.create(:user, name: 'normal user') }
+    let!(:admin) { FactoryBot.create(:admin_user) }
+    let!(:general) { FactoryBot.create(:general_user) }
+
+    it 'adminとgeneralは除外されること' do
+      users = User.displayable
+      expect(users).to include(target_user)
+      expect(users).not_to include(admin, general)
     end
   end
 end
