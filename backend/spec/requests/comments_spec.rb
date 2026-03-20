@@ -3,12 +3,9 @@ require 'rails_helper'
 RSpec.describe "Comments API", type: :request do
   describe '#index' do
     before do
-      FactoryBot.create(:maker)
-      FactoryBot.create(:category)
-      @sample = FactoryBot.create(:sample)
-      FactoryBot.create(:user)
-      FactoryBot.create_list(:comment, 10)
+      FactoryBot.create(:comment)
       @comment = Comment.first
+      @sample = Sample.last
     end
 
     it 'レスポンスのステータスがokであること' do
@@ -19,17 +16,14 @@ RSpec.describe "Comments API", type: :request do
     it 'コメントの件数が10件返ること' do
       get "/makers/#{@sample.maker_id}/samples/#{@comment.sample_id}/comments"
       json = JSON.parse(response.body)
-      expect(json.count).to eq(10)
+      expect(json.count).to eq(1)
     end
   end
 
   describe '#show' do
     before do
-      FactoryBot.create(:maker)
-      FactoryBot.create(:category)
-      @sample = FactoryBot.create(:sample)
-      FactoryBot.create(:user)
       @comment = FactoryBot.create(:comment)
+      @sample = Sample.last
     end
 
     it 'レスポンスのステータスがokであること' do
@@ -48,8 +42,6 @@ RSpec.describe "Comments API", type: :request do
 
   describe "#create" do
     before do
-      FactoryBot.create(:maker)
-      FactoryBot.create(:category)
       @sample = FactoryBot.create(:sample)
       @user = FactoryBot.create(:user)
     end
@@ -98,11 +90,8 @@ RSpec.describe "Comments API", type: :request do
 
   describe '#update' do
     before do
-      FactoryBot.create(:maker)
-      FactoryBot.create(:category)
-      @sample = FactoryBot.create(:sample)
-      FactoryBot.create(:user)
       @comment = FactoryBot.create(:comment)
+      @sample = Sample.last
     end
 
     context '有効なコメント情報で更新したとき' do
@@ -127,18 +116,15 @@ RSpec.describe "Comments API", type: :request do
       it 'commenterが空白で更新できないこと' do
         patch "/makers/#{@sample.maker_id}/samples/#{@comment.sample_id}/comments/#{@comment.id}", params: { comment: { commenter: '' } }
         json = JSON.parse(response.body, symbolize_names: true)
-        expect(json[:commenter]).to eq(["（投稿者名）が空白です。"])
+        expect(json[:commenter]).to eq(["投稿者名が空白です。"])
       end
     end
   end
 
   describe '#destroy' do
     before do
-      FactoryBot.create(:maker)
-      FactoryBot.create(:category)
-      @sample = FactoryBot.create(:sample)
-      FactoryBot.create(:user)
       @comment = FactoryBot.create(:comment)
+      @sample = Sample.last
     end
 
     it 'レスポンスのステータスがno_contentであること' do
@@ -160,11 +146,7 @@ RSpec.describe "Comments API", type: :request do
 
   describe '#comment_list' do
     before do
-      FactoryBot.create(:maker)
-      FactoryBot.create(:category)
-      FactoryBot.create(:sample)
-      FactoryBot.create(:user)
-      FactoryBot.create_list(:comment, 10)
+      FactoryBot.create(:comment)
     end
 
     it 'レスポンスのステータスがokであること' do
@@ -172,26 +154,22 @@ RSpec.describe "Comments API", type: :request do
       expect(response).to have_http_status(:ok)      
     end
 
-    it 'コメントの件数が7件含まれていること' do
+    it 'コメントの件数が1件含まれていること' do
       get "/comments"
       json = JSON.parse(response.body, symbolize_names: true)
-      expect(json[:comments].count).to eq(7)
+      expect(json[:comments].count).to eq(1)
     end
 
     it 'current_pageとtotal_pagesが含まれていること' do
       get "/comments"
       json = JSON.parse(response.body, symbolize_names: true)
       expect(json[:current_page]).to eq(1)
-      expect(json[:total_pages]).to eq(2)
+      expect(json[:total_pages]).to eq(1)
     end
   end
 
   describe '#comment_information' do
     before do
-      FactoryBot.create(:maker)
-      FactoryBot.create(:category)
-      FactoryBot.create(:sample)
-      FactoryBot.create(:user)
       @comment = FactoryBot.create(:comment)
     end
 

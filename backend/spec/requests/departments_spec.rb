@@ -86,7 +86,7 @@ RSpec.describe "Departments", type: :request do
       it '部署名が空白のエラーメッセージが返ること' do
         post "/departments", params: @invalid_department_params
         json = JSON.parse(response.body, symbolize_names: true)
-        expect(json[:name][0]).to eq('部署名が空白です。')
+        expect(json[:name][0]).to eq('部署名が空白です')
       end
     end
   end
@@ -124,7 +124,7 @@ RSpec.describe "Departments", type: :request do
       it '部署名が空白のエラーメッセージが表示されること' do
         patch "/departments/#{@department.id}", params: { department: { name: ''} }
         json = JSON.parse(response.body, symbolize_names: true)
-        expect(json[:name][0]).to eq('部署名が空白です。')
+        expect(json[:name][0]).to eq('部署名が空白です')
       end
     end
   end

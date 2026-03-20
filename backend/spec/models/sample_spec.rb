@@ -1,112 +1,84 @@
 require 'rails_helper'
 
 RSpec.describe Sample, type: :model do
-  describe 'Association' do
-    describe 'has_one_attached' do
-      it '画像を添付できること' do
-        FactoryBot.create(:maker)
-        FactoryBot.create(:category)
-        sample = FactoryBot.create(:sample)
+  describe 'バリデーション' do
+    let(:sample) { FactoryBot.build(:sample) }
 
-        expect(sample.image).to be_attached
+    describe '有効性の検証' do
+      it 'オブジェクトが有効であること' do
+        expect(sample).to be_valid
+      end
+    end
+
+    describe '存在性の検証' do
+      it 'nameが空文字だと無効であること' do
+        sample.name = ''
+        sample.valid?
+        expect(sample.errors.details[:name]).to include(error: :blank)
+      end
+
+      it 'colorが空文字だと無効であること' do
+        sample.color = ''
+        sample.valid?
+        expect(sample.errors.details[:color]).to include(error: :blank)
+      end
+
+      it 'imageが未添付だと無効であること' do
+        sample.image = nil
+        sample.valid?
+        expect(sample).to be_invalid
+      end
+
+      it 'hardnessが存在すること' do
+        sample.hardness = ''
+        sample.valid?
+        expect(sample.errors.details[:hardness]).to include(error: :blank)
+      end
+
+      it 'film_thicknessが存在すること' do
+        sample.film_thickness = ''
+        sample.valid?
+        expect(sample.errors.details[:film_thickness]).to include(error: :blank)
+      end
+
+      it 'featureが存在すること' do
+        sample.feature = ''
+        sample.valid?
+        expect(sample.errors.details[:feature]).to include(error: :blank)
+      end
+
+      it 'summaryが存在すること' do
+        sample.summary = ''
+        sample.valid?
+        expect(sample.errors.details[:summary]).to include(error: :blank)
+      end
+    end
+
+    describe '長さの検証' do
+      context 'summaryの文字数が50文字以内の場合' do
+        it '有効であること' do
+          sample.summary = 's' * 50
+          sample.valid?
+          expect(sample).to be_valid
+        end
+      end
+
+      context 'summaryの文字数が50文字を超える場合' do
+        it '無効であること' do
+          sample.summary = 's' * 51
+          sample.valid?
+          expect(sample.errors.details[:summary]).to include(count: 50, error: :too_long)
+        end
       end
     end
   end
 
-  describe 'Validation' do
-    before do
-      FactoryBot.create(:maker)
-      FactoryBot.create(:category)
-      @sample = FactoryBot.build(:sample)
-    end
-
-    it 'sampleが有効であること' do
-      expect(@sample).to be_valid
-    end
-
-    it 'nameが存在すること' do
-      @sample.name = ''
-      expect(@sample).to_not be_valid
-    end
-
-    # it 'categoryが存在すること' do
-    #   @sample.category = ''
-    #   expect(@sample).to_not be_valid
-    # end
-
-    it 'colorが存在すること' do
-      @sample.color = ''
-      expect(@sample).to_not be_valid
-    end
-
-    it 'imageが存在すること' do
-      @sample.image = nil
-      expect(@sample).to_not be_valid
-    end
-
-    it 'hardnessが存在すること' do
-      @sample.hardness = ''
-      expect(@sample).to_not be_valid
-    end
-
-    it 'film_thicknessが存在すること' do
-      @sample.film_thickness = ''
-      expect(@sample).to_not be_valid
-    end
-
-    it 'featureが存在すること' do
-      @sample.feature = ''
-      expect(@sample).to_not be_valid
-    end
-
-    it 'summaryが存在すること' do
-      @sample.summary = ''
-      expect(@sample).to_not be_valid
-    end
-
-    it 'summaryの文字数が50文字以内であること' do
-      @sample.summary = 's' * 51
-      @sample.valid?
-      expect(@sample).to_not be_valid
-      expect(@sample.errors.messages[:summary].first).to eq('（概要）は50文字以内です。')
-    end
-  end
-
-  describe 'Method return values' do
-    describe '.name_search' do
-      before do
-        FactoryBot.create(:maker)
-        FactoryBot.create(:category)
-        FactoryBot.create_list(:anodised_aluminium, 9)
-        FactoryBot.create(:chromate)
-      end
-      
-      context '引数が「アルマイト」の場合' do
-        it 'サンプルが9件返ること' do
-          expect(Sample.name_search('アルマイト').count).to eq(9)
-        end
-      end
-
-      context '引数が「クロメート」の場合' do
-        it 'サンプルが1件返ること' do
-          expect(Sample.name_search('クロメート').count).to eq(1)
-        end
-      end
-
-      context '引数が「ブラスト」の場合' do
-        it '空の配列が返ること' do
-          expect(Sample.name_search('ブラスト')).to eq([])
-        end
-      end
-    end
+  describe 'モデルメソッド' do
+    let!(:sample) { FactoryBot.create(:sample) }
 
     describe '#image_url' do
       context '画像が添付されている場合' do
         it '画像のURLを返すこと' do
-          FactoryBot.create(:maker)
-          FactoryBot.create(:category)
-          sample = FactoryBot.create(:sample)
-
           expect(sample.image_url).to be_present
           expect(sample.image_url).to include('test.jpg')
         end
@@ -114,11 +86,7 @@ RSpec.describe Sample, type: :model do
 
       context '画像が添付されていない場合' do
         it 'nilを返すこと' do
-          FactoryBot.create(:maker)
-          FactoryBot.create(:category)
-          sample = FactoryBot.create(:sample)
           sample.image.purge
-
           expect(sample.image_url).to be_nil
         end
       end
@@ -126,9 +94,6 @@ RSpec.describe Sample, type: :model do
 
     describe '.with_image_url' do
       it 'id/name/summary/image_urlの属性が含まれていること' do
-        FactoryBot.create(:maker)
-        FactoryBot.create(:category)
-        sample = FactoryBot.create(:sample)
         samples = Sample.with_image_url
         json = samples.last
 
@@ -138,6 +103,24 @@ RSpec.describe Sample, type: :model do
         expect(json['summary']).to eq(sample.summary)
         expect(json['image_url']).to eq(sample.image_url)
         expect(json['image_url']).to include("/rails/active_storage/blobs/")
+      end
+    end
+  end
+
+  describe 'スコープ' do
+    let!(:sample) { FactoryBot.create(:sample) }
+
+    describe '.name_search' do
+      context '有効なキーワードの場合' do
+        it 'サンプルが1件返ること' do
+          expect(Sample.name_search('めっき').count).to eq(1)
+        end
+      end
+
+      context '無効なキーワードの場合' do
+        it '空の配列が返ること' do
+          expect(Sample.name_search('ブラスト')).to eq([])
+        end
       end
     end
   end

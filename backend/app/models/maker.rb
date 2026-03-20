@@ -7,52 +7,36 @@ class Maker < ApplicationRecord
   VALID_EMAIL        = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   VALID_URL          = /\Ahttps?:\/\/[^\s\/$.?#].[^\s]*\z/i
 
-  validates :name,             presence: { message: '（メーカー名）が空白です' }
-  validates :postal_code,      presence: { message: '（郵便番号）が空白です' }
-  validates :address,          presence: { message: '（住所）が空白です' }
-  validates :phone_number,     presence: { message: '（電話番号）が空白です' }
-  validates :fax_number,       presence: { message: '（FAX番号）が空白です' }
-  validates :email,            presence: { message: '（メールアドレス）が空白です' }
-  validates :home_page,        presence: { message: '（ホームページのアドレス）が空白です' }
-  validates :manufacturer_rep, presence: { message: '（担当者）が空白です' }
+  validates :name,
+    presence: { message: 'メーカー名が空白です' }
 
-  validate :postal_code_format
-  validate :phone_number_format
-  validate :fax_number_format
-  validate :email_address_format
-  validate :url_format
+  validates :postal_code,
+    presence: { message: '郵便番号が空白です' },
+    format: { with: VALID_POSTAL_CODE, message: '郵便番号のパターンが無効です。' }
 
-  scope :maker_search, -> (keyword) { where(name: keyword).take.samples }
+  validates :address,
+    presence: { message: '住所が空白です' }
 
-  private
+  validates :phone_number,
+    presence: { message: '電話番号が空白です' },
+    format: { with: VALID_PHONE_NUMBER, message: '電話番号のパターンが無効です。' }
 
-    def postal_code_format
-      if postal_code.present? && postal_code !~ VALID_POSTAL_CODE
-        errors.add(:postal_code, '（郵便番号）のパターンが無効です。')
-      end
-    end
+  validates :fax_number,
+    presence: { message: 'FAX番号が空白です' },
+    format: { with: VALID_FAX_NUMBER, message: 'FAX番号のパターンが無効です。' }
 
-    def phone_number_format
-      if phone_number.present? && phone_number !~ VALID_PHONE_NUMBER
-        errors.add(:phone_number, '（電話番号）のパターンが無効です。')
-      end
-    end
+  validates :email,
+    presence: { message: 'メールアドレスが空白です' },
+    format: { with: VALID_EMAIL, message: 'メールアドレスのパターンが無効です。' }
 
-    def fax_number_format
-      if fax_number.present? && fax_number !~ VALID_FAX_NUMBER
-        errors.add(:fax_number, '（FAX番号）のパターンが無効です。')
-      end
-    end
+  validates :home_page,
+    presence: { message: 'ホームページのアドレスが空白です' },
+    format: { with: VALID_URL, message: 'URLのパターンが無効です。' }
 
-    def email_address_format
-      if email.present? && email !~ VALID_EMAIL
-        errors.add(:email, '（メールアドレス）のパターンが無効です。')
-      end
-    end
+  validates :manufacturer_rep,
+    presence: { message: '担当者が空白です' }
 
-    def url_format
-      if home_page.present? && home_page !~ VALID_URL
-        errors.add(:home_page, '（URL）のパターンが無効です。')
-      end
-    end
+  scope :maker_search, ->(keyword) {
+    Sample.joins(:maker).where(makers: { name: keyword })
+  }
 end

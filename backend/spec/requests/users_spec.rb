@@ -132,7 +132,7 @@ RSpec.describe "Users API", type: :request do
       it 'ユーザー名が空白で更新できないこと' do
         patch "/users/#{@user.id}", params: { user: { name: '' } }
         json = JSON.parse(response.body, symbolize_names: true)
-        expect(json[:name]).to eq(["（ユーザー名）が空白です。"])
+        expect(json[:name]).to eq(["ユーザー名が空白です。"])
       end
     end
   end

@@ -117,7 +117,7 @@ RSpec.describe "Categories API", type: :request do
       it 'カテゴリー名が空白で更新できないこと' do
         patch "/categories/#{@category.id}", params: { category: { item: '' } }
         json = JSON.parse(response.body, symbolize_names: true)
-        expect(json[:item]).to eq(["（カテゴリー名）が空白です。"])
+        expect(json[:item]).to eq(["カテゴリー名が空白です"])
       end
     end
   end

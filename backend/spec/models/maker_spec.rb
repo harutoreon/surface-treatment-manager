@@ -1,99 +1,117 @@
 require 'rails_helper'
 
 RSpec.describe Maker, type: :model do
-  describe 'validation' do
-    before do
-      @maker = FactoryBot.build(:maker)
+  describe 'バリデーション' do
+    let(:maker) { FactoryBot.build(:maker) }
+
+    describe '有効性の検証' do
+      it 'オブジェクトが有効であること' do
+        expect(maker).to be_valid
+      end
     end
 
-    it 'makerが有効であること' do
-      expect(@maker).to be_valid
+    describe '存在性の検証' do
+      it 'nameが空文字だと無効であること' do
+        maker.name = ''
+        maker.valid?
+        expect(maker.errors.details[:name]).to include(error: :blank)
+      end
+
+      it 'postal_codeが空文字だと無効であること' do
+        maker.postal_code = ''
+        maker.valid?
+        expect(maker.errors.details[:postal_code]).to include(error: :blank)
+      end
+
+      it 'addressが空文字だと無効であること' do
+        maker.address = ''
+        maker.valid?
+        expect(maker.errors.details[:address]).to include(error: :blank)
+      end
+
+      it 'phone_numberが空文字だと無効であること' do
+        maker.phone_number = ''
+        maker.valid?
+        expect(maker.errors.details[:phone_number]).to include(error: :blank)
+      end
+
+      it 'fax_numberが空文字だと無効であること' do
+        maker.fax_number = ''
+        maker.valid?
+        expect(maker.errors.details[:fax_number]).to include(error: :blank)
+      end
+
+      it 'emailが空文字だと無効であること' do
+        maker.email = ''
+        maker.valid?
+        expect(maker.errors.details[:email]).to include(error: :blank)
+      end
+
+      it 'home_pageが空文字だと無効であること' do
+        maker.home_page = ''
+        maker.valid?
+        expect(maker.errors.details[:home_page]).to include(error: :blank)
+      end
+
+      it 'manufacturer_repが空文字だと無効であること' do
+        maker.manufacturer_rep = ''
+        maker.valid?
+        expect(maker.errors.details[:manufacturer_rep]).to include(error: :blank)
+      end
     end
 
-    it 'nameが存在すること' do
-      @maker.name = ''
-      expect(@maker).to_not be_valid
-    end
+    describe 'フォーマットの検証' do
+      it '無効な郵便番号は登録できないこと' do
+        maker.postal_code = '1234-567'
+        maker.valid?
+        expect(maker.errors.details[:postal_code].first).to include(error: :invalid)
+      end
 
-    it 'postal_codeが存在すること' do
-      @maker.postal_code = ''
-      expect(@maker).to_not be_valid
-    end
+      it '無効な電話番号は登録できないこと' do
+        maker.phone_number = '0123-456-7890'
+        maker.valid?
+        expect(maker.errors.details[:phone_number].first).to include(error: :invalid)
+      end
 
-    it 'addressが存在すること' do
-      @maker.address = ''
-      expect(@maker).to_not be_valid
-    end
+      it '無効なFAX番号は登録できないこと' do
+        maker.fax_number = '0123-456-7890'
+        maker.valid?
+        expect(maker.errors.details[:fax_number].first).to include(error: :invalid)
+      end
 
-    it 'phone_numberが存在すること' do
-      @maker.phone_number = ''
-      expect(@maker).to_not be_valid
-    end
+      it '無効なメールアドレスは登録できないこと' do
+        maker.email = 'user@example,com'
+        maker.valid?
+        expect(maker.errors.details[:email].first).to include(error: :invalid)
+      end
 
-    it 'fax_numberが存在すること' do
-      @maker.fax_number = ''
-      expect(@maker).to_not be_valid
-    end
-
-    it 'emailが存在すること' do
-      @maker.email = ''
-      expect(@maker).to_not be_valid
-    end
-
-    it 'home_pageが存在すること' do
-      @maker.home_page = ''
-      expect(@maker).to_not be_valid
-    end
-
-    it 'manufacturer_repが存在すること' do
-      @maker.manufacturer_rep = ''
-      expect(@maker).to_not be_valid
-    end
-
-    it '無効な郵便番号は登録できないこと' do
-      @maker.postal_code = '1234-567'
-      expect(@maker).to_not be_valid
-    end
-
-    it '無効な電話番号は登録できないこと' do
-      @maker.phone_number = '0123-456-7890'
-      expect(@maker).to_not be_valid
-    end
-
-    it '無効なFAX番号は登録できないこと' do
-      @maker.fax_number = '0123-456-7890'
-      expect(@maker).to_not be_valid
-    end
-
-    it '無効なメールアドレスは登録できないこと' do
-      @maker.email = 'user@example,com'
-      expect(@maker).to_not be_valid
-    end
-
-    it '無効なホームページアドレスは登録できないこと' do
-      @maker.home_page = 'htps://www.example.com'
-      expect(@maker).to_not be_valid
+      it '無効なホームページアドレスは登録できないこと' do
+        maker.home_page = 'htps://www.example.com'
+        maker.valid?
+        expect(maker.errors.details[:home_page].first).to include(error: :invalid)
+      end
     end
   end
 
-  describe 'scope' do
+  describe 'スコープ' do
     describe '.maker_search' do
+      let!(:sample) { FactoryBot.create(:sample) }  # メーカーも同時に生成される
+
       before do
-        FactoryBot.create(:maker)
-        FactoryBot.create(:category)
-        FactoryBot.create(:sample)
-        FactoryBot.create(:maker, name: 'invalid-maker-name')
+        maker = Maker.find(sample.maker_id)
+        maker.name = 'valid-maker-name'
+        maker.save
       end
 
-      context 'サンプルを持っているメーカーの場合' do
-        it '配列にサンプルが含まれていること' do
-          expect(Maker.maker_search('松本情報合名会社').count).to eq(1)
+      context '有効なメーカー名の場合' do
+        it 'サンプルが1件返ること' do
+          expect(Maker.maker_search('valid-maker-name').count).to eq(1)
         end
       end
 
-      context 'サンプルを持っていないメーカーの場合' do
+      context '無効なメーカー名の場合' do
         it '空の配列が返ること' do
-          expect(Maker.maker_search('invalid-maker-name').count).to eq(0)
+          expect(Maker.maker_search('invalid-maker-name')).to be_empty
         end
       end
     end
