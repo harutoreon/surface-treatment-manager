@@ -37,9 +37,8 @@ RSpec.describe "Samples API", type: :request do
 
   describe "#show" do
     before do
-      @maker = FactoryBot.create(:maker)
-      FactoryBot.create(:category)
       @sample = FactoryBot.create(:sample)
+      @maker = Maker.last
     end
 
     after(:context) do
@@ -146,9 +145,8 @@ RSpec.describe "Samples API", type: :request do
 
   describe '#update' do
     before do
-      @maker = FactoryBot.create(:maker)
-      FactoryBot.create(:category)
       @sample = FactoryBot.create(:sample)
+      @maker = Maker.last
     end
 
     context '有効な表面処理情報で更新したとき' do
@@ -175,16 +173,15 @@ RSpec.describe "Samples API", type: :request do
         patch "/makers/#{@maker.id}/samples/#{@sample.id}", params: { sample: { name: '' } }
         json = JSON.parse(response.body, symbolize_names: true)
 
-        expect(json[:name]).to eq(["（処理名）が空白です。"])
+        expect(json[:name]).to eq(["処理名が空白です"])
       end
     end
   end
 
   describe '#destroy' do
     before do
-      @maker = FactoryBot.create(:maker)
-      FactoryBot.create(:category)
       @sample = FactoryBot.create(:sample)
+      @maker = Maker.last
       user = FactoryBot.create(:user)
       @sample.comments.create(commenter: 'sample user', department: 'department', body: 'sample comment.', user_id: user.id)
     end
@@ -250,8 +247,6 @@ RSpec.describe "Samples API", type: :request do
 
   describe 'sample_information' do
     before do
-      FactoryBot.create(:maker)
-      FactoryBot.create(:category)
       @sample = FactoryBot.create(:sample)
     end
 
