@@ -1,4 +1,5 @@
 class MakersController < ApplicationController
+  before_action :set_maker, only: %i[show update destroy]
   def index
     makers = Maker.order(:id).paginate(page: params[:page], per_page: 7)
 
@@ -11,9 +12,7 @@ class MakersController < ApplicationController
   end
 
   def show
-    maker = Maker.find(params[:id])
-
-    render json: maker, status: :ok
+    render json: @maker, status: :ok
   end
 
   def create
@@ -27,18 +26,15 @@ class MakersController < ApplicationController
   end
 
   def update
-    maker = Maker.find(params[:id])
-
-    if maker.update(maker_params)
-      render json: maker, status: :ok
+    if @maker.update(maker_params)
+      render json: @maker, status: :ok
     else
-      render json: maker.errors, status: :unprocessable_content
+      render json: @maker.errors, status: :unprocessable_content
     end
   end
 
   def destroy
-    maker = Maker.find(params[:id])
-    maker.destroy
+    @maker.destroy
     head :no_content
   end
 
@@ -48,6 +44,10 @@ class MakersController < ApplicationController
   end
 
   private
+
+    def set_maker
+      @maker = Maker.find(params[:id])
+    end
 
     def maker_params
       params.require(:maker).permit(:name, :postal_code, :address, :phone_number, :fax_number, :email, :home_page, :manufacturer_rep)
