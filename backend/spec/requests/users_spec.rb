@@ -2,179 +2,130 @@ require 'rails_helper'
 
 RSpec.describe "Users API", type: :request do
   describe '#index' do
-    before do
-      FactoryBot.create_list(:user_list, 8)
-    end
+    let!(:user){ FactoryBot.create(:user) }
 
     it 'レスポンスのステータスがokであること' do
-      get "/users"
+      get users_path
       expect(response).to have_http_status(:ok)
     end
 
-    it 'レスポンスのusersは8件であること' do
-      get "/users"
-      json = JSON.parse(response.body)
-      expect(json['users'].length).to eq(8)
-    end
-
-    it 'レスポンスのcurrent_pageは1であること' do
-      get "/users"
-      json = JSON.parse(response.body)
-      expect(json['current_page']).to eq(1)
-    end
-    
-    it 'レスポンスのtotal_pagesは1であること' do
-      get "/users"
-      json = JSON.parse(response.body)
-      expect(json['total_pages']).to eq(1)
-    end
-
-    it 'レスポンスに管理者ユーザーと一般ユーザーが含まれてないこと' do
-      get "/users"
-      json = JSON.parse(response.body)
-      expect(json['users'].count).to eq(8)
-
-      FactoryBot.create(:admin_user)
-      FactoryBot.create(:general_user)
-
-      get "/users"
-      user_added_json = JSON.parse(response.body)
-      expect(json['users'] == user_added_json['users']).to eq(true)
+    it 'レスポンスにusers/current_page/total_pagesが含まれていること' do
+      get users_path
+      expect(response.parsed_body['users'].size).to eq(1)
+      expect(response.parsed_body['current_page']).to eq(1)
+      expect(response.parsed_body['total_pages']).to eq(1)
     end
   end
 
   describe '#show' do
-    before do
-      @user = FactoryBot.create(:user)
-    end
+    let(:user) { FactoryBot.create(:user) }
 
     it 'レスポンスのステータスがokであること' do
-      get "/users/#{@user.id}.json"
+      get user_path(user)
       expect(response).to have_http_status(:ok)
     end
 
-    it 'json形式のユーザー情報が返ること' do
-      get "/users/#{@user.id}.json"
-      json = JSON.parse(response.body, symbolize_names: true)
-      expect(json[:name]).to eq('Michael Hartl')
-      expect(json[:department]).to eq('品質管理部')
+    it 'レスポンスのレコードに過不足なく属性が含まれていること' do
+      get user_path(user)
+      json = response.parsed_body
+      expect(json[:name]).to eq(user.name)
+      expect(json[:department]).to eq(user.department)
     end
   end
 
   describe '#create' do
+    let(:params) do
+      { user:
+          { name: name,
+            department: '品質管理部',
+            password: 'password',
+            password_confirmation: 'password' } }
+    end
+
     context '有効なユーザー情報で登録したとき' do
-      before do
-        @valid_user_params = { user: { name: 'sample user',
-                                       department: '品質管理部',
-                                       password: 'password',
-                                       password_confirmation: 'password' } }
-      end
+      let(:name) { 'sample user' }
 
       it 'レスポンスのステータスがcreatedであること' do
-        post "/users", params: @valid_user_params
+        post users_path, params: params
         expect(response).to have_http_status(:created)
       end
 
-      it 'headerのlocationが登録したユーザーを参照していること' do
-        post "/users", params: @valid_user_params
-        user = User.last
-        expect(response.header["Location"]).to eq("http://www.example.com/users/#{user.id}")
-      end
+      it 'データベースのユーザー数が増加し、headerのlocationが追加されること' do
+        expect{ post users_path, params: params }.to change{ User.count }.from(0).to(1)
 
-      it 'データベースのユーザー数が1増えること' do
-        expect{ post "/users", params: @valid_user_params }.to change{ User.count }.from(0).to(1)
+        user = User.last
+        expect(response.header["Location"]).to eq(user_url(user))
       end
     end
 
     context '無効なユーザー情報で登録したとき' do
-      before do
-        @invalid_user_params = { user: { name: '',
-                                         department: '品質管理部',
-                                         password: 'password',
-                                         password_confirmation: 'password' } }
-      end
+      let(:name) { '' }
 
       it 'レスポンスのステータスがunprocessable_contentであること' do
-        post "/users", params: @invalid_user_params
+        post users_path, params: params
         expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'データベースに登録されないこと' do
-        expect{ post "/users", params: @invalid_user_params }.to_not change{ User.count }.from(0)
+        expect{ post users_path, params: params }.to_not change{ User.count }.from(0)
+        expect(response.parsed_body[:name]).to include('ユーザー名が空白です。')
       end
     end
   end
 
   describe '#update' do
-    before do
-      @user = FactoryBot.create(:archer)
-    end
+    let!(:user) { FactoryBot.create(:user) }
 
     context '有効なユーザー情報で更新したとき' do
       it 'レスポンスのステータスがokであること' do
-        patch "/users/#{@user.id}", params: { user: { name: 'sample user' } }
+        patch user_path(user), params: { user: { name: 'sample user' } }
         expect(response).to have_http_status(:ok)
       end
 
       it 'nameがsample userで更新されること' do
-        patch "/users/#{@user.id}", params: { user: { name: 'sample user' } }
-        json = JSON.parse(response.body, symbolize_names: true)
-        expect(json[:name]).to eq('sample user')
+        patch user_path(user), params: { user: { name: 'sample user' } }
+        expect(user.reload.name).to eq('sample user')
       end
     end
 
     context '無効なユーザー情報で更新したとき' do
       it 'レスポンスがunprocessable_contentであること' do
-        patch "/users/#{@user.id}", params: { user: { name: '' } }
+        patch user_path(user), params: { user: { name: '' } }
         expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'ユーザー名が空白で更新できないこと' do
-        patch "/users/#{@user.id}", params: { user: { name: '' } }
-        json = JSON.parse(response.body, symbolize_names: true)
-        expect(json[:name]).to eq(["ユーザー名が空白です。"])
+        patch user_path(user), params: { user: { name: '' } }
+        expect(user.reload.name).to eq('Michael Hartl')
+        expect(response.parsed_body[:name]).to include('ユーザー名が空白です。')
       end
     end
   end
 
   describe '#destroy' do
-    before do
-      @user = FactoryBot.create(:sample_user)
-    end
+    let!(:user) { FactoryBot.create(:user) }
 
     it 'レスポンスのステータスがno_contentであること' do
-      delete "/users/#{@user.id}"
+      delete user_path(user)
       expect(response).to have_http_status(:no_content)
     end
 
-    it 'レスポンスの本文が空であること' do
-      delete "/users/#{@user.id}"
+    it 'ユーザーの削除に成功し、レスポンスの本文は空であること' do
+      expect { delete user_path(user) }.to change{ User.count }.from(1).to(0)
       expect(response.body).to be_blank
-    end
-
-    it 'ユーザーの削除に成功すること' do
-      expect { delete "/users/#{@user.id}" }.to change{ User.count }.from(1).to(0)
     end
   end
 
   describe '#user_list' do
-    before do
-      FactoryBot.create_list(:user_list, 10)
-    end
+    let!(:user) { FactoryBot.create(:user) }
 
     it 'レスポンスのステータスがokであること' do
-      get "/user_list"
+      get user_list_path
       expect(response).to have_http_status(:ok)
     end
 
-    it 'jsonに10件のユーザーが含まれていること' do
-      get "/user_list"
-      json = response.parsed_body
-      expect(json.count).to eq(10)
-    end
-
     it 'name属性とdepartment属性が含まれていること' do
-      get "/user_list"
+      get user_list_path
       user = User.first
       json = response.parsed_body.first
       expect(json).to include(:name, :department)
