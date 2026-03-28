@@ -1,4 +1,4 @@
-# Exported from Render on 2026-02-13
+# Exported from Render on 2026-03-28T09:01:57Z
 version: "1"
 services:
   - type: web
@@ -42,8 +42,8 @@ services:
     rootDir: ./frontend
 databases:
   - name: surface-treatment-manager
-    databaseName: surface_treatment_manager_vr4e
-    user: surface_treatment_manager_vr4e_user
+    databaseName: surface_treatment_manager_wti8
+    user: surface_treatment_manager_wti8_user
     plan: free
     region: singapore
     ipAllowList:
