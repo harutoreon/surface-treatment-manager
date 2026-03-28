@@ -10,12 +10,12 @@ Rails.application.routes.draw do
   get '/maker_search',    to: 'searches#maker_search'
   get '/list_search', to: 'searches#list_search'
 
-  get '/comments', to: 'comments#comment_list'
-  get '/comments/:id', to: 'comments#comment_information'
-  
+  get '/comments/:id', to: 'comments#comment_information', as: 'comment_information'
+  get '/comments', to: 'comments#comment_list', as: 'comment_list'
+
   get '/sample_list',                 to: 'samples#sample_list'
   get '/sample_list_with_pagination', to: 'samples#sample_list_with_pagination'
-  get '/samples/:id',                 to: 'samples#sample_information'
+  get '/samples/:id',                 to: 'samples#sample_information', as: 'sample_information'
 
   get '/maker_list', to: 'makers#maker_list'
 

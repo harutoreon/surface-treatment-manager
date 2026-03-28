@@ -1,36 +1,20 @@
 class SearchesController < ApplicationController
-  def name_search
-    samples = Sample.name_search(params[:keyword])
-    keyword = params[:keyword]
+  before_action :set_keyword, only: %i[name_search category_search maker_search]
 
-    render json: {
-      samples: samples,
-      keyword: keyword
-    },
-    status: :ok
+  def name_search
+    samples = Sample.name_search(@keyword)
+    render_samples(samples)
   end
 
   def category_search
-    category = Category.find_by(item: params[:keyword])
+    category = Category.find_by(item: @keyword)
     samples = category.samples
-    keyword = params[:keyword]
-
-    render json: {
-      samples: samples,
-      keyword: keyword
-    },
-    status: :ok
+    render_samples(samples)
   end
 
   def maker_search
-    samples = Maker.maker_search(params[:keyword])
-    keyword = params[:keyword]
-
-    render json: {
-      samples: samples,
-      keyword: keyword
-    },
-    status: :ok
+    samples = Maker.maker_search(@keyword)
+    render_samples(samples)
   end
 
   def list_search
@@ -38,4 +22,17 @@ class SearchesController < ApplicationController
 
     render json: samples, status: :ok
   end
+
+  private
+
+    def set_keyword
+      @keyword = params[:keyword]
+    end
+
+    def render_samples(samples)
+      render json: {
+        samples: samples,
+        keyword: @keyword
+      }, status: :ok
+    end
 end

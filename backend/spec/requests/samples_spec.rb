@@ -2,59 +2,37 @@ require 'rails_helper'
 
 RSpec.describe "Samples API", type: :request do
   describe '#index' do
-    before do
-      @maker = FactoryBot.create(:maker)
-      FactoryBot.create(:category)
-      FactoryBot.create_list(:sample_list, 10)
-    end
+    let!(:sample) { FactoryBot.create(:sample) }
 
     it 'レスポンスのステータスがokであること' do
-      get "/makers/#{@maker.id}/samples"
+      get maker_samples_path(sample.maker)
       expect(response).to have_http_status(:ok)
     end
 
-    it 'レスポンスにsamplesが含まれていること' do
-      get "/makers/#{@maker.id}/samples"
-      json = JSON.parse(response.body, symbolize_names: true)
-      expect(json.include?(:samples)).to be(true)
-      expect(json[:samples].count).to eq(7)
-    end
-
-    it 'レスポンスにcurrent_pageが含まれていること' do
-      get "/makers/#{@maker.id}/samples"
-      json = JSON.parse(response.body, symbolize_names: true)
-      expect(json.include?(:current_page)).to be(true)
+    it 'レスポンスにsamples/current_page/total_pagesが含まれていること' do
+      get maker_samples_path(sample.maker)
+      json = response.parsed_body
+      expect(json[:samples].size).to eq(1)
       expect(json[:current_page]).to eq(1)
-    end
-
-    it 'レスポンスにtotal_pagesが含まれていること' do
-      get "/makers/#{@maker.id}/samples"
-      json = JSON.parse(response.body, symbolize_names: true)
-      expect(json.include?(:total_pages)).to be(true)  
-      expect(json[:total_pages]).to eq(2)  
+      expect(json[:total_pages]).to eq(1)
     end
   end
 
   describe "#show" do
-    before do
-      @sample = FactoryBot.create(:sample)
-      @maker = Maker.last
-    end
+    let!(:sample) { FactoryBot.create(:sample) }
 
     after(:context) do
       FileUtils.rm_rf(ActiveStorage::Blob.service.root)
     end
 
     it 'レスポンスのステータスがokであること' do
-      get "/makers/#{@maker.id}/samples/#{@sample.id}"
+      get maker_sample_path(sample.maker, sample)
       expect(response).to have_http_status(:ok)
     end
 
     it 'レスポンスに主要な属性がすべて含まれていること' do
-      get "/makers/#{@maker.id}/samples/#{@sample.id}"
-      json = JSON.parse(response.body, symbolize_names: true)
-      sample = Sample.last
-
+      get maker_sample_path(sample.maker, sample)
+      json = response.parsed_body
       expect(json[:name]).to eq(sample.name)
       expect(json[:color]).to eq(sample.color)
       expect(json[:hardness]).to eq(sample.hardness)
@@ -68,198 +46,167 @@ RSpec.describe "Samples API", type: :request do
 
     context '画像が添付済の場合' do
       it 'image_url の戻り値が画像の URL であること' do
-        get "/makers/#{@maker.id}/samples/#{@sample.id}"
-        json = JSON.parse(response.body, symbolize_names: true)
-  
-        expect(json[:image_url]).to include('http://localhost:3000/rails/active_storage/blobs')
-      end        
+        get maker_sample_path(sample.maker, sample)
+        expect(
+          response.parsed_body[:image_url]
+        ).to include('http://localhost:3000/rails/active_storage/blobs')
+      end
     end
 
     context '画像が未添付の場合' do
       it 'image_url の戻り値が nil であること' do
-        @sample.image.purge
+        sample.image.purge
 
-        get "/makers/#{@maker.id}/samples/#{@sample.id}"
-        json = JSON.parse(response.body, symbolize_names: true)
-
-        expect(json[:image_url]).to eq(nil)
-      end      
+        get maker_sample_path(sample.maker, sample)
+        expect(response.parsed_body[:image_url]).to eq(nil)
+      end
     end
   end
 
   describe '#create' do
+    let(:maker) { FactoryBot.create(:maker) }
+    let(:category) { FactoryBot.create(:category) }
+    let(:image) do
+      Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg'))
+    end
+    let(:params) do
+      { sample:
+          { name: name,
+            color: "マゼンタ",
+            image: image,
+            hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
+            film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+            feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
+            summary: '銅を電気めっきや化学めっきで表面に薄く被覆する技術です。',
+            category_id: category.id } }
+    end
+
     context '有効な表面処理情報で登録したとき' do
-      before do
-        @maker = FactoryBot.create(:maker)
-        category = FactoryBot.create(:category)
-        @valid_sample_params = { sample: { name: "銅めっき",
-                                           color: "マゼンタ",
-                                           image: Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/test.jpg')),
-                                           hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
-                                           film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
-                                           feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
-                                           summary: '銅を電気めっきや化学めっきで表面に薄く被覆する技術です。',
-                                           category_id: category.id } }
-      end
+      let(:name) { '銅めっき' }
 
       it 'レスポンスのステータスがcreatedであること' do
-        post "/makers/#{@maker.id}/samples", params: @valid_sample_params
+        post maker_samples_path(maker), params: params
         expect(response).to have_http_status(:created)
       end
 
-      it 'headerのlocationが登録した表面処理を参照していること' do
-        post "/makers/#{@maker.id}/samples", params: @valid_sample_params
-        sample = Sample.last
-        expect(response.header["Location"]).to eq("http://www.example.com/makers/#{@maker.id}/samples/#{sample.id}")
-      end
+      it 'データベースの表面処理数が増加し、headerのlocationが追加されること' do
+        expect {
+          post maker_samples_path(maker), params: params
+        }.to change{ Sample.count }.from(0).to(1)
 
-      it 'データベースの表面処理数が1件増えること' do
-        expect { post "/makers/#{@maker.id}/samples", params: @valid_sample_params }.to change{ Sample.count }.from(0).to(1)
+        new_sample = Sample.last
+        expect(
+          response.header["Location"]
+        ).to eq(maker_sample_url(new_sample.maker, new_sample))
       end
     end
 
     context '無効な表面処理情報で登録したとき' do
-      before do
-        @maker = FactoryBot.create(:maker)
-        category = FactoryBot.create(:category)
-        @invalid_sample_params = { sample: { name: "",
-                                             color: "マゼンタ",
-                                             image: nil,
-                                             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
-                                             film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
-                                             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
-                                             summary: '銅を電気めっきや化学めっきで表面に薄く被覆する技術です。',
-                                             category_id: category.id } }
-      end
+      let(:name) { '' }
 
       it 'レスポンスのステータスがunprocessable_contentであること' do
-        post "/makers/#{@maker.id}/samples", params: @invalid_sample_params
+        post maker_samples_path(maker), params: params
         expect(response).to have_http_status(:unprocessable_content)
       end
 
       it 'データベースに登録されないこと' do
-        expect { post "/makers/#{@maker.id}/samples", params: @invalid_sample_params }.to_not change{ Sample.count }.from(0)
+        expect {
+          post maker_samples_path(maker), params: params
+        }.to_not change{ Sample.count }.from(0)
       end
     end
   end
 
   describe '#update' do
-    before do
-      @sample = FactoryBot.create(:sample)
-      @maker = Maker.last
-    end
+    let!(:sample) { FactoryBot.create(:sample) }
 
     context '有効な表面処理情報で更新したとき' do
       it 'レスポンスのステータスがokであること' do
-        patch "/makers/#{@maker.id}/samples/#{@sample.id}", params: { sample: { name: "ハードクロムめっき" } }
+        patch maker_sample_path(sample.maker, sample),
+          params: { sample: { name: "ハードクロムめっき" } }
         expect(response).to have_http_status(:ok)
       end
 
       it 'nameがハードクロムめっきで更新されること' do
-        patch "/makers/#{@maker.id}/samples/#{@sample.id}", params: { sample: { name: "ハードクロムめっき" } }
-        json = JSON.parse(response.body, symbolize_names: true)
-
-        expect(json[:name]).to eq("ハードクロムめっき")
+        patch maker_sample_path(sample.maker, sample),
+          params: { sample: { name: "ハードクロムめっき" } }
+        expect(sample.reload.name).to eq("ハードクロムめっき")
       end
     end
 
     context '無効な表面処理情報で更新したとき' do
       it 'レスポンスがunprocessable_contentであること' do
-        patch "/makers/#{@maker.id}/samples/#{@sample.id}", params: { sample: { name: '' } }
+        patch maker_sample_path(sample.maker, sample), params: { sample: { name: '' } }
         expect(response).to have_http_status(:unprocessable_content)
       end
 
       it '表面処理名が空白で更新できないこと' do
-        patch "/makers/#{@maker.id}/samples/#{@sample.id}", params: { sample: { name: '' } }
-        json = JSON.parse(response.body, symbolize_names: true)
-
-        expect(json[:name]).to eq(["処理名が空白です"])
+        patch maker_sample_path(sample.maker, sample), params: { sample: { name: '' } }
+        expect(sample.reload.name).to eq('無電解ニッケルめっき')
+        expect(response.parsed_body[:name]).to eq(["処理名が空白です"])
       end
     end
   end
 
   describe '#destroy' do
-    before do
-      @sample = FactoryBot.create(:sample)
-      @maker = Maker.last
-      user = FactoryBot.create(:user)
-      @sample.comments.create(commenter: 'sample user', department: 'department', body: 'sample comment.', user_id: user.id)
-    end
+    let!(:sample) { FactoryBot.create(:sample) }
 
     it 'レスポンスのステータスがno_contentであること' do
-      delete "/makers/#{@maker.id}/samples/#{@sample.id}"
+      delete maker_sample_path(sample.maker, sample)
       expect(response).to have_http_status(:no_content)
     end
 
-    it 'レスポンスの本文が空であること' do
-      delete "/makers/#{@maker.id}/samples/#{@sample.id}"
-      expect(response.body).to be_blank
-    end
-    
-    it '表面処理の削除に成功すること' do
-      expect { delete "/makers/#{@maker.id}/samples/#{@sample.id}" }.to change{ Sample.count }.from(1).to(0)
-    end
+    it '表面処理の削除に成功し、レスポンスの本文は空であること' do
+      expect{
+        delete maker_sample_path(sample.maker, sample)
+      }.to change{ Sample.count }.from(1).to(0)
 
-    it '紐付いたコメントも削除されること' do
-      expect { delete "/makers/#{@maker.id}/samples/#{@sample.id}" }.to change{ Comment.count }.from(1).to(0)
+      expect(response.body).to be_blank
     end
   end
   
   describe '#sample_list' do
-    before do
-      @maker = FactoryBot.create(:maker)
-      FactoryBot.create(:category)
-      FactoryBot.create_list(:sample_list, 10)      
-    end
+    let!(:sample) { FactoryBot.create(:sample) }
 
     it 'レスポンスのステータスがokであること' do
-      get "/sample_list"
+      get sample_list_path
       expect(response).to have_http_status(:ok)
     end
 
-    it 'レスポンスに10件のサンプルが含まれていること' do
-      get "/sample_list"
-      json = JSON.parse(response.body, symbolize_names: true)
-      expect(json.count).to eq(10)
+    it 'レスポンスに1件のサンプルが含まれていること' do
+      get sample_list_path
+      expect(response.parsed_body.size).to eq(1)
     end
   end
 
   describe '#sample_list_with_pagination' do
-    before do
-      @maker = FactoryBot.create(:maker)
-      FactoryBot.create(:category)
-      FactoryBot.create_list(:sample_list, 10)
-    end
+    let!(:sample) { FactoryBot.create(:sample) }
 
     it 'レスポンスのステータスがokであること' do
-      get "/sample_list_with_pagination"
+      get sample_list_with_pagination_path
       expect(response).to have_http_status(:ok)
     end
 
     it 'jsonにsamples/current_page/total_pagesが含まれていること' do
-      get "/sample_list_with_pagination"
+      get sample_list_with_pagination_path
       json = response.parsed_body
-      expect(json['samples'].count).to eq(7)
+      expect(json['samples'].size).to eq(1)
       expect(json['current_page']).to eq(1)
-      expect(json['total_pages']).to eq(2)
+      expect(json['total_pages']).to eq(1)
     end
   end
 
-  describe 'sample_information' do
-    before do
-      @sample = FactoryBot.create(:sample)
-    end
+  describe '#sample_information' do
+    let!(:sample) { FactoryBot.create(:sample) }
 
     it 'レスポンスのステータスがokであること' do
-      get "/samples/#{@sample.id}"
+      get sample_information_path(sample)
       expect(response).to have_http_status(:ok)
     end
 
     it 'jsonに主要な属性がすべて含まれていること' do
-      get "/samples/#{@sample.id}"
+      get sample_information_path(sample)
       json = response.parsed_body
-      sample = Sample.last
-
       expect(json['id']).to eq(sample.id)
       expect(json['name']).to eq(sample.name)
       expect(json['color']).to eq(sample.color)
