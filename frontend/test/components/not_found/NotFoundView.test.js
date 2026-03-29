@@ -17,13 +17,14 @@ vi.mock('vue-router', () => {
 describe('NotFound', () => {
   let wrapper
 
+  beforeEach(async () => {
+    vi.clearAllMocks()
+
+    wrapper = mount(NotFound)
+    await flushPromises()
+  })
+
   describe('初期レンダリング', () => {
-    beforeEach(async () => {
-      wrapper = mount(NotFound)
-
-      await flushPromises()
-    })
-
     it('見出しが表示されること', () => {
       expect(wrapper.find('h1').text()).toBe('404')
     })
