@@ -1,11 +1,7 @@
 <script setup>
-import { useRouter } from 'vue-router'
+import { useNavigation} from '@/composables/useNavigation.js'
 
-const router = useRouter()
-
-const goHome = () => {
-  router.push('/home')
-}
+const { goHome } = useNavigation()
 </script>
 
 <template>
