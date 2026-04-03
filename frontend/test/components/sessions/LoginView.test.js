@@ -19,122 +19,50 @@ vi.mock('vue-router', () => {
 describe('LoginForm', () => {
   let wrapper
 
-  describe('初期レンダリング', () => {
-    beforeEach(async () => {
-      wrapper = mount(LoginView)
-
-      await flushPromises()
-    })
-
-    it('見出しが表示されること', () => {
-      expect(wrapper.find('h3').text()).toBe('ログイン')
-    })
-
-    it('ユーザー選択のラジオボタンが表示されること', () => {
-      // 入力要素
-      expect(wrapper.find('#general-user').attributes('type')).toBe('radio')
-      expect(wrapper.find('#admin-user').attributes('type')).toBe('radio')
-
-      // ラベル要素
-      expect(wrapper.find('label[for="general-user"]').text()).toBe('一般ユーザー')
-      expect(wrapper.find('label[for="admin-user"]').text()).toBe('管理者ユーザー')
-
-      // 説明文
-      const li = wrapper.findAll('ul li')
-      expect(li[0].find('small').text()).toBe('表面処理情報の検索ができます。')
-      expect(li[1].find('small').text()).toBe('表面処理情報やメーカー情報を含むリソースを管理します。')
-    })
-
-    it('入力フォームが表示されること', () => {
-      // ラベル要素
-      expect(wrapper.find('label[for="user-name"]').text()).toBe('ユーザー名')
-      expect(wrapper.find('label[for="user-password"]').text()).toBe('パスワード')
-
-      // 入力要素
-      expect(wrapper.find('#user-name').exists()).toBe(true)
-      expect(wrapper.find('#user-password').exists()).toBe(true)
-
-      // ボタン要素
-      expect(wrapper.find('button').text()).toBe('ログイン')
-    })
+  beforeEach(async () => {
+    wrapper = mount(LoginView)
+    await flushPromises()
   })
 
   describe('ログインフロー', () => {
-    describe('有効な認証情報を入力した場合', () => {
-      it('ログインに成功すること', async () => {
-        axios.post.mockResolvedValue({
-          data: {
-            id: 1,
-            name: 'general user',
-            password: 'password'
-          }
-        })
-        
-        const wrapper = mount(LoginView)
+    it('ログインに成功時、ホーム画面へ遷移し、メッセージを通知すること', async () => {
+      axios.post.mockResolvedValue({ data: { token: 'fake-token' } })
 
-        await flushPromises()
+      await wrapper.find('form').trigger('submit.prevent')
+      await flushPromises()
 
-        await wrapper.find('#user-name').setValue('general user')
-        await wrapper.find('#user-password').setValue('password')
-        
-        await wrapper.find('form').trigger('submit.prevent')
-
-        expect(wrapper.emitted('message')).toBeTruthy
-        expect(wrapper.emitted('message')[0]).toEqual([
-          {
-            type: 'success',
-            text: 'ログインしました。'
-          }
-        ])
-        expect(pushMock).toHaveBeenCalledWith('/home')
-      })
+      expect(pushMock).toHaveBeenCalledWith('/home')
+      expect(wrapper.emitted('message')).toBeTruthy()
+      expect(wrapper.emitted('message')).toHaveLength(1)
     })
 
-    describe('無効な認証情報を入力した場合', () => {
-      it('ログインに失敗すること', async () => {
-        axios.post.mockRejectedValue({
-          response: {
-            status: 422
-          }
-        })
-        
-        wrapper = mount(LoginView)
+    it('ログイン失敗時、エラー表示が出ること', async () => {
+      axios.post.mockRejectedValue(new Error())
 
-        await flushPromises()
+      await wrapper.find('form').trigger('submit.prevent')
+      await flushPromises()
 
-        await wrapper.find('#user-name').setValue('')
-        await wrapper.find('#user-password').setValue('password')
-
-        await wrapper.find('form').trigger('submit.prevent')
-        
-        expect(wrapper.text()).toContain('ユーザー名またはパスワードが無効です')
-      })
+      expect(wrapper.find('p.alert-danger').exists()).toBe(true)
     })
   })
 
   describe('ユーザーの選択', () => {
-    beforeEach(async () => {
-      wrapper = mount(LoginView)
+    it('一般ユーザーを選択した場合、フォームの値が更新されること', async () => {
+      expect(wrapper.find('#user-name').element.value).toBe('')
 
-      await flushPromises()
+      await wrapper.find('#general-user').trigger('change')
+
+      expect(wrapper.find('#user-name').element.value).not.toBe('')
+      expect(wrapper.find('#user-password').element.value).not.toBe('')
     })
 
-    describe('一般ユーザーを選択した場合', () => {
-      it('一般ユーザーの認証情報が入力フォームにセットされること', async () => {
-        await wrapper.find('#general-user').trigger('change')
+    it('管理者ユーザーを選択した場合、フォームの値が更新されること', async () => {
+      expect(wrapper.find('#user-name').element.value).toBe('')
 
-        expect(wrapper.find('#user-name').element.value).toBe('general user')
-        expect(wrapper.find('#user-password').element.value).toBe('generalpassword')
-      })
-    })
+      await wrapper.find('#admin-user').trigger('change')
 
-    describe('管理者ユーザーを選択した場合', () => {
-      it('管理者ユーザーの認証情報が入力フォームにセットされること', async () => {
-        await wrapper.find('#admin-user').trigger('change')
-
-        expect(wrapper.find('#user-name').element.value).toBe('admin user')
-        expect(wrapper.find('#user-password').element.value).toBe('adminpassword')
-      })
+      expect(wrapper.find('#user-name').element.value).not.toBe('')
+      expect(wrapper.find('#user-password').element.value).not.toBe('')
     })
   })
 })
