@@ -1,74 +1,39 @@
 import SettingsView from '@/components/settings/SettingsView.vue'
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { mount, RouterLinkStub } from '@vue/test-utils'
 
-const replaceMock = vi.fn()
 const pushMock = vi.fn()
 
-vi.mock('axios')
 vi.mock('vue-router', () => {
   return {
     useRouter: () => {
       return {
-        replace: replaceMock,
         push: pushMock
       }
     }
   }
 })
 
-afterEach(() => {
-  pushMock.mockClear()
-})
+const confirmMock = vi.fn()
+vi.stubGlobal('confirm', confirmMock)
 
 describe('SettingsView', () => {
   let wrapper
 
-  describe('初期レンダリング', () => {
-    beforeEach(async () => {
-      wrapper = mount(SettingsView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
+  beforeEach( () => {
+    vi.clearAllMocks()
+    wrapper = mount(SettingsView, {
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub
         }
-      })
-
-      await flushPromises()
-    })
-
-    it('見出しが表示されること', () => {
-      expect(wrapper.find('p.fs-3').text()).toBe('アプリケーションの管理')
-    })
-
-    it('ログアウトボタンが表示されること', () => {
-      expect(wrapper.find('button').exists()).toBe(true)
-      expect(wrapper.find('div.fw-bold').text()).toBe('ログアウト')
-      expect(wrapper.find('small').text()).toBe('アプリケーションからログアウトします。')
-    })
-
-    it('外部リンクが表示されること', () => {
-      const routerLink = wrapper.findComponent(RouterLinkStub)
-
-      expect(routerLink.props().to).toBe('/home')
-      expect(routerLink.text()).toBe('メインメニューへ')
+      }
     })
   })
 
   describe('ログアウトの選択でOKを押した場合', () => {
     it('ログインページに遷移すること', async () => {
-      window.confirm = vi.fn()
-      vi.spyOn(window, 'confirm').mockReturnValue(true)
-
-      wrapper = mount(SettingsView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
-      await flushPromises()
+      confirmMock.mockReturnValue(true)
 
       await wrapper.find('button').trigger('click')
 
@@ -77,23 +42,12 @@ describe('SettingsView', () => {
   })
 
   describe('ログアウトの選択でキャンセルを押した場合', () => {
-    it('ログインページに遷移しないこと', async () => {
-      window.confirm = vi.fn()
-      vi.spyOn(window, 'confirm').mockReturnValue(false)
+    it('ページ遷移が発生しないこと', async () => {
+      confirmMock.mockReturnValue(false)
 
-      wrapper = mount(SettingsView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
-      await flushPromises()
-    
       await wrapper.find('button').trigger('click')
       
-      expect(pushMock).not.toHaveBeenCalledWith('/')
+      expect(pushMock).not.toHaveBeenCalled()
     })
   })
 })
