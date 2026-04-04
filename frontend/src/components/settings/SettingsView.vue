@@ -1,14 +1,12 @@
 <script setup>
-import { useRouter } from 'vue-router'
+import { useSettings } from '@/composables/useSettings.js'
 
-const router = useRouter()
+const { logout } = useSettings()
 
-const handleLogout = async () => {
-  const confirmDelete = window.confirm('本当にログアウトしますか？')
-  if (!confirmDelete) return
-
-  localStorage.removeItem('token')
-  router.push('/')
+const handleLogout = () => {
+  if (window.confirm('本当にログアウトしますか？')) {
+    logout()
+  }
 }
 </script>
 
