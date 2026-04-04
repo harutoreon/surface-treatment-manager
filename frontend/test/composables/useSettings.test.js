@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useSettings } from '@/composables/useSettings.js'
-import axios from 'axios'
 
 const pushMock = vi.fn()
 
