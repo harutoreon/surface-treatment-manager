@@ -6,7 +6,7 @@ const emit = defineEmits(['message'])
 const { samples, loggedIn, fetchSearchResults } = useSearchResultsList(emit)
 
 onMounted(async () => {
-  if ( await loggedIn) {
+  if ( await loggedIn ) {
     await fetchSearchResults()
   }
 })
