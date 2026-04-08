@@ -3,7 +3,7 @@ import { onMounted } from 'vue'
 import { useSearchResults } from '@/composables/useSearchResults.js'
 
 const emit = defineEmits(['message'])
-const { loggedIn, data,samples, searchMethod, fetchSearchResults } = useSearchResults(emit)
+const { loggedIn, data, samples, searchMethod, fetchSearchResults } = useSearchResults(emit)
 
 onMounted(async () => {
   if ( await loggedIn ) {
