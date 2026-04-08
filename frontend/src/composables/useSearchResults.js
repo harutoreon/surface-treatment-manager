@@ -8,7 +8,7 @@ export function useSearchResults(emit) {
   const route = useRoute()
   const router = useRouter()
   const data = ref('')
-  const samples = ref('')
+  const samples = ref([])
   const searchMethod = ref('')
 
   const fetchSearchResults = async () => {
