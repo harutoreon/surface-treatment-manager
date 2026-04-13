@@ -1,7 +1,5 @@
 <script setup>
-import CardComponent from '@/components/static_pages/CardComponent.vue'
-import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import { onMounted } from 'vue'
 import experimentIcon from '@/assets/icons/experiment.svg'
 import categoryIcon from '@/assets/icons/category.svg'
 import factoryIcon from '@/assets/icons/factory.svg'
@@ -13,23 +11,13 @@ import userAddIcon from '@/assets/icons/user_add.svg'
 import settingsIcon from '@/assets/icons/settings.svg'
 import department from '@/assets/icons/department.svg'
 import commentIcon from '@/assets/icons/comment.svg'
+import CardComponent from '@/components/static_pages/CardComponent.vue'
+import { useHome } from '@/composables/useHome.js'
 
-defineEmits(['message'])
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-const isAdmin = ref(false)
-const containerSize = ref('')
+const { isAdmin, containerSize, handleLogin } = useHome()
 
 onMounted(async () => {
-  const token = localStorage.getItem('token')
-  const response = await axios.get(`${API_BASE_URL}/logged_in`, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })
-
-  isAdmin.value = response.data.payload.user_id === 49
-  containerSize.value = isAdmin.value ? 'container w-50' : 'container w-75'
+  await handleLogin()
 })
 </script>
 
