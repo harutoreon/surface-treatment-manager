@@ -14,26 +14,32 @@ vi.stubGlobal('localStorage', {
 describe('HomeView', () => {
   let wrapper
 
+  const mountComponent = () =>
+    mount(HomeView, {
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub
+        }
+      }
+    })
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   describe('ユーザーがログインした場合', () => {
     beforeEach(async () => {
-      getItemMock.mockReturnValue('dummy-token')
+      getItemMock.mockReturnValue('test-token')
 
-      const generalUserId = 50
+      const GENERAL_USER_ID = 50
 
       axios.get.mockResolvedValueOnce({
         data: {
-          payload: { user_id: generalUserId }
+          payload: { user_id: GENERAL_USER_ID },
         }
       })
 
-      wrapper = mount(HomeView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      wrapper = mountComponent()
       await flushPromises()
     })
 
@@ -56,28 +62,28 @@ describe('HomeView', () => {
     it('localStorageからトークンを取得していること', () => {
       expect(getItemMock).toHaveBeenCalledWith('token')
     })
+
+    it('handleLogin()が呼び出されること', () => {
+      expect(axios.get).toHaveBeenCalledWith(
+        `${import.meta.env.VITE_API_BASE_URL}/logged_in`,
+        expect.any(Object)
+      )
+    })
   })
 
   describe('一般ユーザーでログインした場合', () => {
     beforeEach(async () => {
-      getItemMock.mockReturnValue('dummy-token')
+      getItemMock.mockReturnValue('test-token')
 
-      const generalUserId = 50
+      const GENERAL_USER_ID = 50
 
       axios.get.mockResolvedValueOnce({
         data: {
-          payload: { user_id: generalUserId }
+          payload: { user_id: GENERAL_USER_ID },
         }
       })
 
-      wrapper = mount(HomeView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      wrapper = mountComponent()
       await flushPromises()
     })
 
@@ -128,28 +134,25 @@ describe('HomeView', () => {
       expect(routerLink.props().to).toBe('/list_search_results')
       expect(routerLink.text()).toBe('検索ページへ')
     })
+
+    it('管理者ユーザー向けの管理カードが表示されないこと', () => {
+      expect(wrapper.find('#manage-samples').exists()).toBe(false)
+    })
   })
 
   describe('管理者ユーザーでログインした場合', () => {
     beforeEach(async () => {
-      getItemMock.mockReturnValue('dummy-token')
+      getItemMock.mockReturnValue('test-token')
 
-      const adminUserId = 49
+      const ADMIN_USER_ID = 49
 
       axios.get.mockResolvedValueOnce({
         data: {
-          payload: { user_id: adminUserId }
+          payload: { user_id: ADMIN_USER_ID },
         }
       })
 
-      wrapper = mount(HomeView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      wrapper = mountComponent()
       await flushPromises()
     })
 
@@ -223,6 +226,10 @@ describe('HomeView', () => {
       expect(divManageComments.find('div div.card-text').text()).toBe('コメントに関する情報を一括管理します。')
       expect(routerLink.props().to).toBe('/comments')
       expect(routerLink.text()).toBe('管理ページへ')
+    })
+
+    it('一般ユーザー向けの検索カードが表示されないこと', () => {
+      expect(wrapper.find('#search-name').exists()).toBe(false)
     })
   })
 })
