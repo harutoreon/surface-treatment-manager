@@ -19,7 +19,7 @@ export default defineConfig({
     coverage: {
       enabled: true,
       reporter: ['text', 'html'],
-      include:['src/**/*.vue'],
+      include:['src/**/*.vue', 'src/**/*.js'],
       exclude:['src/**/icons']
     }
   },
