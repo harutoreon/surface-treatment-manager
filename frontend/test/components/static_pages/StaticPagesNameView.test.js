@@ -18,6 +18,8 @@ describe('StaticPagesNameView', () => {
   let wrapper
 
   beforeEach(async () => {
+    pushMock.mockClear()
+
     wrapper = mount(StaticPagesNameView, {
       global: {
         stubs: {
@@ -56,13 +58,23 @@ describe('StaticPagesNameView', () => {
   describe('キーワードを入力して送信した場合', () => {
     it('検索結果ページに遷移すること', async () => {
       await wrapper.find('input').setValue('めっき')
-      await wrapper.find('form').trigger('submit.prevent')
-      
+      await wrapper.find('form').trigger('submit')
+      await flushPromises()
+
       expect(pushMock).toHaveBeenCalledWith({
         name: 'SearchResults',
         params: { searchMethod: 'name' },
         query: { keyword: 'めっき' }
       })
+    })
+  })
+
+  describe('キーワードが空のまま送信した場合', () => {
+    it('エラーメッセージが表示されること', async () => {
+      await wrapper.find('form').trigger('submit')
+      await flushPromises()
+
+      expect(wrapper.find('.alert-danger').exists()).toBe(true)
     })
   })
 })
