@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted } from 'vue'
-import { useStaticPagesCategory} from '@/composables/useStaticPagesCategory.js'
+import { useStaticPagesCategory } from '@/composables/useStaticPagesCategory'
 
 const emit = defineEmits(['message'])
 
