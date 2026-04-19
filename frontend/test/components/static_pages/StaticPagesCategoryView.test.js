@@ -21,6 +21,27 @@ vi.mock('vue-router', () => {
 describe('StaticPagesCategory', () => {
   let wrapper
 
+  const mountComponent = () =>
+    mount(StaticPagesCategoryView, {
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub
+        }
+      }
+    })
+
+  const mockResponse = [
+    { id: 1, item: 'めっき' },
+    { id: 2, item: '陽極酸化' },
+    { id: 3, item: '化成' },
+    { id: 4, item: 'コーティング' },
+    { id: 5, item: '表面硬化' },
+  ]
+
+  beforeEach (() => {
+    vi.clearAllMocks()
+  })
+
   describe('ログインチェックに成功した場合', () => {
     it('カテゴリーで検索ページに移動すること', async () => {
       axios.get
@@ -31,14 +52,7 @@ describe('StaticPagesCategory', () => {
           status: 200
         })
 
-      wrapper = mount(StaticPagesCategoryView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      wrapper = mountComponent()
       await flushPromises()
 
       expect(wrapper.find('h3').text()).toBe('カテゴリーで検索')
@@ -47,28 +61,21 @@ describe('StaticPagesCategory', () => {
 
   describe('ログインチェックに失敗した場合', () => {
     it('ログインページに移動すること', async () => {
-      axios.get.mockRejectedValue({
+      axios.get.mockRejectedValueOnce({
         response: {
           status: 401
         }
       })
 
-      wrapper = mount(StaticPagesCategoryView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      wrapper = mountComponent()
       await flushPromises()
 
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([
         { type: 'danger', text: 'ログインが必要です。' }
       ])
+      expect(pushMock).toHaveBeenCalledTimes(1)
       expect(pushMock).toHaveBeenCalledWith('/')
-      expect(pushMock).not.toHaveBeenCalledWith('/categories')
     })
   })
 
@@ -79,23 +86,10 @@ describe('StaticPagesCategory', () => {
           status: 200
         })
         .mockResolvedValueOnce({
-          data: [
-            { id: 1, item: 'めっき' },
-            { id: 2, item: '陽極酸化' },
-            { id: 3, item: '化成' },
-            { id: 4, item: 'コーティング' },
-            { id: 5, item: '表面硬化' },
-          ]
+          data: mockResponse
         })
 
-      wrapper = mount(StaticPagesCategoryView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      wrapper = mountComponent()
       await flushPromises()
     })
 
@@ -139,14 +133,7 @@ describe('StaticPagesCategory', () => {
           }
         })
 
-      wrapper = mount(StaticPagesCategoryView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      wrapper = mountComponent()
       await flushPromises()
 
       expect(wrapper.emitted()).toHaveProperty('message')
@@ -164,23 +151,10 @@ describe('StaticPagesCategory', () => {
           status: 200
         })
         .mockResolvedValueOnce({
-          data: [
-            { id: 1, item: 'めっき' },
-            { id: 2, item: '陽極酸化' },
-            { id: 3, item: '化成' },
-            { id: 4, item: 'コーティング' },
-            { id: 5, item: '表面硬化' },
-          ]
+          data: mockResponse
         })
 
-      wrapper = mount(StaticPagesCategoryView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      wrapper = mountComponent()
       await flushPromises()
 
       await wrapper.find('select').setValue('めっき')
@@ -191,6 +165,27 @@ describe('StaticPagesCategory', () => {
         params: { searchMethod: 'category' },
         query: { keyword: 'めっき' }
       })
+    })
+  })
+
+  describe('カテゴリーを未選択で送信した場合', () => {
+    it('エラーメッセージが表示されること', async () => {
+      axios.get
+        .mockResolvedValueOnce({
+          status: 200
+        })
+        .mockResolvedValueOnce({
+          data: mockResponse
+        })
+
+      wrapper = mountComponent()
+      await flushPromises()
+
+      expect(wrapper.find('select').element.value).toBe('')
+
+      await wrapper.find('form').trigger('submit.prevent')
+
+      expect(wrapper.find('.alert-danger').text()).toBe('リスト内の項目を選択して下さい')
     })
   })
 })
