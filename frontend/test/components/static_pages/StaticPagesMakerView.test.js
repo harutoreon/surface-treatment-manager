@@ -20,100 +20,64 @@ vi.mock('vue-router', () => {
 describe('StaticPagesMakerView', () => {
   let wrapper
 
-  describe('ログインチェックに成功した場合', () => {
-    beforeEach(async () => {
-      axios.get
-        .mockResolvedValueOnce({  // ログインチェック
-          status: 200
-        })
-        .mockResolvedValueOnce({  // メーカーリストの取得
-          data: [
-            { id: 1, name: '東亜電化工業株式会社' },
-            { id: 2, name: '新星コーティングス' },
-            { id: 3, name: '大和表面技術研究所' },
-            { id: 4, name: '中央メッキ技研' },
-            { id: 5, name: 'サンエース・フィニッシュ' },
-            { id: 6, name: '瑞穂皮膜加工' },
-            { id: 7, name: 'アストロ産業' },
-            { id: 8, name: '明和サーフェス' },
-            { id: 9, name: '富士理化研磨株式会社' },
-            { id: 10, name: '高周波サーマル工業' },
-          ]
-        })
+  const mockResponse = [
+    { id: 1, name: '東亜電化工業株式会社' },
+  ]
 
-      wrapper = mount(StaticPagesMakerView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
+  const mountComponent = () =>
+    mount(StaticPagesMakerView, {
+      global: {
+        stubs: {
+          RouterLink: RouterLinkStub
         }
-      })
-
-      await flushPromises()
+      }
     })
 
-    it('メーカーリストページに移動すること', async () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  describe('ログインチェックに成功した場合', () => {
+    it('メーカー名で検索ページに遷移すること', async () => {
+      vi.mocked(axios).get
+        .mockResolvedValueOnce({ status: 200 })         // ログインチェック
+        .mockResolvedValueOnce({ data: mockResponse })  // メーカー一覧の取得
+
+      wrapper = mountComponent()
+      await flushPromises()
+
       expect(wrapper.find('h3').text()).toBe('メーカー名で検索')
     })
   })
 
   describe('ログインチェックに失敗した場合', () => {
-    beforeEach(async () => {
-      axios.get.mockRejectedValue({  // ログインチェック
-        response: {
-          status: 401
-        }
-      })
+    it('message イベントが発火し、ログインページに遷移すること', async () => {
+      vi.mocked(axios).get.mockRejectedValue({ response: { status: 401 } })  // ログインチェック
 
-      wrapper = mount(StaticPagesMakerView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      wrapper = mountComponent()
       await flushPromises()
-    })
 
-    it('ログインページに移動すること', async () => {
-      expect(wrapper.emitted()).toHaveProperty('message')
-      expect(wrapper.emitted().message[0]).toEqual([
-        { type: 'danger', text: 'ログインが必要です。' }
-      ])
+      expect(wrapper.emitted('message')).toEqual(
+        [
+          [
+            {
+              'text': 'ログインが必要です。',
+              'type': 'danger'
+            }
+          ]
+        ]
+      )
       expect(pushMock).toHaveBeenCalledWith('/')
     })
   })
 
   describe('初期レンダリング', () => {
     beforeEach(async () => {
-      axios.get
-        .mockResolvedValueOnce({  // ログインチェック
-          status: 200
-        })
-        .mockResolvedValueOnce({  // メーカーリストの取得
-          data: [
-            { id: 1, name: '東亜電化工業株式会社' },
-            { id: 2, name: '新星コーティングス' },
-            { id: 3, name: '大和表面技術研究所' },
-            { id: 4, name: '中央メッキ技研' },
-            { id: 5, name: 'サンエース・フィニッシュ' },
-            { id: 6, name: '瑞穂皮膜加工' },
-            { id: 7, name: 'アストロ産業' },
-            { id: 8, name: '明和サーフェス' },
-            { id: 9, name: '富士理化研磨株式会社' },
-            { id: 10, name: '高周波サーマル工業' },
-          ]
-        })
+      vi.mocked(axios).get
+        .mockResolvedValueOnce({ status: 200 })         // ログインチェック
+        .mockResolvedValueOnce({ data: mockResponse })  // メーカーリストの取得
 
-      wrapper = mount(StaticPagesMakerView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      wrapper = mountComponent()
       await flushPromises()
     })
 
@@ -141,40 +105,16 @@ describe('StaticPagesMakerView', () => {
   })
 
   describe('キーワードを入力して送信した場合', () => {
-    beforeEach(async () => {
-      axios.get
-        .mockResolvedValueOnce({  // ログインチェック
-          status: 200
-        })
-        .mockResolvedValueOnce({  // メーカーリストの取得
-          data: [
-            { id: 1, name: '東亜電化工業株式会社' },
-            { id: 2, name: '新星コーティングス' },
-            { id: 3, name: '大和表面技術研究所' },
-            { id: 4, name: '中央メッキ技研' },
-            { id: 5, name: 'サンエース・フィニッシュ' },
-            { id: 6, name: '瑞穂皮膜加工' },
-            { id: 7, name: 'アストロ産業' },
-            { id: 8, name: '明和サーフェス' },
-            { id: 9, name: '富士理化研磨株式会社' },
-            { id: 10, name: '高周波サーマル工業' },
-          ]
-        })
-
-      wrapper = mount(StaticPagesMakerView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
-      await flushPromises()
-    })
-
     it('検索結果のページに遷移されること', async () => {
+      vi.mocked(axios).get
+        .mockResolvedValueOnce({ status: 200 })         // ログインチェック
+        .mockResolvedValueOnce({ data: mockResponse })  // メーカーリストの取得
+
+      wrapper = mountComponent()
+      await flushPromises()
+
       await wrapper.find('input').setValue('株式会社')
-      await wrapper.find('form').trigger('submit.prevent')
+      await wrapper.find('form').trigger('submit')
 
       expect(pushMock).toHaveBeenCalledWith({
         name: 'SearchResults',
@@ -184,49 +124,17 @@ describe('StaticPagesMakerView', () => {
     })
   })
 
-  describe('キーワードを未入力して送信した場合', () => {
-    beforeEach(async () => {
-      axios.get
-        .mockResolvedValueOnce({  // ログインチェック
-          status: 200
-        })
-        .mockResolvedValueOnce({  // メーカーリストの取得
-          data: [
-            { id: 1, name: '東亜電化工業株式会社' },
-            { id: 2, name: '新星コーティングス' },
-            { id: 3, name: '大和表面技術研究所' },
-            { id: 4, name: '中央メッキ技研' },
-            { id: 5, name: 'サンエース・フィニッシュ' },
-            { id: 6, name: '瑞穂皮膜加工' },
-            { id: 7, name: 'アストロ産業' },
-            { id: 8, name: '明和サーフェス' },
-            { id: 9, name: '富士理化研磨株式会社' },
-            { id: 10, name: '高周波サーマル工業' },
-          ]
-        })
-
-      axios.get.mockRejectedValueOnce({
-        status: 404
-      })
-
-      wrapper = mount(StaticPagesMakerView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
-      await flushPromises()
-    })
-
+  describe('キーワードを未入力で送信した場合', () => {
     it('エラーメッセージが表示されること', async () => {
-      expect(wrapper.find('p.alert').exists()).toBe(false)
+      vi.mocked(axios).get
+        .mockResolvedValueOnce({ status: 200 })         // ログインチェック
+        .mockResolvedValueOnce({ data: mockResponse })  // メーカーリストの取得
 
-      await wrapper.find('form').trigger('submit.prevent')
+      wrapper = mountComponent()
+      await flushPromises()
 
-      expect(wrapper.find('p.alert').exists()).toBe(true)
-      expect(wrapper.find('p.alert').text()).toBe('キーワードが未入力です')
+      await wrapper.find('form').trigger('submit')
+      expect(wrapper.find('.alert').text()).toBe('キーワードが未入力です')
     })
   })
 })
