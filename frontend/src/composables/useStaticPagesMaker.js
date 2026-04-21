@@ -12,6 +12,7 @@ export function useStaticPagesMaker(emit) {
   const isOpen = ref(false)
   const makers = ref([])
   const makerList = ref([])
+
   const fetchMakerList = async () => {
     const response = await axios.get(`${API_BASE_URL}/maker_list`)
     makerList.value = response.data
@@ -39,6 +40,8 @@ export function useStaticPagesMaker(emit) {
   }
 
   const submitSearch = () => {
+    errorMessage.value = ''
+
     if (!keyword.value) {
       errorMessage.value = 'キーワードが未入力です'
       return
@@ -59,6 +62,8 @@ export function useStaticPagesMaker(emit) {
     keyword,
     errorMessage,
     isOpen,
+    makers,
+    makerList,
     fetchMakerList,
     close,
     filteredList,
