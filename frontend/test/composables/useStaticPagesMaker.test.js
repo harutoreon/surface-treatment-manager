@@ -79,7 +79,7 @@ describe('useStaticPagesMaker', () => {
         isOpen.value = true
 
         close()
-        expect(isOpen.value).toBe(true)
+        expect(isOpen.value).toBe(true)  // タイマー発火前はまだ true のまま
 
         vi.advanceTimersByTime(100)
         expect(isOpen.value).toBe(false)
@@ -97,22 +97,27 @@ describe('useStaticPagesMaker', () => {
       })
 
       describe('正しいキーワードが入力された場合', () => {
-        it('キーワードが含まれるメーカーが取得できること', () => {
-          const { keyword, makers, filteredList } = useStaticPagesMaker()
-          makers.value = [
-            '東亜電化工業株式会社',
-            '富士理化研磨株式会社',
-            'Horizon Vertex Inc.'
-          ]
+        const sampleMakers = [
+          '東亜電化工業株式会社',
+          '富士理化研磨株式会社',
+          'Horizon Vertex Inc.'
+        ]
 
-          // 複数のメーカーが取得できるか
+        it('キーワードに一致する複数のメーカーが返ること', () => {
+          const { keyword, makers, filteredList } = useStaticPagesMaker()
+          makers.value = sampleMakers
+
           keyword.value = '株式会社'
           expect(filteredList.value).toEqual([
             '東亜電化工業株式会社',
             '富士理化研磨株式会社',
           ])
+        })
 
-          // キーワードが大文字でも取得できるか
+        it('キーワードが大文字でも大文字小文字を無視してフィルタされること', () => {
+          const { keyword, makers, filteredList } = useStaticPagesMaker()
+          makers.value = sampleMakers
+
           keyword.value = 'HORIZON'
           expect(filteredList.value).toEqual([
             'Horizon Vertex Inc.'
@@ -165,6 +170,9 @@ describe('useStaticPagesMaker', () => {
         })
 
         it('エラーメッセージがリセットされること', () => {
+          const pushMock = vi.fn()
+          vi.mocked(useRouter).mockReturnValue({ push: pushMock })
+
           const { keyword, errorMessage, submitSearch } = useStaticPagesMaker()
           keyword.value = ''
           submitSearch()
