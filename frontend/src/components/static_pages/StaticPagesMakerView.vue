@@ -1,62 +1,25 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-import { useRouter } from 'vue-router'
-import axios from 'axios'
-import { checkLoginStatus } from '@/components/utils.js'
+import { onMounted } from 'vue'
+import { useStaticPagesMaker } from '@/composables/useStaticPagesMaker.js'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
-const keyword = ref('')
-const router = useRouter()
-const errorMessage = ref('')
-const isOpen = ref(false)
-const makers = ref([])
 
-const fetchMakerList = async () => {
-  const response = await axios.get(`${API_BASE_URL}/maker_list`)
-  const makerList = response.data
-  makers.value = makerList.map(maker => maker.name)
-}
-
-const close = () => {
-  window.setTimeout(() => {
-    isOpen.value = false
-  }, 100)
-}
-
-const filteredList = computed(() => {
-  if (!keyword.value) return []
-  const word = keyword.value.toLowerCase()
-
-  return makers.value.filter( maker =>
-    maker.toLowerCase().includes(word)
-  )
-})
-
-const select = (item) => {
-  keyword.value = item
-  isOpen.value = false
-}
-
-const submitSearch = () => {
-  if (!keyword.value) {
-    errorMessage.value = 'キーワードが未入力です'
-    return
-  }
-  router.push({
-    name: 'SearchResults',
-    params: { searchMethod: 'maker' },
-    query: { keyword: keyword.value }
-  })
-}
+const {
+  keyword,
+  errorMessage,
+  isOpen,
+  fetchMakerList,
+  close,
+  filteredList,
+  select,
+  submitSearch,
+  loggedIn
+} = useStaticPagesMaker(emit)
 
 onMounted(async () => {
-  const loggedIn = await checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
-  if (!loggedIn) return
-  await fetchMakerList()
+  if (await loggedIn) {
+    await fetchMakerList()
+  }
 })
 </script>
 

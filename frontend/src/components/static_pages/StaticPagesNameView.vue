@@ -1,22 +1,7 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useStaticPagesName } from '@/composables/useStaticPagesName.js'
 
-const router = useRouter()
-const keyword = ref('')
-const errorMessage = ref('')
-
-const submitSearch = () => {
-  if (!keyword.value) {
-    errorMessage.value = 'キーワードが未入力です'
-    return
-  }
-  router.push({
-    name: 'SearchResults',
-    params: {searchMethod: 'name'},
-    query: {keyword: keyword.value}
-  })
-}
+const { errorMessage, keyword, submitSearch } = useStaticPagesName()
 </script>
 
 <template>
