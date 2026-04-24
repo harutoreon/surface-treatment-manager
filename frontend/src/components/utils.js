@@ -14,6 +14,7 @@ export const checkLoginStatus = async (onUnauthorized) => {
   } catch (error) {
     if (error.response && error.response.status === 401) {
       if (onUnauthorized) onUnauthorized()
+      // onUnauthorized()  // TypeError: onUnauthorized is not a function
       return false
     }
   }
