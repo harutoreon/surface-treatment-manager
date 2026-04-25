@@ -93,6 +93,7 @@ export function useDepartments(emit) {
 
   return {
     route,
+    router,
     departments,
     department,
     errorMessage,

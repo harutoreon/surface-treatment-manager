@@ -1,42 +1,11 @@
 <script setup>
-// import { ref, onMounted } from 'vue'
 import { onMounted } from 'vue'
-// import { useRouter } from 'vue-router'
-// import axios from 'axios'
-// import { checkLoginStatus } from '@/components/utils.js'
-
 import { useDepartments } from '@/composables/useDepartments.js'
 
-// const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-// const router = useRouter()
 const emit = defineEmits(['message'])
 const { name, errorMessage, departmentRegistration, loggedIn } = useDepartments(emit)
 
-
-// const department = ref('')
-// const name = ref('')
-// const errorMessage = ref('')
-//
-// const departmentRegistration = async () => {
-//   try {
-//     const response = await axios.post(`${API_BASE_URL}/departments`, {
-//       department: {
-//         name: name.value,
-//       }
-//     })
-//     department.value = response.data
-//     emit('message', { type: 'success', text: '部署を1件登録しました。' })
-//     router.push(`/departments/${department.value.id}`)
-//   } catch {
-//     errorMessage.value = '入力に不備があります。'
-//   }
-// }
-
 onMounted(async () => {
-  // checkLoginStatus(() => {
-  //   emit('message', { type: 'danger', text: 'ログインが必要です。' })
-  //   router.push('/')
-  // })
   await loggedIn
 })
 </script>
