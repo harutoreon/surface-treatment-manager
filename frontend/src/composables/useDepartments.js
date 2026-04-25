@@ -92,6 +92,7 @@ export function useDepartments(emit) {
   })
 
   return {
+    route,
     departments,
     department,
     errorMessage,
