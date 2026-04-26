@@ -4,6 +4,7 @@ import axios from 'axios'
 import { checkLoginStatus } from '@/components/utils.js'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+
 export function useDepartments(emit) {
   const route = useRoute()
   const router = useRouter()
