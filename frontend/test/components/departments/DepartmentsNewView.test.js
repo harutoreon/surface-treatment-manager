@@ -8,6 +8,7 @@ const pushMock = vi.fn()
 vi.mock('axios')
 vi.mock('vue-router', () => {
   return {
+    useRoute: vi.fn(),
     useRouter: () => {
       return {
         push: pushMock
@@ -19,66 +20,23 @@ vi.mock('vue-router', () => {
 describe('DepartmentsNewView', () => {
   let wrapper
 
-  describe('ログインチェックに成功した場合', () => {
-    it('部署情報の登録ページに移動すること', async () => {
-      axios.get.mockResolvedValue({
-        status: 200
-      })
-
-      wrapper = mount(DepartmentsNewView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
-      await flushPromises()
-
-      expect(wrapper.find('h3').text()).toBe('部署情報の登録')
-    })
+  const mountComponent = () => mount(DepartmentsNewView, {
+    global: {
+      stubs: {
+        RouterLink: RouterLinkStub
+      }
+    }
   })
 
-  describe('ログインチェックに失敗した場合', () => {
-    it('ログインページに移動すること', async () => {
-      axios.get.mockRejectedValue({
-        response: {
-          status: 401
-        }
-      })
-
-      wrapper = mount(DepartmentsNewView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
-      await flushPromises()
-
-      expect(wrapper.emitted()).toHaveProperty('message')
-      expect(wrapper.emitted().message[0]).toEqual([
-        { type: 'danger', text: 'ログインが必要です。' }
-      ])
-      expect(pushMock).toHaveBeenCalledWith('/')
-    })
+  beforeEach(() => {
+    vi.clearAllMocks()
   })
 
-  describe('初期レンダリング', () => {
+  describe('初期レンダリングに成功した場合', () => {
     beforeEach(async () => {
-      axios.get.mockResolvedValue({
-        status: 200
-      })
+      vi.mocked(axios.get).mockResolvedValue({ status: 200 })  // ログインチェック
 
-      wrapper = mount(DepartmentsNewView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      wrapper = mountComponent()
       await flushPromises()
     })
 
@@ -108,72 +66,60 @@ describe('DepartmentsNewView', () => {
     })
   })
 
-  describe('部署の登録処理', () => {
-    describe('有効な情報を送信した場合', () => {
-      beforeEach(async () => {
-        axios.get.mockResolvedValue({
-          status: 200
-        })
+  describe('初期レンダリングに失敗した場合', () => {
+    beforeEach(async () => {
+      vi.mocked(axios.get).mockRejectedValue({ response: { status: 401 } })
 
-        axios.post.mockResolvedValue({
-          data: {
-            id: 1,
-            name: '品質管理部'
-          }
-        })
-
-        wrapper = mount(DepartmentsNewView, {
-          global: {
-            stubs: {
-              RouterLink: RouterLinkStub
-            }
-          }
-        })
-
-        await flushPromises()
-      })
-
-      it('登録に成功すること', async () => {
-        await wrapper.find('#department-name').setValue('品質管理部')
-        await wrapper.find('form').trigger('submit.prevent')
-
-        expect(wrapper.emitted()).toHaveProperty('message')
-        expect(wrapper.emitted().message[0]).toEqual([
-          { type: 'success', text: '部署を1件登録しました。' }
-        ])
-        expect(pushMock).toHaveBeenCalledWith('/departments/1')
-      })
+      wrapper = mountComponent()
+      await flushPromises()
     })
 
-    describe('無効な情報を送信した場合', () => {
-      beforeEach(async () => {
-        axios.get.mockResolvedValue({
-          status: 200
-        })
+    it('ログインページに遷移すること', async () => {
+      expect(wrapper.emitted('message')).toBeTruthy()
+      expect(wrapper.emitted('message')[0]).toEqual([
+        { type: 'danger', text: 'ログインが必要です。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/')
+    })
+  })
 
-        axios.post.mockRejectedValue({
-          response: {
-            status: 422
-          }
-        })
+  describe('入力フォームから有効な情報を送信した場合', () => {
+    beforeEach(async () => {
+      vi.mocked(axios.get).mockResolvedValueOnce({ status: 200 })  // ログインチェック
+      vi.mocked(axios.post).mockResolvedValueOnce({ data: { id: 1, name: '品質管理部' } })
 
-        wrapper = mount(DepartmentsNewView, {
-          global: {
-            stubs: {
-              RouterLink: RouterLinkStub
-            }
-          }
-        })
+      wrapper = mountComponent()
+      await flushPromises()
+    })
 
-        await flushPromises()
-      })
+    it('登録に成功すること', async () => {
+      await wrapper.find('#department-name').setValue('品質管理部')
+      await wrapper.find('form').trigger('submit')
+      await flushPromises()
 
-      it('登録に失敗すること', async () => {
-        await wrapper.find('#department-name').setValue('')
-        await wrapper.find('form').trigger('submit.prevent')
+      expect(wrapper.emitted('message')).toBeTruthy()
+      expect(wrapper.emitted('message')[0]).toEqual([
+        { type: 'success', text: '部署を1件登録しました。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/departments/1')
+    })
+  })
 
-        expect(wrapper.text()).toContain('入力に不備があります。')
-      })
+  describe('入力フォームから無効な情報を送信した場合', () => {
+    beforeEach(async () => {
+      vi.mocked(axios.get).mockResolvedValueOnce({ status: 200 })  // ログインチェック
+      vi.mocked(axios.post).mockRejectedValueOnce({ response: { status: 422 } })
+
+      wrapper = mountComponent()
+      await flushPromises()
+    })
+
+    it('登録に失敗すること', async () => {
+      await wrapper.find('#department-name').setValue('')
+      await wrapper.find('form').trigger('submit')
+      await flushPromises()
+
+      expect(wrapper.find('.alert').text()).toBe('入力に不備があります。')
     })
   })
 })

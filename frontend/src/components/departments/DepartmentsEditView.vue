@@ -1,52 +1,18 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
-import { checkLoginStatus } from '@/components/utils.js'
+import { onMounted } from 'vue'
+import { useDepartments } from '@/composables/useDepartments.js'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
-const route = useRoute()
-const router = useRouter()
-const department = ref('')
-const errorMessage = ref('')
-
-const fetchDepartmentData = async (id) => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/departments/${id}`)
-    department.value = response.data
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: '部署情報の取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
-}
-
-const departmentUpdate = async () => {
-  try {
-    const response = await axios.patch(`${API_BASE_URL}/departments/${department.value.id}`, {
-      name: department.value.name,
-    })
-    department.value = response.data
-    emit('message', { type: 'success', text: '部署情報を更新しました。' })
-    router.push(`/departments/${department.value.id}`)
-  } catch {
-    errorMessage.value = '入力に不備があります。'
-  }
-}
+const { route, router, department, errorMessage, fetchDepartmentData, departmentUpdate, loggedIn } = useDepartments(emit)
 
 const cancel = () => {
   router.push(`/departments/${department.value.id}`)
 }
 
 onMounted(async () => {
-  const loggedIn = await checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
-  if (!loggedIn) return
-  await fetchDepartmentData(route.params.id)
+  if (await loggedIn) {
+    await fetchDepartmentData(route.params.id)
+  }
 })
 </script>
 
