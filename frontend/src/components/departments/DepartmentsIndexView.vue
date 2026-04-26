@@ -1,33 +1,14 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import axios from 'axios'
-import { checkLoginStatus } from '@/components/utils.js'
+import { onMounted } from 'vue'
+import { useDepartments } from '@/composables/useDepartments.js'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
-const router = useRouter()
-const departments = ref([])
-
-const fetchDepartmentList = async () => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/departments`)
-    departments.value = response.data
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: '部署リストの取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
-}
+const { departments, fetchDepartmentList, loggedIn } = useDepartments(emit)
 
 onMounted(async () => {
-  const loggedIn = await checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
-  if (!loggedIn) return
-  await fetchDepartmentList()
+  if (await loggedIn) {
+    await fetchDepartmentList()
+  }
 })
 </script>
 

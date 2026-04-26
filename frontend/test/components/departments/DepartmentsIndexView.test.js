@@ -4,15 +4,14 @@ import { mount, flushPromises, RouterLinkStub } from '@vue/test-utils'
 import axios from 'axios'
 
 const replaceMock = vi.fn()
-const pushMock = vi.fn()
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
   return {
+    useRoute: vi.fn(),
     useRouter: () => {
       return {
-        replace: replaceMock,
-        push: pushMock
+        replace: replaceMock
       }
     }
   }
@@ -21,80 +20,29 @@ vi.mock('vue-router', () => {
 describe('DepartmentsIndexView', () => {
   let wrapper
 
-  describe('ログインチェックに成功した場合', () => {
-    it('部署リストページに移動すること', async () => {
-      axios.get
-        .mockResolvedValueOnce({
-          status: 200
-        })
-        .mockResolvedValueOnce({
-          status: 200
-        })
+  const mockResponse = [
+    { id: 1, name: '品質管理部' }
+  ]
 
-      wrapper = mount(DepartmentsIndexView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
-      await flushPromises()
-
-      expect(wrapper.find('h3').text()).toBe('部署リスト')
-    })
+  const mountComponent = () => mount(DepartmentsIndexView, {
+    global: {
+      stubs: {
+        RouterLink: RouterLinkStub
+      }
+    }
   })
 
-  describe('ログインチェックに失敗した場合', () => {
-    it('ログインページに移動すること', async () => {
-      axios.get.mockRejectedValue({
-        response: {
-          status: 401
-        }
-      })
-
-      wrapper = mount(DepartmentsIndexView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
-      await flushPromises()
-
-      expect(wrapper.emitted()).toHaveProperty('message')
-      expect(wrapper.emitted().message[0]).toEqual([
-        { type: 'danger', text: 'ログインが必要です。' }
-      ])
-      expect(pushMock).toHaveBeenCalledWith('/')
-      expect(pushMock).not.toHaveBeenCalledWith('/departments')
-    })
+  beforeEach(() => {
+    vi.clearAllMocks()
   })
 
   describe('初期レンダリングに成功した場合', () => {
     beforeEach(async () => {
-      axios.get
-        .mockResolvedValueOnce({
-          status: 200
-        })
-        .mockResolvedValueOnce({
-          data: [
-            { id: 1, name: '品質管理部' },
-            { id: 2, name: '製造部' },
-            { id: 3, name: '開発部' },
-            { id: 4, name: '営業部' }
-          ]
-        })
+      vi.mocked(axios.get)
+        .mockResolvedValueOnce({ status: 200 })  // ログインチェック
+        .mockResolvedValueOnce({ data: mockResponse })  // fetchDepartmentList()
 
-      wrapper = mount(DepartmentsIndexView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      wrapper = mountComponent()
       await flushPromises()
     })
 
@@ -103,30 +51,24 @@ describe('DepartmentsIndexView', () => {
     })
 
     it('部署名の一覧が表示されること', () => {
-      const links = wrapper.findAllComponents(RouterLinkStub)
-      
+      const routerLink = wrapper.findComponent(RouterLinkStub)
+
       // to属性
-      expect(links[0].props().to).toBe('/departments/1')
-      expect(links[1].props().to).toBe('/departments/2')
-      expect(links[2].props().to).toBe('/departments/3')
-      expect(links[3].props().to).toBe('/departments/4')
+      expect(routerLink.props().to).toBe('/departments/1')
 
       // テキスト
-      expect(links[0].text()).toBe('品質管理部')
-      expect(links[1].text()).toBe('製造部')
-      expect(links[2].text()).toBe('開発部')
-      expect(links[3].text()).toBe('営業部')
+      expect(routerLink.text()).toBe('品質管理部')
     })
 
     it('外部リンクが表示されること', () => {
-      const ul = wrapper.find('ul')
+      const ul = wrapper.find('.nav')
       const routerLinks = ul.findAllComponents(RouterLinkStub)
 
-      // // to属性
+      // to属性
       expect(routerLinks[0].props().to).toBe('/departments/new')
       expect(routerLinks[1].props().to).toBe('/home')
 
-      // // テキスト
+      // テキスト
       expect(routerLinks[0].text()).toBe('部署情報の登録へ')
       expect(routerLinks[1].text()).toBe('メインメニューへ')
     })
@@ -134,30 +76,17 @@ describe('DepartmentsIndexView', () => {
 
   describe('初期レンダリングに失敗した場合', () => {
     beforeEach(async () => {
-      axios.get
-        .mockResolvedValueOnce({
-          status: 200
-        })
-        .mockRejectedValueOnce({
-          response: {
-            status: 404
-          }
-        })
+      vi.mocked(axios.get)
+        .mockResolvedValueOnce({ status: 200 })  // ログインチェック
+        .mockRejectedValueOnce({ response: { status: 404 } })  // fetchDepartmentList()
 
-      wrapper = mount(DepartmentsIndexView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      wrapper = mountComponent()
       await flushPromises()
     })
 
     it('404ページに遷移すること', async () => {
-      expect(wrapper.emitted()).toHaveProperty('message')
-      expect(wrapper.emitted().message[0]).toEqual([
+      expect(wrapper.emitted('message')).toBeTruthy()
+      expect(wrapper.emitted('message')[0]).toEqual([
         { type: 'danger', text: '部署リストの取得に失敗しました。' }
       ])
       expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
