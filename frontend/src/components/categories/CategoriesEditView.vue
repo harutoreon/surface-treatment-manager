@@ -1,53 +1,18 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
-import { checkLoginStatus } from '@/components/utils.js'
+import { onMounted } from 'vue'
+import { useCategories } from '@/composables/useCategories.js'
 
 const emit = defineEmits(['message'])
-const route = useRoute()
-const router = useRouter()
-const category = ref({ item: '', summary: '' })
-const errorMessage = ref('')
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-
-const fetchCategoryData = async (id) => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/categories/${id}`)
-    category.value = response.data
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: 'カテゴリー情報の取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
-}
-
-const categoryUpdate = async () => {
-  try {
-    const response = await axios.patch(`${API_BASE_URL}/categories/${category.value.id}`, {
-      item: category.value.item,
-      summary: category.value.summary
-    })
-    category.value = response.data
-    emit('message', { type: 'success', text: 'カテゴリー情報を更新しました。' })
-    router.push(`/categories/${category.value.id}`)
-  } catch {
-    errorMessage.value = '入力に不備があります。'
-  }
-}
+const { route, router, category, errorMessage, fetchCategoryData, categoryUpdate, loggedIn } = useCategories(emit)
 
 const cancel = () => {
   router.push(`/categories/${category.value.id}`)
 }
 
 onMounted(async () => {
-  const loggedIn = await checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
-  if (!loggedIn) return
-  await fetchCategoryData(route.params.id)
+  if (await loggedIn) {
+    await fetchCategoryData(route.params.id)
+  }
 })
 </script>
 

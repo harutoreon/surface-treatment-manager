@@ -159,7 +159,7 @@ describe('CategoriesEditView', () => {
 
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([
-        { type: 'danger', text: 'カテゴリー情報の取得に失敗しました。' }
+        { type: 'danger', text: 'カテゴリーの取得に失敗しました。' }
       ])
       expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
     })
