@@ -8,8 +8,6 @@ vi.mock('axios')
 vi.mock('vue-router')
 
 describe('CategoriesIndexView', () => {
-  // let wrapper
-
   const mockResponse = [
     {
       id: 1,
