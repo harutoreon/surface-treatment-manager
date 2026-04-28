@@ -18,74 +18,34 @@ vi.mock('vue-router', () => {
 })
 
 describe('CategoriesNewView', () => {
-  let wrapper
+  const mockResponse = {
+    id: 1,
+    item: 'めっき',
+    summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+  }
 
-  describe('ログインチェックに成功した場合', () => {
-    it('カテゴリー情報の登録ページに移動すること', async () => {
-      axios.get.mockResolvedValue({
-        status: 200
-      })
-
-      wrapper = mount(CategoriesNewView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
-      await flushPromises()
-
-      expect(wrapper.find('h3').text()).toBe('カテゴリー情報の登録')
-    })
+  const mountComponent = () => mount(CategoriesNewView, {
+    global: {
+      stubs: {
+        RouterLink: RouterLinkStub
+      }
+    }
   })
 
-  describe('ログインチェックに失敗した場合', () => {
-    it('ログインページに移動すること', async () => {
-      axios.get.mockRejectedValue({
-        response: {
-          status: 401
-        }
-      })
-
-      wrapper = mount(CategoriesNewView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
-      await flushPromises()
-
-      expect(wrapper.emitted()).toHaveProperty('message')
-      expect(wrapper.emitted().message[0]).toEqual([
-        { type: 'danger', text: 'ログインが必要です。' }
-      ])
-      expect(pushMock).toHaveBeenCalledWith('/')
-    })
+  beforeEach(() => {
+    vi.clearAllMocks()
   })
 
-  describe('初期レンダリング', () => {  
-    beforeEach(() => {
-      axios.get.mockResolvedValue({
-        status: 200
-      })
+  describe('初期レンダリングに成功した場合', () => {
+    it('カテゴリー情報の登録ページが表示されること', async () => {
+      vi.mocked(axios.get).mockResolvedValueOnce({ status: 200 })
 
-      wrapper = mount(CategoriesNewView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-    })
+      const wrapper = mountComponent()
+      await flushPromises()
 
-    it('見出しが表示されること', () => {
+      // 見出し
       expect(wrapper.find('h3').text()).toBe('カテゴリー情報の登録')
-    })
 
-    it('入力フォームが表示されること', () => {
       // フォーム要素
       expect(wrapper.find('form').exists()).toBe(true)
 
@@ -99,49 +59,47 @@ describe('CategoriesNewView', () => {
 
       // ボタン要素
       expect(wrapper.find('button').text()).toBe('登録')
-    })
 
-    it('外部リンクが表示されること', () => {
+      // 外部リンク
       const routerLink = wrapper.findComponent(RouterLinkStub)
-
       expect(routerLink.props().to).toBe('/categories')
       expect(routerLink.text()).toBe('カテゴリーリストへ')
     })
   })
 
-  describe('有効な情報を送信した場合', () => {
-    it('登録に成功すること', async () => {
-      axios.get.mockResolvedValue({
-        status: 200
-      })
+  describe('初期レンダリングに失敗した場合', () => {
+    it('ログインページに遷移すること', async () => {
+      vi.mocked(axios.get).mockRejectedValueOnce({ response: { status: 401 } })
 
-      axios.post.mockResolvedValue({
-        data: {
-          id: 1,
-          item: 'めっき',
-          summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
-        }
-      })
-
-      wrapper = mount(CategoriesNewView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      const wrapper = mountComponent()
       await flushPromises()
 
-      const itemInput = wrapper.find('#category-item')
-      const summaryTextArea = wrapper.find('#category-summary')
+      expect(wrapper.emitted('message')).toBeTruthy()
+      expect(wrapper.emitted('message')[0]).toEqual([
+        { type: 'danger', text: 'ログインが必要です。' }
+      ])
+      expect(pushMock).toHaveBeenCalledWith('/')
+    })
+  })
 
-      await itemInput.setValue('めっき')
-      await summaryTextArea.setValue('金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。')
-      await wrapper.find('form').trigger('submit.prevent')
+  describe('有効な情報を送信した場合', () => {
+    it('登録に成功すること', async () => {
+      vi.mocked(axios.get).mockResolvedValueOnce({ status: 200 })
+      vi.mocked(axios.post).mockResolvedValueOnce({ data: mockResponse })
 
-      expect(wrapper.emitted()).toHaveProperty('message')
-      expect(wrapper.emitted().message[0]).toEqual([
+      const wrapper = mountComponent()
+      await flushPromises()
+
+      await wrapper.find('#category-item').setValue('めっき')
+      await wrapper.find('#category-summary').setValue(
+        '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+      )
+
+      await wrapper.find('form').trigger('submit')
+      await flushPromises()
+
+      expect(wrapper.emitted('message')).toBeTruthy()
+      expect(wrapper.emitted('message')[0]).toEqual([
         { type: 'success', text: 'カテゴリーを1件登録しました。' }
       ])
       expect(pushMock).toHaveBeenCalledWith('/categories/1')
@@ -150,34 +108,21 @@ describe('CategoriesNewView', () => {
 
   describe('無効な情報を送信した場合', () => {
     it('登録に失敗すること', async () => {
-      axios.get.mockResolvedValue({
-        status: 200
-      })
+      vi.mocked(axios.get).mockResolvedValueOnce({ status: 200 })
+      vi.mocked(axios.post).mockRejectedValueOnce({ response: { status: 422 } })
 
-      axios.post.mockRejectedValue({
-        response: {
-          status: 422
-        }
-      })
-
-      wrapper = mount(CategoriesNewView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      const wrapper = mountComponent()
       await flushPromises()
-      
-      const itemInput = wrapper.find('#category-item')
-      const summaryTextArea = wrapper.find('#category-summary')
 
-      await itemInput.setValue('')
-      await summaryTextArea.setValue('金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。')
-      await wrapper.find('form').trigger('submit.prevent')
+      await wrapper.find('#category-item').setValue('')
+      await wrapper.find('#category-summary').setValue(
+        '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+      )
 
-      expect(wrapper.text()).toContain('入力に不備があります。')
+      await wrapper.find('form').trigger('submit')
+      await flushPromises()
+
+      expect(wrapper.find('.alert').text()).toBe('入力に不備があります。')
     })
   })
 })
