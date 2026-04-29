@@ -9,6 +9,11 @@ const replaceMock = vi.fn()
 vi.mock('axios')
 vi.mock('vue-router', () => {
   return {
+    useRoute: () => {
+      return {
+        query: vi.fn()
+      }
+    },
     useRouter: () => {
       return {
         push: pushMock,
