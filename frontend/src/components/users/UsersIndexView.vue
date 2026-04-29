@@ -1,31 +1,9 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue'
-import axios from 'axios'
-import { useRoute, useRouter } from 'vue-router'
-import { checkLoginStatus } from '@/components/utils.js'
+import { onMounted, watch } from 'vue'
+import { useUsers } from '@/composables/useUsers.js'
 
-const route = useRoute()
-const router = useRouter()
 const emit = defineEmits(['message'])
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-const users = ref([])
-const currentPage = ref(Number(route.query.page) || 1)
-const totalPages = ref(1)
-
-const fetchUserList = async () => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/users?page=${currentPage.value}`)
-    const data = response.data
-    users.value = data.users
-    currentPage.value = data.current_page
-    totalPages.value = data.total_pages
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: 'ユーザーリストの取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
-}
+const { route, users, currentPage, totalPages, fetchUserList, loggedIn } = useUsers(emit)
 
 const getPageLink = (page) => ({
   path: route.path,
@@ -38,12 +16,9 @@ watch(() => route.query.page, (newPage) => {
 })
 
 onMounted(async () => {
-  const loggedIn = await checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
-  if (!loggedIn) return
-  await fetchUserList()
+  if (await loggedIn) {
+    await fetchUserList()
+  }
 })
 </script>
 
