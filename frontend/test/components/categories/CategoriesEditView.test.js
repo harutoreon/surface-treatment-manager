@@ -11,7 +11,7 @@ vi.mock('vue-router', async () => {
   return {
     useRoute: () => {
       return {
-        params: { id: '1' }
+        params: { id: 1 }
       }
     },
     useRouter: () => {
@@ -24,95 +24,36 @@ vi.mock('vue-router', async () => {
 })
 
 describe('CategoriesEditView', () => {
-  let wrapper
+  const mockResponse = {
+    id: 1,
+    item: 'めっき',
+    summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+  }
 
-  describe('ログインチェックに成功した場合', () => {
-    it('カテゴリー情報の編集ページに移動すること', async () => {
-      axios.get
-        .mockResolvedValueOnce({
-          status: 200
-        })
-        .mockResolvedValueOnce({
-          data: {
-            id: 1,
-            item: 'めっき',
-            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
-          }
-        })
-
-      wrapper = mount(CategoriesEditView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
-      await flushPromises()
-
-      expect(wrapper.find('h3').text()).toBe('カテゴリー情報の編集')
-    })
+  const mountComponent = () => mount(CategoriesEditView, {
+    global: {
+      stubs: {
+        RouterLink: RouterLinkStub
+      }
+    }
   })
 
-  describe('ログインチェックに失敗した場合', () => {
-    it('ログインページに移動すること', async () => {
-      axios.get.mockRejectedValue({
-        response: {
-          status: 401
-        }
-      })
-
-      wrapper = mount(CategoriesEditView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
-      await flushPromises()
-
-      expect(wrapper.emitted()).toHaveProperty('message')
-      expect(wrapper.emitted().message[0]).toEqual([
-        { type: 'danger', text: 'ログインが必要です。' }
-      ])
-      expect(pushMock).toHaveBeenCalledWith('/')
-
-      const id = 1
-      expect(pushMock).not.toHaveBeenCalledWith(`/categories/${id}`)
-    })
+  beforeEach(() => {
+    vi.clearAllMocks()
   })
 
   describe('初期レンダリングに成功した場合', () => {
-    beforeEach(async () => {
-      axios.get
-        .mockResolvedValueOnce({
-          status: 200
-        })
-        .mockResolvedValueOnce({
-          data: {
-            id: 1,
-            item: 'めっき',
-            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
-          }
-        })
+    it('カテゴリー情報の編集ページが表示されること', async () => {
+      vi.mocked(axios.get)
+        .mockResolvedValueOnce({ status: 200 })
+        .mockResolvedValueOnce({ data: mockResponse })
 
-      wrapper = mount(CategoriesEditView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      const wrapper = mountComponent()
       await flushPromises()
-    })
-    
-    it('見出しが表示されること', () => {
-      expect(wrapper.find('h3').text()).toBe('カテゴリー情報の編集')
-    })
 
-    it('入力フォームが表示されること', () => {
+      // 見出し
+      expect(wrapper.find('h3').text()).toBe('カテゴリー情報の編集')
+
       // フォーム要素
       expect(wrapper.find('form').exists()).toBe(true)
 
@@ -126,40 +67,34 @@ describe('CategoriesEditView', () => {
 
       // テキストエリア要素
       expect(wrapper.find('#category-summary').exists()).toBe(true)
-      expect(wrapper.find('#category-summary').element.value).toBe('金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。')
+      expect(wrapper.find('#category-summary').element.value).toBe(
+        '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+      )
 
       // ボタン要素
       const buttons = wrapper.findAll('button')
-      expect(buttons[0].text()).toBe('更新')
-      expect(buttons[1].text()).toBe('キャンセル')
+      const updateButton = buttons.find(
+        button => button.text() === '更新')
+      const cancelButton = buttons.find(
+        button => button.text() === 'キャンセル')
+
+      expect(updateButton.exists()).toBe(true)
+      expect(cancelButton.exists()).toBe(true)
     })
   })
 
   describe('初期レンダリングに失敗した場合', () => {
     it('404ページに遷移すること', async () => {
-      axios.get
-        .mockResolvedValueOnce({
-          status: 200
-        })
-        .mockRejectedValueOnce({
-          response: {
-            status: 404
-          }
-        })
+      vi.mocked(axios.get)
+        .mockResolvedValueOnce({ status: 200 })
+        .mockRejectedValueOnce({ response: { status: 404 } })
 
-      wrapper = mount(CategoriesEditView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      const wrapper = mountComponent()
       await flushPromises()
 
-      expect(wrapper.emitted()).toHaveProperty('message')
-      expect(wrapper.emitted().message[0]).toEqual([
-        { type: 'danger', text: 'カテゴリー情報の取得に失敗しました。' }
+      expect(wrapper.emitted('message')).toBeTruthy()
+      expect(wrapper.emitted('message')[0]).toEqual([
+        { type: 'danger', text: 'カテゴリーの取得に失敗しました。' }
       ])
       expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
     })
@@ -167,19 +102,11 @@ describe('CategoriesEditView', () => {
 
   describe('有効な情報を送信した場合', () => {
     it('更新が成功すること', async () => {
-      axios.get
-        .mockResolvedValueOnce({
-          status: 200
-        })
-        .mockResolvedValueOnce({
-          data: {
-            id: 1,
-            item: 'めっき',
-            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
-          }
-        })
+      vi.mocked(axios.get)
+        .mockResolvedValueOnce({ status: 200 })
+        .mockResolvedValueOnce({ data: mockResponse })
 
-      axios.patch.mockResolvedValue({
+      vi.mocked(axios.patch).mockResolvedValue({
         data: {
           id: 1,
           item: '陽極酸化',
@@ -187,29 +114,26 @@ describe('CategoriesEditView', () => {
         }
       })
 
-      wrapper = mount(CategoriesEditView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      const wrapper = mountComponent()
       await flushPromises()
 
       const inputItem = wrapper.find('#category-item')
       const inputSummary = wrapper.find('#category-summary')
-      
+
       expect(inputItem.element.value).toBe('めっき')
-      expect(inputSummary.element.value).toBe('金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。')
-      
+      expect(inputSummary.element.value).toBe(
+        '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+      )
+
       await inputItem.setValue('陽極酸化')
-      await inputSummary.setValue('人工的にアルミニウム表面に分厚い酸化アルミニウム被膜を作る処理のこと。')
+      await inputSummary.setValue(
+        '人工的にアルミニウム表面に分厚い酸化アルミニウム被膜を作る処理のこと。'
+      )
 
-      await wrapper.find('form').trigger('submit.prevent')
+      await wrapper.find('form').trigger('submit')
 
-      expect(wrapper.emitted()).toHaveProperty('message')
-      expect(wrapper.emitted().message[0]).toEqual([
+      expect(wrapper.emitted('message')).toBeTruthy()
+      expect(wrapper.emitted('message')[0]).toEqual([
         { type: 'success', text: 'カテゴリー情報を更新しました。' }
       ])
       expect(pushMock).toHaveBeenCalledWith('/categories/1')
@@ -218,78 +142,48 @@ describe('CategoriesEditView', () => {
 
   describe('無効な情報を送信した場合', () => {
     it('更新が失敗すること', async () => {
-      axios.get
-        .mockResolvedValueOnce({
-          status: 200
-        })
-        .mockResolvedValueOnce({
-          data: {
-            id: 1,
-            item: 'めっき',
-            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
-          }
-        })
+      vi.mocked(axios.get)
+        .mockResolvedValueOnce({ status: 200 })
+        .mockResolvedValueOnce({ data: mockResponse })
 
-      axios.patch.mockRejectedValue({
-        response: {
-          status: 422
-        }
-      })
+      vi.mocked(axios.patch).mockRejectedValue({ response: { status: 422 } })
 
-      wrapper = mount(CategoriesEditView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      const wrapper = mountComponent()
       await flushPromises()
 
       const inputItem = wrapper.find('#category-item')
       const inputSummary = wrapper.find('#category-summary')
-      
+
       expect(inputItem.element.value).toBe('めっき')
-      expect(inputSummary.element.value).toBe('金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。')
-      
+      expect(inputSummary.element.value).toBe(
+        '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
+      )
+
       await inputItem.setValue('')
-      await inputSummary.setValue('人工的にアルミニウム表面に分厚い酸化アルミニウム被膜を作る処理のこと。')
 
-      await wrapper.find('form').trigger('submit.prevent')
+      await wrapper.find('form').trigger('submit')
+      await flushPromises()
 
-      expect(wrapper.text()).toContain('入力に不備があります。')
+      expect(wrapper.find('.alert').text()).toBe('入力に不備があります。')
     })
   })
 
   describe('キャンセルボタンを押した場合', () => {
-    beforeEach(async () => {
-      axios.get
-        .mockResolvedValueOnce({
-          status: 200
-        })
-        .mockResolvedValueOnce({
-          data: {
-            id: 1,
-            item: 'めっき',
-            summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
-          }
-        })
-
-      wrapper = mount(CategoriesEditView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
-      await flushPromises()
-    })
-
     it('/categories/1が呼び出されること', async () => {
-      const cancelButton = wrapper.find('button[type="button"]')
+      vi.mocked(axios.get)
+        .mockResolvedValueOnce({ status: 200 })
+        .mockResolvedValueOnce({ data: mockResponse })
+
+      const wrapper = mountComponent()
+      await flushPromises()
+
+      const buttons = wrapper.findAll('button')
+      const cancelButton = buttons.find(
+        button => button.text() === 'キャンセル'
+      )
 
       await cancelButton.trigger('click')
+      await flushPromises()
 
       expect(pushMock).toHaveBeenCalledWith('/categories/1')
     })

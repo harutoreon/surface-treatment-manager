@@ -1,38 +1,12 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import axios from 'axios'
-import { useRouter } from 'vue-router'
-import { checkLoginStatus } from '@/components/utils.js'
+import { onMounted } from 'vue'
+import { useCategories } from '@/composables/useCategories.js'
 
 const emit = defineEmits(['message'])
-const router = useRouter()
-const item = ref('')
-const summary = ref('')
-const category = ref('')
-const errorMessage = ref('')
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const { item, summary, errorMessage, categoryRegistration, loggedIn } = useCategories(emit)
 
-const categoryRegistration = async () => {
-  try {
-    const response = await axios.post(`${API_BASE_URL}/categories`, {
-      category: {
-        item: item.value,
-        summary: summary.value
-      }
-    })
-    category.value = response.data
-    emit('message', { type: 'success', text: 'カテゴリーを1件登録しました。' })
-    router.push(`/categories/${category.value.id}`)
-  } catch {
-    errorMessage.value = '入力に不備があります。'
-  }
-}
-
-onMounted(() => {
-  checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
+onMounted(async () => {
+  await loggedIn
 })
 </script>
 

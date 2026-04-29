@@ -1,42 +1,14 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import axios from 'axios'
-import { checkLoginStatus } from '@/components/utils.js'
+import { onMounted } from 'vue'
+import { useCategories } from '@/composables/useCategories.js'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
-const router = useRouter()
-const categories = ref([])
-
-function replaceStringWithEllipsis() {
-  for (const category of categories.value) {
-    if (category.summary.length > 10) {
-      category.summary = category.summary.slice(0, 10) + '...'
-    }
-  }
-}
-
-const fetchCategoryList = async () => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/categories`)
-    categories.value = response.data
-    replaceStringWithEllipsis()
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: 'カテゴリーの取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
-}
+const { categories, fetchCategoryList, loggedIn } = useCategories(emit)
 
 onMounted(async () => {
-  const loggedIn = await checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
-  if (!loggedIn) return
-  await fetchCategoryList()
+  if (await loggedIn) {
+    await fetchCategoryList()
+  }
 })
 </script>
 
