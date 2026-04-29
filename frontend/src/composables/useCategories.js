@@ -40,7 +40,7 @@ export function useCategories(emit) {
   const fetchCategoryData = async (id) => {
     try {
       const response = await axios.get(`${API_BASE_URL}/categories/${id}`)
-      category.value = response.data
+      category.value = { ...response.data }
     } catch (error) {
       if (error.response && error.response.status === 404) {
         emit('message', { type: 'danger', text: 'カテゴリーの取得に失敗しました。' })
@@ -73,7 +73,7 @@ export function useCategories(emit) {
         item: category.value.item,
         summary: category.value.summary
       })
-      category.value = response.data
+      category.value = { ...response.data }
       emit('message', { type: 'success', text: 'カテゴリー情報を更新しました。' })
       router.push(`/categories/${category.value.id}`)
     } catch {
