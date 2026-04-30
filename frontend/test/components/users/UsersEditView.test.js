@@ -11,7 +11,8 @@ vi.mock('vue-router', () => {
   return {
     useRoute: () => {
       return {
-        params: { id: 1 }
+        params: { id: 1 },
+        query: { page: vi.fn() }
       }
     },
     useRouter: () => {
@@ -198,7 +199,8 @@ describe('UsersEditView', () => {
       await flushPromises()
 
       await wrapper.find('#user-name').setValue('update test user')
-      await wrapper.find('button').trigger('submit.prevent')
+      // await wrapper.find('button').trigger('submit.prevent')
+      await wrapper.find('button').trigger('submit')
 
       expect(wrapper.emitted()).toHaveProperty('message')
       expect(wrapper.emitted().message[0]).toEqual([
@@ -239,7 +241,7 @@ describe('UsersEditView', () => {
       await flushPromises()
 
       await wrapper.find('#user-name').setValue('')
-      await wrapper.find('button').trigger('submit.prevent')
+      await wrapper.find('button').trigger('submit')
       
       expect(wrapper.text()).toContain('入力に不備があります。')
     })
