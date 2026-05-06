@@ -1,50 +1,12 @@
 <script setup>
-import axios from 'axios'
-import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { checkLoginStatus } from '@/components/utils.js'
+import { onMounted } from 'vue'
+import { useUsers } from '@/composables/useUsers.js'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
-const user = ref([])
-const route = useRoute()
-const router = useRouter()
-
-const fetchUserInformation = async (id) => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/users/${id}`)
-    user.value = response.data
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: 'ユーザー情報の取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
-}
-
-const handleDelete = async () => {
-  const confirmDelete = window.confirm('本当に削除しますか？')
-  if (!confirmDelete) return
-
-  try {
-    await axios.delete(`${API_BASE_URL}/users/${route.params.id}`)
-    emit('message', { type: 'success', text: 'ユーザー情報を削除しました。' })
-    router.push('/users')
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: 'ユーザー情報の削除に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
-}
+const { route, user, fetchUserInformation, handleDelete, loggedIn } = useUsers(emit)
 
 onMounted(async () => {
-  const loggedIn = await checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
-  if (!loggedIn) return
-  await fetchUserInformation(route.params.id)
+  if (await loggedIn) await fetchUserInformation(route.params.id)
 })
 </script>
 

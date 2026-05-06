@@ -1,68 +1,26 @@
 <script setup>
-import axios from 'axios'
-import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { checkLoginStatus } from '@/components/utils.js'
+import { onMounted } from 'vue'
+import { useUsers } from '@/composables/useUsers.js'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
-const route = useRoute()
-const router = useRouter()
-const user = ref({
-  name: '',
-  department: ''
-})
-const password = ref('')
-const password_confirmation = ref('')
-const errorMessage = ref('')
-
-const userUpdate = async () => {
-  try {
-    // パスワードの変更がない場合に空の値が送信されないよう、パスワード入力はオプションとする。
-    const updateData = {
-      user: {
-        name: user.value.name,
-        department: user.value.department,
-      }
-    }
-
-    if (password.value) {
-      updateData.user.password = password.value
-      updateData.user.password_confirmation = password_confirmation.value  
-    }
-
-    const response = await axios.patch(`${API_BASE_URL}/users/${user.value.id}`, updateData)
-    user.value = response.data
-    emit('message', { type: 'success', text: 'ユーザー情報を更新しました。' })
-    router.push(`/users/${user.value.id}`)
-  } catch {
-    errorMessage.value = '入力に不備があります。'
-  }
-}
-
-const fetchUserInformation = async () => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/users/${route.params.id}`)
-    user.value = response.data
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: 'ユーザー情報の取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
-}
+const {
+  route,
+  router,
+  user,
+  errorMessage,
+  password,
+  password_confirmation,
+  fetchUserInformation,
+  userUpdate,
+  loggedIn
+} = useUsers(emit)
 
 const cancel = () => {
   router.push(`/users/${user.value.id}`)
 }
 
 onMounted(async () => {
-  const loggedIn = await checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
-  if (!loggedIn) return
-  await fetchUserInformation()
+  if (await loggedIn) await fetchUserInformation(route.params.id)
 })
 </script>
 

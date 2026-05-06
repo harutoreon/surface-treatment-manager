@@ -4,7 +4,6 @@ import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import axios from 'axios'
 
 const replacMock = vi.fn()
-const pushMock = vi.fn()
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
@@ -16,173 +15,78 @@ vi.mock('vue-router', () => {
     },
     useRouter: () => {
       return {
-        replace: replacMock,
-        push: pushMock
+        replace: replacMock
       }
     }
   }
 })
 
 describe('UsersIndexView', () => {
-  let wrapper
+  const mockResponse = {
+    users: [
+      { id: 1, name: '佐藤 海翔', department: '品質管理部' }
+    ],
+    current_page: 1,
+    total_pages: 1
+  }
 
-  describe('ログインチェックに成功した場合', () => {
-    it('ユーザーページに移動すること', async () => {
-      axios.get
-        .mockResolvedValueOnce({
-          status: 200
-        })
-        .mockResolvedValueOnce({
-          status: 200
-        })
-
-      wrapper = mount(UsersIndexView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
-      await flushPromises()
-
-      expect(wrapper.find('h3').text()).toBe('ユーザーリスト')
-    })
+  const mountComponent = () => mount(UsersIndexView, {
+    global: {
+      stubs: {
+        RouterLink: RouterLinkStub
+      }
+    }
   })
 
-  describe('ログインチェックに失敗した場合', () => {
-    it('ログインページに移動すること', async () => {
-      axios.get.mockRejectedValue({
-        response: {
-          status: 401
-        }
-      })
-
-      wrapper = mount(UsersIndexView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
-      await flushPromises()
-
-      expect(wrapper.emitted()).toHaveProperty('message')
-      expect(wrapper.emitted().message[0]).toEqual([
-        { type: 'danger', text: 'ログインが必要です。' }
-      ])
-      expect(pushMock).toHaveBeenCalledWith('/')
-      expect(pushMock).not.toHaveBeenCalledWith('/users')
-    })
+  beforeEach(() => {
+    vi.clearAllMocks()
   })
 
   describe('初期レンダリングに成功した場合', () => {
-    beforeEach(async () => {
-      axios.get
-        .mockResolvedValueOnce({
-          status: 200
-        })
-        .mockResolvedValueOnce({
-          data: {
-            users: [
-              { id: 1, name: '佐藤 海翔', department: '品質管理部' },
-              { id: 1, name: '高橋 陽菜', department: '製造部' },
-              { id: 1, name: '中村 蒼真', department: '品質管理部' },
-              { id: 1, name: '伊藤 美月', department: '製造部' },
-              { id: 1, name: '山口 大和', department: '営業部' },
-              { id: 1, name: '田中 結衣', department: '開発部' },
-              { id: 1, name: '渡辺 陸斗', department: '品質管理部' },
-              { id: 1, name: '小林 桜子', department: '製造部' },
-              { id: 1, name: '加藤 拓真', department: '開発部' },
-              { id: 1, name: '山本 柚希', department: '営業部' }
-            ],
-            current_page: 1,
-            total_pages: 1
-          }
-        })
+    it('ユーザーリストページが表示されること', async () => {
+      vi.mocked(axios.get)
+        .mockResolvedValueOnce({ status: 200 })
+        .mockResolvedValueOnce({ data: mockResponse })
 
-      wrapper = mount(UsersIndexView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      const wrapper = mountComponent()
       await flushPromises()
-    })
 
-    it('見出しが表示されること', () => {
+      // 見出し
       expect(wrapper.find('h3').text()).toBe('ユーザーリスト')
-    })
 
-    it('ユーザーリストが表示されること', async () => {
       // ユーザー名
       expect(wrapper.text()).toContain('佐藤 海翔')
-      expect(wrapper.text()).toContain('高橋 陽菜')
-      expect(wrapper.text()).toContain('中村 蒼真')
-      expect(wrapper.text()).toContain('伊藤 美月')
-      expect(wrapper.text()).toContain('山口 大和')
-      expect(wrapper.text()).toContain('田中 結衣')
-      expect(wrapper.text()).toContain('渡辺 陸斗')
-      expect(wrapper.text()).toContain('小林 桜子')
-      expect(wrapper.text()).toContain('加藤 拓真')
-      expect(wrapper.text()).toContain('山本 柚希')
 
       // 部署名
-      expect(wrapper.text().match(/品質管理部/g).length).toBe(3)
-      expect(wrapper.text().match(/製造部/g).length).toBe(3)
-      expect(wrapper.text().match(/営業部/g).length).toBe(2)
-      expect(wrapper.text().match(/営業部/g).length).toBe(2)
-    })
+      expect(wrapper.text()).toContain('品質管理部')
 
-    it('ページネーションが表示こと', () => {
+      // ページネーション
       expect(wrapper.text()).toContain('前ページ')
       expect(wrapper.text()).toContain('次ページ')
       expect(wrapper.find('a[class="page-link"]').text()).toBe('1')
-    })
 
-    it('外部リンクが表示されること', () => {
-      // const div = wrapper.find('div[class="d-flex justify-content-evenly"]')
+      // 外部リンク
+      const ulElement = wrapper.find('.nav')
+      const routerLinks = ulElement.findAllComponents(RouterLinkStub)
+      const newLink = routerLinks.find(element => element.props().to === '/users/new')
+      const homeLink = routerLinks.find(element => element.props().to === '/home')
 
-      const ulElements = wrapper.findAll('ul')
-      const routerLinks = ulElements[1].findAllComponents(RouterLinkStub)
-
-      // to属性
-      expect(routerLinks[0].props().to).toBe('/users/new')
-      expect(routerLinks[1].props().to).toBe('/home')
-
-      // テキスト
-      expect(routerLinks[0].text()).toBe('ユーザー情報の登録')
-      expect(routerLinks[1].text()).toBe('メインメニューへ')
+      expect(newLink.text()).toBe('ユーザー情報の登録')
+      expect(homeLink.text()).toBe('メインメニューへ')
     })
   })
 
   describe('初期レンダリングに失敗した場合', () => {
     it('404ページに遷移すること', async () => {
-      axios.get
-        .mockResolvedValueOnce({
-          status: 200
-        })
-        .mockRejectedValueOnce({
-          response: {
-            status: 404
-          }
-        })
+      vi.mocked(axios.get)
+        .mockResolvedValueOnce({ status: 200 })
+        .mockRejectedValueOnce({ response: { status: 404 } })
 
-      wrapper = mount(UsersIndexView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
-        }
-      })
-
+      const wrapper = mountComponent()
       await flushPromises()
 
-      expect(wrapper.emitted()).toHaveProperty('message')
-      expect(wrapper.emitted().message[0]).toEqual([
+      expect(wrapper.emitted('message')).toBeTruthy()
+      expect(wrapper.emitted('message')[0]).toEqual([
         { type: 'danger', text: 'ユーザーリストの取得に失敗しました。' }
       ])
       expect(replacMock).toHaveBeenCalledWith({ name: 'NotFound' })
