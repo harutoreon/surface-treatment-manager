@@ -109,9 +109,7 @@ describe('UsersNewView', () => {
           data: {
             id: 1,
             name: '渡辺 陸斗',
-            department: '開発部',
-            password: 'password',
-            password_confirmation: 'password'
+            department: '開発部'
           }
         })
 

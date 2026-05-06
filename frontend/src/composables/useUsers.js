@@ -23,10 +23,9 @@ export function useUsers(emit) {
   const fetchUserList = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/users?page=${currentPage.value}`)
-      const data = response.data
-      users.value = data.users
-      currentPage.value = data.current_page
-      totalPages.value = data.total_pages
+      users.value = response.data.users
+      currentPage.value = response.data.current_page
+      totalPages.value = response.data.total_pages
     } catch (error) {
       if (error.response && error.response.status === 404) {
         emit('message', { type: 'danger', text: 'ユーザーリストの取得に失敗しました。' })
