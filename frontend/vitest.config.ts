@@ -17,8 +17,11 @@ export default defineConfig({
     coverage: {
       enabled: true,
       reporter: ['text', 'html'],
-      include:['src/**/*.vue', 'src/**/*.js'],
-      exclude:['src/**/icons']
+      include:['src/**/*.vue', "src/**/*.ts", 'src/**/*.js'],
+      exclude:[
+        'src/**/icons',
+        'src/**/*.d.ts',
+      ]
     }
   },
 })
