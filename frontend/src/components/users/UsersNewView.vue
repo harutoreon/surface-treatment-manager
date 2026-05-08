@@ -7,7 +7,7 @@ const {
   name,
   department,
   password,
-  password_confirmation,
+  passwordConfirmation,
   options,
   errorMessage,
   fetchDepartments,
@@ -71,7 +71,7 @@ onMounted(async () => {
       </label>
       <input
         id="user-password-confirmation"
-        v-model="password_confirmation"
+        v-model="passwordConfirmation"
         class="form-control mb-4 shadow-sm"
         type="password"
         required
