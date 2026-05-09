@@ -1,33 +1,59 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { checkLoginStatus } from '@/components/utils.js'
 
+interface Maker {
+  id: number
+  address: string
+  email: string
+  fax_number: string
+  home_page: string
+  manufacturer_rep: string
+  name: string
+  phone_number: string
+  postal_code: string
+}
+
+interface MakerListResponse {
+  makers: Maker[]
+  current_page: number
+  total_pages: number
+}
+
+interface MessageEvent {
+  type: 'danger'
+  text: string
+}
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-const emit = defineEmits(['message'])
+const emit = defineEmits<{
+  message: [payload: MessageEvent]
+}>()
 const route = useRoute()
 const router = useRouter()
-const makers = ref([])
-const currentPage = ref(Number(route.query.page) || 1)
-const totalPages = ref(1)
+const makers = ref<Maker[]>([])
+const currentPage = ref<number>(Number(route.query.page) || 1)
+const totalPages = ref<number>(1)
 
-const fetchMakerList = async () => {
+const fetchMakerList = async (): Promise<void> => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/makers?page=${currentPage.value}`)
+    const response = await axios.get<MakerListResponse>(`${API_BASE_URL}/makers?page=${currentPage.value}`)
     const data = response.data
     makers.value = data.makers
     currentPage.value = data.current_page
     totalPages.value = data.total_pages
   } catch (error) {
-    if (error.response && error.response.status === 404) {
+    const axiosError = error as AxiosError
+    if (axiosError.response?.status === 404) {
       emit('message', { type: 'danger', text: 'メーカーリストの取得に失敗しました。' })
       router.replace({ name: 'NotFound' })
     }
   }
 }
 
-const getPageLink = (page) => ({
+const getPageLink = (page: number): { path: string; query: { page: number } } => ({
   path: route.path,
   query: { page }
 })
@@ -37,7 +63,7 @@ watch(() => route.query.page, (newPage) => {
   fetchMakerList()
 })
 
-onMounted(async () => {
+onMounted(async (): Promise<void> => {
   const loggedIn = await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
