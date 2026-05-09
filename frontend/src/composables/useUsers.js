@@ -16,7 +16,7 @@ export function useUsers(emit) {
   const name = ref('')
   const department = ref('')
   const password = ref('')
-  const password_confirmation = ref('')
+  const passwordConfirmation = ref('')
   const errorMessage = ref('')
 
   // index
@@ -67,7 +67,7 @@ export function useUsers(emit) {
           name: name.value,
           department: department.value,
           password: password.value,
-          password_confirmation: password_confirmation.value
+          password_confirmation: passwordConfirmation.value
         }
       })
       user.value = response.data
@@ -91,7 +91,7 @@ export function useUsers(emit) {
 
       if (password.value) {
         updateData.user.password = password.value
-        updateData.user.password_confirmation = password_confirmation.value
+        updateData.user.password_confirmation = passwordConfirmation.value
       }
 
       const response = await axios.patch(`${API_BASE_URL}/users/${user.value.id}`, updateData)
@@ -137,7 +137,7 @@ export function useUsers(emit) {
     name,
     department,
     password,
-    password_confirmation,
+    passwordConfirmation,
     errorMessage,
     fetchUserList,
     fetchUserInformation,

@@ -9,7 +9,7 @@ const {
   user,
   errorMessage,
   password,
-  password_confirmation,
+  passwordConfirmation,
   fetchUserInformation,
   userUpdate,
   loggedIn
@@ -68,7 +68,7 @@ onMounted(async () => {
       </label>
       <input
         id="user-password-confirmation"
-        v-model="password_confirmation"
+        v-model="passwordConfirmation"
         class="form-control mb-4 shadow-sm"
         type="password"
       />

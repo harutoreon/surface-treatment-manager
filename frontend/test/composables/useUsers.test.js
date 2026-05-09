@@ -62,9 +62,9 @@ describe('useUsers', () => {
       expect(password.value).toBe('')
     })
 
-    it('password_confirmation の初期値が空文字であること', () => {
-      const { password_confirmation } = useUsers()
-      expect(password_confirmation.value).toBe('')
+    it('passwordConfirmation の初期値が空文字であること', () => {
+      const { passwordConfirmation } = useUsers()
+      expect(passwordConfirmation.value).toBe('')
     })
 
     it('errorMessage の初期値が空文字であること', () => {
@@ -287,7 +287,7 @@ describe('useUsers', () => {
       })
 
       afterEach(() => {
-        vi.unstubAllGlobals
+        vi.unstubAllGlobals()
       })
 
       describe('リクエストに成功した場合', () => {
