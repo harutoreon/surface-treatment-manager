@@ -167,6 +167,8 @@ describe('MakersEditView', () => {
           }
         })
 
+      vi.mocked(axios.isAxiosError).mockReturnValue(true)
+
       wrapper = mount(MakersEditView, {
         global: {
           stubs: {
@@ -256,6 +258,8 @@ describe('MakersEditView', () => {
             manufacturer_rep: '宮本 悠斗'
           }
         })
+
+      vi.mocked(axios.isAxiosError).mockReturnValue(true)
 
       axios.patch.mockRejectedValue({
         response: {
