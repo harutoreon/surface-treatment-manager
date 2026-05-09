@@ -1,26 +1,48 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { checkLoginStatus } from '@/components/utils.js'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-const emit = defineEmits(['message'])
-const router = useRouter()
-const maker = ref('')
-const name = ref('')
-const postalCode = ref('')
-const address = ref('')
-const phoneNumber = ref('')
-const faxNumber = ref('')
-const email = ref('')
-const homePage = ref('')
-const manufacturerRep = ref('')
-const errorMessage = ref('')
+interface MakerResponse {
+  id: number
+  name: string
+  postal_code: string
+  address: string
+  phone_number: string
+  fax_number: string
+  email: string
+  home_page: string
+  manufacturer_rep: string
+}
 
-const makerRegistration = async () => {
+interface MessageEvent {
+  type: 'danger' | 'success' | 'warning' | 'info'
+  text: string
+}
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
+
+const emit = defineEmits<{
+  message: [payload: MessageEvent]
+}>()
+
+const router = useRouter()
+
+const maker = ref<MakerResponse | null>(null)
+const name = ref<string>('')
+const postalCode = ref<string>('')
+const address = ref<string>('')
+const phoneNumber = ref<string>('')
+const faxNumber = ref<string>('')
+const email = ref<string>('')
+const homePage = ref<string>('')
+const manufacturerRep = ref<string>('')
+const errorMessage = ref<string>('')
+
+const makerRegistration = async (): Promise<void> => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/makers`, {
+    const response = await axios.post<MakerResponse>(`${API_BASE_URL}/makers`, {
       maker: {
         name: name.value,
         postal_code: postalCode.value,
@@ -35,13 +57,15 @@ const makerRegistration = async () => {
     maker.value = response.data
     emit('message', { type: 'success', text: 'メーカー情報を1件登録しました。' })
     router.push(`/makers/${maker.value.id}`)
-  } catch {
-    errorMessage.value = '入力に不備があります。'
+  } catch(error) {
+    if (axios.isAxiosError(error) && error.response?.status === 422) {
+      errorMessage.value = '入力に不備があります。'
+    }
   }
 }
 
-onMounted(() => {
-  checkLoginStatus(() => {
+onMounted(async (): Promise<void> => {
+  await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
   })
