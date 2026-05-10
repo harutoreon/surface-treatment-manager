@@ -21,9 +21,13 @@ interface MakerListResponse {
   total_pages: number
 }
 
+interface Emit {
+  (event: 'message', payload: { type: 'success' | 'danger'; text: string }): void
+}
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
 
-export function useMakers(emit) {
+export function useMakers(emit: Emit) {
   const route = useRoute()
   const router = useRouter()
 
