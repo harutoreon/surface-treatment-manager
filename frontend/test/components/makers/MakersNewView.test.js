@@ -8,6 +8,11 @@ const pushMock = vi.fn()
 vi.mock('axios')
 vi.mock('vue-router', () => {
   return {
+    useRoute: () => {
+      return {
+        query: { page: vi.fn()}
+      }
+    },
     useRouter: () => {
       return {
         push: pushMock

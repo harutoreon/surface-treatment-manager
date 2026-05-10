@@ -15,6 +15,18 @@ interface Maker {
   postal_code: string
 }
 
+interface MakerResponse {
+  id: string
+  name: string
+  postal_code: string
+  address: string
+  phone_number: string
+  fax_number: string
+  email: string
+  home_page: string
+  manufacturer_rep: string
+}
+
 interface MakerListResponse {
   makers: Maker[]
   current_page: number
@@ -28,7 +40,7 @@ export function useMakers(emit) {
   const router = useRouter()
 
   const makers = ref<Maker[]>([])
-  const maker = ref<Maker>({
+  const newMaker = ref<Maker>({
     id: '',
     name: '',
     postal_code: '',
@@ -42,6 +54,31 @@ export function useMakers(emit) {
   const currentPage = ref<number>(Number(route.query.page) || 1)
   const totalPages = ref<number>(1)
 
+  // const maker = ref<MakerResponse | null>(null)
+
+  const maker = ref<MakerResponse>({
+    id: '',
+    name: '',
+    postal_code: '',
+    address: '',
+    phone_number: '',
+    fax_number: '',
+    email: '',
+    home_page: '',
+    manufacturer_rep: ''
+  })
+
+  const name = ref<string>('')
+  const postalCode = ref<string>('')
+  const address = ref<string>('')
+  const phoneNumber = ref<string>('')
+  const faxNumber = ref<string>('')
+  const email = ref<string>('')
+  const homePage = ref<string>('')
+  const manufacturerRep = ref<string>('')
+  const errorMessage = ref<string>('')
+
+  // index
   const fetchMakerList = async (): Promise<void> => {
     try {
       const response = await axios.get<MakerListResponse>(
@@ -60,9 +97,10 @@ export function useMakers(emit) {
     }
   }
 
+  // show
   const fetchMakerData = async (id: string): Promise<void> => {
     try {
-      const response = await axios.get<Maker>(`${API_BASE_URL}/makers/${id}`)
+      const response = await axios.get<MakerResponse>(`${API_BASE_URL}/makers/${id}`)
       maker.value = response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -73,6 +111,32 @@ export function useMakers(emit) {
     }
   }
 
+  // new・create
+  const makerRegistration = async (): Promise<void> => {
+    try {
+      const response = await axios.post<Maker>(`${API_BASE_URL}/makers`, {
+        maker: {
+          name: name.value,
+          postal_code: postalCode.value,
+          address: address.value,
+          phone_number: phoneNumber.value,
+          fax_number: faxNumber.value,
+          email: email.value,
+          home_page: homePage.value,
+          manufacturer_rep: manufacturerRep.value
+        }
+      })
+      newMaker.value = response.data
+      emit('message', { type: 'success', text: 'メーカー情報を1件登録しました。' })
+      router.push(`/makers/${newMaker.value.id}`)
+    } catch(error) {
+      if (axios.isAxiosError(error) && error.response?.status === 422) {
+        errorMessage.value = '入力に不備があります。'
+      }
+    }
+  }
+
+  // destroy
   const handleDelete = async (): Promise<void> => {
     const confirmDelete = window.confirm('本当に削除しますか？')
     if (!confirmDelete) return
@@ -90,19 +154,31 @@ export function useMakers(emit) {
     }
   }
 
+  // login check
   const loggedIn = checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
   })
 
   return {
+    router,
     route,
     maker,
     makers,
     currentPage,
     totalPages,
+    name,
+    postalCode,
+    address,
+    phoneNumber,
+    faxNumber,
+    email,
+    homePage,
+    manufacturerRep,
+    errorMessage,
     fetchMakerList,
     fetchMakerData,
+    makerRegistration,
     handleDelete,
     loggedIn,
   }
