@@ -4,7 +4,7 @@ import axios, { AxiosError } from 'axios'
 import { checkLoginStatus } from '@/components/utils.js'
 
 interface Maker {
-  id: number
+  id: string
   address: string
   email: string
   fax_number: string
@@ -28,6 +28,17 @@ export function useMakers(emit) {
   const router = useRouter()
 
   const makers = ref<Maker[]>([])
+  const maker = ref<Maker>({
+    id: '',
+    name: '',
+    postal_code: '',
+    address: '',
+    phone_number: '',
+    fax_number: '',
+    email: '',
+    home_page: '',
+    manufacturer_rep: ''
+  })
   const currentPage = ref<number>(Number(route.query.page) || 1)
   const totalPages = ref<number>(1)
 
@@ -49,6 +60,36 @@ export function useMakers(emit) {
     }
   }
 
+  const fetchMakerData = async (id: string): Promise<void> => {
+    try {
+      const response = await axios.get<Maker>(`${API_BASE_URL}/makers/${id}`)
+      maker.value = response.data
+    } catch (error) {
+      const axiosError = error as AxiosError
+      if (axiosError.response?.status === 404) {
+        emit('message', { type: 'danger', text: 'メーカー情報の取得に失敗しました。' })
+        router.replace({ name: 'NotFound' })
+      }
+    }
+  }
+
+  const handleDelete = async (): Promise<void> => {
+    const confirmDelete = window.confirm('本当に削除しますか？')
+    if (!confirmDelete) return
+
+    try {
+      await axios.delete(`${API_BASE_URL}/makers/${route.params.id as string}`)
+      emit('message', { type: 'success', text: 'メーカー情報を1件削除しました。' })
+      router.push('/makers')
+    } catch (error) {
+      const axiosError = error as AxiosError
+      if (axiosError.response?.status === 404) {
+        emit('message', { type: 'danger', text: 'メーカー情報の削除処理に失敗しました。' })
+        router.replace({ name: 'NotFound' })
+      }
+    }
+  }
+
   const loggedIn = checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
@@ -56,10 +97,13 @@ export function useMakers(emit) {
 
   return {
     route,
+    maker,
     makers,
     currentPage,
     totalPages,
     fetchMakerList,
+    fetchMakerData,
+    handleDelete,
     loggedIn,
   }
 }

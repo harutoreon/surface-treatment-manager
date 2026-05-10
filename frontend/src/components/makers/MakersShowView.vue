@@ -1,81 +1,20 @@
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router'
-import { ref, onMounted } from 'vue'
-import axios, { AxiosError } from 'axios'
-import { checkLoginStatus } from '@/components/utils.js'
-
-interface Maker {
-  id: string
-  name: string
-  postal_code: string
-  address: string
-  phone_number: string
-  fax_number: string
-  email: string
-  home_page: string
-  manufacturer_rep: string
-}
+import { onMounted } from 'vue'
+import { useMakers } from '@/composables/useMakers.ts'
 
 interface MessageEvent {
   type: 'danger' | 'success' | 'warning' | 'info'
   text: string
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
 const emit = defineEmits<{
   message: [payload: MessageEvent]
 }>()
-const route = useRoute()
-const router = useRouter()
-const maker = ref<Maker>({
-  id: '',
-  name: '',
-  postal_code: '',
-  address: '',
-  phone_number: '',
-  fax_number: '',
-  email: '',
-  home_page: '',
-  manufacturer_rep: ''
-})
 
-const fetchMakerData = async (id: string): Promise<void> => {
-  try {
-    const response = await axios.get<Maker>(`${API_BASE_URL}/makers/${id}`)
-    maker.value = response.data
-  } catch (error) {
-    const axiosError = error as AxiosError
-    if (axiosError.response?.status === 404) {
-      emit('message', { type: 'danger', text: 'メーカー情報の取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
-}
-
-const handleDelete = async (): Promise<void> => {
-  const confirmDelete = window.confirm('本当に削除しますか？')
-  if (!confirmDelete) return
-
-  try {
-    await axios.delete(`${API_BASE_URL}/makers/${route.params.id as string}`)
-    emit('message', { type: 'success', text: 'メーカー情報を1件削除しました。' })
-    router.push('/makers')
-  } catch (error) {
-    const axiosError = error as AxiosError
-    if (axiosError.response?.status === 404) {
-      emit('message', { type: 'danger', text: 'メーカー情報の削除処理に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
-}
+const { route, maker, fetchMakerData, handleDelete, loggedIn } = useMakers(emit)
 
 onMounted(async (): Promise<void> => {
-  const loggedIn = await checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
-  if (!loggedIn) return
-  await fetchMakerData(route.params.id as string)
+  if (await loggedIn) await fetchMakerData(route.params.id as string)
 })
 </script>
 
