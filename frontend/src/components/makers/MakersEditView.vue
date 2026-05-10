@@ -1,94 +1,32 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
-import { checkLoginStatus } from '@/components/utils.js'
-
-interface MakerResponse {
-  id: string
-  name: string
-  postal_code: string
-  address: string
-  phone_number: string
-  fax_number: string
-  email: string
-  home_page: string
-  manufacturer_rep: string
-}
+import { onMounted } from 'vue'
+import { useMakers } from '@/composables/useMakers.ts'
 
 interface MessageEvent {
   type: 'danger' | 'success' | 'warning' | 'info'
   text: string
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
-
 const emit = defineEmits<{
   message: [payload: MessageEvent]
 }>()
 
-const route = useRoute()
-const router = useRouter()
-
-const maker = ref<MakerResponse>({
-  id: '',
-  name: '',
-  postal_code: '',
-  address: '',
-  phone_number: '',
-  fax_number: '',
-  email: '',
-  home_page: '',
-  manufacturer_rep: ''
-})
-
-const errorMessage = ref<string>('')
-
-const fetchMakerData = async (id: string): Promise<void> => {
-  try {
-    const response = await axios.get<MakerResponse>(`${API_BASE_URL}/makers/${id}`)
-    maker.value = response.data
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response?.status === 404) {
-      emit('message', { type: 'danger', text: 'メーカー情報の取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
-}
-
-const makerUpdate = async () => {
-  try {
-    const response = await axios.patch<MakerResponse>(`${API_BASE_URL}/makers/${maker.value.id}`, {
-      name: maker.value.name,
-      postal_code: maker.value.postal_code,
-      address: maker.value.address,
-      phone_number: maker.value.phone_number,
-      fax_number: maker.value.fax_number,
-      email: maker.value.email,
-      home_page: maker.value.home_page,
-      manufacturer_rep: maker.value.manufacturer_rep
-    })
-    maker.value = response.data
-    emit('message', { type: 'success', text: 'メーカー情報を更新しました。' })
-    router.push(`/makers/${maker.value.id}`)
-  } catch(error) {
-    if (axios.isAxiosError(error) && error.response?.status === 422) {
-      errorMessage.value = '入力に不備があります。'
-    }
-  }
-}
+const {
+  route,
+  router,
+  maker,
+  errorMessage,
+  fetchMakerData,
+  makerUpdate,
+  loggedIn
+} = useMakers(emit)
 
 const cancel = (): void => {
   router.push(`/makers/${maker.value.id as string}`)
 }
 
 onMounted(async (): Promise<void> => {
-  const loggedIn = await checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
-  if (!loggedIn) return
-  await fetchMakerData(route.params.id as string)
+  if (await loggedIn) await fetchMakerData(route.params.id as string)
 })
 </script>
 

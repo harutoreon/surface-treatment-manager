@@ -136,6 +136,29 @@ export function useMakers(emit) {
     }
   }
 
+  // edit・update
+  const makerUpdate = async () => {
+    try {
+      const response = await axios.patch<MakerResponse>(`${API_BASE_URL}/makers/${maker.value.id}`, {
+        name: maker.value.name,
+        postal_code: maker.value.postal_code,
+        address: maker.value.address,
+        phone_number: maker.value.phone_number,
+        fax_number: maker.value.fax_number,
+        email: maker.value.email,
+        home_page: maker.value.home_page,
+        manufacturer_rep: maker.value.manufacturer_rep
+      })
+      maker.value = response.data
+      emit('message', { type: 'success', text: 'メーカー情報を更新しました。' })
+      router.push(`/makers/${maker.value.id}`)
+    } catch(error) {
+      if (axios.isAxiosError(error) && error.response?.status === 422) {
+        errorMessage.value = '入力に不備があります。'
+      }
+    }
+  }
+
   // destroy
   const handleDelete = async (): Promise<void> => {
     const confirmDelete = window.confirm('本当に削除しますか？')
@@ -179,6 +202,7 @@ export function useMakers(emit) {
     fetchMakerList,
     fetchMakerData,
     makerRegistration,
+    makerUpdate,
     handleDelete,
     loggedIn,
   }
