@@ -15,18 +15,6 @@ interface Maker {
   postal_code: string
 }
 
-interface MakerResponse {
-  id: string
-  name: string
-  postal_code: string
-  address: string
-  phone_number: string
-  fax_number: string
-  email: string
-  home_page: string
-  manufacturer_rep: string
-}
-
 interface MakerListResponse {
   makers: Maker[]
   current_page: number
@@ -39,8 +27,7 @@ export function useMakers(emit) {
   const route = useRoute()
   const router = useRouter()
 
-  const makers = ref<Maker[]>([])
-  const newMaker = ref<Maker>({
+  const maker = ref<Maker>({
     id: '',
     name: '',
     postal_code: '',
@@ -51,23 +38,10 @@ export function useMakers(emit) {
     home_page: '',
     manufacturer_rep: ''
   })
+
+  const makers = ref<Maker[]>([])
   const currentPage = ref<number>(Number(route.query.page) || 1)
   const totalPages = ref<number>(1)
-
-  // const maker = ref<MakerResponse | null>(null)
-
-  const maker = ref<MakerResponse>({
-    id: '',
-    name: '',
-    postal_code: '',
-    address: '',
-    phone_number: '',
-    fax_number: '',
-    email: '',
-    home_page: '',
-    manufacturer_rep: ''
-  })
-
   const name = ref<string>('')
   const postalCode = ref<string>('')
   const address = ref<string>('')
@@ -100,7 +74,7 @@ export function useMakers(emit) {
   // show
   const fetchMakerData = async (id: string): Promise<void> => {
     try {
-      const response = await axios.get<MakerResponse>(`${API_BASE_URL}/makers/${id}`)
+      const response = await axios.get<Maker>(`${API_BASE_URL}/makers/${id}`)
       maker.value = response.data
     } catch (error) {
       const axiosError = error as AxiosError
@@ -126,9 +100,10 @@ export function useMakers(emit) {
           manufacturer_rep: manufacturerRep.value
         }
       })
-      newMaker.value = response.data
+      // newMaker.value = response.data
+      maker.value = response.data
       emit('message', { type: 'success', text: 'メーカー情報を1件登録しました。' })
-      router.push(`/makers/${newMaker.value.id}`)
+      router.push(`/makers/${maker.value.id}`)
     } catch(error) {
       if (axios.isAxiosError(error) && error.response?.status === 422) {
         errorMessage.value = '入力に不備があります。'
@@ -139,7 +114,7 @@ export function useMakers(emit) {
   // edit・update
   const makerUpdate = async () => {
     try {
-      const response = await axios.patch<MakerResponse>(`${API_BASE_URL}/makers/${maker.value.id}`, {
+      const response = await axios.patch<Maker>(`${API_BASE_URL}/makers/${maker.value.id}`, {
         name: maker.value.name,
         postal_code: maker.value.postal_code,
         address: maker.value.address,
