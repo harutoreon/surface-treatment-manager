@@ -104,7 +104,6 @@ export function useMakers(emit: Emit) {
           manufacturer_rep: manufacturerRep.value
         }
       })
-      // newMaker.value = response.data
       maker.value = response.data
       emit('message', { type: 'success', text: 'メーカー情報を1件登録しました。' })
       router.push(`/makers/${maker.value.id}`)
@@ -116,7 +115,7 @@ export function useMakers(emit: Emit) {
   }
 
   // edit・update
-  const makerUpdate = async () => {
+  const makerUpdate = async (): Promise<void> => {
     try {
       const response = await axios.patch<Maker>(`${API_BASE_URL}/makers/${maker.value.id}`, {
         name: maker.value.name,
