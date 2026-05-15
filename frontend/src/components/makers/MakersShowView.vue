@@ -1,60 +1,20 @@
-<script setup>
-import { useRoute, useRouter } from 'vue-router'
-import { ref, onMounted } from 'vue'
-import axios from 'axios'
-import { checkLoginStatus } from '@/components/utils.js'
+<script setup lang="ts">
+import { onMounted } from 'vue'
+import { useMakers } from '@/composables/useMakers.ts'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-const emit = defineEmits(['message'])
-const route = useRoute()
-const router = useRouter()
-const maker = ref({
-  id: '',
-  name: '',
-  postal_code: '',
-  address: '',
-  phone_number: '',
-  fax_number: '',
-  email: '',
-  home_page: '',
-  manufacturer_rep: ''
-})
-
-const fetchMakerData = async (id) => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/makers/${id}`)
-    maker.value = response.data
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: 'メーカー情報の取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
+interface MessageEvent {
+  type: 'danger' | 'success' | 'warning' | 'info'
+  text: string
 }
 
-const handleDelete = async () => {
-  const confirmDelete = window.confirm('本当に削除しますか？')
-  if (!confirmDelete) return
+const emit = defineEmits<{
+  message: [payload: MessageEvent]
+}>()
 
-  try {
-    await axios.delete(`${API_BASE_URL}/makers/${route.params.id}`)
-    emit('message', { type: 'success', text: 'メーカー情報を1件削除しました。' })
-    router.push('/makers')
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: 'メーカー情報の削除処理に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
-}
+const { route, maker, fetchMakerData, handleDelete, loggedIn } = useMakers(emit)
 
-onMounted(async () => {
-  const loggedIn = await checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
-  if (!loggedIn) return
-  await fetchMakerData(route.params.id)
+onMounted(async (): Promise<void> => {
+  if (await loggedIn) await fetchMakerData(route.params.id as string)
 })
 </script>
 

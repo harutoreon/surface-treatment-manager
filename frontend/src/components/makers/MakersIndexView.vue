@@ -1,33 +1,19 @@
-<script setup>
-import { ref, onMounted, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
-import { checkLoginStatus } from '@/components/utils.js'
+<script setup lang="ts">
+import { onMounted, watch } from 'vue'
+import { useMakers } from '@/composables/useMakers.ts'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-const emit = defineEmits(['message'])
-const route = useRoute()
-const router = useRouter()
-const makers = ref([])
-const currentPage = ref(Number(route.query.page) || 1)
-const totalPages = ref(1)
-
-const fetchMakerList = async () => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/makers?page=${currentPage.value}`)
-    const data = response.data
-    makers.value = data.makers
-    currentPage.value = data.current_page
-    totalPages.value = data.total_pages
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: 'メーカーリストの取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
+interface MessageEvent {
+  type: 'danger'
+  text: string
 }
 
-const getPageLink = (page) => ({
+const emit = defineEmits<{
+  message: [payload: MessageEvent]
+}>()
+
+const { route, makers, currentPage, totalPages, fetchMakerList, loggedIn } = useMakers(emit)
+
+const getPageLink = (page: number): { path: string; query: { page: number } } => ({
   path: route.path,
   query: { page }
 })
@@ -37,13 +23,8 @@ watch(() => route.query.page, (newPage) => {
   fetchMakerList()
 })
 
-onMounted(async () => {
-  const loggedIn = await checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
-  if (!loggedIn) return
-  await fetchMakerList()
+onMounted(async (): Promise<void> => {
+  if (await loggedIn) await fetchMakerList()
 })
 </script>
 

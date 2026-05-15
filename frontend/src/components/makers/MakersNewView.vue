@@ -1,50 +1,32 @@
-<script setup>
-import { ref, onMounted } from 'vue'
-import axios from 'axios'
-import { useRouter } from 'vue-router'
-import { checkLoginStatus } from '@/components/utils.js'
+<script setup lang="ts">
+import { onMounted } from 'vue'
+import { useMakers } from '@/composables/useMakers.ts'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-const emit = defineEmits(['message'])
-const router = useRouter()
-const maker = ref('')
-const name = ref('')
-const postalCode = ref('')
-const address = ref('')
-const phoneNumber = ref('')
-const faxNumber = ref('')
-const email = ref('')
-const homePage = ref('')
-const manufacturerRep = ref('')
-const errorMessage = ref('')
-
-const makerRegistration = async () => {
-  try {
-    const response = await axios.post(`${API_BASE_URL}/makers`, {
-      maker: {
-        name: name.value,
-        postal_code: postalCode.value,
-        address: address.value,
-        phone_number: phoneNumber.value,
-        fax_number: faxNumber.value,
-        email: email.value,
-        home_page: homePage.value,
-        manufacturer_rep: manufacturerRep.value
-      }
-    })
-    maker.value = response.data
-    emit('message', { type: 'success', text: 'メーカー情報を1件登録しました。' })
-    router.push(`/makers/${maker.value.id}`)
-  } catch {
-    errorMessage.value = '入力に不備があります。'
-  }
+interface MessageEvent {
+  type: 'danger' | 'success' | 'warning' | 'info'
+  text: string
 }
 
-onMounted(() => {
-  checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
+const emit = defineEmits<{
+  message: [payload: MessageEvent]
+}>()
+
+const {
+  name,
+  postalCode,
+  address,
+  phoneNumber,
+  faxNumber,
+  email,
+  homePage,
+  manufacturerRep,
+  errorMessage,
+  makerRegistration,
+  loggedIn
+} = useMakers(emit)
+
+onMounted(async (): Promise<void> => {
+  await loggedIn
 })
 </script>
 
