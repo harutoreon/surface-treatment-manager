@@ -4,38 +4,38 @@ import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
 
-interface Sample {
-  id: string
+export interface Sample {
+  id: number
   name: string
   color: string
   hardness: string
   film_thickness: string
   feature: string
   summary: string
-  maker_id: string
-  category_id: string
+  maker_id: number
+  category_id: number
   image_url: string
 }
 
-interface User {
-  id: string
+export interface User {
+  id: number
   name: string
   department: string
   admin: boolean
 }
 
-interface Comment {
+export interface Comment {
   comment: {
-    id: string
+    id: number
     commenter: string
     body: string
-    sample_id: string
+    sample_id: number
     department: string
   },
-  maker_id: string
+  maker_id: number
 }
 
-interface Emit {
+export interface Emit {
   (event: 'message', payload: { type: 'success' | 'danger'; text: string }): void
 }
 
@@ -44,19 +44,19 @@ export function useSamplesShow(emit: Emit) {
   const sampleComments = ref<Comment[]>([])
   const isAdmin = ref<boolean>(false)
   const sample = ref<Sample>({
-    id: '',
+    id: null,
     name: '',
     color: '',
     hardness: '',
     film_thickness: '',
     feature: '',
     summary: '',
-    maker_id: '',
-    category_id: '',
+    maker_id: null,
+    category_id: null,
     image_url: '',
   })
   const user = ref<User>({
-    id: '',
+    id: null,
     name: '',
     department: '',
     admin: false,
