@@ -1,48 +1,33 @@
-<script setup>
-import { ref, onMounted, watch } from 'vue'
+<script setup lang="ts">
+import {onMounted, watch} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
+import { useSamplesIndex } from '@/composables/samples/useSamplesIndex.ts'
 import { checkLoginStatus } from '@/components/utils.js'
+import type { Emit } from '@/composables/samples/useSamplesIndex.ts'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-const route = useRoute()
+const emit = defineEmits<Emit>()
 const router = useRouter()
-const samples = ref('')
-const currentPage = ref(Number(route.query.page) || 1)
-const totalPages = ref(1)
-const emit = defineEmits(['message'])
+const route = useRoute()
+const { samples, currentPage, totalPages, fetchSampleList } = useSamplesIndex(emit)
 
-const fetchSampleList = async () => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/sample_list_with_pagination?page=${currentPage.value}`)
-    samples.value = response.data.samples
-    currentPage.value = response.data.current_page
-    totalPages.value = response.data.total_pages
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: '表面処理リストの取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
+const getPageLink = (page: number): { path: string; query: { page: number } } => {
+  return {
+    path: route.path,
+    query: { page }
   }
 }
-
-const getPageLink = (page) => ({
-  path: route.path,
-  query: { page }
-})
 
 watch(() => route.query.page, (newPage) => {
   currentPage.value = Number(newPage) || 1
   fetchSampleList()
 })
 
-onMounted(async () => {
+onMounted(async (): Promise<void> => {
   const loggedIn = await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
   })
-  if (!loggedIn) return
-  await fetchSampleList()
+  if (loggedIn) await fetchSampleList()
 })
 </script>
 

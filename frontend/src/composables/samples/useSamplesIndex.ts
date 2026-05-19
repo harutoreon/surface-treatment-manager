@@ -17,9 +17,10 @@ interface SampleListResponse {
   total_pages: number
 }
 
-interface Emit {
+export interface Emit {
   (event: 'message', payload: { type: 'success' | 'danger'; text: string }): void
 }
+
 export function useSamplesIndex(emit: Emit) {
   const route = useRoute()
   const router = useRouter()
