@@ -4,22 +4,23 @@ import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
 
-interface Sample {
+export interface Sample {
   id: number
   name: string
   color: string
   feature: string
 }
 
-interface SampleListResponse {
+export interface SampleListResponse {
   samples: Sample[]
   current_page: number
   total_pages: number
 }
 
-interface Emit {
+export interface Emit {
   (event: 'message', payload: { type: 'success' | 'danger'; text: string }): void
 }
+
 export function useSamplesIndex(emit: Emit) {
   const route = useRoute()
   const router = useRouter()
