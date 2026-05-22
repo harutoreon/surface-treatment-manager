@@ -25,14 +25,12 @@ export interface User {
 }
 
 export interface Comment {
-  comment: {
-    id: number
-    commenter: string
-    body: string
-    sample_id: number
-    department: string
-  },
-  maker_id: number
+  id: number
+  commenter: string
+  body: string
+  sample_id: number
+  department: string
+  created_at: string
 }
 
 export interface Emit {
@@ -88,7 +86,9 @@ export function useSamplesShow(emit: Emit) {
 
   const fetchSampleCommentsData = async (id: string): Promise<void> => {
     try {
-      const response = await axios.get<Comment[]>(`${API_BASE_URL}/makers/${sample.value.maker_id}/samples/${id}/comments`)
+      const response = await axios.get<Comment[]>(
+        `${API_BASE_URL}/makers/${sample.value.maker_id}/samples/${id}/comments`
+      )
       sampleComments.value = response.data
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === 404) {
