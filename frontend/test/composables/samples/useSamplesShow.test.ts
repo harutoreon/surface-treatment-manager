@@ -120,24 +120,22 @@ describe('useSamplesShow', (): void => {
 
     describe('fetchSampleCommentData', (): void => {
       const mockResponse: Comment = {
-        comment: {
-          id: 1,
-          commenter: 'sample commenter',
-          body: 'sample body',
-          sample_id: 1,
-          department: 'sample department',
-        },
-        maker_id: 1
+        id: 1,
+        commenter: 'sample commenter',
+        body: 'sample body',
+        sample_id: 1,
+        department: 'sample department',
+        created_at: '2026/12/29'
       }
 
       describe('リクエストに成功した場合', (): void => {
         it('レスポンスがコメント一覧であること', async (): Promise<void> => {
-          vi.mocked(axios.get).mockResolvedValue({ data: [mockResponse] })
+          vi.mocked(axios.get).mockResolvedValue({ data: mockResponse })
 
           const { sampleComments, fetchSampleCommentsData } = useSamplesShow(emitMock)
           await fetchSampleCommentsData('1')
 
-          expect(sampleComments.value).toEqual([mockResponse])
+          expect(sampleComments.value).toEqual(mockResponse)
         })
       })
 

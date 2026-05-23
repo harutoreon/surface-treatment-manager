@@ -1,112 +1,76 @@
-<script setup>
+<script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { checkLoginStatus } from '@/components/utils.js'
 import { Modal } from 'bootstrap'
+import { useSamplesShow } from '@/composables/samples/useSamplesShow.ts'
+import type { Emit } from '@/composables/samples/useSamplesShow.ts'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-const emit = defineEmits(['message'])
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
+const emit = defineEmits<Emit>()
+
+const {
+  sample,
+  sampleComments,
+  isAdmin,
+  user,
+  fetchSampleData,
+  fetchSampleCommentsData
+} = useSamplesShow(emit)
+
 const route = useRoute()
 const router = useRouter()
-const sample = ref({
-  id: '',
-  name: '',
-  color: '',
-  maker: '',
-  hardness: '',
-  film_thickness: '',
-  feature: '',
-  image_url: ''
-})
 
-const sampleComments = ref([])
-const isAdmin = ref(false)
-const department = ref('')
-const commenter = ref('')
-const body = ref('')
-const sampleId = ref(route.params.id)
-const comment = ref('')
-const errorMessage = ref('')
-const user = ref('')
+const department = ref<string>('')
+const commenter = ref<string>('')
+const body = ref<string>('')
+const sampleId = ref(route.params.id as string)
+const errorMessage = ref<string>('')
 
-const modalReset = () => {
+const modalReset = (): void => {
   commenter.value = ''
   department.value = ''
   body.value = ''
   errorMessage.value = ''
 }
 
-const goBack = () => {
+const goBack = (): void => {
   router.back()
 }
 
-const handleCommentAdd = async () => {
+const handleCommentAdd = async (): Promise<void> => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/makers/${sample.value.maker_id}/samples/${sampleId.value}/comments`, {
+    await axios.post(
+      `${API_BASE_URL}/makers/${sample.value.maker_id}/samples/${sampleId.value}/comments`, {
       comment: {
-        commenter: user.value.name,
-        department: user.value.department,
+        commenter: commenter.value,
+        department: department.value,
         body: body.value,
         user_id: user.value.id,
       }
     })
-    comment.value = response.data
     errorMessage.value = ''
-    await fetchSampleCommentsData(route.params.id)
+    await fetchSampleCommentsData(route.params.id as string)
 
     const modal = Modal.getInstance('#commentPostForm')
     modal.hide()
 
     alert('コメントを1件追加しました。')
-  } catch {
-    errorMessage.value = '入力に不備があります。'
-  }
-}
-
-const fetchSampleData = async (id) => {
-  const token = localStorage.getItem('token')
-  const response = await axios.get(`${API_BASE_URL}/logged_in`, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })
-
-  const userResponse = await axios.get(`${API_BASE_URL}/users/${response.data.payload.user_id}`)
-  user.value = userResponse.data
-
-  isAdmin.value = user.value.admin
-
-  try {
-    const response = await axios.get(`${API_BASE_URL}/samples/${id}`)
-    sample.value = response.data
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: '表面処理情報の取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
+  } catch(error) {
+    if (axios.isAxiosError(error) && error.response?.status === 422) {
+      errorMessage.value = '入力に不備があります。'
     }
   }
 }
 
-const fetchSampleCommentsData = async (id) => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/makers/${sample.value.maker_id}/samples/${id}/comments`)
-    sampleComments.value = response.data
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: 'コメントの取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
-}
-
-const formatDate = (isoString) => {
+const formatDate = (isoString: string): string => {
   const date = new Date(isoString)
   const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()]
   return `${year}/${month}/${day}`
 }
 
-const handleDelete = async () => {
+const handleDelete = async (): Promise<void> => {
   const confirmDelete = window.confirm('本当に削除しますか？')
   if (!confirmDelete) return
 
@@ -115,21 +79,22 @@ const handleDelete = async () => {
     emit('message', { type: 'success', text: '表面処理情報を削除しました。' })
     router.push('/samples')
   } catch (error) {
-    if (error.response && error.response.status === 404) {
+    if (axios.isAxiosError(error) && error.response?.status === 404) {
       emit('message', { type: 'danger', text: '表面処理情報の削除処理に失敗しました。' })
       router.replace({ name: 'NotFound' })
     }
   }
 }
 
-onMounted(async () => {
+onMounted(async (): Promise<void> => {
   const loggedIn = await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
   })
-  if (!loggedIn) return
-  await fetchSampleData(route.params.id)
-  await fetchSampleCommentsData(route.params.id)
+  if (loggedIn) {
+    await fetchSampleData(route.params.id as string)
+    await fetchSampleCommentsData(sampleId.value)
+  }
 })
 </script>
 
@@ -248,7 +213,7 @@ onMounted(async () => {
             <div class="form-floating">
               <input
                 id="commenter"
-                v-model="user.name"
+                v-model="commenter"
                 class="form-control mb-3"
                 type="text"
                 placeholder="ここに氏名を入力して下さい。"
@@ -260,7 +225,7 @@ onMounted(async () => {
             <div class="form-floating">
               <input
                 id="department"
-                v-model="user.department"
+                v-model="department"
                 class="form-control mb-3"
                 type="text"
                 placeholder="ここに部署名を入力して下さい。"
