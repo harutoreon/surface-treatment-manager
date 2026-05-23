@@ -1,62 +1,54 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { checkLoginStatus } from '@/components/utils.js'
+import { useSamplesNew } from '@/composables/samples/useSamplesNew.ts'
+import type { Emit } from '@/composables/samples/useSamplesNew.ts'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-const emit = defineEmits(['message'])
+const emit = defineEmits<Emit>()
+
 const router = useRouter()
-const categoryOptions = ref([])
-const name = ref('')
-const category = ref('')
-const color = ref('')
-const maker = ref('')
-const hardness = ref('')
-const filmThickness = ref('')
-const feature = ref('')
-const summary = ref('')
-const image = ref(null)
-const errorMessage = ref('')
-const imageSizeErrorMessage = ref('')
-const previewImage = ref('')
-const makerOptions = ref('')
-const makerId = ref(null)
-const categoryId = ref(null)
+const category = ref<string>('')
+const maker = ref<string>('')
+const imageSizeErrorMessage = ref<string>('')
+const previewImage = ref<string>('')
 
-const handleCategoryChange = (event) => {
+const {
+  makerOptions,
+  categoryOptions,
+  name,
+  color,
+  hardness,
+  feature,
+  categoryId,
+  makerId,
+  filmThickness,
+  summary,
+  image,
+  errorMessage,
+  fetchMakerData,
+  fetchCategories,
+  sampleRegistration
+} = useSamplesNew(emit)
+
+const handleCategoryChange = (event: Event) => {
+  const target = event.target as HTMLInputElement
   const selected = categoryOptions.value.find(
-    option => option.item === event.target.value
+    option => option.item === target.value
   )
-  categoryId.value = selected?.id || null
+  categoryId.value = selected?.id ?? null
 }
 
-const handleMakerChange = (event) => {
+const handleMakerChange = (event: Event) => {
+  const target = event.target as HTMLInputElement
   const selected = makerOptions.value.find(
-    option => option.name === event.target.value
+    option => option.name === target.value
   )
-  makerId.value = selected?.id || null
+  makerId.value = selected?.id ?? null
 }
 
-const fetchMakerData = async () => {
-  const response = await axios.get(`${API_BASE_URL}/maker_list`)
-  makerOptions.value = response.data
-}
-
-const fetchCategories = async () => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/categories`)
-    categoryOptions.value = response.data
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: 'カテゴリーの取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }  
-  }
-}
-
-const handleFileChange = (event) => {
-  const file = event.target.files[0]
+const handleFileChange = (event: Event) => {
+  const file = (event.target as HTMLInputElement).files?.[0]
   if (!file) return
   const imageSize = file.size
 
@@ -70,47 +62,24 @@ const handleFileChange = (event) => {
   imageSizeErrorMessage.value = ''
   const reader = new FileReader()
   reader.onload = (e) => {
-    previewImage.value = e.target.result
+    const result = e.target?.result
+   if (typeof result === 'string') {
+     previewImage.value = result
+   }
   }
   image.value = file
   reader.readAsDataURL(file)
 }
 
-const sampleRegistration = async () => {
-  try {
-    const formData = new FormData()
-    formData.append('sample[name]', name.value)
-    formData.append('sample[color]', color.value)
-    formData.append('sample[maker]', maker.value)
-    formData.append('sample[hardness]', hardness.value)
-    formData.append('sample[film_thickness]', filmThickness.value)
-    formData.append('sample[feature]', feature.value)
-    formData.append('sample[summary]', summary.value)
-    formData.append('sample[category_id]', categoryId.value)
-    if (image.value) {
-      formData.append('sample[image]', image.value)
-    }
-
-    const response = await axios.post(`${API_BASE_URL}/makers/${makerId.value}/samples`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-    emit('message', { type: 'success', text: '表面処理情報を1件登録しました。' })
-    router.push(`/samples/${response.data.id}`)
-  } catch {
-    errorMessage.value = '入力に不備があります。'
-  }
-}
-
-onMounted(async () => {
+onMounted(async (): Promise<void> => {
   const loggedIn = await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
   })
-  if (!loggedIn) return
-  await fetchCategories()
-  await fetchMakerData()
+  if (loggedIn) {
+    await fetchCategories()
+    await fetchMakerData()
+  }
 })
 </script>
 
@@ -252,12 +221,13 @@ onMounted(async () => {
       </label>
       <div>
         <img
+          v-if="previewImage"
           id="preview-image"
-          alt="No Image"
+          :src="previewImage"
+          alt="プレビュー画像"
           class="rounded-4 mb-3 shadow-sm"
           width="200"
           height="200"
-          :src="previewImage || ''"
         />
       </div>
       <input
