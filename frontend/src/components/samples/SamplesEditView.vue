@@ -1,68 +1,25 @@
-<script setup>
-import { ref, onMounted } from 'vue'
+<script setup lang="ts">
+import { onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
 import { checkLoginStatus } from '@/components/utils.js'
+import { useSamplesEdit } from '@/composables/samples/useSamplesEdit.ts'
+import type { Emit } from '@/composables/samples/useSamplesEdit.ts'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-const emit = defineEmits(['message'])
-const sample = ref('')
+const emit = defineEmits<Emit>()
+const { sample, errorMessage, fetchSampleData, sampleUpdate } = useSamplesEdit(emit)
 const route = useRoute()
 const router = useRouter()
-const image = ref(null)
-const errorMessage = ref('')
 
-const fetchSampleData = async (id) => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/samples/${id}`)
-    sample.value = response.data
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: '表面処理情報の取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
+const cancel = (): void => {
+  if (sample.value?.id) router.replace(`/samples/${sample.value.id}`)
 }
 
-const sampleUpdate = async () => {
-  try {
-    const formData = new FormData()
-    formData.append('sample[name]', sample.value.name)
-    formData.append('sample[color]', sample.value.color)
-    formData.append('sample[hardness]', sample.value.hardness)
-    formData.append('sample[film_thickness]', sample.value.film_thickness)
-    formData.append('sample[feature]', sample.value.feature)
-    formData.append('sample[summary]', sample.value.summary)
-    formData.append('sample[category_id]', sample.value.category_id)
-
-    if (image.value) {
-      formData.append('sample[image]', image.value)  
-    }
-
-    const response = await axios.patch(`${API_BASE_URL}/makers/${sample.value.maker_id}/samples/${sample.value.id}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-    sample.value = response.data
-    emit('message', { type: 'success', text: '表面処理情報を更新しました。' })
-    router.replace(`/samples/${sample.value.id}`)
-  } catch {
-    errorMessage.value = '入力に不備があります。'
-  }
-}
-
-const cancel = () => {
-  router.replace(`/samples/${sample.value.id}`)
-}
-
-onMounted(async () => {
+onMounted(async (): Promise<void> => {
   const loggedIn = await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
   })
-  if (!loggedIn) return
-  await fetchSampleData(route.params.id)
+  if (loggedIn) await fetchSampleData(route.params.id as string)
 })
 </script>
 
@@ -76,7 +33,7 @@ onMounted(async () => {
       {{ errorMessage }}
     </p>
     
-    <form @submit.prevent="sampleUpdate">
+    <form v-if="sample" @submit.prevent="sampleUpdate">
       <div class="row">
         <div class="col">
           <label class="form-label" for="sample-name">
