@@ -1,6 +1,3 @@
-// todo
-// FileReader 型エラーの解消
-
 import SamplesNewView from '@/components/samples/SamplesNewView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
