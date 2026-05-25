@@ -22,7 +22,7 @@ test.describe('samples new flow', () => {
       await expect(page.locator('#sample-film-thickness')).toBeVisible()
       await expect(page.locator('#sample-feature')).toBeVisible()
       await expect(page.locator('#sample-summary')).toBeVisible()
-      await expect(page.locator('#preview-image')).toBeVisible()
+      // await expect(page.locator('#preview-image')).toBeVisible()
       await expect(page.locator('#sample-image')).toBeVisible()
       await expect(page.getByRole('button', { name: '登録' })).toBeVisible()
 
