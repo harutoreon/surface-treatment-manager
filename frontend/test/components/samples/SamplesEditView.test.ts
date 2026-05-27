@@ -1,3 +1,5 @@
+// コードレビューで指摘された箇所の修正
+
 import SamplesEditView from '@/components/samples/SamplesEditView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
@@ -87,23 +89,16 @@ describe('SamplesEditView', (): void => {
         expect(wrapper.find('#sample-summary').exists()).toBe(true)
 
         // 入力要素の値
-        const nameValue= wrapper.find('#sample-name').element as HTMLInputElement
-        expect(nameValue.value).toBe('無電解ニッケルめっき')
+        const inputValue = (selector: string): string => {
+          return (wrapper.find(selector).element as HTMLInputElement).value
+        }
 
-        const colorValue = wrapper.find('#sample-color').element as HTMLInputElement
-        expect(colorValue.value).toBe('ゴールド')
-
-        const hardnessValue = wrapper.find('#sample-hardness').element as HTMLInputElement
-        expect(hardnessValue.value).toBe('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
-
-        const filmThicknessValue = wrapper.find('#sample-film-thickness').element as HTMLInputElement
-        expect(filmThicknessValue.value).toBe('通常は3～5μm、厚めの場合は20～50μmまで可能')
-
-        const featureValue = wrapper.find('#sample-feature').element as HTMLInputElement
-        expect(featureValue.value).toBe('耐食性・耐摩耗性・耐薬品性・耐熱性')
-
-        const summaryValue = wrapper.find('#sample-summary').element as HTMLInputElement
-        expect(summaryValue.value).toBe('電気を使わず化学反応で金属表面にニッケルを析出する技術です。')
+        expect(inputValue('#sample-name')).toBe('無電解ニッケルめっき')
+        expect(inputValue('#sample-color')).toBe('ゴールド')
+        expect(inputValue('#sample-hardness')).toBe('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
+        expect(inputValue('#sample-film-thickness')).toBe('通常は3～5μm、厚めの場合は20～50μmまで可能')
+        expect(inputValue('#sample-feature')).toBe('耐食性・耐摩耗性・耐薬品性・耐熱性')
+        expect(inputValue('#sample-summary')).toBe('電気を使わず化学反応で金属表面にニッケルを析出する技術です。')
 
         // 画像埋め込み要素
         expect(wrapper.find('#sample-image').attributes('src')).toContain('test.jpg')
@@ -126,9 +121,9 @@ describe('SamplesEditView', (): void => {
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
 
-        const emittedMessage = wrapper.emitted<Emit>('message')
+        const emittedMessage = wrapper.emitted('message') as Emit[] | undefined
         expect(emittedMessage).toBeTruthy()
-        expect(emittedMessage[0][0]).toEqual(
+        expect(emittedMessage![0][0]).toEqual(
           { type: 'danger', text: '表面処理情報の取得に失敗しました。' }
         )
         expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
@@ -157,9 +152,9 @@ describe('SamplesEditView', (): void => {
           { headers: { 'Content-Type': 'multipart/form-data' } }
         )
 
-        const emittedMessage = wrapper.emitted<Emit>('message')
+        const emittedMessage = wrapper.emitted('message') as Emit[] | undefined
         expect(emittedMessage).toBeTruthy()
-        expect(emittedMessage[0][0]).toEqual(
+        expect(emittedMessage![0][0]).toEqual(
           { type: 'success', text: '表面処理情報を更新しました。' }
         )
 
@@ -178,8 +173,6 @@ describe('SamplesEditView', (): void => {
 
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
-
-        wrapper.find('#sample-name').setValue('')
 
         await wrapper.find('form').trigger('submit')
         await flushPromises()
