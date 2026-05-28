@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { useSamplesDestroy } from '@/composables/samples/useSamplesDestroy.ts'
-import type { Emit, Sample } from '@/composables/samples/useSamplesDestroy.ts'
+import {type Emit, type Sample, useSamplesShow} from '@/composables/samples/useSamplesShow.ts'
 import axios from 'axios'
 
 const { replaceMock, pushMock } = vi.hoisted(() => {
@@ -27,13 +27,6 @@ describe('useSamplesDestroy', (): void => {
 
   beforeEach((): void => {
     vi.clearAllMocks()
-  })
-
-  describe('初期値の検証', (): void => {
-    it('sample の初期値が null であること', (): void => {
-      const { sample } = useSamplesDestroy(emitMock)
-      expect(sample.value).toBeNull()
-    })
   })
 
   describe('ロジックの検証', (): void => {
@@ -63,7 +56,8 @@ describe('useSamplesDestroy', (): void => {
         it('レスポンスに成功メッセージを含み、/samples に遷移すること', async (): Promise<void> => {
           vi.mocked(axios.delete).mockResolvedValue({ status: 204})
 
-          const { sample, handleDelete } = useSamplesDestroy(emitMock)
+          const { sample } = useSamplesShow(emitMock)
+          const { handleDelete } = useSamplesDestroy(emitMock, sample)
 
           sample.value = testSample
 
@@ -82,7 +76,8 @@ describe('useSamplesDestroy', (): void => {
           vi.mocked(axios.isAxiosError).mockReturnValue(true)
           vi.mocked(axios.delete).mockRejectedValue({ response: { status: 404 } })
 
-          const { sample, handleDelete } = useSamplesDestroy(emitMock)
+          const { sample } = useSamplesShow(emitMock)
+          const { handleDelete } = useSamplesDestroy(emitMock, sample)
 
           sample.value = testSample
 
