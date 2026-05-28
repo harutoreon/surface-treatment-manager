@@ -5,6 +5,7 @@ import axios from 'axios'
 import { checkLoginStatus } from '@/components/utils.js'
 import { Modal } from 'bootstrap'
 import { useSamplesShow } from '@/composables/samples/useSamplesShow.ts'
+import { useSamplesDestroy } from '@/composables/samples/useSamplesDestroy.ts'
 import type { Emit } from '@/composables/samples/useSamplesShow.ts'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
@@ -18,6 +19,8 @@ const {
   fetchSampleData,
   fetchSampleCommentsData
 } = useSamplesShow(emit)
+
+const { handleDelete } = useSamplesDestroy(emit, sample)
 
 const route = useRoute()
 const router = useRouter()
@@ -68,22 +71,6 @@ const formatDate = (isoString: string): string => {
   const date = new Date(isoString)
   const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()]
   return `${year}/${month}/${day}`
-}
-
-const handleDelete = async (): Promise<void> => {
-  const confirmDelete = window.confirm('本当に削除しますか？')
-  if (!confirmDelete) return
-
-  try {
-    await axios.delete(`${API_BASE_URL}/makers/${sample.value.maker_id}/samples/${sample.value.id}`)
-    emit('message', { type: 'success', text: '表面処理情報を削除しました。' })
-    router.push('/samples')
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response?.status === 404) {
-      emit('message', { type: 'danger', text: '表面処理情報の削除処理に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
 }
 
 onMounted(async (): Promise<void> => {
