@@ -31,7 +31,7 @@ jobs:
       - name: install system packages
         run: |
           apt-get update
-          apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client
+          apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client libyaml-dev
 
       - name: setup ruby
         uses: ruby/setup-ruby@v1
