@@ -53,10 +53,23 @@ jobs:
         run: npm ci
         working-directory: frontend/
 
+      - name: cache playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('frontend/package-lock.json') }}
+
       - name: install playwright browsers
-        run: npx playwright install --with-deps
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
         working-directory: frontend/
-        timeout-minutes: 10
+        timeout-minutes: 20
+
+      - name: install playwright os dependencies (on cache hit)
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+        working-directory: frontend/
 
       - name: setup database and start rails api server
         env:
