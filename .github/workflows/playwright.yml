@@ -10,6 +10,8 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.59.1-noble
 
     services:
       postgresql:
@@ -28,8 +30,8 @@ jobs:
 
       - name: install system packages
         run: |
-          sudo apt-get update
-          sudo apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client
+          apt-get update
+          apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client
 
       - name: setup ruby
         uses: ruby/setup-ruby@v1
@@ -53,28 +55,10 @@ jobs:
         run: npm ci
         working-directory: frontend/
 
-      - name: cache playwright browsers
-        uses: actions/cache@v4
-        id: playwright-cache
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('frontend/package-lock.json') }}
-
-      - name: install playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps chromium
-        working-directory: frontend/
-        timeout-minutes: 20
-
-      - name: install playwright os dependencies (on cache hit)
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps chromium
-        working-directory: frontend/
-
       - name: setup database and start rails api server
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgres://sample_user:sample_password@127.0.0.1:5432/sample_test_db
+          DATABASE_URL: postgres://sample_user:sample_password@postgresql:5432/sample_test_db
         run: |
           bin/rails db:create db:schema:load db:seed
           bin/rails server -p 3000 -e test &
