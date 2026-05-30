@@ -1,40 +1,22 @@
-<script setup>
-import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+<script setup lang="ts">
+import { onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import axios from 'axios'
 import { checkLoginStatus } from '@/components/utils.js'
+import { useCommentsShow } from '@/composables/comments/useCommentsShow.ts'
+import type { Emit } from '@/composables/comments/useCommentsShow.ts'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-const emit = defineEmits(['message'])
-const router = useRouter()
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
+const emit = defineEmits<Emit>()
 const route = useRoute()
-const comment = ref({})
-const sampleId = ref('')
-const makerId = ref('')
-const isAdmin = ref(false)
-
-const fetchCommentData = async (id) => {
-  const token = localStorage.getItem('token')
-  const response = await axios.get(`${API_BASE_URL}/logged_in`, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })
-
-  isAdmin.value = response.data.payload?.user_id === 49
-
-  try {
-    const response = await axios.get(`${API_BASE_URL}/comments/${id}`)
-    comment.value = response.data.comment
-    sampleId.value = comment.value.sample_id
-    makerId.value = response.data.maker_id
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: 'コメント情報の取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
-}
+const {
+  router,
+  comment,
+  sampleId,
+  makerId,
+  isAdmin,
+  fetchCommentData
+} = useCommentsShow(emit)
 
 const handleDelete = async () => {
   const confirmDelete = window.confirm('本当に削除しますか？')
@@ -52,13 +34,12 @@ const handleDelete = async () => {
   }
 }
 
-onMounted(async () => {
+onMounted(async (): Promise<void> => {
   const loggedIn = await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
   })
-  if (!loggedIn) return
-  await fetchCommentData(route.params.id)
+  if (loggedIn) await fetchCommentData(route.params.id as string)
 })
 </script>
 
@@ -68,7 +49,7 @@ onMounted(async () => {
       コメント情報
     </h3>
 
-    <ul class="list-group mb-5 shadow-sm">
+    <ul v-if="comment" class="list-group mb-5 shadow-sm">
       <li class="d-flex justify-content-between list-group-item">
         <span>部署名 :</span>
         <div>{{ comment.department }}</div>
@@ -83,7 +64,7 @@ onMounted(async () => {
       </li>
     </ul>
 
-    <ul class="nav justify-content-evenly">
+    <ul v-if="comment" class="nav justify-content-evenly">
       <li class="nav-item">
         <RouterLink v-if="comment.id" :to="`/comments/${comment.id}/edit`">
           コメント情報の編集

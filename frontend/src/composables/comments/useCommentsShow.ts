@@ -35,19 +35,19 @@ export function useCommentsShow(emit: Emit) {
 
   const fetchCommentData = async (id: string): Promise<void> => {
     const token = localStorage.getItem('token')
-    const response = await axios.get<LoggedInResponse>(`${API_BASE_URL}/logged_in`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-
-    isAdmin.value = response.data.payload?.user_id === 49
 
     try {
-      const response = await axios.get<CommentsResponse>(`${API_BASE_URL}/comments/${id}`)
-      comment.value = response.data.comment
+      const loggedInResponse = await axios.get<LoggedInResponse>(`${API_BASE_URL}/logged_in`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      isAdmin.value = loggedInResponse.data.payload?.user_id === 49
+
+      const commentResponse = await axios.get<CommentsResponse>(`${API_BASE_URL}/comments/${id}`)
+      comment.value = commentResponse.data.comment
       sampleId.value = comment.value.sample_id
-      makerId.value = response.data.maker_id
+      makerId.value = commentResponse.data.maker_id
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === 404) {
         emit('message', { type: 'danger', text: 'コメント情報の取得に失敗しました。' })
