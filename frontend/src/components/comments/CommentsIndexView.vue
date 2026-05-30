@@ -1,41 +1,31 @@
-<script setup>
-import { ref, onMounted, watch, computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
+<script setup lang="ts">
+import { onMounted, watch, computed } from 'vue'
 import { checkLoginStatus } from '@/components/utils.js'
+import { useCommentsIndex } from '@/composables/comments/useCommentsIndex.ts'
+import type { Emit } from '@/composables/comments/useCommentsIndex.ts'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-const emit = defineEmits(['message'])
-const router = useRouter()
-const route = useRoute()
-const comments = ref([])
-const currentPage = ref(Number(route.query.page) || 1)
-const totalPages = ref(1)
+const emit = defineEmits<Emit>()
+const {
+  route,
+  router,
+  comments,
+  currentPage,
+  totalPages,
+  fetchCommentList
+} = useCommentsIndex(emit)
 
-const formatDate = (isoString) => {
+const formatDate = (isoString: string): string => {
   const date = new Date(isoString)
   const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()]
   return `${year}/${month}/${day}`
 }
 
-const fetchCommentList = async () => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/comments?page=${currentPage.value}`)
-    comments.value = response.data.comments
-    currentPage.value = response.data.current_page
-    totalPages.value = response.data.total_pages
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: 'コメントリストの取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
+const getPageLink = (page: number): { path: string, query: { page: number} } => {
+  return {
+    path: route.path,
+    query: { page }
   }
 }
-
-const getPageLink = (page) => ({
-  path: route.path,
-  query: { page }
-})
 
 const visiblePages = computed(() => {
   const total = totalPages.value
@@ -63,13 +53,12 @@ watch(() => route.query.page, (newPage) => {
   fetchCommentList()
 })
 
-onMounted(async () => {
+onMounted(async (): Promise<void> => {
   const loggedIn = await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
   })
-  if (!loggedIn) return
-  await fetchCommentList()
+  if (loggedIn) await fetchCommentList()
 })
 </script>
 
