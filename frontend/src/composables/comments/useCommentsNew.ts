@@ -69,7 +69,7 @@ export function useCommentsNew(emit: Emit) {
 
   const fetchUserList = async (): Promise<void> => {
     const response = await axios.get<User[]>(`${API_BASE_URL}/user_list`)
-    const userList: User[] = response.data
+    const userList = response.data || []
     users.value = userList.map(user => ({
       userId: user.id,
       userName: user.name,
@@ -83,10 +83,10 @@ export function useCommentsNew(emit: Emit) {
   }
 
   const fetchSampleData = async (): Promise<void> => {
+    if (makerId.value === null) return
+
     try {
-      const response = await axios.get<SampleResponse>(
-        `${API_BASE_URL}/makers/${makerId.value}/samples`
-      )
+      const response = await axios.get<SampleResponse>(`${API_BASE_URL}/makers/${makerId.value}/samples`)
       sampleOptions.value = response.data.samples
     } catch (error) {
       if (error.response && error.response.status === 404) {
@@ -118,7 +118,14 @@ export function useCommentsNew(emit: Emit) {
   return {
     users,
     makerOptions,
+    makerId,
+    sampleId,
     sampleOptions,
+    commenter,
+    userId,
+    department,
+    body,
+    errorMessage,
     fetchUserList,
     fetchMakerData,
     fetchSampleData,
