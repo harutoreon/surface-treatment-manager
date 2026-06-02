@@ -1,14 +1,15 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { checkLoginStatus } from '@/components/utils.js'
 import { useCommentsNew } from '@/composables/comments/useCommentsNew.ts'
+import type { UserResponse, Emit } from '@/composables/comments/useCommentsNew.ts'
 
-const emit = defineEmits(['message'])
+const emit = defineEmits<Emit>()
 const router = useRouter()
-const isOpen = ref(false)
-const maker = ref('')
-const sampleName = ref('')
+const isOpen = ref<boolean>(false)
+const maker = ref<string>('')
+const sampleName = ref<string>('')
 
 const {
   users,
@@ -27,13 +28,13 @@ const {
   commentRegistration
 } = useCommentsNew(emit)
 
-const close = () => {
+const close = (): void => {
   window.setTimeout(() => {
     isOpen.value = false
   }, 100)
 }
 
-const filteredList = computed(() => {
+const filteredList = computed<UserResponse[]>(() => {
   if (!commenter.value) return []
   const word = commenter.value.toLowerCase()
 
@@ -42,7 +43,7 @@ const filteredList = computed(() => {
   )
 })
 
-const select = (userName) => {
+const select = (userName: string): void => {
   const selectedUser = users.value.find(user => user.userName === userName)
 
   if (selectedUser) {
@@ -54,30 +55,34 @@ const select = (userName) => {
   isOpen.value = false
 }
 
-const handleMakerChange = (event) => {
+const handleMakerChange = (event: Event): void => {
+  const target = event.target as HTMLSelectElement
   const selected = makerOptions.value.find(
-    option => option.name === event.target.value
+    option => option.name === target.value
   )
   makerId.value = selected?.id || null
 }
 
-const handleSampleChange = (event) => {
+const handleSampleChange = (event): void => {
+  const target = event.target as HTMLSelectElement
   const selected = sampleOptions.value.find(
-    option => option.name === event.target.value
+    option => option.name === target.value
   )
   sampleId.value = selected?.id || null
 }
 
 watch(makerId, fetchSampleData)
 
-onMounted(async () => {
+onMounted(async (): Promise<void> => {
   const loggedIn = await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
   })
-  if (!loggedIn) return
-  await fetchMakerData()
-  await fetchUserList()
+
+  if (loggedIn) {
+    await fetchMakerData()
+    await fetchUserList()
+  }
 })
 </script>
 

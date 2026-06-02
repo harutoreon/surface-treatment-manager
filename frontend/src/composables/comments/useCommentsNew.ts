@@ -68,28 +68,45 @@ export function useCommentsNew(emit: Emit) {
   const errorMessage = ref<string>('')
 
   const fetchUserList = async (): Promise<void> => {
-    const response = await axios.get<User[]>(`${API_BASE_URL}/user_list`)
-    const userList = response.data || []
-    users.value = userList.map(user => ({
-      userId: user.id,
-      userName: user.name,
-      userDepartment: user.department
-    }))
+    try {
+      const response = await axios.get<User[]>(`${API_BASE_URL}/user_list`)
+      const userList = response.data
+      users.value = userList.map(user => ({
+        userId: user.id,
+        userName: user.name,
+        userDepartment: user.department
+      }))
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
+        emit('message', { type: 'danger', text: 'ユーザーリストの取得に失敗しました。' })
+        router.replace({ name: 'NotFound' })
+      }
+    }
   }
 
   const fetchMakerData = async (): Promise<void> => {
-    const response = await axios.get<Maker[]>(`${API_BASE_URL}/maker_list`)
-    makerOptions.value = response.data
+    try {
+      const response = await axios.get<Maker[]>(`${API_BASE_URL}/maker_list`)
+      makerOptions.value = response.data
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
+        emit('message', { type: 'danger', text: 'メーカーリストの取得に失敗しました。' })
+        router.replace({ name: 'NotFound' })
+      }
+    }
+
   }
 
   const fetchSampleData = async (): Promise<void> => {
     if (makerId.value === null) return
 
     try {
-      const response = await axios.get<SampleResponse>(`${API_BASE_URL}/makers/${makerId.value}/samples`)
+      const response = await axios.get<SampleResponse>(
+        `${API_BASE_URL}/makers/${makerId.value}/samples`
+      )
       sampleOptions.value = response.data.samples
     } catch (error) {
-      if (error.response && error.response.status === 404) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
         emit('message', { type: 'danger', text: '表面処理リストの取得に失敗しました。' })
         router.replace({ name: 'NotFound' })
       }
@@ -110,8 +127,10 @@ export function useCommentsNew(emit: Emit) {
       comment.value = response.data
       emit('message', { type: 'success', text: 'コメント情報を1件登録しました。' })
       router.push(`/comments/${comment.value.id}`)
-    } catch {
-      errorMessage.value = '入力に不備があります。'
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 422) {
+        errorMessage.value = '入力に不備があります。'
+      }
     }
   }
 
