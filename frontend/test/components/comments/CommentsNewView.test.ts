@@ -1,8 +1,9 @@
 import CommentsNewView from '@/components/comments/CommentsNewView.vue'
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { mount, flushPromises, RouterLinkStub,  } from '@vue/test-utils'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { mount, flushPromises, RouterLinkStub } from '@vue/test-utils'
 import type { Maker, User, Emit } from '@/composables/comments/useCommentsNew.ts'
 import type { VueWrapper } from '@vue/test-utils'
+import { nextTick } from 'vue'
 import axios from 'axios'
 
 const { replaceMock, pushMock } = vi.hoisted(() => {
@@ -117,20 +118,84 @@ describe('CommentsNewView', (): void => {
     })
   })
 
-// 投稿者と部署名の連動
-// ・投稿者の候補がある場合
-//   ・投稿者の候補が表示され、選択後に部署名が表示されること
-// ・投稿者の候補がない場合
-//   ・投稿者の候補が表示されず、部署名も表示されないこと
-// メーカーと表面処理の連動
-// ・メーカーの候補がある場合
-//   ・メーカーが選択可能になり、選択後に表面処理のドロップダウンリストが表示されること
-// ・メーカーの候補が無い場合
-//   ・ドロップダウンリストのオプションがデフォルトのみであること
-// コメントの新規登録
-// ・成功した場合
-//   ・成功メッセージが表示され、コメント情報ページに遷移すること
-// ・失敗した場合
-//   ・バリデーションエラーになること
+  describe('投稿者と部署名の連動', (): void => {
+    describe('投稿者の候補がある場合', (): void => {
+      beforeEach(() => {
+        vi.useFakeTimers()
+      })
 
+      afterEach(() => {
+        vi.useRealTimers()
+      })
+
+      it('投稿者名の一部を入力すると候補が表示され、投稿者を選択後に部署名が表示されること', async (): Promise<void> => {
+        vi.mocked(axios.get).mockResolvedValueOnce({ data: { status: 200 } })
+        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockMakerResponse })
+        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockUserResponse })
+
+        const wrapper: VueWrapper = mountComponent()
+        await flushPromises()
+
+        const input = wrapper.find('#commenter')
+        await input.trigger('focus')
+        await input.setValue(mockUserResponse[0].name.slice(0,2))  // 「岩崎 颯太」の一部の「岩崎」を入力
+
+        const li = wrapper.find('form ul li')
+        expect(li.text()).toBe(mockUserResponse[0].name)
+
+        await input.trigger('blur')
+        await li.trigger('mousedown')
+
+        vi.runAllTimers()
+        await nextTick()
+
+        expect((wrapper.find('#department').element as HTMLInputElement).value).toBe(mockUserResponse[0].department)
+      })
+    })
+
+    describe('投稿者の候補がない場合', (): void => {
+      it('投稿者名の一部を入力しても投稿者の候補が表示されないこと', async (): Promise<void> => {
+        vi.mocked(axios.get).mockResolvedValueOnce({ data: { status: 200 } })
+        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockMakerResponse })
+        vi.mocked(axios.get).mockResolvedValueOnce({ data: [] })
+
+        const wrapper: VueWrapper = mountComponent()
+        await flushPromises()
+
+        const input = wrapper.find('#commenter')
+        await input.trigger('focus')
+        await input.setValue(mockUserResponse[0].name.slice(0,2))  // 「岩崎 颯太」の一部の「岩崎」を入力
+
+        expect(wrapper.find('form ul li').exists()).toBe(false)
+      })
+    })
+  })
+
+  describe('メーカーと表面処理の連動', (): void => {
+    describe('メーカーの候補がある場合', (): void => {
+      it('メーカーが選択可能になり、選択後に表面処理のドロップダウンリストが表示されること', async (): Promise<void> => {
+
+      })
+    })
+
+    describe('メーカーの候補が無い場合', (): void => {
+      it('ドロップダウンリストのオプションがデフォルトのみであること', async (): Promise<void> => {
+
+      })
+    })
+  })
+
+  describe('コメントの新規登録', (): void => {
+    describe('成功した場合', (): void => {
+      it('成功メッセージが表示され、コメント情報ページに遷移すること', async (): Promise<void> => {
+
+      })
+    })
+
+    describe('失敗した場合', (): void => {
+      it('バリデーションエラーになること', async (): Promise<void> => {
+
+      })
+    })
+  })
 })
