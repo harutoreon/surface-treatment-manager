@@ -1,44 +1,40 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
 import { checkLoginStatus } from '@/components/utils.js'
+import { useCommentsNew } from '@/composables/comments/useCommentsNew.ts'
+import type { UserResponse, Emit } from '@/composables/comments/useCommentsNew.ts'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-const emit = defineEmits(['message'])
+const emit = defineEmits<Emit>()
 const router = useRouter()
-const commenter = ref('')
-const users = ref([])
-const userId = ref('')
-const isOpen = ref(false)
-const department = ref('')
-const maker = ref('')
-const makerOptions = ref([])
-const makerId = ref(null)
-const sampleOptions = ref([])
-const sampleName = ref('')
-const sampleId = ref(null)
-const body = ref('')
-const comment = ref('')
-const errorMessage = ref('')
+const isOpen = ref<boolean>(false)
+const maker = ref<string>('')
+const sampleName = ref<string>('')
 
-const fetchUserList = async () => {
-  const response = await axios.get(`${API_BASE_URL}/user_list`)
-  const userList = response.data || []
-  users.value = userList.map(user => ({
-    userId: user.id,
-    userName: user.name,
-    userDepartment: user.department
-  }))
-}
+const {
+  users,
+  makerOptions,
+  makerId,
+  sampleId,
+  sampleOptions,
+  commenter,
+  userId,
+  department,
+  body,
+  errorMessage,
+  fetchUserList,
+  fetchMakerData,
+  fetchSampleData,
+  commentRegistration
+} = useCommentsNew(emit)
 
-const close = () => {
+const close = (): void => {
   window.setTimeout(() => {
     isOpen.value = false
   }, 100)
 }
 
-const filteredList = computed(() => {
+const filteredList = computed<UserResponse[]>(() => {
   if (!commenter.value) return []
   const word = commenter.value.toLowerCase()
 
@@ -47,7 +43,7 @@ const filteredList = computed(() => {
   )
 })
 
-const select = (userName) => {
+const select = (userName: string): void => {
   const selectedUser = users.value.find(user => user.userName === userName)
 
   if (selectedUser) {
@@ -59,65 +55,34 @@ const select = (userName) => {
   isOpen.value = false
 }
 
-const handleMakerChange = (event) => {
+const handleMakerChange = (event: Event): void => {
+  const target = event.target as HTMLSelectElement
   const selected = makerOptions.value.find(
-    option => option.name === event.target.value
+    option => option.name === target.value
   )
   makerId.value = selected?.id || null
 }
 
-const fetchMakerData = async () => {
-  const response = await axios.get(`${API_BASE_URL}/maker_list`)
-  makerOptions.value = response.data
-}
-
-const handleSampleChange = (event) => {
+const handleSampleChange = (event): void => {
+  const target = event.target as HTMLSelectElement
   const selected = sampleOptions.value.find(
-    option => option.name === event.target.value
+    option => option.name === target.value
   )
   sampleId.value = selected?.id || null
 }
 
-const fetchSampleData = async () => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/makers/${makerId.value}/samples`)
-    sampleOptions.value = response.data.samples
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: '表面処理リストの取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
-}
-
-const commentRegistration = async () => {
-  try {
-    const response = await axios.post(`${API_BASE_URL}/makers/${makerId.value}/samples/${sampleId.value}/comments`, {
-      comment: {
-        commenter: commenter.value,
-        department: department.value,
-        body: body.value,
-        user_id: userId.value
-      }
-    })
-    comment.value = response.data
-    emit('message', { type: 'success', text: 'コメント情報を1件登録しました。' })
-    router.push(`/comments/${comment.value.id}`)
-  } catch {
-    errorMessage.value = '入力に不備があります。'
-  }
-}
-
 watch(makerId, fetchSampleData)
 
-onMounted(async () => {
+onMounted(async (): Promise<void> => {
   const loggedIn = await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
   })
-  if (!loggedIn) return
-  await fetchMakerData()
-  await fetchUserList()
+
+  if (loggedIn) {
+    await fetchMakerData()
+    await fetchUserList()
+  }
 })
 </script>
 
