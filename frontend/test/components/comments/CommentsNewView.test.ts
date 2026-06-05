@@ -1,7 +1,7 @@
 import CommentsNewView from '@/components/comments/CommentsNewView.vue'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises, RouterLinkStub } from '@vue/test-utils'
-import type { Maker, User, SampleResponse, Emit } from '@/composables/comments/useCommentsNew.ts'
+import type { Maker, User, SampleResponse, Comment, Emit } from '@/composables/comments/useCommentsNew.ts'
 import type { VueWrapper } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import axios from 'axios'
@@ -58,6 +58,15 @@ describe('CommentsNewView', (): void => {
     ],
     current_page: 1,
     total_pages: 1
+  }
+
+  const mockCommentResponse: Comment = {
+    id: 1,
+    commenter: '岩崎 颯太',
+    department: '品質管理部',
+    body: '耐久性が高く、長期間の使用に耐えられる仕上がりです。',
+    sample_id: 1,
+    user_id: 1,
   }
 
   const mountComponent = (): VueWrapper => mount(CommentsNewView, {
@@ -147,9 +156,10 @@ describe('CommentsNewView', (): void => {
       })
 
       it('投稿者名の一部を入力すると候補が表示され、投稿者を選択後に部署名が表示されること', async (): Promise<void> => {
-        vi.mocked(axios.get).mockResolvedValueOnce({ data: { status: 200 } })
-        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockMakerResponse })
-        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockUserResponse })
+        vi.mocked(axios.get)
+          .mockResolvedValueOnce({ data: { status: 200 } })
+          .mockResolvedValueOnce({ data: mockMakerResponse })
+          .mockResolvedValueOnce({ data: mockUserResponse })
 
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
@@ -173,9 +183,10 @@ describe('CommentsNewView', (): void => {
 
     describe('投稿者の候補がない場合', (): void => {
       it('投稿者名の一部を入力しても投稿者の候補が表示されず、部署名も表示されないこと', async (): Promise<void> => {
-        vi.mocked(axios.get).mockResolvedValueOnce({ data: { status: 200 } })
-        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockMakerResponse })
-        vi.mocked(axios.get).mockResolvedValueOnce({ data: [] })
+        vi.mocked(axios.get)
+          .mockResolvedValueOnce({ data: { status: 200 } })
+          .mockResolvedValueOnce({ data: mockMakerResponse })
+          .mockResolvedValueOnce({ data: [] })
 
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
@@ -193,10 +204,11 @@ describe('CommentsNewView', (): void => {
   describe('メーカーと表面処理の連動', (): void => {
     describe('メーカーの候補がある場合', (): void => {
       it('メーカーが選択可能になり、メーカーを選択後に表面処理の候補が表示されること', async (): Promise<void> => {
-        vi.mocked(axios.get).mockResolvedValueOnce({ data: { status: 200 } })
-        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockMakerResponse })
-        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockUserResponse })
-        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockSampleResponse })
+        vi.mocked(axios.get)
+          .mockResolvedValueOnce({ data: { status: 200 } })
+          .mockResolvedValueOnce({ data: mockMakerResponse })
+          .mockResolvedValueOnce({ data: mockUserResponse })
+          .mockResolvedValueOnce({ data: mockSampleResponse })
 
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
@@ -210,10 +222,11 @@ describe('CommentsNewView', (): void => {
 
     describe('メーカーの候補が無い場合', (): void => {
       it('ドロップダウンリストのオプションがデフォルトのみで、表面処理のドロップダウンリストも表示されないこと', async (): Promise<void> => {
-        vi.mocked(axios.get).mockResolvedValueOnce({ data: { status: 200 } })
-        vi.mocked(axios.get).mockResolvedValueOnce({ data: [] })
-        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockUserResponse })
-        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockSampleResponse })
+        vi.mocked(axios.get)
+          .mockResolvedValueOnce({ data: { status: 200 } })
+          .mockResolvedValueOnce({ data: [] })
+          .mockResolvedValueOnce({ data: mockUserResponse })
+          .mockResolvedValueOnce({ data: mockSampleResponse })
 
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
@@ -228,13 +241,45 @@ describe('CommentsNewView', (): void => {
   describe('コメントの新規登録', (): void => {
     describe('成功した場合', (): void => {
       it('成功メッセージが表示され、コメント情報ページに遷移すること', async (): Promise<void> => {
+        vi.mocked(axios.get)
+          .mockResolvedValueOnce({ data: { status: 200 } })
+          .mockResolvedValueOnce({ data: mockMakerResponse })
+          .mockResolvedValueOnce({ data: mockUserResponse })
+          .mockResolvedValueOnce({ data: mockSampleResponse })
 
+        vi.mocked(axios.post).mockResolvedValueOnce({ data: mockCommentResponse })
+
+        const wrapper: VueWrapper = mountComponent()
+        await flushPromises()
+
+        await wrapper.find('form').trigger('submit.prevent')
+
+        const emittedMessage = wrapper.emitted<Emit>('message')
+        expect(emittedMessage).toBeTruthy()
+        expect(emittedMessage![0][0]).toEqual(
+          { type: 'success', text: 'コメント情報を1件登録しました。' }
+        )
+        expect(pushMock).toHaveBeenCalledWith('/comments/1')
       })
     })
 
     describe('失敗した場合', (): void => {
       it('バリデーションエラーになること', async (): Promise<void> => {
+        vi.mocked(axios.get)
+          .mockResolvedValueOnce({ data: { status: 200 } })
+          .mockResolvedValueOnce({ data: mockMakerResponse })
+          .mockResolvedValueOnce({ data: mockUserResponse })
+          .mockResolvedValueOnce({ data: mockSampleResponse })
 
+        vi.mocked(axios.isAxiosError).mockReturnValue(true)
+        vi.mocked(axios.post).mockRejectedValueOnce({ response: { status: 422 } })
+
+        const wrapper: VueWrapper = mountComponent()
+        await flushPromises()
+
+        await wrapper.find('form').trigger('submit.prevent')
+
+        expect(wrapper.find('.alert').text()).toBe('入力に不備があります。')
       })
     })
   })
