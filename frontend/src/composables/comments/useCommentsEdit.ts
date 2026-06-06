@@ -64,6 +64,11 @@ export function useCommentsEdit(emit: Emit) {
   }
 
   return {
+    router,
+    comment,
+    sampleId,
+    makerId,
+    errorMessage,
     fetchCommentData,
     commentUpdate,
   }
