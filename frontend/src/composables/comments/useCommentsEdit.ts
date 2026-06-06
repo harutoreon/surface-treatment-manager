@@ -55,7 +55,7 @@ export function useCommentsEdit(emit: Emit) {
       })
       comment.value = response.data
       emit('message', { type: 'success', text: 'コメント情報を更新しました。' })
-      router.push(`/comments/${comment.value.id}`)
+      router.push(`/comments/${response.data.id}`)
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === 422) {
         errorMessage.value = '入力に不備があります。'

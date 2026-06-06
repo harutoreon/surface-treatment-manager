@@ -119,7 +119,7 @@ describe('CommentsEditView', (): void => {
           .mockResolvedValueOnce({ status: 200 })
           .mockResolvedValueOnce({ data: mockCommentResponse })
 
-        vi.mocked(axios.patch).mockResolvedValue({
+        vi.mocked(axios.patch).mockResolvedValueOnce({
           data: {
             id: 1,
             commenter: '高木 優花',
