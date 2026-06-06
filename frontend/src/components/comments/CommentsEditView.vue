@@ -1,58 +1,31 @@
-<script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import axios from 'axios'
+<script setup lang="ts">
+import { onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { checkLoginStatus } from '@/components/utils.js'
+import { useCommentsEdit } from '@/composables/comments/useCommentsEdit.ts'
+import type { Emit } from '@/composables/comments/useCommentsEdit.ts'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-const emit = defineEmits(['message'])
+const emit = defineEmits<Emit>()
 const route = useRoute()
-const router = useRouter()
-const comment = ref('')
-const sampleId = ref(null)
-const errorMessage = ref('')
-const makerId = ref(null)
 
-const fetchCommentData = async (id) => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/comments/${id}`)
-    comment.value = response.data.comment
-    sampleId.value = comment.value.sample_id
-    makerId.value = response.data.maker_id
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: 'コメント情報の取得に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
-}
+const {
+  router,
+  comment,
+  errorMessage,
+  fetchCommentData,
+  commentUpdate,
+} = useCommentsEdit(emit)
 
-const commentUpdate = async () => {
-  try {
-    const response = await axios.patch(`${API_BASE_URL}//makers/${makerId.value}/samples/${sampleId.value}/comments/${comment.value.id}`, {
-      commenter: comment.value.commenter,
-      department: comment.value.department,
-      body: comment.value.body
-    })
-    comment.value = response.data
-    emit('message', { type: 'success', text: 'コメント情報を更新しました。' })
-    router.push(`/comments/${comment.value.id}`)
-  } catch {
-    errorMessage.value = '入力に不備があります。'
-  }
-}
-
-const cancel = () => {
+const cancel = (): void => {
   router.push(`/comments/${comment.value.id}`)
 }
 
-onMounted(async () => {
+onMounted(async (): Promise<void> => {
   const loggedIn = await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
   })
-  if (!loggedIn) return
-  await fetchCommentData(route.params.id)
+  if (loggedIn) await fetchCommentData(route.params.id as string)
 })
 </script>
 
@@ -62,7 +35,7 @@ onMounted(async () => {
       コメント情報の編集
     </h3>
 
-    <form @submit.prevent="commentUpdate">
+    <form v-if="comment" @submit.prevent="commentUpdate">
       <label class="form-label" for="department">
         部署名
       </label>
