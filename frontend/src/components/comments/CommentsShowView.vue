@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import axios from 'axios'
 import { checkLoginStatus } from '@/components/utils.js'
 import { useCommentsShow } from '@/composables/comments/useCommentsShow.ts'
+import { useCommentsDestroy } from '@/composables/comments/useCommentsDestroy.ts'
 import type { Emit } from '@/composables/comments/useCommentsShow.ts'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
 const emit = defineEmits<Emit>()
 const route = useRoute()
 const {
@@ -18,21 +17,7 @@ const {
   fetchCommentData
 } = useCommentsShow(emit)
 
-const handleDelete = async () => {
-  const confirmDelete = window.confirm('本当に削除しますか？')
-  if (!confirmDelete) return
-
-  try {
-    await axios.delete(`${API_BASE_URL}/makers/${makerId.value}/samples/${sampleId.value}/comments/${comment.value.id}`)
-    emit('message', { type: 'success', text: 'コメント情報を1件削除しました。' })
-    router.push('/comments')
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      emit('message', { type: 'danger', text: '削除処理に失敗しました。' })
-      router.replace({ name: 'NotFound' })
-    }
-  }
-}
+const { handleDelete } = useCommentsDestroy(emit, makerId, sampleId, comment)
 
 onMounted(async (): Promise<void> => {
   const loggedIn = await checkLoginStatus(() => {
