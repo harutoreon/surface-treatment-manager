@@ -164,6 +164,33 @@ describe('CommentsShowView', (): void => {
         expect(pushMock).not.toHaveBeenCalledWith('/comments')
       })
     })
+
+    describe('削除処理が失敗した場合', (): void => {
+      it('エラーメッセージが表示され、NotFound ルートに遷移すること', async (): Promise<void> => {
+        vi.stubGlobal('confirm', vi.fn((): boolean => true))
+
+        vi.mocked(axios.get)
+          .mockResolvedValueOnce({ status: 200 })
+          .mockResolvedValueOnce({ data: { payload: { user_id: adminUserId } } })
+          .mockResolvedValueOnce({ data: mockResponse })
+
+        vi.mocked(axios.isAxiosError).mockReturnValue(true)
+        vi.mocked(axios.delete).mockRejectedValueOnce({ response: { status: 404 } })
+
+        const wrapper: VueWrapper = mountComponent()
+        await flushPromises()
+
+        await wrapper.find('button').trigger('click')
+        await flushPromises()
+
+        const emittedMessage = wrapper.emitted<Emit>('message')
+        expect(emittedMessage).toBeTruthy()
+        expect(emittedMessage![0][0]).toEqual(
+          { type: 'danger', text: '削除処理に失敗しました。' }
+        )
+        expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
+      })
+    })
   })
 
   describe('ログインユーザー毎のレンダリング', (): void => {
