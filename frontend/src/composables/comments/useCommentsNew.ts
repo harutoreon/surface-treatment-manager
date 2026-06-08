@@ -145,6 +145,7 @@ export function useCommentsNew(emit: Emit) {
     department,
     body,
     errorMessage,
+    comment,
     fetchUserList,
     fetchMakerData,
     fetchSampleData,
