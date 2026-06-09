@@ -112,6 +112,7 @@ export function useCategories(emit) {
     summary,
     errorMessage,
     categories,
+    replaceStringWithEllipsis,
     fetchCategoryList,
     fetchCategoryData,
     handleDelete,
