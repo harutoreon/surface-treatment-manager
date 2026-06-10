@@ -9,13 +9,14 @@
 
 ## 制作に至った背景
 製造業で表面処理品に関わる人が、処理名や色やメーカー名などの情報をすべて記憶することは不可能。<br>
-「誰でも手軽に表面処理の情報を検索できるアプリケーションがあれば」との考えから制作しました。<br>
+「誰でも手軽に表面処理の情報を検索できるアプリケーションがあれば」との考えから作りました。<br>
 
 ## 使用技術
 - Frontend（SPA）
   - HTML
   - CSS
   - JavaScript
+  - TypeScript
   - Vue.js
   - Vue Router
   - Axios
@@ -32,10 +33,10 @@
   - メーカー名から検索
   - 処理一覧から検索
 - リソースの管理（CURD）
-  - サンプル管理
-  - カテゴリー管理
-  - メーカー管理
-  - ユーザー管理
+  - 表面処理の管理
+  - カテゴリーの管理
+  - メーカーの管理
+  - ユーザーの管理
   - 部署の管理
   - コメントの管理
 - その他
@@ -56,6 +57,7 @@
 ## コード解析
 - Frontend
   - ESLint
+  - tsc/vue-tsc
 - Backend
   - RuboCop
 
@@ -66,6 +68,7 @@
 - Backend
   - Brakeman
   - RuboCop - Security
+  - bundler-audit
 
 ## SQL N + 1 対策
 - Bullet
@@ -73,8 +76,8 @@
 ## テスト
 - Frontend
   - Vitest
+    - Composable テスト
     - Component テスト
-    - Unit テスト
   - Playwright
     - E2E テスト
 - Backend
@@ -122,14 +125,16 @@ $ docker compose logs --follow frontend
 $ docker compose logs --follow db
 ```
 
-## テストの実行
+## ESLint / Tsc / Audit / Vitest / Playwright の一括実行
 - Frontend
 ```sh
 $ cd frontend/
-$ npm run check  # ESlint, Audit, Vitest, Playwright の実行
+$ npm run check
 ```
+
+## Bundle-audit / RuboCop / Brakeman / RSpec の一括実行
 - Backend
 ```sh
 $ cd backend/
-$ bin/rails rspec_test  # RuboCop, Brakeman, RSpec の実行
+$ bin/rails rspec_test
 ```
