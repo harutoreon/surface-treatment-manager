@@ -10,8 +10,8 @@ test.describe('表面処理名で検索', () => {
     await page.locator('#search-name').getByRole('link', { name: '検索ページへ' }).click()
   })
 
-  test.describe('検索文字列「めっき」で検索した場合', () => {
-    test('文字列「めっき」を含む表面処理がヒットすること', async ({ page }) => {
+  test.describe('有効な文字列で検索した場合', () => {
+    test('文字列を含む表面処理がヒットすること', async ({ page }) => {
       await page.getByRole('textbox', { name: 'キーワードをここに入力' }).fill('めっき')
       await page.getByRole('button', { name: '検索' }).click()
 
@@ -21,7 +21,7 @@ test.describe('表面処理名で検索', () => {
     })
   })
 
-  test.describe('検索文字列「無効な検索文字列」で検索した場合', () => {
+  test.describe('無効な検索文字列で検索した場合', () => {
     test('該当する表面処理がないメッセージが表示されること', async ({ page }) => {
       await page.getByRole('textbox', { name: 'キーワードをここに入力' }).fill('無効な検索文字列')
       await page.getByRole('button', { name: '検索' }).click()
