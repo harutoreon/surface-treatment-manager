@@ -1,17 +1,23 @@
 import { test, expect } from '@playwright/test'
+import type { Page } from '@playwright/test'
+
+const fillLoginForm = async (page: Page, username: string, password: string): Promise<void> => {
+  await page.getByRole('textbox', { name: 'ユーザー名' }).fill(username)
+  await page.getByRole('textbox', { name: 'パスワード' }).fill(password)
+  await page.getByRole('button', { name: 'ログイン' }).click()
+}
 
 test.describe('departments crud flow', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
-    await page.getByRole('radio', { name: '管理者ユーザー' }).check()
-    await page.getByRole('button', { name: 'ログイン' }).click()
+    await fillLoginForm(page, 'admin user', 'adminpassword')
     await page.getByRole('button', { name: '通知を閉じる' }).click()
 
     await page.goto('/departments/new')
   })
 
   test('部署名の新規登録・更新・削除ができること', async ({ page }) => {
-    // /departments/newページの検証
+    // 登録ページへの遷移確認
     await expect(page.getByRole('heading', { name: '部署情報の登録' })).toBeVisible()
 
     // 部署名の入力
@@ -20,17 +26,15 @@ test.describe('departments crud flow', () => {
     // 登録実行
     await page.getByRole('button', { name: '登録' }).click()
 
-    // /departments/idページの検証
+    // 詳細ページへの遷移確認
     await expect(page.getByRole('heading', { name: '部署情報' })).toBeVisible()
-
     await expect(page.getByRole('listitem').filter({ hasText: '開発二部' })).toBeVisible()
-
     await page.getByRole('button', { name: '通知を閉じる' }).click()
 
     // 部署情報の編集ページへ
     await page.getByRole('link', { name: '部署情報の編集へ' }).click()
 
-    // /departments/id/editページの検証
+    // 更新ページへの遷移確認
     await expect(page.getByRole('heading', { name: '部署情報の編集' })).toBeVisible()
     await expect(page.locator('#department-name')).toHaveValue('開発二部')
 
@@ -40,11 +44,9 @@ test.describe('departments crud flow', () => {
     // 更新を実行
     await page.getByRole('button', { name: '更新' }).click()
 
-    // /departments/idページの検証
+    // 詳細ページへの遷移確認
     await expect(page.getByRole('heading', { name: '部署情報' })).toBeVisible()
-
     await expect(page.getByRole('listitem').filter({ hasText: '生産管理部' })).toBeVisible()
-
     await page.getByRole('button', { name: '通知を閉じる' }).click()
 
     // 部署情報の削除実行
@@ -53,7 +55,7 @@ test.describe('departments crud flow', () => {
     })
     await page.locator('button', { hasText: '部署情報の削除' }).click()
 
-    // /departmentsページの検証
+    // 一覧ページへの遷移確認
     await expect(page.getByRole('heading', { name: '部署リスト' })).toBeVisible()
     await expect(page.getByText('製造部', { exact: true })).toBeVisible()
     await expect(page.getByText('生産管理部', { exact: true })).not.toBeVisible()
