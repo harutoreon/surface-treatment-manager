@@ -1,17 +1,23 @@
 import { test, expect } from '@playwright/test'
+import type { Page } from '@playwright/test'
+
+const fillLoginForm = async (page: Page, username: string, password: string): Promise<void> => {
+  await page.getByRole('textbox', { name: 'ユーザー名' }).fill(username)
+  await page.getByRole('textbox', { name: 'パスワード' }).fill(password)
+  await page.getByRole('button', { name: 'ログイン' }).click()
+}
 
 test.describe('samples crud flow', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
-    await page.getByRole('radio', { name: '管理者ユーザー' }).check()
-    await page.getByRole('button', { name: 'ログイン' }).click()
+    await fillLoginForm(page, 'admin user', 'adminpassword')
     await page.getByRole('button', { name: '通知を閉じる' }).click()
 
     await page.goto('/samples/new')
   })
 
-  test('表面処理情報の新規登録・更新・削除ができること', async ({ page }) => {
-    // /samples/newページの検証
+  test('表面処理情報の新規登録・参照・更新・削除ができること', async ({ page }) => {
+    // 登録ページの遷移確認
     await expect(page.getByRole('heading', { name: '表面処理情報の登録' })).toBeVisible()
 
     // 表面処理情報の入力
@@ -28,7 +34,7 @@ test.describe('samples crud flow', () => {
     // 登録の実行
     await page.getByRole('button', { name: '登録' }).click()
 
-    // /samples/idページの検証
+    // 詳細ページへの遷移確認
     await expect(page.getByRole('heading', { name: '表面処理情報' })).toBeVisible()
 
     await expect(page.getByRole('listitem').filter({ hasText: 'テフロンコート' })).toBeVisible()
@@ -44,7 +50,7 @@ test.describe('samples crud flow', () => {
     // 表面処理情報の編集ページへ
     await page.getByRole('link', { name: '表面処理情報の編集' }).click()
 
-    // /samples/id/editページの検証
+    // 更新ページへの遷移確認
     await expect(page.getByRole('heading', { name: '表面処理情報の編集' })).toBeVisible()
 
     await expect(page.locator('#sample-name')).toHaveValue('テフロンコート')
@@ -61,7 +67,7 @@ test.describe('samples crud flow', () => {
     // 更新の実行
     await page.getByRole('button', { name: '更新' }).click()
 
-    // /samples/idページの検証
+    // 詳細ページへの遷移確認
     await expect(page.getByRole('heading', { name: '表面処理情報' })).toBeVisible()
 
     await expect(page.getByRole('listitem').filter({ hasText: 'テフロンコート' })).toBeVisible()
@@ -79,7 +85,7 @@ test.describe('samples crud flow', () => {
     })
     await page.locator('button', { hasText: '表面処理情報の削除' }).click()
 
-    // /samplesページの検証
+    // 一覧ページへの遷移確認
     await expect(page.getByRole('heading', { name: '表面処理リスト' })).toBeVisible()
     await page.locator('a[href="/samples?page=5"]').click()
     await expect(page.getByText('テフロンコート')).not.toBeVisible()
