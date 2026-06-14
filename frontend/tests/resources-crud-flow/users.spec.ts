@@ -1,17 +1,23 @@
 import { test, expect } from '@playwright/test'
+import type { Page } from '@playwright/test'
+
+const fillLoginForm = async (page: Page, username: string, password: string): Promise<void> => {
+  await page.getByRole('textbox', { name: 'ユーザー名' }).fill(username)
+  await page.getByRole('textbox', { name: 'パスワード' }).fill(password)
+  await page.getByRole('button', { name: 'ログイン' }).click()
+}
 
 test.describe('users crud flow', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
-    await page.getByRole('radio', { name: '管理者ユーザー' }).check()
-    await page.getByRole('button', { name: 'ログイン' }).click()
+    await fillLoginForm(page, 'admin user', 'adminpassword')
     await page.getByRole('button', { name: '通知を閉じる' }).click()
 
     await page.goto('/users/new')
   })
 
-  test('ユーザーの新規登録・更新・削除ができること', async ({ page }) => {
-    // /users/newページの検証
+  test('ユーザーの新規登録・参照・更新・削除ができること', async ({ page }) => {
+    // 登録ページの遷移確認
     await expect(page.getByRole('heading', { name: 'ユーザー情報の登録' })).toBeVisible()
 
     // ユーザー情報の入力
@@ -23,7 +29,7 @@ test.describe('users crud flow', () => {
     // 登録実行
     await page.getByRole('button', { name: '登録' }).click()
 
-    // /users/idページの検証
+    // 詳細ページへの遷移確認
     await expect(page.getByRole('heading', { name: 'ユーザー情報' })).toBeVisible()
 
     await expect(page.getByRole('listitem').filter({ hasText: '森 はじめ' })).toBeVisible()
@@ -34,7 +40,7 @@ test.describe('users crud flow', () => {
     // ユーザー情報の編集ページへ
     await page.getByRole('link', { name: 'ユーザー情報の編集' }).click()
 
-    // /users/id/editページの検証
+    // 更新ページへの遷移確認
     await expect(page.getByRole('heading', { name: 'ユーザー情報の編集' })).toBeVisible()
     await expect(page.locator('#user-name')).toHaveValue('森 はじめ')
     await expect(page.locator('#user-department')).toHaveValue('製造部')
@@ -45,7 +51,7 @@ test.describe('users crud flow', () => {
     // 更新を実行
     await page.getByRole('button', { name: '更新' }).click()
 
-    // /users/idページの検証
+    // 詳細ページへの遷移確認
     await expect(page.getByRole('heading', { name: 'ユーザー情報' })).toBeVisible()
 
     await expect(page.getByRole('listitem').filter({ hasText: '森 はじめ' })).toBeVisible()
@@ -57,9 +63,9 @@ test.describe('users crud flow', () => {
     page.once('dialog', async dialog => {
       await dialog.accept()
     })
-    await page.getByRole('button', { hasText: 'ユーザーの削除' }).click()
+    await page.getByRole('button', { name: 'ユーザーの削除' }).click()
 
-    // /usersページの検証
+    // 一覧ページへの遷移確認
     await expect(page.getByRole('heading', { name: 'ユーザーリスト' })).toBeVisible()
     await page.getByRole('button', { name: '通知を閉じる' }).click()
   })
