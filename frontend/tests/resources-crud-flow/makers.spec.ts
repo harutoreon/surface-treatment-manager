@@ -10,7 +10,7 @@ const fillLoginForm = async (page: Page, username: string, password: string): Pr
 test.describe('makers crud flow', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
-    await fillLoginForm(page, 'general user', 'generalpassword')
+    await fillLoginForm(page, 'admin user', 'adminpassword')
     await page.getByRole('button', { name: '通知を閉じる' }).click()
 
     await page.goto('/makers/new')
