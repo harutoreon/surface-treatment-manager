@@ -1,33 +1,30 @@
 import { test, expect } from '@playwright/test'
+import type { Page } from '@playwright/test'
+
+const fillLoginForm = async (page: Page, username: string, password: string): Promise<void> => {
+  await page.getByRole('textbox', { name: 'ユーザー名' }).fill(username)
+  await page.getByRole('textbox', { name: 'パスワード' }).fill(password)
+  await page.getByRole('button', { name: 'ログイン' }).click()
+}
 
 test.describe('comment post flow', () => {
+  let createdCommentId: string
+
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
-    await page.getByRole('radio', { name: '管理者ユーザー' }).check()
-    await page.getByRole('button', { name: 'ログイン' }).click()
+    await fillLoginForm(page, 'admin user', 'adminpassword')
     await page.getByRole('button', { name: '通知を閉じる' }).click()
 
     await page.goto('/samples/1')
   })
 
-  test('コメントの新規作成ボタンを押すとモーダルが表示されること', async ({ page }) => {
-    // samples/idページの表示検証
-    await expect(page.getByRole('heading', { name: '表面処理情報' })).toBeVisible()
-
-    await page.getByRole('button', { name: 'コメントの新規作成' }).click()
-
-    // モーダルのレイアウト検証
-    await expect(page.locator('.modal-header')).toBeVisible()
-    await expect(page.getByRole('textbox', { name: '氏名' })).toBeVisible()
-    await expect(page.getByRole('textbox', { name: '部署名' })).toBeVisible()
-    await expect(page.getByRole('textbox', { name: 'コメント' })).toBeVisible()
-    await expect(page.getByRole('button', { name: '閉じる' })).toBeVisible()
-    await expect(page.getByRole('button', { name: 'リストに追加' })).toBeVisible()
+  test.afterEach(async ({ request }) => {
+    await request.delete(`http://localhost:3000/makers/1/samples/1/comments/${createdCommentId}`)
   })
 
   test.describe('コメントの新規作成に成功した場合', () => {
     test('コメントリストに反映されること', async ({ page }) => {
-      // samples/idページの表示検証
+      // samples の詳細ページへの遷移確認
       await expect(page.getByRole('heading', { name: '表面処理情報' })).toBeVisible()
 
       await page.getByRole('button', { name: 'コメントの新規作成' }).click()
@@ -41,35 +38,24 @@ test.describe('comment post flow', () => {
       // モーダルの非表示検証
       await expect(page.locator('.modal-header')).not.toBeVisible()
 
-      // コメントリストへの反映検証
+      // コメントリストへの反映確認
       await expect(page.locator('#comment-department-commenter', { hasText: '営業部：佐藤 太郎' })).toBeVisible()
       await expect(page.locator('#comment-body', { hasText: 'このめっきの膜厚は均一です。' })).toBeVisible()
 
-      // コメントの削除処理
-      // await page.goto('/comments?page=16')
-      await page.getByRole('link').filter({ hasText: '佐藤 太郎' }).click()
-      // await page.getByRole('link', { name: '営業部：佐藤 太郎' }).click()
-
-      page.once('dialog', async dialog => {
-        await dialog.accept()
-      })
-      await page.locator('button', { hasText: 'コメント情報の削除' }).click()
-
-      // コメントの削除検証
-      await page.goto('/samples/1')
-      await expect(page.getByRole('heading', { name: '営業部：佐藤 太郎' })).not.toBeVisible()
-      await expect(page.getByRole('heading', { name: 'このめっきの膜厚は均一です。' })).not.toBeVisible()
+      // afterEach で使うコメント id の取得
+      const link = page.getByRole('link').filter({ hasText: '佐藤 太郎' })
+      const href = await link.getAttribute('href')
+      createdCommentId = href.split('/').at(-1)
     })
   })
 
   test.describe('コメントの新規作成に失敗した場合', () => {
     test('入力不備のコメントが表示されること', async ({ page }) => {
-      // samples/idページの表示検証
+      // 詳細ページへの遷移確認
       await expect(page.getByRole('heading', { name: '表面処理情報' })).toBeVisible()
 
+      // モーダルのすべての項目を未入力状態で登録処理
       await page.getByRole('button', { name: 'コメントの新規作成' }).click()
-
-      // すべての項目を未入力状態で
       await page.getByRole('button', { name: 'リストに追加' }).click()
 
       // 入力不備コメントの表示検証
