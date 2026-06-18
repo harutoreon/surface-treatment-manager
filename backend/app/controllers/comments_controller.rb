@@ -54,6 +54,12 @@ class CommentsController < ApplicationController
     status: :ok
   end
 
+  def user_comments
+    user = User.find(params[:id])
+    user_comments = Comment.user_comments(user)
+    render json: user_comments, status: :ok
+  end
+
   private
 
     def set_maker
