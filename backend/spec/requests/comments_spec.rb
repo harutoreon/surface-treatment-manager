@@ -161,4 +161,32 @@ RSpec.describe "Comments API", type: :request do
       expect(json[:comment][:department]).to eq(comment.department)
     end
   end
+
+  describe '#user_comments' do
+    let(:user) { FactoryBot.create(:user, name: '木下 太一') }
+    let!(:comment) { FactoryBot.create(:comment) }
+
+    it 'レスポンスのステータスが ok であること' do
+      get user_comments_path(user)
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'user と commenter が同一人物の場合は、json に comment が含まれていること' do
+      get user_comments_path(user)
+      json = response.parsed_body
+      expect(json.first[:id]).to eq(comment.id)
+      expect(json.first[:commenter]).to eq(comment.commenter)
+      expect(json.first[:department]).to eq(comment.department)
+      expect(json.first[:body]).to eq(comment.body)
+      expect(json.first[:sample_id]).to eq(comment.sample.id)
+      expect(json.first[:user_id]).to eq(comment.user_id)
+    end
+
+    it 'user と commenter が別人の場合は、json が空の配列であること' do
+      user.update!(name: 'invalid user')
+      get user_comments_path(user)
+      json = response.parsed_body
+      expect(json).to eq([])
+    end
+  end
 end
