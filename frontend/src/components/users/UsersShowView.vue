@@ -1,12 +1,18 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue'
 import { useUsers } from '@/composables/useUsers.js'
+import { useUserComments } from '@/composables/users/useUserComments.ts'
+import type { Emit } from '@/composables/users/useUserComments.ts'
 
-const emit = defineEmits(['message'])
+const emit = defineEmits<Emit>()
 const { route, user, fetchUserInformation, handleDelete, loggedIn } = useUsers(emit)
+const { userComments, fetchUserComments } = useUserComments(emit)
 
 onMounted(async () => {
-  if (await loggedIn) await fetchUserInformation(route.params.id)
+  if (await loggedIn) {
+    await fetchUserInformation(route.params.id)
+    await fetchUserComments(user.value.id)
+  }
 })
 </script>
 
@@ -16,7 +22,7 @@ onMounted(async () => {
       ユーザー情報
     </h3>
 
-    <div class="list-group mb-5 shadow-sm">
+    <ul class="list-group mb-5 shadow-sm">
       <li class="d-flex justify-content-between list-group-item">
         <span>ユーザー名：</span>
         <div>{{ user.name }}</div>
@@ -25,7 +31,13 @@ onMounted(async () => {
         <span>部署名：</span>
         <div>{{ user.department }}</div>
       </li>
-    </div>
+      <li class="d-flex justify-content-between list-group-item">
+        <span>コメント件数：</span>
+        <div id="comment-count">
+          {{ userComments.length }}
+        </div>
+      </li>
+    </ul>
 
     <ul class="nav justify-content-evenly">
       <li class="nav-item">
