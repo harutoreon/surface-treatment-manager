@@ -31,6 +31,17 @@ describe('UsersShowView', () => {
     department: '開発部'
   }
 
+  const mockUserCommentsResponse = [
+    {
+      id: 1,
+      body: 'sample body',
+      commenter: 'sample commenter',
+      department: 'sample department',
+      sample_id: 1,
+      user_id: 1,
+    },
+  ]
+
   const mountComponent = () => mount(UsersShowView, {
     global: {
       stubs: {
@@ -49,6 +60,7 @@ describe('UsersShowView', () => {
         vi.mocked(axios.get)
           .mockResolvedValueOnce({ status: 200 })
           .mockResolvedValueOnce({ data: mockResponse })
+          .mockResolvedValueOnce({ data: mockUserCommentsResponse })
 
         const wrapper = mountComponent()
         await flushPromises()
@@ -61,6 +73,9 @@ describe('UsersShowView', () => {
 
         // 部署名
         expect(wrapper.text()).toContain('開発部')
+
+        // コメント件数
+        expect(wrapper.find('#comment-count').text()).toBe('1')
 
         // 外部リンク
         const routerLinks = wrapper.findAllComponents(RouterLinkStub)
