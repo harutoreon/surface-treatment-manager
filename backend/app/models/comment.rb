@@ -5,4 +5,8 @@ class Comment < ApplicationRecord
   validates :commenter,  presence: { message: "投稿者名が空白です。" }
   validates :department, presence: { message: "部署名が空白です。" }
   validates :body,       presence: { message: "コメント本文が空白です。" }
+
+  def self.user_comments(user)
+    Comment.where(commenter: user.name)
+  end
 end

@@ -28,4 +28,27 @@ RSpec.describe Comment, type: :model do
       expect(comment.errors.details[:body]).to include(error: :blank)
     end
   end
+
+  describe 'ロジックの検証' do
+    describe '.user_comments' do
+      before do
+        comment.save       # commenter は 木下 太一
+        @user = User.last  # user は Michael Hartl
+      end
+
+      context '引数に与えた user がコメントを投稿している場合' do
+        it 'コメントが含まれた配列が返ること' do
+          @user.name = '木下 太一'
+          expect(Comment.user_comments(@user)).to include(comment)
+        end
+      end
+
+      context '引数に与えた user がコメントを投稿していない場合' do
+        it '空の配列が返ること' do
+          @user = User.last
+          expect(Comment.user_comments(@user)).to eq([])
+        end
+      end
+    end
+  end
 end

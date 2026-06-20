@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get '/maker_list', to: 'makers#maker_list'
 
   get '/user_list', to: 'users#user_list'
+  get '/user_comment_count/user_id/:id', to: 'comments#user_comments', as: 'user_comments'
 
   resources :categories
   resources :users
