@@ -34,6 +34,7 @@ test.describe('users crud flow', () => {
 
     await expect(page.getByRole('listitem').filter({ hasText: '森 はじめ' })).toBeVisible()
     await expect(page.getByRole('listitem').filter({ hasText: '製造部' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: '0' })).toBeVisible()
 
     await page.getByRole('button', { name: '通知を閉じる' }).click()
 
@@ -56,6 +57,7 @@ test.describe('users crud flow', () => {
 
     await expect(page.getByRole('listitem').filter({ hasText: '森 はじめ' })).toBeVisible()
     await expect(page.getByRole('listitem').filter({ hasText: '営業部' })).toBeVisible()
+    await expect(page.getByRole('listitem').filter({ hasText: '0' })).toBeVisible()
 
     await page.getByRole('button', { name: '通知を閉じる' }).click()
 
