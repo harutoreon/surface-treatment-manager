@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   get '/user_list', to: 'users#user_list'
   get '/user_comment_count/user_id/:id', to: 'comments#user_comments', as: 'user_comments'
 
+  get '/category_samples/category_id/:id', to: 'categories#category_samples', as: 'category_samples'
+
   resources :categories
   resources :users
   resources :departments

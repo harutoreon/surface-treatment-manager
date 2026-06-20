@@ -33,6 +33,12 @@ class CategoriesController < ApplicationController
     head :no_content
   end
 
+  def category_samples
+    category = Category.find(params[:id])
+    samples = category.samples
+    render json: samples, status: :ok
+  end
+
   private
 
     def set_category
