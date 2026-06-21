@@ -118,4 +118,27 @@ RSpec.describe "Categories API", type: :request do
       expect(response.body).to be_blank
     end
   end
+
+  describe '#category_samples' do
+    let!(:sample) { FactoryBot.create(:sample) }
+
+    it 'レスポンスのステータスがokであること' do
+      get category_samples_path(sample.category_id)
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'サンプルリストが返ること' do
+      get category_samples_path(sample.category_id)
+      json = response.parsed_body
+      expect(json.first[:id]).to eq(sample.id)
+      expect(json.first[:category_id]).to eq(sample.category_id)
+      expect(json.first[:color]).to eq(sample.color)
+      expect(json.first[:feature]).to eq(sample.feature)
+      expect(json.first[:film_thickness]).to eq(sample.film_thickness)
+      expect(json.first[:hardness]).to eq(sample.hardness)
+      expect(json.first[:maker_id]).to eq(sample.maker_id)
+      expect(json.first[:name]).to eq(sample.name)
+      expect(json.first[:summary]).to eq(sample.summary)
+    end
+  end
 end
