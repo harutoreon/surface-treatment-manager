@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-  before_action :set_category, only: %i[show update destroy]
+  before_action :set_category, only: %i[show update destroy category_samples]
 
   def index
     categories = Category.order(:id)
@@ -34,8 +34,7 @@ class CategoriesController < ApplicationController
   end
 
   def category_samples
-    category = Category.find(params[:id])
-    samples = category.samples
+    samples = @category.samples
     render json: samples, status: :ok
   end
 
@@ -44,6 +43,7 @@ class CategoriesController < ApplicationController
     def set_category
       @category = Category.find(params[:id])
     end
+
     def category_params
       params.require(:category).permit(:item, :summary)
     end
