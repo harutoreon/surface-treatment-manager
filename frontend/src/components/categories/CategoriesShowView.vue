@@ -33,7 +33,9 @@ onMounted(async () => {
       </li>
       <li class="d-flex justify-content-between list-group-item">
         <div>サンプル件数 :</div>
-        <div>{{ categorySamples.length }}</div>
+        <div id="category-samples">
+          {{ categorySamples.length }}
+        </div>
       </li>
     </ul>
 

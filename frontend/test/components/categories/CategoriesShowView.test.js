@@ -30,6 +30,20 @@ describe('CategoriesShowView', () => {
     summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
   }
 
+  const mockSampleResponse = [
+    {
+      id: 1,
+      name: 'sample name',
+      color: 'sample color',
+      hardness: 'sample hardness',
+      film_thickness: 'sample film_thickness',
+      feature: 'sample feature',
+      summary: 'sample summary',
+      maker_id: 1,
+      category_id: 1,
+    }
+  ]
+
   const mountComponent = () => mount(CategoriesShowView, {
     global: {
       stubs: {
@@ -52,6 +66,7 @@ describe('CategoriesShowView', () => {
       vi.mocked(axios.get)
         .mockResolvedValueOnce({ status: 200 })
         .mockResolvedValueOnce({ data: mockResponse })
+        .mockResolvedValueOnce({ data: mockSampleResponse })
 
       const wrapper = mountComponent()
       await flushPromises()
@@ -64,6 +79,9 @@ describe('CategoriesShowView', () => {
 
       // 概要
       expect(wrapper.text()).toContain('金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。')
+
+      // サンプル件数
+      expect(wrapper.find('#category-samples').text()).toBe('1')
 
       // 外部リンク
       const routerLinks = wrapper.findAllComponents(RouterLinkStub)
@@ -100,6 +118,7 @@ describe('CategoriesShowView', () => {
       vi.mocked(axios.get)
         .mockResolvedValueOnce({ status: 200 })
         .mockResolvedValueOnce({ data: mockResponse })
+        .mockResolvedValueOnce({ data: mockSampleResponse })
 
       vi.mocked(axios.delete).mockResolvedValueOnce({ status: 204 })
 
@@ -122,6 +141,7 @@ describe('CategoriesShowView', () => {
       vi.mocked(axios.get)
         .mockResolvedValueOnce({ status: 200 })
         .mockResolvedValueOnce({ data: mockResponse })
+        .mockResolvedValueOnce({ data: mockSampleResponse })
 
       vi.mocked(axios.delete).mockRejectedValue({ response: { status: 404 } })
 
