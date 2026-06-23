@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useCategories } from '@/composables/useCategories.js'
-import { useCategorySamples } from '@/composables/category/useCategorySamples.ts'
+import { useCategorySamples } from '@/composables/categories/useCategorySamples.ts'
 
 const emit = defineEmits(['message'])
 const { route, category, fetchCategoryData, handleDelete, loggedIn } = useCategories(emit)

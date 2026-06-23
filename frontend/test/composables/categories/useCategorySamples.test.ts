@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { useCategorySamples } from '@/composables/category/useCategorySamples.ts'
-import type { Sample, Emit } from '@/composables/category/useCategorySamples.ts'
+import { useCategorySamples } from '@/composables/categories/useCategorySamples.ts'
+import type { Sample, Emit } from '@/composables/categories/useCategorySamples.ts'
 import axios from 'axios'
 
 const { replaceMock } = vi.hoisted(() => {
