@@ -1,6 +1,21 @@
-# Exported from Render on 2026-03-28T09:01:57Z
+# Exported from Render on 2026-07-20T10:32:36Z
 version: "1"
 services:
+  - type: web
+    name: surface-treatment-manager-vue
+    runtime: static
+    repo: https://github.com/harutoreon/surface-treatment-manager
+    envVars:
+      - key: VITE_API_BASE_URL
+        sync: false
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    autoDeployTrigger: commit
+    rootDir: ./frontend
   - type: web
     name: surface-treatment-manager
     runtime: docker
@@ -25,25 +40,10 @@ services:
     dockerContext: ./backend
     dockerfilePath: ./backend/Dockerfile
     autoDeployTrigger: commit
-  - type: web
-    name: surface-treatment-manager-vue
-    runtime: static
-    repo: https://github.com/harutoreon/surface-treatment-manager
-    envVars:
-      - key: VITE_API_BASE_URL
-        sync: false
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
-    autoDeployTrigger: commit
-    rootDir: ./frontend
 databases:
   - name: surface-treatment-manager
-    databaseName: surface_treatment_manager_wti8
-    user: surface_treatment_manager_wti8_user
+    databaseName: surface_treatment_manager_ixt7
+    user: surface_treatment_manager_ixt7_user
     plan: free
     region: singapore
     ipAllowList:
