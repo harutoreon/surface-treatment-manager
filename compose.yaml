@@ -24,14 +24,14 @@ services:
       - backend
 
   db:
-    image: postgres:16
+    image: postgres:18
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql
 
 volumes:
   db_data:
