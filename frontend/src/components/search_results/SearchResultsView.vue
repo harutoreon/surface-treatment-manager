@@ -18,8 +18,11 @@ onMounted(async () => {
       表面処理の検索結果
     </h3>
 
-    <div class="fs-5 text-center mb-5">
-      検索文字列：「{{ data.keyword }}」
+    <div v-if="samples.length" class="fs-5 text-center mb-5">
+      検索文字列：「{{ data.keyword }}」で {{ samples.length }} 件の検索結果
+    </div>
+    <div v-else class="fs-5 text-center mb-5">
+      検索文字列：「{{ data.keyword }}」で該当無し
     </div>
 
     <div class="list-group list-group-flush mb-5">
