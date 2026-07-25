@@ -14,6 +14,7 @@ export default defineConfig({
   test: {
     environment: 'happy-dom',
     globals: true,
+    include: ['test/**/*.test.{js,ts,jsx,tsx}'],
     coverage: {
       enabled: true,
       reporter: ['text', 'html'],
