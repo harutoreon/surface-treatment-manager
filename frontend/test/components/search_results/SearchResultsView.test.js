@@ -28,40 +28,67 @@ describe('SearchResultsNameView', () => {
     })
   })
 
-  describe('ページのマウントに成功した場合', () => {
-    it('表面処理の検索結果ページが表示されること', async () => {
-      const mockResponse = {
-        samples: [
-          {
-            id: 1,
-            name: 'めっきを含む処理名',
-            category_id: 1,
-            color: 'サンプル色',
-            maker_id: 1,
-            hardness: '硬度',
-            film_thickness: '膜厚',
-            feature: '特性',
-            summary: '概要文',
-          }
-        ],
-        keyword: 'めっき'
-      }
-
-      axios.get
-        .mockResolvedValueOnce({ status: 200 })  // ログインチェック
-        .mockResolvedValueOnce({ data: mockResponse })  // fetchSearchResults()
-
-      const wrapper = mount(SearchResultsView, {
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub
-          }
+  describe('ページのマウントに成功して', () => {
+    describe('サンプルがある場合', () => {
+      it('検索文字列と該当件数が表示される', async () => {
+        const mockResponse = {
+          samples: [
+            {
+              id: 1,
+              name: 'めっきを含む処理名',
+              category_id: 1,
+              color: 'サンプル色',
+              maker_id: 1,
+              hardness: '硬度',
+              film_thickness: '膜厚',
+              feature: '特性',
+              summary: '概要文',
+            }
+          ],
+          keyword: 'めっき'
         }
+
+        axios.get
+          .mockResolvedValueOnce({ status: 200 })  // ログインチェック
+          .mockResolvedValueOnce({ data: mockResponse })  // fetchSearchResults()
+
+        const wrapper = mount(SearchResultsView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
+
+        await flushPromises()
+
+        expect(wrapper.find('.fs-5').text()).toBe('検索文字列：「めっき」で 1 件の検索結果')
       })
+    })
 
-      await flushPromises()
+    describe('サンプルがない場合', () => {
+      it('検索文字列と該当無しが表示される', async () => {
+        const mockResponse = {
+          samples: [],
+          keyword: 'めっき'
+        }
 
-      expect(wrapper.find('h3').text()).toBe('表面処理の検索結果')
+        axios.get
+          .mockResolvedValueOnce({ status: 200 })  // ログインチェック
+          .mockResolvedValueOnce({ data: mockResponse })  // fetchSearchResults()
+
+        const wrapper = mount(SearchResultsView, {
+          global: {
+            stubs: {
+              RouterLink: RouterLinkStub
+            }
+          }
+        })
+
+        await flushPromises()
+
+        expect(wrapper.find('.fs-5').text()).toBe('検索文字列：「めっき」で該当無し')
+      })
     })
   })
 

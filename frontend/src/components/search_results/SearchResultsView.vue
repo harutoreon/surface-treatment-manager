@@ -1,9 +1,18 @@
 <script setup>
-import { onMounted } from 'vue'
+import {computed, onMounted} from 'vue'
 import { useSearchResults } from '@/composables/useSearchResults.js'
 
 const emit = defineEmits(['message'])
 const { loggedIn, data, samples, searchMethod, fetchSearchResults } = useSearchResults(emit)
+
+const searchResultMessage = computed(() => {
+  const keyword = data.value.keyword
+  const count = samples.value.length
+
+  return count
+    ? `検索文字列：「${keyword}」で ${count} 件の検索結果`
+    : `検索文字列：「${keyword}」で該当無し`
+})
 
 onMounted(async () => {
   if ( await loggedIn ) {
@@ -19,7 +28,7 @@ onMounted(async () => {
     </h3>
 
     <div class="fs-5 text-center mb-5">
-      検索文字列：「{{ data.keyword }}」
+      {{ searchResultMessage }}
     </div>
 
     <div class="list-group list-group-flush mb-5">
