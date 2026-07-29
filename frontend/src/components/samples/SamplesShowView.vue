@@ -122,10 +122,10 @@ onMounted(async (): Promise<void> => {
           <img
             v-if="sample.image_url"
             id="sample_image"
-            class="rounded-4 shadow"
+            class="rounded-4 shadow object-fit-cover"
             :src="sample.image_url"
             alt="Sample Image"
-            style="width: 250px; height: auto;"
+            style="width: 250px; height: 250px;"
           />
           <div v-else>
             No Image
