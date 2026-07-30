@@ -120,6 +120,8 @@ describe('SamplesShowView', (): void => {
 
         // 画像
         expect(wrapper.find('img').attributes('src')).toContain('sample_image_url.jpeg')
+        expect(wrapper.find('img').classes('object-fit-cover')).toBe(true)
+        expect(wrapper.find('img').attributes('style')).toBe('width: 250px; height: 250px;')
 
         // コメントリストの見出し
         expect(wrapper.find('h5').text()).toBe('コメントリスト')
