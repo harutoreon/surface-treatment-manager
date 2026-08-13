@@ -5,10 +5,11 @@ Rails.application.routes.draw do
   delete '/logout',    to: 'sessions#destroy'
   get    '/logged_in', to: 'sessions#logged_in'
 
-  get '/name_search',     to: 'searches#name_search'
-  get '/category_search', to: 'searches#category_search'
-  get '/maker_search',    to: 'searches#maker_search'
-  get '/list_search', to: 'searches#list_search'
+  get '/name_search',           to: 'searches#name_search'
+  get '/category_search',       to: 'searches#category_search'
+  get '/maker_search',          to: 'searches#maker_search'
+  get '/list_search',           to: 'searches#list_search'
+  get '/film_thickness_search', to: 'searches#film_thickness_search'
 
   get '/comments/:id', to: 'comments#comment_information', as: 'comment_information'
   get '/comments', to: 'comments#comment_list', as: 'comment_list'
