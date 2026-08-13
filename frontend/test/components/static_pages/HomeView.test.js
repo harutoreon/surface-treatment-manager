@@ -135,6 +135,18 @@ describe('HomeView', () => {
       expect(routerLink.text()).toBe('検索ページへ')
     })
 
+    it('「変寸量で検索」カードが表示されること', () => {
+      const div = wrapper.find('#search-film-thickness')
+      const routerLink = div.findComponent(RouterLinkStub)
+
+      expect(div.find('img').exists()).toBe(true)
+      expect(div.find('img').attributes('alt')).toBe('film-thickness icon')
+      expect(div.find('div h5').text()).toBe('変寸量で検索')
+      expect(div.find('div div.card-text').text()).toBe('変寸量を指定して目的の処理を検索します。')
+      expect(routerLink.props().to).toBe('#')
+      expect(routerLink.text()).toBe('検索ページへ')
+    })
+
     it('管理者ユーザー向けの管理カードが表示されないこと', () => {
       expect(wrapper.find('#manage-samples').exists()).toBe(false)
     })
