@@ -11,6 +11,7 @@ import userAddIcon from '@/assets/icons/user_add.svg'
 import settingsIcon from '@/assets/icons/settings.svg'
 import department from '@/assets/icons/department.svg'
 import commentIcon from '@/assets/icons/comment.svg'
+import filmThickness from '@/assets/icons/film_thickness.svg'
 import CardComponent from '@/components/static_pages/CardComponent.vue'
 import { useHome } from '@/composables/useHome.js'
 
@@ -70,6 +71,20 @@ onMounted(async () => {
             card-title="処理一覧から検索"
             card-text="表面処理一覧から目的の処理を検索します。"
             to-attribute="/list_search_results"
+            link-text="検索ページへ"
+          />
+        </div>
+      </div>
+
+      <div class="row mb-4">
+        <div class="col ps-0 pe-0">
+          <CardComponent
+            id="search-film-thickness"
+            alt="film-thickness icon"
+            :icon="filmThickness"
+            card-title="変数量で検索"
+            card-text="変寸量を指定して目的の処理を検索します。"
+            to-attribute="#"
             link-text="検索ページへ"
           />
         </div>
