@@ -123,5 +123,36 @@ RSpec.describe Sample, type: :model do
         end
       end
     end
+
+    describe '.film_thickness_search' do
+      describe '膜厚 5μm に該当するサンプルの取得可否' do
+        let!(:sample) { FactoryBot.create(:sample) }
+
+        context '最小膜厚に 3, 最大膜厚に 7 を指定した場合' do
+          it 'サンプルが取得できる' do
+            samples = Sample.film_thickness_search(3, 7)
+            expect(samples[0].film_thickness).to eq('5μm')
+          end
+        end
+
+        context '最小膜厚に 1, 最大膜厚に 4 を指定した場合' do
+          it 'サンプルは取得できずに空の配列が返る' do
+            samples = Sample.film_thickness_search(1, 4)
+            expect(samples).to eq([])
+          end
+        end
+      end
+
+      describe '2 桁以上の膜厚に該当するサンプルの取得可否' do
+        let!(:sample) { FactoryBot.create(:sample, film_thickness: '10μm') }
+
+        context '最小膜厚に 6, 最大膜厚に 15 を指定した場合' do
+          it '膜厚 10μm に該当するサンプルが取得できる' do
+            samples = Sample.film_thickness_search(6, 15)
+            expect(samples[0].film_thickness).to eq('10μm')
+          end
+        end
+      end
+    end
   end
 end
