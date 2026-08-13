@@ -23,10 +23,23 @@ class SearchesController < ApplicationController
     render json: samples, status: :ok
   end
 
+  def film_thickness_search
+    samples = Sample.film_thickness_search(min_film_thickness, max_film_thickness)
+    render json: samples, status: :ok
+  end
+
   private
 
     def set_keyword
       @keyword = params[:keyword]
+    end
+
+    def min_film_thickness
+      params[:min_film_thickness].to_i
+    end
+
+    def max_film_thickness
+      params[:max_film_thickness].to_i
     end
 
     def render_samples(samples)

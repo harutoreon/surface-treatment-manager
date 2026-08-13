@@ -30,6 +30,11 @@ class Sample < ApplicationRecord
 
   scope :name_search, -> (keyword) { where('name LIKE ?', "%#{keyword}%") }
 
+  scope :film_thickness_search, -> (min, max) do
+    samples = order(:id)
+    samples.select { |sample| (min..max).cover?(sample.film_thickness.slice(/\d+/).to_i) }
+  end
+
   def image_url
     image.attached? ? url_for(image) : nil  
   end

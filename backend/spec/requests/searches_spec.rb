@@ -60,4 +60,23 @@ RSpec.describe "Searches", type: :request do
       ).to match_array(%w(id name summary image_url))
     end
   end
+
+  describe '#film_thickness_search' do
+    it 'レスポンスのステータスが ok であること' do
+      get film_thickness_search_path, params: {
+        min_film_thickness: '3',
+        max_film_thickness: '7'
+      }
+      expect(response).to have_http_status(:ok)
+    end
+
+    it '指定した膜厚範囲に該当するサンプルが取得できる' do
+      get film_thickness_search_path, params: {
+        min_film_thickness: '3',
+        max_film_thickness: '7'
+      }
+      json = response.parsed_body
+      expect(json[0][:film_thickness]).to eq('5μm')
+    end
+  end
 end
