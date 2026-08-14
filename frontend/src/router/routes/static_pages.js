@@ -2,6 +2,7 @@ const HomeView = () => import('@/components/static_pages/HomeView.vue')
 const StaticPagesNameView = () => import('@/components/static_pages/StaticPagesNameView.vue')
 const StaticPagesCategoryView = () => import('@/components/static_pages/StaticPagesCategoryView.vue')
 const StaticPagesMakerView = () => import('@/components/static_pages/StaticPagesMakerView.vue')
+const FilmThickness = () => import('@/components/static_pages/FilmThickness.vue')
 
 export default [
   {
@@ -23,5 +24,10 @@ export default [
     path: '/static_pages/maker',
     component: StaticPagesMakerView,
     meta: { title: 'Static Pages Maker' }
+  },
+  {
+    path: '/static_pages/film_thickness',
+    component: FilmThickness,
+    meta: { title: 'Static Pages Film Thickness' }
   },
 ]
