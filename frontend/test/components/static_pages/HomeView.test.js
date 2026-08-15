@@ -143,7 +143,7 @@ describe('HomeView', () => {
       expect(div.find('img').attributes('alt')).toBe('film-thickness icon')
       expect(div.find('div h5').text()).toBe('変寸量で検索')
       expect(div.find('div div.card-text').text()).toBe('変寸量を指定して目的の処理を検索します。')
-      expect(routerLink.props().to).toBe('#')
+      expect(routerLink.props().to).toBe('/static_pages/film_thickness')
       expect(routerLink.text()).toBe('検索ページへ')
     })
 

@@ -84,7 +84,7 @@ onMounted(async () => {
             :icon="filmThickness"
             card-title="変寸量で検索"
             card-text="変寸量を指定して目的の処理を検索します。"
-            to-attribute="#"
+            to-attribute="/static_pages/film_thickness"
             link-text="検索ページへ"
           />
         </div>
