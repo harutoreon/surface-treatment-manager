@@ -1,25 +1,33 @@
 <script setup>
-import { ref, reactive, onMounted, computed } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { checkLoginStatus } from '@/components/utils.js'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import axios from 'axios'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const emit = defineEmits(['message'])
 const router = useRouter()
-const minFilmThickness = ref(3)
-const maxFilmThickness = ref(7)
+const route = useRoute()
+const samples = ref([])
+const minFilmThickness = route.query.min_film_thickness
+const maxFilmThickness = route.query.max_film_thickness
 
-const samples = reactive([
-  {
-    id: 1,
-    name: '無電解ニッケルめっき',
-    film_thickness: '5μm',
-    feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
-    color: 'イエローブラウンシルバー',
-  },
-])
+const fetchSamples = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/film_thickness_search`, {
+      params: { min_film_thickness: minFilmThickness, max_film_thickness: maxFilmThickness },
+    })
+    samples.value = response.data
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      emit('message', { type: 'danger', text: 'サンプルの取得に失敗しました。' })
+      router.replace({ name: 'NotFound' })
+    }
+  }
+}
 
 const searchResultMessage = computed(() => {
-  return `${ minFilmThickness.value } μm から ${ maxFilmThickness.value } μm の範囲で ${ samples.length } 件該当`
+  return `${ minFilmThickness } μm から ${ maxFilmThickness } μm の範囲で ${ samples.value.length } 件該当`
 })
 
 onMounted(async () => {
@@ -27,6 +35,7 @@ onMounted(async () => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
   })
+  await fetchSamples()
 })
 </script>
 
