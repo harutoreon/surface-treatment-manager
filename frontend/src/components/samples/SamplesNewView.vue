@@ -186,7 +186,7 @@ onMounted(async (): Promise<void> => {
             id="sample-film-thickness"
             v-model="filmThickness"
             class="form-control mb-3 shadow-sm"
-            type="text"
+            type="number"
           />
         </div>
       </div>
