@@ -67,7 +67,7 @@ export function useSamplesNew(emit: Emit) {
       formData.append('sample[feature]', feature.value)
       formData.append('sample[category_id]', categoryId.value.toString())
       formData.append('sample[maker_id]', makerId.value.toString())
-      formData.append('sample[film_thickness]', filmThickness.value)
+      formData.append('sample[film_thickness]', filmThickness.value + 'μm')
       formData.append('sample[summary]', summary.value)
       if (image.value) {
         formData.append('sample[image]', image.value)
