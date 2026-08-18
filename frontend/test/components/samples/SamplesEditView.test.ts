@@ -1,5 +1,3 @@
-// コードレビューで指摘された箇所の修正
-
 import SamplesEditView from '@/components/samples/SamplesEditView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
@@ -35,7 +33,7 @@ describe('SamplesEditView', (): void => {
     name: '無電解ニッケルめっき',
     color: 'ゴールド',
     hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
-    film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+    film_thickness: '5μm',
     feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
     summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
     maker_id: 1,
@@ -96,7 +94,7 @@ describe('SamplesEditView', (): void => {
         expect(inputValue('#sample-name')).toBe('無電解ニッケルめっき')
         expect(inputValue('#sample-color')).toBe('ゴールド')
         expect(inputValue('#sample-hardness')).toBe('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
-        expect(inputValue('#sample-film-thickness')).toBe('通常は3～5μm、厚めの場合は20～50μmまで可能')
+        expect(inputValue('#sample-film-thickness')).toBe('5μm')
         expect(inputValue('#sample-feature')).toBe('耐食性・耐摩耗性・耐薬品性・耐熱性')
         expect(inputValue('#sample-summary')).toBe('電気を使わず化学反応で金属表面にニッケルを析出する技術です。')
 
