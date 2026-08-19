@@ -57,6 +57,12 @@ export function useSamplesEdit(emit: Emit) {
         formData.append('sample[image]', image.value)
       }
 
+      const regex = /^\d+(\.\d+)?μm$/
+      if (!regex.test(sample.value.film_thickness)) {
+        errorMessage.value = '入力に不備があります。'
+        return
+      }
+
       const response = await axios.patch(
         `${API_BASE_URL}/makers/${sample.value.maker_id}/samples/${sample.value.id}`,
         formData, { headers: { 'Content-Type': 'multipart/form-data' } }
