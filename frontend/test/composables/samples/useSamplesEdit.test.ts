@@ -137,6 +137,20 @@ describe('useSamplesEdit', (): void => {
           expect(errorMessage.value).toBe('入力に不備があります。')
         })
       })
+
+      describe('film_thickness がバリデーションエラーの場合、', (): void => {
+        it('エラーメッセージを表示して早期リターンする', async (): Promise<void> => {
+          const { sample, errorMessage, sampleUpdate } = useSamplesEdit(emitMock)
+          sample.value = { ...mockResponse, film_thickness: '膜厚は5μmです' }
+
+          await sampleUpdate()
+
+          expect(errorMessage.value).toBe('入力に不備があります。')
+          expect(axios.patch).not.toHaveBeenCalled()
+          expect(replaceMock).not.toHaveBeenCalled()
+          expect(emitMock).not.toHaveBeenCalled()
+        })
+      })
     })
   })
 })
