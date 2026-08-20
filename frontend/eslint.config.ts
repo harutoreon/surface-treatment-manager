@@ -71,6 +71,7 @@ export default [
       security: pluginSecurity,
     },
     rules: {
+      // @ts-expect-error eslint-plugin-vueの型定義がflat configのキーを認識していないため
       ...pluginSecurity.configs["recommended"].rules,
       "security/detect-object-injection": "off",  // 誤検知が多いため無効化
       "security/detect-unsafe-regex": "off",  // 誤検知が多いため無効化
