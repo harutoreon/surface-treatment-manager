@@ -152,7 +152,7 @@ describe('SamplesNewView', (): void => {
             color: 'イエローブラウンシルバー',
             maker: '東亜電化工業株式会社',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
-            film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+            film_thickness: '5μm',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
             image_url: 'http://localhost:3000/electroless_nickel_plating.jpeg',
@@ -168,7 +168,7 @@ describe('SamplesNewView', (): void => {
         await wrapper.find('#sample-color').setValue('イエローブラウンシルバー')
         await wrapper.find('#makers').setValue('東亜電化工業株式会社')
         await wrapper.find('#sample-hardness').setValue('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
-        await wrapper.find('#sample-film-thickness').setValue('通常は3～5μm、厚めの場合は20～50μmまで可能')
+        await wrapper.find('#sample-film-thickness').setValue('5')
         await wrapper.find('#sample-feature').setValue('耐食性・耐摩耗性・耐薬品性・耐熱性')
         await wrapper.find('#sample-summary').setValue('電気を使わず化学反応で金属表面にニッケルを析出する技術です。')
 
@@ -208,7 +208,7 @@ describe('SamplesNewView', (): void => {
         await wrapper.find('#sample-color').setValue('イエローブラウンシルバー')
         await wrapper.find('#makers').setValue('東亜電化工業株式会社')
         await wrapper.find('#sample-hardness').setValue('析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度')
-        await wrapper.find('#sample-film-thickness').setValue('通常は3～5μm、厚めの場合は20～50μmまで可能')
+        await wrapper.find('#sample-film-thickness').setValue('5')
         await wrapper.find('#sample-feature').setValue('耐食性・耐摩耗性・耐薬品性・耐熱性')
         await wrapper.find('#sample-summary').setValue('電気を使わず化学反応で金属表面にニッケルを析出する技術です。')
 

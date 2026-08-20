@@ -49,7 +49,7 @@ describe('useSamplesEdit', (): void => {
             name: '無電解ニッケルめっき',
             color: 'コールド',
             hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
-            film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+            film_thickness: '5μm',
             feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
             summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
             maker_id: 1,
@@ -89,7 +89,7 @@ describe('useSamplesEdit', (): void => {
         name: '無電解ニッケルめっき',
         color: 'コールド',
         hardness: '析出状態の皮膜硬度でHV550～HV700、熱処理後の皮膜硬度はHV950程度',
-        film_thickness: '通常は3～5μm、厚めの場合は20～50μmまで可能',
+        film_thickness: '5μm',
         feature: '耐食性・耐摩耗性・耐薬品性・耐熱性',
         summary: '電気を使わず化学反応で金属表面にニッケルを析出する技術です。',
         maker_id: 1,
@@ -135,6 +135,20 @@ describe('useSamplesEdit', (): void => {
           await sampleUpdate()
 
           expect(errorMessage.value).toBe('入力に不備があります。')
+        })
+      })
+
+      describe('film_thickness がバリデーションエラーの場合、', (): void => {
+        it('エラーメッセージを表示して早期リターンする', async (): Promise<void> => {
+          const { sample, errorMessage, sampleUpdate } = useSamplesEdit(emitMock)
+          sample.value = { ...mockResponse, film_thickness: '膜厚は5μmです' }
+
+          await sampleUpdate()
+
+          expect(errorMessage.value).toBe('入力に不備があります。')
+          expect(axios.patch).not.toHaveBeenCalled()
+          expect(replaceMock).not.toHaveBeenCalled()
+          expect(emitMock).not.toHaveBeenCalled()
         })
       })
     })
