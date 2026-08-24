@@ -1,36 +1,49 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { checkLoginStatus } from '@/components/utils.js'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-const emit = defineEmits(['message'])
+export type NotificationMessage = {
+  type: 'danger'
+  text: string
+}
+
+export type Sample = {
+  id: number
+  name: string
+  feature: string
+  film_thickness: string
+  color: string
+}
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
+const emit = defineEmits<{ message: [payload: NotificationMessage] }>()
 const router = useRouter()
 const route = useRoute()
-const samples = ref([])
-const minFilmThickness = route.query.min_film_thickness
-const maxFilmThickness = route.query.max_film_thickness
+const samples = ref<Sample[]>([])
+const minFilmThickness = route.query.min_film_thickness as string | null
+const maxFilmThickness = route.query.max_film_thickness as string | null
 
-const fetchSamples = async () => {
+const fetchSamples = async (): Promise<void> => {
   try {
     const response = await axios.get(`${API_BASE_URL}/film_thickness_search`, {
       params: { min_film_thickness: minFilmThickness, max_film_thickness: maxFilmThickness },
     })
     samples.value = response.data
   } catch (error) {
-    if (error.response && error.response.status === 404) {
+    if (axios.isAxiosError(error) && error.response?.status === 404) {
       emit('message', { type: 'danger', text: 'サンプルの取得に失敗しました。' })
       router.replace({ name: 'NotFound' })
     }
   }
 }
 
-const searchResultMessage = computed(() => {
+const searchResultMessage = computed((): string => {
   return `${ minFilmThickness } μm から ${ maxFilmThickness } μm の範囲で ${ samples.value.length } 件該当`
 })
 
-onMounted(async () => {
+onMounted(async (): Promise<void> => {
   await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
@@ -45,7 +58,7 @@ onMounted(async () => {
       表面処理の検索結果
     </h3>
 
-    <div class="fs-5 text-center mb-5">
+    <div id="search-result-message" class="fs-5 text-center mb-5">
       {{ searchResultMessage }}
     </div>
 

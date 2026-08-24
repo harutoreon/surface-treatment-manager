@@ -1,17 +1,22 @@
-<script setup>
-import { onMounted, ref} from 'vue'
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
 import { checkLoginStatus } from '@/components/utils.js'
 import { useRouter } from 'vue-router'
 
-const emit = defineEmits(['message'])
-const router = useRouter()
-const filmThickness = ref(0)
-const allowableError = ref(0)
-const minFilmThickness = ref(0)
-const maxFilmThickness = ref(0)
-const errorMessage = ref('')
+type NotificationMessage = {
+  type: 'danger'
+  text: string
+}
 
-const submitSearch = () => {
+const emit = defineEmits<{ message: [payload: NotificationMessage] }>()
+const router = useRouter()
+const filmThickness = ref<number>(0)
+const allowableError = ref<number>(0)
+const minFilmThickness = ref<number>(0)
+const maxFilmThickness = ref<number>(0)
+const errorMessage = ref<string>('')
+
+const submitSearch = (): void => {
   errorMessage.value = ''
 
   if (!filmThickness.value || !allowableError.value) {
@@ -31,7 +36,7 @@ const submitSearch = () => {
   })
 }
 
-onMounted(async () => {
+onMounted(async (): Promise<void> => {
   await checkLoginStatus(() => {
     emit('message', { type: 'danger', text: 'ログインが必要です。' })
     router.push('/')
@@ -53,7 +58,7 @@ onMounted(async () => {
       <label class="form-label text-start">膜厚（μm）</label>
       <input
         id="film-thickness"
-        v-model="filmThickness"
+        v-model.number="filmThickness"
         type="number"
         class="form-control mb-3 shadow-sm"
         min="0"
@@ -62,7 +67,7 @@ onMounted(async () => {
       <label class="form-label">誤差（±μm）</label>
       <input
         id="allowable-error"
-        v-model="allowableError"
+        v-model.number="allowableError"
         type="number"
         class="form-control mb-4 shadow-sm"
         min="0"
