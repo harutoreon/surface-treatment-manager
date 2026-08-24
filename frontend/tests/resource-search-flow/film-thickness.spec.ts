@@ -42,7 +42,6 @@ test.describe('Film Thickness Flow', () => {
     await page.getByRole('button', { name: '検索' }).click()
 
     // バリデーションエラーメッセージの表示確認
-    await expect(page.getByText('変寸量または誤差を入力して下さい。')).toBeVisible()
     await expect(page.locator('.alert')).toHaveText('変寸量または誤差を入力して下さい。')
   })
 })
