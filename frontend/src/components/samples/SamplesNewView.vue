@@ -184,7 +184,7 @@ onMounted(async (): Promise<void> => {
           </label>
           <input
             id="sample-film-thickness"
-            v-model="filmThickness"
+            v-model.number="filmThickness"
             class="form-control mb-3 shadow-sm"
             type="number"
           />
