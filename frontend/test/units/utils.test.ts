@@ -1,22 +1,22 @@
-// 副作用 (Side Effects) の実行
-
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import axios from 'axios'
-import { checkLoginStatus } from '@/components/utils.js'
+import { checkLoginStatus } from '@/components/utils.ts'
 
 vi.mock('axios')
 
-describe('checkLoginStatus', () => {
-  beforeEach(() => {
+describe('checkLoginStatus', (): void => {
+  beforeEach((): void => {
     vi.clearAllMocks()
     localStorage.clear()
     localStorage.setItem('token', 'dummy-token')
   })
 
-  describe('レスポンスのステータスが200の場合', () => {
-    it('Authorization ヘッダーが呼ばれること', async () => {
+  describe('レスポンスのステータスが 200 の場合', (): void => {
+    beforeEach((): void => {
       vi.mocked(axios).get.mockResolvedValue({ status: 200 })
+    })
 
+    it('Authorization ヘッダーが呼ばれること', async (): Promise<void> => {
       const onUnauthorized = vi.fn()
       await checkLoginStatus(onUnauthorized)
 
@@ -28,9 +28,7 @@ describe('checkLoginStatus', () => {
       )
     })
 
-    it('trueが返ること', async () => {
-      vi.mocked(axios).get.mockResolvedValue({ status: 200 })
-
+    it('true が返ること', async (): Promise<void> => {
       const onUnauthorized = vi.fn()
       const loggedIn = await checkLoginStatus(onUnauthorized)
 
@@ -38,27 +36,26 @@ describe('checkLoginStatus', () => {
     })
   })
 
-  describe('レスポンスのステータスが401の場合', () => {
-    it('onUnauthorizedを渡さなくてもエラーにならないこと', async () => {
+  describe('レスポンスのステータスが 401 の場合', (): void => {
+    beforeEach((): void => {
       vi.mocked(axios).get.mockRejectedValue({ response: { status: 401 } })
+      vi.mocked(axios.isAxiosError).mockReturnValue(true)
+    })
 
+    it('onUnauthorized を渡さなくてもエラーにならないこと', async (): Promise<void> => {
       const loggedIn = await checkLoginStatus()
-
       expect(loggedIn).toBe(false)
     })
 
-    it('onUnauthorizedが呼ばれること', async () => {
-      vi.mocked(axios).get.mockRejectedValue({ response: { status: 401 } })
-
+    it('onUnauthorized が呼ばれること', async (): Promise<void> => {
       const onUnauthorized = vi.fn()
+
       await checkLoginStatus(onUnauthorized)
 
       expect(onUnauthorized).toHaveBeenCalled()
     })
 
-    it('falseが返ること', async () => {
-      vi.mocked(axios).get.mockRejectedValue({ response: { status: 401 } })
-
+    it('false が返ること', async (): Promise<void> => {
       const onUnauthorized = vi.fn()
       const loggedIn = await checkLoginStatus(onUnauthorized)
 

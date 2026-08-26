@@ -2,7 +2,9 @@ import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
-export const checkLoginStatus = async (onUnauthorized) => {
+type UnauthorizedCallback = () => void
+
+export const checkLoginStatus = async (onUnauthorized?: UnauthorizedCallback): Promise<boolean>=> {
   const token = localStorage.getItem('token')
   try {
     await axios.get(`${API_BASE_URL}/logged_in`, {
@@ -12,10 +14,10 @@ export const checkLoginStatus = async (onUnauthorized) => {
     })
     return true
   } catch (error) {
-    if (error.response && error.response.status === 401) {
-      if (onUnauthorized) onUnauthorized()
-      // onUnauthorized()  // TypeError: onUnauthorized is not a function
+    if (axios.isAxiosError(error) && error.response?.status === 401) {
+      onUnauthorized?.()
       return false
     }
+    return false
   }
 }
