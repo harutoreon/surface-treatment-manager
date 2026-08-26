@@ -69,6 +69,7 @@ describe('DepartmentsNewView', () => {
   describe('初期レンダリングに失敗した場合', () => {
     beforeEach(async () => {
       vi.mocked(axios.get).mockRejectedValue({ response: { status: 401 } })
+      vi.mocked(axios.isAxiosError).mockReturnValue(true)
 
       wrapper = mountComponent()
       await flushPromises()
