@@ -66,6 +66,7 @@ describe('DepartmentsEditView', () => {
   describe('初期レンダリングに失敗した場合', () => {
     it('ログインページに遷移すること', async () => {
       vi.mocked(axios.get).mockRejectedValue({ response: { status: 401 } })  // ログインチェック
+      vi.mocked(axios.isAxiosError).mockReturnValue(true)
 
       const wrapper = mountComponent()
       await flushPromises()
