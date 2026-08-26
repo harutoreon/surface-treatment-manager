@@ -131,6 +131,7 @@ describe('CommentsNewView', (): void => {
     describe('失敗した場合', (): void => {
       it('エラーメッセージが表示され、ログインページに遷移すること', async (): Promise<void> => {
         vi.mocked(axios.get).mockRejectedValue({ response: { status: 401 } })
+        vi.mocked(axios.isAxiosError).mockReturnValue(true)
 
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
