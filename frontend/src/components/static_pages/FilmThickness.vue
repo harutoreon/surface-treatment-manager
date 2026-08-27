@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { checkLoginStatus } from '@/components/utils.js'
+import { checkLoginStatus } from '@/components/utils.ts'
 import { useRouter } from 'vue-router'
 
 type NotificationMessage = {
