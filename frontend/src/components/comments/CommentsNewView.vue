@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { checkLoginStatus } from '@/components/utils.js'
+import { checkLoginStatus } from '@/components/utils.ts'
 import { useCommentsNew } from '@/composables/comments/useCommentsNew.ts'
 import type { UserResponse, Emit } from '@/composables/comments/useCommentsNew.ts'
 
