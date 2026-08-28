@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, watch, computed } from 'vue'
-import { checkLoginStatus } from '@/components/utils.js'
+import { checkLoginStatus } from '@/components/utils.ts'
 import { useCommentsIndex } from '@/composables/comments/useCommentsIndex.ts'
 import type { Emit } from '@/composables/comments/useCommentsIndex.ts'
 

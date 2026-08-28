@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { checkLoginStatus } from '@/components/utils.js'
+import { checkLoginStatus } from '@/components/utils.ts'
 import { useCommentsShow } from '@/composables/comments/useCommentsShow.ts'
 import { useCommentsDestroy } from '@/composables/comments/useCommentsDestroy.ts'
 import type { Emit } from '@/composables/comments/useCommentsShow.ts'

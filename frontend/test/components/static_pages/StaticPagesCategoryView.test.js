@@ -67,6 +67,8 @@ describe('StaticPagesCategory', () => {
         }
       })
 
+      vi.mocked(axios.isAxiosError).mockReturnValue(true)
+
       wrapper = mountComponent()
       await flushPromises()
 

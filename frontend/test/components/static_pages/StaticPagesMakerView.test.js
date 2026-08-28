@@ -53,6 +53,7 @@ describe('StaticPagesMakerView', () => {
   describe('ログインチェックに失敗した場合', () => {
     it('message イベントが発火し、ログインページに遷移すること', async () => {
       vi.mocked(axios).get.mockRejectedValue({ response: { status: 401 } })  // ログインチェック
+      vi.mocked(axios.isAxiosError).mockReturnValue(true)
 
       wrapper = mountComponent()
       await flushPromises()

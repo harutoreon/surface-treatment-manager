@@ -84,6 +84,7 @@ describe('UsersNewView', () => {
     describe('レンダリングに失敗した場合', () => {
       it('ログインページに遷移すること', async () => {
         vi.mocked(axios.get).mockRejectedValueOnce({ response: { status: 401 }  })
+        vi.mocked(axios.isAxiosError).mockReturnValue(true)
 
         const wrapper =  mountComponent()
         await flushPromises()

@@ -95,6 +95,7 @@ describe('SearchResultsNameView', () => {
   describe('ページのマウントに失敗した場合', () => {
     it('ログインページに遷移すること', async () => {
       axios.get.mockRejectedValue({ response: { status: 401 } })
+      vi.mocked(axios.isAxiosError).mockReturnValue(true)
 
       const wrapper = mount(SearchResultsView, {
         global: {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { checkLoginStatus } from '@/components/utils.js'
+import { checkLoginStatus } from '@/components/utils.ts'
 import { useSamplesNew } from '@/composables/samples/useSamplesNew.ts'
 import type { Emit } from '@/composables/samples/useSamplesNew.ts'
 

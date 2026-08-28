@@ -2,7 +2,7 @@
 import { useRoute, useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import { checkLoginStatus } from '@/components/utils.js'
+import { checkLoginStatus } from '@/components/utils.ts'
 import { Modal } from 'bootstrap'
 import { useSamplesShow } from '@/composables/samples/useSamplesShow.ts'
 import { useSamplesDestroy } from '@/composables/samples/useSamplesDestroy.ts'

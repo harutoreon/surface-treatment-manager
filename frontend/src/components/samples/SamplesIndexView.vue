@@ -2,7 +2,7 @@
 import {onMounted, watch} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useSamplesIndex } from '@/composables/samples/useSamplesIndex.ts'
-import { checkLoginStatus } from '@/components/utils.js'
+import { checkLoginStatus } from '@/components/utils.ts'
 import type { Emit } from '@/composables/samples/useSamplesIndex.ts'
 
 const emit = defineEmits<Emit>()
