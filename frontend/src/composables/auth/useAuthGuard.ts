@@ -1,11 +1,13 @@
 import { useRouter } from 'vue-router'
-import { checkLoginStatus } from '@/components/utils.ts'
+import { checkLoginStatus } from '@/components/utils'
 
-export const useAuthGuard = (emit) => {
+export type Emit = (event: 'message', payload: { type: 'success' | 'danger'; text: string }) => void
+
+export const useAuthGuard = (emit: Emit) => {
   const router = useRouter()
 
   const requireLogin = async (): Promise<boolean> => {
-    return checkLoginStatus(() => {
+    return checkLoginStatus((): void => {
       emit('message', { type: 'danger', text: 'ログインが必要です。' })
       router.push('/')
     })
