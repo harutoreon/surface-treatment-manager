@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios, { AxiosError } from 'axios'
-import { checkLoginStatus } from '@/components/utils.js'
+import { checkLoginStatus } from '@/components/utils.ts'
 
 interface Maker {
   id: string
