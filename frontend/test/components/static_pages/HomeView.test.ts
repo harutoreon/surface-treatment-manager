@@ -1,7 +1,9 @@
 import HomeView from '@/components/static_pages/HomeView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
-import axios from 'axios'
+import { flushPromises, mount, RouterLinkStub, VueWrapper } from '@vue/test-utils'
+import axios, {type AxiosResponse} from 'axios'
+
+type LoggedInResponse = { data: { payload: { user_id: number } } }
 
 const { getItemMock, pushMock } = vi.hoisted(() => {
   return {
@@ -11,7 +13,6 @@ const { getItemMock, pushMock } = vi.hoisted(() => {
 })
 
 vi.mock('axios')
-
 vi.mock('vue-router', () => {
   return {
     useRouter: () => {
@@ -21,15 +22,12 @@ vi.mock('vue-router', () => {
     }
   }
 })
-
 vi.stubGlobal('localStorage', {
   getItem: getItemMock
 })
 
-describe('HomeView', () => {
-  let wrapper
-
-  const mountComponent = () =>
+describe('HomeView', (): void => {
+  const mountComponent = (): VueWrapper =>
     mount(HomeView, {
       global: {
         stubs: {
@@ -38,33 +36,36 @@ describe('HomeView', () => {
       }
     })
 
-  beforeEach(() => {
+  const ADMIN_USER_ID: number = 49
+  const GENERAL_USER_ID: number = 50
+
+  const loginAs = (userId: number): void => {
+    vi.mocked(getItemMock).mockReturnValue('test-token')
+    vi.mocked(axios.get)
+      .mockResolvedValueOnce({ status: 200 } as AxiosResponse)
+      .mockResolvedValueOnce({ data: { payload: { user_id: userId } } } as LoggedInResponse)
+  }
+
+  beforeEach((): void => {
     vi.clearAllMocks()
   })
 
-  describe('ユーザーの種類を問わずログインした場合', () => {
-    beforeEach(async () => {
-      getItemMock.mockReturnValue('test-token')
-
-      const GENERAL_USER_ID = 50  // 代表で一般ユーザーとする
-
-      axios.get.mockResolvedValueOnce({ status: 200 })
-
-      axios.get.mockResolvedValueOnce({
-        data: {
-          payload: { user_id: GENERAL_USER_ID },
-        }
-      })
-
-      wrapper = mountComponent()
-      await flushPromises()
+  describe('ユーザーの種類を問わずログインした場合', (): void => {
+    beforeEach((): void => {
+      loginAs(GENERAL_USER_ID)  // 代表で一般ユーザーでログインする
     })
 
-    it('見出しが表示される', () => {
+    it('見出しが表示される', async (): Promise<void> => {
+      const wrapper: VueWrapper = mountComponent()
+      await flushPromises()
+
       expect(wrapper.find('h3').text()).toBe('メインメニュー')
     })
 
-    it('「アプリケーションの管理」カードが表示される', () => {
+    it('「アプリケーションの管理」カードが表示される', async (): Promise<void> => {
+      const wrapper: VueWrapper = mountComponent()
+      await flushPromises()
+
       const divManageSettings = wrapper.find('#manage-settings')
       const routerLink = divManageSettings.findComponent(RouterLinkStub)
 
@@ -76,18 +77,28 @@ describe('HomeView', () => {
       expect(routerLink.text()).toBe('管理ページへ')
     })
 
-    it('localStorage からトークンを取得する', () => {
+    it('localStorage からトークンを取得する', async (): Promise<void> => {
+      mountComponent()
+      await flushPromises()
+
       expect(getItemMock).toHaveBeenCalledWith('token')
     })
 
-    it('マウント時に handleLogin() が 1 回目に呼び出される', () => {
+    it('マウント時に handleLogin() が 1 回目に呼び出される', async (): Promise<void> => {
+      mountComponent()
+      await flushPromises()
+
       expect(axios.get).toHaveBeenNthCalledWith(
         1,
         expect.stringContaining('logged_in'),
         expect.objectContaining({ headers: { Authorization: 'Bearer test-token' } })
       )
     })
-    it('マウント時に requireLogin() が 2 回目に呼び出される', () => {
+
+    it('マウント時に requireLogin() が 2 回目に呼び出される', async (): Promise<void> => {
+      mountComponent()
+      await flushPromises()
+
       expect(axios.get).toHaveBeenNthCalledWith(
         2,
         expect.stringContaining('logged_in'),
@@ -96,25 +107,15 @@ describe('HomeView', () => {
     })
   })
 
-  describe('一般ユーザーでログインした場合', () => {
-    beforeEach(async () => {
-      getItemMock.mockReturnValue('test-token')
-
-      const GENERAL_USER_ID = 50
-
-      axios.get.mockResolvedValueOnce({ status: 200 })
-
-      axios.get.mockResolvedValueOnce({
-        data: {
-          payload: { user_id: GENERAL_USER_ID },
-        }
-      })
-
-      wrapper = mountComponent()
-      await flushPromises()
+  describe('一般ユーザーでログインした場合', (): void => {
+    beforeEach((): void => {
+      loginAs(GENERAL_USER_ID)
     })
 
-    it('「処理名で検索」カードが表示される', () => {
+    it('「処理名で検索」カードが表示される', async (): Promise<void> => {
+      const wrapper: VueWrapper = mountComponent()
+      await flushPromises()
+
       const divSearchName = wrapper.find('#search-name')
       const routerLink = divSearchName.findComponent(RouterLinkStub)
 
@@ -126,7 +127,10 @@ describe('HomeView', () => {
       expect(routerLink.text()).toBe('検索ページへ')
     })
 
-    it('「カテゴリーで検索」カードが表示される', () => {
+    it('「カテゴリーで検索」カードが表示される', async (): Promise<void> => {
+      const wrapper: VueWrapper = mountComponent()
+      await flushPromises()
+
       const divSearchCategory = wrapper.find('#search-category')
       const routerLink = divSearchCategory.findComponent(RouterLinkStub)
 
@@ -138,7 +142,10 @@ describe('HomeView', () => {
       expect(routerLink.text()).toBe('検索ページへ')
     })
 
-    it('「メーカー名で検索」カードが表示される', () => {
+    it('「メーカー名で検索」カードが表示される', async (): Promise<void> => {
+      const wrapper: VueWrapper = mountComponent()
+      await flushPromises()
+
       const divSearchMaker = wrapper.find('#search-maker')
       const routerLink = divSearchMaker.findComponent(RouterLinkStub)
 
@@ -150,7 +157,10 @@ describe('HomeView', () => {
       expect(routerLink.text()).toBe('検索ページへ')
     })
 
-    it('「処理一覧から検索」カードが表示される', () => {
+    it('「処理一覧から検索」カードが表示される', async (): Promise<void> => {
+      const wrapper: VueWrapper = mountComponent()
+      await flushPromises()
+
       const divSearchList = wrapper.find('#search-list')
       const routerLink = divSearchList.findComponent(RouterLinkStub)
 
@@ -162,7 +172,10 @@ describe('HomeView', () => {
       expect(routerLink.text()).toBe('検索ページへ')
     })
 
-    it('「変寸量で検索」カードが表示される', () => {
+    it('「変寸量で検索」カードが表示される', async (): Promise<void> => {
+      const wrapper: VueWrapper = mountComponent()
+      await flushPromises()
+
       const div = wrapper.find('#search-film-thickness')
       const routerLink = div.findComponent(RouterLinkStub)
 
@@ -175,25 +188,15 @@ describe('HomeView', () => {
     })
   })
 
-  describe('管理者ユーザーでログインした場合', () => {
-    beforeEach(async () => {
-      getItemMock.mockReturnValue('test-token')
-
-      const ADMIN_USER_ID = 49
-
-      axios.get.mockResolvedValueOnce({ status: 200 })
-
-      axios.get.mockResolvedValueOnce({
-        data: {
-          payload: { user_id: ADMIN_USER_ID },
-        }
-      })
-
-      wrapper = mountComponent()
-      await flushPromises()
+  describe('管理者ユーザーでログインした場合', (): void => {
+    beforeEach((): void => {
+      loginAs(ADMIN_USER_ID)
     })
 
-    it('「表面処理の管理」カードが表示される', () => {
+    it('「表面処理の管理」カードが表示される', async (): Promise<void> => {
+      const wrapper: VueWrapper = mountComponent()
+      await flushPromises()
+
       const divManageSamples = wrapper.find('#manage-samples')
       const routerLink = divManageSamples.findComponent(RouterLinkStub)
 
@@ -205,7 +208,10 @@ describe('HomeView', () => {
       expect(routerLink.text()).toBe('管理ページへ')
     })
 
-    it('「カテゴリーの管理」カードが表示される', () => {
+    it('「カテゴリーの管理」カードが表示される', async (): Promise<void> => {
+      const wrapper: VueWrapper = mountComponent()
+      await flushPromises()
+
       const divManageCategories = wrapper.find('#manage-categories')
       const routerLink = divManageCategories.findComponent(RouterLinkStub)
 
@@ -217,7 +223,10 @@ describe('HomeView', () => {
       expect(routerLink.text()).toBe('管理ページへ')
     })
 
-    it('「メーカーの管理」カードが表示される', () => {
+    it('「メーカーの管理」カードが表示される', async (): Promise<void> => {
+      const wrapper: VueWrapper = mountComponent()
+      await flushPromises()
+
       const divManageMakers = wrapper.find('#manage-makers')
       const routerLink = divManageMakers.findComponent(RouterLinkStub)
 
@@ -229,7 +238,10 @@ describe('HomeView', () => {
       expect(routerLink.text()).toBe('管理ページへ')
     })
 
-    it('「ユーザーの管理」カードが表示される', () => {
+    it('「ユーザーの管理」カードが表示される', async (): Promise<void> => {
+      const wrapper: VueWrapper = mountComponent()
+      await flushPromises()
+
       const divManageUsers = wrapper.find('#manage-users')
       const routerLink = divManageUsers.findComponent(RouterLinkStub)
 
@@ -241,7 +253,10 @@ describe('HomeView', () => {
       expect(routerLink.text()).toBe('管理ページへ')
     })
 
-    it('「部署の管理」カードが表示される', () => {
+    it('「部署の管理」カードが表示される', async (): Promise<void> => {
+      const wrapper: VueWrapper = mountComponent()
+      await flushPromises()
+
       const divManageDepartments = wrapper.find('#manage-departments')
       const routerLink = divManageDepartments.findComponent(RouterLinkStub)
 
@@ -253,7 +268,10 @@ describe('HomeView', () => {
       expect(routerLink.text()).toBe('管理ページへ')
     })
 
-    it('「コメントの管理」カードが表示される', () => {
+    it('「コメントの管理」カードが表示される', async (): Promise<void> => {
+      const wrapper: VueWrapper = mountComponent()
+      await flushPromises()
+
       const divManageComments = wrapper.find('#manage-comments')
       const routerLink = divManageComments.findComponent(RouterLinkStub)
 
@@ -263,6 +281,22 @@ describe('HomeView', () => {
       expect(divManageComments.find('div div.card-text').text()).toBe('コメントに関する情報を一括管理します。')
       expect(routerLink.props().to).toBe('/comments')
       expect(routerLink.text()).toBe('管理ページへ')
+    })
+  })
+
+  describe('未ログイン状態でページをマウントした場合', (): void => {
+    it('エラーメッセージ付きでログインページに遷移する', async (): Promise<void> => {
+      vi.mocked(getItemMock).mockReturnValue(undefined)
+      vi.mocked(axios.get).mockRejectedValueOnce({ response: { status: 401 } })
+      vi.mocked(axios.isAxiosError).mockReturnValue(true)
+
+      const wrapper: VueWrapper = mountComponent()
+      await flushPromises()
+
+      expect(wrapper.emitted('message')[0][0]).toEqual(
+        expect.objectContaining({ text: 'ログインが必要です。', type: 'danger' })
+      )
+      expect(pushMock).toHaveBeenCalledWith('/')
     })
   })
 })

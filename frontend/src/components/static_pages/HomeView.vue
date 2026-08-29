@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue'
 import experimentIcon from '@/assets/icons/experiment.svg'
 import categoryIcon from '@/assets/icons/category.svg'
@@ -14,11 +14,19 @@ import commentIcon from '@/assets/icons/comment.svg'
 import filmThickness from '@/assets/icons/film_thickness.svg'
 import CardComponent from '@/components/static_pages/CardComponent.vue'
 import { useHome } from '@/composables/useHome.js'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
+import type { Emit } from '@/composables/auth/useAuthGuard'
 
+const emit = defineEmits<Emit>()
 const { isAdmin, containerSize, handleLogin } = useHome()
+const { requireLogin } = useAuthGuard(emit)
 
 onMounted(async () => {
-  await handleLogin()
+  const loggedIn = await requireLogin()
+
+  if (loggedIn) {
+    await handleLogin()
+  }
 })
 </script>
 
