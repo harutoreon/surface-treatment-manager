@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { useStaticPagesName } from '@/composables/useStaticPagesName.js'
+import { useStaticPagesName } from '@/composables/static_pages/useStaticPagesName'
 import { useRouter } from 'vue-router'
 
 vi.mock('vue-router')

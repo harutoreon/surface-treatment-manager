@@ -37,6 +37,9 @@ describe('StaticPagesNameView', () => {
     })
   
     it('検索フォームが表示されること', () => {
+      // ラベル要素
+      expect(wrapper.find('label').text()).toBe('検索キーワード')
+
       // フォーム要素
       expect(wrapper.find('form').exists()).toBe(true)
 

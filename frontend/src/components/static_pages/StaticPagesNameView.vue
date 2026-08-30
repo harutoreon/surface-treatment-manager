@@ -1,7 +1,16 @@
-<script setup>
-import { useStaticPagesName } from '@/composables/useStaticPagesName.js'
+<script setup lang="ts">
+import { onMounted } from 'vue'
+import { useStaticPagesName } from '@/composables/static_pages/useStaticPagesName'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
+import type { Emit } from '@/composables/auth/useAuthGuard'
 
+const emit = defineEmits<Emit>()
 const { errorMessage, keyword, submitSearch } = useStaticPagesName()
+const { requireLogin } = useAuthGuard(emit)
+
+onMounted(async () => {
+  await requireLogin()
+})
 </script>
 
 <template>
@@ -15,7 +24,11 @@ const { errorMessage, keyword, submitSearch } = useStaticPagesName()
     </p>
 
     <form @submit.prevent="submitSearch">
+      <label for="keyword" class="form-label d-flex justify-content-start ms-1">
+        検索キーワード
+      </label>
       <input
+        id="keyword"
         v-model="keyword"
         type="text"
         class="form-control mb-3 shadow-sm"
