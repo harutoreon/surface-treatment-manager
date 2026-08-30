@@ -13,7 +13,7 @@ import department from '@/assets/icons/department.svg'
 import commentIcon from '@/assets/icons/comment.svg'
 import filmThickness from '@/assets/icons/film_thickness.svg'
 import CardComponent from '@/components/static_pages/CardComponent.vue'
-import { useHome } from '@/composables/useHome.js'
+import { useHome } from '@/composables/static_pages/useHome'
 import { useAuthGuard } from '@/composables/auth/useAuthGuard'
 import type { Emit } from '@/composables/auth/useAuthGuard'
 

@@ -1,7 +1,8 @@
 import HomeView from '@/components/static_pages/HomeView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub, VueWrapper } from '@vue/test-utils'
-import axios, {type AxiosResponse} from 'axios'
+import axios from 'axios'
+import type { AxiosResponse } from 'axios'
 
 type LoggedInResponse = { data: { payload: { user_id: number } } }
 
