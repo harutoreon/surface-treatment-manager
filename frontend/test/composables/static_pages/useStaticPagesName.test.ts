@@ -1,52 +1,42 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useStaticPagesName } from '@/composables/static_pages/useStaticPagesName'
-import { useRouter } from 'vue-router'
 
-vi.mock('vue-router')
+const { pushMock } = vi.hoisted(() => {
+  return {
+    pushMock: vi.fn()
+  }
+})
 
-describe('useStaticPagesName', () => {
-  describe('初期状態の検証', () => {
-    it('keyword の初期値が空文字であること', () => {
+vi.mock('vue-router', () => {
+  return {
+    useRouter: () => {
+      return {
+        push: pushMock,
+      }
+    }
+  }
+})
+
+describe('useStaticPagesName', (): void => {
+  beforeEach((): void => {
+    vi.clearAllMocks()
+  })
+
+  describe('初期値の検証', (): void => {
+    it('keyword の初期値が空文字であること', (): void => {
       const { keyword } = useStaticPagesName()
       expect(keyword.value).toBe('')
     })
 
-    it('errorMessage の初期値が空文字であること', () => {
+    it('errorMessage の初期値が空文字であること', (): void => {
       const { errorMessage } = useStaticPagesName()
       expect(errorMessage.value).toBe('')
     })
   })
 
-  describe('ビジネスロジックの実行検証', () => {
-    describe('キーワードが未入力の場合', () => {
-      it('エラーになること', () => {
-        const { errorMessage, keyword, submitSearch } = useStaticPagesName()
-        keyword.value = ''
-        submitSearch()
-
-        expect(errorMessage.value).toBe('キーワードが未入力です')
-      })
-    })
-
-    describe('キーワードが空文字の場合', () => {
-      it('エラーになること', () => {
-        const { errorMessage, keyword, submitSearch } = useStaticPagesName()
-        keyword.value = '  '
-        submitSearch()
-
-        expect(errorMessage.value).toBe('キーワードが未入力です')
-      })
-    })
-
-    describe('キーワードが入力された場合', () => {
-      const pushMock = vi.fn()
-
-      beforeEach(() => {
-        pushMock.mockClear()
-        vi.mocked(useRouter).mockReturnValue({ push: pushMock })
-      })
-
-      it('エラーメッセージがリセットされること', () => {
+  describe('submitSearch', (): void => {
+    describe('キーワードが入力された場合', (): void => {
+      it('一度エラーが出た後、有効なキーワードで再送信するとエラーが解消される', (): void => {
         const { errorMessage, keyword, submitSearch } = useStaticPagesName()
 
         keyword.value = ''
@@ -58,7 +48,7 @@ describe('useStaticPagesName', () => {
         expect(errorMessage.value).toBe('')
       })
 
-      it('SearchResults ルートへ正しいパラメータで遷移すること', () => {
+      it('SearchResults ルートへ正しいパラメータで遷移する', (): void => {
         const { keyword, submitSearch } = useStaticPagesName()
         keyword.value = 'めっき'
         submitSearch()
@@ -68,6 +58,44 @@ describe('useStaticPagesName', () => {
           params: { searchMethod: 'name'},
           query: { keyword: 'めっき' },
         })
+      })
+
+      it('キーワードの前後に空白があっても除去した値で遷移する', (): void => {
+        const { keyword, submitSearch } = useStaticPagesName()
+        keyword.value = ' めっき '
+        submitSearch()
+
+        expect(pushMock).toHaveBeenCalledWith({
+          name: 'SearchResults',
+          params: { searchMethod: 'name'},
+          query: { keyword: 'めっき' },
+        })
+      })
+    })
+
+    describe('キーワードが空文字含めて未入力の場合', (): void => {
+      it('未入力はエラーになる', (): void => {
+        const { errorMessage, keyword, submitSearch } = useStaticPagesName()
+        keyword.value = ''
+        submitSearch()
+
+        expect(errorMessage.value).toBe('キーワードが未入力です')
+      })
+
+      it('空文字はエラーになる', (): void => {
+        const { errorMessage, keyword, submitSearch } = useStaticPagesName()
+        keyword.value = '  '
+        submitSearch()
+
+        expect(errorMessage.value).toBe('キーワードが未入力です')
+      })
+
+      it('SearchResults ルートに遷移しない', (): void => {
+        const { keyword, submitSearch } = useStaticPagesName()
+        keyword.value = ''
+        submitSearch()
+
+        expect(pushMock).not.toHaveBeenCalled()
       })
     })
   })

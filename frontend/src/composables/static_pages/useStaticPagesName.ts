@@ -18,7 +18,7 @@ export function useStaticPagesName() {
     router.push({
       name: 'SearchResults',
       params: { searchMethod: 'name' },
-      query: { keyword: keyword.value }
+      query: { keyword: trimmedKeyword }
     })
   }
 
