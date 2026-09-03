@@ -1,28 +1,28 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue'
-import { useStaticPagesCategory } from '@/composables/useStaticPagesCategory'
+import { useStaticPagesCategory } from '@/composables/static_pages/useStaticPagesCategory'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
+import type { MessageEmit } from '@/env'
 
-const emit = defineEmits(['message'])
-
+const emit = defineEmits<MessageEmit>()
 const {
   errorMessage,
   keyword,
   options,
   fetchCategories,
   submitSearch,
-  loggedIn
 } = useStaticPagesCategory(emit)
+const { requireLogin } = useAuthGuard(emit)
 
 onMounted(async () => {
-  if (await loggedIn) {
-    await fetchCategories()
-  }
+  const loggedIn = await requireLogin()
+  if (loggedIn) await fetchCategories()
 })
 </script>
 
 <template>
-  <div class="container text-center w-25">
-    <h3 class="m-5">
+  <div class="container w-25">
+    <h3 class="text-center m-5">
       カテゴリーで検索
     </h3>
 
@@ -31,6 +31,7 @@ onMounted(async () => {
     </p>
 
     <form @submit.prevent="submitSearch">
+      <label class="form-label ms-1">カテゴリーの選択</label>
       <select v-model="keyword" class="form-select mb-3 shadow-sm">
         <option value="">
           カテゴリーを選択して下さい

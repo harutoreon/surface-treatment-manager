@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useStaticPagesCategory } from '@/composables/static_pages/useStaticPagesCategory'
 import axios from 'axios'
-import type { Emit } from '@/composables/static_pages/useStaticPagesCategory'
+import type { MessageEmit } from '@/env'
 
 const { replaceMock, pushMock } = vi.hoisted(() => {
   return {
@@ -23,7 +23,7 @@ vi.mock('vue-router', () => {
 })
 
 describe('useStaticPagesCategory', (): void => {
-  const emitMock: Emit = vi.fn()
+  const emitMock: MessageEmit = vi.fn()
 
   beforeEach((): void => {
     vi.clearAllMocks()

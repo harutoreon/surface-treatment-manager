@@ -1,15 +1,16 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import type { MessageEmit } from '@/env'
 
 export type Option = {
   id: number
   item: string
 }
-export type Emit = (event: 'message', payload: { type: 'danger', text: string }) => void
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
-export function useStaticPagesCategory(emit: Emit) {
+export function useStaticPagesCategory(emit: MessageEmit) {
   const router = useRouter()
   const keyword = ref<string>('')
   const options = ref<Option[]>([])
