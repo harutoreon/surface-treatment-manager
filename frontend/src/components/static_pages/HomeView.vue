@@ -15,9 +15,9 @@ import filmThickness from '@/assets/icons/film_thickness.svg'
 import CardComponent from '@/components/static_pages/CardComponent.vue'
 import { useHome } from '@/composables/static_pages/useHome'
 import { useAuthGuard } from '@/composables/auth/useAuthGuard'
-import type { Emit } from '@/composables/auth/useAuthGuard'
+import type { MessageEmit } from '@/env'
 
-const emit = defineEmits<Emit>()
+const emit = defineEmits<MessageEmit>()
 const { isAdmin, containerSize, handleLogin } = useHome()
 const { requireLogin } = useAuthGuard(emit)
 

@@ -2,9 +2,9 @@
 import { onMounted } from 'vue'
 import { useStaticPagesName } from '@/composables/static_pages/useStaticPagesName'
 import { useAuthGuard } from '@/composables/auth/useAuthGuard'
-import type { Emit } from '@/composables/auth/useAuthGuard'
+import type { MessageEmit } from '@/env'
 
-const emit = defineEmits<Emit>()
+const emit = defineEmits<MessageEmit>()
 const { errorMessage, keyword, submitSearch } = useStaticPagesName()
 const { requireLogin } = useAuthGuard(emit)
 

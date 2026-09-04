@@ -1,47 +1,55 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { useStaticPagesMaker } from '@/composables/useStaticPagesMaker.js'
+import { useStaticPagesMaker } from '@/composables/static_pages/useStaticPagesMaker'
 import axios from 'axios'
-import { useRouter } from 'vue-router'
+
+const { pushMock } = vi.hoisted(() => {
+  return {
+    pushMock: vi.fn()
+  }
+})
 
 vi.mock('axios')
-vi.mock('vue-router')
+vi.mock('vue-router', () => {
+  return {
+    useRouter: () => {
+      return {
+        push: pushMock,
+      }
+    }
+  }
+})
 
-describe('useStaticPagesMaker', () => {
-  beforeEach(() => {
+describe('useStaticPagesMaker', (): void => {
+  beforeEach((): void => {
     vi.clearAllMocks()
   })
 
-  describe('ref の初期値', () => {
-    it('keyword の初期値が空文字であること', () => {
+  describe('ref の初期値', (): void => {
+    it('keyword の初期値が空文字であること', (): void => {
       const { keyword } = useStaticPagesMaker()
       expect(keyword.value).toBe('')
     })
 
-    it('errorMessage の初期値が空文字であること', () => {
+    it('errorMessage の初期値が空文字であること', (): void => {
       const { errorMessage } = useStaticPagesMaker()
       expect(errorMessage.value).toBe('')
     })
 
-    it('isOpen の初期値が false であること', () => {
+    it('isOpen の初期値が false であること', (): void => {
       const { isOpen } = useStaticPagesMaker()
       expect(isOpen.value).toBe(false)
     })
 
-    it('makers の初期値が空の配列であること', () => {
+    it('makers の初期値が空の配列であること', (): void => {
       const { makers } = useStaticPagesMaker()
       expect(makers.value).toEqual([])
     })
-
-    it('makerList の初期値が空の配列であること', () => {
-      const { makerList } = useStaticPagesMaker()
-      expect(makerList.value).toEqual([])
-    })
   })
 
-  describe('関数のロジック', () => {
-    describe('fetchMakerList', () => {
-      it('関数を実行すると、メーカーリストが取得できること', async () => {
-        vi.mocked(axios).get.mockResolvedValue({
+  describe('関数のロジック', (): void => {
+    describe('fetchMakerList', (): void => {
+      it('関数を実行すると、メーカーリストが取得できること', async (): Promise<void> => {
+        vi.mocked(axios).get.mockResolvedValueOnce({
           data: [
             { id: 1, name: '東亜電化工業株式会社' },
             { id: 2, name: '新星コーティングス' },
@@ -49,14 +57,9 @@ describe('useStaticPagesMaker', () => {
           ]
         })
 
-        const { makerList, makers, fetchMakerList } = useStaticPagesMaker()
+        const { makers, fetchMakerList } = useStaticPagesMaker()
         await fetchMakerList()
 
-        expect(makerList.value).toEqual([
-          { id: 1, name: '東亜電化工業株式会社' },
-          { id: 2, name: '新星コーティングス' },
-          { id: 3, name: '大和表面技術研究所' },
-        ])
         expect(makers.value).toEqual([
           '東亜電化工業株式会社',
           '新星コーティングス',
@@ -65,16 +68,16 @@ describe('useStaticPagesMaker', () => {
       })
     })
 
-    describe('close', () => {
-      beforeEach(() => {
+    describe('close', (): void => {
+      beforeEach((): void => {
         vi.useFakeTimers()
       })
 
-      afterEach(() => {
+      afterEach((): void => {
         vi.useRealTimers()
       })
 
-      it('関数を実行すると、isOpen が false に変更されること', () => {
+      it('関数を実行すると、isOpen が false に変更されること', (): void => {
         const { isOpen, close } = useStaticPagesMaker()
         isOpen.value = true
 
@@ -86,9 +89,9 @@ describe('useStaticPagesMaker', () => {
       })
     })
 
-    describe('filteredList', () => {
-      describe('キーワードが未入力の場合', () => {
-        it('空の配列が返ること', () => {
+    describe('filteredList', (): void => {
+      describe('キーワードが未入力の場合', (): void => {
+        it('空の配列が返ること', (): void => {
           const { keyword, filteredList } = useStaticPagesMaker()
           keyword.value = ''
 
@@ -96,14 +99,14 @@ describe('useStaticPagesMaker', () => {
         })
       })
 
-      describe('正しいキーワードが入力された場合', () => {
-        const sampleMakers = [
+      describe('正しいキーワードが入力された場合', (): void => {
+        const sampleMakers: string[] = [
           '東亜電化工業株式会社',
           '富士理化研磨株式会社',
           'Horizon Vertex Inc.'
         ]
 
-        it('キーワードに一致する複数のメーカーが返ること', () => {
+        it('キーワードに一致する複数のメーカーが返ること', (): void => {
           const { keyword, makers, filteredList } = useStaticPagesMaker()
           makers.value = sampleMakers
 
@@ -114,7 +117,7 @@ describe('useStaticPagesMaker', () => {
           ])
         })
 
-        it('キーワードが大文字でも大文字小文字を無視してフィルタされること', () => {
+        it('キーワードが大文字でも大文字小文字を無視してフィルタされること', (): void => {
           const { keyword, makers, filteredList } = useStaticPagesMaker()
           makers.value = sampleMakers
 
@@ -126,15 +129,15 @@ describe('useStaticPagesMaker', () => {
       })
     })
 
-    describe('select', () => {
-      it('関数に引数を渡すと、引数の値がキーワードとして使えること', () => {
+    describe('select', (): void => {
+      it('関数に引数を渡すと、引数の値がキーワードとして使えること', (): void => {
         const { keyword, select } = useStaticPagesMaker()
         select('キーワード')
 
         expect(keyword.value).toBe('キーワード')
       })
 
-      it('関数に引数を渡すと、isOpen が false に変更されること', () => {
+      it('関数に引数を渡すと、isOpen が false に変更されること', (): void => {
         const { isOpen, select } = useStaticPagesMaker()
         select('キーワード')
 
@@ -142,9 +145,9 @@ describe('useStaticPagesMaker', () => {
       })
     })
 
-    describe('submitSearch', () => {
-      describe('キーワードを未入力で送信した場合', () => {
-        it('エラーになること', () => {
+    describe('submitSearch', (): void => {
+      describe('キーワードを未入力で送信した場合', (): void => {
+        it('エラーになること', (): void => {
           const { keyword, errorMessage, submitSearch } = useStaticPagesMaker()
           keyword.value = ''
           submitSearch()
@@ -153,11 +156,8 @@ describe('useStaticPagesMaker', () => {
         })
       })
 
-      describe('正しいキーワードを送信した場合', () => {
-        it('SearchResults ルートへ正しいパラメータで遷移すること', () => {
-          const pushMock = vi.fn()
-          vi.mocked(useRouter).mockReturnValue({ push: pushMock })
-
+      describe('正しいキーワードを送信した場合', (): void => {
+        it('SearchResults ルートへ正しいパラメータで遷移すること', (): void => {
           const { keyword, submitSearch } = useStaticPagesMaker()
           keyword.value = '東亜'
           submitSearch()
@@ -169,10 +169,7 @@ describe('useStaticPagesMaker', () => {
           })
         })
 
-        it('エラーメッセージがリセットされること', () => {
-          const pushMock = vi.fn()
-          vi.mocked(useRouter).mockReturnValue({ push: pushMock })
-
+        it('エラーメッセージがリセットされること', (): void => {
           const { keyword, errorMessage, submitSearch } = useStaticPagesMaker()
           keyword.value = ''
           submitSearch()

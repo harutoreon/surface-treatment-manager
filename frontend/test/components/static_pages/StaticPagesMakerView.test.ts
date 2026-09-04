@@ -1,12 +1,17 @@
 import StaticPagesMakerView from '@/components/static_pages/StaticPagesMakerView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import type { MakerResponse } from '@/composables/static_pages/useStaticPagesMaker'
 import axios from 'axios'
 
-const pushMock = vi.fn()
+const { pushMock } = vi.hoisted(() => {
+  return {
+    pushMock: vi.fn(),
+  }
+})
 
 vi.mock('axios')
-
 vi.mock('vue-router', () => {
   return {
     useRouter: () => {
@@ -17,14 +22,12 @@ vi.mock('vue-router', () => {
   }
 })
 
-describe('StaticPagesMakerView', () => {
-  let wrapper
-
-  const mockResponse = [
+describe('StaticPagesMakerView', (): void => {
+  const mockResponse: MakerResponse[] = [
     { id: 1, name: '東亜電化工業株式会社' },
   ]
 
-  const mountComponent = () =>
+  const mountComponent = (): VueWrapper =>
     mount(StaticPagesMakerView, {
       global: {
         stubs: {
@@ -37,56 +40,24 @@ describe('StaticPagesMakerView', () => {
     vi.clearAllMocks()
   })
 
-  describe('ログインチェックに成功した場合', () => {
-    it('メーカー名で検索ページに遷移すること', async () => {
-      vi.mocked(axios).get
-        .mockResolvedValueOnce({ status: 200 })         // ログインチェック
-        .mockResolvedValueOnce({ data: mockResponse })  // メーカー一覧の取得
-
-      wrapper = mountComponent()
-      await flushPromises()
-
-      expect(wrapper.find('h3').text()).toBe('メーカー名で検索')
-    })
-  })
-
-  describe('ログインチェックに失敗した場合', () => {
-    it('message イベントが発火し、ログインページに遷移すること', async () => {
-      vi.mocked(axios).get.mockRejectedValue({ response: { status: 401 } })  // ログインチェック
-      vi.mocked(axios.isAxiosError).mockReturnValue(true)
-
-      wrapper = mountComponent()
-      await flushPromises()
-
-      expect(wrapper.emitted('message')).toEqual(
-        [
-          [
-            {
-              'text': 'ログインが必要です。',
-              'type': 'danger'
-            }
-          ]
-        ]
-      )
-      expect(pushMock).toHaveBeenCalledWith('/')
-    })
-  })
-
-  describe('初期レンダリング', () => {
-    beforeEach(async () => {
+  describe('初期レンダリング', (): void => {
+    beforeEach(async (): Promise<void> => {
       vi.mocked(axios).get
         .mockResolvedValueOnce({ status: 200 })         // ログインチェック
         .mockResolvedValueOnce({ data: mockResponse })  // メーカーリストの取得
-
-      wrapper = mountComponent()
-      await flushPromises()
     })
 
-    it('見出し表示されること', () => {
+    it('見出し表示されること', async (): Promise<void> => {
+      const wrapper: VueWrapper = mountComponent()
+      await flushPromises()
+
       expect(wrapper.find('h3').text()).toBe('メーカー名で検索')
     })
 
-    it('検索フォームが表示されること', () => {
+    it('検索フォームが表示されること', async (): Promise<void> => {
+      const wrapper: VueWrapper = mountComponent()
+      await flushPromises()
+
       // フォーム要素
       expect(wrapper.find('form').exists()).toBe(true)
 
@@ -97,7 +68,10 @@ describe('StaticPagesMakerView', () => {
       expect(wrapper.find('button').text()).toBe('検索')
     })
 
-    it('外部リンクが表示されること', () => {
+    it('外部リンクが表示されること', async (): Promise<void> => {
+      const wrapper: VueWrapper = mountComponent()
+      await flushPromises()
+
       const routerLink = wrapper.findComponent(RouterLinkStub)
 
       expect(routerLink.props().to).toBe('/home')
@@ -105,13 +79,13 @@ describe('StaticPagesMakerView', () => {
     })
   })
 
-  describe('キーワードを入力して送信した場合', () => {
-    it('検索結果のページに遷移されること', async () => {
+  describe('キーワードを入力して送信した場合', (): void => {
+    it('検索結果のページに遷移されること', async (): Promise<void> => {
       vi.mocked(axios).get
         .mockResolvedValueOnce({ status: 200 })         // ログインチェック
         .mockResolvedValueOnce({ data: mockResponse })  // メーカーリストの取得
 
-      wrapper = mountComponent()
+      const wrapper: VueWrapper = mountComponent()
       await flushPromises()
 
       await wrapper.find('input').setValue('株式会社')
@@ -125,13 +99,13 @@ describe('StaticPagesMakerView', () => {
     })
   })
 
-  describe('キーワードを未入力で送信した場合', () => {
-    it('エラーメッセージが表示されること', async () => {
+  describe('キーワードを未入力で送信した場合', (): void => {
+    it('エラーメッセージが表示されること', async (): Promise<void> => {
       vi.mocked(axios).get
         .mockResolvedValueOnce({ status: 200 })         // ログインチェック
         .mockResolvedValueOnce({ data: mockResponse })  // メーカーリストの取得
 
-      wrapper = mountComponent()
+      const wrapper: VueWrapper = mountComponent()
       await flushPromises()
 
       await wrapper.find('form').trigger('submit')

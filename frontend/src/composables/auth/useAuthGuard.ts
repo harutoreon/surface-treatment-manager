@@ -1,9 +1,8 @@
 import { useRouter } from 'vue-router'
 import { checkLoginStatus } from '@/components/utils'
+import type { MessageEmit } from '@/env'
 
-export type Emit = (event: 'message', payload: { type: 'success' | 'danger'; text: string }) => void
-
-export const useAuthGuard = (emit: Emit) => {
+export const useAuthGuard = (emit: MessageEmit) => {
   const router = useRouter()
 
   const requireLogin = async (): Promise<boolean> => {

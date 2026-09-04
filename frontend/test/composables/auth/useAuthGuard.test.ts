@@ -1,7 +1,7 @@
 import { useAuthGuard } from '@/composables/auth/useAuthGuard.ts'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import axios from 'axios'
-import type { Emit } from '@/composables/auth/useAuthGuard'
+import type { MessageEmit } from '@/env'
 
 const { pushMock } = vi.hoisted(() => {
   return {
@@ -21,7 +21,7 @@ vi.mock('vue-router', () => {
 })
 
 describe('useAuthGuard', (): void => {
-  const emitMock = vi.fn<Emit>()
+  const emitMock: MessageEmit = vi.fn()
 
   beforeEach((): void => {
     vi.clearAllMocks()
