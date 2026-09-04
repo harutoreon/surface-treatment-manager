@@ -22,9 +22,10 @@ export function useStaticPagesMaker() {
   }
 
   const close = (): void => {
+    const BLUR_CLOSE_DELAY_MS = 100
     window.setTimeout((): void => {
       isOpen.value = false
-    }, 100)
+    }, BLUR_CLOSE_DELAY_MS)
   }
 
   const filteredList = computed(() => {
@@ -36,7 +37,7 @@ export function useStaticPagesMaker() {
     )
   })
 
-  const select = (item): void => {
+  const select = (item: string): void => {
     keyword.value = item
     isOpen.value = false
   }
