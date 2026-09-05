@@ -19,7 +19,7 @@ test.describe('検索結果に戻る機能のフロー', () => {
   test.describe('表面処理情報ページで検索結果に戻るボタンを押したとき', () => {
     test('表面処理の検索結果ページに戻ること', async ({ page }) => {
       // キーワード：「めっき」で検索する
-      await page.getByRole('textbox', { name: 'キーワードをここに入力' }).fill('めっき')
+      await page.locator('#keyword').fill('めっき')
       await page.getByRole('button', { name: '検索' }).click()
 
       // 文字列「めっき」が含まれる表面処理の一覧が表示される

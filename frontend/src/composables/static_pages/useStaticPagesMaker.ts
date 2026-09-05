@@ -1,28 +1,31 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
-import { checkLoginStatus } from '@/components/utils.ts'
+
+export type MakerResponse = {
+  id: number
+  name: string
+}
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
-export function useStaticPagesMaker(emit) {
+export function useStaticPagesMaker() {
   const router = useRouter()
-  const keyword = ref('')
-  const errorMessage = ref('')
-  const isOpen = ref(false)
-  const makers = ref([])
-  const makerList = ref([])
+  const keyword = ref<string>('')
+  const errorMessage = ref<string>('')
+  const isOpen = ref<boolean>(false)
+  const makers = ref<string[]>([])
 
-  const fetchMakerList = async () => {
-    const response = await axios.get(`${API_BASE_URL}/maker_list`)
-    makerList.value = response.data
-    makers.value = makerList.value.map(maker => maker.name)
+  const fetchMakerList = async (): Promise<void> => {
+    const response = await axios.get<MakerResponse[]>(`${API_BASE_URL}/maker_list`)
+    makers.value = response.data.map(maker => maker.name)
   }
 
-  const close = () => {
-    window.setTimeout(() => {
+  const close = (): void => {
+    const BLUR_CLOSE_DELAY_MS = 100
+    window.setTimeout((): void => {
       isOpen.value = false
-    }, 100)
+    }, BLUR_CLOSE_DELAY_MS)
   }
 
   const filteredList = computed(() => {
@@ -34,12 +37,12 @@ export function useStaticPagesMaker(emit) {
     )
   })
 
-  const select = (item) => {
+  const select = (item: string): void => {
     keyword.value = item
     isOpen.value = false
   }
 
-  const submitSearch = () => {
+  const submitSearch = (): void => {
     errorMessage.value = ''
 
     if (!keyword.value) {
@@ -53,22 +56,15 @@ export function useStaticPagesMaker(emit) {
     })
   }
 
-  const loggedIn = checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
-
   return {
     keyword,
     errorMessage,
     isOpen,
     makers,
-    makerList,
     fetchMakerList,
     close,
     filteredList,
     select,
     submitSearch,
-    loggedIn
   }
 }

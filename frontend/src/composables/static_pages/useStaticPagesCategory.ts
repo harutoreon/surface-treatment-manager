@@ -1,29 +1,34 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
-import { checkLoginStatus } from '@/components/utils.ts'
+import type { MessageEmit } from '@/env'
+
+export type Option = {
+  id: number
+  item: string
+}
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
-export function useStaticPagesCategory(emit) {
+export function useStaticPagesCategory(emit: MessageEmit) {
   const router = useRouter()
-  const keyword = ref('')
-  const options = ref([])
-  const errorMessage = ref('')
+  const keyword = ref<string>('')
+  const options = ref<Option[]>([])
+  const errorMessage = ref<string>('')
 
-  const fetchCategories = async () => {
+  const fetchCategories = async (): Promise<void> => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/categories`)
+      const response = await axios.get<Option[]>(`${API_BASE_URL}/categories`)
       options.value = response.data
     } catch (error) {
-      if (error.response && error.response.status === 404) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
         emit('message', { type: 'danger', text: 'カテゴリーの取得に失敗しました。' })
         router.replace({ name: 'NotFound' })
       }
     }
   }
 
-  const submitSearch = () => {
+  const submitSearch = (): void => {
     errorMessage.value = ''
 
     if (!keyword.value) {
@@ -38,17 +43,11 @@ export function useStaticPagesCategory(emit) {
     })
   }
 
-  const loggedIn = checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
-
   return {
     errorMessage,
     keyword,
     options,
     fetchCategories,
     submitSearch,
-    loggedIn
   }
 }

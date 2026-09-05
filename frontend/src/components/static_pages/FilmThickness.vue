@@ -1,20 +1,18 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { checkLoginStatus } from '@/components/utils.ts'
 import { useRouter } from 'vue-router'
+import type { MessageEmit } from '@/env'
+import { useAuthGuard } from "@/composables/auth/useAuthGuard.ts";
 
-type NotificationMessage = {
-  type: 'danger'
-  text: string
-}
-
-const emit = defineEmits<{ message: [payload: NotificationMessage] }>()
+const emit = defineEmits<MessageEmit>()
 const router = useRouter()
 const filmThickness = ref<number>(0)
 const allowableError = ref<number>(0)
 const minFilmThickness = ref<number>(0)
 const maxFilmThickness = ref<number>(0)
 const errorMessage = ref<string>('')
+
+const { requireLogin } = useAuthGuard(emit)
 
 const submitSearch = (): void => {
   errorMessage.value = ''
@@ -37,10 +35,7 @@ const submitSearch = (): void => {
 }
 
 onMounted(async (): Promise<void> => {
-  await checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
+  await requireLogin()
 })
 </script>
 

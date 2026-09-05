@@ -1,8 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue'
-import { useStaticPagesMaker } from '@/composables/useStaticPagesMaker.js'
+import { useStaticPagesMaker } from '@/composables/static_pages/useStaticPagesMaker'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
+import type { MessageEmit } from '@/env'
 
-const emit = defineEmits(['message'])
+const emit = defineEmits<MessageEmit>()
 
 const {
   keyword,
@@ -13,13 +15,12 @@ const {
   filteredList,
   select,
   submitSearch,
-  loggedIn
-} = useStaticPagesMaker(emit)
+} = useStaticPagesMaker()
+const { requireLogin } = useAuthGuard(emit)
 
 onMounted(async () => {
-  if (await loggedIn) {
-    await fetchMakerList()
-  }
+  const loggedIn = await requireLogin()
+  if (loggedIn) await fetchMakerList()
 })
 </script>
 

@@ -1,13 +1,14 @@
-<script setup>
-defineProps({
-  id: String,
-  alt: String,
-  icon: String,
-  cardTitle: String,
-  cardText: String,
-  toAttribute: String,
-  linkText: String
-})
+<script setup lang="ts">
+ export type Props = {
+  id?: string,
+  alt?: string
+  icon?: string
+  cardTitle?: string
+  cardText?: string
+  toAttribute?: string
+  linkText?: string
+}
+defineProps<Props>()
 </script>
 
 <template>

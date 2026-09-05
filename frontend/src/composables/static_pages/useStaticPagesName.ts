@@ -3,13 +3,14 @@ import { useRouter } from 'vue-router'
 
 export function useStaticPagesName() {
   const router = useRouter()
-  const keyword = ref('')
-  const errorMessage = ref('')
+  const keyword = ref<string>('')
+  const errorMessage = ref<string>('')
 
-  const submitSearch = () => {
+  const submitSearch = (): void => {
     errorMessage.value = ''
 
-    if (!keyword.value.trim()) {
+    const trimmedKeyword = keyword.value.trim()
+    if (!trimmedKeyword) {
       errorMessage.value = 'キーワードが未入力です'
       return
     }
@@ -17,7 +18,7 @@ export function useStaticPagesName() {
     router.push({
       name: 'SearchResults',
       params: { searchMethod: 'name' },
-      query: { keyword: keyword.value.trim() }
+      query: { keyword: trimmedKeyword }
     })
   }
 
