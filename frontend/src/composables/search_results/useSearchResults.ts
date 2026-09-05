@@ -3,14 +3,14 @@ import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import type { MessageEmit } from '@/env'
 
-type Sample = {
+export type Sample = {
   id: number
   name: string
   feature: string
   color: string
 }
 
-type DataResponse = {
+export type DataResponse = {
   samples: Sample[]
   keyword: string
 }
