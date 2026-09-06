@@ -1,14 +1,16 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue'
-import { useSearchResultsList } from '@/composables/useSearchResultsList.js'
+import { useSearchResultsList } from '@/composables/search_results/useSearchResultsList'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
+import type { MessageEmit } from '@/env'
 
-const emit = defineEmits(['message'])
-const { samples, loggedIn, fetchSearchResults } = useSearchResultsList(emit)
+const emit = defineEmits<MessageEmit>()
+const { samples, fetchSearchResults } = useSearchResultsList(emit)
+const { requireLogin } = useAuthGuard(emit)
 
 onMounted(async () => {
-  if ( await loggedIn ) {
-    await fetchSearchResults()
-  }
+  const loggedIn = await requireLogin()
+  if (loggedIn) await fetchSearchResults()
 })
 </script>
 

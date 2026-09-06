@@ -1,12 +1,15 @@
-<script setup>
-import {computed, onMounted} from 'vue'
-import { useSearchResults } from '@/composables/useSearchResults.js'
+<script setup lang="ts">
+import { computed, onMounted } from 'vue'
+import { useSearchResults } from '@/composables/search_results/useSearchResults'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
+import type { MessageEmit } from '@/env'
 
-const emit = defineEmits(['message'])
-const { loggedIn, data, samples, searchMethod, fetchSearchResults } = useSearchResults(emit)
+const emit = defineEmits<MessageEmit>()
+const { data, samples, searchMethod, fetchSearchResults } = useSearchResults(emit)
+const { requireLogin } = useAuthGuard(emit)
 
-const searchResultMessage = computed(() => {
-  const keyword = data.value.keyword
+const searchResultMessage = computed((): string => {
+  const keyword = data.value?.keyword
   const count = samples.value.length
 
   return count
@@ -15,9 +18,8 @@ const searchResultMessage = computed(() => {
 })
 
 onMounted(async () => {
-  if ( await loggedIn ) {
-    await fetchSearchResults()
-  }
+  const loggedIn = await requireLogin()
+  if (loggedIn) await fetchSearchResults()
 })
 </script>
 
