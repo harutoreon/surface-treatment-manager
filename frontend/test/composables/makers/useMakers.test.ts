@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { useMakers } from '@/composables/useMakers.ts'
+import { useMakers } from '@/composables/makers/useMakers.ts'
 import axios from 'axios'
 import type { MessageEmit } from '@/env'
-import type { Maker, MakerListResponse } from '@/composables/useMakers.ts'
+import type { Maker, MakerListResponse } from '@/composables/makers/useMakers.ts'
 
 const { replaceMock, pushMock } = vi.hoisted(() => {
   return {
