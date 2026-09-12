@@ -1,25 +1,29 @@
 import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
-import { checkLoginStatus } from '@/components/utils.ts'
+
+export type Department = {
+  id: number
+  name: string
+}
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
-export function useDepartments(emit) {
-  const route = useRoute()
+export function useDepartments(emit: MessageEmit) {
   const router = useRouter()
-  const departments = ref([])
-  const department = ref('')
-  const errorMessage = ref('')
-  const name = ref('')
+  const departments = ref<Department[]>([])
+  const department = ref<Department | null>(null)
+  const errorMessage = ref<string>('')
+  const name = ref<string>('')
 
   // index
-  const fetchDepartmentList = async () => {
+  const fetchDepartmentList = async (): Promise<void> => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/departments`)
+      const response = await axios.get<Department[]>(`${API_BASE_URL}/departments`)
       departments.value = response.data
     } catch (error) {
-      if (error.response && error.response.status === 404) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
         emit('message', { type: 'danger', text: '部署リストの取得に失敗しました。' })
         router.replace({ name: 'NotFound' })
       }
@@ -27,12 +31,12 @@ export function useDepartments(emit) {
   }
 
   // show
-  const fetchDepartmentData = async (id) => {
+  const fetchDepartmentData = async (id: string): Promise<void> => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/departments/${id}`)
+      const response = await axios.get<Department>(`${API_BASE_URL}/departments/${id}`)
       department.value = response.data
     } catch (error) {
-      if (error.response && error.response.status === 404) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
         emit('message', { type: 'danger', text: '部署情報の取得に失敗しました。' })
         router.replace({ name: 'NotFound' })
       }
@@ -40,9 +44,9 @@ export function useDepartments(emit) {
   }
 
   // new, create
-  const departmentRegistration = async () => {
+  const departmentRegistration = async (): Promise<void> => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/departments`, {
+      const response = await axios.post<Department>(`${API_BASE_URL}/departments`, {
         department: {
           name: name.value,
         }
@@ -56,9 +60,11 @@ export function useDepartments(emit) {
   }
 
   // edit, update
-  const departmentUpdate = async () => {
+  const departmentUpdate = async (): Promise<void> => {
+    if (!department.value) return
+
     try {
-      const response = await axios.patch(`${API_BASE_URL}/departments/${department.value.id}`, {
+      const response = await axios.patch<Department>(`${API_BASE_URL}/departments/${department.value.id}`, {
         name: department.value.name,
       })
       department.value = response.data
@@ -69,32 +75,26 @@ export function useDepartments(emit) {
     }
   }
 
-  // delete
-  const handleDelete = async () => {
-    const confirmDelete = window.confirm('本当に削除しますか？')
+  // destroy
+  const handleDelete = async (): Promise<void> => {
+    const confirmDelete: boolean = window.confirm('本当に削除しますか？')
     if (!confirmDelete) return
 
+    if (!department.value) return
+
     try {
-      await axios.delete(`${API_BASE_URL}/departments/${route.params.id}`)
+      await axios.delete<Department>(`${API_BASE_URL}/departments/${department.value.id}`)
       emit('message', { type: 'success', text: '部署情報を1件削除しました。' })
       router.push('/departments')
     } catch (error) {
-      if (error.response && error.response.status === 404) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
         emit('message', { type: 'danger', text: '削除処理に失敗しました。' })
         router.replace({ name: 'NotFound' })
       }
     }
   }
 
-  // login check
-  const loggedIn = checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
-
   return {
-    route,
-    router,
     departments,
     department,
     errorMessage,
@@ -104,6 +104,5 @@ export function useDepartments(emit) {
     handleDelete,
     departmentRegistration,
     departmentUpdate,
-    loggedIn,
   }
 }
