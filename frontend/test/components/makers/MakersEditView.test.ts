@@ -2,10 +2,22 @@ import MakersEditView from '@/components/makers/MakersEditView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import type { VueWrapper } from '@vue/test-utils'
+import type { MessageEmit } from '@/env'
+import type { Maker } from '@/composables/makers/useMakers'
 import axios from 'axios'
 
-const pushMock: ReturnType<typeof vi.fn> = vi.fn()
-const replaceMock: ReturnType<typeof vi.fn> = vi.fn()
+const {
+  requireLoginMock,
+  pushMock,
+  replaceMock
+} = vi.hoisted(() => {
+  return {
+    requireLoginMock: vi.fn(),
+    pushMock: vi.fn(),
+    replaceMock: vi.fn(),
+  }
+})
+
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
@@ -24,38 +36,30 @@ vi.mock('vue-router', () => {
     }
   }
 })
-
-interface Maker {
-  id: number
-  name: string
-  postal_code: string
-  address: string
-  phone_number: string
-  fax_number: string
-  email: string
-  home_page: string
-  manufacturer_rep: string
-}
-
-interface MessageEvent {
-  type: 'danger' | 'success' | 'warning' | 'info'
-  text: string
-}
+vi.mock('@/composables/auth/useAuthGuard', () => {
+  return {
+    useAuthGuard: () => {
+      return {
+        requireLogin: requireLoginMock
+      }
+    }
+  }
+})
 
 describe('MakersEditView', () => {
   const mockResponse: Maker = {
     id: 1,
-    name: '有限会社中野銀行',
-    postal_code: '962-0713',
     address: '東京都渋谷区神南1-2-0',
-    phone_number: '070-3288-2552',
-    fax_number: '070-2623-8399',
     email: 'sample_maker0@example.com',
+    fax_number: '070-2623-8399',
     home_page: 'https://example.com/sample_maker0',
-    manufacturer_rep: '宮本 悠斗'
+    manufacturer_rep: '宮本 悠斗',
+    name: '有限会社中野銀行',
+    phone_number: '070-3288-2552',
+    postal_code: '962-0713',
   }
 
-  const mountComponent = (): VueWrapper => mount(MakersEditView, {
+  const mountComponent = () => mount(MakersEditView, {
     global: {
       stubs: {
         RouterLink: RouterLinkStub
@@ -65,13 +69,12 @@ describe('MakersEditView', () => {
 
   beforeEach((): void => {
     vi.clearAllMocks()
+    requireLoginMock.mockResolvedValue(true)
   })
 
   describe('初期レンダリングに成功した場合', (): void => {
     it('メーカー情報の編集ページが表示されること', async (): Promise<void> => {
-      vi.mocked(axios.get)
-        .mockResolvedValueOnce({ status: 200 })
-        .mockResolvedValueOnce({ data: mockResponse })
+      vi.mocked(axios.get).mockResolvedValueOnce({ data: mockResponse })
 
       const wrapper: VueWrapper = mountComponent()
       await flushPromises()
@@ -111,18 +114,14 @@ describe('MakersEditView', () => {
 
   describe('初期レンダリングに失敗した場合', (): void => {
     it('404ページに遷移すること', async (): Promise<void> => {
-      vi.mocked(axios.get)
-        .mockResolvedValueOnce({ status: 200 })
-        .mockRejectedValueOnce({ response: { status: 404 } })
-
       vi.mocked(axios.isAxiosError).mockReturnValue(true)
+      vi.mocked(axios.get).mockRejectedValueOnce({ response: { status: 404 } })
 
       const wrapper: VueWrapper = mountComponent()
       await flushPromises()
 
-      const emittedMessage = wrapper.emitted<MessageEvent>('message')
-      expect(emittedMessage).toBeTruthy()
-      expect(emittedMessage[0][0]).toEqual(
+      const emittedMessage = wrapper.emitted<MessageEmit>('message')
+      expect(emittedMessage![0][0]).toEqual(
         { type: 'danger', text: 'メーカー情報の取得に失敗しました。' }
       )
       expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
@@ -131,10 +130,7 @@ describe('MakersEditView', () => {
 
   describe('有効な情報を送信した場合', (): void => {
     it('更新に成功すること', async (): Promise<void> => {
-      vi.mocked(axios.get)
-        .mockResolvedValueOnce({ status: 200 })
-        .mockResolvedValueOnce({ data: mockResponse })
-
+      vi.mocked(axios.get).mockResolvedValueOnce({ data: mockResponse })
       vi.mocked(axios.patch).mockResolvedValueOnce({ data: mockResponse })
 
       const wrapper: VueWrapper = mountComponent()
@@ -154,9 +150,8 @@ describe('MakersEditView', () => {
       await wrapper.find('form').trigger('submit')
       await flushPromises()
 
-      const emittedMessage = wrapper.emitted<MessageEvent>('message')
-      expect(emittedMessage).toBeTruthy()
-      expect(emittedMessage[0][0]).toEqual(
+      const emittedMessage = wrapper.emitted<MessageEmit>('message')
+      expect(emittedMessage![0][0]).toEqual(
         { type: 'success', text: 'メーカー情報を更新しました。' }
       )
       expect(pushMock).toHaveBeenCalledWith('/makers/1')
@@ -165,10 +160,7 @@ describe('MakersEditView', () => {
 
   describe('無効な情報を送信した場合', (): void => {
     it('更新に失敗すること', async (): Promise<void> => {
-      vi.mocked(axios.get)
-        .mockResolvedValueOnce({ status: 200 })
-        .mockResolvedValueOnce({ data: mockResponse })
-
+      vi.mocked(axios.get).mockResolvedValueOnce({ data: mockResponse })
       vi.mocked(axios.isAxiosError).mockReturnValue(true)
       vi.mocked(axios.patch).mockRejectedValue({ response: { status: 422 } })
 
@@ -184,9 +176,7 @@ describe('MakersEditView', () => {
 
   describe('キャンセルボタンを押した場合', (): void => {
     it('メーカー情報ページに移動すること', async (): Promise<void> => {
-      vi.mocked(axios.get)
-        .mockResolvedValueOnce({ status: 200 })
-        .mockResolvedValueOnce({ data: mockResponse })
+      vi.mocked(axios.get).mockResolvedValueOnce({ data: mockResponse })
 
       const wrapper: VueWrapper = mountComponent()
       await flushPromises()
