@@ -1,16 +1,11 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useMakers } from '@/composables/useMakers.ts'
+import { useMakers } from '@/composables/makers/useMakers.ts'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
+import type { MessageEmit } from '@/env'
 
-interface MessageEvent {
-  type: 'danger' | 'success' | 'warning' | 'info'
-  text: string
-}
-
-const emit = defineEmits<{
-  message: [payload: MessageEvent]
-}>()
-
+const emit = defineEmits<MessageEmit>()
+const { requireLogin } = useAuthGuard(emit)
 const {
   name,
   postalCode,
@@ -22,11 +17,10 @@ const {
   manufacturerRep,
   errorMessage,
   makerRegistration,
-  loggedIn
 } = useMakers(emit)
 
 onMounted(async (): Promise<void> => {
-  await loggedIn
+  await requireLogin()
 })
 </script>
 
