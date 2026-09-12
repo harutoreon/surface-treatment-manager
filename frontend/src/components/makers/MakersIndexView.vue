@@ -1,17 +1,12 @@
 <script setup lang="ts">
 import { onMounted, watch } from 'vue'
-import { useMakers } from '@/composables/useMakers.ts'
+import { useMakers } from '@/composables/makers/useMakers'
+import type { MessageEmit } from '@/env'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
 
-interface MessageEvent {
-  type: 'danger'
-  text: string
-}
-
-const emit = defineEmits<{
-  message: [payload: MessageEvent]
-}>()
-
-const { route, makers, currentPage, totalPages, fetchMakerList, loggedIn } = useMakers(emit)
+const emit = defineEmits<MessageEmit>()
+const { route, makers, currentPage, totalPages, fetchMakerList } = useMakers(emit)
+const { requireLogin } = useAuthGuard(emit)
 
 const getPageLink = (page: number): { path: string; query: { page: number } } => ({
   path: route.path,
@@ -24,7 +19,8 @@ watch(() => route.query.page, (newPage) => {
 })
 
 onMounted(async (): Promise<void> => {
-  if (await loggedIn) await fetchMakerList()
+  const loggedIn = await requireLogin()
+  if (loggedIn) await fetchMakerList()
 })
 </script>
 

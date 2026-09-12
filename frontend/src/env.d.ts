@@ -4,5 +4,5 @@ interface ImportMetaEnv {
 }
 
 export type MessageEmit = (
-  event: 'message', payload: { type: 'danger', text: string }
+  event: 'message', payload: { type: 'success' | 'danger', text: string }
 ) => void

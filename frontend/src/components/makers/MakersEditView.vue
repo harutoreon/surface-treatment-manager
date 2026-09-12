@@ -1,16 +1,11 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useMakers } from '@/composables/useMakers.ts'
+import { useMakers } from '@/composables/makers/useMakers'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
+import type { MessageEmit } from '@/env'
 
-interface MessageEvent {
-  type: 'danger' | 'success' | 'warning' | 'info'
-  text: string
-}
-
-const emit = defineEmits<{
-  message: [payload: MessageEvent]
-}>()
-
+const emit = defineEmits<MessageEmit>()
+const { requireLogin } = useAuthGuard(emit)
 const {
   route,
   router,
@@ -18,15 +13,15 @@ const {
   errorMessage,
   fetchMakerData,
   makerUpdate,
-  loggedIn
 } = useMakers(emit)
 
 const cancel = (): void => {
-  router.push(`/makers/${maker.value.id as string}`)
+  router.push(`/makers/${route.params.id as string}`)
 }
 
 onMounted(async (): Promise<void> => {
-  if (await loggedIn) await fetchMakerData(route.params.id as string)
+  const loggedIn = await requireLogin()
+  if (loggedIn) await fetchMakerData(route.params.id as string)
 })
 </script>
 

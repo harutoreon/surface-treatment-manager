@@ -2,9 +2,16 @@ import MakersNewView from '@/components/makers/MakersNewView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import type { VueWrapper } from '@vue/test-utils'
+import type { Maker } from '@/composables/makers/useMakers'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
-const pushMock: ReturnType<typeof vi.fn> = vi.fn()
+const { requireLoginMock, pushMock } = vi.hoisted(() => {
+  return {
+    requireLoginMock: vi.fn(),
+    pushMock: vi.fn()
+  }
+})
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
@@ -21,38 +28,30 @@ vi.mock('vue-router', () => {
     }
   }
 })
-
-interface Maker {
-  id: number
-  name: string
-  postal_code: string
-  address: string
-  phone_number: string
-  fax_number: string
-  email: string
-  home_page: string
-  manufacturer_rep: string
-}
-
-interface MessageEvent {
-  type: 'danger' | 'success' | 'warning' | 'info'
-  text: string
-}
+vi.mock('@/composables/auth/useAuthGuard', () => {
+  return {
+    useAuthGuard: () => {
+      return {
+        requireLogin: requireLoginMock,
+      }
+    }
+  }
+})
 
 describe('MakersNewView', () => {
   const mockResponse: Maker = {
     id: 1,
-    name: '有限会社中野銀行',
-    postal_code: '962-0713',
     address: '東京都渋谷区神南1-2-0',
-    phone_number: '070-3288-2552',
-    fax_number: '070-2623-8399',
     email: 'sample_maker0@example.com',
+    fax_number: '070-2623-8399',
     home_page: 'https://example.com/sample_maker0',
-    manufacturer_rep: '宮本 悠斗'
+    manufacturer_rep: '宮本 悠斗',
+    name: '有限会社中野銀行',
+    phone_number: '070-3288-2552',
+    postal_code: '962-0713',
   }
 
-  const mountComponent = (): VueWrapper => mount(MakersNewView, {
+  const mountComponent = () => mount(MakersNewView, {
     global: {
       stubs: {
         RouterLink: RouterLinkStub
@@ -62,13 +61,12 @@ describe('MakersNewView', () => {
 
   beforeEach((): void => {
     vi.clearAllMocks()
+    requireLoginMock.mockResolvedValue(true)
   })
 
   describe('初期レンダリング', (): void => {
     describe('成功した場合', (): void => {
       it('メーカー情報の登録ページが表示されること', async (): Promise<void> => {
-        vi.mocked(axios.get).mockResolvedValue({ status: 200 })
-
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
 
@@ -107,29 +105,11 @@ describe('MakersNewView', () => {
         expect(routerLink.text()).toBe('メーカーリストへ')
       })
     })
-
-    describe('失敗した場合', (): void => {
-      it('ログインページに遷移すること', async (): Promise<void> => {
-        vi.mocked(axios.get).mockRejectedValue({ response: { status: 401 } })
-        vi.mocked(axios.isAxiosError).mockReturnValue(true)
-
-        const wrapper: VueWrapper = mountComponent()
-        await flushPromises()
-
-        const emittedMessage = wrapper.emitted<MessageEvent>('message')
-        expect(emittedMessage).toBeTruthy()
-        expect(emittedMessage[0][0]).toEqual(
-          { type: 'danger', text: 'ログインが必要です。' }
-        )
-        expect(pushMock).toHaveBeenCalledWith('/')
-      })
-    })
   })
 
   describe('メーカー登録', (): void => {
     describe('成功した場合', (): void => {
       it('登録に成功して詳細ページに遷移すること', async (): Promise<void> => {
-        vi.mocked(axios.get).mockResolvedValue({ status: 200 })
         vi.mocked(axios.post).mockResolvedValue({ data: mockResponse })
 
         const wrapper: VueWrapper = mountComponent()
@@ -138,9 +118,8 @@ describe('MakersNewView', () => {
         await wrapper.find('form').trigger('submit')
         await flushPromises()
 
-        const emittedMessage = wrapper.emitted<MessageEvent>('message')
-        expect(emittedMessage).toBeTruthy()
-        expect(emittedMessage[0][0]).toEqual(
+        const emittedMessage = wrapper.emitted<MessageEmit>('message')
+        expect(emittedMessage![0][0]).toEqual(
           { type: 'success', text: 'メーカー情報を1件登録しました。' }
         )
         expect(pushMock).toHaveBeenCalledWith('/makers/1')
@@ -149,7 +128,6 @@ describe('MakersNewView', () => {
 
     describe('失敗した場合', (): void => {
       it('登録に失敗してバリデーションエラーになること', async (): Promise<void> => {
-        vi.mocked(axios.get).mockResolvedValue({ status: 200 })
         vi.mocked(axios.isAxiosError).mockReturnValue(true)
         vi.mocked(axios.post).mockRejectedValue({ response: { status: 422 } })
 

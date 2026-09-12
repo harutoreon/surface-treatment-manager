@@ -1,10 +1,10 @@
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import axios, { AxiosError } from 'axios'
-import { checkLoginStatus } from '@/components/utils.ts'
+import axios from 'axios'
+import type { MessageEmit } from '@/env'
 
-interface Maker {
-  id: string
+export type Maker = {
+  id: number
   address: string
   email: string
   fax_number: string
@@ -15,32 +15,28 @@ interface Maker {
   postal_code: string
 }
 
-interface MakerListResponse {
+export type MakerListResponse = {
   makers: Maker[]
   current_page: number
   total_pages: number
 }
 
-interface Emit {
-  (event: 'message', payload: { type: 'success' | 'danger'; text: string }): void
-}
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
-
-export function useMakers(emit: Emit) {
+export function useMakers(emit: MessageEmit) {
   const route = useRoute()
   const router = useRouter()
 
   const maker = ref<Maker>({
-    id: '',
-    name: '',
-    postal_code: '',
+    id: null,
     address: '',
-    phone_number: '',
-    fax_number: '',
     email: '',
+    fax_number: '',
     home_page: '',
-    manufacturer_rep: ''
+    manufacturer_rep: '',
+    name: '',
+    phone_number: '',
+    postal_code: '',
   })
 
   const makers = ref<Maker[]>([])
@@ -67,8 +63,7 @@ export function useMakers(emit: Emit) {
       currentPage.value = data.current_page
       totalPages.value = data.total_pages
     } catch (error) {
-      const axiosError = error as AxiosError
-      if (axiosError.response?.status === 404) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
         emit('message', { type: 'danger', text: 'メーカーリストの取得に失敗しました。' })
         router.replace({ name: 'NotFound' })
       }
@@ -81,8 +76,7 @@ export function useMakers(emit: Emit) {
       const response = await axios.get<Maker>(`${API_BASE_URL}/makers/${id}`)
       maker.value = response.data
     } catch (error) {
-      const axiosError = error as AxiosError
-      if (axiosError.response?.status === 404) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
         emit('message', { type: 'danger', text: 'メーカー情報の取得に失敗しました。' })
         router.replace({ name: 'NotFound' })
       }
@@ -147,19 +141,12 @@ export function useMakers(emit: Emit) {
       emit('message', { type: 'success', text: 'メーカー情報を1件削除しました。' })
       router.push('/makers')
     } catch (error) {
-      const axiosError = error as AxiosError
-      if (axiosError.response?.status === 404) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
         emit('message', { type: 'danger', text: 'メーカー情報の削除処理に失敗しました。' })
         router.replace({ name: 'NotFound' })
       }
     }
   }
-
-  // login check
-  const loggedIn = checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
 
   return {
     router,
@@ -182,7 +169,6 @@ export function useMakers(emit: Emit) {
     makerRegistration,
     makerUpdate,
     handleDelete,
-    loggedIn,
   }
 }
 
