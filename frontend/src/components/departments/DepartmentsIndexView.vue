@@ -1,14 +1,17 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue'
-import { useDepartments } from '@/composables/useDepartments.js'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
+import { useDepartments } from '@/composables/departments/useDepartments'
+import type { MessageEmit } from '@/env'
 
-const emit = defineEmits(['message'])
-const { departments, fetchDepartmentList, loggedIn } = useDepartments(emit)
+const emit = defineEmits<MessageEmit>()
+const { requireLogin } = useAuthGuard(emit)
+const { departments, fetchDepartmentList } = useDepartments(emit)
+
 
 onMounted(async () => {
-  if (await loggedIn) {
-    await fetchDepartmentList()
-  }
+  const loggedIn = requireLogin()
+  if (loggedIn) await fetchDepartmentList()
 })
 </script>
 
