@@ -1,14 +1,15 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue'
-import { useDepartments } from '@/composables/useDepartments.js'
+import { useDepartments } from '@/composables/departments/useDepartments'
+import type { MessageEmit } from '@/env'
+import { useRoute } from "vue-router";
 
-const emit = defineEmits(['message'])
-const { route, department, fetchDepartmentData, handleDelete, loggedIn } = useDepartments(emit)
+const emit = defineEmits<MessageEmit>()
+const route = useRoute()
+const { department, fetchDepartmentData, handleDelete } = useDepartments(emit)
 
 onMounted(async () => {
-  if (await loggedIn) {
-    await fetchDepartmentData(route.params.id)
-  }
+  await fetchDepartmentData(route.params.id as string)
 })
 </script>
 
@@ -18,7 +19,7 @@ onMounted(async () => {
       部署情報
     </h3>
 
-    <ul class="list-group mb-5 shadow-sm">
+    <ul v-if="department" class="list-group mb-5 shadow-sm">
       <li class="d-flex justify-content-between list-group-item">
         <span>部署名 :</span>
         <div>{{ department.name }}</div>
@@ -27,7 +28,7 @@ onMounted(async () => {
 
     <ul class="nav justify-content-evenly">
       <li class="nav-item">
-        <RouterLink v-if="department.id" :to="`/departments/${department.id}/edit`">
+        <RouterLink v-if="department?.id" :to="`/departments/${department.id}/edit`">
           部署情報の編集へ
         </RouterLink>
       </li>
