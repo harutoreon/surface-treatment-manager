@@ -1,18 +1,24 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue'
-import { useDepartments } from '@/composables/useDepartments.js'
+import { useDepartments } from '@/composables/departments/useDepartments'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
+import type { MessageEmit } from '@/env'
+import { useRoute, useRouter } from 'vue-router'
 
-const emit = defineEmits(['message'])
-const { route, router, department, errorMessage, fetchDepartmentData, departmentUpdate, loggedIn } = useDepartments(emit)
+const emit = defineEmits<MessageEmit>()
+const route = useRoute()
+const router = useRouter()
+
+const { requireLogin } = useAuthGuard(emit)
+const { department, errorMessage, fetchDepartmentData, departmentUpdate } = useDepartments(emit)
 
 const cancel = () => {
   router.push(`/departments/${department.value.id}`)
 }
 
 onMounted(async () => {
-  if (await loggedIn) {
-    await fetchDepartmentData(route.params.id)
-  }
+  const loggedIn = await requireLogin()
+  if (loggedIn) await fetchDepartmentData(route.params.id as string)
 })
 </script>
 
@@ -22,7 +28,7 @@ onMounted(async () => {
       部署情報の編集
     </h3>
 
-    <form @submit.prevent="departmentUpdate">
+    <form v-if="department" @submit.prevent="departmentUpdate">
       <label class="form-label" for="department-name">
         部署名
       </label>
