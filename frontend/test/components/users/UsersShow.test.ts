@@ -105,10 +105,6 @@ describe('UsersShowView', (): void => {
 
         expect(editLink.text()).toBe('ユーザー情報の編集')
         expect(listLink.text()).toBe('ユーザーリスト')
-
-        // useUsersDestroy の実装時に解放する
-        // 削除ボタン
-        // expect(wrapper.find('button').text()).toBe('ユーザーの削除')
       })
     })
 

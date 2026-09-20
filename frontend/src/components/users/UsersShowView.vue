@@ -3,6 +3,7 @@ import { onMounted } from 'vue'
 import { useUsersShow } from '@/composables/users/useUsersShow'
 import { useUserComments } from '@/composables/users/useUserComments'
 import { useAuthGuard } from '@/composables/auth/useAuthGuard'
+import UsersDestroyView from '@/components/users/UsersDestroyView.vue'
 import type { MessageEmit } from '@/env'
 import { useRoute } from "vue-router";
 
@@ -57,15 +58,6 @@ onMounted(async () => {
       </li>
     </ul>
 
-    <!-- useUsersDestroy の実装時に解放する -->
-    <!-- <div class="d-flex justify-content-end mt-5">
-      <button
-        class="btn btn-outline-danger shadow-sm"
-        type="button"
-        @click="handleDelete"
-      >
-        ユーザーの削除
-      </button>
-    </div> -->
+    <UsersDestroyView @message="emit('message', $event)" />
   </div>
 </template>
