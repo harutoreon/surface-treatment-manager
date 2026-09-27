@@ -60,8 +60,10 @@ export function useUsersNew(emit: MessageEmit) {
       newUser.value = response.data
       emit('message', { type: 'success', text: 'ユーザー情報を登録しました。' })
       router.push(`/users/${newUser.value.id}`)
-    } catch {
-      errorMessage.value = '入力に不備があります。'
+    } catch(error) {
+      if (axios.isAxiosError(error) && error.response?.status === 422) {
+        errorMessage.value = '入力に不備があります。'
+      }
     }
   }
 

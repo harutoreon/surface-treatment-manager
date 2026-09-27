@@ -1,22 +1,25 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue'
-import { useUsers } from '@/composables/useUsers.js'
+import { useUsersNew } from '@/composables/users/useUsersNew'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
+import type { MessageEmit } from '@/env'
 
-const emit = defineEmits(['message'])
+const emit = defineEmits<MessageEmit>()
 const {
   name,
   department,
   password,
   passwordConfirmation,
-  options,
   errorMessage,
+  departmentOptions,
   fetchDepartments,
   userRegistration,
-  loggedIn
-} = useUsers(emit)
+} = useUsersNew(emit)
+const { requireLogin } = useAuthGuard(emit)
 
 onMounted(async () => {
-  if (await loggedIn) await fetchDepartments()
+  const loggedIn = await requireLogin()
+  if (loggedIn) await fetchDepartments()
 })
 </script>
 
@@ -50,7 +53,7 @@ onMounted(async () => {
         <option value="">
           部署名を選択して下さい
         </option>
-        <option v-for="option in options" :key="option.id" :value="option.name">
+        <option v-for="option in departmentOptions" :key="option.id" :value="option.name">
           {{ option.name }}
         </option>
       </select>
@@ -85,7 +88,7 @@ onMounted(async () => {
     <p v-if="errorMessage" class="alert alert-danger mt-4" role="alert">
       {{ errorMessage }}
     </p>
-    
+
     <ul class="nav justify-content-center">
       <li class="nav-item">
         <RouterLink to="/users">

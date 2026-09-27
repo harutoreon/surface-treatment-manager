@@ -149,7 +149,7 @@ describe('useUsersNew', (): void => {
     describe('リクエストに失敗した場合', (): void => {
       it('バリデーションエラーになること', async (): Promise<void> => {
         vi.mocked(axios.isAxiosError).mockReturnValue(true)
-        vi.mocked(axios.post).mockRejectedValueOnce({ response: { status: 404 } })
+        vi.mocked(axios.post).mockRejectedValueOnce({ response: { status: 422 } })
 
         const { errorMessage, userRegistration } = useUsersNew(emitMock)
         await userRegistration()

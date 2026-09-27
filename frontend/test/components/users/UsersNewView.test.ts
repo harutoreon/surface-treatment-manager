@@ -1,30 +1,42 @@
 import UsersNewView from '@/components/users/UsersNewView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
+import type { DepartmentResponse } from '@/composables/users/useUsersNew'
+import type { VueWrapper } from '@vue/test-utils'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
-const pushMock = vi.fn()
-const replaceMock = vi.fn()
+const { requireLoginMock, pushMock, replaceMock } = vi.hoisted(() => {
+  return {
+    requireLoginMock: vi.fn(),
+    pushMock: vi.fn(),
+    replaceMock: vi.fn(),
+  }
+})
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
   return {
-    useRoute: () => {
-      return {
-        query: vi.fn()
-      }
-    },
     useRouter: () => {
       return {
         push: pushMock,
-        replace: replaceMock
+        replace: replaceMock,
+      }
+    }
+  }
+})
+vi.mock('@/composables/auth/useAuthGuard', () =>{
+  return {
+    useAuthGuard: () => {
+      return {
+        requireLogin: requireLoginMock,
       }
     }
   }
 })
 
-describe('UsersNewView', () => {
-  const mockResponse = [
+describe('UsersNewView', (): void => {
+  const mockResponse: DepartmentResponse[] = [
     { id: 1, name: '品質管理部' },
   ]
 
@@ -36,18 +48,17 @@ describe('UsersNewView', () => {
     }
   })
 
-  beforeEach(() => {
-    vi.clearAllMocks()
+  beforeEach((): void => {
+    vi.resetAllMocks()
+    requireLoginMock.mockResolvedValue(true)
   })
 
-  describe('初期レンダリング', () => {
-    describe('レンダリングに成功した場合', () => {
-      it('ユーザー情報の登録ページが表示されること', async () => {
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
-          .mockResolvedValueOnce({ data: mockResponse })
+  describe('初期レンダリング', (): void => {
+    describe('レンダリングに成功した場合', (): void => {
+      it('ユーザー情報の登録ページが表示されること', async (): Promise<void> => {
+        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockResponse })  // fetchDepartments()
 
-        const wrapper = mountComponent()
+        const wrapper: VueWrapper = mountComponent()
         await flushPromises()
 
         // 見出し
@@ -81,32 +92,30 @@ describe('UsersNewView', () => {
       })
     })
 
-    describe('レンダリングに失敗した場合', () => {
-      it('ログインページに遷移すること', async () => {
-        vi.mocked(axios.get).mockRejectedValueOnce({ response: { status: 401 }  })
+    describe('レンダリングに失敗した場合', (): void => {
+      it('ログインページに遷移すること', async (): Promise<void> => {
         vi.mocked(axios.isAxiosError).mockReturnValue(true)
+        vi.mocked(axios.get).mockRejectedValueOnce({ response: { status: 404 }  })  // fetchDepartments()
 
-        const wrapper =  mountComponent()
+        const wrapper: VueWrapper =  mountComponent()
         await flushPromises()
 
-        expect(wrapper.emitted('message')).toBeTruthy()
-        expect(wrapper.emitted('message')[0]).toEqual([
-          { type: 'danger', text: 'ログインが必要です。' }
-        ])
-        expect(pushMock).toHaveBeenCalledWith('/')
+        const emittedMessage = wrapper.emitted<MessageEmit>('message')
+        expect(emittedMessage).toHaveLength(1)
+        expect(emittedMessage?.[0][0]).toEqual(
+          { type: 'danger', text: '部署名の取得に失敗しました。' }
+        )
+        expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
       })
     })
   })
 
 
-  describe('ユーザー登録', () => {
-    describe('有効な情報を送信した場合', () => {
-      it('登録に成功すること', async () => {
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
-          .mockResolvedValueOnce({ data: mockResponse })
-
-        vi.mocked(axios.post).mockResolvedValue({
+  describe('ユーザー登録', (): void => {
+    describe('有効な情報を送信した場合', (): void => {
+      it('登録に成功すること', async (): Promise<void> => {
+        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockResponse })  // fetchDepartments()
+        vi.mocked(axios.post).mockResolvedValueOnce({
           data: {
             id: 1,
             name: '渡辺 陸斗',
@@ -114,7 +123,7 @@ describe('UsersNewView', () => {
           }
         })
 
-        const wrapper = mountComponent()
+        const wrapper: VueWrapper = mountComponent()
         await flushPromises()
 
         await wrapper.find('#user-name').setValue('渡辺 陸斗')
@@ -125,28 +134,26 @@ describe('UsersNewView', () => {
         await wrapper.find('form').trigger('submit')
         await flushPromises()
 
-        expect(wrapper.emitted('message')).toBeTruthy()
-        expect(wrapper.emitted('message')[0]).toEqual([
+        const emittedMessage = wrapper.emitted<MessageEmit>('message')
+        expect(emittedMessage).toHaveLength(1)
+        expect(emittedMessage?.[0][0]).toEqual(
           { type: 'success', text: 'ユーザー情報を登録しました。' }
-        ])
+        )
 
         expect(pushMock).toHaveBeenCalledWith('/users/1')
       })
     })
 
-    describe('無効な情報を送信した場合', () => {
-      it('登録に失敗すること', async () => {
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
-          .mockResolvedValueOnce({ data: mockResponse })
+    describe('無効な情報を送信した場合', (): void => {
+      it('登録に失敗すること', async (): Promise<void> => {
+        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockResponse })  // fetchDepartments()
+        vi.mocked(axios.isAxiosError).mockReturnValue(true)
+        vi.mocked(axios.post).mockRejectedValueOnce({ response: { status: 422 } })
 
-        vi.mocked(axios.post).mockRejectedValue({ response: { status: 422 } })
-
-        const wrapper = mountComponent()
+        const wrapper: VueWrapper = mountComponent()
         await flushPromises()
 
         await wrapper.find('#user-name').setValue('')
-
         await wrapper.find('form').trigger('submit')
         await flushPromises()
 
