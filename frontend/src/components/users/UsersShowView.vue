@@ -1,23 +1,29 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useUsers } from '@/composables/useUsers.js'
-import { useUserComments } from '@/composables/users/useUserComments.ts'
-import type { Emit } from '@/composables/users/useUserComments.ts'
+import { useUsersShow } from '@/composables/users/useUsersShow'
+import { useUserComments } from '@/composables/users/useUserComments'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
+import UsersDestroyView from '@/components/users/UsersDestroyView.vue'
+import type { MessageEmit } from '@/env'
+import { useRoute } from "vue-router";
 
-const emit = defineEmits<Emit>()
-const { route, user, fetchUserInformation, handleDelete, loggedIn } = useUsers(emit)
+const emit = defineEmits<MessageEmit>()
+const route = useRoute()
+const { user, fetchUserData } = useUsersShow(emit)
 const { userComments, fetchUserComments } = useUserComments(emit)
+const { requireLogin } = useAuthGuard(emit)
 
 onMounted(async () => {
-  if (await loggedIn) {
-    await fetchUserInformation(route.params.id)
-    await fetchUserComments(user.value.id)
+  const loggedIn = await requireLogin()
+  if (loggedIn) {
+    await fetchUserData(route.params.id as string)
+    await fetchUserComments(route.params.id as string)
   }
 })
 </script>
 
 <template>
-  <div class="container w-25">
+  <div v-if="user" class="container w-25">
     <h3 class="text-center m-5">
       ユーザー情報
     </h3>
@@ -52,14 +58,6 @@ onMounted(async () => {
       </li>
     </ul>
 
-    <div class="d-flex justify-content-end mt-5">
-      <button
-        class="btn btn-outline-danger shadow-sm"
-        type="button"
-        @click="handleDelete"
-      >
-        ユーザーの削除
-      </button>
-    </div>
+    <UsersDestroyView @message="emit('message', $event)" />
   </div>
 </template>

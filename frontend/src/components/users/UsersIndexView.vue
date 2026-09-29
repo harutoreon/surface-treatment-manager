@@ -1,11 +1,17 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, watch } from 'vue'
-import { useUsers } from '@/composables/useUsers.js'
+import { useUsersIndex } from '@/composables/users/useUsersIndex'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
+import type { MessageEmit } from '@/env'
+import type { RouteLocationRaw } from 'vue-router'
+import { useRoute } from 'vue-router'
 
-const emit = defineEmits(['message'])
-const { route, users, currentPage, totalPages, fetchUserList, loggedIn } = useUsers(emit)
+const emit = defineEmits<MessageEmit>()
+const route = useRoute()
+const { requireLogin } = useAuthGuard(emit)
+const { users, currentPage, totalPages, fetchUserList } = useUsersIndex(emit)
 
-const getPageLink = (page) => ({
+const getPageLink = (page: number): RouteLocationRaw => ({
   path: route.path,
   query: { page }
 })
@@ -16,9 +22,8 @@ watch(() => route.query.page, (newPage) => {
 })
 
 onMounted(async () => {
-  if (await loggedIn) {
-    await fetchUserList()
-  }
+  const loggedIn = await requireLogin()
+  if (loggedIn) await fetchUserList()
 })
 </script>
 

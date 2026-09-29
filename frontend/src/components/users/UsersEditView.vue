@@ -1,26 +1,33 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue'
-import { useUsers } from '@/composables/useUsers.js'
+import { useUsersEdit } from '@/composables/users/useUsersEdit'
+import { useUsersShow } from '@/composables/users/useUsersShow'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
+import type { MessageEmit } from '@/env'
+import { useRoute, useRouter } from 'vue-router'
 
-const emit = defineEmits(['message'])
+const emit = defineEmits<MessageEmit>()
+const router = useRouter()
+const route = useRoute()
+
+const { user, fetchUserData } = useUsersShow(emit)
+
 const {
-  route,
-  router,
-  user,
   errorMessage,
   password,
   passwordConfirmation,
-  fetchUserInformation,
   userUpdate,
-  loggedIn
-} = useUsers(emit)
+} = useUsersEdit(emit, user)
+
+const { requireLogin } = useAuthGuard(emit)
 
 const cancel = () => {
   router.push(`/users/${user.value.id}`)
 }
 
 onMounted(async () => {
-  if (await loggedIn) await fetchUserInformation(route.params.id)
+  const loggedIn = await requireLogin()
+  if (loggedIn) await fetchUserData(route.params.id as string)
 })
 </script>
 
@@ -30,7 +37,7 @@ onMounted(async () => {
       ユーザー情報の編集
     </h3>
 
-    <form @submit.prevent="userUpdate">
+    <form v-if="user" @submit.prevent="userUpdate">
       <label class="form-label" for="user-name">
         ユーザー名
       </label>
@@ -78,7 +85,6 @@ onMounted(async () => {
           更新
         </button>
         <button
-          v-if="user.id"
           type="button"
           class="btn btn-outline-secondary shadow-sm"
           @click="cancel"
