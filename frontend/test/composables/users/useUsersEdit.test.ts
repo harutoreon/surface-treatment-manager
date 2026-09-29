@@ -1,7 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useUsersEdit } from '@/composables/users/useUsersEdit'
+import { useUsersShow } from '@/composables/users/useUsersShow'
 import type { MessageEmit } from '@/env'
-import type { UserResponse } from '@/composables/users/useUsersEdit'
+import type { UserResponse } from '@/composables/users/useUsersShow'
 import axios from 'axios'
 
 const { pushMock } = vi.hoisted(() => {
@@ -29,23 +30,24 @@ describe('useUsersEdit', (): void => {
   })
 
   describe('初期値の検証', (): void => {
-    it('user の初期値が null であること', (): void => {
-      const { user } = useUsersEdit(emitMock)
-      expect(user.value).toBeNull()
-    })
-
     it('password の初期値が空文字であること', (): void => {
-      const { password } = useUsersEdit(emitMock)
+      const { user } = useUsersShow(emitMock)
+      const { password } = useUsersEdit(emitMock, user)
+
       expect(password.value).toBe('')
     })
 
     it('passwordConfirmation の初期値が空文字であること', (): void => {
-      const { passwordConfirmation } = useUsersEdit(emitMock)
+      const { user } = useUsersShow(emitMock)
+      const { passwordConfirmation } = useUsersEdit(emitMock, user)
+
       expect(passwordConfirmation.value).toBe('')
     })
 
     it('errorMessage の初期値が空文字であること', (): void => {
-      const { errorMessage } = useUsersEdit(emitMock)
+      const { user } = useUsersShow(emitMock)
+      const { errorMessage } = useUsersEdit(emitMock, user)
+
       expect(errorMessage.value).toBe('')
     })
   })
@@ -54,7 +56,8 @@ describe('useUsersEdit', (): void => {
     const getMockResponse: UserResponse = {
       id: 1,
       name: 'test update user',
-      department: 'test update department'
+      department: 'test update department',
+      admin: false
     }
 
     describe('リクエストに成功した場合', (): void => {
@@ -63,11 +66,13 @@ describe('useUsersEdit', (): void => {
           id: 1,
           name: 'test update user',
           department: 'test update department',
+          admin: false
         }
 
         vi.mocked(axios.patch).mockResolvedValueOnce({ data: patchMockResponse })
 
-        const { user, userUpdate } = useUsersEdit(emitMock)
+        const { user } = useUsersShow(emitMock)
+        const { userUpdate } = useUsersEdit(emitMock, user)
         user.value = getMockResponse
 
         await userUpdate()
@@ -94,7 +99,8 @@ describe('useUsersEdit', (): void => {
         vi.mocked(axios.isAxiosError).mockReturnValue(true)
         vi.mocked(axios.patch).mockRejectedValueOnce({ response: { status: 422 } })
 
-        const { user, errorMessage, userUpdate } = useUsersEdit(emitMock)
+        const { user } = useUsersShow(emitMock)
+        const { errorMessage, userUpdate } = useUsersEdit(emitMock, user)
         user.value = getMockResponse
 
         await userUpdate()

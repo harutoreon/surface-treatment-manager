@@ -1,13 +1,9 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import type { Ref } from 'vue'
 import type { MessageEmit } from '@/env'
-
-export type UserResponse = {
-  id: number
-  name: string
-  department: string
-}
+import type { UserResponse } from '@/composables/users/useUsersShow'
 
 export type UpdateUserData  = {
   user: {
@@ -20,9 +16,8 @@ export type UpdateUserData  = {
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
-export function useUsersEdit(emit: MessageEmit) {
+export function useUsersEdit(emit: MessageEmit, user: Ref<UserResponse | null>) {
   const router = useRouter()
-  const user = ref<UserResponse | null>(null)
   const password = ref<string>('')
   const passwordConfirmation = ref<string>('')
   const errorMessage = ref<string>('')
@@ -58,7 +53,6 @@ export function useUsersEdit(emit: MessageEmit) {
   }
 
   return {
-    user,
     password,
     passwordConfirmation,
     errorMessage,
