@@ -1,14 +1,20 @@
 import CategoriesNewView from '@/components/categories/CategoriesNewView.vue'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import type { VueWrapper } from '@vue/test-utils'
+import { checkLoginStatus } from '@/components/utils.ts'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
-const pushMock = vi.fn()
+const { pushMock } = vi.hoisted(() => {
+  return {
+    pushMock: vi.fn(),
+  }
+})
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
   return {
-    useRoute: vi.fn(),
     useRouter: () => {
       return {
         push: pushMock
@@ -16,8 +22,13 @@ vi.mock('vue-router', () => {
     }
   }
 })
+vi.mock('@/components/utils', () => {
+  return {
+    checkLoginStatus: vi.fn()
+  }
+})
 
-describe('CategoriesNewView', () => {
+describe('CategoriesNewView', (): void => {
   const mockResponse = {
     id: 1,
     item: 'めっき',
@@ -32,15 +43,15 @@ describe('CategoriesNewView', () => {
     }
   })
 
-  beforeEach(() => {
-    vi.clearAllMocks()
+  beforeEach((): void => {
+    vi.resetAllMocks()
   })
 
-  describe('初期レンダリングに成功した場合', () => {
-    it('カテゴリー情報の登録ページが表示されること', async () => {
-      vi.mocked(axios.get).mockResolvedValueOnce({ status: 200 })
+  describe('初期レンダリングに成功した場合', (): void => {
+    it('カテゴリー情報の登録ページが表示されること', async (): Promise<void> => {
+      vi.mocked(checkLoginStatus).mockResolvedValue(true)
 
-      const wrapper = mountComponent()
+      const wrapper: VueWrapper = mountComponent()
       await flushPromises()
 
       // 見出し
@@ -67,28 +78,30 @@ describe('CategoriesNewView', () => {
     })
   })
 
-  describe('初期レンダリングに失敗した場合', () => {
-    it('ログインページに遷移すること', async () => {
-      vi.mocked(axios.get).mockRejectedValueOnce({ response: { status: 401 } })
-      vi.mocked(axios.isAxiosError).mockReturnValue(true)
+  describe('初期レンダリングに失敗した場合', (): void => {
+    it('ログインページに遷移すること', async (): Promise<void> => {
+      vi.mocked(checkLoginStatus).mockImplementation(async (onUnauthorized) => {
+        onUnauthorized?.()
+        return false
+      })
 
-      const wrapper = mountComponent()
+      const wrapper: VueWrapper = mountComponent()
       await flushPromises()
 
-      expect(wrapper.emitted('message')).toBeTruthy()
-      expect(wrapper.emitted('message')[0]).toEqual([
+      const emittedMessage = wrapper.emitted<MessageEmit>('message')
+      expect(emittedMessage[0]?.[0]).toEqual(
         { type: 'danger', text: 'ログインが必要です。' }
-      ])
+      )
       expect(pushMock).toHaveBeenCalledWith('/')
     })
   })
 
-  describe('有効な情報を送信した場合', () => {
-    it('登録に成功すること', async () => {
-      vi.mocked(axios.get).mockResolvedValueOnce({ status: 200 })
+  describe('有効な情報を送信した場合', (): void => {
+    it('登録に成功すること', async (): Promise<void> => {
+      vi.mocked(checkLoginStatus).mockResolvedValue(true)
       vi.mocked(axios.post).mockResolvedValueOnce({ data: mockResponse })
 
-      const wrapper = mountComponent()
+      const wrapper: VueWrapper = mountComponent()
       await flushPromises()
 
       await wrapper.find('#category-item').setValue('めっき')
@@ -99,20 +112,21 @@ describe('CategoriesNewView', () => {
       await wrapper.find('form').trigger('submit')
       await flushPromises()
 
-      expect(wrapper.emitted('message')).toBeTruthy()
-      expect(wrapper.emitted('message')[0]).toEqual([
+      const emittedMessage = wrapper.emitted<MessageEmit>('message')
+      expect(emittedMessage[0]?.[0]).toEqual(
         { type: 'success', text: 'カテゴリーを1件登録しました。' }
-      ])
+      )
       expect(pushMock).toHaveBeenCalledWith('/categories/1')
     })
   })
 
-  describe('無効な情報を送信した場合', () => {
-    it('登録に失敗すること', async () => {
-      vi.mocked(axios.get).mockResolvedValueOnce({ status: 200 })
+  describe('無効な情報を送信した場合', (): void => {
+    it('登録に失敗すること', async (): Promise<void> => {
+      vi.mocked(checkLoginStatus).mockResolvedValue(true)
+      vi.mocked(axios.isAxiosError).mockReturnValue(true)
       vi.mocked(axios.post).mockRejectedValueOnce({ response: { status: 422 } })
 
-      const wrapper = mountComponent()
+      const wrapper: VueWrapper = mountComponent()
       await flushPromises()
 
       await wrapper.find('#category-item').setValue('')
