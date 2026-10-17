@@ -1,14 +1,16 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue'
-import { useCategories } from '@/composables/useCategories.js'
+import { useCategoriesIndex } from '@/composables/categories/useCategoriesIndex'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
+import type { MessageEmit } from '@/env'
 
-const emit = defineEmits(['message'])
-const { categories, fetchCategoryList, loggedIn } = useCategories(emit)
+const emit = defineEmits<MessageEmit>()
+const { categories, fetchCategoryList } = useCategoriesIndex(emit)
+const { requireLogin } = useAuthGuard(emit)
 
 onMounted(async () => {
-  if (await loggedIn) {
-    await fetchCategoryList()
-  }
+  const loggedIn = await requireLogin()
+  if (loggedIn) await fetchCategoryList()
 })
 </script>
 
