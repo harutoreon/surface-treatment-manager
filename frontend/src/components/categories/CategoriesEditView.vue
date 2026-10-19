@@ -1,18 +1,25 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue'
-import { useCategories } from '@/composables/useCategories.js'
+import { useCategoriesShow } from '@/composables/categories/useCategoriesShow'
+import { useCategoriesEdit } from '@/composables/categories/useCategoriesEdit'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
+import { useRoute, useRouter } from 'vue-router'
+import type { MessageEmit } from '@/env'
 
-const emit = defineEmits(['message'])
-const { route, router, category, errorMessage, fetchCategoryData, categoryUpdate, loggedIn } = useCategories(emit)
+const emit = defineEmits<MessageEmit>()
+const route = useRoute()
+const router = useRouter()
+const { requireLogin } = useAuthGuard(emit)
+const { category, fetchCategoryData } = useCategoriesShow(emit)
+const { errorMessage, categoryUpdate } = useCategoriesEdit(emit, category)
 
-const cancel = () => {
+const cancel = (): void => {
   router.push(`/categories/${category.value.id}`)
 }
 
 onMounted(async () => {
-  if (await loggedIn) {
-    await fetchCategoryData(route.params.id)
-  }
+  const loggedIn = await requireLogin()
+  if (loggedIn) await fetchCategoryData(route.params.id as string)
 })
 </script>
 
@@ -22,7 +29,7 @@ onMounted(async () => {
       カテゴリー情報の編集
     </h3>
 
-    <form @submit.prevent="categoryUpdate">
+    <form v-if="category" @submit.prevent="categoryUpdate">
       <label class="form-label" for="category-item">
         カテゴリー名
       </label>
