@@ -2,9 +2,9 @@
 import { onMounted } from 'vue'
 import { useCategoriesShow } from '@/composables/categories/useCategoriesShow'
 import { useCategorySamples } from '@/composables/categories/useCategorySamples'
-import { useCategoriesDestroy } from '@/composables/categories/useCategoriesDestroy'
 import { useAuthGuard } from '@/composables/auth/useAuthGuard'
 import type { MessageEmit } from '@/env'
+import CategoriesDestroyView from '@/components/categories/CategoriesDestroyView.vue'
 import { useRoute } from 'vue-router'
 
 const emit = defineEmits<MessageEmit>()
@@ -12,7 +12,6 @@ const route = useRoute()
 const { requireLogin } = useAuthGuard(emit)
 const { category, fetchCategoryData } = useCategoriesShow(emit)
 const { categorySamples, fetchCategorySamples } = useCategorySamples(emit)
-const { handleDelete } = useCategoriesDestroy(emit)
 
 onMounted(async () => {
   const loggedIn = await requireLogin()
@@ -59,14 +58,6 @@ onMounted(async () => {
       </li>
     </ul>
 
-    <div class="d-flex justify-content-end mt-5">
-      <button
-        class="btn btn-outline-danger shadow-sm"
-        type="button"
-        @click="handleDelete"
-      >
-        カテゴリー情報の削除
-      </button>
-    </div>
+    <CategoriesDestroyView @message="emit('message', $event)" />
   </div>
 </template>
