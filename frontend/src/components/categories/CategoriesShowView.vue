@@ -1,23 +1,29 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useCategories } from '@/composables/useCategories.js'
-import { useCategorySamples } from '@/composables/categories/useCategorySamples.ts'
+import { useCategoriesShow } from '@/composables/categories/useCategoriesShow'
+import { useCategorySamples } from '@/composables/categories/useCategorySamples'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
+import type { MessageEmit } from '@/env'
+import CategoriesDestroyView from '@/components/categories/CategoriesDestroyView.vue'
+import { useRoute } from 'vue-router'
 
-const emit = defineEmits(['message'])
-const { route, category, fetchCategoryData, handleDelete, loggedIn } = useCategories(emit)
-
+const emit = defineEmits<MessageEmit>()
+const route = useRoute()
+const { requireLogin } = useAuthGuard(emit)
+const { category, fetchCategoryData } = useCategoriesShow(emit)
 const { categorySamples, fetchCategorySamples } = useCategorySamples(emit)
 
 onMounted(async () => {
-  if (await loggedIn) {
-    await fetchCategoryData(route.params.id)
-    await fetchCategorySamples(category.value.id)
+  const loggedIn = await requireLogin()
+  if (loggedIn) {
+    await fetchCategoryData(route.params.id as string)
+    await fetchCategorySamples(route.params.id as string)
   }
 })
 </script>
 
 <template>
-  <div class="container w-50">
+  <div v-if="category" class="container w-50">
     <h3 class="text-center m-5">
       カテゴリー情報
     </h3>
@@ -52,14 +58,6 @@ onMounted(async () => {
       </li>
     </ul>
 
-    <div class="d-flex justify-content-end mt-5">
-      <button
-        class="btn btn-outline-danger shadow-sm"
-        type="button"
-        @click="handleDelete"
-      >
-        カテゴリー情報の削除
-      </button>
-    </div>
+    <CategoriesDestroyView @message="emit('message', $event)" />
   </div>
 </template>

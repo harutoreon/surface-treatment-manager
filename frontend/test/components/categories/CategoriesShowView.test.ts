@@ -1,36 +1,54 @@
 import CategoriesShowView from '@/components/categories/CategoriesShowView.vue'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import type { Category } from '@/composables/categories/useCategoriesShow'
+import type { Sample } from '@/composables/categories/useCategorySamples'
+import type { VueWrapper } from '@vue/test-utils'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
-const pushMock = vi.fn()
-const replaceMock = vi.fn()
+const { pushMock, replaceMock, requireLoginMock } = vi.hoisted(() => {
+  return {
+    pushMock: vi.fn(),
+    replaceMock: vi.fn(),
+    requireLoginMock: vi.fn(),
+  }
+})
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
   return {
     useRoute: () => {
       return {
-        params: { id: 1 }
+        params: { id: '1' }
       }
     },
     useRouter: () => {
       return {
+        push: pushMock,
         replace: replaceMock,
-        push: pushMock
+      }
+    }
+  }
+})
+vi.mock('@/composables/auth/useAuthGuard', () => {
+  return {
+    useAuthGuard: () => {
+      return {
+        requireLogin: requireLoginMock,
       }
     }
   }
 })
 
-describe('CategoriesShowView', () => {
-  const mockResponse = {
+describe('CategoriesShowView', (): void => {
+  const mockResponse: Category = {
     id: 1,
     item: 'めっき',
     summary: '金属または非金属の材料の表面に金属の薄膜を被覆する処理のこと。'
   }
 
-  const mockSampleResponse = [
+  const mockSampleResponse: Sample[] = [
     {
       id: 1,
       name: 'sample name',
@@ -52,23 +70,23 @@ describe('CategoriesShowView', () => {
     }
   })
 
-  beforeEach(() => {
-    vi.clearAllMocks()
-    vi.stubGlobal('confirm', vi.fn(() => true))
+  beforeEach((): void => {
+    vi.resetAllMocks()
+    vi.stubGlobal('confirm', vi.fn((): boolean => true))
+    requireLoginMock.mockResolvedValue(true)
   })
 
-  afterEach(() => {
+  afterEach((): void => {
     vi.unstubAllGlobals()
   })
 
-  describe('初期レンダリングに成功した場合', () => {
-    it('カテゴリー情報ページが表示されること', async () => {
+  describe('初期レンダリングに成功した場合', (): void => {
+    it('カテゴリー情報ページが表示されること', async (): Promise<void> => {
       vi.mocked(axios.get)
-        .mockResolvedValueOnce({ status: 200 })
         .mockResolvedValueOnce({ data: mockResponse })
         .mockResolvedValueOnce({ data: mockSampleResponse })
 
-      const wrapper = mountComponent()
+      const wrapper: VueWrapper = mountComponent()
       await flushPromises()
 
       // 見出し
@@ -96,65 +114,63 @@ describe('CategoriesShowView', () => {
     })
   })
 
-  describe('初期レンダリングに失敗した場合', () => {
-    it('404ページに遷移すること', async () => {
-      vi.mocked(axios.get)
-        .mockResolvedValueOnce({ status: 200 })
-        .mockRejectedValueOnce({ response: { status: 404 } })
+  describe('初期レンダリングに失敗した場合', (): void => {
+    it('404ページに遷移すること', async (): Promise<void> => {
+      vi.mocked(axios.isAxiosError).mockReturnValue(true)
+      vi.mocked(axios.get).mockRejectedValueOnce({ response: { status: 404 } })
 
-      const wrapper = mountComponent()
+      const wrapper: VueWrapper = mountComponent()
       await flushPromises()
 
-      expect(wrapper.emitted('message')).toBeTruthy()
-      expect(wrapper.emitted('message')[0]).toEqual([
+      const emittedMessage = wrapper.emitted<MessageEmit>('message')
+      expect(emittedMessage[0]?.[0]).toEqual(
         { type: 'danger', text: 'カテゴリーの取得に失敗しました。' }
-      ])
+      )
       expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
     })
   })
 
-  describe('カテゴリー情報の削除に成功した場合', () => {
-    it('カテゴリーリストページに遷移すること', async () => {
+  describe('カテゴリー情報の削除に成功した場合', (): void => {
+    it('カテゴリーリストページに遷移すること', async (): Promise<void> => {
       vi.mocked(axios.get)
-        .mockResolvedValueOnce({ status: 200 })
         .mockResolvedValueOnce({ data: mockResponse })
         .mockResolvedValueOnce({ data: mockSampleResponse })
 
       vi.mocked(axios.delete).mockResolvedValueOnce({ status: 204 })
 
-      const wrapper = mountComponent()
+      const wrapper: VueWrapper = mountComponent()
       await flushPromises()
 
       await wrapper.find('button').trigger('click')
       await flushPromises()
 
-      expect(wrapper.emitted('message')).toBeTruthy()
-      expect(wrapper.emitted('message')[0]).toEqual([
+      const emittedMessage = wrapper.emitted<MessageEmit>('message')
+      expect(emittedMessage[0]?.[0]).toEqual(
         { type: 'success', text: 'カテゴリーを1件削除しました。' }
-      ])
+      )
       expect(pushMock).toHaveBeenCalledWith('/categories')
     })
   })
 
-  describe('カテゴリー情報の削除に失敗した場合', () => {
-    it('404ページに遷移すること', async () => {
+  describe('カテゴリー情報の削除に失敗した場合', (): void => {
+    it('404ページに遷移すること', async (): Promise<void> => {
+      vi.mocked(axios.isAxiosError).mockReturnValue(true)
       vi.mocked(axios.get)
-        .mockResolvedValueOnce({ status: 200 })
         .mockResolvedValueOnce({ data: mockResponse })
         .mockResolvedValueOnce({ data: mockSampleResponse })
 
-      vi.mocked(axios.delete).mockRejectedValue({ response: { status: 404 } })
+      vi.mocked(axios.delete).mockRejectedValueOnce({ response: { status: 404 } })
 
-      const wrapper = mountComponent()
+      const wrapper: VueWrapper = mountComponent()
       await flushPromises()
       
       await wrapper.find('button').trigger('click')
       await flushPromises()
 
-      expect(wrapper.emitted('message')).toBeTruthy()
-      expect(wrapper.emitted('message')[0]).toEqual([
+      const emittedMessage = wrapper.emitted<MessageEmit>('message')
+      expect(emittedMessage[0]?.[0]).toEqual(
         { type: 'danger', text: '削除処理に失敗しました。' }
-      ])
+      )
       expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
     })
   })
