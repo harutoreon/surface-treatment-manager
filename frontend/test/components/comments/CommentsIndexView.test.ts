@@ -2,7 +2,8 @@ import CommentsIndexView from '@/components/comments/CommentsIndexView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount, flushPromises, RouterLinkStub } from '@vue/test-utils'
 import type { VueWrapper } from '@vue/test-utils'
-import type { CommentsResponse, Emit } from '@/composables/comments/useCommentsIndex.ts'
+import type { CommentsResponse } from '@/composables/comments/useCommentsIndex.ts'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
 const { replaceMock } = vi.hoisted(() => {
@@ -110,7 +111,7 @@ describe('CommentsIndexView', (): void => {
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
 
-        const emittedMessage = wrapper.emitted('message') as Emit[] | undefined
+        const emittedMessage = wrapper.emitted('message') as MessageEmit[] | undefined
         expect(emittedMessage).toBeTruthy()
         expect(emittedMessage![0][0]).toEqual(
           { type: 'danger', text: 'コメントリストの取得に失敗しました。' }
