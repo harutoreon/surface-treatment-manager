@@ -1,11 +1,12 @@
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import type { Ref } from 'vue'
-import type { Comment, Emit } from '@/composables/comments/useCommentsShow.ts'
+import type { Comment } from '@/composables/comments/useCommentsShow.ts'
+import type { MessageEmit } from '@/env'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
 
-export function useCommentsDestroy(emit: Emit, makerId: Ref<number | null>, sampleId: Ref<number | null>, comment: Ref<Comment | null>) {
+export function useCommentsDestroy(emit: MessageEmit, makerId: Ref<number | null>, sampleId: Ref<number | null>, comment: Ref<Comment | null>) {
   const router = useRouter()
 
   const handleDelete = async (): Promise<void> => {

@@ -1,10 +1,11 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import type { MessageEmit } from '@/env'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
 
-export interface Comment {
+export type Comment = {
   id: number
   body: string
   commenter: string
@@ -13,20 +14,16 @@ export interface Comment {
   user_id: number
 }
 
-export interface CommentsResponse {
+export type CommentsResponse = {
   comment: Comment
   maker_id: number
 }
 
-export interface LoggedInResponse {
+export type LoggedInResponse = {
   payload: { user_id: number } | null
 }
 
-export interface Emit {
-  (event: 'message', payload: { type: 'success' | 'danger'; text: string }): void
-}
-
-export function useCommentsShow(emit: Emit) {
+export function useCommentsShow(emit: MessageEmit) {
   const router = useRouter()
   const comment = ref<Comment | null>(null)
   const sampleId = ref<number | null>(null)
@@ -57,7 +54,6 @@ export function useCommentsShow(emit: Emit) {
   }
 
   return {
-    router,
     comment,
     sampleId,
     makerId,

@@ -2,7 +2,8 @@ import CommentsShowView from '@/components/comments/CommentsShowView.vue'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises, RouterLinkStub } from '@vue/test-utils'
 import type { VueWrapper } from '@vue/test-utils'
-import type { CommentsResponse, Emit } from '@/composables/comments/useCommentsShow.ts'
+import type { CommentsResponse } from '@/composables/comments/useCommentsShow.ts'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
 const { replaceMock, pushMock} = vi.hoisted(() => {
@@ -106,7 +107,7 @@ describe('CommentsShowView', (): void => {
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
 
-        const emittedMessage = wrapper.emitted<Emit>('message')
+        const emittedMessage = wrapper.emitted<MessageEmit>('message')
         expect(emittedMessage).toBeTruthy()
         expect(emittedMessage![0][0]).toEqual(
           { type: 'danger', text: 'コメント情報の取得に失敗しました。' }
@@ -138,7 +139,7 @@ describe('CommentsShowView', (): void => {
         await wrapper.find('button').trigger('click')
         await flushPromises()
 
-        const emittedMessage = wrapper.emitted<Emit>('message')
+        const emittedMessage = wrapper.emitted<MessageEmit>('message')
         expect(emittedMessage).toBeTruthy()
         expect(emittedMessage![0][0]).toEqual(
           { type: 'success', text: 'コメント情報を1件削除しました。' }
@@ -183,7 +184,7 @@ describe('CommentsShowView', (): void => {
         await wrapper.find('button').trigger('click')
         await flushPromises()
 
-        const emittedMessage = wrapper.emitted<Emit>('message')
+        const emittedMessage = wrapper.emitted<MessageEmit>('message')
         expect(emittedMessage).toBeTruthy()
         expect(emittedMessage![0][0]).toEqual(
           { type: 'danger', text: '削除処理に失敗しました。' }
