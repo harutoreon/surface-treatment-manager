@@ -3,9 +3,10 @@ import { ref, onMounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { checkLoginStatus } from '@/components/utils.ts'
 import { useCommentsNew } from '@/composables/comments/useCommentsNew.ts'
-import type { UserResponse, Emit } from '@/composables/comments/useCommentsNew.ts'
+import type { UserResponse } from '@/composables/comments/useCommentsNew.ts'
+import type { MessageEmit } from '@/env'
 
-const emit = defineEmits<Emit>()
+const emit = defineEmits<MessageEmit>()
 const router = useRouter()
 const isOpen = ref<boolean>(false)
 const maker = ref<string>('')
