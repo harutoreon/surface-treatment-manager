@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { checkLoginStatus } from '@/components/utils.ts'
 import { useCommentsShow } from '@/composables/comments/useCommentsShow.ts'
 import { useCommentsDestroy } from '@/composables/comments/useCommentsDestroy.ts'
-import type { Emit } from '@/composables/comments/useCommentsShow.ts'
+import type { MessageEmit } from '@/env'
 
-const emit = defineEmits<Emit>()
+const emit = defineEmits<MessageEmit>()
 const route = useRoute()
+const router = useRouter()
 const {
-  router,
   comment,
   sampleId,
   makerId,

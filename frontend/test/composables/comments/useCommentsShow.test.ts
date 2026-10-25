@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { useCommentsShow } from '@/composables/comments/useCommentsShow.ts'
-import type { CommentsResponse, Emit } from '@/composables/comments/useCommentsShow.ts'
+import { useCommentsShow } from '@/composables/comments/useCommentsShow'
+import type { CommentsResponse } from '@/composables/comments/useCommentsShow'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
 const { replaceMock } = vi.hoisted(() => {
@@ -26,7 +27,7 @@ vi.mock('vue-router', () => {
 })
 
 describe('useCommentsShow', (): void => {
-  const emitMock: Emit = vi.fn()
+  const emitMock: MessageEmit = vi.fn()
 
   beforeEach((): void => {
     vi.clearAllMocks()
