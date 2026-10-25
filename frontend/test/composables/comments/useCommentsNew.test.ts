@@ -1,6 +1,7 @@
 import { describe, it, expect,vi, beforeEach } from 'vitest'
-import { useCommentsNew } from '@/composables/comments/useCommentsNew.ts'
-import type { Maker, SampleResponse, Comment, Emit } from '@/composables/comments/useCommentsNew.ts'
+import { useCommentsNew } from '@/composables/comments/useCommentsNew'
+import type { User, Maker, SampleResponse, Comment } from '@/composables/comments/useCommentsNew'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
 const { replaceMock, pushMock } = vi.hoisted(() => {
@@ -23,10 +24,10 @@ vi.mock('vue-router', () => {
 })
 
 describe('useCommentsNew', (): void => {
-  const emitMock: Emit = vi.fn()
+  const emitMock: MessageEmit = vi.fn()
 
   beforeEach((): void => {
-    vi.clearAllMocks()
+    vi.resetAllMocks()
   })
 
   describe('初期値の検証', (): void => {
@@ -87,9 +88,40 @@ describe('useCommentsNew', (): void => {
   })
 
   describe('ロジックの検証', (): void => {
-    // fetchUserList()
+    describe('fetchUserList', (): void => {
+      describe('リクエストに成功した場合', (): void => {
+        it('レスポンスがユーザーリストであること', async (): Promise<void> => {
+          const mockUsersResponse: User[] = [
+            { id: 1, name: '岩崎 颯太', department: '品質管理部', admin: false },
+          ]
 
+          vi.mocked(axios.get).mockResolvedValueOnce({ data: mockUsersResponse })
 
+          const { fetchUserList, users } = useCommentsNew(emitMock)
+          await fetchUserList()
+
+          expect(users.value[0].userId).toBe(1)
+          expect(users.value[0].userName).toBe('岩崎 颯太')
+          expect(users.value[0].userDepartment).toBe('品質管理部')
+        })
+      })
+
+      describe('リクエストに失敗した場合', (): void => {
+        it('エラーメッセージを emit して、NotFound ルートに遷移すること', async (): Promise<void> => {
+          vi.mocked(axios.isAxiosError).mockReturnValue(true)
+          vi.mocked(axios.get).mockRejectedValueOnce({ response: { status: 404 } })
+
+          const { fetchUserList } = useCommentsNew(emitMock)
+          await fetchUserList()
+
+          expect(emitMock).toHaveBeenCalledWith(
+            'message',
+            { type: 'danger', text: 'ユーザーリストの取得に失敗しました。' }
+          )
+          expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
+        })
+      })
+    })
 
     describe('fetchMakerDate', (): void => {
       describe('リクエストに成功した場合', (): void => {

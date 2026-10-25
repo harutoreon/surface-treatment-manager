@@ -1,8 +1,9 @@
 import CommentsNewView from '@/components/comments/CommentsNewView.vue'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises, RouterLinkStub } from '@vue/test-utils'
-import type { Maker, User, SampleResponse, Comment, Emit } from '@/composables/comments/useCommentsNew.ts'
+import type { Maker, User, SampleResponse, Comment } from '@/composables/comments/useCommentsNew.ts'
 import type { VueWrapper } from '@vue/test-utils'
+import type { MessageEmit } from '@/env'
 import { nextTick } from 'vue'
 import axios from 'axios'
 
@@ -136,7 +137,7 @@ describe('CommentsNewView', (): void => {
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
 
-        const emittedMessage = wrapper.emitted<Emit>('message')
+        const emittedMessage = wrapper.emitted<MessageEmit>('message')
         expect(emittedMessage).toBeTruthy()
         expect(emittedMessage![0][0]).toEqual(
           { type: 'danger', text: 'ログインが必要です。' }
@@ -255,7 +256,7 @@ describe('CommentsNewView', (): void => {
 
         await wrapper.find('form').trigger('submit.prevent')
 
-        const emittedMessage = wrapper.emitted<Emit>('message')
+        const emittedMessage = wrapper.emitted<MessageEmit>('message')
         expect(emittedMessage).toBeTruthy()
         expect(emittedMessage![0][0]).toEqual(
           { type: 'success', text: 'コメント情報を1件登録しました。' }
