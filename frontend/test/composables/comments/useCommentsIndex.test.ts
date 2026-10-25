@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { useCommentsIndex } from '@/composables/comments/useCommentsIndex.ts'
-import type { CommentsResponse, Emit } from '@/composables/comments/useCommentsIndex.ts'
+import { useCommentsIndex } from '@/composables/comments/useCommentsIndex'
+import type { CommentsResponse } from '@/composables/comments/useCommentsIndex'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
 const { replaceMock } = vi.hoisted(() => {
@@ -26,7 +27,7 @@ vi.mock('vue-router', () => {
 })
 
 describe('useCommentsIndex', (): void => {
-  const emitMock: Emit = vi.fn()
+  const emitMock: MessageEmit = vi.fn()
 
   beforeEach((): void => {
     vi.clearAllMocks()
@@ -69,7 +70,7 @@ describe('useCommentsIndex', (): void => {
 
       describe('リクエストに成功した場合', (): void => {
         it('レスポンスがコメント一覧とページ情報であること', async () => {
-          vi.mocked(axios.get).mockResolvedValue({ data: mockResponse })
+          vi.mocked(axios.get).mockResolvedValueOnce({ data: mockResponse })
 
           const {
             comments,
@@ -88,7 +89,7 @@ describe('useCommentsIndex', (): void => {
       describe('リクエストに失敗した場合', (): void => {
         it('レスポンスにエラーメッセージを含み、NotFound ルートに遷移すること', async () => {
           vi.mocked(axios.isAxiosError).mockReturnValue(true)
-          vi.mocked(axios.get).mockRejectedValue({ response: { status: 404 } })
+          vi.mocked(axios.get).mockRejectedValueOnce({ response: { status: 404 } })
 
           const { fetchCommentList } = useCommentsIndex(emitMock)
           await fetchCommentList()
@@ -103,6 +104,3 @@ describe('useCommentsIndex', (): void => {
     })
   })
 })
-
-
-
