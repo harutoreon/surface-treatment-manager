@@ -6,13 +6,18 @@ import type { MessageEmit } from '@/env'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
 
-export function useCommentsDestroy(emit: MessageEmit, makerId: Ref<number | null>, sampleId: Ref<number | null>, comment: Ref<Comment | null>) {
+export function useCommentsDestroy(
+  emit: MessageEmit,
+  makerId: Ref<number | null>,
+  sampleId: Ref<number | null>,
+  comment: Ref<Comment | null>
+) {
   const router = useRouter()
 
   const handleDelete = async (): Promise<void> => {
     if (!makerId || !sampleId || !comment) return
 
-    const confirmDelete = window.confirm('本当に削除しますか？')
+    const confirmDelete: boolean = window.confirm('本当に削除しますか？')
     if (!confirmDelete) return
 
     try {

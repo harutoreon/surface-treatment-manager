@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { useCommentsDestroy } from '@/composables/comments/useCommentsDestroy.ts'
-import { useCommentsShow } from '@/composables/comments/useCommentsShow.ts'
-import type { CommentsResponse } from '@/composables/comments/useCommentsShow.ts'
+import { useCommentsDestroy } from '@/composables/comments/useCommentsDestroy'
+import { useCommentsShow } from '@/composables/comments/useCommentsShow'
+import type { CommentsResponse } from '@/composables/comments/useCommentsShow'
 import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
