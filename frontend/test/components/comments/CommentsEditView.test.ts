@@ -2,7 +2,8 @@ import CommentsEditView from '@/components/comments/CommentsEditView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount, flushPromises, RouterLinkStub } from '@vue/test-utils'
 import axios from 'axios'
-import type { CommentResponse, Emit } from '@/composables/comments/useCommentsEdit.ts'
+import type { CommentResponse } from '@/composables/comments/useCommentsEdit.ts'
+import type { MessageEmit } from '@/env'
 import type { VueWrapper } from '@vue/test-utils'
 
 const { replaceMock, pushMock } = vi.hoisted(() => {
@@ -102,7 +103,7 @@ describe('CommentsEditView', (): void => {
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
 
-        const emittedMessage = wrapper.emitted<Emit>('message')
+        const emittedMessage = wrapper.emitted<MessageEmit>('message')
         expect(emittedMessage).toBeTruthy()
         expect(emittedMessage![0][0]).toEqual(
           { type: 'danger', text: 'コメント情報の取得に失敗しました。' }
@@ -135,7 +136,7 @@ describe('CommentsEditView', (): void => {
         await wrapper.find('#body').setValue('製品に高級感を与える仕上がりで、品質も良好です。')
         await wrapper.find('form').trigger('submit.prevent')
 
-        const emittedMessage = wrapper.emitted<Emit>('message')
+        const emittedMessage = wrapper.emitted<MessageEmit>('message')
         expect(emittedMessage).toBeTruthy()
         expect(emittedMessage![0][0]).toEqual(
           { type: 'success', text: 'コメント情報を更新しました。' }

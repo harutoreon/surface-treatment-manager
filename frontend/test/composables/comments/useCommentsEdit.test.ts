@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { useCommentsEdit } from '@/composables/comments/useCommentsEdit.ts'
-import type { CommentResponse, Emit } from '@/composables/comments/useCommentsEdit.ts'
+import { useCommentsEdit } from '@/composables/comments/useCommentsEdit'
+import type { CommentResponse } from '@/composables/comments/useCommentsEdit'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
 const { replaceMock, pushMock } = vi.hoisted(() => {
@@ -28,10 +29,10 @@ vi.mock('vue-router', () => {
 })
 
 describe('useCommentsEdit', (): void => {
-  const emitMock: Emit = vi.fn()
+  const emitMock: MessageEmit = vi.fn()
 
   beforeEach((): void => {
-    vi.clearAllMocks()
+    vi.resetAllMocks()
   })
 
   describe('初期値の検証', (): void => {
@@ -152,7 +153,6 @@ describe('useCommentsEdit', (): void => {
 
           expect(errorMessage.value).toBe('入力に不備があります。')
         })
-
       })
     })
   })
