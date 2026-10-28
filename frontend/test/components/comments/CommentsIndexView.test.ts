@@ -6,9 +6,10 @@ import type { CommentsResponse } from '@/composables/comments/useCommentsIndex.t
 import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
-const { replaceMock } = vi.hoisted(() => {
+const { replaceMock, requireLoginMock } = vi.hoisted(() => {
   return {
-    replaceMock: vi.fn()
+    replaceMock: vi.fn(),
+    requireLoginMock: vi.fn(),
   }
 })
 
@@ -17,12 +18,21 @@ vi.mock('vue-router', () => {
   return {
     useRoute: () => {
       return {
-        query: { page: 1 }
+        query: { page: '1' },
       }
     },
     useRouter: () => {
       return {
         replace: replaceMock,
+      }
+    }
+  }
+})
+vi.mock('@/composables/auth/useAuthGuard', () => {
+  return {
+    useAuthGuard: () => {
+      return {
+        requireLogin: requireLoginMock,
       }
     }
   }
@@ -54,15 +64,14 @@ describe('CommentsIndexView', (): void => {
   })
 
   beforeEach((): void => {
-    vi.clearAllMocks()
+    vi.resetAllMocks()
+    requireLoginMock.mockResolvedValue(true)
   })
 
   describe('初期レンダリング', (): void => {
     describe('成功した場合', (): void => {
       it('コメントリストページが表示されること', async (): Promise<void> => {
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })  // checkLoginStatus()
-          .mockResolvedValueOnce({ data: mockResponse })  // fetchCommentList()
+        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockResponse })
 
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
@@ -102,17 +111,13 @@ describe('CommentsIndexView', (): void => {
 
     describe('失敗した場合', (): void => {
       it('404ページに遷移すること', async (): Promise<void> => {
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })  // checkLoginStatus()
-          .mockRejectedValueOnce({ response: { status: 404 } })  // fetchCommentList()
-
         vi.mocked(axios.isAxiosError).mockReturnValue(true)
+        vi.mocked(axios.get).mockRejectedValueOnce({ response: { status: 404 } })
 
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
 
-        const emittedMessage = wrapper.emitted('message') as MessageEmit[] | undefined
-        expect(emittedMessage).toBeTruthy()
+        const emittedMessage = wrapper.emitted<MessageEmit>('message')
         expect(emittedMessage![0][0]).toEqual(
           { type: 'danger', text: 'コメントリストの取得に失敗しました。' }
         )
