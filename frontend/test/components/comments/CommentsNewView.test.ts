@@ -1,9 +1,10 @@
 import CommentsNewView from '@/components/comments/CommentsNewView.vue'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { mount, flushPromises, RouterLinkStub } from '@vue/test-utils'
-import type { Maker, User, SampleResponse, Comment } from '@/composables/comments/useCommentsNew.ts'
+import type { Maker, User, SampleResponse, Comment } from '@/composables/comments/useCommentsNew'
 import type { VueWrapper } from '@vue/test-utils'
 import type { MessageEmit } from '@/env'
+import { checkLoginStatus } from '@/components/utils'
 import { nextTick } from 'vue'
 import axios from 'axios'
 
@@ -23,6 +24,11 @@ vi.mock('vue-router', () => {
         push: pushMock
       }
     }
+  }
+})
+vi.mock('@/components/utils', () => {
+  return {
+    checkLoginStatus: vi.fn()
   }
 })
 
@@ -79,14 +85,14 @@ describe('CommentsNewView', (): void => {
   })
 
   beforeEach((): void => {
-    vi.clearAllMocks()
+    vi.resetAllMocks()
   })
 
   describe('初期レンダリング', (): void => {
     describe('成功した場合', (): void => {
       it('コメント情報の新規登録ページが表示されること', async (): Promise<void> => {
+        vi.mocked(checkLoginStatus).mockResolvedValue(true)
         vi.mocked(axios.get)
-          .mockResolvedValueOnce({ data: { status: 200 } })
           .mockResolvedValueOnce({ data: mockMakerResponse })
           .mockResolvedValueOnce({ data: mockUserResponse })
 
@@ -131,14 +137,15 @@ describe('CommentsNewView', (): void => {
 
     describe('失敗した場合', (): void => {
       it('エラーメッセージが表示され、ログインページに遷移すること', async (): Promise<void> => {
-        vi.mocked(axios.get).mockRejectedValue({ response: { status: 401 } })
-        vi.mocked(axios.isAxiosError).mockReturnValue(true)
+        vi.mocked(checkLoginStatus).mockImplementation(async (onUnauthorized) => {
+          onUnauthorized?.()
+          return false
+        })
 
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
 
         const emittedMessage = wrapper.emitted<MessageEmit>('message')
-        expect(emittedMessage).toBeTruthy()
         expect(emittedMessage![0][0]).toEqual(
           { type: 'danger', text: 'ログインが必要です。' }
         )
@@ -158,8 +165,8 @@ describe('CommentsNewView', (): void => {
       })
 
       it('投稿者名の一部を入力すると候補が表示され、投稿者を選択後に部署名が表示されること', async (): Promise<void> => {
+        vi.mocked(checkLoginStatus).mockResolvedValue(true)
         vi.mocked(axios.get)
-          .mockResolvedValueOnce({ data: { status: 200 } })
           .mockResolvedValueOnce({ data: mockMakerResponse })
           .mockResolvedValueOnce({ data: mockUserResponse })
 
@@ -185,8 +192,8 @@ describe('CommentsNewView', (): void => {
 
     describe('投稿者の候補がない場合', (): void => {
       it('投稿者名の一部を入力しても投稿者の候補が表示されず、部署名も表示されないこと', async (): Promise<void> => {
+        vi.mocked(checkLoginStatus).mockResolvedValue(true)
         vi.mocked(axios.get)
-          .mockResolvedValueOnce({ data: { status: 200 } })
           .mockResolvedValueOnce({ data: mockMakerResponse })
           .mockResolvedValueOnce({ data: [] })
 
@@ -206,8 +213,8 @@ describe('CommentsNewView', (): void => {
   describe('メーカーと表面処理の連動', (): void => {
     describe('メーカーの候補がある場合', (): void => {
       it('メーカーが選択可能になり、メーカーを選択後に表面処理の候補が表示されること', async (): Promise<void> => {
+        vi.mocked(checkLoginStatus).mockResolvedValue(true)
         vi.mocked(axios.get)
-          .mockResolvedValueOnce({ data: { status: 200 } })
           .mockResolvedValueOnce({ data: mockMakerResponse })
           .mockResolvedValueOnce({ data: mockUserResponse })
           .mockResolvedValueOnce({ data: mockSampleResponse })
@@ -224,8 +231,8 @@ describe('CommentsNewView', (): void => {
 
     describe('メーカーの候補が無い場合', (): void => {
       it('ドロップダウンリストのオプションがデフォルトのみで、表面処理のドロップダウンリストも表示されないこと', async (): Promise<void> => {
+        vi.mocked(checkLoginStatus).mockResolvedValue(true)
         vi.mocked(axios.get)
-          .mockResolvedValueOnce({ data: { status: 200 } })
           .mockResolvedValueOnce({ data: [] })
           .mockResolvedValueOnce({ data: mockUserResponse })
           .mockResolvedValueOnce({ data: mockSampleResponse })
@@ -243,8 +250,8 @@ describe('CommentsNewView', (): void => {
   describe('コメントの新規登録', (): void => {
     describe('成功した場合', (): void => {
       it('成功メッセージが表示され、コメント情報ページに遷移すること', async (): Promise<void> => {
+        vi.mocked(checkLoginStatus).mockResolvedValue(true)
         vi.mocked(axios.get)
-          .mockResolvedValueOnce({ data: { status: 200 } })
           .mockResolvedValueOnce({ data: mockMakerResponse })
           .mockResolvedValueOnce({ data: mockUserResponse })
           .mockResolvedValueOnce({ data: mockSampleResponse })
@@ -257,7 +264,6 @@ describe('CommentsNewView', (): void => {
         await wrapper.find('form').trigger('submit.prevent')
 
         const emittedMessage = wrapper.emitted<MessageEmit>('message')
-        expect(emittedMessage).toBeTruthy()
         expect(emittedMessage![0][0]).toEqual(
           { type: 'success', text: 'コメント情報を1件登録しました。' }
         )
@@ -267,8 +273,8 @@ describe('CommentsNewView', (): void => {
 
     describe('失敗した場合', (): void => {
       it('バリデーションエラーになること', async (): Promise<void> => {
+        vi.mocked(checkLoginStatus).mockResolvedValue(true)
         vi.mocked(axios.get)
-          .mockResolvedValueOnce({ data: { status: 200 } })
           .mockResolvedValueOnce({ data: mockMakerResponse })
           .mockResolvedValueOnce({ data: mockUserResponse })
           .mockResolvedValueOnce({ data: mockSampleResponse })

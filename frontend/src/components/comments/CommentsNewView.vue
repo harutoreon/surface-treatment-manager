@@ -1,17 +1,15 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
-import { useRouter } from 'vue-router'
-import { checkLoginStatus } from '@/components/utils.ts'
-import { useCommentsNew } from '@/composables/comments/useCommentsNew.ts'
-import type { UserResponse } from '@/composables/comments/useCommentsNew.ts'
+import { useCommentsNew } from '@/composables/comments/useCommentsNew'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
+import type { UserResponse } from '@/composables/comments/useCommentsNew'
 import type { MessageEmit } from '@/env'
 
 const emit = defineEmits<MessageEmit>()
-const router = useRouter()
 const isOpen = ref<boolean>(false)
 const maker = ref<string>('')
 const sampleName = ref<string>('')
-
+const { requireLogin } = useAuthGuard(emit)
 const {
   users,
   makerOptions,
@@ -75,10 +73,7 @@ const handleSampleChange = (event): void => {
 watch(makerId, fetchSampleData)
 
 onMounted(async (): Promise<void> => {
-  const loggedIn = await checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
+  const loggedIn = await requireLogin()
 
   if (loggedIn) {
     await fetchMakerData()
