@@ -6,10 +6,11 @@ import type { CommentsResponse } from '@/composables/comments/useCommentsShow.ts
 import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
-const { replaceMock, pushMock} = vi.hoisted(() => {
+const { replaceMock, pushMock, requireLoginMock} = vi.hoisted(() => {
   return {
     replaceMock: vi.fn(),
     pushMock: vi.fn(),
+    requireLoginMock: vi.fn(),
   }
 })
 
@@ -25,6 +26,15 @@ vi.mock('vue-router', () => {
       return {
         replace: replaceMock,
         push: pushMock
+      }
+    }
+  }
+})
+vi.mock('@/composables/auth/useAuthGuard', () => {
+  return {
+    useAuthGuard: () => {
+      return {
+        requireLogin: requireLoginMock,
       }
     }
   }
@@ -54,14 +64,14 @@ describe('CommentsShowView', (): void => {
   }
 
   beforeEach((): void => {
-    vi.clearAllMocks()
+    vi.resetAllMocks()
+    requireLoginMock.mockResolvedValue(true)
   })
 
   describe('初期レンダリング', (): void => {
     describe('成功した場合', (): void => {
       it('コメント情報ページが表示されること', async (): Promise<void> => {
         vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
           .mockResolvedValueOnce({ data: { payload: { user_id: adminUserId } } })
           .mockResolvedValueOnce({ data: mockResponse })
 
@@ -98,7 +108,6 @@ describe('CommentsShowView', (): void => {
     describe('失敗した場合', (): void => {
       it('404ページに遷移すること', async (): Promise<void> => {
         vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
           .mockResolvedValueOnce({ data: { payload: { user_id: adminUserId } } })
           .mockRejectedValueOnce({ response: { status: 404 } })
 
@@ -108,7 +117,6 @@ describe('CommentsShowView', (): void => {
         await flushPromises()
 
         const emittedMessage = wrapper.emitted<MessageEmit>('message')
-        expect(emittedMessage).toBeTruthy()
         expect(emittedMessage![0][0]).toEqual(
           { type: 'danger', text: 'コメント情報の取得に失敗しました。' }
         )
@@ -127,7 +135,6 @@ describe('CommentsShowView', (): void => {
         vi.stubGlobal('confirm', vi.fn((): boolean => true))
 
         vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
           .mockResolvedValueOnce({ data: { payload: { user_id: adminUserId } } })
           .mockResolvedValueOnce({ data: mockResponse })
 
@@ -140,7 +147,6 @@ describe('CommentsShowView', (): void => {
         await flushPromises()
 
         const emittedMessage = wrapper.emitted<MessageEmit>('message')
-        expect(emittedMessage).toBeTruthy()
         expect(emittedMessage![0][0]).toEqual(
           { type: 'success', text: 'コメント情報を1件削除しました。' }
         )
@@ -153,7 +159,6 @@ describe('CommentsShowView', (): void => {
         vi.stubGlobal('confirm', vi.fn((): boolean => false))
 
         vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
           .mockResolvedValueOnce({ data: { payload: { user_id: adminUserId } } })
           .mockResolvedValueOnce({ data: mockResponse })
 
@@ -171,7 +176,6 @@ describe('CommentsShowView', (): void => {
         vi.stubGlobal('confirm', vi.fn((): boolean => true))
 
         vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
           .mockResolvedValueOnce({ data: { payload: { user_id: adminUserId } } })
           .mockResolvedValueOnce({ data: mockResponse })
 
@@ -185,7 +189,6 @@ describe('CommentsShowView', (): void => {
         await flushPromises()
 
         const emittedMessage = wrapper.emitted<MessageEmit>('message')
-        expect(emittedMessage).toBeTruthy()
         expect(emittedMessage![0][0]).toEqual(
           { type: 'danger', text: '削除処理に失敗しました。' }
         )
@@ -200,7 +203,6 @@ describe('CommentsShowView', (): void => {
         const generalUserId: number = 50
 
         vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
           .mockResolvedValueOnce({ data: { payload: { user_id: generalUserId } } })
           .mockResolvedValueOnce({ data: mockResponse })
 

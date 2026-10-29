@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { checkLoginStatus } from '@/components/utils.ts'
-import { useCommentsShow } from '@/composables/comments/useCommentsShow.ts'
-import { useCommentsDestroy } from '@/composables/comments/useCommentsDestroy.ts'
+import { useRoute } from 'vue-router'
+import { useCommentsShow } from '@/composables/comments/useCommentsShow'
+import { useCommentsDestroy } from '@/composables/comments/useCommentsDestroy'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
 import type { MessageEmit } from '@/env'
 
 const emit = defineEmits<MessageEmit>()
 const route = useRoute()
-const router = useRouter()
+const { requireLogin } = useAuthGuard(emit)
 const {
   comment,
   sampleId,
@@ -20,10 +20,7 @@ const {
 const { handleDelete } = useCommentsDestroy(emit, makerId, sampleId, comment)
 
 onMounted(async (): Promise<void> => {
-  const loggedIn = await checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
+  const loggedIn = await requireLogin()
   if (loggedIn) await fetchCommentData(route.params.id as string)
 })
 </script>
