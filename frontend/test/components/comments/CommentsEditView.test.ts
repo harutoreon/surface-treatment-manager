@@ -2,14 +2,15 @@ import CommentsEditView from '@/components/comments/CommentsEditView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount, flushPromises, RouterLinkStub } from '@vue/test-utils'
 import axios from 'axios'
-import type { CommentResponse } from '@/composables/comments/useCommentsEdit.ts'
+import type { CommentResponse } from '@/composables/comments/useCommentsEdit'
 import type { MessageEmit } from '@/env'
 import type { VueWrapper } from '@vue/test-utils'
 
-const { replaceMock, pushMock } = vi.hoisted(() => {
+const { replaceMock, pushMock, requireLoginMock } = vi.hoisted(() => {
   return {
     replaceMock: vi.fn(),
     pushMock: vi.fn(),
+    requireLoginMock: vi.fn(),
   }
 })
 
@@ -25,6 +26,15 @@ vi.mock('vue-router', () => {
       return {
         replace: replaceMock,
         push: pushMock,
+      }
+    }
+  }
+})
+vi.mock('@/composables/auth/useAuthGuard', () => {
+  return {
+    useAuthGuard: () => {
+      return {
+        requireLogin: requireLoginMock,
       }
     }
   }
@@ -52,15 +62,14 @@ describe('CommentsEditView', (): void => {
   })
 
   beforeEach((): void => {
-    vi.clearAllMocks()
+    vi.resetAllMocks()
+    requireLoginMock.mockResolvedValue(true)
   })
 
   describe('初期レンダリング', (): void => {
     describe('成功した場合', (): void => {
       it('コメント情報の編集ページが表示されること', async (): Promise<void> => {
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
-          .mockResolvedValueOnce({ data: mockCommentResponse })
+        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockCommentResponse })
 
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
@@ -95,10 +104,7 @@ describe('CommentsEditView', (): void => {
     describe('失敗した場合', (): void => {
       it('404ページに遷移すること', async (): Promise<void> => {
         vi.mocked(axios.isAxiosError).mockReturnValue(true)
-
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
-          .mockRejectedValueOnce({ response: { status: 404 } })
+        vi.mocked(axios.get).mockRejectedValueOnce({ response: { status: 404 } })
 
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
@@ -116,10 +122,7 @@ describe('CommentsEditView', (): void => {
   describe('コメント情報の更新', (): void => {
     describe('成功した場合', (): void => {
       it('コメント情報ページに遷移すること', async (): Promise<void> => {
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
-          .mockResolvedValueOnce({ data: mockCommentResponse })
-
+        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockCommentResponse })
         vi.mocked(axios.patch).mockResolvedValueOnce({
           data: {
             id: 1,
@@ -147,10 +150,7 @@ describe('CommentsEditView', (): void => {
 
     describe('失敗した場合', (): void => {
       it('入力不備のメッセージが表示されること', async (): Promise<void> => {
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
-          .mockResolvedValueOnce({ data: mockCommentResponse })
-
+        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockCommentResponse })
         vi.mocked(axios.isAxiosError).mockReturnValue(true)
         vi.mocked(axios.patch).mockRejectedValue({ response: { status: 422 } })
 
@@ -167,9 +167,7 @@ describe('CommentsEditView', (): void => {
 
   describe('コメント情報のキャンセル', (): void => {
     it('キャンセルボタンを押すとコメント情報ページに遷移すること', async (): Promise<void> => {
-      vi.mocked(axios.get)
-        .mockResolvedValueOnce({ status: 200 })
-        .mockResolvedValueOnce({ data: mockCommentResponse })
+      vi.mocked(axios.get).mockResolvedValueOnce({ data: mockCommentResponse })
 
       const wrapper: VueWrapper = mountComponent()
       await flushPromises()
