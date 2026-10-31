@@ -2,8 +2,8 @@
 import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useCommentsShow } from '@/composables/comments/useCommentsShow'
-import { useCommentsDestroy } from '@/composables/comments/useCommentsDestroy'
 import { useAuthGuard } from '@/composables/auth/useAuthGuard'
+import CommentsDestroyView from '@/components/comments/CommentsDestroyView.vue'
 import type { MessageEmit } from '@/env'
 
 const emit = defineEmits<MessageEmit>()
@@ -16,8 +16,6 @@ const {
   isAdmin,
   fetchCommentData
 } = useCommentsShow(emit)
-
-const { handleDelete } = useCommentsDestroy(emit, makerId, sampleId, comment)
 
 onMounted(async (): Promise<void> => {
   const loggedIn = await requireLogin()
@@ -64,15 +62,12 @@ onMounted(async (): Promise<void> => {
       </li>
     </ul>
 
-    <div class="d-flex justify-content-end mt-5">
-      <button
-        v-show="isAdmin"
-        class="btn btn-outline-danger shadow-sm"
-        type="button"
-        @click="handleDelete"
-      >
-        コメント情報の削除
-      </button>
-    </div>
+    <CommentsDestroyView
+      :maker-id="makerId"
+      :sample-id="sampleId"
+      :comment="comment"
+      :is-admin="isAdmin"
+      @message="emit('message', $event)"
+    />
   </div>
 </template>
