@@ -9,7 +9,6 @@ export type Props = {
   sampleId?: number
   comment?: Comment
   isAdmin: boolean
-
 }
 
 const emit = defineEmits<MessageEmit>()
