@@ -1,33 +1,21 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useSamplesIndex } from '@/composables/samples/useSamplesIndex.ts'
+import type { MessageEmit } from '@/env'
+import type { SampleListResponse } from '@/composables/samples/useSamplesIndex'
 import axios from 'axios'
 
-interface Sample {
-  id: number
-  name: string
-  color: string
-  feature: string
-}
-
-interface SampleListResponse {
-  samples: Sample[]
-  current_page: number
-  total_pages: number
-}
-
-interface EmitFn {
-  (event: 'message', payload: { type: 'success' | 'danger'; text: string }): void
-}
-
-const emitMock: EmitFn = vi.fn()
-const replaceMock: ReturnType<typeof vi.fn> = vi.fn()
+const { replaceMock } = vi.hoisted(() => {
+  return {
+    replaceMock: vi.fn(),
+  }
+})
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
   return {
     useRoute: () => {
       return {
-        query: { page: 1 },
+        query: { page: '1' },
       }
     },
     useRouter: () => {
@@ -39,6 +27,8 @@ vi.mock('vue-router', () => {
 })
 
 describe('useSamplesIndex', (): void => {
+  const emitMock: MessageEmit = vi.fn()
+
   beforeEach((): void => {
     vi.clearAllMocks()
   })
@@ -77,7 +67,7 @@ describe('useSamplesIndex', (): void => {
             total_pages: 1,
           }
 
-          vi.mocked(axios.get).mockResolvedValue({ data: mockResponse })
+          vi.mocked(axios.get).mockResolvedValueOnce({ data: mockResponse })
 
           const {
             samples,
@@ -96,8 +86,8 @@ describe('useSamplesIndex', (): void => {
 
       describe('リクエストに失敗した場合', (): void => {
         it('レスポンスにエラーメッセージを含み、NotFound ルートの呼び出しがあること', async (): Promise<void> => {
-          vi.mocked(axios.get).mockRejectedValue({ response: { status: 404 } })
           vi.mocked(axios.isAxiosError).mockReturnValue(true)
+          vi.mocked(axios.get).mockRejectedValueOnce({ response: { status: 404 } })
 
           const { fetchSampleList } = useSamplesIndex(emitMock)
           await fetchSampleList()

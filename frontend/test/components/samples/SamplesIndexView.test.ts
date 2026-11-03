@@ -2,7 +2,8 @@ import SamplesIndexView from '@/components/samples/SamplesIndexView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import type { VueWrapper } from '@vue/test-utils'
-import type { SampleListResponse, Emit } from '@/composables/samples/useSamplesIndex.ts'
+import type { SampleListResponse } from '@/composables/samples/useSamplesIndex.ts'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
 const { replaceMock } = vi.hoisted(() => {
@@ -101,7 +102,7 @@ describe('SamplesIndexView', (): void => {
       const wrapper: VueWrapper = mountComponent()
       await flushPromises()
 
-      const emittedMessage = wrapper.emitted<Emit>('message')
+      const emittedMessage = wrapper.emitted<MessageEmit>('message')
       expect(emittedMessage).toBeTruthy()
       expect(emittedMessage![0][0]).toEqual(
         { type: 'danger', text: '表面処理リストの取得に失敗しました。' })

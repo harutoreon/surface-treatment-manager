@@ -1,27 +1,24 @@
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
 
-export interface Sample {
+type Sample = {
   id: number
   name: string
   color: string
   feature: string
 }
 
-export interface SampleListResponse {
+export type SampleListResponse = {
   samples: Sample[]
   current_page: number
   total_pages: number
 }
 
-export interface Emit {
-  (event: 'message', payload: { type: 'success' | 'danger'; text: string }): void
-}
-
-export function useSamplesIndex(emit: Emit) {
+export function useSamplesIndex(emit: MessageEmit) {
   const route = useRoute()
   const router = useRouter()
 
