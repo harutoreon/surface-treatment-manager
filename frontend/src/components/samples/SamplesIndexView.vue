@@ -3,9 +3,9 @@ import {onMounted, watch} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useSamplesIndex } from '@/composables/samples/useSamplesIndex.ts'
 import { checkLoginStatus } from '@/components/utils.ts'
-import type { Emit } from '@/composables/samples/useSamplesIndex.ts'
+import type { MessageEmit } from '@/env'
 
-const emit = defineEmits<Emit>()
+const emit = defineEmits<MessageEmit>()
 const router = useRouter()
 const route = useRoute()
 const { samples, currentPage, totalPages, fetchSampleList } = useSamplesIndex(emit)
