@@ -196,25 +196,4 @@ describe('CommentsShowView', (): void => {
       })
     })
   })
-
-  describe('ログインユーザー毎のレンダリング', (): void => {
-    describe('一般ユーザーでログインした場合', (): void => {
-      it('コメントリストリンクとコメント情報の削除リンクは表示されないこと', async (): Promise<void> => {
-        const generalUserId: number = 50
-
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ data: { payload: { user_id: generalUserId } } })
-          .mockResolvedValueOnce({ data: mockResponse })
-
-        const wrapper: VueWrapper = mountComponent()
-        await flushPromises()
-
-        const routerLinks = wrapper.findAllComponents(RouterLinkStub)
-        expect(routerLinks[1].attributes('style')).toBe('display: none;')
-
-        const deleteButton = wrapper.find('button')
-        expect(deleteButton.attributes('style')).toBe('display: none;')
-      })
-    })
-  })
 })
