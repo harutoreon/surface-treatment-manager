@@ -63,10 +63,10 @@ onMounted(async (): Promise<void> => {
     </ul>
 
     <CommentsDestroyView
+      v-if="isAdmin"
       :maker-id="makerId"
       :sample-id="sampleId"
       :comment="comment"
-      :is-admin="isAdmin"
       @message="emit('message', $event)"
     />
   </div>

@@ -8,7 +8,6 @@ export type Props = {
   makerId?: number
   sampleId?: number
   comment?: Comment
-  isAdmin: boolean
 }
 
 const emit = defineEmits<MessageEmit>()
@@ -21,7 +20,6 @@ const { handleDelete } = useCommentsDestroy(emit, makerId, sampleId, comment)
 <template>
   <div class="d-flex justify-content-end mt-5">
     <button
-      v-show="isAdmin"
       class="btn btn-outline-danger shadow-sm"
       type="button"
       @click="handleDelete"
