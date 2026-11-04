@@ -6,9 +6,10 @@ import type { SampleListResponse } from '@/composables/samples/useSamplesIndex.t
 import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
-const { replaceMock } = vi.hoisted(() => {
+const { replaceMock, requireLoginMock } = vi.hoisted(() => {
   return {
     replaceMock: vi.fn(),
+    requireLoginMock: vi.fn(),
   }
 })
 
@@ -17,12 +18,21 @@ vi.mock('vue-router', () => {
   return {
     useRoute: () => {
       return {
-        query: { page: 1 }
+        query: { page: '1' }
       }
     },
     useRouter: () => {
       return {
         replace: replaceMock,
+      }
+    }
+  }
+})
+vi.mock('@/composables/auth/useAuthGuard', () => {
+  return {
+    useAuthGuard: () => {
+      return {
+        requireLogin: requireLoginMock,
       }
     }
   }
@@ -52,13 +62,12 @@ describe('SamplesIndexView', (): void => {
 
   beforeEach((): void => {
     vi.clearAllMocks()
+    requireLoginMock.mockResolvedValue(true)
   })
 
   describe('初期レンダリングに成功した場合', (): void => {
     it('表面処理リストページが表示されること', async (): Promise<void> => {
-      vi.mocked(axios.get)
-        .mockResolvedValueOnce({ status: 200 })
-        .mockResolvedValueOnce({ data: mockResponse })
+      vi.mocked(axios.get).mockResolvedValueOnce({ data: mockResponse })
 
       const wrapper: VueWrapper = mountComponent()
       await flushPromises()
@@ -93,9 +102,7 @@ describe('SamplesIndexView', (): void => {
     
   describe('初期レンダリングに失敗した場合', (): void => {
     it('404 ページに遷移すること', async (): Promise<void> => {
-      vi.mocked(axios.get)
-        .mockResolvedValueOnce({ status: 200 })
-        .mockRejectedValueOnce({ response: { status: 404 } })
+      vi.mocked(axios.get).mockRejectedValueOnce({ response: { status: 404 } })
       vi.mocked(axios.isAxiosError).mockReturnValue(true)
 
 
@@ -103,7 +110,6 @@ describe('SamplesIndexView', (): void => {
       await flushPromises()
 
       const emittedMessage = wrapper.emitted<MessageEmit>('message')
-      expect(emittedMessage).toBeTruthy()
       expect(emittedMessage![0][0]).toEqual(
         { type: 'danger', text: '表面処理リストの取得に失敗しました。' })
 

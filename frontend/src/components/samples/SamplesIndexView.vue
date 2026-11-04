@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import {onMounted, watch} from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { useSamplesIndex } from '@/composables/samples/useSamplesIndex.ts'
-import { checkLoginStatus } from '@/components/utils.ts'
 import type { MessageEmit } from '@/env'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
 
 const emit = defineEmits<MessageEmit>()
-const router = useRouter()
 const route = useRoute()
+const { requireLogin } = useAuthGuard(emit)
 const { samples, currentPage, totalPages, fetchSampleList } = useSamplesIndex(emit)
 
 const getPageLink = (page: number): { path: string; query: { page: number } } => {
@@ -23,10 +23,7 @@ watch(() => route.query.page, (newPage) => {
 })
 
 onMounted(async (): Promise<void> => {
-  const loggedIn = await checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
+  const loggedIn = await requireLogin()
   if (loggedIn) await fetchSampleList()
 })
 </script>
