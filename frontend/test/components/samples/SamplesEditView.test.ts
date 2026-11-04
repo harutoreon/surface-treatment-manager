@@ -2,7 +2,8 @@ import SamplesEditView from '@/components/samples/SamplesEditView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import type { VueWrapper } from '@vue/test-utils'
-import type { Sample, Emit } from '@/composables/samples/useSamplesEdit.ts'
+import type { Sample } from '@/composables/samples/useSamplesEdit.ts'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
 const { replaceMock } = vi.hoisted(() => {
@@ -16,7 +17,7 @@ vi.mock('vue-router', () => {
   return {
     useRoute: () => {
       return {
-        params: { id: 1 }
+        params: { id: '1' }
       }
     },
     useRouter: () => {
@@ -119,7 +120,7 @@ describe('SamplesEditView', (): void => {
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
 
-        const emittedMessage = wrapper.emitted('message') as Emit[] | undefined
+        const emittedMessage = wrapper.emitted('message') as MessageEmit[] | undefined
         expect(emittedMessage).toBeTruthy()
         expect(emittedMessage![0][0]).toEqual(
           { type: 'danger', text: '表面処理情報の取得に失敗しました。' }
@@ -150,7 +151,7 @@ describe('SamplesEditView', (): void => {
           { headers: { 'Content-Type': 'multipart/form-data' } }
         )
 
-        const emittedMessage = wrapper.emitted('message') as Emit[] | undefined
+        const emittedMessage = wrapper.emitted('message') as MessageEmit[] | undefined
         expect(emittedMessage).toBeTruthy()
         expect(emittedMessage![0][0]).toEqual(
           { type: 'success', text: '表面処理情報を更新しました。' }

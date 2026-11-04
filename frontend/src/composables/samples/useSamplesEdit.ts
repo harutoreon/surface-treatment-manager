@@ -1,10 +1,11 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
 
-export interface Sample {
+export type Sample = {
   id: number
   name: string
   color: string
@@ -17,11 +18,7 @@ export interface Sample {
   image_url: string
 }
 
-export interface Emit {
-  (event: 'message', payload: { type: 'success' | 'danger'; text: string }): void
-}
-
-export function useSamplesEdit(emit: Emit) {
+export function useSamplesEdit(emit: MessageEmit) {
   const router = useRouter()
   const sample = ref<Sample | null>(null)
   const image = ref<File | null>(null)

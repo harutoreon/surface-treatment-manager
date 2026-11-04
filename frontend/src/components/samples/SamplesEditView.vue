@@ -3,9 +3,9 @@ import { onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { checkLoginStatus } from '@/components/utils.ts'
 import { useSamplesEdit } from '@/composables/samples/useSamplesEdit.ts'
-import type { Emit } from '@/composables/samples/useSamplesEdit.ts'
+import type { MessageEmit } from '@/env'
 
-const emit = defineEmits<Emit>()
+const emit = defineEmits<MessageEmit>()
 const { sample, errorMessage, fetchSampleData, sampleUpdate } = useSamplesEdit(emit)
 const route = useRoute()
 const router = useRouter()

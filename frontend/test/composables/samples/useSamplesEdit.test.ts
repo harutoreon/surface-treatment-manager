@@ -1,9 +1,14 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useSamplesEdit } from '@/composables/samples/useSamplesEdit.ts'
-import type { Emit, Sample } from '@/composables/samples/useSamplesEdit.ts'
+import type { Sample } from '@/composables/samples/useSamplesEdit.ts'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
-const replaceMock: ReturnType<typeof vi.fn> = vi.fn()
+const { replaceMock } = vi.hoisted(() => {
+  return {
+    replaceMock: vi.fn(),
+  }
+})
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
@@ -17,7 +22,7 @@ vi.mock('vue-router', () => {
 })
 
 describe('useSamplesEdit', (): void => {
-  const emitMock: Emit = vi.fn()
+  const emitMock: MessageEmit = vi.fn()
 
   beforeEach((): void => {
     vi.clearAllMocks()
@@ -59,7 +64,10 @@ describe('useSamplesEdit', (): void => {
 
           vi.mocked(axios.get).mockResolvedValue({ data: mockResponse })
 
-          const { sample, fetchSampleData } = useSamplesEdit(emitMock)
+          const {
+            sample,
+            fetchSampleData
+          } = useSamplesEdit(emitMock)
           await fetchSampleData('1')
 
           expect(sample.value).toEqual(mockResponse)
@@ -140,7 +148,11 @@ describe('useSamplesEdit', (): void => {
 
       describe('film_thickness がバリデーションエラーの場合、', (): void => {
         it('エラーメッセージを表示して早期リターンする', async (): Promise<void> => {
-          const { sample, errorMessage, sampleUpdate } = useSamplesEdit(emitMock)
+          const {
+            sample,
+            errorMessage,
+            sampleUpdate
+          } = useSamplesEdit(emitMock)
           sample.value = { ...mockResponse, film_thickness: '膜厚は5μmです' }
 
           await sampleUpdate()
