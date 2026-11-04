@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { useSamplesDestroy } from '@/composables/samples/useSamplesDestroy.ts'
-import {type Emit, type Sample, useSamplesShow} from '@/composables/samples/useSamplesShow.ts'
+import { type Sample, useSamplesShow } from '@/composables/samples/useSamplesShow.ts'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
 const { replaceMock, pushMock } = vi.hoisted(() => {
@@ -23,7 +24,7 @@ vi.mock('vue-router', () => {
 })
 
 describe('useSamplesDestroy', (): void => {
-  const emitMock: Emit = vi.fn()
+  const emitMock: MessageEmit = vi.fn()
 
   beforeEach((): void => {
     vi.clearAllMocks()

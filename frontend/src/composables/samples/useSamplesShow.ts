@@ -1,10 +1,11 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
 
-export interface Sample {
+export type Sample = {
   id: number
   name: string
   color: string
@@ -17,14 +18,14 @@ export interface Sample {
   image_url: string
 }
 
-export interface User {
+export type User = {
   id: number
   name: string
   department: string
   admin: boolean
 }
 
-export interface Comment {
+export type Comment = {
   id: number
   commenter: string
   body: string
@@ -33,32 +34,12 @@ export interface Comment {
   created_at: string
 }
 
-export interface Emit {
-  (event: 'message', payload: { type: 'success' | 'danger'; text: string }): void
-}
-
-export function useSamplesShow(emit: Emit) {
+export function useSamplesShow(emit: MessageEmit) {
   const router = useRouter()
   const sampleComments = ref<Comment[]>([])
   const isAdmin = ref<boolean>(false)
-  const sample = ref<Sample>({
-    id: null,
-    name: '',
-    color: '',
-    hardness: '',
-    film_thickness: '',
-    feature: '',
-    summary: '',
-    maker_id: null,
-    category_id: null,
-    image_url: '',
-  })
-  const user = ref<User>({
-    id: null,
-    name: '',
-    department: '',
-    admin: false,
-  })
+  const sample = ref<Sample | null>(null)
+  const user = ref<User | null>(null)
 
   const fetchSampleData = async (id: string): Promise<void> => {
     const token = localStorage.getItem('token')
