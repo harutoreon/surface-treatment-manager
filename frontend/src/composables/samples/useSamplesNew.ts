@@ -1,25 +1,22 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
 
-export interface Maker {
+export type Maker = {
   id: number
   name: string
 }
 
-export interface Category {
+export type Category = {
   id: number
   item: string
   summary: string
 }
 
-export interface Emit {
-  (event: 'message', payload: { type: 'success' | 'danger'; text: string }): void
-}
-
-export function useSamplesNew(emit: Emit) {
+export function useSamplesNew(emit: MessageEmit) {
   const router = useRouter()
   const makerOptions = ref<Maker[]>([])
   const categoryOptions = ref<Category[]>([])

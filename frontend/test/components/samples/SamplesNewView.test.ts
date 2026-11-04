@@ -2,7 +2,8 @@ import SamplesNewView from '@/components/samples/SamplesNewView.vue'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import type { VueWrapper } from '@vue/test-utils'
-import type { Category, Maker, Emit } from '@/composables/samples/useSamplesNew.ts'
+import type { Category, Maker } from '@/composables/samples/useSamplesNew.ts'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
 interface MockFileReader {
@@ -126,7 +127,7 @@ describe('SamplesNewView', (): void => {
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
 
-        const emittedMessage = wrapper.emitted<Emit>('message')
+        const emittedMessage = wrapper.emitted<MessageEmit>('message')
         expect(emittedMessage).toBeTruthy()
         expect(emittedMessage[0][0]).toEqual(
           { type: 'danger', text: 'ログインが必要です。' }
@@ -180,7 +181,7 @@ describe('SamplesNewView', (): void => {
           { headers: { 'Content-Type': 'multipart/form-data' } }
         )
 
-        const emittedMessage = wrapper.emitted<Emit>('message')
+        const emittedMessage = wrapper.emitted<MessageEmit>('message')
         expect(emittedMessage).toBeTruthy()
         expect(emittedMessage[0][0]).toEqual(
           { type: 'success', text: '表面処理情報を1件登録しました。' }
