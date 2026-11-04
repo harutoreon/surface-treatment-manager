@@ -1,9 +1,14 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useSamplesShow } from '@/composables/samples/useSamplesShow.ts'
-import type { Sample, User, Comment, Emit } from '@/composables/samples/useSamplesShow.ts'
+import type { Sample, User, Comment } from '@/composables/samples/useSamplesShow.ts'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
-const replaceMock: ReturnType<typeof vi.fn> = vi.fn()
+const { replaceMock } = vi.hoisted(() => {
+  return {
+    replaceMock: vi.fn(),
+  }
+})
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
@@ -17,7 +22,7 @@ vi.mock('vue-router', () => {
 })
 
 describe('useSamplesShow', (): void => {
-  const emitMock: Emit = vi.fn()
+  const emitMock: MessageEmit = vi.fn()
 
   beforeEach((): void => {
     vi.clearAllMocks()
@@ -34,57 +39,41 @@ describe('useSamplesShow', (): void => {
       expect(isAdmin.value).toBe(false)
     })
 
-    it('sample の初期値が空のオブジェクトであること', (): void => {
+    it('sample の初期値が null であること', (): void => {
       const { sample } = useSamplesShow(emitMock)
-      expect(sample.value).toEqual({
-        id: null,
-        name: '',
-        color: '',
-        hardness: '',
-        film_thickness: '',
-        feature: '',
-        summary: '',
-        maker_id: null,
-        category_id: null,
-        image_url: '',
-      })
+      expect(sample.value).toBeNull()
     })
 
     it('user の初期値が空のオブジェクトであること', (): void => {
       const { user } = useSamplesShow(emitMock)
-      expect(user.value).toEqual({
-        id: null,
-        name: '',
-        department: '',
-        admin: false,
-      })
+      expect(user.value).toBeNull()
     })
   })
 
   describe('ロジックの検証', (): void => {
+    const adminUserId: number = 49
+
+    const mockUserResponse: User = {
+      id: adminUserId,
+      name: 'admin user',
+      department: 'sample department',
+      admin: true
+    }
+
+    const mockSampleResponse: Sample = {
+      id: 1,
+      name: 'sample name',
+      color: 'sample color',
+      hardness: 'sample hardness',
+      film_thickness: 'sample hardness',
+      feature: 'sample feature',
+      summary: 'sample summary',
+      maker_id: 1,
+      category_id: 1,
+      image_url: 'http://example.com',
+    }
+
     describe('fetchSampleData', (): void => {
-      const adminUserId: number = 49
-
-      const mockUserResponse: User = {
-        id: adminUserId,
-        name: 'admin user',
-        department: 'sample department',
-        admin: true
-      }
-
-      const mockSampleResponse: Sample = {
-        id: 1,
-        name: 'sample name',
-        color: 'sample color',
-        hardness: 'sample hardness',
-        film_thickness: 'sample hardness',
-        feature: 'sample feature',
-        summary: 'sample summary',
-        maker_id: 1,
-        category_id: 1,
-        image_url: 'http://example.com',
-      }
-
       beforeEach((): void => {
         vi.mocked(axios.get).mockResolvedValueOnce({ data: { payload: { user_id: mockUserResponse.id } } })
         vi.mocked(axios.get).mockResolvedValueOnce({ data: mockUserResponse })
@@ -119,20 +108,27 @@ describe('useSamplesShow', (): void => {
     })
 
     describe('fetchSampleCommentData', (): void => {
-      const mockResponse: Comment = {
-        id: 1,
-        commenter: 'sample commenter',
-        body: 'sample body',
-        sample_id: 1,
-        department: 'sample department',
-        created_at: '2026/12/29'
-      }
+      const mockResponse: Comment[] = [
+        {
+          id: 1,
+          commenter: 'sample commenter',
+          body: 'sample body',
+          sample_id: 1,
+          department: 'sample department',
+          created_at: '2026/12/29'
+        }
+      ]
 
       describe('リクエストに成功した場合', (): void => {
         it('レスポンスがコメント一覧であること', async (): Promise<void> => {
-          vi.mocked(axios.get).mockResolvedValue({ data: mockResponse })
+          vi.mocked(axios.get).mockResolvedValueOnce({ data: mockResponse })
 
-          const { sampleComments, fetchSampleCommentsData } = useSamplesShow(emitMock)
+          const {
+            sample,
+            sampleComments,
+            fetchSampleCommentsData
+          } = useSamplesShow(emitMock)
+          sample.value = mockSampleResponse
           await fetchSampleCommentsData('1')
 
           expect(sampleComments.value).toEqual(mockResponse)
@@ -144,7 +140,8 @@ describe('useSamplesShow', (): void => {
           vi.mocked(axios.get).mockRejectedValue({ response: { status: 404 } })
           vi.mocked(axios.isAxiosError).mockReturnValue(true)
 
-          const { fetchSampleCommentsData } = useSamplesShow(emitMock)
+          const { sample, fetchSampleCommentsData } = useSamplesShow(emitMock)
+          sample.value = mockSampleResponse
           await fetchSampleCommentsData('1')
 
           expect(emitMock).toHaveBeenCalledWith(
@@ -157,4 +154,3 @@ describe('useSamplesShow', (): void => {
     })
   })
 })
-

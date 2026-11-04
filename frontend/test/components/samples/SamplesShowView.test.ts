@@ -2,7 +2,8 @@ import SamplesShowView from '@/components/samples/SamplesShowView.vue'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import type { VueWrapper } from '@vue/test-utils'
-import type { Sample, Comment, User, Emit } from '@/composables/samples/useSamplesShow.ts'
+import type { Sample, Comment, User } from '@/composables/samples/useSamplesShow.ts'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
 const { replaceMock, pushMock, backMock } = vi.hoisted(() => {
@@ -178,7 +179,7 @@ describe('SamplesShowView', (): void => {
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
 
-        const emittedMessage = wrapper.emitted<Emit>('message')
+        const emittedMessage = wrapper.emitted<MessageEmit>('message')
         expect(emittedMessage).toBeTruthy()
         expect(emittedMessage[0][0]).toEqual(
           { type: 'danger', text: '表面処理情報の取得に失敗しました。' }
@@ -216,7 +217,7 @@ describe('SamplesShowView', (): void => {
         const deleteButton = wrapper.find('#handle-delete')
         await deleteButton.trigger('click')
 
-        const emittedMessage = wrapper.emitted<Emit>('message')
+        const emittedMessage = wrapper.emitted<MessageEmit>('message')
         expect(emittedMessage).toBeTruthy()
         expect(emittedMessage[0][0]).toEqual(
           { type: 'success', text: '表面処理情報を削除しました。' }
@@ -245,7 +246,7 @@ describe('SamplesShowView', (): void => {
         const deleteButton = wrapper.find('#handle-delete')
         await deleteButton.trigger('click')
 
-        const emittedMessage = wrapper.emitted<Emit>('message')
+        const emittedMessage = wrapper.emitted<MessageEmit>('message')
         expect(emittedMessage).toBeTruthy()
         expect(emittedMessage[0][0]).toEqual(
           { type: 'danger', text: '表面処理情報の削除処理に失敗しました。' }

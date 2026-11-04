@@ -6,10 +6,10 @@ import { checkLoginStatus } from '@/components/utils.ts'
 import { Modal } from 'bootstrap'
 import { useSamplesShow } from '@/composables/samples/useSamplesShow.ts'
 import { useSamplesDestroy } from '@/composables/samples/useSamplesDestroy.ts'
-import type { Emit } from '@/composables/samples/useSamplesShow.ts'
+import type { MessageEmit } from '@/env'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
-const emit = defineEmits<Emit>()
+const emit = defineEmits<MessageEmit>()
 
 const {
   sample,
@@ -86,7 +86,7 @@ onMounted(async (): Promise<void> => {
 </script>
 
 <template>
-  <div class="container w-50">
+  <div v-if="sample" class="container w-50">
     <h3 class="text-center m-5">
       表面処理情報
     </h3>

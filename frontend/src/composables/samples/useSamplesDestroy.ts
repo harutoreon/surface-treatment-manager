@@ -1,11 +1,12 @@
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import type { Ref } from 'vue'
-import type { Sample, Emit } from '@/composables/samples/useSamplesShow.ts'
+import type { Sample } from '@/composables/samples/useSamplesShow.ts'
+import type { MessageEmit } from '@/env'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
 
-export function useSamplesDestroy(emit: Emit, sample: Ref<Sample | null>) {
+export function useSamplesDestroy(emit: MessageEmit, sample: Ref<Sample | null>) {
   const router = useRouter()
 
   const handleDelete = async (): Promise<void> => {
