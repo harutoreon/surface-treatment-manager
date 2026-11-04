@@ -3,9 +3,9 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { checkLoginStatus } from '@/components/utils.ts'
 import { useSamplesNew } from '@/composables/samples/useSamplesNew.ts'
-import type { Emit } from '@/composables/samples/useSamplesNew.ts'
+import type { MessageEmit } from '@/env'
 
-const emit = defineEmits<Emit>()
+const emit = defineEmits<MessageEmit>()
 
 const router = useRouter()
 const category = ref<string>('')

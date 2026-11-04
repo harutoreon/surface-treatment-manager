@@ -1,10 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useSamplesNew } from '@/composables/samples/useSamplesNew.ts'
-import type { Emit, Maker, Category } from '@/composables/samples/useSamplesNew.ts'
+import type { Maker, Category } from '@/composables/samples/useSamplesNew.ts'
+import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
-const replaceMock: ReturnType<typeof vi.fn> = vi.fn()
-const pushMock: ReturnType<typeof vi.fn> = vi.fn()
+const { replaceMock, pushMock } = vi.hoisted(() => {
+  return {
+    replaceMock: vi.fn(),
+    pushMock: vi.fn(),
+  }
+})
 
 vi.mock('axios')
 vi.mock('vue-router', () => {
@@ -19,7 +24,7 @@ vi.mock('vue-router', () => {
 })
 
 describe('useSamplesNew', (): void => {
-  const emitMock: Emit = vi.fn()
+  const emitMock: MessageEmit = vi.fn()
 
   beforeEach((): void => {
     vi.clearAllMocks()
