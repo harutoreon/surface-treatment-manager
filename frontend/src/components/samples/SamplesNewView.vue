@@ -1,18 +1,16 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { checkLoginStatus } from '@/components/utils.ts'
 import { useSamplesNew } from '@/composables/samples/useSamplesNew.ts'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
 import type { MessageEmit } from '@/env'
 
 const emit = defineEmits<MessageEmit>()
-
-const router = useRouter()
 const category = ref<string>('')
 const maker = ref<string>('')
 const imageSizeErrorMessage = ref<string>('')
 const previewImage = ref<string>('')
 
+const { requireLogin } = useAuthGuard(emit)
 const {
   makerOptions,
   categoryOptions,
@@ -72,10 +70,8 @@ const handleFileChange = (event: Event) => {
 }
 
 onMounted(async (): Promise<void> => {
-  const loggedIn = await checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
+  const loggedIn = await requireLogin()
+
   if (loggedIn) {
     await fetchCategories()
     await fetchMakerData()
