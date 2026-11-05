@@ -6,11 +6,17 @@ import type { Sample, Comment, User } from '@/composables/samples/useSamplesShow
 import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
-const { replaceMock, pushMock, backMock } = vi.hoisted(() => {
+const {
+  replaceMock,
+  pushMock,
+  backMock,
+  requireLoginMock
+} = vi.hoisted(() => {
   return {
     replaceMock: vi.fn(),
     pushMock: vi.fn(),
-    backMock: vi.fn()
+    backMock: vi.fn(),
+    requireLoginMock: vi.fn(),
   }
 })
 
@@ -27,6 +33,15 @@ vi.mock('vue-router', () => {
         replace: replaceMock,
         push: pushMock,
         back: backMock
+      }
+    }
+  }
+})
+vi.mock('@/composables/auth/useAuthGuard', () => {
+  return {
+    useAuthGuard: () => {
+      return {
+        requireLogin: requireLoginMock,
       }
     }
   }
@@ -81,6 +96,7 @@ describe('SamplesShowView', (): void => {
 
   beforeEach((): void => {
     vi.clearAllMocks()
+    requireLoginMock.mockResolvedValue(true)
   })
 
   describe('初期レンダリング', (): void => {
@@ -89,7 +105,6 @@ describe('SamplesShowView', (): void => {
         const adminUserId = 49
 
         vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
           .mockResolvedValueOnce({ data: { payload: { user_id: adminUserId } } })
           .mockResolvedValueOnce({ data: adminUserResponse })
           .mockResolvedValueOnce({ data: sampleResponse })
@@ -169,7 +184,6 @@ describe('SamplesShowView', (): void => {
         const adminUserId = 49
 
         vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
           .mockResolvedValueOnce({ data: { payload: { user_id: adminUserId } } })
           .mockResolvedValueOnce({ data: adminUserResponse })
           .mockRejectedValueOnce({ response: { status: 404 } })
@@ -180,8 +194,7 @@ describe('SamplesShowView', (): void => {
         await flushPromises()
 
         const emittedMessage = wrapper.emitted<MessageEmit>('message')
-        expect(emittedMessage).toBeTruthy()
-        expect(emittedMessage[0][0]).toEqual(
+        expect(emittedMessage![0][0]).toEqual(
           { type: 'danger', text: '表面処理情報の取得に失敗しました。' }
         )
         expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
@@ -203,7 +216,6 @@ describe('SamplesShowView', (): void => {
         const adminUserId = 49
 
         vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
           .mockResolvedValueOnce({ data: { payload: { user_id: adminUserId } } })
           .mockResolvedValueOnce({ data: adminUserResponse })
           .mockResolvedValueOnce({ data: sampleResponse })
@@ -218,8 +230,7 @@ describe('SamplesShowView', (): void => {
         await deleteButton.trigger('click')
 
         const emittedMessage = wrapper.emitted<MessageEmit>('message')
-        expect(emittedMessage).toBeTruthy()
-        expect(emittedMessage[0][0]).toEqual(
+        expect(emittedMessage![0][0]).toEqual(
           { type: 'success', text: '表面処理情報を削除しました。' }
         )
         expect(pushMock).toHaveBeenCalledWith('/samples')
@@ -231,7 +242,6 @@ describe('SamplesShowView', (): void => {
         const adminUserId = 49
 
         vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
           .mockResolvedValueOnce({ data: { payload: { user_id: adminUserId } } })
           .mockResolvedValueOnce({ data: adminUserResponse })
           .mockResolvedValueOnce({ data: sampleResponse })
@@ -247,8 +257,7 @@ describe('SamplesShowView', (): void => {
         await deleteButton.trigger('click')
 
         const emittedMessage = wrapper.emitted<MessageEmit>('message')
-        expect(emittedMessage).toBeTruthy()
-        expect(emittedMessage[0][0]).toEqual(
+        expect(emittedMessage![0][0]).toEqual(
           { type: 'danger', text: '表面処理情報の削除処理に失敗しました。' }
         )
         expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
@@ -262,7 +271,6 @@ describe('SamplesShowView', (): void => {
         const adminUserId = 49
 
         vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
           .mockResolvedValueOnce({ data: { payload: { user_id: adminUserId } } })
           .mockResolvedValueOnce({ data: adminUserResponse })
           .mockResolvedValueOnce({ data: sampleResponse })
@@ -310,7 +318,6 @@ describe('SamplesShowView', (): void => {
         const adminUserId = 49
 
         vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
           .mockResolvedValueOnce({ data: { payload: { user_id: adminUserId } } })
           .mockResolvedValueOnce({ data: adminUserResponse })
           .mockResolvedValueOnce({ data: sampleResponse })
@@ -337,7 +344,6 @@ describe('SamplesShowView', (): void => {
       const generalUserId = 50
 
       vi.mocked(axios.get)
-        .mockResolvedValueOnce({ status: 200 })
         .mockResolvedValueOnce({ data: { payload: { user_id: generalUserId } } })
         .mockResolvedValueOnce({ data: generalUserResponse })
         .mockResolvedValueOnce({ data: sampleResponse })
@@ -365,7 +371,6 @@ describe('SamplesShowView', (): void => {
       const generalUserId = 50
 
       vi.mocked(axios.get)
-        .mockResolvedValueOnce({ status: 200 })
         .mockResolvedValueOnce({ data: { payload: { user_id: generalUserId } } })
         .mockResolvedValueOnce({ data: generalUserResponse })
         .mockResolvedValueOnce({ data: sampleResponse })

@@ -2,15 +2,15 @@
 import { useRoute, useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import { checkLoginStatus } from '@/components/utils.ts'
 import { Modal } from 'bootstrap'
 import { useSamplesShow } from '@/composables/samples/useSamplesShow.ts'
 import { useSamplesDestroy } from '@/composables/samples/useSamplesDestroy.ts'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
 import type { MessageEmit } from '@/env'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
 const emit = defineEmits<MessageEmit>()
-
+const { requireLogin } = useAuthGuard(emit)
 const {
   sample,
   sampleComments,
@@ -74,10 +74,8 @@ const formatDate = (isoString: string): string => {
 }
 
 onMounted(async (): Promise<void> => {
-  const loggedIn = await checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
+  const loggedIn = await requireLogin()
+
   if (loggedIn) {
     await fetchSampleData(route.params.id as string)
     await fetchSampleCommentsData(sampleId.value)
