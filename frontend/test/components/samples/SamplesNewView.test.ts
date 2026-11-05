@@ -6,15 +6,20 @@ import type { Category, Maker } from '@/composables/samples/useSamplesNew.ts'
 import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
-interface MockFileReader {
+type MockFileReader = {
   result: string | null
   onload: ((event: { target: MockFileReader }) => void)
 }
 
-const { pushMock, replaceMock } = vi.hoisted(() => {
+const {
+  pushMock,
+  replaceMock,
+  requireLoginMock
+} = vi.hoisted(() => {
   return {
     pushMock: vi.fn(),
     replaceMock: vi.fn(),
+    requireLoginMock: vi.fn(),
   }
 })
 
@@ -25,6 +30,15 @@ vi.mock('vue-router', () => {
       return {
         push: pushMock,
         replace: replaceMock,
+      }
+    }
+  }
+})
+vi.mock('@/composables/auth/useAuthGuard', () => {
+  return {
+    useAuthGuard: () => {
+      return {
+        requireLogin: requireLoginMock,
       }
     }
   }
@@ -56,95 +70,70 @@ describe('SamplesNewView', (): void => {
 
   beforeEach((): void => {
     vi.clearAllMocks()
+    requireLoginMock.mockResolvedValue(true)
+    vi.mocked(axios.get)
+      .mockResolvedValueOnce({ data: categoryOptionsResponse })
+      .mockResolvedValueOnce({ data: makerOptionsResponse })
   })
 
   describe('初期レンダリング', (): void => {
-    describe('成功した場合', (): void => {
-      it('表面処理情報の登録ページが表示されること', async (): Promise<void> => {
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
-          .mockResolvedValueOnce({ data: categoryOptionsResponse })
-          .mockResolvedValueOnce({ data: makerOptionsResponse })
+    it('レンダリングに成功すると、表面処理情報の登録ページが表示される', async (): Promise<void> => {
+      const wrapper: VueWrapper = mountComponent()
+      await flushPromises()
 
-        const wrapper: VueWrapper = mountComponent()
-        await flushPromises()
+      // 見出し
+      expect(wrapper.find('h3').text()).toBe('表面処理情報の登録')
 
-        // 見出し
-        expect(wrapper.find('h3').text()).toBe('表面処理情報の登録')
+      // フォーム要素
+      expect(wrapper.find('form').exists()).toBe(true)
 
-        // フォーム要素
-        expect(wrapper.find('form').exists()).toBe(true)
+      // ラベル要素
+      expect(wrapper.find('label[for="sample-name"]').text()).toBe('処理名')
+      expect(wrapper.find('label[for="sample-category"]').text()).toBe('カテゴリー')
+      expect(wrapper.find('label[for="sample-color"]').text()).toBe('色')
+      expect(wrapper.find('label[for="makers"]').text()).toBe('メーカー')
+      expect(wrapper.find('label[for="sample-hardness"]').text()).toBe('硬度')
+      expect(wrapper.find('label[for="sample-film-thickness"]').text()).toBe('膜厚')
+      expect(wrapper.find('label[for="sample-feature"]').text()).toBe('特徴')
+      expect(wrapper.find('label[for="sample-summary"]').text()).toBe('概要')
+      expect(wrapper.find('label[for="sample-image"]').text()).toBe('画像')
 
-        // ラベル要素
-        expect(wrapper.find('label[for="sample-name"]').text()).toBe('処理名')
-        expect(wrapper.find('label[for="sample-category"]').text()).toBe('カテゴリー')
-        expect(wrapper.find('label[for="sample-color"]').text()).toBe('色')
-        expect(wrapper.find('label[for="makers"]').text()).toBe('メーカー')
-        expect(wrapper.find('label[for="sample-hardness"]').text()).toBe('硬度')
-        expect(wrapper.find('label[for="sample-film-thickness"]').text()).toBe('膜厚')
-        expect(wrapper.find('label[for="sample-feature"]').text()).toBe('特徴')
-        expect(wrapper.find('label[for="sample-summary"]').text()).toBe('概要')
-        expect(wrapper.find('label[for="sample-image"]').text()).toBe('画像')
+      // 入力要素（テキスト）
+      expect(wrapper.find('#sample-name').exists()).toBe(true)
+      expect(wrapper.find('#sample-color').exists()).toBe(true)
+      expect(wrapper.find('#sample-hardness').exists()).toBe(true)
+      expect(wrapper.find('#sample-film-thickness').exists()).toBe(true)
+      expect(wrapper.find('#sample-feature').exists()).toBe(true)
+      expect(wrapper.find('#sample-summary').exists()).toBe(true)
 
-        // 入力要素（テキスト）
-        expect(wrapper.find('#sample-name').exists()).toBe(true)
-        expect(wrapper.find('#sample-color').exists()).toBe(true)
-        expect(wrapper.find('#sample-hardness').exists()).toBe(true)
-        expect(wrapper.find('#sample-film-thickness').exists()).toBe(true)
-        expect(wrapper.find('#sample-feature').exists()).toBe(true)
-        expect(wrapper.find('#sample-summary').exists()).toBe(true)
+      // 選択要素
+      expect(wrapper.find('#sample-category').exists()).toBe(true)
+      expect(wrapper.find('option[value=""]').text()).toBe('カテゴリーを選択して下さい')
+      expect(wrapper.find('option[value="めっき"]').text()).toBe('めっき')
 
-        // 選択要素
-        expect(wrapper.find('#sample-category').exists()).toBe(true)
-        expect(wrapper.find('option[value=""]').text()).toBe('カテゴリーを選択して下さい')
-        expect(wrapper.find('option[value="めっき"]').text()).toBe('めっき')
+      const makerSelect = wrapper.find('#makers')
+      const makerSelectOptions = makerSelect.findAll('option')
 
-        const makerSelect = wrapper.find('#makers')
-        const makerSelectOptions = makerSelect.findAll('option')
+      expect(makerSelect.exists()).toBe(true)
+      expect(makerSelectOptions[0].text()).toBe('メーカーを選択して下さい')
+      expect(makerSelectOptions[1].text()).toBe('東亜電化工業株式会社')
 
-        expect(makerSelect.exists()).toBe(true)
-        expect(makerSelectOptions[0].text()).toBe('メーカーを選択して下さい')
-        expect(makerSelectOptions[1].text()).toBe('東亜電化工業株式会社')
+      // 入力要素（ファイル）
+      expect(wrapper.find('#sample-image').exists()).toBe(true)
 
-        // 入力要素（ファイル）
-        expect(wrapper.find('#sample-image').exists()).toBe(true)
+      // ボタン要素
+      expect(wrapper.find('button').text()).toBe('登録')
 
-        // ボタン要素
-        expect(wrapper.find('button').text()).toBe('登録')
-
-        // 外部リンク
-        const routerLink = wrapper.findComponent(RouterLinkStub)
-        expect(routerLink.props().to).toBe('/samples')
-        expect(routerLink.text()).toBe('表面処理リストへ')
-      })
-    })
-
-    describe('失敗した場合', (): void => {
-      it('ログインページに遷移すること', async (): Promise<void> => {
-        vi.mocked(axios.isAxiosError).mockReturnValue(true)
-        vi.mocked(axios.get).mockRejectedValue({ response: { status: 401 } })
-
-        const wrapper: VueWrapper = mountComponent()
-        await flushPromises()
-
-        const emittedMessage = wrapper.emitted<MessageEmit>('message')
-        expect(emittedMessage).toBeTruthy()
-        expect(emittedMessage[0][0]).toEqual(
-          { type: 'danger', text: 'ログインが必要です。' }
-        )
-        expect(pushMock).toHaveBeenCalledWith('/')
-      })
+      // 外部リンク
+      const routerLink = wrapper.findComponent(RouterLinkStub)
+      expect(routerLink.props().to).toBe('/samples')
+      expect(routerLink.text()).toBe('表面処理リストへ')
     })
   })
 
   describe('表面処理情報の新規登録', (): void => {
     describe('成功した場合', (): void => {
       it('登録成功のメッセージが表示され、詳細ページに遷移すること', async (): Promise<void> => {
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
-          .mockResolvedValueOnce({ data: categoryOptionsResponse })
-          .mockResolvedValueOnce({ data: makerOptionsResponse })
-
         vi.mocked(axios.post).mockResolvedValue({
           data: {
             id: 1,
@@ -193,11 +182,6 @@ describe('SamplesNewView', (): void => {
 
     describe('失敗した場合', (): void => {
       it('バリデーションエラーになること', async (): Promise<void> => {
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
-          .mockResolvedValueOnce({ data: categoryOptionsResponse })
-          .mockResolvedValueOnce({ data: makerOptionsResponse })
-
         vi.mocked(axios.isAxiosError).mockReturnValue(true)
         vi.mocked(axios.post).mockRejectedValue({ response: { status: 422 } })
 
@@ -233,11 +217,6 @@ describe('SamplesNewView', (): void => {
 
     describe('ファイルの容量が5MB未満の場合', (): void => {
       it('プレビューが表示されること', async (): Promise<void> => {
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
-          .mockResolvedValueOnce({ data: categoryOptionsResponse })
-          .mockResolvedValueOnce({ data: makerOptionsResponse })
-
         const wrapper: VueWrapper = attachImageMountComponent()
         await flushPromises()
 
@@ -265,11 +244,6 @@ describe('SamplesNewView', (): void => {
 
     describe('ファイルの容量が5MBを超える場合', (): void => {
       it('エラーメッセージを表示してプレビューが表示されないこと', async (): Promise<void> => {
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
-          .mockResolvedValueOnce({ data: categoryOptionsResponse })
-          .mockResolvedValueOnce({ data: makerOptionsResponse })
-
         const wrapper: VueWrapper = attachImageMountComponent()
         await flushPromises()
 
