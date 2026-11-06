@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSamplesDestroy } from '@/composables/samples/useSamplesDestroy'
-import type { Sample} from '@/composables/samples/useSamplesShow'
+import type { Sample } from '@/composables/samples/useSamplesShow'
 import type { MessageEmit } from '@/env'
 import { toRefs } from 'vue'
 
