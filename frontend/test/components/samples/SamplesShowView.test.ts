@@ -1,9 +1,10 @@
 import SamplesShowView from '@/components/samples/SamplesShowView.vue'
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import type { VueWrapper } from '@vue/test-utils'
 import type { Sample, Comment, User } from '@/composables/samples/useSamplesShow.ts'
 import type { MessageEmit } from '@/env'
+import SamplesDestroyView from '@/components/samples/SamplesDestroyView.vue'
 import axios from 'axios'
 
 const {
@@ -173,9 +174,8 @@ describe('SamplesShowView', (): void => {
         expect(routerLinks[1].text()).toBe('表面処理情報の編集')
         expect(routerLinks[2].text()).toBe('表面処理リストへ')
 
-        // 表面処理の削除ボタン
-        const deleteButton = wrapper.find('#handle-delete')
-        expect(deleteButton.text()).toBe('表面処理情報の削除')
+        // 表面処理情報の削除ボタン
+        expect(wrapper.findComponent(SamplesDestroyView).exists()).toBe(true)
       })
     })
 
@@ -196,69 +196,6 @@ describe('SamplesShowView', (): void => {
         const emittedMessage = wrapper.emitted<MessageEmit>('message')
         expect(emittedMessage![0][0]).toEqual(
           { type: 'danger', text: '表面処理情報の取得に失敗しました。' }
-        )
-        expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
-      })
-    })
-  })
-
-  describe('表面処理の削除', (): void => {
-    beforeEach((): void => {
-      vi.stubGlobal('confirm', vi.fn(() => true))
-    })
-
-    afterEach((): void => {
-      vi.unstubAllGlobals()
-    })
-
-    describe('成功した場合', (): void => {
-      it('表面処理リストページに遷移する', async (): Promise<void> => {
-        const adminUserId = 49
-
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ data: { payload: { user_id: adminUserId } } })
-          .mockResolvedValueOnce({ data: adminUserResponse })
-          .mockResolvedValueOnce({ data: sampleResponse })
-          .mockResolvedValueOnce({ data: commentResponse })
-
-        vi.mocked(axios.delete).mockResolvedValueOnce({ status: 204 })
-
-        const wrapper: VueWrapper = mountComponent()
-        await flushPromises()
-
-        const deleteButton = wrapper.find('#handle-delete')
-        await deleteButton.trigger('click')
-
-        const emittedMessage = wrapper.emitted<MessageEmit>('message')
-        expect(emittedMessage![0][0]).toEqual(
-          { type: 'success', text: '表面処理情報を削除しました。' }
-        )
-        expect(pushMock).toHaveBeenCalledWith('/samples')
-      })
-    })
-
-    describe('失敗した場合', (): void => {
-      it('404ページに遷移すること', async (): Promise<void> => {
-        const adminUserId = 49
-
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ data: { payload: { user_id: adminUserId } } })
-          .mockResolvedValueOnce({ data: adminUserResponse })
-          .mockResolvedValueOnce({ data: sampleResponse })
-          .mockResolvedValueOnce({ data: commentResponse })
-
-        vi.mocked(axios.isAxiosError).mockReturnValue(true)
-        vi.mocked(axios.delete).mockRejectedValue({ response: { status: 404 } })
-
-        const wrapper: VueWrapper = mountComponent()
-        await flushPromises()
-
-        const deleteButton = wrapper.find('#handle-delete')
-        await deleteButton.trigger('click')
-
-        const emittedMessage = wrapper.emitted<MessageEmit>('message')
-        expect(emittedMessage![0][0]).toEqual(
-          { type: 'danger', text: '表面処理情報の削除処理に失敗しました。' }
         )
         expect(replaceMock).toHaveBeenCalledWith({ name: 'NotFound' })
       })
@@ -356,9 +293,8 @@ describe('SamplesShowView', (): void => {
       const goBackButton = wrapper.findAll('ul li')
       expect(goBackButton[0].text()).toBe('検索結果に戻る')
 
-      // 表面処理情報の削除ボタン (リンク)
-      const removeButton = wrapper.find('#handle-delete')
-      expect(removeButton.attributes('style')).toBe('display: none;')
+      // 表面処理情報の削除ボタン (非表示)
+      expect(wrapper.findComponent(SamplesDestroyView).exists()).toBe(false)
 
       // 表面処理リストへのリンク (非表示)
       const liElements = wrapper.findAll('ul li')
