@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { checkLoginStatus } from '@/components/utils.ts'
 import { useSamplesEdit } from '@/composables/samples/useSamplesEdit.ts'
+import { useAuthGuard } from '@/composables/auth/useAuthGuard'
 import type { MessageEmit } from '@/env'
 
 const emit = defineEmits<MessageEmit>()
+const { requireLogin } = useAuthGuard(emit)
 const { sample, errorMessage, fetchSampleData, sampleUpdate } = useSamplesEdit(emit)
 const route = useRoute()
 const router = useRouter()
@@ -15,10 +16,7 @@ const cancel = (): void => {
 }
 
 onMounted(async (): Promise<void> => {
-  const loggedIn = await checkLoginStatus(() => {
-    emit('message', { type: 'danger', text: 'ログインが必要です。' })
-    router.push('/')
-  })
+  const loggedIn = await requireLogin()
   if (loggedIn) await fetchSampleData(route.params.id as string)
 })
 </script>

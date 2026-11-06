@@ -6,9 +6,10 @@ import type { Sample } from '@/composables/samples/useSamplesEdit.ts'
 import type { MessageEmit } from '@/env'
 import axios from 'axios'
 
-const { replaceMock } = vi.hoisted(() => {
+const { replaceMock, requireLoginMock } = vi.hoisted(() => {
   return {
     replaceMock: vi.fn(),
+    requireLoginMock: vi.fn(),
   }
 })
 
@@ -23,6 +24,15 @@ vi.mock('vue-router', () => {
     useRouter: () => {
       return {
         replace: replaceMock,
+      }
+    }
+  }
+})
+vi.mock('@/composables/auth/useAuthGuard', () => {
+  return {
+    useAuthGuard: () => {
+      return {
+        requireLogin: requireLoginMock,
       }
     }
   }
@@ -52,14 +62,13 @@ describe('SamplesEditView', (): void => {
 
   beforeEach((): void => {
     vi.clearAllMocks()
+    requireLoginMock.mockResolvedValue(true)
   })
 
   describe('初期レンダリング', (): void => {
     describe('成功した場合', (): void => {
       it('表面処理情報の編集ページが表示されること', async (): Promise<void> => {
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
-          .mockResolvedValueOnce({ data: mockResponse })
+        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockResponse })
 
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
@@ -111,17 +120,13 @@ describe('SamplesEditView', (): void => {
 
     describe('失敗した場合', (): void => {
       it('404ページに遷移すること', async (): Promise<void> => {
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
-          .mockRejectedValueOnce({ response: { status: 404 } })
-
+        vi.mocked(axios.get).mockRejectedValueOnce({ response: { status: 404 } })
         vi.mocked(axios.isAxiosError).mockReturnValue(true)
 
         const wrapper: VueWrapper = mountComponent()
         await flushPromises()
 
-        const emittedMessage = wrapper.emitted('message') as MessageEmit[] | undefined
-        expect(emittedMessage).toBeTruthy()
+        const emittedMessage = wrapper.emitted<MessageEmit>('message')
         expect(emittedMessage![0][0]).toEqual(
           { type: 'danger', text: '表面処理情報の取得に失敗しました。' }
         )
@@ -133,10 +138,7 @@ describe('SamplesEditView', (): void => {
   describe('表面処理情報の更新', (): void => {
     describe('成功した場合', (): void => {
       it('成功メッセージが表示され、詳細ページに遷移すること', async (): Promise<void> => {
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
-          .mockResolvedValueOnce({ data: mockResponse })
-
+        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockResponse })
         vi.mocked(axios.patch).mockResolvedValueOnce({ data: mockResponse })
 
         const wrapper: VueWrapper = mountComponent()
@@ -151,8 +153,7 @@ describe('SamplesEditView', (): void => {
           { headers: { 'Content-Type': 'multipart/form-data' } }
         )
 
-        const emittedMessage = wrapper.emitted('message') as MessageEmit[] | undefined
-        expect(emittedMessage).toBeTruthy()
+        const emittedMessage = wrapper.emitted<MessageEmit>('message')
         expect(emittedMessage![0][0]).toEqual(
           { type: 'success', text: '表面処理情報を更新しました。' }
         )
@@ -163,10 +164,7 @@ describe('SamplesEditView', (): void => {
 
     describe('失敗した場合', (): void => {
       it('バリデーションエラーになること', async (): Promise<void> => {
-        vi.mocked(axios.get)
-          .mockResolvedValueOnce({ status: 200 })
-          .mockResolvedValueOnce({ data: mockResponse })
-
+        vi.mocked(axios.get).mockResolvedValueOnce({ data: mockResponse })
         vi.mocked(axios.isAxiosError).mockReturnValue(true)
         vi.mocked(axios.patch).mockRejectedValueOnce({ response: { status: 422 } })
 
@@ -183,9 +181,7 @@ describe('SamplesEditView', (): void => {
 
   describe('キャンセルボタンを押した場合', (): void => {
     it('表面処理情報ページに遷移すること', async (): Promise<void> => {
-      vi.mocked(axios.get)
-        .mockResolvedValueOnce({ status: 200 })
-        .mockResolvedValueOnce({ data: mockResponse })
+      vi.mocked(axios.get).mockResolvedValueOnce({ data: mockResponse })
 
       const wrapper: VueWrapper = mountComponent()
       await flushPromises()
