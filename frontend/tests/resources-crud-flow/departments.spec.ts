@@ -59,6 +59,5 @@ test.describe('departments crud flow', () => {
     await expect(page.getByRole('heading', { name: '部署リスト' })).toBeVisible()
     await expect(page.getByText('製造部', { exact: true })).toBeVisible()
     await expect(page.getByText('生産管理部', { exact: true })).not.toBeVisible()
-    await page.getByRole('button', { name: '通知を閉じる' }).click()
   })
 })

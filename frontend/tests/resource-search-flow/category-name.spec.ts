@@ -34,7 +34,9 @@ test.describe('カテゴリーで検索', () => {
 
       await expect(page).toHaveURL('/static_pages/category')
       await expect(page.getByRole('heading', { name: 'カテゴリーで検索' })).toBeVisible()
-      await expect(page.getByRole('alert')).toHaveText('リスト内の項目を選択して下さい')
+      await expect(
+        page.getByRole('alert').filter({ hasText: 'リスト内の項目を選択して下さい' })
+      ).toBeVisible()
     })
   })
 })

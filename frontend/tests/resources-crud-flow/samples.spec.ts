@@ -77,8 +77,6 @@ test.describe('samples crud flow', () => {
     await expect(page.getByRole('listitem').filter({ hasText: '耐食性・耐摩耗性・耐薬品性・耐熱性' })).toBeVisible()
     await expect(page.getByRole('listitem').filter({ hasText: 'フッ素樹脂が持つ特性を部材の表面に与えることで、部材の保護などを実現する表面処理。' })).toBeVisible()
 
-    await page.getByRole('button', { name: '通知を閉じる' }).click()
-
     // 表面処理情報の削除を実行
     page.once('dialog', async dialog => {
       await dialog.accept()
@@ -89,7 +87,6 @@ test.describe('samples crud flow', () => {
     await expect(page.getByRole('heading', { name: '表面処理リスト' })).toBeVisible()
     await page.locator('a[href="/samples?page=5"]').click()
     await expect(page.getByText('テフロンコート')).not.toBeVisible()
-    await page.getByRole('button', { name: '通知を閉じる' }).click()
   })
 
   test.describe('ファイル容量が5MB未満の場合', () => {
