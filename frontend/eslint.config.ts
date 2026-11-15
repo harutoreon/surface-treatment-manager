@@ -27,6 +27,12 @@ export default [
 
   // TypeScript rules
   ...tseslint.configs.recommended,
+  {
+    rules: {
+      // 先頭が _ の引数は「意図的に使わない」ものとして許可する
+      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+    },
+  },
 
   // Vue rules
   ...pluginVue.configs["flat/recommended"].map((config) => ({

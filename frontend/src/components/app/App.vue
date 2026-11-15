@@ -1,21 +1,27 @@
-<script setup>
+<script setup lang="ts">
 import { ref, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { Toast } from 'bootstrap'
 
-const messageType = ref('')
+type MessageType = 'success' | 'danger'
+export type MessagePayload = {
+  type: MessageType
+  text: string
+}
+
+const messageType = ref<MessageType | ''>('')
 const message = ref('')
 const route = useRoute()
-const toastEl = ref(null)
+const toastEl = ref<HTMLElement | null>(null)
 
-const showMessage = async (payload) => {
+const showMessage = async (payload: MessagePayload): Promise<void> => {
   messageType.value = payload.type
   message.value = payload.text
   await nextTick()
   Toast.getOrCreateInstance(toastEl.value, { delay: 3000 }).show()
 }
 
-const handleMessageDelete = () => {
+const handleMessageDelete = (): void => {
   messageType.value = ''
   message.value = ''
 }
