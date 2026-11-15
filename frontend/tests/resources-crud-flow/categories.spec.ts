@@ -53,7 +53,6 @@ test.describe('categories crud flow', () => {
     await expect(page.getByRole('heading', { name: 'カテゴリー情報' })).toBeVisible()
     await expect(page.getByRole('listitem').filter({ hasText: '溶射'})).toBeVisible()
     await expect(page.getByRole('listitem').filter({ hasText: '溶融・軟化させた材料を表面に吹き付ける処理のこと。' })).toBeVisible()
-    await page.getByRole('button', { name: '通知を閉じる' }).click()
 
     // カテゴリーの削除実行
     page.once('dialog', async dialog => {
@@ -64,6 +63,5 @@ test.describe('categories crud flow', () => {
     // 一覧ページへの遷移確認
     await expect(page.getByRole('heading', { name: 'カテゴリーリスト' })).toBeVisible()
     await expect(page.getByText('溶射', { exact: true })).not.toBeVisible()
-    await page.getByRole('button', { name: '通知を閉じる' }).click()
   })
 })

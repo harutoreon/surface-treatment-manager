@@ -27,6 +27,12 @@ export default [
 
   // TypeScript rules
   ...tseslint.configs.recommended,
+  {
+    rules: {
+      // 先頭が _ の引数は「意図的に使わない」ものとして許可する
+      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+    },
+  },
 
   // Vue rules
   ...pluginVue.configs["flat/recommended"].map((config) => ({
@@ -71,7 +77,6 @@ export default [
       security: pluginSecurity,
     },
     rules: {
-      // @ts-expect-error eslint-plugin-vueの型定義がflat configのキーを認識していないため
       ...pluginSecurity.configs["recommended"].rules,
       "security/detect-object-injection": "off",  // 誤検知が多いため無効化
       "security/detect-unsafe-regex": "off",  // 誤検知が多いため無効化
