@@ -214,7 +214,7 @@ GEM
       prettyprint
     prettyprint (0.2.1)
     prism (1.9.0)
-    puma (8.0.2)
+    puma (8.1.0)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.8)
@@ -371,7 +371,7 @@ DEPENDENCIES
   image_processing (= 1.14.0)
   jwt (= 3.2.0)
   pg (= 1.6.3)
-  puma (= 8.0.2)
+  puma (= 8.1.0)
   rack-cors (= 3.0.0)
   rails (~> 8.1.0)
   rspec-rails (= 8.0.2)
